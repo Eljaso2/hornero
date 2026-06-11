@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(python3)",
+      "Bash(find /Users/eljaso/Documents -maxdepth 1 -name \"*.pdf\" | sort)",
+      "Read(//Users/eljaso/Documents/**)",
+      "Bash(exiftool -Title -Author -FileName /Users/eljaso/Documents/*.pdf)",
+      "Bash(exiftool -ver)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}
