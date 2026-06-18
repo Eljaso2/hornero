@@ -41,3 +41,10 @@ notes/
 
 ## Actualizaciones
 Revisar y actualizar este workflow según evolucione el seminario.
+
+## Conexión local
+El proyecto "Seminario Historia del Norte de Santa Fe" está conectado a la carpeta local:
+
+/Users/eljaso/Documents/Trabajo/Docencia/Seminaro historia norte de santa fe
+
+Nota: esta entrada sólo documenta la ruta local. Para que GitHub Actions u otros servicios accedan a esa carpeta desde este repositorio se requiere un runner self-hosted o un script de sincronización local. Aquí sólo queda registrada la conexión.

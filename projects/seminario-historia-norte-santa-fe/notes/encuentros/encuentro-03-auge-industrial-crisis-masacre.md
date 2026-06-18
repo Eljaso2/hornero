@@ -172,7 +172,44 @@ El punto material fino: el **buey** es insustituible para sacar los rollizos del
 
 > *Dato de escala (Huret/Portalis, c.1910):* La Forestal declaraba ≈**26.000 cabezas** de ganado, **15.000 bueyes** para acarreo y una población de **12.000 almas**; la empresa consumía ≈**10.000 cabezas/año** para alimentar al personal. Jasinski: **24 bueyes por carrero**, en tres turnos.
 
-**Preguntas:** ¿Por qué una "economía del tanino" necesita tanto buey y tanta estancia? ¿Qué nos dice mirar la mula y el buey en lugar de las finanzas de la empresa?
+**Tabla 6 — Estancias mencionadas por Filippi: propiedad, superficie y ganadería** *(Filippi 2017; Filippi, "Capítulo Tracción", 2024/2025)*
+
+| Estancia / propiedad | Propietario | Año / período | Superficie (ha) | Vacunos (cabezas) | Observaciones |
+| - | - | - | - | - | - |
+| Estancia San Cristóbal | Compañía de Tierras de Santa Fe | c.1889 (construcción) | — (parte de >1,8 M ha) | Incluida en ~19.000 total (1892) | Casco administrativo; estancia modelo; dep. San Cristóbal |
+| Estancia Santa Catalina | Compañía de Tierras de Santa Fe | 1897 (alquilada) → comprada | 4.049 | — | Cría fina e invernada; dep. San Martín (centro-sur) |
+| Estancia La Barrancosa | Compañía de Tierras de Santa Fe | 1906 (compra) | 10.801 | — | Engorde; dep. General López (sur); cerca de Rosario y BA |
+| Franja Guaycurú | Compañía de Tierras de Santa Fe | Compra posterior | 1.636 | — | Límite oriental de tierras forestales |
+| Compañía de Tierras (total directo) | Compañía de Tierras de Santa Fe | 1892 | >1.800.000 | ~19.000 (explotación directa) | Mulhall 1892: 0,015 animales/ha; cría extensiva |
+| Compañía de Tierras (inquilino principal) | Inquilino de la Compañía | 1892 | Gran estancia arrendada | ~8.000 | Arrendaba estancia de la Compañía (Mulhall 1892) |
+| Compañía de Tierras (baño ganadero) | Compañía de Tierras de Santa Fe | 1909 (Ogilvie) | — | 6.700 cabezas bañadas en 1 día | Indicador del volumen del stock en una estancia |
+| La Forestal (conjunto) | La Forestal Ltda. | c.1910 (Huret/Portalis) | — | ~26.000 cabezas; 15.000 bueyes de acarreo | Consumo: ~10.000 cabezas/año para personal |
+| Tierras Carlos Casado | Carlos Casado (latifundista) | Fines XIX | — | — | Fundador del Ferrocarril Oeste Santafesino; 1er presidente Banco Prov. |
+| Tierras Ataliva Roca | Ataliva Roca (latifundista) | Fines XIX | — | — | Hermano de Julio A. Roca; grandes extensiones en el norte |
+
+> *Lectura:* el esquema de la Compañía de Tierras integra **cría extensiva en el norte** (San Cristóbal y secciones adyacentes), **invernada en el centro** (Santa Catalina, dep. San Martín) y **engorde en el sur** (La Barrancosa, dep. General López, cerca de Rosario/BA). Los terneros machos nacidos en Santa Catalina se envían al norte a los rebaños generales, y la progenie se vende como ganado gordo. Este circuito norte→centro→sur es el que Ogilvie describe con detalle, y muestra que la ganadería no era una actividad residual sino parte del **esquema de negocios en tres ramas** (inmobiliaria + ganadería + forestal). Cuando la Compañía desplaza su actividad ganadera principal hacia el sur (1906, La Barrancosa), las tierras del norte quedan disponibles para la expansión forestal —la actividad que se convertirá en hegemónica.
+
+**Tabla 7 — Estancias mencionadas por Jasinski: propiedad, superficie y ganadería** *(Jasinski 2013, caps. 1–2 y 10)*
+
+| Estancia / propiedad | Propietario | Año / período | Superficie (ha) | Vacunos (cabezas) | Observaciones |
+| - | - | - | - | - | - |
+| 3 estancias (sin nombre individual) | Compañía de Tierras de Santa Fe | 1913 (fusión con La Forestal) | 220.000 | — | Absorbidas por La Forestal en la fusión; 96 km ferrocarril particular |
+| La Barrancosa | La Forestal | 1920 (puesta en venta) | Parte de 680.000 | 72.000 (conjunto 8 estancias) | Dep. General López |
+| El Aljibe | La Forestal | 1920 (puesta en venta) | Parte de 680.000 | 72.000 (conjunto) | — |
+| La Constancia | La Forestal | 1920 (puesta en venta) | Parte de 680.000 | 72.000 (conjunto) | — |
+| Santa Catalina | La Forestal | 1920 (puesta en venta) | Parte de 680.000 | 72.000 (conjunto) | Dep. San Martín |
+| La Oriental | La Forestal | 1920 (puesta en venta) | Parte de 680.000 | 72.000 (conjunto) | — |
+| La Playosa | La Forestal | 1920 (puesta en venta) | Parte de 680.000 | 72.000 (conjunto) | — |
+| San Cristóbal | La Forestal | 1920 (puesta en venta) | Parte de 680.000 | 72.000 (conjunto) | Dep. San Cristóbal; sede administrativa histórica |
+| Las Chuñas | La Forestal | 1920 (puesta en venta) | Parte de 680.000 | 72.000 (conjunto) | — |
+| Estancia Conrado Martínez | Conrado Martínez | 1921 (masacre) | — | — | Estanciero radical nacionalista; amparó obreros perseguidos en Villa Ocampo |
+| Argentine Quebracho Company | The Argentine Quebracho Company (EEUU) | 1913 (acquired by La Forestal) | 280.000 | — | Fábrica de Tartagal; subsidiaria de Tanning Extract Company |
+
+> *Lectura:* la decisión de vender las 8 estancias en 1920 (680.000 ha + 72.000 cabezas + 5.500 caballos) es clave: la empresa se desprende de la rama ganadera para **reinvertir en la industria del extracto** (compra de la fábrica Fontana en Resistencia). Esto confirma que la ganadería ya no era estratégica para La Forestal —pero los 72.000 cabezas muestran la magnitud del stock acumulado. Las estancias pasan de ser **centro del negocio** (para la Compañía de Tierras pre-1913) a **lastre a liquidar** (para La Forestal post-1913), cuando el tanino domina el esquema. La tabla también permite ver la continuidad: las mismas estancias (San Cristóbal, Santa Catalina, La Barrancosa) que Filippi documenta para la Compañía de Tierras aparecen ahora bajo La Forestal, confirmando la **absorción** de 1913.
+
+> *Cruce Filippi–Jasinski:* la Tabla 6 (Filippi) muestra el esquema productivo de las estancias **antes** de la fusión (cría→invernada→engorde); la Tabla 7 (Jasinski) muestra el mismo conjunto **después** de la fusión, ahora como propiedad de La Forestal, y su destino final: la venta de 1920. El arco es claro: la ganadería fue constitutiva del enclave (Filippi), pero cuando el tanino se hegemoniza, las estancias pasan a ser complemento y finalmente lastre (Jasinski). Las 72.000 cabezas de 1920 son la herencia ganadera de un modelo que ya no necesita el buey como centro —pero que todavía consume 10.000 cabezas/año para alimentar al personal.
+
+**Preguntas:** ¿Por qué una "economía del tanino" necesita tanto buey y tanta estancia? ¿Qué nos dice mirar la mula y el buey en lugar de las finanzas de la empresa? ¿Qué cambia cuando las estancias pasan de ser centro del negocio (Compañía de Tierras) a lastre a liquidar (La Forestal 1920)?
 
 ### Bloque D · El enclave en movimiento: población, migración, demografía (LeGrand + Trumper) (≈7 min)
 
@@ -209,7 +246,35 @@ El punto material fino: el **buey** es insustituible para sacar los rollizos del
 
 Desarrollá la convergencia que produce el estallido: **democratización y sindicalización** post-1912 (los *radicalismos santafesinos*, en plural), el impacto de la **Revolución Rusa** y el clima de posguerra (**ver los planteos de Pitalluga sobre los soviets en Buenos Aires**), el fin del auge de la Gran Guerra que golpea el empleo, y el **ciclo de huelgas de 1919–1921**. La respuesta es la **rebelión obrera** y su represión: la articulación de la **violencia empresarial** (guardias de la compañía) con la **violencia estatal** (gendarmería volante, policía provincial —**y aquí hacer un paréntesis con la participación de Juan D. Perón**) y la consiguiente **"depuración" del territorio**. *Acá entran de lleno las fuentes del Momento 3 (Nota de prensa del 11/4/1921, Lafuente / Risso Patrón).*
 
-**Preguntas:** ¿Por qué crisis del negocio y organización obrera estallan juntas? ¿Quién reprime —el Estado, la empresa, o un híbrido? ¿Qué significa "depurar" un territorio?
+**Mapa explicativo — La política santafesina 1900–1921: del conservadorismo al radicalismo y sus fracturas** *(Jasinski 2013; Wikipedia "Gobernadores de Santa Fe"; Macor; web)*
+
+| Período | Gobernador | Partido / facción | Clave política | Relación con La Forestal |
+| - | - | - | - | - |
+| 1898–1902 | Bernardo Iturraspe | PAN (autonomismo provincial) | Dominación conservadora; régimen oligárquico | Estado provincial ausente del norte; La Forestal opera sin control |
+| 1902–1906 | Rodolfo Freyre | PAN (autonomismo provincial) | Continuidad oligárquica; expansión ferroviaria al norte | Ferrocarriles llegan al norte; La Forestal comienza expansión |
+| 1906–1910 | Pedro Antonio Echagüe | PAN (autonomismo provincial) | Último período de hegemonía conservadora plena | La Forestal compra Argentine Quebracho Co. (1904); se consolida |
+| 1910–1911 | Ignacio Crespo | PAN (autonomismo provincial) | Crisis del régimen; presión por reforma electoral | Investigación legislativa 1915; diario Santa Fe denuncia "feudalismo" |
+| 1911–1912 | Anacleto Gil | PAN (interventor federal) | Intervención federal; transición hacia Ley Sáenz Peña | — |
+| 1912–1916 | Manuel Menchaca | **UCR** | Primer gobernador electo bajo Ley Sáenz Peña (voto secreto, obligatorio, universal masculino); fin del fraude patriótico | **1912: La Forestal presiona a obreros para votar por "la Coalición"** (autonomistas+liberales); obreros que votan libre son expulsados (Jasinski/Gervasoni) |
+| 1916–Feb 1920 | **Rodolfo Lehmann** | **UCR Santa Fe (Unificada)** | Radicalismo provincial autonomista vs. yrigoyenismo nacional; Lehmann representa línea *provincialista* (no obedece ciegamente a Yrigoyen); aprueba mutualistas 1917; feb 1919 niega existencia de sindicatos; solicita tropas nacionales | **Obrero yrigoyenista**: Lehmann negocia con FORA IX pero reprime cuando es desbordado; solicita tropas federales feb 1919; delega cargo a Cepeda dic 1919 |
+| Feb–May 1920 | Juan Cepeda (interino) | UCR (presidente del Senado) | Interinato tras renuncia de Lehmann; firma comunicados represivos | Cepeda solicita tropas nacionales; ministro Gras negocia con Regimiento 12 |
+| May 1920–1924 | **Enrique Mosca** | **UCR (radical nacionalista)** | Radical más identificado con yrigoyenismo nacional; ministro de Gobierno: **Armando Antille** | **23/7/1920: Mosca + Antille firman decreto creando Gendarmería Volante (85 hombres) financiada 100% por La Forestal**; Liga Patriótica se organiza en Villa Guillermina (15/4/1920) |
+
+> *Lectura del mapa político:*
+
+> **1. La transición 1912: del fraude al voto secreto.** La Ley Sáenz Peña (1912) elimina el fraude patriótico que sostenía la Coalición autonomista-liberal. La UCR pasa de la abstención a la competencia activa. Pero en el territorio de La Forestal, la empresa **presiona a obreros para votar por la Coalición** (Gervasoni, 1915; Salvadores, 1921): "los hijos del país que rindiendo homenaje a la patriótica proclama donde el doctor Roque Sáenz Peña invita al pueblo argentino a cumplir con sus deberes cívicos [...] pagaron con su puesto y expulsión de estos dominios el delito de haber emitido el voto libre sin consentimiento de sus amos y señores". El voto llega al enclave, pero la empresa **se lo apropiá** —la democratización no penetra el territorio forestal sin mediación empresarial.
+
+> **2. Los radicalismos santafesinos, en plural.** La UCR en Santa Fe no es un bloque monolítico. Hay dos líneas: la **UCR Santa Fe (Unificada)** —provincialista, autonomista, liderada por Lehmann y luego Aldao— que busca mantener autonomía respecto del yrigoyenismo nacional; y la **UCR yrigoyenista** —más obediente a la línea Buenos Aires—. Mosca pertenece a la segunda vertiente. El conflicto entre ambas es el que, más adelante, formaliza la fractura **personalismo vs. antipersonalismo** (1921-1924). Para nuestro caso: Lehmann (provincialista) negocia con obreros pero reprime; Mosca (yrigoyenista) crea la Gendarmería Volante financiada por la empresa. **Ambas facciones radicales terminan sirviendo a La Forestal** —la democratización no rompe el híbrido público-privado de la represión.
+
+> **3. El obrerismo yrigoyenista y su inflexión.** Yrigoyen (1916) inaugura una precaria convivencia con la FORA IX sindicalista —el "obrerismo yrigoyenista". Pero hacia 1919, el gobierno radical es desbordado: deja actuar a las patronales y sus agentes de represión privados, o directamente ordena reprimir (Jasinski). La Semana Trágica, la Patagonia Rebelde y la masacre de La Forestal marcan el punto de inflexión: el obrerismo se vuelve **represión**. En Santa Fe, Lehmann solicita tropas nacionales en feb 1919; Mosca y Antille aceptan la Gendarmería Volante financiada por La Forestal en jul 1920. La cadena: **Estado provincial → Ejército nacional → Gendarmería Volante (pública en nombre, privada en financing)** → guardias de la empresa → Liga Patriótica.
+
+> **4. La Gendarmería Volante: el híbrido público-privado radicalizado.** El decreto del 23/7/1920 (firmado Mosca + Antille) establece: la empresa ofrece los fondos, el Estado crea el cuerpo, la fuerza depende del ministro de Gobierno. El considerando dice: "tal iniciativa privada no puede ser desatendida, por cuanto contribuye a aumentar los elementos de seguridad de que el Estado dispone sin recargar los gastos del tesoro". El art. 4 agradece: "Agradécese la eficaz cooperación de la compañía La Forestal Ltda., en beneficio de los servicios policiales." Jasinski muestra que **el jefe de la Gendarmería, Florencio A. Martínez, es un militar retirado que circula entre intervenciones federales (Catamarca, Santiago del Estero) hasta llegar a Santa Fe** —la represión se profesionaliza y se deslocaliza. El segundo jefe es **Carlos Risso Patrón** —el mismo que luego firma la carta al jefe de la Gendarmería (11/2/1921) que analizamos en el Momento 3.
+
+> **5. Los actores políticos en el territorio forestal.** En los pueblos de La Forestal, la política no funciona como en el resto de la provincia. El "intendente" es un empleado de la empresa; la "municipalidad" es la Sección Pueblos; no hay elecciones comunales (Salvadores). La Forestal controla la correspondencia, el juzgado de paz, la comisaría. Los únicos actores políticos que penetran son: **diputados radicales** (Belisario Salvadores, que denuncia); **estancieros radicales nacionalistas** (Conrado Martínez, que ampara obreros); **la Liga Patriótica** (dirigida por un bacteriólogo del hospital de Villa Guillermina, Escalante); y **la FORA IX / FORA V** (organización obrera que viene de afuera). La democratización post-1912 no rompe el enclave; lo **atraviesa** sin desarmarlo.
+
+> *Pendiente:* profundizar las facciones radicales con Darío Macor (historiador clave sobre política provincial santafesina); verificar si Menchaca (1912-1916) tuvo alguna intervención específica en el norte; completar datos sobre la UCR Santa Fe (Unificada) vs. UCR yrigoyenista en las elecciones de 1920. También buscar más sobre el Partido Demócrata Progresista (PDP) que emerge en Santa Fe en este período (Lisandro de la Torre).
+
+**Preguntas:** ¿Por qué crisis del negocio y organización obrera estallan juntas? ¿Quién reprime —el Estado, la empresa, o un híbrido? ¿Qué significa "depurar" un territorio? ¿Por qué ambas facciones radicales (provincialistas y yrigoyenistas) terminan sirviendo a La Forestal? ¿Qué nos dice que la democratización (Ley Sáenz Peña) no penetra el enclave sin mediación empresarial?
 
 ### Bloque F · La "solución" del capital: ecología, imperio y deslocalización (Silver + Cowen + Zarrilli + Ross) (≈4 min)
 
@@ -292,6 +357,8 @@ Desarrollá la convergencia que produce el estallido: **democratización y sindi
 **Conceptuales — Definición de violencia:** Clase 1 (Caviglia, Crettiez, Hobsbawn). **Conceptuales — Herramientas analíticas:** Galtung (triángulo); González Calleja/Tilly + Hirsch (violencia privada y monopolio estatal); Edwards/Burawoy (coerción y consenso); Malésevic. 
 
 **Debate bibliográfico:** Trumper (1977, caps. 3, 5, 7) — efectos económicos y poblacionales; Filippi (2025) — economía complementaria; Jasinski (2023, caps. 2–3) — dinámica social, política y conflicto; con extensiones en Silver, Cowen, Zarrilli y Ross (ecología, imperio, deslocalización); Pitalluga (soviets en Buenos Aires); Bialét Massé/Jasinski (depredación ambiental).
+
+**Datos de estancias — Fuentes específicas:** Tabla 6: Filippi (2017, caps. 3–5) + Filippi ("Capítulo Tracción", 2024/2025) + Ogilvie (1910/2013) + Mulhall (1892) + Huret (1911) + La Forestal S.A. (1967). Tabla 7: Jasinski (2013, caps. 1–2 y 10) + Gori (2006) + La Vanguardia (1920) + diario Santa Fe (1914, 1920).
 
 **Fuentes:** Nota de prensa *Diario Santa Fe*, 11 de abril de 1921, "Un crimen de lesa humanidad" (Prensa/Santa fe); Cartas de Lafuente (23/11/1920) y Risso Patrón (11/02/1921), en *Informe Cervera*, AGP Santa Fe, Archivo de Gobierno, Expedientes, Agosto 1921, Expte. N° 20.
 
