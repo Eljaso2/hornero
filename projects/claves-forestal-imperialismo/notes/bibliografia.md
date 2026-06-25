@@ -37,16 +37,19 @@
 - Sierra Álvarez, José. → paternalismo despótico vinculado a violencia (buscar referencia)
 - Sutherland, Edwin. "White Collar Crime." → violencia empresarial como delito
 
-## Sobre La Forestal (secundaria)
+## Sobre La Forestal y formación socioespacial del norte santafesino/chaqueño (secundaria)
 
 - **Jasinski, Alejandro**. *El Encanto del Tanino*. Prometeo, 2023. → **anonimizar en envío**
 - **Jasinski, Alejandro**. *Revuelta Obrera y Masacre en La Forestal*. Biblos, 2013. → **anonimizar**
 - **Jasinski, Alejandro**. *Estrategias empresariales y luchas sociales en La Forestal* [Tesis doctorado]. FFyL-UBA, 2021. → **anonimizar**
+- **Bender, Pablo Martín**. "La formación socioespacial del norte de la provincia de Santa Fe: desde la colonia hasta sus actuales dinámicas sociales y productivas." *Estudios Socioterritoriales, Revista de Geografía*, vol. 22, July 2017, pp. 103–120. → **FUENTE FUNDAMENTAL**: periodización 4 etapas (colonial / independencia-guerra civil / conquista-ciclo quebracho / pampeanización); articulación nacional vía Marx (acumulación originaria) y Lenin (via americana vs vía prusiana); La Forestal como actor hegemónico; transferencia valor norte→sur. Zotero: `/Users/eljaso/Zotero/storage/S58UX8ZX/Bender - 2017 - Nº 22 julio-diciembre 2017, p. 103-120 Disponible .pdf`
+- **Mari, Oscar Ernesto**. "La transición entre dos ciclos y sus efectos sociales en un territorio argentino. Conflictos de convivencia en el Chaco ante una nueva etapa colonizadora (1920-1940)." *Revista de Geografía Norte Grande*, no. 42, 2009, pp. 21–40. → **FUENTE FUNDAMENTAL**: tres ciclos chaqueños (fundación / tanino / algodonero) de Miranda; transición forestal→algodonero 1920-1940; conflictos sociales (Las Palmas 1920, La Forestal 1921, Napalpí 1924-25, agrarios 1934/36); Territorio Nacional = ciudadanos 2ª categoría. Zotero: `/Users/eljaso/Zotero/storage/JCFE7HS2/Mari - 2009 - La transición entre dos ciclos y sus efectos socia.pdf`
 - Ugarte, José. *La Forestal: La Tragedia del Quebracho Colorado*. Ediciones del Autor, 1984.
 - Girbal-Blacha, Noemí. → Estado y empresas en Argentina (buscar referencia exacta)
 - Bona, Atilio. → Chaco santafesino (buscar referencia exacta)
 - Carreras, Iñaki. → buscar referencia exacta
-- Mari, Oscar. → buscar referencia exacta
+- **Trumper, Myriam**. *Efectos económicos y poblacionales de la explotación del quebracho colorado: el caso de La Forestal en el Chaco santafesino*. Instituto Di Tella / CEUR, 1977. → **FUENTE FUNDAMENTAL**: población del norte santafesino creció de 19.000 a 66.000 hab. entre 1895 y 1914 (cuadruplicó); densidad por departamento; población rural > urbana en Vera; boom demográfico ligado a expansión forestal 1906-1918; cuadros 8 y 9 con datos censales comparativos 1895/1914; Tabla I y Anexo 3 con datos poblacionales. Zotero: `/Users/eljaso/Zotero/storage/X34D7LLS/Trumper - 1977 - Efectos económicos y poblacionales de la explotaci.pdf` (⚠️ PDF escaneado sin texto nativo, requiere OCR)
+- **Romero, Leopoldo**. *Diagnóstico sobre la fabricación de resinas fenólicas*. Consejo Federal de Inversiones, 1971. Serie Técnica Nº 33. → **FUENTE FUNDAMENTAL**: cuadro "FECHAS DE INSTALACION Y CIERRE DE FABRICAS" (p. 42); tres períodos de instalación (hasta 1909 / 1915-1925 / 1939-1942) y dos de cierre (1922-1934 / 1950-1962+); Primer Pool 1919-1923 = 10 empresas, capacidad 170.000 ton; Segundo Pool 1926-1931 = 17 empresas, capacidad 366.810 ton; capacidad instalada actual (1970) = 148.000 ton en 7 plantas. Zotero: `/Users/eljaso/Zotero/storage/WRJGUBEL/Romero - 1971 - Diagnóstico sobre la fabricación de resinas fenóli.pdf` (⚠️ PDF escaneado sin texto nativo, requiere OCR)
 - Brac, Marcela. → memorias en disputa sobre La Forestal (buscar referencia exacta)
 
 ## Comparación Argentina-Africa (enclaves tánino)
@@ -101,8 +104,8 @@ Bibliografía marcada con **anonimizar** debe ser tratada sin autorreferencia en
 
 ## Pendientes de búsqueda
 - [ ] Referencias exactas de Garnier y Dafulina sobre company towns
-- [ ] Referencia exacta de Brac sobre memorias en disputa
-- [ ] Referencia exacta de Neiburg y Sierra Álvarez sobre paternalismo
+- [ ] Referencia exacta de Brac sobre memorias en disputa → aún pendiente
+- [ ] Referencia exacta de Neiburg y Sierra Álvarez sobre paternalismo → aún pendiente
 - [ ] Legislación forestal argentina: leyes, debates parlamentarios, proyectos
 - [ ] Fuentes sobre tannin industry en Africa (Kenya/Tanzania/South Africa)
 - [ ] Fuentes sobre casos de negacionismo (Harteneck, Senn, denial woman)

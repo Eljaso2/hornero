@@ -22,20 +22,40 @@ La "memoria subterránea" (Pollak, 2006) de las comunidades qom y moqoit —tran
 
 Napalpí demuestra que el umbral es político, no temporal. Las cuatro condiciones convergieron: (1) organización indígena sostenida transformando memoria colectiva en reclamo político; (2) investigación académica traduciendo testimony oral en evidencia documental; (3) innovación jurídica aplicando crímenes contra la humanidad a violencia centenaria; (4) voluntad política emergente de la cultura de derechos humanos post-dictadura. Pero revela la paradoja de la reparación: reconocer injusticia histórica mientras las condiciones estructurales permanecen largely inalteradas.
 
-## La Forestal: investigación sin justicia
+## La Forestal: dos violencias, una memoria, una ausencia
 
-En 1965, Gastón Gori fue comisionado para escribir un ensayo histórico sobre La Forestal. Rescató memorias de las luchas sociales de 1921 e denunció la lógica extractiva de la compañía británica. Osvaldo Bayer reconstruyó la Patagonia; Rodolfo Walsh habló de los "pueblos fantasmas"; la película Quebracho llevó la narrativa al cine; la Crónica cantada de Ielpi se sumó al repertoire. En paralelo, la empresa narró una historia oficial de "civilización": *La Forestal, al servicio de la grandeza argentina*. Se disputaba la narrativa histórica misma.
+### La masacre denunciada
 
-En los 1970-80, la academia abordó el tema desde la teoría de la dependencia —la masacre subsumida bajo una violencia sistémica—. En los 1990-2000, emergió una mirada desde los pueblos —turismo histórico, patrimonio cultural—. *Revuelta obrera y masacre en La Forestal* reabrió el debate; cinco novelas en cinco años se ocuparon de los eventos. En 2021, el centenario fue commemorado con actos oficiales: monumentos, murales, debates, CLACSO, coverage televisiva provincial. En Villa Guillermina, un monumento a Teófilo Lafuente; en Villa Ana, un mural de obreros anarquistas. Un artista invitado pidió aplausos para la empresa. Exploradores con detectores de metal encontraron balas gastadas. Una comisión de rescue patrimonial fue activada. En el contexto de una reforma laboral anti-sindical, "un retorno a los tiempos de La Forestal" resonó en protestas.
+En abril de 1921, Belisario Salvadores —diputado radical— denunció en la legislatura de Santa Fe los crímenes de La Forestal. El Diario Santa Fe publicó "Un crimen de lesa humanidad", nombrando la violencia en tiempo presente: la articulación de guardias empresariales, policía provincial y la Gendarmería Volante —creada por decreto del gobernador Mosca y financiada 100% por La Forestal— en una operación híbrida público-privada para "depurar" el territorio. La masacre fue la culminación de un régimen: el paternalismo despótico de un company-town británico donde la empresa controlaba fábrica, pueblo, ferrocarril, policía, correspondencia y juzgado de paz. Cuando la democratización post-1912 y la organización obrera penetraron el enclave, el régimen no contuvo; la violencia explotó.
 
-**Sin traducción judicial.** A pesar de enorme acumulación de investigación y reconstrucción de memorias, no existe traducción judicial. La respuesta ilumina el carácter político del umbral con más claridad que cualquier caso exitoso:
+Pero La Forestal no fue solo una empresa que reprimió obreros. Fue también una empresa que destruyó un bosque.
 
-- **Memoria organizada**: existe memoria abundante —Gori, Walsh, novelas, commemoraciones, monumentos, balas recuperadas—. Pero es dispersa, sin sujeto organizado que la convierta en reclamo jurídico sostenido. Los descendientes de obreros forestales no constituyen una comunidad con identidad colectiva reclamante como los qom/moqoit.
-- **Investigación traducible**: la investigación es sólida —Gori, teoría de la dependencia, documentación de represión policial financiada por la empresa—. Pero no ha sido articulada en evidencia judicial pericial.
-- **Innovadores jurídicos**: no ha emergido un actor que proponga un formato procesal. La innovación que permitió Napalpí (Juicio por la Verdad) no ha sido replicada.
-- **Ventana política**: el centenario de 2021 generó visibilidad, pero no apertura judicial. Un momento potencial fue la expropiación de Vicentin —empresa regional también denunciada por represión durante la dictadura—. Vicentin evocó La Forestal, pero los caminos no convergieron: la expropiación fue un conflicto del presente, no un proceso de memoria por violencias del pasado.
+### La violencia contra el medio social y la ecología
 
-La Forestal demuestra que la verdad histórica no genera automáticamente accountability. La justicia es un proceso político, no una consecuencia automática de la producción de conocimiento.
+La masacre fue la explosión visible —violencia directa—. Pero La Forestal exerció también una violencia sistemática contra el bosque y contra el medio social. La deforestación de ~2 millones de hectáreas fue un programa deliberado: extraer máximo tanino, agotar el bosque, deslocalizar a África —decisión desde Londres que convirtió el monte en una *export ecology* (Ross)—. Contra el medio social: contratistas y tercerización como subsistemas de control; racialización jerárquica; paternalismo como "obra de civilización" que era dispositivo de dependencia; "gran familia" que proveía y castigaba; hegemonía acorazada (Kósik) que mostraba progreso y ocultaba violencia. La segunda contradicción (O'Connor) se verificó con brutalidad: cuando el bosque se agotó y la empresa se fue, los "cadáveres de pueblos" quedaron como monumentos de un doble abandono.
+
+### Gori y las memorias contradictorias
+
+En 1965, Gastón Gori rescató del oblivio las memorias de 1921: identificó víctimas por nombre, denunció la lógica extractiva y la relocalización. Bayer reconstruyó la Patagonia; Walsh habló de "pueblos fantasmas"; *Quebracho* llevó la narrativa al cine; Ielpi sumó la Crónica cantada. En paralelo, la empresa publicó *La Forestal, al servicio de la grandeza argentina* —se disputaba la narrativa histórica—. En los 1970-80, la academia abordó la masacre desde la dependencia, subsumiéndola en una violencia sistémica. En los 1990-2000, emergió una mirada desde los pueblos —patrimonio, centenarios—; *Revuelta obrera y masacre en La Forestal* reabrió el debate; cinco novelas se ocuparon de los eventos.
+
+El negacionismo persiste. En la introducción de *El Encanto del Tanino*, una señora de los pueblos forestales niega: "no fue tan bad", "la empresa trajo cosas buenas". Denegación ideológica (Assmann): memoria selectiva que borra la violencia y conserva el orden. La nostalgia —"la disciplina que supimos conseguir"— condensa esa operación. No está sola: la bisnieta de Harteneck, la nieta de Senn. Cada una niega una forma peculiar de violencia. Las memorias contradictorias son el battleground donde el legado imperial se disputa en el presente.
+
+### Centenarios, monumentos, balas... y la pregunta
+
+En 2021, el centenario congregó actos oficiales: monumento a Lafuente en Villa Guillermina, mural de obreros anarquistas en Villa Ana, CLACSO, coverage televisiva. Un artista pidió aplausos para la empresa. Detectores de metal encontraron balas gastadas. Comisión patrimonial activada. En 2024-2026, un proyecto arqueológico en El Amargo (Villa Ana) busca documentar evidencia material de la masacre: memoria oral + registro empírico + análisis balístico + talleres comunitarios.
+
+Todo converge: memoria, investigación, patrimonio, comunidad, evidencia material. Pero el camino de la justicia no aparece.
+
+### Sin traducción judicial
+
+A pesar de enorme acumulación, no existe traducción judicial. Las condiciones del umbral no convergen:
+
+- **Memoria organizada**: abundante pero dispersa, sin sujeto reclamante. Descendientes de obreros forestales no constituyen comunidad con identidad colectiva como los qom/moqoit. Memoria como recurso cultural, no político-jurídico.
+- **Investigación traducible**: sólida —Salvadores (1921), Gori (1965), dependencia, *Revuelta obrera y masacre*, arqueología El Amargo— pero no articulada como evidencia judicial pericial.
+- **Innovadores jurídicos**: ausente. Juicio por la Verdad no replicado. En Santa Fe no existe equivalente institucional para hechos de 1921.
+- **Ventana política**: centenario generó visibilidad, no apertura judicial. Vicentin evocó La Forestal pero los caminos no convergieron: expropiación fue conflicto del presente, no proceso de memoria por violencias del pasado.
+
+La Forestal demuestra que la verdad histórica no genera automáticamente accountability. La justicia es proceso político, no consecuencia automática del conocimiento. El umbral no se cruza por la fuerza de la evidencia sino por la convergencia de condiciones —y cuando una condición clave falta, la evidencia más sólida permanece en el lado del conocimiento.
 
 ## Cien años de soledad: reconocimiento sin procesamiento
 
