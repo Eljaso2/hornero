@@ -50,5 +50,5 @@ Núcleo 5 no es "ChatGPT te resumen la huelga de 1975". Es **contenido de entret
 - **Núcleo 1 (Laboratorio):** el clasificador, transcriptor y constructor de narrativas son productos del Laboratorio, fine-tuned sobre corpus de HO.
 - **Núcleo 3 (IS):** las etiquetas "Formación y memoria" (Familia 6) y "Historia" (en narrativas de trabajadores) se conectan con HO.
 - **Núcleo 7 (Nuestro Derecho):** los documentos históricos se almacenan en N7 y HO los cura.
-- **Núcleo 6 (Morfología):** las categorías históricas de HO alimentan Morfología — la historia de la clase trabajadora da contexto a la foto presente.
+- **Núcleo 6 (Cómo Somos):** las categorías históricas de HO alimentan Cómo Somos — la historia de la clase trabajadora da contexto a la foto presente.
 - **Núcleo 9 (App):** 9c (Historia Obrera) accede al material de HO. 9g (Argumento) usa historia para argumentar.

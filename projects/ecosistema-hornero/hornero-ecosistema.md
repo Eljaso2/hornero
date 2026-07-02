@@ -54,7 +54,7 @@ Cocina central. Espacio de **codiseño** donde sindicatos, universidades y Trico
 
 **Productos:** modelos fine-tuned laborales, datasets etiquetados, guías de codiseño, kit de arranque.
 
-**Librería base:** el Laboratorio produce y mantiene la librería base que todos los núcleos consumen — taxonomía soberana (etiquetas), pipeline de procesamiento, stack técnico, formatos de salida comunes, categorías morfológicas (referencia N9), reglas de protección (referencia N4). Cada núcleo especifica qué repositorio trabaja en su sección "Repositorio y documentación".
+**Librería base:** el Laboratorio produce y mantiene la librería base que todos los núcleos consumen — taxonomía soberana (etiquetas), pipeline de procesamiento, stack técnico, formatos de salida comunes, categorías del campo obrero (referencia N9), reglas de protección (referencia N4). Cada núcleo especifica qué repositorio trabaja en su sección "Repositorio y documentación".
 
 **Nota sobre modelo:** actualmente generación usa DeepSeek API (fragmentos se recuperan localmente). Soberanía de datos ✓, soberanía de modelo en camino → cuando Laboratorio produzca fine-tuned, DeepSeek se reemplaza por modelo propio.
 
@@ -100,13 +100,13 @@ La punta de la pirámide. Cada subsección se describe desde lo que el trabajado
 **Pantalla de inicio "¿Qué necesitás?"** — opciones agrupadas:
 - Información: Novedades (5f), Nuestro Derecho (5d)
 - Acción: Argumento (5g), Comunicador (5e), IS (5b)
-- Condición obrera: Morfología (5h), Comportamiento Empresarial (5i), Felicidad (5p)
+- Condición obrera: Cómo Somos (5h), Comportamiento Empresarial (5i), Felicidad (5p)
 - Historia e identidad: Historia Obrera (5c), Tu historia (5o)
 - Entrada: Qué es el Ecosistema (5a)
 
 **Principios:** local-first, privacidad por diseño (Núcleo 4), interfaz con trabajadores, actualización controlada, multimodal, siempre con la fuente.
 
-**5a** Qué es el Ecosistema · **5b** IS · **5c** Historia Obrera · **5d** Nuestro Derecho · **5e** Comunicador · **5f** Las novedades · **5g** Argumento · **5h-i-p** Condición obrera (Morfología · Comportamiento Empresarial · Felicidad) · **5o** Tu historia
+**5a** Qué es el Ecosistema · **5b** IS · **5c** Historia Obrera · **5d** Nuestro Derecho · **5e** Comunicador · **5f** Las novedades · **5g** Argumento · **5h-i-p** Condición obrera (Cómo Somos · Comportamiento Empresarial · Felicidad) · **5o** Tu historia
 
 → `hornero-capa2/nucleo5-app.md`
 
@@ -128,9 +128,9 @@ Convenios, leyes, discursos, volantes, resoluciones de asamblea. La **posición 
 
 Entretenimiento, historia, formación. Articulación HO. Capa IA que amplifica producción historiográfica: asistente de investigación, transcripción, narrativas guiadas.
 
-### Núcleo 9 — Morfología
+### Núcleo 9 — Cómo Somos
 
-Categorías propias (Iñigo Carrera). Define la **taxonomía soberana** que estructura todo el ecosistema — la epistemología del sistema. Morfología → Documentación → Laboratorio → todos los demás.
+Datos duros de la clase trabajadora con categorías del campo obrero (Iñigo Carrera). Foto presente y película dinámica: cuántos somos, cómo estamos, hacia dónde vamos. Define la **taxonomía soberana** que estructura todo el ecosistema — la epistemología del sistema. Cómo Somos → Documentación → Laboratorio → todos los demás. Fuentes: INDEC, Ministerio de Trabajo, UCA, Mate, CTAA, PIMSA, Luis Campos.
 
 ### Núcleo 10 — Coyuntura laboral
 
@@ -148,7 +148,15 @@ Diálogo semiestructurado. Motor de entrevista adaptativa, etiquetador automáti
 
 Índice 6 dimensiones (condiciones materiales, tiempo propio, salud, capacidad organizativa, pertenencia, futuro). **Emerge del ICE×SMVM** que Federación Aceitera ya trabaja. IFT×CE, IFT×SMVM. Contramedida soberana.
 
-→ `hornero-capa3/nucleos6-13-backend.md`
+### Núcleo 14 — Acción Sindical
+
+Volantes, comunicados, discursos de líderes, resoluciones de asambleas y congresos. Lo que el sindicato **produce y decide** — la voz del campo obrero. No lo que protege (Nuestro Derecho, N7), sino lo que hace. Barra de conflictos abiertos.
+
+### Núcleo 15 — Salario Mínimo Vital y Móvil (SMVM)
+
+El SMVM en contexto — no el número isolation sino el piso de vida. 5 componentes: qué es el SMVM y cómo lo miden (aceiteros + Mate), ingresos por sector y rama, chat comparativo tipo CE, distribución del ingreso nacional (Iñigo Carrera + Mate), inflación real vs. oficial. N15 es la interfaz visible donde el trabajador entra a entender, comparar, y ver la distribución. Los demás núcleos siguen produciendo sus índices (ICE×SMVM, IFT×SMVM) — N15 centraliza, presenta y permite diálogo.
+
+→ `hornero-capa3/nucleos6-15-backend.md`
 
 ---
 
@@ -170,14 +178,16 @@ Capa 3 ──────────── la planta de producción ───�
 N6  IS ─────── data primaria → 5b, 5f
 N7  Nuestro Derecho ── convenios, leyes, volantes, resoluciones → 5d, 5g
 N8  HO ──────── narrativas, formación → 5c, 5g
-N9  Morfología ── categorías, taxonomía → estructura etiquetado, 5h, 5g
+N9  Cómo Somos ── categorías, taxonomía → estructura etiquetado, 5h, 5g
 N10 Coyuntura laboral ── clipping semanal → 5f, 5g
 N11 CE ──────── ICE + ICE×SMVM + chat empresarial → 5i
 N12 Tu historia ─ testimonios, narrativas cualitativas → 5o
 N13 Felicidad ── IFT + IFT×CE + IFT×SMVM → 5p
+N14 Acción Sindical ── conflictos abiertos, volantes, comunicados → 5j
+N15 SMVM ────── chat comparativo, ingresos sector, distribución ingreso, inflación → 5q
 
 Lógica del ciclo:
-N9 (Morfología) define categorías
+N9 (Cómo Somos) define categorías
   → N7 (Nuestro Derecho) organiza datos
     → N2 (Laboratorio) produce modelos
       → [N6, N8, N10, N11, N12, N13] usan modelos + producen datos
@@ -197,11 +207,13 @@ N5 (App) es la interfaz — punta de la pirámide
 | 6 | IS | Observaciones, informes, clasificación | 5b, 5f |
 | 7 | Nuestro Derecho | Convenios, fichas, series, volantes, resoluciones | 5d, 5g |
 | 8 | HO | Narrativas, transcripciones | 5c, 5g |
-| 9 | Morfología | Categorías soberanas, estadísticas | 5h (condición obrera), 5g |
+| 9 | Cómo Somos | Datos duros clase trabajadora, categorías del campo obrero, foto + película | 5h (condición obrera), 5g |
 | 10 | Coyuntura laboral | Clipping, clasificación | 5f, 5g |
 | 11 | CE | Chat empresarial, 4 dimensiones, ICE, ICE×SMVM, info empresarial | 5i (condición obrera) |
 | 12 | Tu historia | Testimonios etiquetados, narrativas | 5o |
 | 13 | Felicidad | IFT compuesto, IFT×CE, IFT×SMVM | 5p (condición obrera) |
+| 14 | Acción Sindical | Conflictos abiertos, volantes, comunicados, resoluciones | 5j |
+| 15 | SMVM | Chat comparativo, ingresos sector, distribución ingreso, inflación | 5q |
 
 ---
 
@@ -237,7 +249,7 @@ Implementar todo juntos es inviable. La estrategia es **federada: una rama prime
 
 **Fase 2 — IA entra, App amplifica (8-14 meses):**
 
-IA clasifica conflictos, convenio vivo interactivo, Morfología básica, primer IFT, primer motor Tu historia.
+IA clasifica conflictos, convenio vivo interactivo, Cómo Somos básica, primer IFT, primer motor Tu historia.
 
 **Fase 3 — Ecosistema completo (14-24 meses):**
 
@@ -264,12 +276,14 @@ Ideas para futuro que se implementan según demanda del sindicato piloto:
 | `hornero-capa1/nucleo3-estructura.md` | Estructura: VPS→propio, stack, encriptación. Repositorio: stack técnico, configs de servidor |
 | `hornero-capa1/nucleo4-proteccion.md` | Protección: consentimiento, anonimización, ética. Repositorio: define reglas — no consume datos |
 | `hornero-capa2/nucleo5-app.md` | App: 5a-5p, principios interfaz. Repositorio: consumidor — no repositorio propio |
-| `hornero-capa3/nucleos6-13-backend.md` | Backend: 8 núcleos, pipeline, stack |
+| `hornero-capa3/nucleos6-15-backend.md` | Backend: 10 núcleos, pipeline, stack |
 | `hornero-capa3/nucleo6-is/nucleo6-is.md` | IS: grados, etiquetas, flujo piloto. Repositorio: observaciones terreno + informes 1-4 |
 | `hornero-capa3/nucleo7-nuestro-derecho/nucleo7-nuestro-derecho.md` | Nuestro Derecho: CCT, leyes, discursos, volantes, resoluciones. Repositorio: posición oficial sindical (info empresarial → N11) |
 | `hornero-capa3/nucleo8-historia-obrera/nucleo8-historia-obrera.md` | HO: contenido HO + capa IA. Repositorio: historiaobrera.com.ar + documentos históricos sindicales |
-| `hornero-capa3/nucleo9-morfologia/nucleo9-morfologia.md` | Morfología: categorías propias. Repositorio: INDEC + Banco Mundial + datos IS/Documentación |
+| `hornero-capa3/nucleo9-como-somos/nucleo9-como-somos.md` | Cómo Somos: datos duros de la clase trabajadora con categorías del campo obrero (Iñigo Carrera). Repositorio: INDEC + Ministerio de Trabajo + UCA + Mate + CTAA + PIMSA + Luis Campos + datos IS/Documentación |
 | `hornero-capa3/nucleo10-coyuntura/README.md` | Coyuntura: clipping semanal. Repositorio: fuentes periodísticas (ver SOURCES_CATALOG.md) |
 | `hornero-capa3/nucleo11-comportamiento-empresarial/nucleo11-comportamiento-empresarial.md` | CE: chat empresarial, 4 dimensiones (Directa, CT, Estructural, Simbólica), ICE, ICE×SMVM, info empresarial, flujo desde Reporte Gremial. Repositorio: informes VE federaciones + datos IS + SMVM + balances/registros empresas + tesis + El Encanto del Tanino + OIT + RSE |
 | `hornero-capa3/nucleo12-tu-historia/nucleo12-tu-historia.md` | Tu historia: testimonios, narrativas. Repositorio: testimonios app + pautas HO |
 | `hornero-capa3/nucleo13-felicidad/nucleo13-felicidad.md` | Felicidad/IFT: 6 dimensiones, IFT×CE×SMVM. Repositorio: compuesto de N6+N7+N9+N11+N12 |
+| `hornero-capa3/nucleo14-accion-sindical/nucleo14-accion-sindical.md` | Acción Sindical: conflictos abiertos, volantes, comunicados. Repositorio: N6 (observaciones) + N7 (resoluciones) |
+| `hornero-capa3/nucleo15-smvm/nucleo15-smvm.md` | SMVM: chat comparativo, ingresos sector, distribución ingreso (Iñigo Carrera + Mate), inflación real vs. oficial. Repositorio: SMVM + canasta + inflación (Mate + INDEC) + convenios (N7) + composición (N9) |

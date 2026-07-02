@@ -19,7 +19,7 @@
 
 | Núcleo | Nombre | Subsecciones App |
 |---|---|---|
-| 5 | App Hornero | 5a Qué es · 5b IS · 5c HO · 5d Documentación · 5e Comunicador · 5f Novedades · 5g Argumento · 5h Morfología · 5i Comportamiento Empresarial · 5o Tu historia · 5p Felicidad |
+| 5 | App Hornero | 5a Qué es · 5b IS · 5c HO · 5d Documentación · 5e Comunicador · 5f Novedades · 5g Argumento · 5h Cómo Somos · 5i Comportamiento Empresarial · 5j Acción Sindical · 5o Tu historia · 5p Felicidad · 5q SMVM |
 
 ---
 
@@ -30,11 +30,13 @@
 | 6 | Inteligencia Sindical | Observaciones, informes, clasificación conflictos | 5b, 5f |
 | 7 | Centro de Documentación | Convenios, fichas, series | 5d, 5g |
 | 8 | Historia Obrera | Narrativas, transcripciones | 5c, 5g |
-| 9 | Morfología | Categorías soberanas, estadísticas | 5h, 5g |
+| 9 | Cómo Somos | Categorías soberanas, estadísticas | 5h, 5g |
 | 10 | Coyuntura | Clipping, clasificación | 5f, 5g |
 | 11 | Comportamiento Empresarial | 4 dimensiones (Directa, CT, Estructural, Simbólica), ICE, ICE×SMVM | 5i |
 | 12 | Tu historia | Testimonios etiquetados, narrativas cualitativas | 5o |
 | 13 | Felicidad/IFT | Índice 6 dimensiones, IFT×CE, IFT×SMVM | 5p |
+| 14 | Acción Sindical | Conflictos abiertos, volantes, comunicados | 5j |
+| 15 | SMVM | Chat comparativo, ingresos sector, distribución ingreso, inflación real vs. oficial | 5q |
 
 ---
 

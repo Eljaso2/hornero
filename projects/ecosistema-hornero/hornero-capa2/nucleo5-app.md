@@ -16,11 +16,11 @@ El trabajador entra por lo que necesita. Las opciones son claras, agrupadas por 
 
 - **Información:** Novedades (5f), Nuestro Derecho (5d)
 - **Acción:** Argumento (5g), Comunicador (5e), IS (5b)
-- **Condición obrera:** Morfología (5h), Comportamiento Empresarial (5i), Felicidad (5p)
+- **Condición obrera:** Cómo Somos (5h), Comportamiento Empresarial (5i), Felicidad (5p), SMVM (5q)
 - **Historia y identidad:** Historia Obrera (5c), Tu historia (5o)
 - **Entrada:** Qué es el Ecosistema (5a)
 
-Los núcleos se interconectan internamente pero el usuario no tiene que saberlo. Morfología, Comportamiento Empresarial y Felicidad van juntos porque son los tres diagnósticos de la condición obrera: cómo actúa el empresario (CE), lo que te importa (IFT), y cómo se forma la clase (Morfología). ICE×SMVM×IFT los conecta — la misma data, tres lecturas.
+Los núcleos se interconectan internamente pero el usuario no tiene que saberlo. Cómo Somos, Comportamiento Empresarial, Felicidad y SMVM van juntos porque son los cuatro diagnósticos de la condición obrera: cómo actúa el empresario (CE), lo que te importa (IFT), cómo se forma la clase (Cómo Somos), y dónde está tu salario en relación con el mínimo, el sector y la distribución del ingreso (SMVM). ICE×SMVM×IFT los conecta — la misma data, tres lecturas; SMVM la visibiliza.
 
 ---
 
@@ -88,7 +88,7 @@ Pantalla de entrada: Xiong, soberanía, cadena de valor de la IA (6 eslabones), 
 - **Clipping semanal:** producto procesado, clasificado y contextualizado — no una lista de noticias
 - **Informes Gremiales Grado 4:** panorama de cada sindicato, por rama/federación. Lectura abierta
 - **Informes Gremiales Grado 5:** panorama general del país. Agregación de todos los Grado 4. La IA consolida; comité de secretarios generales revisa y firma
-- **Informes de Índices:** actualizaciones de ICE (5i), IFT (5p), Morfología (5h)
+- **Informes de Índices:** actualizaciones de ICE (5i), IFT (5p), Cómo Somos (5h)
 
 Notificaciones voluntarias:
 - 🔔 Nuevo clipping semanal
@@ -96,7 +96,7 @@ Notificaciones voluntarias:
 - 🌐 Nuevo Informe Gremial Grado 5 (país)
 - ⚠️ Actualización Índice ICE (Comportamiento Empresarial)
 - 🌿 Actualización Índice IFT
-- 📊 Actualización Índice Morfología
+- 📊 Actualización Índice Cómo Somos
 
 ---
 
@@ -113,15 +113,15 @@ La IA **no aconseja**: amplía el arsenal argumentativo. El trabajador decide. E
 
 ---
 
-### 5h-i-p — Condición obrera: Morfología · Comportamiento Empresarial · Felicidad
+### 5h-i-p-q — Condición obrera: Cómo Somos · Comportamiento Empresarial · Felicidad · SMVM
 
-> Los tres diagnósticos de la condición obrera, juntos, porque se leen desde la misma data. Cómo actúa el empresario (CE), lo que te importa (IFT), y cómo se forma la clase (Morfología). ICE×SMVM×IFT los conecta: el comportamiento que te daña × el salario que te sostiene × la felicidad que buscas × la forma que tiene tu sector.
+> Los tres diagnósticos de la condición obrera, juntos, porque se leen desde la misma data. Cómo actúa el empresario (CE), lo que te importa (IFT), y cómo se forma la clase (Cómo Somos). ICE×SMVM×IFT los conecta: el comportamiento que te daña × el salario que te sostiene × la felicidad que buscas × la forma que tiene tu sector.
 
-#### Morfología (5h)
+#### Cómo Somos (5h)
 
-- **Gráficos en lenguaje claro:** estadísticas con categorías propias (Iñigo Carrera)
-- **Formas y cambios dinámicos:** cómo se organiza el sector, qué fracciones de clase, qué formas de lucha
-- **Comparación morfológica:** mapa entre países (Brasil, India, Sudáfrica, Alemania)
+- **Foto presente:** datos duros de la clase trabajadora — cuántos somos, cómo estamos, con categorías del campo obrero (Iñigo Carrera)
+- **Película (dinámica):** transformaciones sectoriales, despidos semanal, nuevo empleo creado, hacia dónde va la clase
+- **Comparación internacional:** mapa entre países (Brasil, India, Sudáfrica, Alemania)
 
 #### Comportamiento Empresarial (5i)
 
@@ -209,13 +209,34 @@ Emerge del ICE×SMVM que la Federación Aceitera ya trabaja. ICE×SMVM como diag
 
 Ponderaciones definidas por comité sindicatos+investigadores, no por el modelo ni por categorías corporativas.
 
-#### Conexiones entre los tres índices
+#### Conexiones entre los cuatro componentes
 
 - **ICE×IFT:** qué dimensiones de CE afectan qué dimensiones de felicidad — el comportamiento que te daña impacta lo que te importa
 - **IFT×SMVM:** cómo el salario mínimo se relaciona con la felicidad — complementa ICE×SMVM
-- **Morfología×CE:** qué fracciones de clase sufren qué dimensión de CE
-- **Morfología×IFT:** las dimensiones del IFT son categorías morfológicas soberanas
-- **La misma data, tres lecturas:** ICE×SMVM como base compartida → CE lo daña, IFT lo importa, Morfología lo contextualiza
+- **Cómo Somos×CE:** qué fracciones de clase sufren qué dimensión de CE
+- **Cómo Somos×IFT:** las dimensiones del IFT son categorías morfológicas soberanas
+- **SMVM×CE:** ICE×SMVM como sub-índice de violencia económica salarial — lo que la empresa paga vs. lo que el trabajador necesita
+- **SMVM×IFT:** IFT×SMVM — la felicidad del trabajador medida contra el piso salarial
+- **SMVM×Cómo Somos:** distribución del ingreso organizada con categorías del campo obrero
+- **La misma data, cuatro lecturas:** ICE×SMVM como base compartida → CE lo daña, IFT lo importa, Cómo Somos lo contextualiza, SMVM lo visibiliza
+
+---
+
+#### Salario Mínimo Vital y Móvil (5q)
+
+**El SMVM en contexto — el piso legal vs. el piso de vida.**
+
+5 componentes donde el trabajador puede entender, comparar, y ver dónde está su salario:
+
+1. **Qué es el SMVM** — concepto, cómo lo miden los aceiteros (salario real vs. SMVM, horas para SMVM, tercerización vs. SMVM del convenio) y cómo lo mide Mate (SMVM vs. canasta obrera, vs. salario medio, vs. inflación obrera). Comparación con otras mediciones como referencia
+2. **Ingresos por sector y rama** — tabla/visualización de ingresos por sector y fracción de clase (planta permanente, contratado, tercerizado, informal, estatal) vs. SMVM y canasta
+3. **Chat "Compará tu salario"** — diálogo tipo CE donde el trabajador compara su salario contra SMVM, convenio, canasta, sector, distribución. Permite profundizar, conectar con ICE×SMVM e IFT×SMVM. Salario ingresado es privado (N4)
+4. **Distribución del ingreso nacional** — pirámide invertida con estratos Iñigo Carrera (alta burguesía → pauperización), ingresos promedio por estrato, % del ingreso nacional, posición del trabajador. Datos Mate + PIMSA, no deciles INDEC genéricos
+5. **Inflación real vs. oficial** — serie temporal mensual, inflación INDEC vs. inflación obrera real (Mate), SMVM nominal vs. SMVM real (ajustado por inflación obrera). Fuentes explicitadas en cada punto
+
+- **Bloque explicativo** (arriba): "El Salario Mínimo Vital y Móvil es el piso legal — pero el piso real es otro. Aquí puedes ver cuánto vale tu salario en terms de vida, y dónde estás en la distribución del ingreso."
+- **Texto desplegable** (expandible, tap/click para revelar): "El SMVM es el piso legal de ingresos. IFT = SMVM × ICE — el Índice de Felicidad Laboral se construye cruzando el salario mínimo con el comportamiento empresarial. Si el SMVM no cubre la canasta básica y el ICE indica violencia, la felicidad laboral es negativa. ⚠️ Datos del SMVM alimentan el Índice ICE (VE Estructural) y el Índice de Felicidad Laboral. Sin salario, no hay felicidad."
+- Disclaimer: "La IA propone — vos decidís, editás, aprobás"
 
 ---
 
@@ -236,7 +257,7 @@ Pauta metodológica: historiadores del futuro. El testimonio no se archiva como 
 
 ## Repositorio y documentación
 
-> N5 (App) es **consumidor** — no tiene repositorio propio. Consume lo que Capa 3 (N6-13) produce y lo presenta al trabajador. Su "repositorio" es local-first en el teléfono: convenio del sector, luchas principales, discursos relevantes, modelo IA básico. Sync con backend soberano (N3) para actualizar y consultar. No produce datos nuevos — alimenta datos de uso y observaciones que vuelven a N2, N6, N12.
+> N5 (App) es **consumidor** — no tiene repositorio propio. Consume lo que Capa 3 (N6-15) produce y lo presenta al trabajador. Su "repositorio" es local-first en el teléfono: convenio del sector, luchas principales, discursos relevantes, modelo IA básico. Sync con backend soberano (N3) para actualizar y consultar. No produce datos nuevos — alimenta datos de uso y observaciones que vuelven a N2, N6, N12.
 
 ---
 

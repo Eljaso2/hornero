@@ -13,9 +13,14 @@
 
 Prioridades:
 - **Diario:** InfoGremiales, Infoydata, dirigentes sindicales en X/Twitter
+- **Mensual (inicio de mes):** InfoMATE (mateconomia.com.ar) — nuevo informe de coyuntura económica-laboral con datos macro procesados visualmente; PDF descargable; insumo para sección "Datos económicos" del clipping
 - **Compilación semanal:** Página/12, La Izquierda Diario, Tiempo Argentino, Infobae, La Capital, Ámbito, Clarín, La Nación
-- **Medios comerciales — framing VCE:** Clarín, La Nación, Infobae, La Capital, Ámbito — track framing anti-sindical, voz empresaria como "sentido común"
-- **Según necesidad:** Sitrarepa (plataformas), Sitios Sindicales (comunicados directos), CLATE/OIT (internacional), Business-HumanRights.org (VCE global), CGT/CTA official, Ministerio de Trabajo, INDEC
+- **Irregular (watch):** MATE Documentos de trabajo + Entrevistas + Notas de opinión — cuando publican nuevo contenido; routing: datos macro → clipping "Datos económicos", análisis sectoriales VCE → N11, entrevistas → N6 IS
+- **Medios comerciales — framing VC:** Clarín, La Nación, Infobae, La Capital, Ámbito — track framing anti-sindical, voz empresaria como "sentido común"
+- **Sindicatos/web directa (diario):** SIPREBA (sipreba.org.ar + @SiPreBA), SATSAID (satsaid.org.ar + @SATSAIDok), SOEA (@SOEA_Aceiteros + Facebook), Somos los Medios (@somosmediosCABA), Sitrarepa (sitrarepa.org.ar + @BDambrosioSitra), Sitios Sindicales (agregador ~50 gremios)
+- **Prensa provincial (semanal):** El Litoral (Santa Fe — ellitoral.com), La Capital (Rosario)
+- **Historia Obrera — Efemérides (por clipping):** API REST `historiaobrera.com.ar/wp-json/wp/v2/ajde_events?per_page=50` → filtrar por mes/día → seleccionar 1-2 efemérides, agregar sección con conexión a noticias actuales + recomendación bibliográfica
+- **Según necesidad:** CLATE/OIT (internacional), Business-HumanRights.org (VCE global), CGT/CTA official, Ministerio de Trabajo, INDEC, MATE (mateconomia.com.ar — InfoMATE, documentos de trabajo, entrevistas)
 
 ---
 
@@ -23,7 +28,17 @@ Prioridades:
 
 ### Categorías de contenido
 
-**Violencia Cultural Empresarial** *(clave para Índice ICE — N11)*
+**Violencia Directa (VD)** *(dimensión material — acciones antisindicales concretas)*
+- Despidos antisindicales: represalia ante reclamo salarial, persecución de delegados
+- Lock out patronal
+- Persecución judicial a trabajadores
+- Uso de guardias/seguridad privada para bloquear ingreso
+- Uso de rompehuelgas
+- Bloqueo de inspecciones laborales
+- Amenaza de despidos como coerción
+- Monopolio/concentración para fijar condiciones más bajas
+
+**Violencia Cultural (VC)** *(dimensión discursiva/simbólica — narrativas que naturalizan)
 - Empresarios/cámaras que intentan fracturar organización sindical desde afuera
 - Llamados públicos a "rebelarse contra el gremio" (ej: CIARA-CEC a aceiteros, Infobae 23/6/2026)
 - Discursos que individualizan el conflicto ("cada trabajador pierde X por día de paro")
@@ -112,5 +127,7 @@ El Reporte Gremial se genera desde el **botón Reporte Gremial** de la App (5b).
 
 ## Herramientas
 
-- Monitoreo: RSS + checks manuales
+- Monitoreo: RSS + checks manuales + web fetch directa (sindicatos webs) + API REST Historia Obrera
+- Web fetch sindicatos: SIPREBA, SATSAID, SOEA (Facebook público), Somos los Medios, Sitrarepa, Sitios Sindicales — comunicados directos sin intermediación editorial
+- Efemérides: `curl 'https://historiaobrera.com.ar/wp-json/wp/v2/ajde_events?per_page=50'` → filtrar slug/title por mes → seleccionar 1-2 relevantes → fetch full content de cada evento → conexión con clipping actual
 - Publicación: App Hornero (notificaciones voluntarias)

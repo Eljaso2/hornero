@@ -37,11 +37,11 @@ El Laboratorio no es un proyecto entre otros — es **el núcleo central** donde
 
 | Componente | Qué es | Lo define | Detalle |
 |---|---|---|---|
-| **Taxonomía soberana (etiquetas)** | 9 familias (~70 etiquetas) que organizan toda la información del ecosistema. Categorías del campo obrero, no genéricas. | N9 (Morfología) define las categorías; N2 (Laboratorio) las produce y mantiene | → `nucleo6-is/nucleo6-is.md` sección 5 (Etiquetas automáticas) |
+| **Taxonomía soberana (etiquetas)** | 9 familias (~70 etiquetas) que organizan toda la información del ecosistema. Categorías del campo obrero, no genéricas. | N9 (Cómo Somos) define las categorías; N2 (Laboratorio) las produce y mantiene | → `nucleo6-is/nucleo6-is.md` sección 5 (Etiquetas automáticas) |
 | **Pipeline de procesamiento** | Camino que cada consulta recorre: clasificar intención → filtrar por rama/vigencia → buscar en archivo real (híbrida semántica+exacta) → conectar con mapa de conocimiento → verificar respaldo documental → responder con la fuente | N2 (Laboratorio) | → `nucleos6-13-backend.md` sección Pipeline |
 | **Stack técnico** | Infraestructura compartida: DeepSeek (→ modelo propio), Qdrant+BGE, Neo4j, MinIO+Postgres, Whisper, LangGraph+Dify | N2 + N3 (Estructura) | → Sección Stack técnico en este archivo + `nucleo3-estructura.md` |
 | **Formatos de salida comunes** | Principios que todos los núcleos aplican: sistema de grados 1-4, trazabilidad (fuente primaria vinculada), siempre con la fuente (norma, artículo, vigencia, documento original), dato privado vs. producto público | N6 (IS) define grados; N4 (Protección) define privacidad; N2 produce | → `nucleo6-is/nucleo6-is.md` + `nucleo4-proteccion.md` |
-| **Categorías morfológicas** | La epistemología del sistema: fracciones de clase, formas de lucha, formas de producción, condiciones de vida, articulación sectorial | N9 (Morfología) | → `nucleo9-morfologia/nucleo9-morfologia.md` |
+| **Categorías del campo obrero** | La epistemología del sistema: ejército activo/reserva, fracciones de clase, formas de lucha, formas de producción, condiciones de vida, articulación sectorial | N9 (Cómo Somos) | → `nucleo9-como-somos/nucleo9-como-somos.md` |
 | **Reglas de protección** | Consentimiento explícito, anonimización por defecto, encriptación TLS+AES-256, acceso por grados, dato privado vs. producto público, uso ético | N4 (Protección) | → `nucleo4-proteccion.md` |
 
 ### Repositorio del Laboratorio

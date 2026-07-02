@@ -29,7 +29,7 @@ El testimonio no se archiva como "algo que pasó" sino como **dato para entender
 
 ### Motor de entrevista semiestructurada
 
-Propone preguntas abiertas que siguen pautas metodológicas de historia oral y investigación cualitativa. No es un cuestionario fijo: adapta el flujo según lo que el usuario ya contó. Las preguntas emergen de la tradición historiográfica (HO, Núcleo 5) y de la morfología del sector (Núcleo 6).
+Propone preguntas abiertas que siguen pautas metodológicas de historia oral y investigación cualitativa. No es un cuestionario fijo: adapta el flujo según lo que el usuario ya contó. Las preguntas emergen de la tradición historiográfica (HO, Núcleo 5) y de las categorías del campo obrero del sector (Núcleo 9/Cómo Somos).
 
 Ejemplos de preguntas adaptativas:
 - Entrada general: "¿Cómo entraste al sector?"
@@ -84,7 +84,7 @@ El investigador supervisa y corrige — la IA propone, el campo decide.
 ## Articulación con otros núcleos
 
 - **Núcleo 5 (HO):** pautas metodológicas de historia oral + historiadores de HO supervisan narrativas
-- **Núcleo 6 (Morfología):** categorías para etiquetar + tendencias emergentes como "foto presente cualitativa"
+- **Núcleo 6 (Cómo Somos):** categorías para etiquetar + tendencias emergentes como "foto presente cualitativa"
 - **Núcleo 3 (IS):** testimonios como fuente primaria cualitativa
 - **Núcleo 8 (VE):** detección de violencia empresarial en testimonios
 - **Núcleo 7 (Nuestro Derecho):** archivo de testimonios etiquetados
@@ -97,7 +97,7 @@ El investigador supervisa y corrige — la IA propone, el campo decide.
 > Qué datos trabaja este núcleo. Todos los núcleos consumen la librería base (N2) — taxonomía, pipeline, stack, formatos de salida, categorías morfológicas, reglas de protección. Lo específico de cada núcleo va aquí.
 
 - **Repositorio:** Testimonios de trabajadores (diálogo semiestructurado en la app), pautas metodológicas de historia oral (N8/HO).
-- **Corpus:** Testimonios etiquetados con categorías del ecosistema (N9 morfología + N11 CE): sector, tipo de experiencia, período, forma de lucha, VE detectada, categoría laboral del convenio. Narrativas cualitativas supervisadas por investigadores de HO.
+- **Corpus:** Testimonios etiquetados con categorías del ecosistema (N9 Cómo Somos + N11 CE): sector, tipo de experiencia, período, forma de lucha, VE detectada, categoría laboral del convenio. Narrativas cualitativas supervisadas por investigadores de HO.
 - **Fuente primaria:** Narrativas de trabajadores grabadas/transcritas en la app — diálogo semiestructurado adaptativo. El testimonio es dato prospectivo (historiadores del futuro), no retrospectivo. Visibilidad definida por el testimoniant: privado / compartido con investigadores (anonimizado) / público.
 - **Corpus de fine-tuning (N2):** Testimonios etiquetados + pautas metodológicas de historia oral — para entrenar el motor de entrevista semiestructurada y el etiquetador automático de testimonios.
 
@@ -107,7 +107,7 @@ El investigador supervisa y corrige — la IA propone, el campo decide.
 
 - Concepto definido
 - Motor de entrevista semiestructurada: pendiente de desarrollo
-- Etiquetador automático: pendiente (depende de categorías Morfología Núcleo 6)
+- Etiquetador automático: pendiente (depende de categorías Cómo Somos Núcleo 6)
 - Constructor de narrativas: pendiente (depende de HO Núcleo 5 para supervisión)
 
 ---

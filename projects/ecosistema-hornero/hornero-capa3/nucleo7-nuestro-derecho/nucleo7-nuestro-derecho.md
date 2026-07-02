@@ -53,7 +53,7 @@ Sin Núcleo 7, Hornero no tiene convenio vivo, no tiene leyes para buscar, no ti
 - **Núcleo 2 (Laboratorio):** el corpus de Nuestro Derecho alimenta el fine-tuning de los modelos. Las categorías de descripción archivística sindical son extensiones del campo, no ISAD(G) genérico.
 - **Núcleo 6 (IS):** los informes grado 2-3-4 citan fuentes de Nuestro Derecho (convenio Art. X, Ley 20.744 Art. Y, resolución de asamblea Z).
 - **Núcleo 8 (HO):** los documentos históricos se curan con HO — HO decide qué es relevante para formación.
-- **Núcleo 9 (Morfología):** datos del INDEC y estadísticas laborales alimentan Morfología.
+- **Núcleo 9 (Cómo Somos):** datos del INDEC y estadísticas laborales alimentan Cómo Somos.
 - **Núcleo 11 (CE):** la información de empresas (balances, registros, datos corporativos) va en CE — no aquí. Nuestro Derecho aporta convenios y leyes que CE usa para detectar incumplimientos; CE aporta datos empresariales que complementan el diagnóstico.
 - **Núcleo 5 (App):** 5d (Nuestro Derecho) busca directamente en este núcleo. 5b (IS) cita fuentes de Nuestro Derecho.
 

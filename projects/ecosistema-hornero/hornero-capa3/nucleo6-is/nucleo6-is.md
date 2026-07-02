@@ -377,6 +377,6 @@ Un trabajador aceitero de Reconquista carga su situación. La IA etiqueta y prod
 - **Centro de Documentación (P3):** la base de datos es la infraestructura de datos soberanos.
 - **Laboratorio IA (P6):** el etiquetador, el extractor de datos duros, el consolidador de informes y la IA de consultas son productos del Laboratorio.
 - **Hornero (P7):** la interfaz de carga (trabajador, delegado, secretario, directivo) y la app donde se ve el output público.
-- **Morfología (P5):** las etiquetas son la taxonomía soberana que Morfología define. Las formas de producción por sección son morfología aplicada.
+- **Cómo Somos (P5):** las etiquetas son la taxonomía soberana que Cómo Somos define. Las formas de producción por sección son categorías del campo obrero aplicadas.
 
 El piloto aceiteros prueba el flujo completo: trabajador grado 1 → fuente primaria → informe grado 1 → delegado grado 2 → informe grado 2 → secretario grado 3 → informe grado 3 → federación grado 4 → informe grado 4 → output público.

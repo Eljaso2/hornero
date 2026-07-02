@@ -114,7 +114,7 @@ El servicio mensual cubre **infraestructura soberana + mantenimiento continuo** 
 |---|---|---|---|
 | **Básico** | ~30.000 | Server + app funcional, convenios del sector, Historia Obrera, clipping coyuntura básico | Sindicato local |
 | **Sectorial** | ~80.000-100.000 | Convenios de toda la rama, IS grado 1-2, clipping coyuntura completo, Comunicador, Argumento | Federación |
-| **Completo** | ~150.000+ | Todos los núcleos activos: IS grado 1-4, VE, Morfología, búsqueda federada, soporte continuo, actualizaciones | Federación grande / central |
+| **Completo** | ~150.000+ | Todos los núcleos activos: IS grado 1-4, VE, Cómo Somos, búsqueda federada, soporte continuo, actualizaciones | Federación grande / central |
 
 ### Qué cubre el servicio mensual
 

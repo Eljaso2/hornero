@@ -119,7 +119,7 @@ A partir del índice y los testimonios, produce narrativas en lenguaje claro sob
 ## Articulación con otros núcleos
 
 - **Núcleo 11 (CE):** ICE×IFT — la correlación felicidad-comportamiento empresarial es un análisis político poderoso. ICE×SMVM como base de datos compartida
-- **Núcleo 6 (Morfología):** las 6 dimensiones del IFT son categorías morfológicas soberanas — definidas por el campo, no por Gallup ni McKinsey
+- **Núcleo 6 (Cómo Somos):** las 6 dimensiones del IFT son categorías morfológicas soberanas — definidas por el campo, no por Gallup ni McKinsey
 - **Núcleo 15 (Tu historia):** testimonios como fuente cualitativa del IFT — complementa datos numéricos con lo que los trabajadores dicen
 - **Núcleo 3 (IS):** observaciones de terreno alimentan las dimensiones del IFT
 - **Núcleo 4 (Documentación):** convenios y normativa como base de las dimensiones materiales y de tiempo

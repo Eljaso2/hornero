@@ -31,6 +31,7 @@
 - Bulmer-Thomas, Victor. *The Economic History of Latin America since Independence*. Cambridge UP, 2003. → enclaves y economías nacionales.
 
 ### Paternalismo industrial y violencia empresarial
+- **Silver, Beverly J.**. *Fuerzas de Trabajo. Los Movimientos Obreros y La Globalización Desde 1870*. Akal, 2005. → **CLAVE**: capital responde al conflicto obrero con tres fixes — espacial (relocalizar), tecnológico (automatizar), productivo (cambiar industria) — pero la resistencia laboral tiende a seguirle; La Forestal = caso paradigmático de fuga espacial + fix tecnológico.
 - Foucault, Michel. *Discipline and Punish*. → disciplina como categoría
 - Burawoy, Michael. "The Labor Process and the State: The Degradation of Work in the Twentieth Century." → consentimiento → despotismo hegemónico (1994, con Wright)
 - Neiburg, Federico. → paternalismo sin violencia (buscar referencia)

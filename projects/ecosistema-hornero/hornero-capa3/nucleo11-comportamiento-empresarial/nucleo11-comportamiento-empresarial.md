@@ -334,7 +334,7 @@ Qué datos trabaja este núcleo. Todos los núcleos consumen la librería base (
 - **N6 (IS):** las etiquetas de IS (Familia 1: conflicto laboral, Familia 2: condiciones de trabajo, Familia 4: estrategia patronal) alimentan directamente las 4 dimensiones del Índice. Los informes grado 2-3-4 son fuente primaria.
 - **N7 (Nuestro Derecho):** convenios, leyes, CCT — el marco jurídico que define obligaciones. La información **del sindicato** va en N7; la información **de la empresa** va en N11.
 - **N8 (HO):** la historia de VE — cómo las empresas han usado violencia históricamente.
-- **N9 (Morfología):** qué fracciones de clase sufren qué dimensión de VE — VE por sector, por fracción, por localidad.
+- **N9 (Cómo Somos):** qué fracciones de clase sufren qué dimensión de VE — VE por sector, por fracción, por localidad.
 - **N10 (Coyuntura):** clipping semanal como fuente de noticias → cuando detecta VDH-BHR, routea a N11 como fuente. Flujo: noticia etiquetada `CE-[dim]-[subtipo] | VDH-[nivel]-[tratado] | BHR-[nivel]-[descriptor]` → copia como fuente al repositorio de N11.
 - **N2 (Laboratorio):** el etiquetador de VE es un producto del Laboratorio, fine-tuned sobre corpus de VE etiquetado por el campo.
 - **N5b (Reporte Gremial):** fuente primaria de datos — las observaciones cargadas por trabajadores y revisadas por instancias superiores se etiquetan con las 4 dimensiones y alimentan el Índice.

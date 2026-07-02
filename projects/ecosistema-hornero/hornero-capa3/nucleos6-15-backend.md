@@ -1,6 +1,6 @@
 # Capa 3 — Backend: la planta de producción
 
-> Cómo funciona el ecosistema internamente. Los núcleos 6-14 son líneas de trabajo que **producen datos, procesan información, y entrenan modelos**. Lo que el trabajador ve en la App (Núcleo 5) es el output de lo que estos núcleos hacen internamente. Todo opera según la metodología del Laboratorio (Núcleo 2) y la protección del Núcleo 4.
+> Cómo funciona el ecosistema internamente. Los núcleos 6-15 son líneas de trabajo que **producen datos, procesan información, y entrenan modelos**. Lo que el trabajador ve en la App (Núcleo 5) es el output de lo que estos núcleos hacen internamente. Todo opera según la metodología del Laboratorio (Núcleo 2) y la protección del Núcleo 4.
 
 ---
 

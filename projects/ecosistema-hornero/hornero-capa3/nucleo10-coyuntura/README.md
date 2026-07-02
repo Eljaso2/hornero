@@ -4,7 +4,7 @@
 
 ---
 
-## Dos secciones
+## Tres secciones
 
 ### 1. Clipping semanal
 
@@ -12,7 +12,7 @@ Captura periodística automatizada. No es una lista de noticias: es un producto 
 
 → `clipping/` — cada clipping: 10 noticias, bajada 3 líneas, desarrollo ~400 palabras, fuente visible, etiquetas VCE/BHR
 
-### 2. Reporte Gremial
+### 2. Informe Gremial
 
 Función operativa de comunicación intrasindical. Se genera desde el **botón Reporte Gremial** de la App (5b), que activa cadenas de información dentro de los sindicatos.
 
@@ -27,6 +27,23 @@ Función operativa de comunicación intrasindical. Se genera desde el **botón R
 
 → `reporte-gremial/` — templates por grado, INDEX de reportes publicados
 
+### 3. Mirador MATE
+
+Síntesis mensual del informe de coyuntura económica-laboral de **MATE** (Mirador de la Actualidad del Trabajo y la Economía, Rosario). No es el informe original — es una síntesis Hornero que extrae los datos macro que el dirigente sindical necesita y los organiza con categorías del campo obrero (Iñigo Carrera).
+
+**Un Mirador MATE por mes.** Cada síntesis incluye:
+
+| Componente | Contenido | Routing |
+|------------|-----------|---------|
+| **Foto macro** | Empleo, desocupación, inflación, salario, informalidad — reorganizados con categorías del campo obrero | → **N9 Cómo Somos** (Foto presente: actualiza datos del ejército activo/reserva) |
+| **Película** | Tendencias: qué crece, qué se achica, hacia dónde va la clase — dirección mensual | → **N9 Cómo Somos** (Película: actualiza tendencias sectoriales) |
+| **Datos sectoriales** | Por sector, por formal/informal, por privado/estatal — lo que INDEC no desglosa así | → N9 Cómo Somos (desglose) + N11 Comportamiento Empresarial (VCE/BHR) |
+| **Argumentos sindicales** | Lo que MATE produce para debate y negociación — salario vs. ganancia, retenciones, FMI | → N6 IS (posicionamiento económico) |
+
+→ `mirador-mate/` — un archivo por mes, INDEX de síntesis publicadas
+
+**Conexión con Cómo Somos:** Mirador MATE alimenta la **Foto** (datos macro actualizados) y la **Película** (tendencias mensuales) de N9. Cada vez que se publica un nuevo Mirador MATE, Cómo Somos actualiza sus cifras clave.
+
 ---
 
 ## Informes de Índices (recibidos de otros núcleos)
@@ -34,7 +51,7 @@ Función operativa de comunicación intrasindical. Se genera desde el **botón R
 Los índices se actualizan periódicamente. Cuando hay una nueva actualización, la App notifica:
 - **Índice ICE** (Comportamiento Empresarial, N11) — actualización por sector y empresa
 - **Índice IFT** (Felicidad del Trabajador, N13) — actualización de las 6 dimensiones
-- **Índice Morfología** (N9) — cambios en formas de la clase
+- **Índice Cómo Somos** (N9) — cambios en formas de la clase
 
 ---
 
@@ -42,12 +59,13 @@ Los índices se actualizan periódicamente. Cuando hay una nueva actualización,
 
 Esta sección trabaja con **notificaciones voluntarias**. No hay push invasivo: la App avisa si hay elementos nuevos, y el trabajador decide cuándo consultar:
 - 🔔 Nuevo clipping semanal disponible
-- 📊 Nuevo Reporte Gremial Grado 3 (tu sindicato)
-- 📊 Nuevo Reporte Gremial Grado 4 (tu federación/unión)
-- 🌐 Nuevo Reporte Gremial Grado 5 (nacional)
+- 📊 Nuevo Informe Gremial Grado 3 (tu sindicato)
+- 📊 Nuevo Informe Gremial Grado 4 (tu federación/unión)
+- 🌐 Nuevo Informe Gremial Grado 5 (nacional)
+- 📈 Nuevo Mirador MATE mensual disponible
 - ⚠️ Actualización de Índice ICE
 - 🌿 Actualización de Índice IFT
-- 📊 Actualización de Índice Morfología
+- 📊 Actualización de Índice Cómo Somos
 
 ---
 
@@ -80,6 +98,7 @@ Esta sección trabaja con **notificaciones voluntarias**. No hay push invasivo: 
 
 - **Fuentes:** `clipping/SOURCES_CATALOG.md` — catálogo completo de medios, sindicatos, organizaciones, redes sociales, fuentes gubernamentales, preguntas analíticas VCE
 - **Clipping:** `clipping/` — clippings semanales, template, índice
-- **Reporte Gremial:** `reporte-gremial/` — templates por grado, índice de reportes publicados
+- **Informe Gremial:** `reporte-gremial/` — templates por grado, índice de reportes publicados
+- **Mirador MATE:** `mirador-mate/` — síntesis mensual de InfoMATE, template, índice
 - **Workflow:** `WORKFLOW.md` — ritmo semanal, prioridades de fuentes, categorías de análisis, routing
 - **Corpus de fine-tuning (N2):** Serie temporal de coyunturas laborales etiquetadas — para entrenar detector de tendencias emergentes

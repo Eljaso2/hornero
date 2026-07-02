@@ -1,6 +1,6 @@
 # Checklist Ecosistema Hornero
 
-> Última actualización: 22 junio 2026
+> Última actualización: 26 junio 2026
 
 ---
 
@@ -20,17 +20,18 @@
 | Sección | Nombre | Archivo | Estado | TODO |
 |---|---|---|---|---|
 | 5a | Qué es el Ecosistema | — | ✅ HTML standalone | — |
-| 5b | Reporte gremial (IS) | — | ✅ HTML standalone | ✅ Ícono: cabezas en conversación (SVG). Nombre: "Reporte gremial", sub: "Inteligencia Sindical" |
+| 5b | Reporte gremial (IS) | — | ✅ HTML standalone | — |
 | 5c | Historia Obrera | — | ✅ HTML standalone | — |
-| 5d | Documentación | — | ✅ HTML standalone | 🔄 Renombrar → **"Mi convenio, Mi Derecho"** |
+| 5d | **Nuestro Derecho** | — | ✅ HTML standalone | ✅ Renombrado (antes "Nuestra Lucha" → "Nuestro Derecho"). Contenido: leyes, convenios, fallos |
 | 5e | Comunicador | — | ✅ HTML standalone | — |
 | 5f | Las novedades | — | ✅ HTML standalone | — |
 | 5g | Argumento | — | ✅ HTML standalone | — |
-| 5h | Morfología | — | ✅ HTML standalone | — |
-| 5i | Comportamiento Empresarial | — | ✅ HTML standalone | 🔄 Rediseñar interfaz: chat + índice ICE, 4 dimensiones, botón "Comportamiento Empresarial" |
+| 5h | Cómo Somos | — | ✅ HTML standalone | ✅ Rediseñado: datos duros + chat/buscador |
+| 5i | Comportamiento Empresarial | — | ✅ HTML standalone | ✅ Rediseñado: chat + índice ICE, 4 dimensiones |
+| 5q | **Acción Sindical** | — | ✅ HTML standalone | ✅ Nuevo: volantes, comunicados, discursos, resoluciones, barra conflictos |
 | 5o | Tu historia | — | ✅ HTML standalone | — |
 | 5p | Felicidad (IFT) | — | ✅ HTML standalone | — |
-| App | Mockup completo | `Hornero Integrada — standalone WhatsApp.html` | ✅ Standalone vanilla | 🔄 Actualizar ícono IS + nombre N7 |
+| App | Mockup completo | `Hornero Integrada — standalone WhatsApp.html` | ✅ Standalone vanilla | — |
 
 ---
 
@@ -39,13 +40,14 @@
 | Núcleo | Nombre | Archivo detallado | Estado | TODO |
 |---|---|---|---|---|
 | 6 | Inteligencia Sindical | `hornero-capa3/nucleo6-is/nucleo6-is.md`, `nucleo6-simulacion.md` | ✅ Documentado | Simulación 4 grados completa |
-| 7 | **Mi convenio, Mi Derecho** | `hornero-capa3/nucleo7-documentacion/nucleo7-documentacion.md` | ✅ Documentado | 🔄 Renombrar en docs + app |
+| 7 | **Nuestro Derecho** | `hornero-capa3/nucleo7-documentacion/nucleo7-documentacion.md` | ✅ Documentado | ✅ Renombrado "Nuestra Lucha" → "Nuestro Derecho". Contenido: leyes, convenios, fallos |
 | 8 | Historia Obrera | `hornero-capa3/nucleo8-historia-obrera/nucleo8-historia-obrera.md` | ✅ Documentado | — |
-| 9 | Morfología | `hornero-capa3/nucleo9-morfologia/nucleo9-morfologia.md` | ✅ Documentado | — |
-| 10 | **Coyuntura laboral** | `hornero-capa3/nucleo10-coyuntura/` | 🔄 Operativo (manual) | 🔄 Renombrar, weekly agendas activos |
-| 11 | **Comportamiento Empresarial** | `hornero-capa3/nucleo11-comportamiento-empresarial/` (3 archivos) | ✅ Documentado | 🔄 Rediseñar: VE→CE, IVE→ICE, 6 tipos→4 dimensiones |
+| 9 | **Cómo Somos** | `hornero-capa3/nucleo9-como-somos/nucleo9-como-somos.md` | ✅ Documentado | ✅ Renombrado "Morfología" → "Cómo Somos". Datos IS/Clipping como fuentes de empleo |
+| 10 | **Coyuntura laboral** | `hornero-capa3/nucleo10-coyuntura/` | 🔄 Operativo (manual) | — |
+| 11 | **Comportamiento Empresarial** | `hornero-capa3/nucleo11-comportamiento-empresarial/` (3 archivos) | ✅ Documentado | — |
 | 12 | Tu historia | `hornero-capa3/nucleo12-tu-historia/nucleo12-tu-historia.md` | ✅ Documentado | — |
 | 13 | Felicidad (IFT) | `hornero-capa3/nucleo13-felicidad/nucleo13-felicidad.md` | ✅ Documentado | — |
+| 14 | **Acción Sindical** | `hornero-capa3/nucleo14-accion-sindical/nucleo14-accion-sindical.md` | ✅ Documentado | ✅ Nuevo núcleo: volantes, comunicados, barra conflictos |
 
 ---
 
@@ -53,21 +55,23 @@
 
 | Archivo | Contenido | Estado |
 |---|---|---|
-| `hornero-ecosistema.md` | Mapa general 3 capas + articulación + próximos pasos | ✅ Actualizar nombres N7, N10 |
+| `hornero-ecosistema.md` | Mapa general 3 capas + articulación + próximos pasos | ✅ Actualizado |
 | `hornero-presentacion.md` | Presentación | ✅ |
 | `hornero-financiamiento.md` | Financiamiento | ✅ |
 | `hornero-nucleos-nuevos.md` | Potentials sin número | ✅ |
-| `hornero-capa2/nucleo5-app.md` | App detallada | 🔄 Actualizar nombre N7, ícono IS, N11→CE |
-| `hornero-capa3/nucleos6-13-backend.md` | Backend detallado | 🔄 Actualizar nombre N7, N10, N11→CE |
+| `hornero-capa2/nucleo5-app.md` | App detallada | ✅ Actualizado |
+| `hornero-capa3/nucleos6-13-backend.md` | Backend detallado (N6-13) | ✅ Actualizado |
 
 ---
 
-## Instrucciones pendientes
+## Instrucciones completadas
 
-1. **Núcleo 5 / 5b:** Ícono IS → muchas cabezas en conversación (SVG 5 obreros agrupados). Nombre → "Reporte gremial", subtexto → "Inteligencia Sindical" ✅
-2. **Núcleo 7:** Nombre → **"Mi convenio, Mi Derecho"** (en app, docs, y mapa general)
-3. **Núcleo 10:** Nombre → **"Coyuntura laboral"** (en app, docs, y mapa general)
-4. **Núcleo 11:** Nombre → **"Comportamiento Empresarial"** (en app, docs, mapa general). VE→CE, IVE→ICE, 6 tipos→4 dimensiones (Directa, CT, Estructural, Simbólica). Botón "Comportamiento Empresarial". Chat + Índice ICE
+1. **Núcleo 5 / 5b:** Ícono IS → cabezas en conversación ✅. Nombre → "Reporte gremial", sub → "Inteligencia Sindical" ✅
+2. **Núcleo 7:** Nombre → **"Nuestro Derecho"** ✅ (antes "Nuestra Lucha"). Contenido: leyes, convenios, fallos ✅
+3. **Núcleo 9:** Nombre → **"Cómo Somos"** ✅ (antes "Morfología"). Datos IS/Clipping como fuentes ✅. Chat/buscador en app ✅
+4. **Núcleo 10:** Nombre → **"Coyuntura laboral"** ✅
+5. **Núcleo 11:** Nombre → **"Comportamiento Empresarial"** ✅. VE→CE, IVE→ICE, 4 dimensiones ✅
+6. **Núcleo 14:** **Nuevo — Acción Sindical** ✅. Volantes, comunicados, discursos, resoluciones, barra conflictos abiertos ✅
 
 ---
 

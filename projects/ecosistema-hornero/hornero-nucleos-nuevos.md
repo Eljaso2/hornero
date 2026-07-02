@@ -42,7 +42,7 @@ Los sindicatos ofrecen servicios y beneficios a sus afiliados — obra social, t
 
 - **Núcleo 3 (IS):** datos de afiliación y categorías laborales alimentan el motor de correspondencia.
 - **Núcleo 4 (Documentación):** normativa de cada servicio/beneficio (reglamentos internos, convenios que los instituyen) es la base documental.
-- **Núcleo 6 (Morfología):** datos estadísticos de cobertura — qué porcentaje de trabajadores del sector accede a qué beneficios — alimenta comparaciones y análisis de brechas.
+- **Núcleo 6 (Cómo Somos):** datos estadísticos de cobertura — qué porcentaje de trabajadores del sector accede a qué beneficios — alimenta comparaciones y análisis de brechas.
 - **Núcleo 9g (Argumento):** "por qué afiliarse" articula con Argumento para construir la posición argumentativa — no solo listado de beneficios sino argumentos estructurados.
 
 ---
@@ -72,7 +72,7 @@ En un contexto de tercerización y precarización, controlar la bolsa de trabajo
 - **Mi perfil laboral:** CV construido con categorías del convenio. El trabajador carga su experiencia, el modelo la organiza en las categorías que el convenio reconoce. Privacidad: el CV solo se muestra a vacantes donde el trabajador decide postularse; no es público por default.
 - **Matching automático:** el sistema notifica al trabajador cuando hay vacantes que matchean su perfil — pero el trabajador decide si postularse. No es "aplicación automática"; es visibilidad ampliada.
 - **Alertas de irregularidad:** si una vacante del sector no cumple el convenio (categoría inferior, salario menor, condiciones distintas), el sindicato lo ve y puede actuar. El trabajador también ve la comparación entre lo que la empresa ofrece y lo que el convenio establece.
-- **Estadísticas del mercado:** datos agregados — qué categorías se buscan, qué zonas tienen más movimiento, qué empresas cubren más rápido — en lenguaje claro (Morfología, Núcleo 6).
+- **Estadísticas del mercado:** datos agregados — qué categorías se buscan, qué zonas tienen más movimiento, qué empresas cubren más rápido — en lenguaje claro (Cómo Somos, Núcleo 6).
 - **Reemplazos y coberturas temporales:** sistema específico para vacantes de reemplazo (licencia, accidente, vacaciones) — una función sindical concreta donde la rapidez de cobertura importa y el convenio tiene reglas específicas.
 
 ### Soberanía
@@ -80,13 +80,13 @@ En un contexto de tercerización y precarización, controlar la bolsa de trabajo
 - Los CVs son privados — solo visibles para vacantes donde el trabajador decide postularse. El sindicato puede ver datos agregados (perfiles disponibles por categoría) sin acceder a datos individuales sin consentimiento.
 - Las vacantes que las empresas notifican son información sindical — no se publican en plataformas externas sin decisión del sindicato.
 - El matching usa categorías del convenio (Núcleo 4) y datos de IS (Núcleo 3) — no categorías corporativas.
-- Los datos de mercado laboral sectorial se procesan dentro del ecosistema (Núcleo 2) y alimentan informes de IS (Núcleo 3) y Morfología (Núcleo 6).
+- Los datos de mercado laboral sectorial se procesan dentro del ecosistema (Núcleo 2) y alimentan informes de IS (Núcleo 3) y Cómo Somos (Núcleo 6).
 
 ### Articulación con otros núcleos
 
 - **Núcleo 4 (Documentación):** categorías del convenio, escalas salariales, condiciones de cobertura — la base normativa del matching.
 - **Núcleo 3 (IS):** datos de conflictos, tercerización, precarización — contexto que enmarca el mercado laboral.
-- **Núcleo 6 (Morfología):** datos estadísticos de mercado laboral sectorial — composición del sector, categorías predominantes, dinámica de empleo.
+- **Núcleo 6 (Cómo Somos):** datos estadísticos de mercado laboral sectorial — composición del sector, categorías predominantes, dinámica de empleo.
 - **Núcleo 11 (CE):** si una empresa tiene índice ICE alto, el sistema puede alertar al trabajador que postula — "esta empresa tiene indicadores de comportamiento empresarial negativo; consultá Comportamiento Empresarial (5i) para más info". No bloquea la postulación, informa.
 - **Núcleo 9g (Argumento):** articula con Argumento cuando el trabajador necesita argumentar en una entrevista o negociación de condiciones — datos del convenio, comparaciones sectoriales, posición del sindicato.
 
@@ -125,13 +125,13 @@ La salud laboral — riesgos, accidentes, enfermedades profesionales, condicione
 - **Reportar condición insegura:** interface para denunciar condiciones de seguridad — con opción de anonimato si el trabajador no quiere identificarse. El sistema guía la documentación (fotos, descripción, ubicación).
 - **Enfermedades profesionales:** qué enfermedades profesionales reconoce la ley para el sector, requisitos para denuncia, trámites, y precedentes.
 - **Normativa de seguridad:** qué exige la ley y el convenio en materia de seguridad para el sector — EPP, capacitación, condiciones del workplace. En lenguaje claro, con fuente (Núcleo 4).
-- **Estadísticas de accidentes:** datos agregados del sector — accidentes por tipo, categoría, empresa, zona — en lenguaje claro (Morfología, Núcleo 6). No estadísticas empresariales: categorías sindicales.
+- **Estadísticas de accidentes:** datos agregados del sector — accidentes por tipo, categoría, empresa, zona — en lenguaje claro (Cómo Somos, Núcleo 6). No estadísticas empresariales: categorías sindicales.
 
 ### Soberanía
 
 - Las denuncias de condiciones inseguras son **encriptadas y anonimizables** — el trabajador decide si se identifica. En contextos de conflicto, la denuncia no puede ser herramienta de represalia empresarial.
 - Los datos de salud laboral son internos al sindicato — no se comparten con la empresa sin decisión del sindicato.
-- El mapa de riesgos se construye con datos del ecosistema (IS, Documentación, Morfología) — no con datos de la empresa.
+- El mapa de riesgos se construye con datos del ecosistema (IS, Documentación, Cómo Somos) — no con datos de la empresa.
 
 ---
 
@@ -147,7 +147,7 @@ Los sindicatos ofrecen formación — cursos, talleres, diplomaturas, seminarios
 
 ### ¿Qué IA se crea aquí?
 
-- **Analista de necesidades de formación:** sobre datos de IS (conflictos recurrentes, problemas de cobertura, denuncias de salud laboral), Morfología (composición del sector, categorías emergentes), y convenio (competencias requeridas por categoría), identifica brechas de formación — qué necesita aprender el sector que no está aprendiendo.
+- **Analista de necesidades de formación:** sobre datos de IS (conflictos recurrentes, problemas de cobertura, denuncias de salud laboral), Cómo Somos (composición del sector, categorías emergentes), y convenio (competencias requeridas por categoría), identifica brechas de formación — qué necesita aprender el sector que no está aprendiendo.
 - **Motor de recomendación de formación:** dado el perfil del trabajador (sector, categoría, antigüedad, rol sindical), recomienda formación pertinente — no cursos genéricos, sino formación específica para su rol y su momento. La Comisión de Educación del sindicato define la oferta; el modelo la conecta con la demanda.
 - **Constructor de trayectos formativos:** propone itinerarios de formación — no cursos aislados sino secuencias que responden a un objetivo organizacional (delegado nuevo → formación inicial → especialización → liderazgo). El sindicato define los trayectos; el modelo los personaliza.
 - **Evaluador de impacto de formación:** cruza datos de participación en formación con datos de IS (conflictos, cobertura de vacantes, salud laboral) para evaluar si la formación está teniendo impacto real. No satisfaction surveys: datos de resultado.
