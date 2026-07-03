@@ -3688,6 +3688,18 @@ function toggleIsExplain(){
   }
 }
 
+function toggleExpand(id){
+  var el=document.getElementById(id);
+  var btn=el.nextElementSibling;
+  if(el.style.maxHeight==='2.6em'||el.style.maxHeight===''){
+    el.style.maxHeight='none';
+    if(btn) btn.textContent='Ver menos ▴';
+  } else {
+    el.style.maxHeight='2.6em';
+    if(btn) btn.textContent='Ver más ▾';
+  }
+}
+
 function toggleReportSources(id){
   var el=document.getElementById(id);
   var arrow=document.getElementById(id+'_arrow');
@@ -4080,7 +4092,7 @@ function buildAdminAPanel(){
     {lead:'F2 · Condiciones de trabajo:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'},
     {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido. Entró menos soja, camiones demorados por control de ruta.'}
   ] });
-  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{text:'"Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega para nada… el alquiler se comió todo el aumento. Nos piden más ritmo, 20% más, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale. También: 2 accidentes esta semana, uno en prensa y otro en envasadora, el de envasadora fue peor, se cortó la mano con la máquina, y no hay enfermería funcional, tuvieron que llevarlo al hospital de Reconquista. Los EPP siguen siendo los mismos, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Paritaria: la comisión interna está tratando pero la empresa responde que el concurso limita, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, menos de lo que debería según convenio Art. 7bis."'}] });
+  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{expandable:true,text:'"Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega para nada… el alquiler se comió todo el aumento. Nos piden más ritmo, 20% más, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale. También: 2 accidentes esta semana, uno en prensa y otro en envasadora, el de envasadora fue peor, se cortó la mano con la máquina, y no hay enfermería funcional, tuvieron que llevarlo al hospital de Reconquista. Los EPP siguen siendo los mismos, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Paritaria: la comisión interna está tratando pero la empresa responde que el concurso limita, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, menos de lo que debería según convenio Art. 7bis."'}] });
   if(secretarioSeenVicentin){
     // Secretario ya lo vio — no editable, show status
     blocks.push({ kind:'card', lines:[{text:'✓ Secretario ya lo vio — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goDelegadoHome()'}] });
@@ -4144,7 +4156,7 @@ function buildAdminBPanel(){
     {lead:'F2 · Salud laboral:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'},
     {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}
   ] });
-  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{text:'"Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno… la prensa 3 tiene una fuga… 2 accidentes… los EPP siguen siendo los mismos…"'}] });
+  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{expandable:true,text:'"Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto para reparar porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada, no fue grave pero podría haber sido. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale, o sea, cambia la directiva y nosotros tenemos que adaptar sin que nos digan nada formal, solo rumores. También: 2 accidentes esta semana, uno en prensa y otro en envasadora, el de envasadora fue peor, se cortó la mano con la máquina, y no hay enfermería funcional en la planta, tuvieron que llevarlo al hospital de Reconquista. Y los EPP siguen siendo los mismos de siempre, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Sobre paritaria: la comisión interna está tratando de negociar pero la empresa responde que el concurso limita las posibilidades, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, o sea, me pagan pero menos de lo que debería según convenio Art. 7bis."'}] });
   if(secretarioSeenVicentin){
     // Secretario ya lo vio — no editable
     blocks.push({ kind:'card', lines:[{text:'✓ Secretario ya lo vio — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goDelegadoHome()'}] });
@@ -4690,10 +4702,19 @@ function renderBlock(block){
     html+='<div class="card">';
     if(block.label) html+='<div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;color:#6E8345;margin-bottom:5px">'+block.label+'</div>';
     if(block.title) html+='<div style="font-family:\'Archivo\',sans-serif;font-weight:700;font-size:1rem;color:#2B2A26;margin-bottom:7px">'+block.title+'</div>';
-    if(block.lines) block.lines.forEach(function(l){
-      html+='<p style="font-size:.84rem;color:#4A4842;line-height:1.5;margin-bottom:5px">';
-      if(l.lead) html+='<strong style="color:#2B2A26;font-weight:700">'+l.lead+' </strong>';
-      html+=l.text+'</p>';
+    if(block.lines) block.lines.forEach(function(l,idx){
+      if(l.expandable){
+        // Show 2 lines, expandable on click
+        var expId='cardExp_'+Math.random().toString(36).substr(2,6);
+        html+='<div id="'+expId+'" style="font-size:.84rem;color:#4A4842;line-height:1.5;margin-bottom:5px;max-height:2.6em;overflow:hidden;transition:max-height .3s ease">';
+        if(l.lead) html+='<strong style="color:#2B2A26;font-weight:700">'+l.lead+' </strong>';
+        html+=l.text+'</div>';
+        html+='<button onclick="toggleExpand(\''+expId+'\')" style="font-family:\'Archivo\',sans-serif;font-size:.74rem;color:#6E8345;font-weight:600;cursor:pointer;background:none;border:none;padding:0;margin-bottom:8px">Ver más ▾</button>';
+      } else {
+        html+='<p style="font-size:.84rem;color:#4A4842;line-height:1.5;margin-bottom:5px">';
+        if(l.lead) html+='<strong style="color:#2B2A26;font-weight:700">'+l.lead+' </strong>';
+        html+=l.text+'</p>';
+      }
     });
     if(block.tags && block.tags.length>0){
       html+='<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">';
