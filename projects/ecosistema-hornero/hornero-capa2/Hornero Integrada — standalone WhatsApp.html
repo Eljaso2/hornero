@@ -4713,7 +4713,7 @@ function renderBlock(block){
       var dc=isNew?'#6E8345':isSeen?'#6E8345':isPend?'#A6553E':'#6E6A60';
       var hasSources=r.sources&&r.sources.length>0;
       var srcId=rlId+'_src_'+idx;
-      html+='<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:11px;margin-bottom:5px;'+bg+';cursor:pointer" onclick="'+(r.onclick||'')+(hasSources?'toggleReportSources(\''+srcId+'\');':'')+(isNew?'setStep(2);':'')+'">';
+      html+='<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:11px;margin-bottom:5px;'+bg+';cursor:pointer" onclick="'+(r.onclick||(isNew?'setStep(2);':''))+(hasSources?'toggleReportSources(\''+srcId+'\');':'')+'">';
       if(isNew){
         html+='<span style="font-family:\'JetBrains Mono\',monospace;font-size:.64rem;font-weight:600;background:#6E8345;color:#F2F1EC;padding:2px 8px;border-radius:6px;flex:none">Nuevo</span>';
       } else if(isSeen){
@@ -5096,16 +5096,12 @@ function isChatRunStep(step){
       if(step+1<isChatConv.length){
         setTimeout(function(){ isChatRunStep(step+1); },2500);
       } else {
-        // chat finished — for Grado 1, advance step so new report appears in blocks above
+        // chat finished — for Grado 1, advance step and close chat so user can interact with blocks
         if(state.isRole===1 && state.isStep===0){
           state.isStep=1;
-          // re-render only blocks (top half), chat stays visible (bottom half)
-          var roles=buildRoles();
-          var role=roles[state.isRole];
-          var istep=role.steps[1];
-          var bHtml='';
-          istep.blocks.forEach(function(b){ bHtml+=renderBlock(b); });
-          document.getElementById('isBlocksContainer').innerHTML=bHtml;
+          isChatStarted=false;
+          isChatInit();
+          renderIS();
         }
         // chat finished — handle different end states
         // apply pending corrections after chat animation finishes
