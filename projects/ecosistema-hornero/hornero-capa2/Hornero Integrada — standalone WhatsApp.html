@@ -3989,7 +3989,7 @@ function buildTrabajadorSteps(){
         { kind:'card', label:'Familia 1 · Conflicto laboral', lines:[{text:'Paritaria sin cierre. Empresa argumenta concurso. Básico no cubre costo de vida.'}], tags:[{fam:'1',label:'Paritaria'},{fam:'1',label:'Conflicto salarial'}] },
         { kind:'card', label:'Familia 2 · Condiciones de trabajo', lines:[{text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'}], tags:[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}] },
         { kind:'card', label:'Familia 9 · Producción', lines:[{text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}], tags:[{fam:'9',label:'Directivas'},{fam:'9',label:'Producto final'},{fam:'9',label:'Traba en producción'}] },
-        { kind:'actions', items:[{label:'¿Está bien así?',variant:'primary',onclick:'isChatVerify()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] }
+        { kind:'actions', items:[{label:'Está bien, enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] }
       ],
       explain:{ kicker:'Informe grado 1', h3:'La IA organizó lo que contaste por familias', p:'Hornero procesó tu relato y lo organizó en tres familias: conflicto laboral, condiciones de trabajo y producción. Lee el informe — si algo está mal o faltó algo, podés corregir. Si está bien, confirmá y se envía al delegado.', note:'La IA no publica sin verificación humana. Cada dato queda vinculado a tu relato original.' } },
     { title:'Verificación', showInput:false,
@@ -4981,13 +4981,6 @@ function goSecretarioHome(){
 // Correction chat — worker corrects, IA responds, then worker confirms
 var isCorrectMode=false;
 var workerCorrectedOnce=false; // tracks if worker already corrected once
-function isChatVerify(){
-  // Worker asked "¿Está bien así?" → advance to verification step
-  state.isStep=3;
-  isChatInit();
-  renderIS();
-}
-
 function isChatCorrect(){
   isCorrectMode=true;
   isDelegadoEditMode=false;
