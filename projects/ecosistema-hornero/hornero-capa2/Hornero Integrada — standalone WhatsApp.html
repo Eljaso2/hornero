@@ -131,11 +131,12 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     <button onclick="toggleMenu()" style="font-size:1.1rem;width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none">≡</button>
     <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none" id="topBackBtn">←</button>
     <div class="title" id="topTitle"></div>
+    <div class="avatar" id="topAvatar" onclick="toggleMenu()"><div class="avatar-dot"></div></div>
   </div>
 
   <!-- MENU OVERLAY — hamburger dropdown -->
-  <div id="menuOverlay" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;z-index:200;background:rgba(0,0,0,.45)" onclick="toggleMenu()">
-    <div style="background:#45433E;width:220px;height:100%;padding:18px 16px;overflow-y:auto;scrollbar-width:none" onclick="event.stopPropagation()">
+  <div id="menuOverlay" style="display:none;position:absolute;top:56px;left:0;width:100%;z-index:200;background:rgba(0,0,0,.45)" onclick="toggleMenu()">
+    <div style="background:#45433E;width:220px;padding:18px 16px;overflow-y:auto;scrollbar-width:none" onclick="event.stopPropagation()">
       <!-- Avatar inside menu -->
       <div style="text-align:center;margin-bottom:16px">
         <div style="width:50px;height:50px;border-radius:50%;background:#94A867;margin:0 auto 8px;display:flex;align-items:center;justify-content:center">
@@ -3744,7 +3745,7 @@ function render(){
   var topTitle = document.getElementById('topTitle');
   var topBackBtn = document.getElementById('topBackBtn');
   topbar.classList.remove('hidden');
-  topTitle.textContent = titles[state.screen]||'Hornero';
+  topTitle.textContent = state.screen==='home' ? '' : (titles[state.screen]||'');
   // hide back button on home screen (no previous screen)
   topBackBtn.style.display = (state.screen==='home' || screenStack.length===0) ? 'none' : '';
 
