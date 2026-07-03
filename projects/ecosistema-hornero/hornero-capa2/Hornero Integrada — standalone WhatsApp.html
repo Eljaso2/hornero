@@ -4982,8 +4982,8 @@ function buildTrabajadorInformeBlocks(){
   // If delegado hasn't seen it yet, allow correction; if delegado already saw it, only read
   if(!delegadoSeenA){
     if(trabajadorDemoDone){
-      // Coming from Mis Informes — allow correction only
-      blocks.push({ kind:'actions', items:[{label:'Quiero corregir algo',variant:'primary',onclick:'isChatCorrect()'}] });
+      // Coming from Mis Informes — allow correction, with back button
+      blocks.push({ kind:'actions', items:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goTrabajadorHome()'}] });
     } else {
       // First time — allow confirm or correct
       blocks.push({ kind:'actions', items:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] });
