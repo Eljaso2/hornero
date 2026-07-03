@@ -2513,12 +2513,12 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
       <div id="isExplainMore" style="max-height:0;overflow:hidden;transition:max-height .35s ease;font-size:.84rem;color:#4A4842;line-height:1.5;background:#ECEAE3;padding:0 16px"></div>
     </div>
 
-    <!-- Blocks — listados, cards, tasks — full screen when no chat, top half when chat active -->
+    <!-- Blocks — listados, cards, tasks — top half when chat active -->
     <div id="isBlocksWrap" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:#F4F3EE;min-height:0;padding:4px 16px 10px">
       <div id="isBlocksContainer"></div>
     </div>
 
-    <!-- Chat — hidden until chat starts, then takes bottom half -->
+    <!-- Chat — bottom half when chat active -->
     <div id="isChatWrap" style="display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:#F4F3EE;min-height:0;padding:4px 16px 4px;border-top:2px solid #45433E">
       <div id="isChatContainer"></div>
     </div>
@@ -3747,6 +3747,21 @@ function render(){
   topTitle.textContent = titles[state.screen]||'Hornero';
   // hide back button on home screen (no previous screen)
   topBackBtn.style.display = (state.screen==='home' || screenStack.length===0) ? 'none' : '';
+
+  // hide custom screen headers — unified topbar replaces them
+  outsideIds.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){
+      var headers=el.querySelectorAll('div[style*="background:#45433E"][style*="flex:none"]');
+      headers.forEach(function(h){ h.style.display='none'; });
+    }
+  });
+  // also hide custom headers in bodyScroll screens
+  var bodyScreens = document.querySelectorAll('#bodyScroll .screen-content');
+  bodyScreens.forEach(function(el){
+    var headers=el.querySelectorAll('div[style*="background:#45433E"][style*="flex:none"]');
+    headers.forEach(function(h){ h.style.display='none'; });
+  });
 
   // bottom nav
   renderNav();
