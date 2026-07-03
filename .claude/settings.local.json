@@ -23,7 +23,15 @@
       "Bash(rm \"/Users/eljaso/Workspace/projects/masacre-en-el-zapallar/.claude/Chats con App Claude.zip\")",
       "Bash(cp \"/Users/eljaso/Workspace/data-8c4073ed-4be9-4a3d-807f-eaa71aac0c8c-1781275158-44b9d28a-batch-0000.zip\" \"/Users/eljaso/Workspace/.claude/Chats con App Claude.zip\")",
       "Bash(rmdir \"/Users/eljaso/Workspace/projects/masacre-en-el-zapallar/.claude\")",
-      "Bash(rm \"/Users/eljaso/Workspace/data-8c4073ed-4be9-4a3d-807f-eaa71aac0c8c-1781275158-44b9d28a-batch-0000.zip\")"
+      "Bash(rm \"/Users/eljaso/Workspace/data-8c4073ed-4be9-4a3d-807f-eaa71aac0c8c-1781275158-44b9d28a-batch-0000.zip\")",
+      "WebFetch(domain:www.pagina12.com.ar)",
+      "WebFetch(domain:www.clarin.com)",
+      "WebFetch(domain:www.infobae.com)",
+      "WebFetch(domain:www.infogremiales.com.ar)",
+      "WebFetch(domain:sonidogremial.com.ar)",
+      "WebFetch(domain:www.laizquierdadiario.com)",
+      "Bash(python3)",
+      "Bash(open \"/Users/eljaso/Workspace/projects/ecosistema-hornero/hornero-capa2/Hornero Integrada — standalone WhatsApp.html\")"
     ],
     "ask": []
   },

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clipping Coyuntura Obrera — 27/06 al 02/07/2026</title>
+<style>
+  :root { --vd: #c0392b; --vc: #8e44ad; --data: #2980b9; --accent: #e67e22; --bg: #1a1a2e; --card: #16213e; --text: #e0e0e0; --text-muted: #a0a0b0; --border: #2a2a4a; --ho-bg: #0f3460; --link: #3498db; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+  .header { background: linear-gradient(135deg, #16213e, #0f3460); border-radius: 12px; padding: 30px; margin-bottom: 24px; border: 1px solid var(--border); }
+  .header h1 { font-size: 1.8em; margin-bottom: 8px; }
+  .header .meta { color: var(--text-muted); font-size: 0.85em; }
+  .header .meta span { display: inline-block; margin-right: 16px; }
+  .vd { background: var(--vd); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 700; display: inline-block; }
+  .vc { background: var(--vc); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 700; display: inline-block; }
+  .news { background: var(--card); border-radius: 10px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border); }
+  .news.vd-vc { border-left: 4px solid var(--vd); }
+  .news.vc-only { border-left: 4px solid var(--vc); }
+  .news.vd-only { border-left: 4px solid var(--vd); }
+  .news.no-tag { border-left: 4px solid var(--text-muted); }
+  .news h2 { font-size: 1.25em; margin-bottom: 12px; }
+  .news .bajada { color: var(--text-muted); margin-bottom: 14px; font-size: 0.95em; }
+  .news .fuente { font-size: 0.8em; color: var(--link); margin-bottom: 14px; }
+  .news .fuente a { color: var(--link); text-decoration: none; }
+  .news .fuente a:hover { text-decoration: underline; }
+  .news .desarrollo { font-size: 0.92em; line-height: 1.7; }
+  .news .etiquetado { margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 6px; font-size: 0.85em; }
+  .news .etiquetado .vd-label { color: var(--vd); font-weight: 700; }
+  .news .etiquetado .vc-label { color: var(--vc); font-weight: 700; }
+  .efemeride { background: var(--ho-bg); border-radius: 10px; padding: 24px; margin-bottom: 20px; border: 1px solid #1a4a7a; }
+  .efemeride h3 { font-size: 1.2em; margin-bottom: 6px; }
+  .efemeride .ho-credit { font-size: 0.8em; color: var(--link); margin-bottom: 14px; }
+  .efemeride .ho-credit a { color: var(--link); text-decoration: none; }
+  .efemeride p { font-size: 0.92em; line-height: 1.7; }
+  .efemeride .conexion { margin-top: 14px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 6px; font-size: 0.85em; color: var(--accent); }
+  .efemeride .biblio { margin-top: 8px; font-size: 0.82em; color: var(--text-muted); }
+  .data-table { background: var(--card); border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+  .data-table h2 { font-size: 1.1em; margin-bottom: 12px; color: var(--data); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+  th { text-align: left; padding: 6px 10px; border-bottom: 2px solid var(--border); color: var(--text-muted); font-weight: 600; }
+  td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  td:last-child { color: var(--text-muted); }
+  .tags-table { background: var(--card); border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+  .tags-table h2 { font-size: 1.1em; margin-bottom: 12px; }
+  .sources { background: var(--card); border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+  .sources h2 { font-size: 1.1em; margin-bottom: 12px; }
+  .follow { background: var(--card); border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+  .follow h2 { font-size: 1.1em; margin-bottom: 12px; color: var(--accent); }
+  .follow ul { list-style: none; }
+  .follow li { padding: 4px 0; font-size: 0.88em; }
+  .follow li::before { content: "→ "; color: var(--accent); }
+  @media (max-width: 600px) { .container { padding: 12px; } .header h1 { font-size: 1.4em; } .news h2 { font-size: 1.1em; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>Clipping Coyuntura Obrera — 27 de junio al 2 de julio de 2026</h1>
+    <div class="meta">
+      <span>📅 2 de julio de 2026</span>
+      <span>📝 Núcleo 10 Coyuntura — Ecosistema Hornero</span>
+      <span>🔍 Trabajo, sindical, gremial, movimiento obrero</span>
+    </div>
+  </div>
+
+  <!-- 1: Paritaria aceitera -->
+  <div class="news vd-vc">
+    <h2>1. 🤝 <span class="vd">VD</span> <span class="vc">VC</span> Paritaria aceitera: cierre con básico $2,7M después de patronal ofreciendo $15.000 y paro frenado a las 2 horas</h2>
+    <div class="bajada">Federación Aceitera (FTCIODyARA, Yofra) y SOEA San Lorenzo cerraron paritaria con CIARA, CIAVEC y CARBIO: básico de $2.344.000 → $2.719.040 desde septiembre. Cámaras arrancaron con 0%, luego $15.000 —rechazado como "provocación"—. Paro indefinido 27/05, conciliación obligatoria a las 2 horas. Acuerdo 29/06. Retroactividad mayo-junio.</div>
+    <div class="fuente">Sonido Gremial — 30/06/2026 — <a href="https://sonidogremial.com.ar/aceiteros-y-un-basico-inicial-que-excede-por-escandalo-la-normalidad-argentina-27-millones-desde-septiembre/">Aceiteros: básico $2,7M desde septiembre</a> | Sonido Gremial — 19/06/2026 — <a href="https://sonidogremial.com.ar/verguenza-los-gremios-aceiteros-rechazaron-una-irrisoria-oferta-de-15-mil-y-advierten-por-un-nuevo-conflicto/">Vergüenza: rechazaron oferta $15 mil</a></div>
+    <div class="desarrollo">Paritaria aceitera 2026 cerró el 29/06 en Secretaría de Trabajo. CIARA, CIAVEC, CARBIO arrancaron en mayo con 0%. Paro indefinido 27/05 → conciliación obligatoria a las 2 horas —mecanismo que frena huelga antes de demostrar potencia—. Quinta audiencia 18/06: cámaras ofrecieron $15.000 —rechazado como "profunda mala fe" y "provocación," argumentando que 0,1% de facturación cubría básico ($2.802.754)—. Tras >20 días, acuerdo fijó básico $2.578.400 (jul) → $2.719.040 (sep), retroactividad mayo-junio. Gremios fundamentaron en SMVM (Art. 14 bis CN, Art. 116 LCT) y advirtieron: reforma laboral que "restringe derechos históricos y limita derecho constitucional de huelga."</div>
+    <div class="etiquetado">
+      <span class="vd-label">VD —</span> patronal 0% y $15K sabiendo básico debajo línea pobreza; conciliación obligatoria frenó paro 2hs.<br>
+      <span class="vc-label">VC —</span> cámaras sabiendo 0,1% facturación cubre reclamo; articulación reforma laboral + huelga para debilitar presión obrera.
+    </div>
+  </div>
+
+  <!-- 2: CONICET -->
+  <div class="news vd-vc">
+    <h2>2. 🔬 <span class="vd">VD</span> <span class="vc">VC</span> CONICET: 379 becarios面临desvinculación, ATE movilizó al Polo Científico</h2>
+    <div class="bajada">379 becarios posdoctorales面临perder trabajo a fin de julio. ATE-Conicet movilizó 1/7 frente al Polo Científico coincidiendo con Directorio. Obra social cancelada sin aviso. Conursos CPA面临anulación retroactiva. Victoria García (ATE): "Están preparando todo para poner el cartel de venta en cada oficina."</div>
+    <div class="fuente">InfoGremiales — 01/07/2026 — <a href="https://www.infogremiales.com.ar/gremios-reclaman-frente-al-polo-cientifico-para-exgir-que-frenen-el-despido-de-casi-400-cientificos-del-conicet/">Gremios reclaman frente al Polo Científico</a> | InfoGremiales — 25/06/2026 — <a href="https://www.infogremiales.com.ar/alertan-que-es-inminente-el-despido-de-casi-400-cientificos-en-el-conicet-en-medio-de-una-profunda-crisis-por-el-ajuste-libertario/">Alertan: inminente despido casi 400 científicos</a></div>
+    <div class="desarrollo">Crisis CONICET tocó punto de inflexión 1/7: ATE-Conicet movilizó frente al Polo Científico mientras Directorio se reunía. Coordinación federal: acciones simultáneas nationwide. 379 becarios posdoctorales面临desvinculación si no se otorgan prórrogas. ATE denuncia Directorio demoró concursos following órdenes Ejecutivo para recortar gasto —no por razones científicas sino para ahorrar salarios—. Obra social cancelada sin aviso, interrumpiendo tratamientos. Conursos CPA面临anulación retroactiva. Victoria García: "Cada mes se suman reclamos, edificios vacíos" y "cartel de venta en cada oficina." Salarios -41% (24 meses); financiamiento congelado; fuga de cerebros acelera. Presidente Salamone confirmó recortes sobre becas e ingresos.</div>
+    <div class="etiquetado">
+      <span class="vd-label">VD —</span> desvinculación 379 becarios; cancelación obra social sin aviso; anulación retroactiva concursos; vaciamiento personal.<br>
+      <span class="vc-label">VC —</span> recortes narrados como "eficiencia"; Directorio demora concursos para ahorrar; "cartel de venta" para privatización; fuga como resultado deliberado.
+    </div>
+  </div>
+
+  <!-- 3: Desguace militarizado (merged) -->
+  <div class="news vd-vc">
+    <h2>3. 🏛️☢️🌾 <span class="vd">VD</span> <span class="vc">VC</span> Desguace militarizado del sistema científico-nuclear-agropecuario: Gendarmería en INTI, director CNEA escoltado, INTA con 897 expulsados</h2>
+    <div class="bajada">Gendarmería vigilancia dentro INTI (Bullrich); Policía usando CNEA Constituyentes como base represión; director Porro escoltado Gendarmería mientras despedía 61 workers; CNEA plantel -57,83%; NASA: controles con perros; CONICET CENPAT: sumarios; INTA: 897 expulsados (18,2%), 149 posiciones jerárquicas vaciadas, localidades sin nadie; CNEA Ezeiza: prohibieron charla sindical. Gorber: "miles cortando General Paz"; Siley: "vaciamiento planificado"; INTA: "todo un éxito."</div>
+    <div class="fuente">La Izquierda Diario — <a href="https://www.laizquierdadiario.com/El-autoritarismo-avanza-en-los-organismos-de-Ciencia-y-Tecnologia">Autoritarismo avanza en organismos C&T</a> | InfoGremiales — 01/07/2026 — <a href="https://www.infogremiales.com.ar/vanesa-siley-repudio-los-despidos-en-la-cnea-y-advirtio-sobre-el-desmantelamiento-del-programa-nuclear/">Siley repudió despidos CNEA</a> | La Izquierda Diario — 30/06/2026 — <a href="https://www.laizquierdadiario.com/Despidos-en-CNEA-Tenemos-que-ser-miles-cortando-la-General-Paz-hasta-que-reincorporen-a-todos">CNEA: miles cortando General Paz</a> | InfoGremiales — 02/07/2026 — <a href="https://www.infogremiales.com.ar/euforia-en-el-gobierno-tras-concretarse-la-expulsion-de-casi-900-especialistas-tecnicos-profesionales-y-cientificos-del-inta-con-los-retiros-voluntarios/">Euforia: 897 expulsados INTA</a></div>
+    <div class="desarrollo">La militarización y desguace de organismos científicos se manifiesta como estrategia integral que combina despidos, expulsiones y fuerzas de seguridad en tres institutions clave. INTI: Gendarmería (Bullrich) opera vigilancia dentro de instalaciones; Policía Federal desplegada sobre General Paz (Macri). CNEA: 61 despidos + ~170 no renovaciones, plantel 645→272 (-57,83%); director Porro salió escoltado Gendarmería —"no tiene coraje"—; Policía de la Ciudad usó CNEA Constituyentes como base represión; CNEA Ezeiza: prohibición charla sindical y cierre email gremial; 18 specialists Instituto Nuclear para Salud despedidos; afecta CAREM, Atucha I, nuclear medicine. Workers cortaron Panamericana. Gorber (ATE): "miles cortando General Paz." Siley: "vaciamiento planificado." NASA: controles acceso con perros, patrullas vigilando asambleas. INTA: 897 expulsados (18,2% de 4.978); promedio antigüedad 18,3 años; 149 posiciones jerárquicas vaciadas (4/15 directores regionales, 8/51 estaciones, 44/258 agencias extensión); localidades sin nadie para abrir puertas; Bronzovich: "todo un éxito." CONICET CENPAT: sumarios a investigadores por protestar. Coordinación visible: Bullrich→Gendarmería; Macri→Policía; Petri→re-militarización; Milei/Caputo→despidos. Militarización no es complemento del ajuste: es su brazo ejecutor.</div>
+    <div class="etiquetado">
+      <span class="vd-label">VD —</span> Gendarmería INTI; Policía base CNEA; 61 despidos + ~170 no renovaciones; plantel -57,83%; director escoltado; perros NASA; 897 expulsados INTA; 149 positions vaciadas; localidades sin nadie; sumarios CENPAT; prohibición charlas; cierre email gremial.<br>
+      <span class="vc-label">VC —</span> militarización como "seguridad"; re-militarización; CAREM "inviabilidad"; privatización nuclear; "vaciamiento planificado"; INTA "todo un éxito"; retiros "voluntarios"; "Trump, Thiel, Musk"; gerencias mandan Gendarmería en lugar de defender salario.
+    </div>
+  </div>
+
+  <!-- 4: Lácteos Verónica -->
+  <div class="news vd-vc">
+    <h2>4. 🥛 <span class="vd">VD</span> <span class="vc">VC</span> Lácteos Verónica: vaciamiento, lockout y 700 workers sin salario — Espiñeira creó 3 empresas nuevas mientras dejaba de pagar</h2>
+    <div class="bajada">Santa Fe, 700 empleados, 5 meses parálisis, 3 salarios adeudados. 3.886 cheques bounce (~$14.000M). ATILRA denunció lockout. Workers acamparon custodiando maquinaria. Strada: Espiñeira creó Kawsay SA, Agro Prada SA, Grandal SA en septiembre; Les Becerras SA cortaba insumos a su propia empresa. "¿Vaciamiento deliberado?"</div>
+    <div class="fuente">InfoGremiales — <a href="https://www.infogremiales.com.ar/lacteos-veronica-acumula-cinco-meses-de-paralisis-adeuda-tres-salarios-a-sus-700-empleados-y-la-familia-espineira-evalua-vender-la-empresa/">5 meses parálisis</a> | <a href="https://www.infogremiales.com.ar/lacteos-veronica-empleados-recibieron-telegramas-para-que-no-se-presenten-a-trabajar-este-mes-hicieron-un-deposito-de-58-mil-pesos/">Telegramas: depósito $58K</a> | <a href="https://www.infogremiales.com.ar/con-un-acampe-los-trabajadores-de-lacteos-veronica-custodian-las-maquinas-y-reclaman-la-reapertura-de-la-planta/">Acampe custodiando máquinas</a></div>
+    <div class="desarrollo">Lácteos Verónica condensa todas las dimensiones de violencia empresarial. Plantas paralizadas 5 meses. 3 salarios adeudados; depósitos insultantes ($20K, $58K). Obra social cancelada. 3.886 cheques bounce. Empresa intentó despidos 30% vía preventive crisis, Secretaría de Trabajo rechazó por falta de balances. ATILRA denunció lockout. Workers tomaron plantas y acamparon en Lehmann. Strada (UxP): familia Espiñeira creó 3 sociedades nuevas en septiembre (Kawsay, Agro Prada, Grandal) mientras Les Becerras SA cortaba insumos a su propia empresa y vendía a competidores. "Los mismos dueños le cortan los insumos a su propia empresa mientras 700 trabajadores esperan cobrar." Strada: workers no despedidos ni empresa cerrada —intención "hacerlos renunciar y desgastar." Empresa evitó quiebra; ninguna planta reactivó. Articula con sector lácteo: SanCor banca rota, La Serenísima pérdidas, La Suipachense cerrada.</div>
+    <div class="etiquetado">
+      <span class="vd-label">VD —</span> lockout 5 meses; 3 salarios adeudados; obra social cancelada; depósitos insultantes; telegramas "no se presente"; despidos 30% sin pruebas.<br>
+      <span class="vc-label">VC —</span> vaciamiento deliberado: 3 nuevas sociedades; corte insumos propia empresa; "hacerlos renunciar"; evade quiebra pero no reactiva; "crisis" que oculta vaciamiento.
+    </div>
+  </div>
+
+  <!-- 5: Yofra/Aceiteros -->
+  <div class="news vc-only">
+    <h2>5. 🗣️ <span class="vc">VC</span> Daniel Yofra / Aceiteros: "La propuesta fue cero" — la violencia cultural patronal en la谈判paritaria</h2>
+    <div class="bajada">Yofra (FTCIODyARA) denunció estrategia patronal: "Cada vez que quieren un conflicto, el ofrecimiento siempre es el mismo, cero aumento." FreSU "vino para quedarse." Challenged narrativa "aceiteros earn 60% más": "No pueden entender cómo seguimos luchando." Paritaria fundamentada en SMVM (Art. 14 bis CN). Aceiteros advirtieron: reforma laboral + conciliación obligatoria como tools para debilitar huelga.</div>
+    <div class="fuente">InfoGremiales — <a href="https://www.infogremiales.com.ar/yofra-denuncia-una-estrategia-patronal-cero-aumento/">Yofra: estrategia patronal cero aumento</a> | Sonido Gremial — 30/06/2026 — <a href="https://sonidogremial.com.ar/aceiteros-y-un-basico-inicial-que-excede-por-escandalo-la-normalidad-argentina-27-millones-desde-septiembre/">Básico $2,7M desde septiembre</a> | Sonido Gremial — <a href="https://sonidogremial.com.ar/video-daniel-yofra-ojala-la-cgt-nueva-entienda-que-hay-una-necesidad-de-confrontar-con-el-gobierno-las-centrales-tienen-la-oportunidad-historica/">Yofra: CGT debe confrontar</a></div>
+    <div class="desarrollo">Yofra sintetizó la violencia cultural patronal durante la谈判paritaria: "La propuesta fue cero, por eso fuimos a la huelga" —condensa lógica: cámaras arrancan con 0% para provocar conflicto, sabiendo Secretaría de Trabajo impondrá conciliación que frena huelga antes de demostrar fuerza. Patrón: "Cada vez que quieren un conflicto, el ofrecimiento siempre es cero aumento." Strategy patronal no es solo cifras insultantes ($15K sobre $2.344M): es usar la谈判como escenificación donde la huelga se convierte en tool que el Estado neutraliza vía conciliación, y reforma laboral (Ley 27.802 + Dec. 407/2026) busca restrict constitutionalmente el derecho de huelga. Yofra challenged narrativa "aceiteros earn 60% más": "No pueden entender cómo seguimos luchando" —narrativa que individualiza ingresos y silencia que básico está debajo línea pobreza, sector cubre reclamo con 0,1% facturación, "superioridad" es efecto de destruction salarial en otros sectores—. Paritaria fundamentada en SMVM (Art. 14 bis CN + Art. 116 LCT). Aceiteros advirtieron: reforma "restringe derechos históricos y limita huelga constitutional." FreSU como articulación sustained: "vino para quedarse" —coordina gremios industrial contra violencia cultural empresaria.</div>
+    <div class="etiquetado">
+      <span class="vc-label">VC —</span> estrategia patronal 0% para provocar conflicto; conciliación neutraliza huelga; narrativa "60% más" silencia básico debajo pobreza; reforma restrict huelga; individualización ingresos; FreSU articulación gremial contra VC empresaria.
+    </div>
+  </div>
+
+  <!-- 6: Tenaris -->
+  <div class="news vd-only">
+    <h2>6. 🏭 <span class="vd">VD</span> Tenaris SIAT: 150 despidos retrotraídos — "workers no pueden ser variable de ajuste"</h2>
+    <div class="bajada">Tenaris SIAT (Techint, Valentín Alsina) notificó 150 despidos 01/07. Provincia BA conciliación obligatoria retrotrajo 15 días. Correa: "Trabajadores no pueden ser variable de ajuste, y menos en conflicto inducido." Tenaris perdió 2 licitaciones GNL. Antes 550+ workers para gasoducto. Audiencia 13/07.</div>
+    <div class="fuente">InfoGremiales — 01/07/2026 — <a href="https://www.infogremiales.com.ar/la-provincia-de-buenos-aires-dicto-la-conciliacion-obligatoria-en-el-conflicto-de-tenaris-y-retrotrajo-el-despido-de-150-trabajadores/">Conciliación obligatoria Tenaris: 150 despidos retrotraídos</a></div>
+    <div class="desarrollo">Tenaris SIAT notificó 150 despidos 1/7. Provincia BA (Correa) impuso conciliación retrotrayendo 15 días. Correa: "Workers no pueden ser variable de ajuste, menos en conflicto inducido." Tenaris abstenerse de represalias; UOM cesa acción directa. Audiencia 13/7. Tenaris perdió 2 licitaciones GNL. Durante gasoducto Kirchner: 550+ workers tres turnos. Mayor contribuyente Lanús. Villa (UOM, 39 años): ~50% fuerza de trabajo. Victoria parcial —despidos suspendidos no eliminados.</div>
+    <div class="etiquetado"><span class="vd-label">VD —</span> 150 despidos; ~50% fuerza de trabajo; represalia patronal.</div>
+  </div>
+
+  <!-- 7: 70 mil empleos -->
+  <div class="news vd-vc">
+    <h2>7. 📊 <span class="vd">VD</span> <span class="vc">VC</span> 70 mil empleos públicos eliminados: CEPA documenta desguace del Estado</h2>
+    <div class="bajada">Empleo público: 343K→273K (-22%, ~70.000 positions). Correo 5.449; BN 2.368; Aerolíneas 1.993; Casa Moneda 715; Agencia Publicidad 638; Belgrano Cargas 594; Fabricaciones Militares 450. Ravier: "71.000+ terminated." CEPA: "desguace del sector público."</div>
+    <div class="fuente">InfoGremiales — 01/07/2026 — <a href="https://www.infogremiales.com.ar/desde-que-asumio-milei-ya-se-recortaron-70-mil-empleos-en-la-administracion-publica/">70 mil empleos recortados</a></div>
+    <div class="desarrollo">CEPA documentó con INDEC: 343K→273K (22%, ~70.000). CEPA: "desguace del sector público, ya sean programas u organismos." Concentración: Correo 5.449; BN 2.368 (privatización); Aerolíneas 1.993; Moneda 715 (endanger operativa); Publicidad 638; Belgrano 594; Fabricaciones 450. Ravier claimed "71.000+ terminated." Articula con INTA 897, CNEA/CONICET ~230, Tenaris 150 —ajuste simultáneo estatal y privado—.</div>
+    <div class="etiquetado">
+      <span class="vd-label">VD —</span> 70.000 positions (22%); despidos directos; retiros coercivos; non renovaciones.<br>
+      <span class="vc-label">VC —</span> "achicar Estado"; "71K terminated" como logro; dismantle regulatorio invisible; superávit sobre despidos.
+    </div>
+  </div>
+
+  <!-- 8: Mendel -->
+  <div class="news vc-only">
+    <h2>8. ⚖️ <span class="vc">VC</span> Juez Mendel suspendió reforma laboral (Camioneros) — "exceso reglamentario"</h2>
+    <div class="bajada">Mendel (renunciante Juzgado N°30) última cautelar 30/06: suspendió Arts. 131, 133 Ley 27.802 y Arts. 5-7 Dec. 407/2026. "Exceso reglamentario": decreto alteró contenido de ley. Protege caja sindical Camioneros (sepelio, subsidios, cobertura médica). Art. 43 CN + OIT 87, 98, 154.</div>
+    <div class="fuente">InfoGremiales — 02/07/2026 — <a href="https://www.infogremiales.com.ar/antes-de-renunciar-un-juez-suspendio-articulos-de-la-reforma-laboral-que-afectaban-al-sindicato-de-camioneros/">Juez Mendel: suspendió reforma laboral Camioneros</a></div>
+    <div class="desarrollo">Mendel emitió última cautelar 30/06: Arts. 131, 133 Ley 27.802 + Arts. 5-7 Dec. 407/2026 suspendidos. Impactaban caja sindical Camioneros (Moyano): sepelio, subsidios viudez, cobertura médica, formación —Convenio 40/89—. "Exceso reglamentario": decreto "altera su contenido, ampliando alcance del límite previsto," excediendo Art. 99 inc. 2 CN. Damage actual: reductions immediate cuando empresas ajustan payroll. Contador Rodríguez testified: revenues sustentan benefits directos, no freely disponibles. Art. 43 CN + OIT 87, 98, 154 + Art. 26 CADH. Aplica FAETYL, FADEEAC, CATAC. Vigente hasta ruling definitivo. Mendel ya bloqueó transferencia Justicia Trabajo a CABA marzo.</div>
+    <div class="etiquetado"><span class="vc-label">VC —</span> reforma como debilitamiento sindical; artículos reducen financing benefits; decreto excede facultades; exceso reglamentario como violencia institucional.</div>
+  </div>
+
+  <!-- 9: Metalfor -->
+  <div class="news vc-only">
+    <h2>9. 🚜 <span class="vc">VC</span> Metalfor: crisis $55.000M y 600 workers en riesgo — criminal investigation misappropriation</h2>
+    <div class="bajada">Metalfor (Córdoba, 600 workers) solicitó PPC. Deuda >$55.000M; bancaria 23 institutions $52.433M; 510 bounce $5.343M. Modelo integrado = trampa financiera. Salarios unpaid. Criminal investigation: trust discrepancies; payments "never transferred." Deadline 15/07.</div>
+    <div class="fuente">InfoGremiales — 02/07/2026 — <a href="https://www.infogremiales.com.ar/metalfor-emblema-de-la-maquinaria-agricola-de-cordoba-solicito-un-procedimiento-preventivo-de-crisis-ante-una-deuda-millonaria/">Metalfor: procedimiento preventivo de crisis</a></div>
+    <div class="desarrollo">Metalfor —firma cordobesa fundada 1974, domina pulverizadoras— solicitó PPC ante Ministerio Trabajo Córdoba. 600 workers Marcos Juárez y Noetinger; 25 branches. Deuda: >$55.000M; bancaria $52.433M; 510 bounce $5.343M. Modelo integrado = trampa financiera cuando capital markets cerraron late 2024. Salarios unpaid/delayed. Loan US$50M DFC secured pero delays + interest → filing crisis. Criminal investigation: trust administrator Rosfid found discrepancies; workers payments "never transferred to trust accounts." Deadline 15/07 para restructuración + negotiate UOM. 600 families en riesgo. Articula con INTA perdiendo 897 agents que generaban conocimiento campo.</div>
+    <div class="etiquetado"><span class="vc-label">VC —</span> "clima/operativos" vs misappropriation; discrepancies trust; INTA pierde 897; modelo derrumba; 600 families en riesgo.</div>
+  </div>
+
+  <!-- 10: Concordia -->
+  <div class="news vd-vc">
+    <h2>10. 🏘️ <span class="vd">VD</span> <span class="vc">VC</span> Concordia: ~400 municipales despedidos via WhatsApp "No vengas más" — gremios en silencio while municipio paga $250M a empresa externa</h2>
+    <div class="bajada">Concordia (Entre Ríos, Azcué, Juntos) ~400 despidos. Notificados WhatsApp o verbal "No vengas más." Cocineras CDI (70→20 niños), enfermeras, obras públicas. Salaries ~$700K (below pobreza). Gremios STEMC/UOEMC: silencio total. Villalba: "forma inhumana." Contradiction: municipio paga $250M a VITSA (Córdoba) para waste collection while despide.</div>
+    <div class="fuente">InfoGremiales — 02/07/2026 — <a href="https://www.infogremiales.com.ar/concordia-ya-suma-casi-400-despidos-de-trabajadores-municipales-que-incluyen-cocineras-en-comedores-enfermeras-obras-publicas-y-denuncian-silencio-de-los-sindicatos-locales/">Concordia: ~400 despidos municipales</a></div>
+    <div class="desarrollo">Concordia accumulates ~400 despidos under Azcué (Juntos). Escalaron: 140 diciembre 2025 + ~100 recently. Notification: WhatsApp o verbal "No vengas más" —no written notice—. Affected: cocineras CDI (municipality stopped supplies, reduced 70→20 children, eliminated meals then claimed staff idle), enfermeras, obras públicas, tránsito. Workers: 8-9 years seniority, salaries ~$700K (below poverty), women with 2-3 children. Municipal unions STEMC/UOEMC: complete silence —no statements, no protests, no social media—. Villalba: "forma inhumana de notificarlos"; administration saw it could proceed because "los gremios lo permitían." Pediatrician arrived at health center: no nurse for measurements; dentists only extract, lack supplies. Contradiction: municipality pays $250M to VITSA (Córdoba) for waste collection while firing workers. Villalba: "Todos los municipios tienen problemas, pero ninguno despide empleados." Legal: ATE requested meeting (no response); courts have not ordered reinstatement; workers only option: indemnification 2-3 years after filing.</div>
+    <div class="etiquetado">
+      <span class="vd-label">VD —</span> ~400 despidos; WhatsApp/verbal notification; CDI cocineras; enfermeras; salaries below poverty; union silence enabling dismissals.<br>
+      <span class="vc-label">VC —</span> austerity contradicted by $250M VITSA contract; CDI "staff idle" when municipality stopped supplies; despidos while paying external company; union complicity through silence.
+    </div>
+  </div>
+
+  <!-- Efemérides -->
+  <div class="efemeride">
+    <h3>🖊️ 1972: El Quintazo tucumano — worker-student unity contra la dictadura</h3>
+    <div class="ho-credit">Historia Obrera — <a href="https://historiaobrera.com.ar/events/1972-el-quintazo-tucumano/">1972: El Quintazo tucumano</a></div>
+    <p>El 21 de junio 1972 —hace 54 años— tercera insurrección obrero-estudiantil en Tucumán contra dictadura "Revolución Argentina." Epicentro: Quinta Agronómica. El 24/06, <strong>Víctor Villalba</strong> asesinado near la Quinta. Workers colaboraron en barricadas. Contexto: coup 1966 deposed Illia, installing Onganía; cierre 11 ingenios; university autonomy violada. Primer Tucumanazo mayo 1969, segundo noviembre 1970. Quintazo reaffirmed worker-student unity.</p>
+    <div class="conexion">Conexión: Quintazo —workers/students contra dictadura que cerraba ingenios y violaba autonomy— conecta con militarización de organismos científicos: Gendarmería en INTI, Policía usando CNEA como base, sumarios CONICET, prohibición charlas sindicales. Villalba y 379 científicos CONICET面临desvinculación = misma violencia: elimina quienes resisten vaciamiento.</div>
+    <div class="biblio">Crenzel (1997). <em>El Tucumanazo.</em> UNT. | Kotler (2011). "El Tucumanazo." <em>Testimonios</em> Nº 2.</div>
+  </div>
+
+  <!-- Data table -->
+  <div class="data-table">
+    <h2>📊 Datos económicos complementarios</h2>
+    <table>
+      <tr><th>Indicador</th><th>Dato</th><th>Fuente</th></tr>
+      <tr><td>Básico aceitero sep/2026</td><td>$2.719.040</td><td>Sonido Gremial 30/06</td></tr>
+      <tr><td>Básico aceitero jul/2026</td><td>$2.578.400</td><td>Sonido Gremial 30/06</td></tr>
+      <tr><td>Offer patronal aceitera</td><td>$15.000</td><td>Sonido Gremial 19/06</td></tr>
+      <tr><td>CONICET becarios面临desvinculación</td><td>379</td><td>InfoGremiales 01/07</td></tr>
+      <tr><td>CNEA plantel reducido</td><td>645→272 (-57,83%)</td><td>InfoGremiales 01/07</td></tr>
+      <tr><td>INTA expulsados</td><td>897 (18,2%)</td><td>InfoGremiales 02/07</td></tr>
+      <tr><td>INTA positions vaciadas</td><td>149 (15%)</td><td>InfoGremiales 02/07</td></tr>
+      <tr><td>Empleo público eliminado</td><td>~70.000 (22%)</td><td>CEPA/INDEC</td></tr>
+      <tr><td>Tenaris despidos retrotraídos</td><td>150</td><td>InfoGremiales 01/07</td></tr>
+      <tr><td>Lácteos Verónica workers</td><td>~700</td><td>InfoGremiales</td></tr>
+      <tr><td>Concordia despidos</td><td>~400</td><td>InfoGremiales 02/07</td></tr>
+      <tr><td>Metalfor deuda</td><td>>$55.000M</td><td>InfoGremiales 02/07</td></tr>
+      <tr><td>Salario real ciencia</td><td>-41% (24 meses)</td><td>InfoGremiales 14/06</td></tr>
+    </table>
+  </div>
+
+  <!-- Tags table -->
+  <div class="tags-table">
+    <h2>🏷️ Violencia Directa (VD) y Violencia Cultural (VC)</h2>
+    <table>
+      <tr><th>#</th><th>Noticia</th><th>VD</th><th>VC</th></tr>
+      <tr><td>1</td><td>Paritaria aceitera</td><td>0% y $15K; conciliación 2hs</td><td>0,1% facturación cubre reclamo; reforma + huelga</td></tr>
+      <tr><td>2</td><td>CONICET 379</td><td>Desvinculación; obra social cancelada</td><td>"Eficiencia"; "cartel de venta"</td></tr>
+      <tr><td>3</td><td>Desguace militarizado sistema</td><td>Gendarmería INTI; Policía CNEA; 61 despidos + 170; 897 INTA; 149 vaciadas; localidades sin nadie</td><td>"Seguridad"; re-militarización; CAREM "inviabilidad"; "vaciamiento planificado"; "todo un éxito"</td></tr>
+      <tr><td>4</td><td>Lácteos Verónica</td><td>Lockout 5 meses; 3 salarios; obra social</td><td>Vaciamiento: 3 sociedades; corte insumos; "hacerlos renunciar"</td></tr>
+      <tr><td>5</td><td>Yofra/Aceiteros VC patronal</td><td>—</td><td>Estrategia 0%; conciliación neutraliza huelga; "60% más"; reforma restrict</td></tr>
+      <tr><td>6</td><td>Tenaris 150</td><td>150 despidos; ~50%</td><td>—</td></tr>
+      <tr><td>7</td><td>70 mil públicos</td><td>70K (22%)</td><td>"Achicar Estado"; "71K terminated"</td></tr>
+      <tr><td>8</td><td>Mendel reforma</td><td>—</td><td>Debilitamiento sindical; exceso reglamentario</td></tr>
+      <tr><td>9</td><td>Metalfor crisis</td><td>Salarios unpaid</td><td>"Clima" vs misappropriation</td></tr>
+      <tr><td>10</td><td>Concordia ~400</td><td>WhatsApp "No vengas más"; CDI; uniones silentes</td><td>$250M VITSA contradicts austerity; CDI "idle"</td></tr>
+    </table>
+  </div>
+
+  <!-- Sources -->
+  <div class="sources">
+    <h2>🔗 Fuentes utilizadas</h2>
+    <table>
+      <tr><th>Fuente</th><th>URL</th><th>Artículos</th></tr>
+      <tr><td>InfoGremiales</td><td>infogremiales.com.ar</td><td>9</td></tr>
+      <tr><td>Sonido Gremial</td><td>sonidogremial.com.ar</td><td>2</td></tr>
+      <tr><td>La Izquierda Diario</td><td>laizquierdadiario.com</td><td>4</td></tr>
+      <tr><td>CEPA</td><td>cepa.org.ar</td><td>1</td></tr>
+      <tr><td>INDEC</td><td>indec.gob.ar</td><td>1</td></tr>
+    </table>
+  </div>
+
+  <!-- Follow-up -->
+  <div class="follow">
+    <h2>📌 Para seguir la semana que viene</h2>
+    <ul>
+      <li>Aceiteros/Yofra/FreSU: retroactividad; articulación gremial; SMVM claim</li>
+      <li>CONICET: 379 desvinculaciones; prórrogas; concursos; obra social</li>
+      <li>CNEA/Atucha/INTA: reincorporación; CAREM; privatización; Gendarmería; INTA reestructuración</li>
+      <li>Lácteos Verónica: vaciamiento; 3 sociedades; venta; ATILRA</li>
+      <li>Tenaris: conciliación 13/07; definition despidos</li>
+      <li>Militarización: INTI, CNEA, NASA, CONICET</li>
+      <li>Reforma laboral: Mendel; other rulings; pressure judges</li>
+      <li>CGT/CTA: comisión acción; paro; Daer-Vidal</li>
+      <li>Metalfor: deadline 15/07; UOM; investigation</li>
+      <li>Concordia: ATE legal; VITSA; uniones silentes</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

@@ -8,58 +8,50 @@ Repositorio centralizado de datos curriculares para generar CV a pedido según e
 
 ```
 curriculo/
-├── README.md                    ← Este archivo (instrucciones de uso)
-├── reservorio/                  ← Datos fuente (CV completos convertidos a .md)
-│   ├── 01-repositorio-completo.md    ← CV Repositorio (el más completo, dic 2024)
-│   ├── 02-cv-largo-2025.md           ← CV Largo 2025
-│   ├── 03-cv-corto-2025.md           ← CV Corto / Abreviado 2025
-│   ├── 04-cv-actualizado-2026.md     ← CV actualizado 2026 (Konstanz, Zapallar, etc.)
+├── README.md                    ← Este archivo (instrucciones de uso y workflow)
+├── reservorio/                  ← Datos fuente
+│   ├── 01-repositorio-completo.md    ← CV Repositorio (acumulativo, el más completo)
+│   ├── 02-cv-actualizado.md          ← CV Actualizado (versión en uso, siempre al día)
 │   └── 05-guia-perfiles-digitales-2026.md ← Guía de perfiles académicos (Google Scholar, ORCID, LinkedIn, etc.)
 ├── templates/                   ← Plantillas de CV por tipo de destino
-│   ├── academico.md              ← Plantilla CV académico completo (conferencias, jurado, referee)
+│   ├── academico.md              ← Plantilla CV académico completo
 │   ├── profesional.md            ← Plantilla CV profesional (consultoría, DDHH, Estado)
 │   ├── corto.md                  ← Plantilla CV abreviado (1-2 páginas)
-│   ├── becas.md                  ← Plantilla CV para postulación a becas
-│   └── perfil-digital.md         ← Plantilla para perfiles online (LinkedIn, ORCID, Academia.edu)
+│   ├── becas.md                  ← Plantilla CV para postulaciones a becas
+│   └── perfil-digital.md         ← Plantilla para perfiles online (LinkedIn, ORCID, etc.)
 └── cv-generados/                ← CV generados a pedido (se crean cuando se necesita)
-    └ (vacío — se llena con cada CV armado)
 ```
 
 ---
 
-## 🗂️ Reservorio: datos fuente
+## 🗂️ Reservorio: los dos CV clave
 
-| Archivo | Contenido | Actualización |
-|---------|-----------|---------------|
-| `01-repositorio-completo.md` | El CV más extenso: todo el detalle de publicaciones, conferencias, entrevistas, docencia secundaria, experiencia periodística. | Dic 2024 |
-| `02-cv-largo-2025.md` | Versión larga con más detalle que el cortó pero menos que el repositorio. Bilingüe (es/en). | Dic 2024→2025 |
-| `03-cv-corto-2025.md` | Versión abreviada: educación, inserción institucional (selección), publicaciones (selección), conferencias (selección), idiomas. | Dic 2024→2025 |
-| `04-cv-actualizado-2026.md` | Versión más actualizada: incluye Konstanz (2026), Zapallar (2026), seminario permanente, docencia en grado. | Feb 2026 |
-| `05-guia-perfiles-digitales-2026.md` | Guía paso a paso para configurar Google Scholar, ORCID, Academia.edu, ResearchGate, LinkedIn. Incluye textos listos para copiar. | Feb 2026 |
+| Archivo | Rol | Uso |
+|---------|-----|------|
+| `01-repositorio-completo.md` | **Acumulativo** — registro total de todo lo hecho. No se elimina nada; solo se agrega. | Consulta de profundidad, armado de CV específicos, referencia histórica. |
+| `02-cv-actualizado.md` | **En uso** — versión presentable y al día. Se actualiza agregando lo importante. | Base para generar CV a pedido, consultas rápidas, lo que se usa por lo general. |
 
-**Fuente original:** `/Users/eljaso/Documents/Currículos/` (archivos .docx)
+> **Nota:** `05-guia-perfiles-digitales-2026.md` es una guía independiente (textos listos para copiar en plataformas). No es un CV, pero se mantiene como referencia.
 
 ---
 
-## 🔧 Cómo generar un CV a pedido
+## ⚡ Workflow: agregar datos nuevos
 
-### Flujo de trabajo
+Cuando Alejandro hace algo nuevo (publicación, conferencia, cargo, etc.), indica cómo se registra:
 
-1. **Identificar el destino**: ¿Para qué se necesita el CV? (beca CONICET, postulación internacional, consultoría, ponencia, prensa, etc.)
-2. **Elegir la plantilla base**: Ver sección "Plantillas" abajo.
-3. **Completar con datos del reservorio**: Tomar los bloques relevantes del `04-cv-actualizado-2026.md` (la versión más actual) y complementar con detalle del `01-repositorio-completo.md` si se necesita más profundidad.
-4. **Guardar en `cv-generados/`**: Nombrar el archivo con fecha y destino, e.g. `2026-06-beca-conicet.md`, `2026-07-konstanz-visiting.md`.
-5. **Exportar**: Convertir a .docx o PDF según necesidad (usar `textutil`, `pandoc`, o copiar a Google Docs/Word).
+### Opción A — «Agregalo a Repositorio + CV actualizado»
+→ Se agrega el dato **a ambos archivos**: `01-repositorio-completo.md` y `02-cv-actualizado.md`.
+→ Se usa cuando el dato es **importante**: nuevo cargo, nueva publicación, nuevo proyecto de investigación, distinción, etc.
 
-### Ejemplo rápido
+### Opción B — «Agregalo sólo al Repositorio»
+→ Se agrega el dato **solo a** `01-repositorio-completo.md`.
+→ Se usa cuando el dato **no es tan importante** pero se quiere que quede el registro: conferencia menor, participación en panel, nota de prensa breve, etc.
+→ Si después se necesita armar un CV específico, se consulta el Repositorio y se incluye lo relevante.
 
-```
-"Necesito un CV para postular a una beca de investigación en Alemania"
-→ Usar plantilla templates/becas.md
-→ Completar con datos de reservorio/04-cv-actualizado-2026.md
-→ Guardar en cv-generados/2026-07-beca-alemania.md
-→ Pedir a Claude que lo genere
-```
+### Para armar un CV puntual
+→ Se toma `02-cv-actualizado.md` como base y se adapta según la plantilla elegida.
+→ Si se necesita más detalle, se consulta `01-repositorio-completo.md`.
+→ Se guarda en `cv-generados/` con fecha y destino (e.g. `2026-07-beca-conicet.md`).
 
 ---
 
@@ -87,28 +79,29 @@ Secciones: Nombre, Afiliación, Bio (español e inglés), Palabras clave, URLs. 
 
 ---
 
-## ⚡ Comandos útiles
+## 🔧 Comandos útiles
 
 ```bash
 # Convertir un .md a .docx (requiere pandoc)
-pandoc cv-generados/2026-06-beca-conicet.md -o cv-generados/2026-06-beca-conicet.docx
+pandoc cv-generados/2026-07-beca-conicet.md -o cv-generados/2026-07-beca-conicet.docx
 
 # Convertir con textutil (macOS, formato más simple)
-textutil -convert docx cv-generados/2026-06-beca-conicet.md -output cv-generados/2026-06-beca-conicet.docx
+textutil -convert docx cv-generados/2026-07-beca-conicet.md -output cv-generados/2026-07-beca-conicet.docx
 
 # Buscar una sección específica en el reservorio
-grep -n "Publicaciones" reservorio/04-cv-actualizado-2026.md
+grep -n "Publicaciones" reservorio/02-cv-actualizado.md
 ```
 
 ---
 
-## 📝 Notas
+## 📝 Reglas
 
-- El archivo **más actualizado** es `04-cv-actualizado-2026.md` — siempre usar ese como base.
-- El **repositorio completo** (`01-repositorio-completo.md`) tiene el mayor nivel de detalle (conferencias por ciudad, experiencia periodística, entrevistas recibidas) — usar cuando se necesita profundidad.
-- La **Guía de Perfiles** (`05-guia-perfiles-digitales-2026.md`) es independiente: textos listos para copiar en plataformas online.
+- **Solo dos CV clave** en el reservorio: Repositorio (acumulativo) y Actualizado (en uso). No se crean versiones intermedias.
+- **El Repositorio nunca se elimina contenido** — solo se agrega.
+- **El Actualizado se mantiene al día** — se agrega lo importante y se actualiza información existente si cambia.
 - Los archivos originales .docx siguen en `/Users/eljaso/Documents/Currículos/` — no se modifican.
+- Los CV generados a pedido se guardan en `cv-generados/` y se pueden eliminar cuando ya no se necesitan.
 
 ---
 
-*Proyecto creado: junio 2026*
+*Proyecto creado: junio 2026 · Reorganizado: julio 2026*

@@ -150,6 +150,10 @@ Proyecto de Investigación Histórica.
 Coordinador y autor. 
 Proyectos de investigación histórica sobre acceso a la tierra y desocupación en el Instituto Tricontinental de Investigación. Producción de cuadernos. https://thetricontinental.org/es/ 
 
+Red de Estudios sobre Masacres en América Latina
+
+Integrante y coordinador.
+Red académica dedicada al estudio de las masacres y la violencia extrema en América Latina. Sede: Mondes Amériques, Archivos y Anthropologie d'Amériques. Tareas de coordinación del ciclo de charlas "El estudio de las masacres y la violencia extrema en América Latina". Desde 2025.
 
 Publicaciones
 
@@ -171,6 +175,10 @@ Jasinski Alejandro, Caggiano Julieta, Oberlin Matías, Sommer Irana, Ensayo hist
 Cuaderno
 Coautor
 Jasinski Alejandro, Caggiano Julieta, Oberlin Matías, Sommer Irana, Ensayo histórico sobre el acceso a la tierra, “Cuaderno 1: Presentación”, 8 cuadernos, Tricontinental y Milpa, Buenos Aires, 2022. 
+
+Cuaderno
+Coautor
+Jasinski Alejandro, Caggiano Julieta, Oberlin Matías, Sommer Irana, Ensayo histórico sobre el acceso a la tierra, “Cuaderno 3: La tierra en tiempos de organización nacional”, Tricontinental y Milpa, Buenos Aires, 2024. https://thetricontinental.org/es/argentina/tierracuaderno3/
 
 Libro
 Co-coordinador y coautor
@@ -505,6 +513,9 @@ Conferencias, presentaciones y entrevistas
 
 Conversatorios, conferencias y paneles
 
+
+Coordinación de mesa
+"La violencia empresarial y las masacres populares", dentro del ciclo "El estudio de las masacres y la violencia extrema en América Latina", Red de Estudios sobre Masacres en América Latina. Participaron: Ricardo Rezende Figueira (Universidad Federal de Río de Janeiro), Sergio Grez Toso (Universidad de Chile) y Catherine LeGrand (Universidad McGill). 30 de junio de 2026.
 
 Conferencia 
 “La historia y la justicia en el siglo de los genocidios. Experiencias de un trabajo colaborativo en Argentina”. Organiza: Programa de Historia Reciente de Córdoba, CEA, Facultad de Ciencias Sociales, Universidad Nacional de Córdoba. Modalidad Presencial, Córdoba, 29 de octubre de 2022

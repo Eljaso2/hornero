@@ -164,7 +164,7 @@ Carácter: Independiente
 
 6.2 Libros y Cuadernos – Coautor / Co-coordinador
 	•	Secretaría de Derechos Humanos de la Nación [Lencina, C.; De Wandelaer, J.; Durán, M.; Jasinski, A.; Lasserre, S.] (2023). Los 'fondos secretos' de los servicios de inteligencia durante la última dictadura. SDH/Ministerio de Justicia y DDHH, Buenos Aires. ISBN: 978-987-4017-45-1
-	•	Jasinski, A.; Caggiano, J.; Oberlin, M.; Sommer, I. (2023). Ensayo histórico sobre el acceso a la tierra, Cuadernos 1 (2022), 2 (2022), 3 (2024) y 4 (2026. Tricontinental y Milpa, Buenos Aires. (Serie de 8 cuadernos)
+	•	Jasinski, A.; Caggiano, J.; Oberlin, M.; Sommer, I. Ensayo histórico sobre el acceso a la tierra. Cuadernos 1 (2022), 2 (2022), 3 (2024) y 4 (2026). Tricontinental y Milpa, Buenos Aires. Serie de 8 cuadernos. Cuaderno 3: "La tierra en tiempos de organización nacional". https://thetricontinental.org/es/argentina/tierracuaderno3/
 	•	AEyT Flacso; CELS; Secretaría de Derechos Humanos; Programa Verdad y Justicia [co-coordinador y coautor: Jasinski, A.] (2015). Responsabilidad empresarial en delitos de lesa humanidad. Represión a trabajadores durante el terrorismo de Estado. Infojus, Buenos Aires. 2 tomos, 1100 pp. ISBN: 978-950-579-429-4. Recibido con satisfacción por el Comité de DDHH de la ONU en 2016.
 
 6.3 Capítulos de Libro – Autor
@@ -265,6 +265,7 @@ Las producciones históricas del autor han servido de base para las siguientes o
 	•	Asociación Argentina de Investigadores de Historia (AsAIH)
 	•	Red de Estudios sobre Represión y Violencia Política (RER)
 	•	Red Internacional sobre Procesos Represivos, Empresas, Trabajadores y Sindicatos en América Latina (RIProR)
+	•	Red de Estudios sobre Masacres en América Latina – Integrante y coordinador. Sede: Mondes Amériques, Archivos y Anthropologie d'Amériques. Desde 2025.
 
 11. EVALUACIÓN ACADÉMICA
 10.1 Evaluación de Tesis
@@ -299,6 +300,7 @@ Actividad: Seminario de Verano (Summer School): "Empresas y trabajadores en Dict
 
 13. CONFERENCIAS, PANELES Y PARTICIPACIÓN EN EVENTOS ACADÉMICOS
 13.1 Conferencias (selección)
+	•	Coordinación de mesa: "La violencia empresarial y las masacres populares", ciclo "El estudio de las masacres y la violencia extrema en América Latina", Red de Estudios sobre Masacres en América Latina. Participaron: Ricardo Rezende Figueira (UFRJ), Sergio Grez Toso (U. de Chile) y Catherine LeGrand (U. McGill). 30 de junio de 2026.
 	•	"La historia y la justicia en el siglo de los genocidios. Experiencias de un trabajo colaborativo en Argentina". CEA-FCS, UNC, Córdoba, octubre de 2022.
 	•	"Memorias y olvidos de La Forestal: ¿para qué sirven y cómo se ocultan las masacres?". Junta de Estudios Históricos del Norte de Santa Fe, Reconquista, octubre de 2022.
 	•	"Producción, tierras, racismo y represión. A un siglo de las masacres de Napalpí y La Forestal". Plan Provincial contra el Racismo, SDH Chaco / Fundación Napalpí / Ministerio de Educación Chaco. Resistencia, noviembre–diciembre de 2021.
