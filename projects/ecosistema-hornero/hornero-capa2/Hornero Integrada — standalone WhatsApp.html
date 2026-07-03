@@ -3932,7 +3932,7 @@ function buildTrabajadorSteps(){
       { title:'Mis informes', showInput:false,
         blocks:[
           { kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-            {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:(delegadoSeenA?['Delegado ya lo vio','No editable']:['Editable hasta que delegado lo vea']),
+            {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:(delegadoSeenA?['Delegado ya lo vio']:[]),
              sources:[{label:'F1 · Conflicto salarial · Paritaria sin cierre',date:'01/07',status:'ok'},{label:'F2 · Salud laboral · Amputación + enfermería clausurada',date:'01/07',status:'ok'},{label:'F9 · Producción · Cambio directivas expeller',date:'01/07',status:'ok'}]},
             {date:'28/06',label:'Informe Trabajador N° 10',status:'ok'},
             {date:'21/06',label:'Informe Trabajador N° 09',status:'ok'},
@@ -3946,7 +3946,20 @@ function buildTrabajadorSteps(){
             {date:'26/04',label:'Informe Trabajador N° 01',status:'ok'}
           ] }
         ],
-        explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Tus informes grado 1', p:'Tu informe ya fue enviado al delegado y está en el sistema. La IA procesó tu relato, lo etiquetó y lo organizó. El delegado lo verifica y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. Para cargar un nuevo informe, reiniciá la secuencia del HTML.' } }
+        explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Tus informes grado 1', p:'Tu informe ya fue enviado al delegado y está en el sistema. La IA procesó tu relato, lo etiquetó y lo organizó. El delegado lo verifica y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. Para cargar un nuevo informe, reiniciá la secuencia del HTML.' } },
+      { title:'Informe desarrollado', showInput:false,
+        blocks: buildTrabajadorInformeBlocks(),
+        explain:{ kicker:'Informe grado 1', h3:'La IA organizó lo que contaste por familias', p:'Hornero procesó tu relato y lo organizó en tres familias: conflicto laboral, condiciones de trabajo y producción. Podés corregir si el delegado no lo vio todavía.', note:'La IA no publica sin verificación humana. Cada dato queda vinculado a tu relato original.' } },
+      { title:'Verificación', showInput:false,
+        blocks:[
+          { kind:'card', lines:[{text:'✓ Paritaria — correcto'},{text:'✓ Accidentes — correcto'},{text:'✓ Cambio de directivas — correcto'},{lead:'⚠ Equipamiento de Protección Personal — agregar:',text:'guantes se rompen en 1 semana, botas no aguantan aceite caliente'}], actions:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'}] }
+        ],
+        explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso. Podés confirmar lo que está, agregar detalles, o corregir.', note:'Sin verificación, el informe no ingresa al sistema.' } },
+      { title:'Informe enviado al delegado', showInput:false,
+        blocks:[
+          { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
+        ],
+        explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
     ];
   }
   // Full demo — trabajador records, verifies, sends
@@ -4946,7 +4959,7 @@ function buildIsChatConv(){
 // Confirm and send — advance to sent step
 function isConfirmSend(){
   if(state.isRole===1){
-    state.isStep=4;
+    state.isStep=trabajadorDemoDone?3:4;
   } else if(state.isRole===2){
     delegadoReportSent=true;
     state.isStep=5;
@@ -4984,14 +4997,8 @@ function buildTrabajadorInformeBlocks(){
 }
 
 function viewTrabajadorInforme(){
-  // Show the developed informe; if delegado hasn't seen it, allow correction
-  if(!delegadoSeenA){
-    // Still editable — go to informe desarrollado with correct button
-    state.isStep=2;
-  } else {
-    // Delegado already saw it — go to read-only view
-    state.isStep=2;
-  }
+  // Show the developed informe; step 1 in trabajadorDemoDone array
+  state.isStep=1;
   isChatInit();
   renderIS();
 }
