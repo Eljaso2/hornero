@@ -34,6 +34,9 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 .top-bar .title{font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem;flex:1}
 .top-bar .avatar{width:26px;height:26px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none}
 .top-bar .avatar-dot{width:11px;height:11px;border-radius:50% 50% 50% 2px;background:#45433E}
+.menu-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:600;font-size:.88rem;color:#F2F1EC;text-decoration:none;margin-bottom:3px;transition:background .2s}
+.menu-link:hover{background:rgba(148,168,103,.2)}
+.menu-link.active{background:rgba(148,168,103,.3);color:#94A867}
 .bottom-nav{background:#33312D;display:flex;justify-content:space-around;padding:9px 0 13px;flex:none;z-index:100}
 .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:3px 9px;font-family:'Archivo',sans-serif}
 .nav-btn .icon{font-size:1.15rem}
@@ -123,11 +126,28 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     </div>
   </div>
 
-  <!-- TOPBAR (detail screens only) -->
-  <div class="top-bar hidden" id="topbar">
-    <button onclick="goBack()">←</button>
+  <!-- TOPBAR — unified banner on all screens -->
+  <div class="top-bar" id="topbar">
+    <button onclick="toggleMenu()" style="font-size:1.1rem;width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none">≡</button>
+    <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none" id="topBackBtn">←</button>
     <div class="title" id="topTitle"></div>
-    <div class="avatar"><div class="avatar-dot"></div></div>
+  </div>
+
+  <!-- MENU OVERLAY — hamburger dropdown -->
+  <div id="menuOverlay" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;z-index:200;background:rgba(0,0,0,.45)" onclick="toggleMenu()">
+    <div style="background:#45433E;width:220px;height:100%;padding:18px 16px;overflow-y:auto;scrollbar-width:none" onclick="event.stopPropagation()">
+      <!-- Avatar inside menu -->
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="width:50px;height:50px;border-radius:50%;background:#94A867;margin:0 auto 8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:22px;height:22px;border-radius:50% 50% 50% 4px;background:#45433E"></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:1rem;color:#F2F1EC">Hornero</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.12em">ORGANIZAR ES CONSTRUIR</div>
+      </div>
+      <div style="height:1px;background:rgba(242,241,236,.12);margin-bottom:14px"></div>
+      <!-- Menu links -->
+      <div id="menuLinks"></div>
+    </div>
   </div>
 
   <!-- BODY -->
@@ -135,12 +155,12 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 
     <!-- ============ HOME ============ -->
     <div class="screen-content active" id="home">
-      <div style="background:#45433E;padding:24px 20px 26px;text-align:center">
-        <div style="width:58px;height:58px;border-radius:50%;background:#94A867;margin:0 auto 12px;display:flex;align-items:center;justify-content:center">
-          <div style="width:26px;height:26px;border-radius:50% 50% 50% 4px;background:#45433E"></div>
+      <div style="background:#45433E;padding:18px 20px 20px;text-align:center">
+        <div style="width:42px;height:42px;border-radius:50%;background:#94A867;margin:0 auto 8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:19px;height:19px;border-radius:50% 50% 50% 4px;background:#45433E"></div>
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.22em;color:#94A867">ORGANIZAR ES CONSTRUIR</div>
-        <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:1.85rem;color:#F2F1EC;margin-top:12px">Hornero</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.22em;color:#94A867">ORGANIZAR ES CONSTRUIR</div>
+        <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:1.55rem;color:#F2F1EC;margin-top:8px">Hornero</div>
       </div>
 
       <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 18px;margin:14px 16px 4px;background:#ECEAE3;border-radius:12px">
@@ -148,18 +168,37 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
         <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#9C988D">Sync: manual</span>
       </div>
 
-      <!-- INFORMACIÓN -->
+      <!-- INFORMACIÓN — Coyuntura -->
       <div style="padding:14px 16px 4px">
         <div class="kicker">Información</div>
-        <button onclick="goScreen('novedades')" style="width:100%;text-align:left;background:#FBFAF6;border:1.5px solid rgba(110,131,69,.2);border-radius:15px;padding:15px 13px;cursor:pointer;transition:border-color .2s">
-          <div style="display:flex;align-items:center;gap:11px">
+        <!-- Coyuntura preview with last 3 entries -->
+        <div onclick="goScreen('novedades')" style="cursor:pointer;width:100%;text-align:left;background:#FBFAF6;border:1.5px solid rgba(110,131,69,.2);border-radius:15px;padding:15px 13px;transition:border-color .2s">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px">
             <div style="width:36px;height:36px;border-radius:11px;background:#E8EDD7;display:flex;align-items:center;justify-content:center;font-size:1.1rem">📰</div>
             <div>
               <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1rem;color:#2B2A26">Coyuntura</div>
               <div style="font-size:.76rem;color:#6E6A60;margin-top:3px;line-height:1.3">Clipping, reportes gremiales</div>
             </div>
           </div>
-        </button>
+          <!-- Last 3 entries -->
+          <div style="border-top:1px solid rgba(43,42,38,.1);padding-top:8px">
+            <div style="display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:8px;margin-bottom:4px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E8EDD7;color:#586B33;padding:2px 6px;border-radius:5px;font-weight:600">Clipping</span>
+              <span style="font-size:.76rem;color:#2B2A26;line-height:1.3">Clipping N°3 · 29/06</span>
+              <span style="font-size:.62rem;color:#6E6A60;flex:none">29/06</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:8px;margin-bottom:4px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E8EDD7;color:#586B33;padding:2px 6px;border-radius:5px;font-weight:600">Informe</span>
+              <span style="font-size:.76rem;color:#2B2A26;line-height:1.3">Informe Gremial N°4 · UOM</span>
+              <span style="font-size:.62rem;color:#6E6A60;flex:none">22/06</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:8px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E6E3DB;color:#6E6A60;padding:2px 6px;border-radius:5px;font-weight:600">Mirador</span>
+              <span style="font-size:.76rem;color:#2B2A26;line-height:1.3">Mirador MATE N°1 · 15/06</span>
+              <span style="font-size:.62rem;color:#6E6A60;flex:none">15/06</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- CONSULTA -->
@@ -2456,26 +2495,16 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     </div><!-- /accion -->
   <div class="screen-content" id="is" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#6E8345;display:flex;align-items:center;justify-content:center;flex:none"><span style="font-size:.92rem">✍️</span></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Reporte gremial</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">INFORMÁ TU SITUACIÓN</div>
-      </div>
-    </div>
-
-    <!-- Role selector -->
-    <div style="background:#ECEAE3;padding:12px 16px 10px;flex:none">
+    <!-- Role selector — hidden; roles shown inside Explicar dropdown -->
+    <div style="background:#ECEAE3;padding:12px 16px 10px;flex:none;display:none" id="isRoleBtnsWrap">
       <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch" id="isRoleBtns"></div>
     </div>
 
     <!-- Context line -->
     <div style="background:#ECEAE3;padding:0 16px 10px;flex:none;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-      <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:.78rem;color:#2B2A26" id="isCtxName"></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#6E6A60" id="isCtxTerritorio"></div>
-      <button id="isExplainBtn" onclick="toggleIsExplain()" style="font-family:'Archivo',sans-serif;font-size:.74rem;color:#6E8345;font-weight:600;cursor:pointer;background:none;border:none;padding:0;margin-left:auto">Ver más ▾</button>
+      <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:.78rem;color:#2B2A26" id="isCtxPersona"></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#6E6A60" id="isCtxFunc"></div>
+      <button id="isExplainBtn" onclick="toggleIsExplain()" style="font-family:'Archivo',sans-serif;font-size:.74rem;color:#6E8345;font-weight:600;cursor:pointer;background:none;border:none;padding:0;margin-left:auto">Explicar ▾</button>
     </div>
 
     <!-- TOP: Explanation (only shows when expanded) -->
@@ -2504,16 +2533,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
   </div><!-- /is -->
 
   <div class="screen-content" id="ve" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Comportamiento Empresarial</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · ÍNDICE ICE</div>
-      </div>
-    </div>
 
     <!-- TOP: Explanation -->
     <div style="background:#ECEAE3;padding:20px 16px 14px;flex:none">
@@ -3654,6 +3673,40 @@ function toggleNews(id){
 function goHome(){ screenStack=[]; state.screen='home'; render(); }
 function goBack(){ if(screenStack.length>0){ state.screen=screenStack.pop(); render(); } else { goHome(); } }
 
+// ===== HAMBURGER MENU =====
+function toggleMenu(){
+  var overlay=document.getElementById('menuOverlay');
+  if(overlay.style.display==='none'){
+    overlay.style.display='';
+    // populate menu links
+    var links=[
+      {icon:'🪶',label:'Inicio',id:'home'},
+      {icon:'✍️',label:'Reporte gremial',id:'is'},
+      {icon:'📊',label:'Panorama',id:'condicion'},
+      {icon:'✊',label:'Acción Sindical',id:'accion'},
+      {icon:'⚖️',label:'Nuestro Derecho',id:'documentacion'},
+      {icon:'💡',label:'Argumento',id:'argumento'},
+      {icon:'🎙️',label:'Comunicador',id:'comunicador'},
+      {icon:'🏭',label:'Comportamiento Empresarial',id:'ve'},
+      {icon:'💰',label:'SMVM',id:'smvm'},
+      {icon:'🌿',label:'Felicidad Laboral',id:'felicidad'},
+      {icon:'📰',label:'Coyuntura',id:'novedades'},
+      {icon:'🪶',label:'Ecosistema Hornero',id:'ecosistema'}
+    ];
+    var html='';
+    links.forEach(function(l){
+      var active=l.id===state.screen;
+      html+='<div class="menu-link'+(active?' active':'')+'" onclick="goScreen(\''+l.id+'\');toggleMenu()">';
+      html+='<span style="font-size:1.05rem;flex:none">'+l.icon+'</span>';
+      html+='<span>'+l.label+'</span>';
+      html+='</div>';
+    });
+    document.getElementById('menuLinks').innerHTML=html;
+  } else {
+    overlay.style.display='none';
+  }
+}
+
 function goISReport(role, step){
   state.isRole=role;
   state.isStep=step;
@@ -3686,15 +3739,14 @@ function render(){
     if(cur) cur.classList.add('active');
   }
 
-  // topbar — hide for home and screens with own top bars
+  // topbar — always visible on all screens with unified banner
   var topbar = document.getElementById('topbar');
   var topTitle = document.getElementById('topTitle');
-  if(state.screen==='home' || isOutside){
-    topbar.classList.add('hidden');
-  } else {
-    topbar.classList.remove('hidden');
-    topTitle.textContent = titles[state.screen]||'';
-  }
+  var topBackBtn = document.getElementById('topBackBtn');
+  topbar.classList.remove('hidden');
+  topTitle.textContent = titles[state.screen]||'Hornero';
+  // hide back button on home screen (no previous screen)
+  topBackBtn.style.display = (state.screen==='home' || screenStack.length===0) ? 'none' : '';
 
   // bottom nav
   renderNav();
@@ -3926,11 +3978,11 @@ function renderNav(){
 // ===== INTELIGENCIA SINDICAL =====
 function buildRoles(){
   return {
-    1:{ name:'Trabajador de base', btn:'Trabajador', grado:'Grado 1', territorio:'Vicentín — planta Reconquista',
+    1:{ name:'Trabajador de base', btn:'Trabajador', grado:'Grado 1', territorio:'Vicentín — planta Reconquista', persona:'Raúl', func:'Operario de prensa',
       vis:{ see:'Sus propios informes grado 1 + su historial de cargas.', not:'Grado 1 de otros trabajadores · Grado 2 · 3 · 4.' },
       steps: buildTrabajadorSteps()
     },
-    2:{ name:'Delegado · comisión interna', btn:'Delegado', grado:'Grado 2', territorio:'Vicentín — comisión interna',
+    2:{ name:'Delegado · comisión interna', btn:'Delegado', grado:'Grado 2', territorio:'Vicentín — comisión interna', persona:'Marta', func:'Delegada comisión interna',
       vis:{ see:'Informes grado 1 de su territorio (Vicentín).', not:'Reportes de otros territorios · Reportes del secretario · Reportes de la federación.' },
       steps:[
         { title:'Panel de revisión', showInput:false,
@@ -3977,7 +4029,7 @@ function buildRoles(){
           ],
           explain:{ kicker:'Notificación del secretario', h3:'El secretario corrigió tu informe — revisá los cambios', p:'Tu informe Guaycurú fue corregido por el secretario general al leerlo. Las correcciones se incorporaron al Grado 3 y circulan a Federación con trazabilidad completa.', note:'Trazabilidad: se sabe qué vino de grado 1, qué agregó el delegado, qué corrigió el secretario.' } }
       ]},
-    3:{ name:'Secretario general', btn:'Secretario', grado:'Grado 3', territorio:'Sindicato Obligado / San Javier',
+    3:{ name:'Secretario general', btn:'Secretario', grado:'Grado 3', territorio:'Sindicato Obligado / San Javier', persona:'Cristian', func:'Secretario general',
       vis:{ see:'Informes grado 2 de su jurisdicción (Obligado/San Javier).', not:'Reportes del trabajador directamente · Reportes de delegados de otros sindicatos · Reportes de secretarios de otros · Reportes de la federación.' },
       steps:[
         { title:'Panel de revisión', showInput:false,
@@ -3999,7 +4051,7 @@ function buildRoles(){
           blocks: buildGrado3Enviada(),
           explain:{ kicker:'Informe enviado', h3:'Tu informe grado 3 enviado a la Federación', p:'Este es el informe completo que fue enviado a la Federación Aceitera.', note:'El secretario solo ve informes de su jurisdicción. No ve informes de otros sindicatos.' } }
       ]},
-    4:{ name:'Comisión directiva · Federación', btn:'Directivo', grado:'Federación', territorio:'Federación Aceitera',
+    4:{ name:'Comisión directiva · Federación', btn:'Directivo', grado:'Federación', territorio:'Federación Aceitera', persona:'Gerónimo', func:'Directivo federación',
       vis:{ see:'Reportes de sindicatos de toda la federación.', not:'Reportes del trabajador y delegado directamente.' },
       steps:[
         { title:'Panel', showInput:false,
@@ -4068,11 +4120,11 @@ function buildTrabajadorSteps(){
           {date:'26/04',label:'Informe Trabajador · inicial',status:'ok',tags:['Situación general','Planta']}
         ] }
       ],
-      explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Contale al chat lo que pasó', p:'Habla con Hornero: contá lo que ves en la planta — condiciones, accidentes, cambios de directiva. Voz o texto, desordenado — la IA ordena.', note:'No necesita categorizar ni llenar formularios. Narra su situación — la IA etiqueta y ordena. El trabajador verifica. La fuente primaria se guarda intacta.' } },
+      explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Cómo funciona', p:'Narras lo que ves en la planta — condiciones, accidentes, cambios de directiva. Voz o texto, desordenado. La IA etiqueta y ordena. Verificás. La fuente primaria se guarda intacta.', note:'No necesita categorizar ni llenar formularios.' } },
     { title:'Informe nuevo en el listado', showInput:false,
       blocks:[
         { kind:'report-list', items:[
-          {date:'01/07',label:'Informe Trabajador/06',status:'new',tags:['Conflicto salarial','Salud laboral','Ritmo']},
+          {date:'01/07',label:'Informe Trabajador/06',status:'new',tags:['Conflicto salarial','Salud laboral','Ritmo'],onclick:'setStep(2)'},
           {date:'28/06',label:'Informe Trabajador/06',status:'ok',tags:['Conflicto salarial','Vicentín planta']},
           {date:'21/06',label:'Informe Trabajador/06',status:'ok',tags:['Salud laboral','EPP']},
           {date:'14/06',label:'Informe Trabajador/06',status:'ok',tags:['Ritmo +20%','Directivas']},
@@ -4878,11 +4930,11 @@ function renderIS(){
   });
   document.getElementById('isRoleBtns').innerHTML=rHtml;
 
-  // context
-  document.getElementById('isCtxName').textContent=role.name;
-  document.getElementById('isCtxTerritorio').textContent=role.territorio;
+  // context line — persona name + simplified function (no repetition)
+  document.getElementById('isCtxPersona').textContent=role.persona;
+  document.getElementById('isCtxFunc').textContent=role.func+' · '+role.territorio;
 
-  // "Ver más" always visible (it's in the top bar)
+  // "Explicar" always visible (it's in the top bar)
   document.getElementById('isExplainWrap').style.display = 'none';
   document.getElementById('isExplainBtn').style.display = '';
 
@@ -4917,6 +4969,18 @@ function renderIS(){
   var e=istep.explain;
   document.getElementById('isExplainShort').innerHTML='';
   var mHtml='<div style="padding:14px 0">';
+  // Role buttons inside Explicar dropdown
+  mHtml+='<div style="display:flex;gap:8px;margin-bottom:12px">';
+  [1,2,3,4].forEach(function(n){
+    var active=n===curR;
+    var s = (active ? 'background:#6E8345;color:#F2F1EC;border-color:#6E8345;' : 'background:#FBFAF6;color:#586B33;border-color:rgba(110,131,69,.4);')
+      + 'border-radius:12px;padding:9px 13px;cursor:pointer;text-align:left;flex:none;border:1.5px solid;font-family:\'Archivo\',sans-serif';
+    mHtml+='<button onclick="setRole('+n+')" style="'+s+'">';
+    mHtml+='<span style="font-family:\'Archivo\',sans-serif;font-weight:700;font-size:.82rem;white-space:nowrap">'+roles[n].btn+'</span>';
+    mHtml+='<span style="display:block;font-family:\'JetBrains Mono\',monospace;font-size:.58rem;letter-spacing:.05em;margin-top:2px;opacity:.85;white-space:nowrap">'+roles[n].grado+'</span>';
+    mHtml+='</button>';
+  });
+  mHtml+='</div>';
   mHtml+='<div style="font-family:\'Archivo\',sans-serif;font-weight:800;font-size:1rem;line-height:1.15;color:#2B2A26;margin-bottom:8px">'+e.h3+'</div>';
   mHtml+='<div style="color:#5A574F;line-height:1.55;margin-bottom:10px">'+e.p+'</div>';
   mHtml+='<div style="background:#E8EDD7;border-left:3px solid #6E8345;border-radius:0 8px 8px 0;padding:11px 13px;font-size:.82rem;color:#3D3B35;line-height:1.5">'+e.note+'</div>';
@@ -4949,7 +5013,7 @@ function buildIsChatConv(){
   // Grado 1: worker records audio → AI asks intent → worker confirms → AI elaborates report
   if(r===1){
     return [
-      { type:'user', text:'Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno… la prensa 3 tiene una fuga… 2 accidentes… los EPP siguen siendo los mismos…', time:'10:15', isRecording:true },
+      { type:'user', text:'Hola, quiero dejar registrado lo que está pasando en prensa. Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto para reparar porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada, no fue grave pero podría haber sido. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale, o sea, cambia la directiva y nosotros tenemos que adaptar sin que nos digan nada formal, solo rumores. También: 2 accidentes esta semana, uno en prensa y otro en envasadora, el de envasadora fue peor, se cortó la mano con la máquina, y no hay enfermería funcional en la planta, tuvieron que llevarlo al hospital de Reconquista. Y los EPP siguen siendo los mismos de siempre, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Sobre paritaria: la comisión interna está tratando de negociar pero la empresa responde que el concurso limita las posibilidades, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, o sea, me pagan pero menos de lo que debería según convenio Art. 7bis.', time:'10:15', isRecording:true },
       { type:'hornero', text:'Escuché tu relato. ¿Lo que estás haciendo es informar algo para elaborar un nuevo reporte gremial?', time:'10:16' },
       { type:'user', text:'Sí, quiero que se registre esto.', time:'10:17' },
       { type:'hornero', text:'Voy a elaborar el reporte. Estoy procesando tu relato — detectando familias y etiquetas, extrayendo datos duros.', time:'10:18' },
