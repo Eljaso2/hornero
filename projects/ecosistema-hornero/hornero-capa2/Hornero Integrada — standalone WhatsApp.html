@@ -5191,19 +5191,23 @@ function isChatRunStep(step){
         if(pendingCorrectionA){
           pendingCorrectionA=false;
           delegadoCorrectedA=true;
-          // clear chat, re-render blocks so corrected card appears
+          // keep chat visible, re-render blocks above
           setTimeout(function(){
-            isChatInit();
-            renderIS();
+            var istep=buildRoles()[state.isRole].steps[state.isStep];
+            var bHtml='';
+            istep.blocks.forEach(function(b){ bHtml+=renderBlock(b); });
+            document.getElementById('isBlocksContainer').innerHTML=bHtml;
           },500);
         }
         if(pendingCorrectionB){
           pendingCorrectionB=false;
           delegadoCorrectedB=true;
-          // clear chat, re-render blocks so corrected card appears
+          // keep chat visible, re-render blocks above
           setTimeout(function(){
-            isChatInit();
-            renderIS();
+            var istep=buildRoles()[state.isRole].steps[state.isStep];
+            var bHtml='';
+            istep.blocks.forEach(function(b){ bHtml+=renderBlock(b); });
+            document.getElementById('isBlocksContainer').innerHTML=bHtml;
           },500);
         }
         if(pendingCorrectionGuaycuru){
