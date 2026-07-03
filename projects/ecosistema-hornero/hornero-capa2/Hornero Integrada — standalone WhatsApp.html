@@ -3733,19 +3733,13 @@ function render(){
   }
 
   // hide custom screen headers — unified topbar replaces them
-  // Only hide the actual screen-header pattern (padding:9px 16px 13px) — NOT chat bars, progress bars, etc.
   outsideIds.forEach(function(id){
     var el=document.getElementById(id);
     if(el){
-      var headers=el.querySelectorAll('div[style*="padding:9px 16px 13px"][style*="background:#45433E"][style*="flex:none"]');
-      headers.forEach(function(h){ h.style.display='none'; });
+      // Only hide screen header bars (first child div with #45433E background)
+      var firstHeader=el.querySelector('div[style*="background:#45433E"][style*="padding:9px 16px 13px"][style*="flex:none"]');
+      if(firstHeader) firstHeader.style.display='none';
     }
-  });
-  // also hide custom headers in bodyScroll screens
-  var bodyScreens = document.querySelectorAll('#bodyScroll .screen-content');
-  bodyScreens.forEach(function(el){
-    var headers=el.querySelectorAll('div[style*="padding:9px 16px 13px"][style*="background:#45433E"][style*="flex:none"]');
-    headers.forEach(function(h){ h.style.display='none'; });
   });
 
   // bottom nav
