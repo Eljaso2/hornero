@@ -4075,26 +4075,17 @@ function buildDelegadoPanel(){
 
 function buildAdminAPanel(){
   var blocks=[];
-  if(delegadoCorrectedA){
-    // corrected version — delegado already pointed out the gap
-    blocks.push({ kind:'card', label:'Informe grado 1 · sector admin · 1-A · corregido', lines:[
-      {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida.'},
-      {lead:'F4 · Estrategia patronal:',text:'Cambio de prioridad de producción: refinado → expeller. Menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica, no solo productiva. Auditores confirmados — evaluación para posible venta de activos.'},
-      {lead:'F5 · Condiciones de vida:',text:'Alquiler promedio $380.000. Brecha básico/costo de vida: 12%.'},
-      {lead:'F9 · Producción:',text:'Entró menos soja — camiones demorados por control de ruta. Línea de refinería baja ritmo. Expeller priorizado.'}
-    ] });
+  // Show complete informe — worker already verified before sending
+  blocks.push({ kind:'card', label:'Informe grado 1 · Raúl · Operario de prensa · Vicentín', lines:[
+    {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida.'},
+    {lead:'F2 · Condiciones de trabajo:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'},
+    {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido. Entró menos soja, camiones demorados por control de ruta.'}
+  ] });
+  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{text:'"Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega… el alquiler se comió todo el aumento."'}] });
+  if(!delegadoSeenA){
+    blocks.push({ kind:'actions', items:[{label:'Visto',variant:'primary',onclick:'markSeenA()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
   } else {
-    // initial version — IA missed the production/strategy labels
-    blocks.push({ kind:'card', label:'Informe grado 1 · sector admin · 1-A', lines:[
-      {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida.'},
-      {lead:'F5 · Condiciones de vida:',text:'Alquiler promedio $380.000. Brecha básico/costo de vida: 12%.'}
-    ] });
-  }
-  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{text:'"Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega… el alquiler se comió todo el aumento."'}], actions:[{label:'Leer original del trabajador',variant:'outline',onclick:'showSourceA()'}] });
-  if(delegadoCorrectedA){
-    blocks.push({ kind:'card', lines:[{text:'✓ Corregido por delegado'}], actions:[{label:'Visto',variant:'primary',onclick:'markSeenA()'}] });
-  } else {
-    blocks.push({ kind:'card', lines:[{text:'⚠ Faltan etiquetas: cambio de prioridad de producción, concurso como situación económica'}], actions:[{label:'Corregir',variant:'outline',onclick:'commentAdminA()'},{label:'Visto',variant:'primary',onclick:'markSeenA()'}] });
+    blocks.push({ kind:'card', lines:[{text:'✓ Ya revisado'}] });
   }
   return blocks;
 }
@@ -4145,22 +4136,16 @@ function commentAdminA(){
 
 function buildAdminBPanel(){
   var blocks=[];
-  if(delegadoCorrectedB){
-    blocks.push({ kind:'card', label:'Informe grado 1 · sector prensa · 1-B · corregido', lines:[
-      {lead:'F2 · Salud laboral:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT. Amputación parcial de 2 dedos en envasadora.'},
-      {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido. Entrada de soja reducida. Supervisores presionando para incrementar ritmo.'}
-    ] });
+  // Show complete informe — worker already verified before sending
+  blocks.push({ kind:'card', label:'Informe grado 1 · Damián · Empleado administrativo · Vicentín', lines:[
+    {lead:'F2 · Salud laboral:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'},
+    {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}
+  ] });
+  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{text:'"Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno… la prensa 3 tiene una fuga… 2 accidentes… los EPP siguen siendo los mismos…"'}] });
+  if(!delegadoSeenB){
+    blocks.push({ kind:'actions', items:[{label:'Visto',variant:'primary',onclick:'markSeenB()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
   } else {
-    blocks.push({ kind:'card', label:'Informe grado 1 · sector prensa · 1-B', lines:[
-      {lead:'F2 · Salud laboral:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'},
-      {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}
-    ] });
-  }
-  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{text:'"Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno… la prensa 3 tiene una fuga… 2 accidentes… los EPP siguen siendo los mismos…"'}], actions:[{label:'Leer original del trabajador',variant:'outline',onclick:'showSourceB()'}] });
-  if(delegadoCorrectedB){
-    blocks.push({ kind:'card', lines:[{text:'✓ Corregido por delegado'}], actions:[{label:'Visto',variant:'primary',onclick:'markSeenB()'}] });
-  } else {
-    blocks.push({ kind:'card', lines:[{text:'⚠ Faltan etiquetas: enfermería clausurada, amputación parcial, presión supervisoria'}], actions:[{label:'Corregir',variant:'outline',onclick:'commentAdminB()'},{label:'Visto',variant:'primary',onclick:'markSeenB()'}] });
+    blocks.push({ kind:'card', lines:[{text:'✓ Ya revisado'}] });
   }
   return blocks;
 }
