@@ -5101,12 +5101,15 @@ function isChatRunStep(step){
       if(step+1<isChatConv.length){
         setTimeout(function(){ isChatRunStep(step+1); },2500);
       } else {
-        // chat finished — for Grado 1, advance step and close chat so user can interact with blocks
+        // chat finished — for Grado 1, advance step and re-render blocks above; chat stays visible
         if(state.isRole===1 && state.isStep===0){
           state.isStep=1;
-          isChatStarted=false;
-          isChatInit();
-          renderIS();
+          var roles=buildRoles();
+          var role=roles[state.isRole];
+          var istep=role.steps[1];
+          var bHtml='';
+          istep.blocks.forEach(function(b){ bHtml+=renderBlock(b); });
+          document.getElementById('isBlocksContainer').innerHTML=bHtml;
         }
         // chat finished — handle different end states
         // apply pending corrections after chat animation finishes
