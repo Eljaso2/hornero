@@ -131,21 +131,27 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     <button onclick="toggleMenu()" style="font-size:1.1rem;width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none">≡</button>
     <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none" id="topBackBtn">←</button>
     <div class="title" id="topTitle"></div>
+    <div id="topHomeBranding" style="display:none;flex:1;min-width:0">
+      <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:1.12rem;color:#F2F1EC">Hornero</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.16em;color:#94A867">ORGANIZAR ES CONSTRUIR</div>
+    </div>
     <div class="avatar" id="topAvatar" onclick="toggleMenu()"><div class="avatar-dot"></div></div>
   </div>
 
   <!-- MENU OVERLAY — hamburger dropdown -->
-  <div id="menuOverlay" style="display:none;position:absolute;top:56px;left:0;width:100%;z-index:200;background:rgba(0,0,0,.45)" onclick="toggleMenu()">
-    <div style="background:#45433E;width:220px;padding:18px 16px;overflow-y:auto;scrollbar-width:none" onclick="event.stopPropagation()">
-      <!-- Avatar inside menu -->
-      <div style="text-align:center;margin-bottom:16px">
-        <div style="width:50px;height:50px;border-radius:50%;background:#94A867;margin:0 auto 8px;display:flex;align-items:center;justify-content:center">
-          <div style="width:22px;height:22px;border-radius:50% 50% 50% 4px;background:#45433E"></div>
+  <div id="menuOverlay" style="display:none;position:absolute;top:56px;left:8px;width:220px;z-index:200;background:rgba(0,0,0,.35);border-radius:0 14px 14px 0" onclick="toggleMenu()">
+    <div style="background:#45433E;border-radius:0 14px 14px 0;padding:14px 14px 12px;overflow-y:auto;scrollbar-width:none" onclick="event.stopPropagation()">
+      <!-- User avatar + name -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:34px;height:34px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none">
+          <div style="width:14px;height:14px;border-radius:50% 50% 50% 4px;background:#45433E"></div>
         </div>
-        <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:1rem;color:#F2F1EC">Hornero</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.12em">ORGANIZAR ES CONSTRUIR</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:.88rem;color:#F2F1EC">Secretario General</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#94A867;letter-spacing:.08em">UOM Reconquista</div>
+        </div>
       </div>
-      <div style="height:1px;background:rgba(242,241,236,.12);margin-bottom:14px"></div>
+      <div style="height:1px;background:rgba(242,241,236,.15);margin-bottom:8px"></div>
       <!-- Menu links -->
       <div id="menuLinks"></div>
     </div>
@@ -156,13 +162,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 
     <!-- ============ HOME ============ -->
     <div class="screen-content active" id="home">
-      <div style="background:#45433E;padding:18px 20px 20px;text-align:center">
-        <div style="width:42px;height:42px;border-radius:50%;background:#94A867;margin:0 auto 8px;display:flex;align-items:center;justify-content:center">
-          <div style="width:19px;height:19px;border-radius:50% 50% 50% 4px;background:#45433E"></div>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.22em;color:#94A867">ORGANIZAR ES CONSTRUIR</div>
-        <div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:1.55rem;color:#F2F1EC;margin-top:8px">Hornero</div>
-      </div>
 
       <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 18px;margin:14px 16px 4px;background:#ECEAE3;border-radius:12px">
         <span style="font-size:.78rem;color:#586B33;font-weight:600;display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:50%;background:#6E8345;display:inline-block"></span>Funciona sin conexión</span>
@@ -183,20 +182,26 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
           </div>
           <!-- Last 3 entries -->
           <div style="border-top:1px solid rgba(43,42,38,.1);padding-top:8px">
-            <div style="display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:8px;margin-bottom:4px">
-              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E8EDD7;color:#586B33;padding:2px 6px;border-radius:5px;font-weight:600">Clipping</span>
-              <span style="font-size:.76rem;color:#2B2A26;line-height:1.3">Clipping N°3 · 29/06</span>
-              <span style="font-size:.62rem;color:#6E6A60;flex:none">29/06</span>
+            <div onclick="goScreen('clipping3')" style="display:flex;align-items:flex-start;gap:8px;padding:7px 6px;border-radius:8px;margin-bottom:6px;cursor:pointer">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E8EDD7;color:#586B33;padding:2px 6px;border-radius:5px;font-weight:600;white-space:nowrap;flex:none">Clipping N°3</span>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:.78rem;color:#2B2A26;font-weight:600;line-height:1.3">Blender: despidos masivos y rebelión al aire</div>
+                <div style="font-size:.64rem;color:#6E6A60;margin-top:2px">25–26/06</div>
+              </div>
             </div>
-            <div style="display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:8px;margin-bottom:4px">
-              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E8EDD7;color:#586B33;padding:2px 6px;border-radius:5px;font-weight:600">Informe</span>
-              <span style="font-size:.76rem;color:#2B2A26;line-height:1.3">Informe Gremial N°4 · UOM</span>
-              <span style="font-size:.62rem;color:#6E6A60;flex:none">22/06</span>
+            <div onclick="goScreen('grado4pub')" style="display:flex;align-items:flex-start;gap:8px;padding:7px 6px;border-radius:8px;margin-bottom:6px;cursor:pointer">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E8EDD7;color:#586B33;padding:2px 6px;border-radius:5px;font-weight:600;white-space:nowrap;flex:none">Informe N°4</span>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:.78rem;color:#2B2A26;font-weight:600;line-height:1.3">Paritarias sin cierre · Nacional + Aceitera + Metalúrgica</div>
+                <div style="font-size:.64rem;color:#6E6A60;margin-top:2px">16–22/06</div>
+              </div>
             </div>
-            <div style="display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:8px">
-              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E6E3DB;color:#6E6A60;padding:2px 6px;border-radius:5px;font-weight:600">Mirador</span>
-              <span style="font-size:.76rem;color:#2B2A26;line-height:1.3">Mirador MATE N°1 · 15/06</span>
-              <span style="font-size:.62rem;color:#6E6A60;flex:none">15/06</span>
+            <div onclick="goScreen('miradorMate1')" style="display:flex;align-items:flex-start;gap:8px;padding:7px 6px;border-radius:8px;cursor:pointer">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.58rem;background:#E6E3DB;color:#6E6A60;padding:2px 6px;border-radius:5px;font-weight:600;white-space:nowrap;flex:none">Mirador N°1</span>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:.78rem;color:#2B2A26;font-weight:600;line-height:1.3">MATE · Informe de Coyuntura · Mayo 2026</div>
+                <div style="font-size:.64rem;color:#6E6A60;margin-top:2px">15/06</div>
+              </div>
             </div>
           </div>
         </div>
@@ -3748,6 +3753,10 @@ function render(){
   topTitle.textContent = state.screen==='home' ? '' : (titles[state.screen]||'');
   // hide back button on home screen (no previous screen)
   topBackBtn.style.display = (state.screen==='home' || screenStack.length===0) ? 'none' : '';
+  // show home branding (Hornero + motto) next to avatar on home screen
+  var topHomeBranding = document.getElementById('topHomeBranding');
+  topHomeBranding.style.display = state.screen==='home' ? '' : 'none';
+  topTitle.style.display = state.screen==='home' ? 'none' : '';
 
   // hide custom screen headers — unified topbar replaces them
   outsideIds.forEach(function(id){
