@@ -3932,18 +3932,18 @@ function buildTrabajadorSteps(){
       { title:'Mis informes', showInput:false,
         blocks:[
           { kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-            {date:'01/07',label:'Informe Trabajador/06',status:'ok',
+            {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',
              sources:[{label:'F1 · Conflicto salarial · Paritaria sin cierre',date:'01/07',status:'ok'},{label:'F2 · Salud laboral · Amputación + enfermería clausurada',date:'01/07',status:'ok'},{label:'F9 · Producción · Cambio directivas expeller',date:'01/07',status:'ok'}]},
-            {date:'28/06',label:'Informe Trabajador/06',status:'ok'},
-            {date:'21/06',label:'Informe Trabajador/06',status:'ok'},
-            {date:'14/06',label:'Informe Trabajador/06',status:'ok'},
-            {date:'07/06',label:'Informe Trabajador-02/07',status:'ok'},
-            {date:'31/05',label:'Informe Trabajador/05',status:'ok'},
-            {date:'24/05',label:'Informe Trabajador/05',status:'ok'},
-            {date:'17/05',label:'Informe Trabajador/05',status:'ok'},
-            {date:'10/05',label:'Informe Trabajador-04/05',status:'ok'},
-            {date:'03/05',label:'Informe Trabajador/04',status:'ok'},
-            {date:'26/04',label:'Informe Trabajador · inicial',status:'ok'}
+            {date:'28/06',label:'Informe Trabajador N° 10',status:'ok'},
+            {date:'21/06',label:'Informe Trabajador N° 09',status:'ok'},
+            {date:'14/06',label:'Informe Trabajador N° 08',status:'ok'},
+            {date:'07/06',label:'Informe Trabajador N° 07',status:'ok'},
+            {date:'31/05',label:'Informe Trabajador N° 06',status:'ok'},
+            {date:'24/05',label:'Informe Trabajador N° 05',status:'ok'},
+            {date:'17/05',label:'Informe Trabajador N° 04',status:'ok'},
+            {date:'10/05',label:'Informe Trabajador N° 03',status:'ok'},
+            {date:'03/05',label:'Informe Trabajador N° 02',status:'ok'},
+            {date:'26/04',label:'Informe Trabajador N° 01',status:'ok'}
           ] }
         ],
         explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Tus informes grado 1', p:'Tu informe ya fue enviado al delegado y está en el sistema. La IA procesó tu relato, lo etiquetó y lo organizó. El delegado lo verifica y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. Para cargar un nuevo informe, reiniciá la secuencia del HTML.' } }
@@ -3954,33 +3954,33 @@ function buildTrabajadorSteps(){
     { title:'Contale al chat lo que pasó', showInput:false,
       blocks:[
         { kind:'report-list', items:[
-          {date:'28/06',label:'Informe Trabajador/06',status:'ok',tags:['Conflicto salarial','Vicentín planta']},
-          {date:'21/06',label:'Informe Trabajador/06',status:'ok',tags:['Salud laboral','EPP']},
-          {date:'14/06',label:'Informe Trabajador/06',status:'ok',tags:['Ritmo +20%','Directivas']},
-          {date:'07/06',label:'Informe Trabajador-02/07',status:'ok',tags:['Paritaria','Concurso']},
-          {date:'31/05',label:'Informe Trabajador/05',status:'ok',tags:['Accidente','Prensa']},
-          {date:'24/05',label:'Informe Trabajador/05',status:'ok',tags:['Supervisor','Disciplina']},
-          {date:'17/05',label:'Informe Trabajador/05',status:'ok',tags:['EPP insuficiente','Guantes']},
-          {date:'10/05',label:'Informe Trabajador-04/05',status:'ok',tags:['Paritaria','Básico']},
-          {date:'03/05',label:'Informe Trabajador/04',status:'ok',tags:['Cond. trabajo','Turnos']},
-          {date:'26/04',label:'Informe Trabajador · inicial',status:'ok',tags:['Situación general','Planta']}
+          {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Conflicto salarial','Vicentín planta']},
+          {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Salud laboral','EPP']},
+          {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Ritmo +20%','Directivas']},
+          {date:'07/06',label:'Informe Trabajador N° 07',status:'ok',tags:['Paritaria','Concurso']},
+          {date:'31/05',label:'Informe Trabajador N° 06',status:'ok',tags:['Accidente','Prensa']},
+          {date:'24/05',label:'Informe Trabajador N° 05',status:'ok',tags:['Supervisor','Disciplina']},
+          {date:'17/05',label:'Informe Trabajador N° 04',status:'ok',tags:['EPP insuficiente','Guantes']},
+          {date:'10/05',label:'Informe Trabajador N° 03',status:'ok',tags:['Paritaria','Básico']},
+          {date:'03/05',label:'Informe Trabajador N° 02',status:'ok',tags:['Cond. trabajo','Turnos']},
+          {date:'26/04',label:'Informe Trabajador N° 01',status:'ok',tags:['Situación general','Planta']}
         ] }
       ],
       explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Qué hace el trabajador aquí', p:'Carga su denuncia: la escribe o la habla. Hornero escucha, procesa, etiqueta y organiza lo que contó. El trabajador lee la devolución, puede aceptarla, corregir algo que la IA interpretó mal, pedir precisiones, y finalmente envía. Su relato queda intacto como fuente primaria — lo que la IA elabora es un informe grado 1 que circula al delegado.', note:'No necesita categorizar ni llenar formularios. Narra su situación — la IA hace el resto.' } },
     { title:'Informe nuevo en el listado', showInput:false,
       blocks:[
         { kind:'report-list', items:[
-          {date:'01/07',label:'Informe Trabajador/06',status:'new',tags:['Conflicto salarial','Salud laboral','Ritmo'],onclick:'setStep(2)'},
-          {date:'28/06',label:'Informe Trabajador/06',status:'ok',tags:['Conflicto salarial','Vicentín planta']},
-          {date:'21/06',label:'Informe Trabajador/06',status:'ok',tags:['Salud laboral','EPP']},
-          {date:'14/06',label:'Informe Trabajador/06',status:'ok',tags:['Ritmo +20%','Directivas']},
-          {date:'07/06',label:'Informe Trabajador-02/07',status:'ok',tags:['Paritaria','Concurso']},
-          {date:'31/05',label:'Informe Trabajador/05',status:'ok',tags:['Accidente','Prensa']},
-          {date:'24/05',label:'Informe Trabajador/05',status:'ok',tags:['Supervisor','Disciplina']},
-          {date:'17/05',label:'Informe Trabajador/05',status:'ok',tags:['EPP insuficiente','Guantes']},
-          {date:'10/05',label:'Informe Trabajador-04/05',status:'ok',tags:['Paritaria','Básico']},
-          {date:'03/05',label:'Informe Trabajador/04',status:'ok',tags:['Cond. trabajo','Turnos']},
-          {date:'26/04',label:'Informe Trabajador · inicial',status:'ok',tags:['Situación general','Planta']}
+          {date:'01/07',label:'Informe Trabajador N° 11',status:'new',tags:['Conflicto salarial','Salud laboral','Ritmo'],onclick:'setStep(2)'},
+          {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Conflicto salarial','Vicentín planta']},
+          {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Salud laboral','EPP']},
+          {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Ritmo +20%','Directivas']},
+          {date:'07/06',label:'Informe Trabajador N° 07',status:'ok',tags:['Paritaria','Concurso']},
+          {date:'31/05',label:'Informe Trabajador N° 06',status:'ok',tags:['Accidente','Prensa']},
+          {date:'24/05',label:'Informe Trabajador N° 05',status:'ok',tags:['Supervisor','Disciplina']},
+          {date:'17/05',label:'Informe Trabajador N° 04',status:'ok',tags:['EPP insuficiente','Guantes']},
+          {date:'10/05',label:'Informe Trabajador N° 03',status:'ok',tags:['Paritaria','Básico']},
+          {date:'03/05',label:'Informe Trabajador N° 02',status:'ok',tags:['Cond. trabajo','Turnos']},
+          {date:'26/04',label:'Informe Trabajador N° 01',status:'ok',tags:['Situación general','Planta']}
         ] }
       ],
       explain:{ kicker:'Informe grado 1', h3:'Tu informe aparece destacado en el listado', p:'La IA procesó tu relato y generó un informe grado 1. Está destacado arriba — hacé click para ver cómo la IA organizó lo que contaste.', note:'Un informe grado 1 por cada carga. Trazabilidad: queda vinculado a la fuente primaria. Si algo está mal, podés corregir en el paso siguiente.' } },
@@ -4031,12 +4031,12 @@ function buildDelegadoPanel(){
   var blocks=[];
   // Mis informes — new report at top when sent, clickable to view full content
   var items=[
-    {date:delegadoReportSent?'29/06':'22/06',label:delegadoReportSent?'Informe Delegado':'Informe Delegado',status:'ok',onclick:delegadoReportSent?'setStep(5);':'',
+    {date:delegadoReportSent?'29/06':'22/06',label:delegadoReportSent?'Informe Delegado N° 03':'Informe Delegado N° 03',status:'ok',onclick:delegadoReportSent?'setStep(5);':'',
      tags:delegadoReportSent?['Conflicto salarial','Salud laboral','Producción']:['Paritaria','Concurso'],
      sources:delegadoReportSent?[{label:'1-A · sector admin'+(delegadoCorrectedA?' · corregido':''),date:'29/06',status:'ok'},{label:'1-B · sector prensa'+(delegadoCorrectedB?' · corregido':''),date:'29/06',status:'ok'}]:null},
-    {date:'15/06',label:'Informe Delegado/06',status:'ok',tags:['Paritaria','EPP']},
-    {date:'08/06',label:'Informe Delegado/06',status:'ok',tags:['Salud laboral','Ritmo']},
-    {date:'01/06',label:'Informe Delegado · inicial',status:'ok',tags:['Situación general','Vicentín']}
+    {date:'15/06',label:'Informe Delegado N° 02',status:'ok',tags:['Paritaria','EPP']},
+    {date:'08/06',label:'Informe Delegado N° 01',status:'ok',tags:['Salud laboral','Ritmo']},
+    {date:'01/06',label:'Informe Delegado N° 00',status:'ok',tags:['Situación general','Vicentín']}
   ];
   // Notification from secretario — appears as new item when secretario commented on Guaycurú
   if(secretarioGuaycuruComment && delegadoReportSent && !delegadoSeenGuaycuruNotification){
@@ -4052,8 +4052,8 @@ function buildDelegadoPanel(){
   } else {
     // show pending reports
     blocks.push({ kind:'report-list', title:'Informes Pendientes de Grado 1', items:[
-      {date:'29/06',label:'Informe Trabajador · admin',status:delegadoSeenA?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Concurso']},
-      {date:'29/06',label:'Informe Trabajador · prensa',status:delegadoSeenB?'seen':'pend',onclick:'setStep(2)',tags:['Accidente','EPP']}
+      {date:'29/06',label:'Informe Trabajador N° 11-A',status:delegadoSeenA?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Concurso']},
+      {date:'29/06',label:'Informe Trabajador N° 11-B',status:delegadoSeenB?'seen':'pend',onclick:'setStep(2)',tags:['Accidente','EPP']}
     ] });
     // elaborar button — disabled until both seen
     blocks.push({ kind:'actions', items:[{label:'Elaborar nuevo informe',variant:delegadoSeenA&&delegadoSeenB?'primary':'disabled',onclick:delegadoSeenA&&delegadoSeenB?'makeDelegadoReport()':''}] });
@@ -4311,11 +4311,11 @@ function buildSecretarioPanel(){
   var blocks=[];
   // Mis informes — secretario's own grado 3 reports, clickable to view full content
   blocks.push({ kind:'report-list', title:'Mis informes', _id:'secMI', items:[
-    {date:secretarioReportSent?'29/06':'22/06',label:secretarioReportSent?'Informe Secretario':'Informe Secretario',status:'ok',onclick:secretarioReportSent?'setStep(5);':'',
+    {date:secretarioReportSent?'29/06':'22/06',label:secretarioReportSent?'Informe Secretario N° 03':'Informe Secretario N° 03',status:'ok',onclick:secretarioReportSent?'setStep(5);':'',
      sources:secretarioReportSent?[{label:'Grado 2 · Vicentín (aceitera) · visto',date:'29/06',status:'ok'},{label:'Grado 2 · Guaycurú (desmotadoras)'+(secretarioGuaycuruComment?' · corregido':''),date:'29/06',status:'ok'},{label:'Grado 2 · Puerto / Marítimo · visto',date:'29/06',status:'ok'}]:null},
-    {date:'15/06',label:'Informe Secretario/06',status:'ok'},
-    {date:'08/06',label:'Informe Secretario/06',status:'ok'},
-    {date:'01/06',label:'Informe Secretario · inicial',status:'ok'}
+    {date:'15/06',label:'Informe Secretario N° 02',status:'ok'},
+    {date:'08/06',label:'Informe Secretario N° 01',status:'ok'},
+    {date:'01/06',label:'Informe Secretario N° 00',status:'ok'}
   ] });
   if(secretarioReportSent){
     // no pending — show message
@@ -4323,9 +4323,9 @@ function buildSecretarioPanel(){
   } else {
     // show pending grado 2 reports from delegados
     blocks.push({ kind:'report-list', title:'Pendientes', items:[
-      {date:'29/06',label:'Informe Delegado · Vicentín',status:secretarioSeenVicentin?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Accidente','Directivas']},
-      {date:'29/06',label:'Informe Delegado · Guaycurú',status:secretarioSeenGuaycuru?'seen':'pend',onclick:'setStep(2)',tags:['Despidos','Explosión','SMVM']},
-      {date:'29/06',label:'Informe Delegado · Puerto',status:secretarioSeenPuerto?'seen':'ok',tags:['SOMU','Despacho']}
+      {date:'29/06',label:'Informe Delegado N° 03 · Vicentín',status:secretarioSeenVicentin?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Accidente','Directivas']},
+      {date:'29/06',label:'Informe Delegado N° 03 · Guaycurú',status:secretarioSeenGuaycuru?'seen':'pend',onclick:'setStep(2)',tags:['Despidos','Explosión','SMVM']},
+      {date:'29/06',label:'Informe Delegado N° 03 · Puerto',status:secretarioSeenPuerto?'seen':'ok',tags:['SOMU','Despacho']}
     ] });
     // elaborar button — enabled when both Vicentín and Guaycurú seen
     var canElaborate=secretarioSeenVicentin&&secretarioSeenGuaycuru;
@@ -4386,17 +4386,17 @@ function buildFederacionPanel(){
   var blocks=[];
   // Mis informes — federal reports already elaborated by this directivo
   blocks.push({ kind:'report-list', title:'Mis informes', items:[
-    {date:'22/06',label:'Reporte federal · 16-22/06',status:'ok'},
-    {date:'15/06',label:'Reporte federal · 09-15/06',status:'ok'},
-    {date:'08/06',label:'Reporte federal · 02-08/06',status:'ok'},
-    {date:'01/06',label:'Reporte federal inicial',status:'ok'}
+    {date:'22/06',label:'Reporte Federal N° 03',status:'ok'},
+    {date:'15/06',label:'Reporte Federal N° 02',status:'ok'},
+    {date:'08/06',label:'Reporte Federal N° 01',status:'ok'},
+    {date:'01/06',label:'Reporte Federal N° 00',status:'ok'}
   ] });
   // Recibidos — informes from sindicatos
   blocks.push({ kind:'report-list', title:'Recibidos', items:[
-    {date:'29/06',label:'Grado 3 · Reconquista (Obligado/San Javier)',status:federacionSeenReconquista?'seen':'pend',onclick:'setStep(1)',tags:['Nuevo','Urgente']},
-    {date:'22/06',label:'Grado 3 · Rosario',status:'ok'},
-    {date:'22/06',label:'Grado 3 · San Luis',status:'ok'},
-    {date:'22/06',label:'Grado 3 · Bahía Blanca',status:'ok'}
+    {date:'29/06',label:'Informe Secretario N° 03 · Reconquista',status:federacionSeenReconquista?'seen':'pend',onclick:'setStep(1)',tags:['Nuevo','Urgente']},
+    {date:'22/06',label:'Informe Secretario N° 02 · Rosario',status:'ok'},
+    {date:'22/06',label:'Informe Secretario N° 02 · San Luis',status:'ok'},
+    {date:'22/06',label:'Informe Secretario N° 02 · Bahía Blanca',status:'ok'}
   ] });
   // button — enabled when Reconquista has been seen
   if(federacionReportSent){
