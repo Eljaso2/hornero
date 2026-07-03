@@ -25,7 +25,7 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 }
 
 @keyframes apfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.body-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-y}
+.body-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-y;padding-bottom:50px}
 .body-scroll::-webkit-scrollbar{width:0px}
 
 .status-bar{background:#45433E;color:#F2F1EC;display:flex;align-items:center;justify-content:space-between;padding:10px 22px 5px;font-size:.74rem;flex:none}
@@ -37,7 +37,7 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 .menu-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:600;font-size:.88rem;color:#F2F1EC;text-decoration:none;margin-bottom:3px;transition:background .2s}
 .menu-link:hover{background:rgba(148,168,103,.2)}
 .menu-link.active{background:rgba(148,168,103,.3);color:#94A867}
-.bottom-nav{background:#33312D;display:flex;justify-content:space-around;padding:9px 0 13px;flex:none;z-index:100}
+.bottom-nav{background:#33312D;display:flex;justify-content:space-around;padding:9px 0 13px;z-index:100;position:absolute;bottom:0;left:0;width:100%}
 .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:3px 9px;font-family:'Archivo',sans-serif}
 .nav-btn .icon{font-size:1.15rem}
 .nav-btn .label{font-size:.62rem;font-weight:600}
@@ -3734,6 +3734,15 @@ function render(){
 
   // Custom screen headers remain visible — topbar already shows screen title
   // No need to hide them; hiding caused content disappearance
+
+  // Add padding-bottom to outside screen scrollable areas so content doesn't hide behind bottom nav
+  if(isOutside){
+    var activeEl=document.getElementById(state.screen);
+    if(activeEl){
+      var scrollAreas=activeEl.querySelectorAll('div[style*="overflow-y:auto"]');
+      scrollAreas.forEach(function(s){ s.style.paddingBottom='50px'; });
+    }
+  }
 
   // bottom nav
   renderNav();
