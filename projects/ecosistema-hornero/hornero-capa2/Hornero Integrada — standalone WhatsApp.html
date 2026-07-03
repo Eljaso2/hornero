@@ -4986,7 +4986,7 @@ function buildTrabajadorInformeBlocks(){
       blocks.push({ kind:'actions', items:[{label:'Quiero corregir algo',variant:'primary',onclick:'isChatCorrect()'}] });
     } else {
       // First time — allow confirm or correct
-      blocks.push({ kind:'actions', items:[{label:'Está bien, enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] });
+      blocks.push({ kind:'actions', items:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] });
     }
   } else {
     // Delegado already saw it — only read, no edit
