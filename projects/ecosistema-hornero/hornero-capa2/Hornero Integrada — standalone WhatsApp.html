@@ -4024,6 +4024,8 @@ function buildTrabajadorSteps(){
   ];
 }
 
+var trabajadorInformeSent=false; // Raúl sent his informe (confirmed)
+
 // track which delegado reports have been seen
 var delegadoSeenA=false;
 var delegadoSeenB=false;
@@ -4074,13 +4076,16 @@ function buildDelegadoPanel(){
     }
     blocks.push({ kind:'card', label:'Informes Pendientes de Grado 1', lines:[{text:'No tenés ningún informe pendiente.'}] });
   } else {
-    // show pending reports
-    blocks.push({ kind:'report-list', title:'Informes Pendientes de Grado 1', items:[
-      {date:'29/06',label:'Raúl · Operario de prensa · Vicentín',status:delegadoSeenA?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Concurso']},
-      {date:'29/06',label:'Damián · Empleado administrativo · Vicentín',status:delegadoSeenB?'seen':'pend',onclick:'setStep(2)',tags:['Accidente','EPP']}
-    ] });
-    // elaborar button — disabled until both seen
-    blocks.push({ kind:'actions', items:[{label:'Elaborar nuevo informe',variant:delegadoSeenA&&delegadoSeenB?'primary':'disabled',onclick:delegadoSeenA&&delegadoSeenB?'makeDelegadoReport()':''}] });
+    // show pending reports — Damián always available, Raúl only after he sent his informe
+    var pendItems=[];
+    if(trabajadorInformeSent){
+      pendItems.push({date:'29/06',label:'Raúl · Operario de prensa · Vicentín',status:delegadoSeenA?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Concurso']});
+    }
+    pendItems.push({date:'29/06',label:'Damián · Empleado administrativo · Vicentín',status:delegadoSeenB?'seen':'pend',onclick:'setStep(2)',tags:['Accidente','EPP']});
+    blocks.push({ kind:'report-list', title:'Informes Pendientes de Grado 1', items:pendItems });
+    // elaborar button — enabled when all available informes are seen
+    var allSeen=(!trabajadorInformeSent||delegadoSeenA)&&delegadoSeenB;
+    blocks.push({ kind:'actions', items:[{label:'Elaborar nuevo informe',variant:allSeen?'primary':'disabled',onclick:allSeen?'makeDelegadoReport()':''}] });
   }
   return blocks;
 }
@@ -4983,6 +4988,7 @@ function buildIsChatConv(){
 // Confirm and send — advance to sent step
 function isConfirmSend(){
   if(state.isRole===1){
+    trabajadorInformeSent=true;
     state.isStep=trabajadorDemoDone?3:4;
   } else if(state.isRole===2){
     delegadoReportSent=true;
