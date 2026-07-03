@@ -3732,15 +3732,8 @@ function render(){
     topTitle.textContent = titles[state.screen]||'';
   }
 
-  // hide custom screen headers — unified topbar replaces them
-  outsideIds.forEach(function(id){
-    var el=document.getElementById(id);
-    if(el){
-      // Only hide screen header bars (first child div with #45433E background)
-      var firstHeader=el.querySelector('div[style*="background:#45433E"][style*="padding:9px 16px 13px"][style*="flex:none"]');
-      if(firstHeader) firstHeader.style.display='none';
-    }
-  });
+  // Custom screen headers remain visible — topbar already shows screen title
+  // No need to hide them; hiding caused content disappearance
 
   // bottom nav
   renderNav();
