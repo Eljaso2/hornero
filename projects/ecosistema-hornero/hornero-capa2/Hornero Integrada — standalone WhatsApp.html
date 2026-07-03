@@ -130,8 +130,8 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
   <!-- TOPBAR — unified banner on all screens -->
   <div class="top-bar" id="topbar">
     <button onclick="toggleMenu()" style="font-size:1.1rem;width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none">≡</button>
-    <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none;display:none" id="topBackBtn">←</button>
     <div class="title" id="topTitle"></div>
+    <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none;display:none" id="topBackBtn">←</button>
     <div class="avatar" id="topAvatar" onclick="toggleMenu()"><div class="avatar-dot"></div></div>
   </div>
 
@@ -615,6 +615,7 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
         <div style="font-size:.74rem;color:#9C988D;line-height:1.4">Compilado por Núcleo 10 Coyuntura · Ecosistema Hornero</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#9C988D;margin-top:4px">24 junio 2026</div>
       </div>
+    </div><!-- /clipping -->
 
     <!-- ============ CLIPPING N°1 — 15-22 JUN ============ -->
     <div class="screen-content" id="clipping1">
@@ -1477,16 +1478,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     <!-- ============ MIRADOR MATE ============ -->
     <div class="screen-content" id="miradorMate1" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-      <!-- Top bar -->
-      <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-        <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-        <div style="width:32px;height:32px;border-radius:50%;background:#B0863F;display:flex;align-items:center;justify-content:center;font-size:1rem;flex:none">📈</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Mirador MATE</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#B0863F;letter-spacing:.08em">INFORME DE COYUNTURA · MAYO 2026</div>
-        </div>
-        <a href="https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/06/2026-05-INFOMATE.pdf" target="_blank" style="font-family:'Archivo',sans-serif;font-size:.74rem;color:#B0863F;font-weight:600;background:rgba(176,134,47,.15);padding:4px 10px;border-radius:8px;cursor:pointer;border:none">PDF ↗</a>
-      </div>
 
       <!-- Explanation -->
       <div style="background:#ECEAE3;padding:14px 16px 10px;flex:none">
@@ -1732,15 +1723,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     <!-- ============ CÓMO SOMOS ============ -->
     <div class="screen-content" id="como-somos" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-      <!-- Top bar -->
-      <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-        <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-        <div style="width:32px;height:32px;border-radius:50%;background:#E6E3DB;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none">📊</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Cómo Somos</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · DATOS DE LA CLASE TRABAJADORA</div>
-        </div>
-      </div>
 
       <!-- Explanation -->
       <div style="background:#ECEAE3;padding:18px 16px 14px;flex:none">
@@ -1879,15 +1861,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     <!-- ============ CÓMO SOMOS · CLASE OBRERA ============ -->
     <div class="screen-content" id="comoSomosClase" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-      <!-- Top bar -->
-      <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-        <button onclick="goScreen('como-somos')" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-        <div style="width:32px;height:32px;border-radius:50%;background:#E6E3DB;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none">📊</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Clase Obrera</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · CÓMO SOMOS</div>
-        </div>
-      </div>
 
       <!-- Explanation: qué es la clase obrera -->
       <div style="background:#ECEAE3;padding:18px 16px 14px;flex:none">
@@ -1972,15 +1945,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     </div><!-- /comoSomosClase -->
     <div class="screen-content" id="comoSomosReserva" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-      <!-- Top bar -->
-      <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-        <button onclick="goScreen('como-somos')" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-        <div style="width:32px;height:32px;border-radius:50%;background:#F1E4DE;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none">📊</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Ejército de Reserva</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · CÓMO SOMOS</div>
-        </div>
-      </div>
 
       <!-- Explanation: qué es la reserva -->
       <div style="background:#ECEAE3;padding:18px 16px 14px;flex:none">
@@ -2064,15 +2028,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     </div><!-- /comoSomosReserva -->
     <div class="screen-content" id="comoSomosActivo" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-      <!-- Top bar -->
-      <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-        <button onclick="goScreen('como-somos')" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-        <div style="width:32px;height:32px;border-radius:50%;background:#E6E3DB;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none">📊</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Ejército Activo</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · CÓMO SOMOS</div>
-        </div>
-      </div>
 
       <!-- Explanation: qué es el ejército activo -->
       <div style="background:#ECEAE3;padding:18px 16px 14px;flex:none">
@@ -2221,15 +2176,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     </div><!-- /comoSomosActivo -->
     <div class="screen-content" id="comoSomosChat" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-      <!-- Top bar -->
-      <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-        <button onclick="goScreen('como-somos')" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-        <div style="width:32px;height:32px;border-radius:50%;background:#E6E3DB;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none">📊</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Cómo Somos</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · NAVEGADOR DE DATOS</div>
-        </div>
-      </div>
 
       <!-- Progress bar -->
       <div class="chat-progress-wrap">
@@ -2330,15 +2276,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
     <!-- ============ ACCIÓN SINDICAL ============ -->
     <div class="screen-content" id="accion" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-      <!-- Top bar -->
-      <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-        <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-        <div style="width:32px;height:32px;border-radius:50%;background:#6E8345;display:flex;align-items:center;justify-content:center;flex:none;font-size:1rem">✊</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Acción Sindical</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · VOLANTES · COMUNICADOS · CONFLICTOS</div>
-        </div>
-      </div>
 
       <!-- CONFLICTOS ABIERTOS — live bar (collapsible) -->
       <div style="background:#A6553E;padding:14px 16px 4px;flex:none">
@@ -2606,16 +2543,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
   <!-- ============ CE CHAT — ÍNDICE ICE VICENTÍN ============ -->
   <div class="screen-content" id="veChat" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goScreen('ve')" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Comportamiento Empresarial</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · ÍNDICE ICE VICENTÍN</div>
-      </div>
-    </div>
-
     <!-- Progress bar -->
     <div class="chat-progress-wrap">
       <div class="chat-progress-bar"><div class="chat-progress-fill" id="veProgressFill" style="width:0%"></div></div>
@@ -2746,16 +2673,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
   <!-- ============ COMUNICADOR — CHAT INTERFACE ============ -->
   <div class="screen-content" id="comunicador" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Comunicador</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · COMUNICACIÓN SINDICAL</div>
-      </div>
-    </div>
-
     <!-- TOP: Explanation of what Comunicador does -->
     <div style="background:#ECEAE3;padding:20px 16px 14px;flex:none">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
@@ -2800,20 +2717,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 
   <!-- ============ COMUNICADOR CHAT — PODCAST ============ -->
   <div class="screen-content" id="comunicadorChat" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goScreen('comunicador')" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Podcast — Aceitero Reconquista</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">COMUNICADOR · PODCAST</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span style="width:8px;height:8px;border-radius:50%;background:#94A867;display:inline-block"></span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867">Online</span>
-      </div>
-    </div>
 
     <!-- Progress -->
     <div class="chat-progress-wrap">
@@ -2938,16 +2841,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
   <!-- ============ ARGUMENTO — LANDING ============ -->
   <div class="screen-content" id="argumento" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Argumento</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · ARSENAL ARGUMENTATIVO</div>
-      </div>
-    </div>
-
     <!-- TOP: Explanation -->
     <div style="background:#6E8345;padding:20px 16px 14px;flex:none">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
@@ -2992,16 +2885,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 
   <!-- ============ ARGUMENTO CHAT — APRIETE DEL SUPERVISOR ============ -->
   <div class="screen-content" id="argumentoChat" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goScreen('argumento')" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Argumento — Apriete del supervisor</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · VICENTÍN RECONQUISTA</div>
-      </div>
-    </div>
 
     <!-- Progress -->
     <div class="chat-progress-wrap">
@@ -3124,16 +3007,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
   <!-- ============ DOCUMENTACIÓN — NUESTRO DERECHO ============ -->
   <div class="screen-content" id="documentacion" style="display:none;flex-direction:column;flex:1;overflow:hidden">
 
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Nuestro Derecho</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · CONVENIO VIVO</div>
-      </div>
-    </div>
-
     <!-- TOP: Explanation -->
     <div style="background:#ECEAE3;padding:20px 16px 14px;flex:none">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
@@ -3178,20 +3051,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 
   <!-- ============ MI DERECHO — CHAT SIMULATION ============ -->
   <div class="screen-content" id="chatderecho" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-
-    <!-- Chat-specific top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goScreen('documentacion')" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Mi Derecho</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">NUESTRO DERECHO · CONVENIO VIVO</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span style="width:8px;height:8px;border-radius:50%;background:#94A867;display:inline-block"></span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867">Online</span>
-      </div>
-    </div>
 
     <!-- Progress -->
     <div class="chat-progress-wrap">
@@ -3240,16 +3099,6 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 
   <!-- ============ SMVM — SALARIO MÍNIMO VITAL Y MÓVIL ============ -->
   <div class="screen-content" id="smvm" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-
-    <!-- Top bar -->
-    <div style="background:#45433E;color:#F2F1EC;padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none">
-      <button onclick="goBack()" style="width:32px;height:32px;border-radius:50%;background:#5A574F;color:#F2F1EC;border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none">←</button>
-      <div style="width:32px;height:32px;border-radius:50%;background:#94A867;display:flex;align-items:center;justify-content:center;flex:none"><div style="width:13px;height:13px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:1.02rem">Salario Mínimo Vital y Móvil</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#94A867;letter-spacing:.08em">HORNERO · SMVM</div>
-      </div>
-    </div>
 
     <!-- TOP: Explanation -->
     <div style="background:#ECEAE3;padding:20px 16px 14px;flex:none">
@@ -3721,19 +3570,15 @@ function render(){
     if(cur) cur.classList.add('active');
   }
 
-  // topbar — always visible on all screens with unified banner
+  // topbar — always shows Hornero branding; back arrow between title and avatar
   var topbar = document.getElementById('topbar');
   var topTitle = document.getElementById('topTitle');
   var topBackBtn = document.getElementById('topBackBtn');
   topbar.classList.remove('hidden');
-  // hide back button on home screen, show as flex on other screens
+  // always show Hornero branding in topbar title
+  topTitle.innerHTML='<span style="font-family:Archivo,sans-serif;font-weight:800;font-size:1.12rem;color:#F2F1EC;line-height:1.2">Hornero</span><br><span style="font-family:JetBrains Mono,monospace;font-size:.56rem;letter-spacing:.16em;color:#94A867">ORGANIZAR ES CONSTRUIR</span>';
+  // show back arrow when not on home screen
   topBackBtn.style.display = (state.screen==='home' || screenStack.length===0) ? 'none' : 'flex';
-  // set topbar title — Hornero branding on home, screen title on other screens
-  if(state.screen==='home'){
-    topTitle.innerHTML='<span style="font-family:Archivo,sans-serif;font-weight:800;font-size:1.12rem;color:#F2F1EC;line-height:1.2">Hornero</span><br><span style="font-family:JetBrains Mono,monospace;font-size:.56rem;letter-spacing:.16em;color:#94A867">ORGANIZAR ES CONSTRUIR</span>';
-  } else {
-    topTitle.innerHTML='<span style="font-family:Archivo,sans-serif;font-weight:700;font-size:1.02rem;color:#F2F1EC">'+(titles[state.screen]||'')+'</span>';
-  }
 
   // Custom screen headers remain visible — topbar already shows screen title
   // No need to hide them; hiding caused content disappearance
