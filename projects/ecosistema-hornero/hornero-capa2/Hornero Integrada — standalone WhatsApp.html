@@ -3940,23 +3940,30 @@ var trabajadorDemoDone=false; // true after delegado/secretario role activated
 function buildTrabajadorSteps(){
   // Once delegado role has been activated, trabajador only sees their list — no demo
   if(trabajadorDemoDone){
+    var trBlocks=[];
+    trBlocks.push({ kind:'report-list', title:'Mis informes', _id:'trMI', items:[
+      {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:delegadoCorrectedA?['Delegado corregió · estrategia patronal']:delegadoSeenA?['Delegado ya lo vio']:[]},
+      {date:'28/06',label:'Informe Trabajador N° 10',status:'ok'},
+      {date:'21/06',label:'Informe Trabajador N° 09',status:'ok'},
+      {date:'14/06',label:'Informe Trabajador N° 08',status:'ok'},
+      {date:'07/06',label:'Informe Trabajador N° 07',status:'ok'},
+      {date:'31/05',label:'Informe Trabajador N° 06',status:'ok'},
+      {date:'24/05',label:'Informe Trabajador N° 05',status:'ok'},
+      {date:'17/05',label:'Informe Trabajador N° 04',status:'ok'},
+      {date:'10/05',label:'Informe Trabajador N° 03',status:'ok'},
+      {date:'03/05',label:'Informe Trabajador N° 02',status:'ok'},
+      {date:'26/04',label:'Informe Trabajador N° 01',status:'ok'}
+    ] });
+    if(delegadoCorrectedA){
+      trBlocks.push({ kind:'card', label:'Corrección del delegado', title:'Tu informe fue corregido', lines:[
+        {text:'La delegada de Vicentín corrigió tu informe y agregó:'},
+        {lead:'F4 · Estrategia patronal:',text:'Cambio de prioridad de producción (refinado → expeller). Menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica — no solo productiva. Auditores confirmados — evaluación para posible venta de activos.'},
+        {lead:'F9 · Producción:',text:'Entró menos soja, camiones demorados por control de ruta. Línea de refinería baja ritmo. Expeller priorizado.'}
+      ] });
+    }
     return [
       { title:'Mis informes', showInput:false,
-        blocks:[
-          { kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-            {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:(delegadoSeenA?['Delegado ya lo vio']:[])},
-            {date:'28/06',label:'Informe Trabajador N° 10',status:'ok'},
-            {date:'21/06',label:'Informe Trabajador N° 09',status:'ok'},
-            {date:'14/06',label:'Informe Trabajador N° 08',status:'ok'},
-            {date:'07/06',label:'Informe Trabajador N° 07',status:'ok'},
-            {date:'31/05',label:'Informe Trabajador N° 06',status:'ok'},
-            {date:'24/05',label:'Informe Trabajador N° 05',status:'ok'},
-            {date:'17/05',label:'Informe Trabajador N° 04',status:'ok'},
-            {date:'10/05',label:'Informe Trabajador N° 03',status:'ok'},
-            {date:'03/05',label:'Informe Trabajador N° 02',status:'ok'},
-            {date:'26/04',label:'Informe Trabajador N° 01',status:'ok'}
-          ] }
-        ],
+        blocks:trBlocks,
         explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Tus informes grado 1', p:'Tu informe ya fue enviado al delegado y está en el sistema. La IA procesó tu relato, lo etiquetó y lo organizó. El delegado lo verifica y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. Para cargar un nuevo informe, reiniciá la secuencia del HTML.' } },
       { title:'Informe desarrollado', showInput:false,
         blocks: buildTrabajadorInformeBlocks(),
