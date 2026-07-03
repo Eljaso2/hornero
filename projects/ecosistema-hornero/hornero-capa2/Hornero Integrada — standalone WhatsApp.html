@@ -3932,7 +3932,7 @@ function buildTrabajadorSteps(){
       { title:'Mis informes', showInput:false,
         blocks:[
           { kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-            {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',
+            {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:(delegadoSeenA?['Delegado ya lo vio','No editable']:['Editable hasta que delegado lo vea']),
              sources:[{label:'F1 · Conflicto salarial · Paritaria sin cierre',date:'01/07',status:'ok'},{label:'F2 · Salud laboral · Amputación + enfermería clausurada',date:'01/07',status:'ok'},{label:'F9 · Producción · Cambio directivas expeller',date:'01/07',status:'ok'}]},
             {date:'28/06',label:'Informe Trabajador N° 10',status:'ok'},
             {date:'21/06',label:'Informe Trabajador N° 09',status:'ok'},
@@ -3985,12 +3985,7 @@ function buildTrabajadorSteps(){
       ],
       explain:{ kicker:'Informe grado 1', h3:'Tu informe aparece destacado en el listado', p:'La IA procesó tu relato y generó un informe grado 1. Está destacado arriba — hacé click para ver cómo la IA organizó lo que contaste.', note:'Un informe grado 1 por cada carga. Trazabilidad: queda vinculado a la fuente primaria. Si algo está mal, podés corregir en el paso siguiente.' } },
     { title:'Informe desarrollado', showInput:false,
-      blocks:[
-        { kind:'card', label:'Familia 1 · Conflicto laboral', lines:[{text:'Paritaria sin cierre. Empresa argumenta concurso. Básico no cubre costo de vida.'}], tags:[{fam:'1',label:'Paritaria'},{fam:'1',label:'Conflicto salarial'}] },
-        { kind:'card', label:'Familia 2 · Condiciones de trabajo', lines:[{text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'}], tags:[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}] },
-        { kind:'card', label:'Familia 9 · Producción', lines:[{text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}], tags:[{fam:'9',label:'Directivas'},{fam:'9',label:'Producto final'},{fam:'9',label:'Traba en producción'}] },
-        { kind:'actions', items:[{label:'Está bien, enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] }
-      ],
+      blocks: buildTrabajadorInformeBlocks(),
       explain:{ kicker:'Informe grado 1', h3:'La IA organizó lo que contaste por familias', p:'Hornero procesó tu relato y lo organizó en tres familias: conflicto laboral, condiciones de trabajo y producción. Lee el informe — si algo está mal o faltó algo, podés corregir. Si está bien, confirmá y se envía al delegado.', note:'La IA no publica sin verificación humana. Cada dato queda vinculado a tu relato original.' } },
     { title:'Verificación', showInput:false,
       blocks:[
@@ -3999,7 +3994,7 @@ function buildTrabajadorSteps(){
       explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso — los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Podés confirmar lo que está, agregar detalles, o corregir lo que no te parezca.', note:'Sin verificación, el informe no ingresa al sistema. Una vez confirmado, circula al delegado del territorio (grado 2).' } },
     { title:'Informe enviado al delegado', showInput:false,
       blocks:[
-        { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}] }
+        { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
       ],
       explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
   ];
@@ -4962,6 +4957,49 @@ function isConfirmSend(){
     federacionReportSent=true;
     state.isStep=4;
   }
+  isChatInit();
+  renderIS();
+}
+
+function buildTrabajadorInformeBlocks(){
+  var blocks=[
+    { kind:'card', label:'Familia 1 · Conflicto laboral', lines:[{text:'Paritaria sin cierre. Empresa argumenta concurso. Básico no cubre costo de vida.'}], tags:[{fam:'1',label:'Paritaria'},{fam:'1',label:'Conflicto salarial'}] },
+    { kind:'card', label:'Familia 2 · Condiciones de trabajo', lines:[{text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'}], tags:[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}] },
+    { kind:'card', label:'Familia 9 · Producción', lines:[{text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}], tags:[{fam:'9',label:'Directivas'},{fam:'9',label:'Producto final'},{fam:'9',label:'Traba en producción'}] }
+  ];
+  // If delegado hasn't seen it yet, allow correction; if delegado already saw it, only read
+  if(!delegadoSeenA){
+    if(trabajadorDemoDone){
+      // Coming from Mis Informes — allow correction only
+      blocks.push({ kind:'actions', items:[{label:'Quiero corregir algo',variant:'primary',onclick:'isChatCorrect()'}] });
+    } else {
+      // First time — allow confirm or correct
+      blocks.push({ kind:'actions', items:[{label:'Está bien, enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] });
+    }
+  } else {
+    // Delegado already saw it — only read, no edit
+    blocks.push({ kind:'card', lines:[{text:'El delegado ya revisó este informe. No se puede editar.'}] });
+  }
+  return blocks;
+}
+
+function viewTrabajadorInforme(){
+  // Show the developed informe; if delegado hasn't seen it, allow correction
+  if(!delegadoSeenA){
+    // Still editable — go to informe desarrollado with correct button
+    state.isStep=2;
+  } else {
+    // Delegado already saw it — go to read-only view
+    state.isStep=2;
+  }
+  isChatInit();
+  renderIS();
+}
+
+function goTrabajadorHome(){
+  trabajadorDemoDone=true;
+  state.isStep=0;
+  isChatStarted=false;
   isChatInit();
   renderIS();
 }
