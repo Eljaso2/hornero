@@ -4031,7 +4031,7 @@ var delegadoSeenA=false;
 var delegadoSeenB=false;
 var delegadoReportSent=false;
 var delegadoCorrectedA=false; // admin 1-A corrected by delegado
-var delegadoCorrectedB=false; // prensa 1-B corrected by delegado
+var delegadoCorrectedB=false; // Damián 1-B corrected by delegado: estrategia patronal
 
 // flags for pending corrections (chat animation must finish before applying)
 var pendingCorrectionA=false;
@@ -4115,11 +4115,11 @@ function buildSintesisG2(){
   var blocks=[];
   var fuentesText='Elaborado en base a 2 informes grado 1 de trabajadores de Vicentín SAIC, planta Reconquista: informe 1-A (Empleado administrativo, sección Administración) e informe 1-B (Operario de prensa, sección Prensa). Ambos fueron leídos y verificados por el delegado de comisión interna Vicentín.';
   if(delegadoCorrectedA) fuentesText+=' Informe 1-A corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
-  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: especificada amputación parcial de 2 dedos en envasadora (no solo "accidente"), enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"), presión supervisoria para incrementar ritmo.';
+  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
   var lines=[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
-    {lead:'2 · Accidentes:',text:delegadoCorrectedB?'Prensa: amputación parcial de 2 dedos en envasadora. Fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT. Supervisores presionando para incrementar ritmo.':'Prensa: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
+    {lead:'2 · Accidentes:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
   ];
   if(delegadoCorrectedA){
     lines.push({lead:'4 · Estrategia patronal:',text:'Cambio de prioridad de producción: refinado → expeller, menor retención = empresa se ahorra. Concurso como situación económica — auditores para posible venta de activos.'});
@@ -4129,7 +4129,7 @@ function buildSintesisG2(){
   blocks.push({ kind:'card', label:'Informe Grado 2 · Vicentín Reconquista · IA', title:'Panorama de planta — sem. 23-29/06', lines:lines });
   blocks.push({ kind:'card', label:'Etiquetas de clasificación utilizadas', lines:[
     {lead:'Familia 1 — Conflicto laboral:',text:'Paritaria · Conflicto salarial · Presión patronal'},
-    {lead:'Familia 2 — Condiciones de trabajo:',text:delegadoCorrectedB?'Amputación parcial · Enfermería clausurada · Salud laboral / accidentes · Equipamiento de Protección Personal / equipamiento · Presión supervisoria · Ritmo de producción · Precarización':'Salud laboral / accidentes · Equipamiento de Protección Personal / equipamiento · Ritmo de producción · Precarización'},
+    {lead:'Familia 2 — Condiciones de trabajo:',text:delegadoCorrectedB?'Salud laboral / accidentes · Equipamiento de Protección Personal / equipamiento · Estrategia patronal · Concurso económico · Ritmo de producción · Precarización':'Salud laboral / accidentes · Equipamiento de Protección Personal / equipamiento · Ritmo de producción · Precarización'},
     {lead:'Familia 4 — Estrategia patronal:',text:delegadoCorrectedA?'Estrategia de reducción · Concurso como situación económica · Prioridad de producción · Auditores para venta':'Estrategia de reducción · Concurso como limitación'},
     {lead:'Familia 5 — Condiciones de vida:',text:'Vivienda · Costo de vida · Canasta básica real'},
     {lead:'Familia 9 — Producción:',text:delegadoCorrectedA?'Cambio de directivas · Prioridad de producción · Producto final — tipo · Control de ruta · Capacidad — utilización':'Cambio de directivas · Producto final — tipo · Traba en producción · Capacidad — utilización'}
@@ -4182,9 +4182,9 @@ function commentAdminB(){
   var cc=document.getElementById('isChatContainer');
   if(cc) cc.innerHTML='';
   isChatConv=[
-    { type:'hornero', text:'¿Qué observás en el informe del operario de prensa?', time:'11:15' },
-    { type:'user', text:'El informe dice "2 accidentes" pero no especifica que fue una amputación parcial de 2 dedos en envasadora. Y falta la enfermería clausurada — es violación del Art. 42. También no menciona que los supervisores están presionando para incrementar ritmo.', time:'11:16' },
-    { type:'hornero', text:'Correcto. Agrego:<br><strong>F2 · Salud laboral</strong>: amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><strong>F9 · Producción</strong>: supervisores presionando para incrementar ritmo. Entrada de soja reducida.<br><br>Se informa el cambio al trabajador (informe 1-B). Confirmá con <strong>Visto</strong>.', time:'11:17' }
+    { type:'hornero', text:'¿Qué observás en el informe de Damián?', time:'11:15' },
+    { type:'user', text:'El informe no etiquetó el cambio de prioridad de producción como estrategia patronal. Damián dijo que van a priorizar expeller porque tiene menor retención — eso es estrategia patronal, no solo producción. Y el concurso tiene que figurar como situación económica de la empresa, no solo como excusa para no cerrar paritaria.', time:'11:16' },
+    { type:'hornero', text:'Correcto. Agrego:<br><strong>F4 · Estrategia patronal</strong>: cambio de prioridad de producción (refinado → expeller), menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica — no solo productiva. Auditores confirmados — evaluación para posible venta de activos.<br><strong>F9 · Producción</strong>: entró menos soja, camiones demorados por control de ruta, línea de refinería baja ritmo, expeller priorizado.<br><br>Se informa el cambio al trabajador (Damián). Confirmá con <strong>Visto</strong>.', time:'11:17' }
   ];
   renderIS();
   isChatRunStep(0);
@@ -4194,7 +4194,7 @@ function buildSintesisG2Enviada(){
   var blocks=[];
   var fuentesText='Elaborado en base a 2 informes grado 1 de trabajadores de Vicentín SAIC, planta Reconquista: informe 1-A (Empleado administrativo, sección Administración) e informe 1-B (Operario de prensa, sección Prensa). Ambos fueron leídos y verificados por el delegado de comisión interna Vicentín.';
   if(delegadoCorrectedA) fuentesText+=' Informe 1-A corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
-  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: agregada amputación parcial, enfermería clausurada, presión supervisoria.';
+  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
   var lines=[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
@@ -4274,11 +4274,11 @@ function buildVicentinPanel(){
   var blocks=[];
   var fuentesText='Elaborado en base a 2 informes grado 1 de trabajadores de Vicentín SAIC, planta Reconquista: informe 1-A (Empleado administrativo, sección Administración) e informe 1-B (Operario de prensa, sección Prensa). Ambos fueron leídos y verificados por el delegado de comisión interna Vicentín.';
   if(delegadoCorrectedA) fuentesText+=' Informe 1-A corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
-  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: especificada amputación parcial de 2 dedos en envasadora (no solo "accidente"), enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"), presión supervisoria para incrementar ritmo.';
+  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
   var lines=[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
-    {lead:'2 · Accidentes:',text:delegadoCorrectedB?'Prensa: amputación parcial de 2 dedos en envasadora. Fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT. Supervisores presionando para incrementar ritmo.':'Prensa: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
+    {lead:'2 · Accidentes:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
   ];
   if(delegadoCorrectedA){
     lines.push({lead:'4 · Estrategia patronal:',text:'Cambio de prioridad de producción: refinado → expeller, menor retención = empresa se ahorra. Concurso como situación económica — auditores para posible venta de activos.'});
@@ -4287,7 +4287,7 @@ function buildVicentinPanel(){
   lines.push({lead:'5 · Condiciones de vida:',text:'Admin: alquiler $380.000, básico $340.000, brecha 12%. Precarización desmotadores Guaycurú al 50%.'});
   blocks.push({ kind:'card', label:'Informe grado 2 · Vicentín Reconquista · delegado', title:'Panorama de planta — sem. 23-29/06', lines:lines });
   var delegadoText='El delegado de Vicentín verificó ambos informes grado 1.';
-  if(delegadoCorrectedB) delegadoText+=' Corrigió informe 1-B: amputación parcial de 2 dedos en envasadora (no solo "corte de mano"), enfermería clausurada 3 meses (no solo "no funcional"), supervisores presionando para incrementar ritmo.';
+  if(delegadoCorrectedB) delegadoText+=' Corrigió informe 1-B (Damián): agregó cambio de prioridad de producción como estrategia patronal y concurso como situación económica.';
   if(delegadoCorrectedA) delegadoText+=' Corrigió informe 1-A: agregó cambio de prioridad de producción como estrategia patronal y concurso como situación económica.';
   if(!delegadoCorrectedB&&!delegadoCorrectedA) delegadoText+=' Sin correcciones pendientes — ambos informes verificados.';
   delegadoText+=' Confirmó patrón de reducción: bajan ritmo → reducen turnos → suspenden → despiden.';
