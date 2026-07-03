@@ -52,8 +52,9 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 .kicker{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#9C988D;margin-bottom:10px;padding-left:2px}
 
 /* hide screens by default, show via JS */
-.screen-content{display:none}
-.screen-content.active{display:block;animation:apfade .3s ease}
+.screen-content{display:none!important}
+.screen-content.active{display:block!important;animation:apfade .3s ease}
+.screen-content.active-flex{display:flex!important;animation:apfade .3s ease}
 .hidden{display:none!important}
 
 /* Chat messages — Mi Derecho simulation */
@@ -3698,19 +3699,22 @@ function render(){
   allScreens.forEach(function(el){ el.classList.remove('active'); });
   var bodyScroll = document.getElementById('bodyScroll');
 
-  // Screens outside bodyScroll
+  // Screens outside bodyScroll — use CSS classes instead of inline styles
   var outsideIds=['is','chatderecho','documentacion','argumento','argumentoChat','ve','veChat','comunicador','comunicadorChat','smvm','felicidad','como-somos','comoSomosClase','comoSomosActivo','comoSomosReserva','comoSomosChat','miradorMate1','accion'];
   var isOutside=outsideIds.indexOf(state.screen)!==-1;
+  // First: remove all active classes from all screen-content
+  document.querySelectorAll('.screen-content').forEach(function(el){
+    el.classList.remove('active');
+    el.classList.remove('active-flex');
+  });
   if(isOutside){
-    outsideIds.forEach(function(id){
-      var el=document.getElementById(id);
-      if(el) el.style.display=(id===state.screen?'flex':'none');
-    });
     bodyScroll.style.display='none';
+    var activeEl=document.getElementById(state.screen);
+    if(activeEl) activeEl.classList.add('active-flex');
   } else {
     outsideIds.forEach(function(id){
       var el=document.getElementById(id);
-      if(el) el.style.display='none';
+      if(el) el.classList.remove('active-flex');
     });
     bodyScroll.style.display='';
     var cur = document.getElementById(state.screen);
@@ -5954,6 +5958,8 @@ function makeSourceLinks(){
 }
 
 // ===== INIT =====
+// Force browser to see latest version
+document.title='Hornero v'+Date.now();
 render();
 makeSourceLinks();
 </script>
