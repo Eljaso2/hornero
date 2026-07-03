@@ -2409,24 +2409,26 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
       </div>
 
     </div><!-- /accion -->
-  <div class="screen-content" id="is" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+  <div class="screen-content" id="is" style="display:none;flex-direction:column;flex:1;overflow:hidden;padding-bottom:62px">
 
     <!-- Role selector — hidden; roles shown inside Explicar dropdown -->
     <div style="background:#ECEAE3;padding:12px 16px 10px;flex:none;display:none" id="isRoleBtnsWrap">
       <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch" id="isRoleBtns"></div>
     </div>
 
-    <!-- Context line -->
-    <div style="background:#ECEAE3;padding:0 16px 10px;flex:none;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-      <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:.78rem;color:#2B2A26" id="isCtxPersona"></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#6E6A60" id="isCtxFunc"></div>
-      <button id="isExplainBtn" onclick="toggleIsExplain()" style="font-family:'Archivo',sans-serif;font-size:.74rem;color:#6E8345;font-weight:600;cursor:pointer;background:none;border:none;padding:0;margin-left:auto">Explicar ▾</button>
+    <!-- Context line: persona + func stacked, Explicar below -->
+    <div style="background:#ECEAE3;padding:14px 16px 4px;flex:none">
+      <div style="display:flex;align-items:baseline;gap:8px">
+        <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:.92rem;color:#2B2A26" id="isCtxPersona"></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#6E6A60" id="isCtxFunc"></div>
+      </div>
+      <button id="isExplainBtn" onclick="toggleIsExplain()" style="font-family:'Archivo',sans-serif;font-size:.74rem;color:#6E8345;font-weight:600;cursor:pointer;background:none;border:none;padding:6px 0 10px;margin-left:0">Explicar ▾</button>
     </div>
 
     <!-- TOP: Explanation (only shows when expanded) -->
-    <div id="isExplainWrap" style="flex:none;display:none">
+    <div id="isExplainWrap" style="flex:none;display:none;overflow-x:hidden">
       <div id="isExplainShort" style="font-size:.84rem;color:#4A4842;line-height:1.5"></div>
-      <div id="isExplainMore" style="max-height:0;overflow:hidden;transition:max-height .35s ease;font-size:.84rem;color:#4A4842;line-height:1.5;background:#ECEAE3;padding:0 16px"></div>
+      <div id="isExplainMore" style="max-height:0;overflow:hidden;overflow-x:hidden;transition:max-height .35s ease;font-size:.84rem;color:#4A4842;line-height:1.5;background:#ECEAE3;padding:0 16px"></div>
     </div>
 
     <!-- Blocks — listados, cards, tasks — top half when chat active -->
@@ -3822,16 +3824,16 @@ function renderNav(){
 // ===== INTELIGENCIA SINDICAL =====
 function buildRoles(){
   return {
-    1:{ name:'Trabajador de base', btn:'Trabajador', grado:'Grado 1', territorio:'Vicentín — planta Reconquista', persona:'Raúl', func:'Operario de prensa',
+    1:{ name:'Trabajador de base', btn:'Trabajador', grado:'Grado 1', territorio:'Vicentín — Reconquista', persona:'Raúl', func:'Operario de prensa',
       vis:{ see:'Sus propios informes grado 1 + su historial de cargas.', not:'Grado 1 de otros trabajadores · Grado 2 · 3 · 4.' },
       steps: buildTrabajadorSteps()
     },
-    2:{ name:'Delegado · comisión interna', btn:'Delegado', grado:'Grado 2', territorio:'Vicentín — comisión interna', persona:'Marta', func:'Delegada comisión interna',
+    2:{ name:'Delegado · comisión interna', btn:'Delegado', grado:'Grado 2', territorio:'Vicentín, Reconquista', persona:'Marta', func:'Delegada (CI)',
       vis:{ see:'Informes grado 1 de su territorio (Vicentín).', not:'Reportes de otros territorios · Reportes del secretario · Reportes de la federación.' },
       steps:[
         { title:'Panel de revisión', showInput:false,
           blocks: buildDelegadoPanel(),
-          explain:{ kicker:'Grado 2 · Delegado', h3:'Solo ve lo que le corresponde', p:'Ve los informes grado 1 de su territorio (Vicentín). Para elaborar su reporte, primero tiene que leer cada informe pendiente. Después la IA elabora la síntesis.', note:'No hay acceso horizontal. Un delegado no ve lo que pasa en otro territorio.' } },
+          explain:{ kicker:'Grado 2 · Delegado', h3:'Qué hace el delegado aquí', p:'Lee los informes grado 1 de los trabajadores de su territorio, verifica cada uno contra el relato original, corrige lo que la IA interpretó mal o lo que la IA no puede saber, y cuando los tiene todos revisados le pide a Hornero que elabore el informe grado 2 — una síntesis por categorías con análisis de cada trabajador. Firma y envía al secretario general.', note:'Solo ve informes de su territorio. No hay acceso horizontal — un delegado no ve lo que pasa en otro territorio.' } },
         { title:'Informe 1-A · admin', showInput:false,
           blocks: buildAdminAPanel(),
           explain:{ kicker:'Chequeo contra fuente', h3:'Lee el informe y chequea contra lo que el trabajador realmente dijo', p:'La IA procesó el relato y lo organizó por familias. El delegado puede leer el original para verificar: ¿la IA interpretó bien? ¿Faltó algo? ¿Se equivocó?', note:'"Corte de mano" → amputación parcial. La IA procesa lo que dice el texto; el delegado aporta lo que la IA no puede saber.' } },
@@ -3873,12 +3875,12 @@ function buildRoles(){
           ],
           explain:{ kicker:'Notificación del secretario', h3:'El secretario corrigió tu informe — revisá los cambios', p:'Tu informe Guaycurú fue corregido por el secretario general al leerlo. Las correcciones se incorporaron al Grado 3 y circulan a Federación con trazabilidad completa.', note:'Trazabilidad: se sabe qué vino de grado 1, qué agregó el delegado, qué corrigió el secretario.' } }
       ]},
-    3:{ name:'Secretario general', btn:'Secretario', grado:'Grado 3', territorio:'Sindicato Obligado / San Javier', persona:'Cristian', func:'Secretario general',
+    3:{ name:'Secretario general', btn:'Secretario', grado:'Grado 3', territorio:'Sindicato Obligado / San Javier', persona:'Cristian', func:'Sec. Gral. Norte de Santa Fe',
       vis:{ see:'Informes grado 2 de su jurisdicción (Obligado/San Javier).', not:'Reportes del trabajador directamente · Reportes de delegados de otros sindicatos · Reportes de secretarios de otros · Reportes de la federación.' },
       steps:[
         { title:'Panel de revisión', showInput:false,
           blocks: buildSecretarioPanel(),
-          explain:{ kicker:'Grado 3 · Secretario general', h3:'Solo ve lo que le corresponde', p:'Ve los informes grado 2 de su jurisdicción (Obligado/San Javier). Para elaborar el informe grado 3, primero tiene que leer cada informe pendiente. Después la IA elabora la síntesis.', note:'No hay acceso horizontal. Un secretario no ve lo que pasa en otro sindicato.' } },
+          explain:{ kicker:'Grado 3 · Secretario general', h3:'Qué hace el secretario aquí', p:'Lee los informes grado 2 que le llegan de los delegados de su jurisdicción, verifica cada uno, agrega correcciones y análisis político que la IA no puede aportar, y cuando los tiene todos revisados le pide a Hornero que elabore el informe grado 3. Firma con responsabilidad — su nombre avala el informe que se eleva a la Federación.', note:'Solo ve informes de su jurisdicción. Un secretario no ve lo que pasa en otro sindicato.' } },
         { title:'Informe Vicentín · ya visto', showInput:false,
           blocks: buildVicentinPanel(),
           explain:{ kicker:'Informe grado 2 · Vicentín', h3:'Ya lo revisaste — podés volver a leerlo', p:'Este informe grado 2 ya fue revisado por el secretario. Lo que importa: paritaria sin cierre, accidentes graves, cambio de directivas, condiciones de vida.', note:'El secretario no ve informes grado 1 directamente — solo los grado 2 de sus delegados.' } },
@@ -3900,7 +3902,7 @@ function buildRoles(){
       steps:[
         { title:'Panel', showInput:false,
           blocks: buildFederacionPanel(),
-          explain:{ kicker:'Grado 4 · Comisión directiva', h3:'Informes de todos los sindicatos — leídos y pendientes', p:'La Federación recibe los grado 3 de cada sindicato local. La IA te muestra todos los informes: los que ya leíste y el de Reconquista que urge revisión. Todo lo que leíste y lo que falta leer te sirve para elaborar el nuevo reporte federal.', note:'No ve grado 1 ni 2 directamente. Solo reportes de cada secretario.' } },
+          explain:{ kicker:'Federación · Comisión directiva', h3:'Qué hace el directivo aquí', p:'Recibe los informes grado 3 de cada secretario general de la federación, los lee y verifica, puede corregir o confirmar, y le pide a Hornero que elabore el reporte federal preliminar — una síntesis de toda la rama. El directivo decide: pedir cambios, redactar lo suyo, o firmar y enviar. El reporte federal se remite a los secretarios generales y puede publicarse en Coyuntura.', note:'No ve grado 1 ni 2 directamente. Solo reportes de cada secretario.' } },
         { title:'Informe Reconquista · Obligado/San Javier', showInput:false,
           blocks: buildReconquistaInforme(),
           explain:{ kicker:'Informe grado 3 · Reconquista', h3:'Lee el informe y verifica — podés corregir o confirmar', p:'Este informe grado 3 viene del secretario general de Obligado/San Javier. Lo que importa: paritaria sin cierre, accidentes graves, cambio de directivas, condiciones de vida.', note:'Trazabilidad: se sabe qué vino de grado 2, qué agregó el secretario, qué corrigió. La Federación puede aportar lo que la IA no puede saber.' } },
@@ -3964,7 +3966,7 @@ function buildTrabajadorSteps(){
           {date:'26/04',label:'Informe Trabajador · inicial',status:'ok',tags:['Situación general','Planta']}
         ] }
       ],
-      explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Cómo funciona', p:'Narras lo que ves en la planta — condiciones, accidentes, cambios de directiva. Voz o texto, desordenado. La IA etiqueta y ordena. Verificás. La fuente primaria se guarda intacta.', note:'No necesita categorizar ni llenar formularios.' } },
+      explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Qué hace el trabajador aquí', p:'Carga su denuncia: la escribe o la habla. Hornero escucha, procesa, etiqueta y organiza lo que contó. El trabajador lee la devolución, puede aceptarla, corregir algo que la IA interpretó mal, pedir precisiones, y finalmente envía. Su relato queda intacto como fuente primaria — lo que la IA elabora es un informe grado 1 que circula al delegado.', note:'No necesita categorizar ni llenar formularios. Narra su situación — la IA hace el resto.' } },
     { title:'Informe nuevo en el listado', showInput:false,
       blocks:[
         { kind:'report-list', items:[
@@ -4779,7 +4781,8 @@ function renderIS(){
   document.getElementById('isCtxFunc').textContent=role.func+' · '+role.territorio;
 
   // "Explicar" always visible (it's in the top bar)
-  document.getElementById('isExplainWrap').style.display = 'none';
+  // Track whether explain panel was open before this render — keep it open on role switch
+  var explainWasOpen = (document.getElementById('isExplainWrap').style.display !== 'none');
   document.getElementById('isExplainBtn').style.display = '';
 
   // split layout: show chat panel only when chat is active
@@ -4813,12 +4816,12 @@ function renderIS(){
   var e=istep.explain;
   document.getElementById('isExplainShort').innerHTML='';
   var mHtml='<div style="padding:14px 0">';
-  // Role buttons inside Explicar dropdown
-  mHtml+='<div style="display:flex;gap:8px;margin-bottom:12px">';
+  // Role buttons inside Explicar dropdown — wrap on narrow screens
+  mHtml+='<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;overflow-x:hidden">';
   [1,2,3,4].forEach(function(n){
     var active=n===curR;
     var s = (active ? 'background:#6E8345;color:#F2F1EC;border-color:#6E8345;' : 'background:#FBFAF6;color:#586B33;border-color:rgba(110,131,69,.4);')
-      + 'border-radius:12px;padding:9px 13px;cursor:pointer;text-align:left;flex:none;border:1.5px solid;font-family:\'Archivo\',sans-serif';
+      + 'border-radius:12px;padding:9px 13px;cursor:pointer;text-align:left;border:1.5px solid;font-family:\'Archivo\',sans-serif';
     mHtml+='<button onclick="setRole('+n+')" style="'+s+'">';
     mHtml+='<span style="font-family:\'Archivo\',sans-serif;font-weight:700;font-size:.82rem;white-space:nowrap">'+roles[n].btn+'</span>';
     mHtml+='<span style="display:block;font-family:\'JetBrains Mono\',monospace;font-size:.58rem;letter-spacing:.05em;margin-top:2px;opacity:.85;white-space:nowrap">'+roles[n].grado+'</span>';
@@ -4838,9 +4841,16 @@ function renderIS(){
   mHtml+='</div>';
   document.getElementById('isExplainMore').innerHTML=mHtml;
 
-  // reset: wrap hidden, expand collapsed
-  document.getElementById('isExplainWrap').style.display='none';
-  document.getElementById('isExplainMore').style.maxHeight='0px';
+  // If explain was open before role switch, keep it open with new content
+  if(explainWasOpen){
+    document.getElementById('isExplainWrap').style.display='';
+    document.getElementById('isExplainWrap').style.background='#ECEAE3';
+    document.getElementById('isExplainWrap').style.padding='14px 16px 12px';
+    document.getElementById('isExplainMore').style.maxHeight='600px';
+  } else {
+    document.getElementById('isExplainWrap').style.display='none';
+    document.getElementById('isExplainMore').style.maxHeight='0px';
+  }
 
   // ensure bottom nav is visible and updated
   renderNav();
