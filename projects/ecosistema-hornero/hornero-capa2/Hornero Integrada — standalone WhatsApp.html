@@ -3942,7 +3942,7 @@ function buildTrabajadorSteps(){
   if(trabajadorDemoDone){
     var trBlocks=[];
     trBlocks.push({ kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-      {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:delegadoCorrectedA?['Delegado corregió · estrategia patronal']:delegadoSeenA?['Delegado ya lo vio']:[]},
+      {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:delegadoCorrectedA?['Delegado corregió · EPP/enfermería']:delegadoSeenA?['Delegado ya lo vio']:[]},
       {date:'28/06',label:'Informe Trabajador N° 10',status:'ok'},
       {date:'21/06',label:'Informe Trabajador N° 09',status:'ok'},
       {date:'14/06',label:'Informe Trabajador N° 08',status:'ok'},
@@ -3956,9 +3956,8 @@ function buildTrabajadorSteps(){
     ] });
     if(delegadoCorrectedA){
       trBlocks.push({ kind:'card', label:'Corrección del delegado', title:'Tu informe fue corregido', lines:[
-        {text:'La delegada de Vicentín corrigió tu informe y agregó:'},
-        {lead:'F4 · Estrategia patronal:',text:'Cambio de prioridad de producción (refinado → expeller). Menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica — no solo productiva. Auditores confirmados — evaluación para posible venta de activos.'},
-        {lead:'F9 · Producción:',text:'Entró menos soja, camiones demorados por control de ruta. Línea de refinería baja ritmo. Expeller priorizado.'}
+        {text:'La delegada de Vicentín corrigió tu informe y especificó:'},
+        {lead:'F2 · Condiciones de trabajo:',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
       ] });
     }
     return [
@@ -4086,9 +4085,9 @@ function buildDelegadoPanel(){
     // show pending reports — Damián always available, Raúl only after he sent his informe
     var pendItems=[];
     if(trabajadorInformeSent){
-      pendItems.push({date:'29/06',label:'Raúl · Operario de prensa · Vicentín',status:delegadoSeenA?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Concurso']});
+      pendItems.push({date:'29/06',label:'Raúl · Operario de prensa · Vicentín',status:delegadoSeenA?'seen':'pend',onclick:'setStep(1)',tags:['Accidentes','EPP','Enfermería']});
     }
-    pendItems.push({date:'29/06',label:'Damián · Empleado administrativo · Vicentín',status:delegadoSeenB?'seen':'pend',onclick:'setStep(2)',tags:['Accidente','EPP']});
+    pendItems.push({date:'29/06',label:'Damián · Empleado administrativo · Vicentín',status:delegadoSeenB?'seen':'pend',onclick:'setStep(2)',tags:['Paritaria','Concurso','Estrategia patronal']});
     blocks.push({ kind:'report-list', title:'Informes Pendientes de Grado 1', items:pendItems });
     // elaborar button — enabled when all available informes are seen
     var allSeen=(!trabajadorInformeSent||delegadoSeenA)&&delegadoSeenB;
@@ -4099,20 +4098,22 @@ function buildDelegadoPanel(){
 
 function buildAdminAPanel(){
   var blocks=[];
-  blocks.push({ kind:'card', label:'Informe grado 1 · Raúl · Operario de prensa · Vicentín', lines:[
+  // Raúl — operario de prensa: habla de accidents, EPP, fuga, ritmo, enfermería
+  var raulLines=[
     {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida.'},
-    {lead:'F2 · Condiciones de trabajo:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'},
-    {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido. Entró menos soja, camiones demorados por control de ruta.'}
-  ] });
+    {lead:'F2 · Condiciones de trabajo:',text:'2 accidentes esta semana. Prensa 3 con fuga de aceite por la junta. Enfermería no funcional — derivaron compañero al hospital de Reconquista. EPP insuficientes.'},
+    {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido. Priorizan expeller por menor retención.'}
+  ];
+  if(delegadoCorrectedA){
+    raulLines[1]={lead:'F2 · Condiciones de trabajo (corregido):',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'};
+  }
+  blocks.push({ kind:'card', label:'Informe grado 1 · Raúl · Operario de prensa · Vicentín', lines:raulLines });
   blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{expandable:true,text:'"Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega para nada… el alquiler se comió todo el aumento. Nos piden más ritmo, 20% más, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale. También: 2 accidentes esta semana, uno en prensa y otro en envasadora, el de envasadora fue peor, se cortó la mano con la máquina, y no hay enfermería funcional, tuvieron que llevarlo al hospital de Reconquista. Los EPP siguen siendo los mismos, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Paritaria: la comisión interna está tratando pero la empresa responde que el concurso limita, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, menos de lo que debería según convenio Art. 7bis."'}] });
   if(secretarioSeenVicentin){
-    // Secretario ya lo vio — no editable, show status
     blocks.push({ kind:'card', lines:[{text:'✓ Secretario ya lo vio — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goDelegadoHome()'}] });
   } else if(!delegadoSeenA){
-    // Can still edit — secretario hasn't seen it yet
     blocks.push({ kind:'actions', items:[{label:'Visto',variant:'primary',onclick:'markSeenA()'},{label:'Editar',variant:'outline',onclick:'commentAdminA()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
   } else {
-    // Delegado marked seen but secretario hasn't — still can edit
     blocks.push({ kind:'actions', items:[{label:'Editar',variant:'primary',onclick:'commentAdminA()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
   }
   return blocks;
@@ -4154,9 +4155,9 @@ function commentAdminA(){
   var cc=document.getElementById('isChatContainer');
   if(cc) cc.innerHTML='';
   isChatConv=[
-    { type:'hornero', text:'¿Qué observás en el informe del admin?', time:'11:05' },
-    { type:'user', text:'El informe no etiquetó el cambio de prioridad de producción. El admin dijo que van a priorizar expeller porque tiene menor retención — eso es estrategia patronal, no solo producción. Y el concurso tiene que figurar como situación económica de la empresa, no solo como excusa para no cerrar paritaria.', time:'11:06' },
-    { type:'hornero', text:'Correcto. Agrego:<br><strong>F4 · Estrategia patronal</strong>: cambio de prioridad de producción (refinado → expeller), menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica — no solo productiva. Auditores confirmados, evaluación para posible venta de activos.<br><strong>F9 · Producción</strong>: entró menos soja, camiones demorados por control de ruta, línea de refinería baja ritmo, expeller priorizado.<br><br>Se informa el cambio al trabajador (informe 1-A). Confirmá con <strong>Visto</strong>.', time:'11:07' }
+    { type:'hornero', text:'¿Qué observás en el informe de Raúl?', time:'11:05' },
+    { type:'user', text:'El informe dice "2 accidentes" y "enfermería no funcional" — pero uno fue una amputación parcial de 2 dedos en envasadora, no solo un accidente. Y la enfermería está clausurada desde hace 3 meses, eso es violación del Art. 42 CCT. También: los guantes se rompen en una semana, las botas no aguantan el aceite caliente, y los supervisores están presionando para incrementar ritmo.', time:'11:06' },
+    { type:'hornero', text:'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.', time:'11:07' }
   ];
   renderIS();
   isChatRunStep(0);
@@ -4164,13 +4165,18 @@ function commentAdminA(){
 
 function buildAdminBPanel(){
   var blocks=[];
-  blocks.push({ kind:'card', label:'Informe grado 1 · Damián · Empleado administrativo · Vicentín', lines:[
-    {lead:'F2 · Salud laboral:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'},
-    {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}
-  ] });
-  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{expandable:true,text:'"Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto para reparar porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada, no fue grave pero podría haber sido. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale, o sea, cambia la directiva y nosotros tenemos que adaptar sin que nos digan nada formal, solo rumores. También: 2 accidentes esta semana, uno en prensa y otro en envasadora, el de envasadora fue peor, se cortó la mano con la máquina, y no hay enfermería funcional en la planta, tuvieron que llevarlo al hospital de Reconquista. Y los EPP siguen siendo los mismos de siempre, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Sobre paritaria: la comisión interna está tratando de negociar pero la empresa responde que el concurso limita las posibilidades, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, o sea, me pagan pero menos de lo que debería según convenio Art. 7bis."'}] });
+  // Damián — empleado administrativo: habla de concurso, salario, alquiler, estrategia
+  var damianLines=[
+    {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida.'},
+    {lead:'F5 · Condiciones de vida:',text:'Alquiler promedio $380.000. Brecha básico/costo de vida: 12%.'}
+  ];
+  if(delegadoCorrectedB){
+    damianLines.push({lead:'F4 · Estrategia patronal (corregido):',text:'Cambio de prioridad de producción (refinado → expeller). Menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica — no solo productiva. Auditores confirmados, evaluación para posible venta de activos.'});
+    damianLines.push({lead:'F9 · Producción (corregido):',text:'Entró menos soja, camiones demorados por control de ruta. Línea de refinería baja ritmo. Expeller priorizado.'});
+  }
+  blocks.push({ kind:'card', label:'Informe grado 1 · Damián · Empleado administrativo · Vicentín', lines:damianLines });
+  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{expandable:true,text:'"Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega para nada… el alquiler se comió todo el aumento. Van a priorizar expeller porque tiene menor retención — eso no es producción, es estrategia patronal para achicar retenciones. El concurso no es solo crisis, hay auditores evaluando activos para posible venta. Y los despidos no son reducción de personal, es vaciamiento."'}] });
   if(secretarioSeenVicentin){
-    // Secretario ya lo vio — no editable
     blocks.push({ kind:'card', lines:[{text:'✓ Secretario ya lo vio — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goDelegadoHome()'}] });
   } else if(!delegadoSeenB){
     blocks.push({ kind:'actions', items:[{label:'Visto',variant:'primary',onclick:'markSeenB()'},{label:'Editar',variant:'outline',onclick:'commentAdminB()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
@@ -4179,6 +4185,7 @@ function buildAdminBPanel(){
   }
   return blocks;
 }
+
 
 function commentAdminB(){
   pendingCorrectionB=true;
