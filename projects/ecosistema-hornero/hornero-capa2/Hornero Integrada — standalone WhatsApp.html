@@ -3989,9 +3989,14 @@ function buildTrabajadorSteps(){
         { kind:'card', label:'Familia 1 · Conflicto laboral', lines:[{text:'Paritaria sin cierre. Empresa argumenta concurso. Básico no cubre costo de vida.'}], tags:[{fam:'1',label:'Paritaria'},{fam:'1',label:'Conflicto salarial'}] },
         { kind:'card', label:'Familia 2 · Condiciones de trabajo', lines:[{text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'}], tags:[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}] },
         { kind:'card', label:'Familia 9 · Producción', lines:[{text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}], tags:[{fam:'9',label:'Directivas'},{fam:'9',label:'Producto final'},{fam:'9',label:'Traba en producción'}] },
+        { kind:'actions', items:[{label:'¿Está bien así?',variant:'primary',onclick:'isChatVerify()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] }
+      ],
+      explain:{ kicker:'Informe grado 1', h3:'La IA organizó lo que contaste por familias', p:'Hornero procesó tu relato y lo organizó en tres familias: conflicto laboral, condiciones de trabajo y producción. Lee el informe — si algo está mal o faltó algo, podés corregir. Si está bien, confirmá y se envía al delegado.', note:'La IA no publica sin verificación humana. Cada dato queda vinculado a tu relato original.' } },
+    { title:'Verificación', showInput:false,
+      blocks:[
         { kind:'card', lines:[{text:'✓ Paritaria — correcto'},{text:'✓ Accidentes — correcto'},{text:'✓ Cambio de directivas — correcto'},{lead:'⚠ Equipamiento de Protección Personal — agregar:',text:'guantes se rompen en 1 semana, botas no aguantan aceite caliente'}], actions:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'}] }
       ],
-      explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí el informe antes de enviar', p:'La IA etiquetó y organizó lo que contaste. Verificá que está bien — podés corregir lo que no te parezca, o confirmar y enviar al delegado.', note:'Sin verificación, el informe no ingresa al sistema. La IA no publica sin verificación humana. Una vez confirmado, circula al delegado del territorio (grado 2).' } },
+      explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso — los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Podés confirmar lo que está, agregar detalles, o corregir lo que no te parezca.', note:'Sin verificación, el informe no ingresa al sistema. Una vez confirmado, circula al delegado del territorio (grado 2).' } },
     { title:'Informe enviado al delegado', showInput:false,
       blocks:[
         { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}] }
@@ -4790,7 +4795,7 @@ function renderIS(){
 
   // chat bar always visible — on steps without dialogue, disable input and show contextual placeholder
   document.getElementById('isChatBar').style.display = '';
-  var noDialogue = (curR===1 && trabajadorDemoDone) || (curR===1 && sIdx===1) || (curR===1 && sIdx===2 && !isChatStarted) || (curR===1 && sIdx===3)
+  var noDialogue = (curR===1 && trabajadorDemoDone) || (curR===1 && sIdx===1) || (curR===1 && sIdx===2) || (curR===1 && sIdx===3) || (curR===1 && sIdx===4)
     || (curR===2 && sIdx===1 && !isChatStarted) || (curR===2 && sIdx===2 && !isChatStarted) || (curR===2 && sIdx===3 && !isChatStarted) || (curR===2 && sIdx===4) || (curR===2 && sIdx===5)
     || (curR===3 && sIdx===1 && !isChatStarted) || (curR===3 && sIdx===2 && !isChatStarted) || (curR===3 && sIdx===3 && !isChatStarted) || (curR===3 && sIdx===4) || (curR===3 && sIdx===5)
     || (curR===4 && sIdx===1 && !isChatStarted) || (curR===4 && sIdx===2 && !isChatStarted) || (curR===4 && sIdx===3 && !isChatStarted) || (curR===4 && sIdx===4);
@@ -4800,7 +4805,7 @@ function renderIS(){
   if(noDialogue){
     if(sendBtn) sendBtn.disabled=true;
     if(micBtn) micBtn.disabled=true;
-    if(chatInput){ chatInput.disabled=true; chatInput.placeholder=(curR===1&&sIdx===1)?'Seleccioná el informe nuevo':'Usá los botones Corregir o Visto'; }
+    if(chatInput){ chatInput.disabled=true; chatInput.placeholder=(curR===1&&sIdx===1)?'Seleccioná el informe nuevo':'Usá los botones para verificar, corregir o confirmar'; }
   } else {
     if(sendBtn) sendBtn.disabled=false;
     if(micBtn) micBtn.disabled=false;
@@ -4946,7 +4951,7 @@ function buildIsChatConv(){
 // Confirm and send — advance to sent step
 function isConfirmSend(){
   if(state.isRole===1){
-    state.isStep=3;
+    state.isStep=4;
   } else if(state.isRole===2){
     delegadoReportSent=true;
     state.isStep=5;
@@ -4976,6 +4981,13 @@ function goSecretarioHome(){
 // Correction chat — worker corrects, IA responds, then worker confirms
 var isCorrectMode=false;
 var workerCorrectedOnce=false; // tracks if worker already corrected once
+function isChatVerify(){
+  // Worker asked "¿Está bien así?" → advance to verification step
+  state.isStep=3;
+  isChatInit();
+  renderIS();
+}
+
 function isChatCorrect(){
   isCorrectMode=true;
   isDelegadoEditMode=false;
