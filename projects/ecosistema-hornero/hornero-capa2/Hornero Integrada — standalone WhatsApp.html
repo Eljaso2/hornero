@@ -4982,8 +4982,8 @@ function buildTrabajadorInformeBlocks(){
   // If delegado hasn't seen it yet, allow correction; if delegado already saw it, only read
   if(!delegadoSeenA){
     if(trabajadorDemoDone){
-      // Coming from Mis Informes — allow correction, with back button
-      blocks.push({ kind:'actions', items:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goTrabajadorHome()'}] });
+      // Coming from Mis Informes — informe already sent, only correct or go back
+      blocks.push({ kind:'actions', items:[{label:'Quiero corregir algo',variant:'primary',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goTrabajadorHome()'}] });
     } else {
       // First time — allow confirm or correct
       blocks.push({ kind:'actions', items:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] });
@@ -5036,8 +5036,8 @@ function isChatCorrect(){
     // second+ correction: Hornero asks what the worker wants to correct
     isChatConv=[
       { type:'hornero', text:'¿Qué algo más querés corregir del informe? Contame qué te parece que está mal, qué faltó o qué querés agregar.', time:'10:25' },
-      { type:'user', text:'Los accidentes no fueron "2 accidentes" — uno fue una amputación parcial de 2 dedos en envasadora. Y la enfermería está clausurada, no "no funcional".', time:'10:26' },
-      { type:'hornero', text:'Corregido. Actualizo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><br>¿Querés corregir algo más o confirmá con el botón <strong>Confirmar y enviar</strong>?', time:'10:27' }
+      { type:'user', text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.', time:'10:26' },
+      { type:'hornero', text:'Corregido. Actualizo:<br><strong>F2 · Condiciones de trabajo</strong>: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><br>¿Querés corregir algo más o confirmá con el botón <strong>Confirmar y enviar</strong>?', time:'10:27' }
     ];
   } else {
     // first correction: worker asks about EPP classification
