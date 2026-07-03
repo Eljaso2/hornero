@@ -4064,8 +4064,8 @@ function buildDelegadoPanel(){
   } else {
     // show pending reports
     blocks.push({ kind:'report-list', title:'Informes Pendientes de Grado 1', items:[
-      {date:'29/06',label:'Informe Trabajador N° 11-A',status:delegadoSeenA?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Concurso']},
-      {date:'29/06',label:'Informe Trabajador N° 11-B',status:delegadoSeenB?'seen':'pend',onclick:'setStep(2)',tags:['Accidente','EPP']}
+      {date:'29/06',label:'Raúl · Operario de prensa · Vicentín',status:delegadoSeenA?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Concurso']},
+      {date:'29/06',label:'Damián · Empleado administrativo · Vicentín',status:delegadoSeenB?'seen':'pend',onclick:'setStep(2)',tags:['Accidente','EPP']}
     ] });
     // elaborar button — disabled until both seen
     blocks.push({ kind:'actions', items:[{label:'Elaborar nuevo informe',variant:delegadoSeenA&&delegadoSeenB?'primary':'disabled',onclick:delegadoSeenA&&delegadoSeenB?'makeDelegadoReport()':''}] });
