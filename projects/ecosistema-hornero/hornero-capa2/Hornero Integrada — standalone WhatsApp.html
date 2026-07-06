@@ -4082,33 +4082,34 @@ function buildTrabajadorSteps(){
     { title:'Contale al chat lo que pasó', showInput:false,
       blocks:[
         { kind:'report-list', items:[
-          {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Conflicto salarial','Vicentín planta']},
-          {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Salud laboral','EPP']},
-          {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Ritmo +20%','Directivas']},
-          {date:'07/06',label:'Informe Trabajador N° 07',status:'ok',tags:['Paritaria','Concurso']},
-          {date:'31/05',label:'Informe Trabajador N° 06',status:'ok',tags:['Accidente','Prensa']},
-          {date:'24/05',label:'Informe Trabajador N° 05',status:'ok',tags:['Supervisor','Disciplina']},
-          {date:'17/05',label:'Informe Trabajador N° 04',status:'ok',tags:['EPP insuficiente','Guantes']},
-          {date:'10/05',label:'Informe Trabajador N° 03',status:'ok',tags:['Paritaria','Básico']},
-          {date:'03/05',label:'Informe Trabajador N° 02',status:'ok',tags:['Cond. trabajo','Turnos']},
-          {date:'26/04',label:'Informe Trabajador N° 01',status:'ok',tags:['Situación general','Planta']}
+          {date:'01/07',label:'Informe Trabajador N° 11 · No enviado',status:'draft',onclick:'',tags:['No enviado']},
+          {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Enviado · Corregido · Aprobado']},
+          {date:'07/06',label:'Informe Trabajador N° 07',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'31/05',label:'Informe Trabajador N° 06',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'24/05',label:'Informe Trabajador N° 05',status:'ok',tags:['Enviado · Corregido · Aprobado']},
+          {date:'17/05',label:'Informe Trabajador N° 04',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'10/05',label:'Informe Trabajador N° 03',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'03/05',label:'Informe Trabajador N° 02',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'26/04',label:'Informe Trabajador N° 01',status:'ok',tags:['Enviado · Aprobado']}
         ] }
       ],
       explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Qué hace el trabajador aquí', p:'Carga su denuncia: la escribe o la habla. Hornero escucha, procesa, etiqueta y organiza lo que contó. El trabajador lee la devolución, puede aceptarla, corregir algo que la IA interpretó mal, pedir precisiones, y finalmente envía. Su relato queda intacto como fuente primaria — lo que la IA elabora es un informe grado 1 que circula al delegado.', note:'No necesita categorizar ni llenar formularios. Narra su situación — la IA hace el resto.' } },
     { title:'Informe nuevo en el listado', showInput:false,
       blocks:[
         { kind:'report-list', items:[
-          {date:'01/07',label:'Informe Trabajador N° 11',status:'new',tags:['Conflicto salarial','Salud laboral','Ritmo'],onclick:'setStep(2)'},
-          {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Conflicto salarial','Vicentín planta']},
-          {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Salud laboral','EPP']},
-          {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Ritmo +20%','Directivas']},
-          {date:'07/06',label:'Informe Trabajador N° 07',status:'ok',tags:['Paritaria','Concurso']},
-          {date:'31/05',label:'Informe Trabajador N° 06',status:'ok',tags:['Accidente','Prensa']},
-          {date:'24/05',label:'Informe Trabajador N° 05',status:'ok',tags:['Supervisor','Disciplina']},
-          {date:'17/05',label:'Informe Trabajador N° 04',status:'ok',tags:['EPP insuficiente','Guantes']},
-          {date:'10/05',label:'Informe Trabajador N° 03',status:'ok',tags:['Paritaria','Básico']},
-          {date:'03/05',label:'Informe Trabajador N° 02',status:'ok',tags:['Cond. trabajo','Turnos']},
-          {date:'26/04',label:'Informe Trabajador N° 01',status:'ok',tags:['Situación general','Planta']}
+          {date:'01/07',label:'Informe Trabajador N° 11 · No enviado',status:'new',tags:['No enviado'],onclick:'setStep(2)'},
+          {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Enviado · Corregido · Aprobado']},
+          {date:'07/06',label:'Informe Trabajador N° 07',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'31/05',label:'Informe Trabajador N° 06',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'24/05',label:'Informe Trabajador N° 05',status:'ok',tags:['Enviado · Corregido · Aprobado']},
+          {date:'17/05',label:'Informe Trabajador N° 04',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'10/05',label:'Informe Trabajador N° 03',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'03/05',label:'Informe Trabajador N° 02',status:'ok',tags:['Enviado · Aprobado']},
+          {date:'26/04',label:'Informe Trabajador N° 01',status:'ok',tags:['Enviado · Aprobado']}
         ] }
       ],
       explain:{ kicker:'Informe grado 1', h3:'Tu informe aparece destacado en el listado', p:'La IA procesó tu relato y generó un informe grado 1. Está destacado arriba — hacé click para ver cómo la IA organizó lo que contaste.', note:'Un informe grado 1 por cada carga. Trazabilidad: queda vinculado a la fuente primaria. Si algo está mal, podés corregir en el paso siguiente.' } },
