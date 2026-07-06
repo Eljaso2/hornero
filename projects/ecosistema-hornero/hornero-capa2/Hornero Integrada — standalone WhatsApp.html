@@ -4040,7 +4040,7 @@ function buildTrabajadorSteps(){
   if(trabajadorDemoDone){
     var trBlocks=[];
     trBlocks.push({ kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-      {date:'01/07',label:'Informe Trabajador N° 11',status:trabajadorInformeSent?(delegadoSeenA?'seen':'pend'):'draft',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Enviado · Corregido · Aprobado']:delegadoCorrectedA?['Enviado · Corregido']:delegadoSeenA?['Enviado · Visto']:trabajadorInformeSent?['Enviado · No visto']:['No enviado']},
+      {date:'01/07',label:'Informe Trabajador N° 11',status:trabajadorInformeSent?'ok':'draft',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Enviado · Corregido · Aprobado']:delegadoCorrectedA?['Enviado · Corregido']:delegadoSeenA?['Enviado · Visto']:trabajadorInformeSent?['Enviado · No visto']:['No enviado']},
       {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Enviado · Aprobado']},
       {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Enviado · Aprobado']},
       {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Enviado · Corregido · Aprobado']},
@@ -4919,7 +4919,8 @@ function renderBlock(block){
       if(r.tags && r.tags.length){
         html+='<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px">';
         r.tags.forEach(function(t){
-          html+='<span style="font-family:\'JetBrains Mono\',monospace;font-size:.58rem;background:#E8EDD7;color:#586B33;padding:2px 6px;border-radius:5px;font-weight:600;white-space:nowrap;line-height:1.4">'+t+'</span>';
+          var isAlert=t.indexOf('No visto')>=0||t.indexOf('No enviado')>=0;
+          html+='<span style="font-family:\'JetBrains Mono\',monospace;font-size:.58rem;background:'+((isAlert?'#F6E7E1':'#E8EDD7'))+';color:'+((isAlert?'#A6553E':'#586B33'))+';padding:2px 6px;border-radius:5px;font-weight:600;white-space:nowrap;line-height:1.4">'+t+'</span>';
         });
         html+='</div>';
       }
