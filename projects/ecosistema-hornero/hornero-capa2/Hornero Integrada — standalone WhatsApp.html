@@ -4040,17 +4040,17 @@ function buildTrabajadorSteps(){
   if(trabajadorDemoDone){
     var trBlocks=[];
     trBlocks.push({ kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-      {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Delegado lo vio, lo corrigió y lo envió']:delegadoCorrectedA?['Delegado lo corrigió']:delegadoSeenA?['Delegado lo vio ✓']:[]},
-      {date:'28/06',label:'Informe Trabajador N° 10',status:'ok'},
-      {date:'21/06',label:'Informe Trabajador N° 09',status:'ok'},
-      {date:'14/06',label:'Informe Trabajador N° 08',status:'ok'},
-      {date:'07/06',label:'Informe Trabajador N° 07',status:'ok'},
-      {date:'31/05',label:'Informe Trabajador N° 06',status:'ok'},
-      {date:'24/05',label:'Informe Trabajador N° 05',status:'ok'},
-      {date:'17/05',label:'Informe Trabajador N° 04',status:'ok'},
-      {date:'10/05',label:'Informe Trabajador N° 03',status:'ok'},
-      {date:'03/05',label:'Informe Trabajador N° 02',status:'ok'},
-      {date:'26/04',label:'Informe Trabajador N° 01',status:'ok'}
+      {date:'01/07',label:'Informe Trabajador N° 11',status:trabajadorInformeSent?(delegadoSeenA?'seen':'pend'):'draft',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Enviado · Corregido · Aprobado']:delegadoCorrectedA?['Enviado · Corregido']:delegadoSeenA?['Enviado · Visto']:trabajadorInformeSent?['Enviado · No visto']:['No enviado']},
+      {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Enviado · Aprobado']},
+      {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Enviado · Aprobado']},
+      {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Enviado · Corregido · Aprobado']},
+      {date:'07/06',label:'Informe Trabajador N° 07',status:'ok',tags:['Enviado · Aprobado']},
+      {date:'31/05',label:'Informe Trabajador N° 06',status:'ok',tags:['Enviado · Aprobado']},
+      {date:'24/05',label:'Informe Trabajador N° 05',status:'ok',tags:['Enviado · Corregido · Aprobado']},
+      {date:'17/05',label:'Informe Trabajador N° 04',status:'ok',tags:['Enviado · Aprobado']},
+      {date:'10/05',label:'Informe Trabajador N° 03',status:'ok',tags:['Enviado · Aprobado']},
+      {date:'03/05',label:'Informe Trabajador N° 02',status:'ok',tags:['Enviado · Aprobado']},
+      {date:'26/04',label:'Informe Trabajador N° 01',status:'ok',tags:['Enviado · Aprobado']}
     ] });
     if(delegadoCorrectedA){
       trBlocks.push({ kind:'card', label:'Corrección del delegado', title:'Tu informe fue corregido', lines:[
@@ -4897,9 +4897,10 @@ function renderBlock(block){
       var isNew=r.status==='new';
       var isPend=r.status==='pend';
       var isSeen=r.status==='seen';
-      var bg=isNew?'background:#E8EDD7;border:1px solid rgba(110,131,69,.4)':isSeen?'background:#E8EDD7;border:1px solid rgba(110,131,69,.3)':isPend?'background:#F6E7E1;border:1px solid rgba(166,85,62,.3)':'background:#FBFAF6;border:1px solid rgba(43,42,38,.1)';
-      var fw=isNew||isPend||isSeen?'700':'400';
-      var dc=isNew?'#6E8345':isSeen?'#6E8345':isPend?'#A6553E':'#6E6A60';
+      var isDraft=r.status==='draft';
+      var bg=isNew?'background:#E8EDD7;border:1px solid rgba(110,131,69,.4)':isSeen?'background:#E8EDD7;border:1px solid rgba(110,131,69,.3)':isPend?'background:#F6E7E1;border:1px solid rgba(166,85,62,.3)':isDraft?'background:#FBFAF6;border:1px solid rgba(43,42,38,.2);opacity:.7':'background:#FBFAF6;border:1px solid rgba(43,42,38,.1)';
+      var fw=isNew||isPend||isSeen||isDraft?'700':'400';
+      var dc=isNew?'#6E8345':isSeen?'#6E8345':isPend?'#A6553E':isDraft?'#6E6A60':'#6E6A60';
       var hasSources=r.sources&&r.sources.length>0;
       var srcId=rlId+'_src_'+idx;
       html+='<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:11px;margin-bottom:5px;'+bg+';cursor:pointer" onclick="'+(r.onclick||(isNew?'setStep(2);':''))+(hasSources?'toggleReportSources(\''+srcId+'\');':'')+'">';
@@ -5153,7 +5154,12 @@ function buildIsChatConv(){
 function isConfirmSend(){
   if(state.isRole===1){
     trabajadorInformeSent=true;
-    state.isStep=trabajadorDemoDone?3:4;
+    if(trabajadorDemoDone){
+      // After sending from Mis Informes, go back to home to show updated list
+      state.isStep=0;
+    } else {
+      state.isStep=4;
+    }
   } else if(state.isRole===2){
     delegadoReportSent=true;
     state.isStep=5;
@@ -5192,8 +5198,13 @@ function buildTrabajadorInformeBlocks(){
   // Delegado status: progressive states — saw, corrected, sent
   if(!delegadoSeenA){
     if(trabajadorDemoDone){
-      // Coming from Mis Informes — informe already sent, only correct or go back
-      blocks.push({ kind:'actions', items:[{label:'Quiero corregir algo',variant:'primary',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goTrabajadorHome()'}] });
+      if(!trabajadorInformeSent){
+        // Not sent yet — show Corregir, Enviar and Volver
+        blocks.push({ kind:'actions', items:[{label:'Enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goTrabajadorHome()'}] });
+      } else {
+        // Sent but delegado hasn't seen — only correct or go back
+        blocks.push({ kind:'actions', items:[{label:'Quiero corregir algo',variant:'primary',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goTrabajadorHome()'}] });
+      }
     } else {
       // First time — allow confirm or correct
       blocks.push({ kind:'actions', items:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] });
