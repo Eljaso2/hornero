@@ -3703,6 +3703,20 @@ function toggleExpand(id){
   }
 }
 
+function toggleTranscript(id){
+  var el=document.getElementById(id);
+  var row=el.previousElementSibling;
+  var btn=row.querySelector('.tlToggleBtn');
+  if(!el) return;
+  if(el.style.maxHeight==='0px'||el.style.maxHeight===''){
+    el.style.maxHeight='none';
+    if(btn) btn.textContent='Ver menos ▴';
+  } else {
+    el.style.maxHeight='0px';
+    if(btn) btn.textContent='Ver más ▾';
+  }
+}
+
 function toggleReportSources(id){
   var el=document.getElementById(id);
   var arrow=document.getElementById(id+'_arrow');
@@ -3834,6 +3848,78 @@ function renderNav(){
   });
   container.innerHTML = html;
   container.style.display='';
+}
+
+// ===== TRANSCRIPT TEXTS — centralized for reuse =====
+var transcript1A='"Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega para nada… el alquiler se comió todo el aumento. Van a priorizar expeller porque tiene menor retención — eso no es producción, es estrategia patronal para achicar retenciones. El concurso no es solo crisis, hay auditores evaluando activos para posible venta. Y los despidos no son reducción de personal, es vaciamiento."';
+var transcript1B='"Hola, quiero dejar registrado lo que está pasando en prensa. Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto para reparar porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada, no fue grave pero podría haber sido. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale, o sea, cambia la directiva y nosotros tenemos que adaptar sin que nos digan nada formal, solo rumores. Los EPP siguen siendo los mismos de siempre, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Sobre paritaria: la comisión interna está tratando de negociar pero la empresa responde que el concurso limita las posibilidades, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, o sea, me pagan pero menos de lo que debería según convenio Art. 7bis."';
+var transcript1C='"Esta semana despidieron a 8 compañeros, todos del turno mañana. La empresa dice que es reducción de volumen, pero la desmotadora 2 tiene el sistema de aspiración roto desde hace dos semanas, se acumula la fibra de algodón y ayer casi se incendió — si no se limpia esa acumulación, es una bomba. Nos dan barbijos de papel que se llenan de fibra en 20 minutos, no son EPP respiratorio, y la desmotadora 1 es la única que está funcionando, las otras dos están paradas. Nos están matando de ritmo en la que funciona para compensar las que no andan, y encima nos echan.<br><br>Lo de los despidos no es reducción de personal, es limpieza — los que echaron son los que venían reclamando EPP y los que se negaban a cubrir doble turno cuando faltaba gente. Nos dicen que los van a reemplazar con temporarios, que cobran la mitad y no tienen estabilidad. Yo tengo contrato de 3 meses renovable, cada renovación es un reinicio, no suma antigüedad. Si reclamamos, no nos renovan. Es extorsión contractual."';
+var transcript1D='"En el turno noche somos 4 fijos y 6 temporarios. Los temporarios cobran $280.000 de básico — eso está debajo del SMVM, cómo es posible que una empresa del grupo Vicentín pague debajo del mínimo. Y no tienen obra social completa, solo la básica, si un temporario se lastima en la desmotadora a las 2 de la mañana, ¿quién lo atiende? No hay médico de noche, no hay enfermería, solo un botiquín que siempre está desbasto.<br><br>Los contratos de 3 meses son un circo — cada 90 días te dicen \'volvemos a evaluar\' y lo que evalúan es si te callaste o no. Si pediste EPP, si reclamaste algo, si te quejaste del ritmo, no te renovan. Yo hace 8 meses que estoy renovando contrato, no sumo antigüedad, no tengo nada asegurado. Y encima la desmotadora 2 sigue andando mal, la aspiración no funciona y en la noche se acumula más fibra porque no hay supervisión, los supervisores solo están de día. Es negligencia — si explota de noche, no hay protocolo de evacuación."';
+var transcript1E='"El despacho está parado — 15.000 toneladas de fibra de algodón en playa sin movimiento, los camiones no entran porque no hay pedido de carga, y los barcos que deberían despachar fibre pellets están esperando sin fecha. La desmotadora 2 sigue parada, la 3 la apagaron esta semana, solo la 1 funciona y al 50% de capacidad. Entró 40% menos algodón que la semana anterior, los proveedores no mandan porque Guaycurú les debe pagos de la última campaña. Y nosotros dependemos de la paritaria de Vicentín porque los desmotadores no tenemos paritaria propia — si Vicentín no cierra, nosotros tampoco.<br><br>Lo que nadie dice es que Guaycurú está siendo vaciado igual que Vicentín, pero más lento. Primero pararon desmotadoras, después echaron gente, después llenaron con temporarios al 50% de planta, y ahora el despacho no sale. No es crisis del sector, es decisión empresaria — desmotar menos, pagar menos, achicar. Y cuando los auditores de Vicentín vengan acá, van a encontrar lo mismo: planta funcionando al mínimo, personal precarizado, despacho parado. ¿Qué quieren vender? ¿La planta o el negocio de achicar?"';
+
+// ——— Transcript items builder ———
+// scope: 'trabajador', 'delegadoA', 'delegadoB', 'vicentin', 'guaycuru', 'grado3', 'grado3firma', 'grado3enviada', 'federacion', 'federacionFirma', 'federacionEnviada'
+function buildTranscriptItems(scope){
+  var items=[];
+  // Corrección delegado de Raúl (1-B / informe A)
+  var corrDelegadoA=delegadoCorrectedA?[{role:'Corrección del delegado',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}]:[];
+  // Corrección delegado de Damián (1-A / informe B)
+  var corrDelegadoB=delegadoCorrectedB?[{role:'Corrección del delegado',text:'Cambio de prioridad de producción (refinado → expeller) = estrategia patronal, no solo producción. Concurso como situación económica — auditores evaluando activos para posible venta. Despidos = vaciamiento, no reducción de personal.'}]:[];
+  // Corrección secretario de Guaycurú
+  var corrSecGuaycuru=secretarioGuaycuruComment?[{role:'Corrección del secretario general',variant:'secretario',text:'Violación directa CCT Art. 2 (SMVM) — básico $280.000 debajo del mínimo. Acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal si no se repara.'}]:[];
+  // Corrección secretario de Grado 3
+  var corrSecG3=secretarioEditedOnce?[{role:'Corrección del secretario general · Grado 3',variant:'secretario',text:'Punto 7: Exigir reparación inmediata sistema de aspiración desmotadora 2 — riesgo de explosión, plazo 72 hs. Básico desmotadores: violación directa CCT Art. 2 — básico $280.000 debajo del SMVM.'}]:[];
+
+  // Original del delegado Vicentín
+  var delVicText='El delegado de Vicentín verificó ambos informes grado 1.';
+  if(delegadoCorrectedB) delVicText+=' Corrigió informe 1-B (Damián): agregó cambio de prioridad de producción como estrategia patronal y concurso como situación económica.';
+  if(delegadoCorrectedA) delVicText+=' Corrigió informe 1-A: agregó cambio de prioridad de producción como estrategia patronal y concurso como situación económica.';
+  if(!delegadoCorrectedB&&!delegadoCorrectedA) delVicText+=' Sin correcciones pendientes — ambos informes verificados.';
+  delVicText+=' Confirmó patrón de reducción: bajan ritmo → reducen turnos → suspenden → despiden.';
+  var corrDelVicentin=[{role:'Informe grado 2 · Delegado Vicentín',text:delVicText}];
+
+  // Original del delegado Guaycurú
+  var delGuyText='El delegado de desmotadoras verificó los 3 informes. Destaca: despidos de operarios en junio, desmotadora 2 con riesgo de explosión, personal temporario debajo del SMVM, y dependencia de la paritaria de Vicentín — los desmotadores no tienen paritaria propia.';
+  if(secretarioGuaycuruComment) delGuyText+=' Corregido por secretario: violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal).';
+  var corrDelGuaycuru=[{role:'Informe grado 2 · Delegado Guaycurú',text:delGuyText}];
+
+  if(scope==='trabajador'){
+    items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:corrDelegadoA});
+  }
+  if(scope==='delegadoA'){
+    items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:[]});
+  }
+  if(scope==='delegadoB'){
+    items.push({label:'1-A',title:'Damián · Empleado administrativo · Vicentín',text:transcript1A,corrections:[]});
+  }
+  if(scope==='vicentin'){
+    items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:corrDelegadoA});
+    items.push({label:'1-A',title:'Damián · Empleado administrativo · Vicentín',text:transcript1A,corrections:corrDelegadoB});
+    // Delegado como fuente intermediaria
+    items.push({label:'Grado 2',title:'Original del delegado · Vicentín',text:delVicText,corrections:[]});
+  }
+  if(scope==='guaycuru'){
+    items.push({label:'1-C',title:'Operario de desmotadora · turno mañana · Guaycurú',text:transcript1C,corrections:corrSecGuaycuru});
+    items.push({label:'1-D',title:'Operario de desmotadora · turno noche · Guaycurú',text:transcript1D,corrections:corrSecGuaycuru});
+    items.push({label:'1-E',title:'Empleado administrativo · sección despacho · Guaycurú',text:transcript1E,corrections:corrSecGuaycuru});
+    items.push({label:'Grado 2',title:'Original del delegado · Guaycurú',text:delGuyText,corrections:[]});
+  }
+  if(scope==='grado3'||scope==='grado3firma'||scope==='grado3enviada'||scope==='reconquista'||scope==='federacion'||scope==='federacionFirma'||scope==='federacionEnviada'){
+    // Vicentín chain
+    items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:corrDelegadoA});
+    items.push({label:'1-A',title:'Damián · Empleado administrativo · Vicentín',text:transcript1A,corrections:corrDelegadoB});
+    items.push({label:'Grado 2',title:'Delegado · Vicentín',text:delVicText,corrections:[]});
+    // Guaycurú chain
+    items.push({label:'1-C',title:'Operario de desmotadora · turno mañana · Guaycurú',text:transcript1C,corrections:corrSecGuaycuru});
+    items.push({label:'1-D',title:'Operario de desmotadora · turno noche · Guaycurú',text:transcript1D,corrections:corrSecGuaycuru});
+    items.push({label:'1-E',title:'Empleado administrativo · sección despacho · Guaycurú',text:transcript1E,corrections:corrSecGuaycuru});
+    items.push({label:'Grado 2',title:'Delegado · Guaycurú',text:delGuyText,corrections:[]});
+  }
+  // Add secretario correction at Grado 3 level for grado3/grado3enviada/reconquista/federacion scopes
+  if((scope==='grado3'||scope==='grado3firma'||scope==='grado3enviada'||scope==='reconquista'||scope==='federacion'||scope==='federacionFirma'||scope==='federacionEnviada')&&corrSecG3.length>0){
+    items.push({label:'Grado 3',title:'Secretario general · Obligado/San Javier',text:'Informe grado 3 firmado por secretario general. '+((secretarioEditedOnce?'Corregido: punto 7 aspiración desmotadora 2 (negligencia criminal, plazo 72 hs), básico desmotadores violación CCT Art. 2.':'Sin correcciones adicionales.')),corrections:corrSecG3});
+  }
+  return items;
 }
 
 // ===== INTELIGENCIA SINDICAL =====
@@ -4111,7 +4197,8 @@ function buildAdminAPanel(){
     raulLines[1]={lead:'F2 · Condiciones de trabajo (corregido):',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'};
   }
   blocks.push({ kind:'card', label:'Informe grado 1 · Raúl · Operario de prensa · Vicentín', lines:raulLines });
-  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{expandable:true,text:'"Hola, quiero dejar registrado lo que está pasando en prensa. Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto para reparar porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada, no fue grave pero podría haber sido. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale, o sea, cambia la directiva y nosotros tenemos que adaptar sin que nos digan nada formal, solo rumores. Los EPP siguen siendo los mismos de siempre, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Sobre paritaria: la comisión interna está tratando de negociar pero la empresa responde que el concurso limita las posibilidades, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, o sea, me pagan pero menos de lo que debería según convenio Art. 7bis."'}] });
+  // Transcript sources — replaces old 'Original del trabajador' card
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('delegadoA') });
   if(secretarioSeenVicentin){
     blocks.push({ kind:'card', lines:[{text:'✓ Secretario ya lo vio — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goDelegadoHome()'}] });
   } else if(!delegadoSeenA){
@@ -4145,6 +4232,7 @@ function buildSintesisG2(){
     {lead:'Familia 5 — Condiciones de vida:',text:'Vivienda · Costo de vida · Canasta básica real'},
     {lead:'Familia 9 — Producción:',text:delegadoCorrectedA?'Cambio de directivas · Prioridad de producción · Producto final — tipo · Control de ruta · Capacidad — utilización':'Cambio de directivas · Producto final — tipo · Traba en producción · Capacidad — utilización'}
   ] });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('vicentin') });
   blocks.push({ kind:'card', lines:[{text:'¿Querés editar o confirmar?'}], actions:[{label:'Confirmar reporte',variant:'primary',onclick:'isConfirmSend()'},{label:'Editar',variant:'outline',onclick:'isDelegadoEdit()'}] });
   return blocks;
 }
@@ -4178,7 +4266,8 @@ function buildAdminBPanel(){
     damianLines.push({lead:'F9 · Producción (corregido):',text:'Entró menos soja, camiones demorados por control de ruta. Línea de refinería baja ritmo. Expeller priorizado.'});
   }
   blocks.push({ kind:'card', label:'Informe grado 1 · Damián · Empleado administrativo · Vicentín', lines:damianLines });
-  blocks.push({ kind:'card', label:'Original del trabajador', title:'Fuente primaria · audio', lines:[{expandable:true,text:'"Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega para nada… el alquiler se comió todo el aumento. Van a priorizar expeller porque tiene menor retención — eso no es producción, es estrategia patronal para achicar retenciones. El concurso no es solo crisis, hay auditores evaluando activos para posible venta. Y los despidos no son reducción de personal, es vaciamiento."'}] });
+  // Transcript sources — replaces old 'Original del trabajador' card
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('delegadoB') });
   if(secretarioSeenVicentin){
     blocks.push({ kind:'card', lines:[{text:'✓ Secretario ya lo vio — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goDelegadoHome()'}] });
   } else if(!delegadoSeenB){
@@ -4223,6 +4312,7 @@ function buildSintesisG2Enviada(){
   lines.push({lead:'9 · Producción:',text:delegadoCorrectedA?'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Entró menos soja, control de ruta. Patrón conocido: bajan ritmo → reducen turnos → suspenden → despiden.':(delegadoCorrectedB?'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Supervisores presionando ritmo. Entrada soja reducida.':'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Patrón conocido: bajan ritmo → reducen turnos → suspenden → despiden.')});
   lines.push({lead:'5 · Condiciones de vida:',text:'Admin: alquiler $380.000, básico $340.000, brecha 12%. Precarización desmotadores Guaycurú al 50%.'});
   blocks.push({ kind:'card', label:'Informe Grado 2 · Vicentín Reconquista · enviado ✓', title:'Panorama de planta — sem. 23-29/06', lines:lines });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('vicentin') });
   blocks.push({ kind:'actions', items:[{label:'Mis Informes',variant:'primary',onclick:'goDelegadoHome()'}] });
   return blocks;
 }
@@ -4245,6 +4335,7 @@ function buildGrado3Preinforme(){
     {lead:'Familia 5 — Condiciones de vida:',text:secretarioGuaycuruComment?'Vivienda · Costo de vida · Violación CCT Art. 2 · SMVM · Brecha básico/canasta':'Vivienda · Costo de vida · SMVM · Brecha básico/canasta'},
     {lead:'Familia 9 — Producción:',text:'Cambio de directivas · Capacidad — utilización · Despacho parado · Fibra en playa'}
   ] });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('grado3') });
   blocks.push({ kind:'verify', check:'¿Querés modificar?', text:'Pedir cambios a la IA, redactar tu propio texto, o firmar y enviar.', actions:[{label:'Pedir cambios a la IA',variant:'primary',onclick:'secretarioEdit()'},{label:'Firmar y enviar',variant:'outline',onclick:'isConfirmSend()'}] });
   return blocks;
 }
@@ -4262,6 +4353,7 @@ function buildGrado3Firma(){
     {text:'5. Preparar respuesta si los auditores confirman venta.'},
     {text:secretarioGuaycuruComment?'6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2 — plazo 72 hs — negligencia criminal si no se repara.':'6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2.'}
   ], actions:[{label:'✓ Firmado y enviado a Federación',variant:'primary',onclick:'isConfirmSend()'}] });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('grado3firma') });
   return blocks;
 }
 
@@ -4283,6 +4375,7 @@ function buildGrado3Enviada(){
   lines.push({lead:'5 · Condiciones de vida:',text:secretarioGuaycuruComment?'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: violación directa CCT Art. 2 — básico $280.000 debajo del SMVM. Sin estabilidad contractual.':'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: básico $280.000 debajo SMVM, sin estabilidad contractual.'});
   lines.push({lead:'Posición del sindicato:',text:secretarioGuaycuruComment?'1. Exigir cierre de paritaria con aumento real. 2. Reparación prensa 3 + enfermero — plazo 48 hs. 3. Negociar el cambio de directivas antes de implementarlo. 4. Contactar a SOMU para articular el conflicto. 5. Preparar respuesta si los auditores confirman venta. 6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2 — plazo 72 hs — negligencia criminal si no se repara.':'1. Exigir cierre de paritaria con aumento real. 2. Reparación prensa 3 + enfermero — plazo 48 hs. 3. Negociar el cambio de directivas antes de implementarlo. 4. Contactar a SOMU para articular el conflicto. 5. Preparar respuesta si los auditores confirman venta. 6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2.'});
   blocks.push({ kind:'card', label:'Grado 3 · Obligado/San Javier · enviado a Federación ✓', title:'Estado de situación semanal — firmado', lines:lines });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('grado3enviada') });
   blocks.push({ kind:'actions', items:[{label:'Mis Informes',variant:'primary',onclick:'goSecretarioHome()'}] });
   return blocks;
 }
@@ -4303,12 +4396,8 @@ function buildVicentinPanel(){
   lines.push({lead:'9 · Producción:',text:delegadoCorrectedA?'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Entró menos soja, control de ruta. Patrón conocido: bajan ritmo → reducen turnos → suspenden → despiden.':'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Patrón conocido: bajan ritmo → reducen turnos → suspenden → despiden.'});
   lines.push({lead:'5 · Condiciones de vida:',text:'Admin: alquiler $380.000, básico $340.000, brecha 12%. Precarización desmotadores Guaycurú al 50%.'});
   blocks.push({ kind:'card', label:'Informe grado 2 · Vicentín Reconquista · delegado', title:'Panorama de planta — sem. 23-29/06', lines:lines });
-  var delegadoText='El delegado de Vicentín verificó ambos informes grado 1.';
-  if(delegadoCorrectedB) delegadoText+=' Corrigió informe 1-B (Damián): agregó cambio de prioridad de producción como estrategia patronal y concurso como situación económica.';
-  if(delegadoCorrectedA) delegadoText+=' Corrigió informe 1-A: agregó cambio de prioridad de producción como estrategia patronal y concurso como situación económica.';
-  if(!delegadoCorrectedB&&!delegadoCorrectedA) delegadoText+=' Sin correcciones pendientes — ambos informes verificados.';
-  delegadoText+=' Confirmó patrón de reducción: bajan ritmo → reducen turnos → suspenden → despiden.';
-  blocks.push({ kind:'card', label:'Original del delegado', title:'Fuente primaria · informe grado 2', lines:[{text:'"'+delegadoText+'"'}] });
+  // Transcript sources — replaces old 'Original del delegado' card
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('vicentin') });
   if(secretarioReportSent){
     // Federación ya recibió el grado 3 — no editable
     blocks.push({ kind:'card', lines:[{text:'✓ Federación ya lo recibió — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goSecretarioHome()'}] });
@@ -4341,13 +4430,8 @@ function buildGuaycuruPanel(){
       {lead:'5 · Condiciones de vida:',text:'Operarios temporarios: básico $280.000 ( debajo del SMVM). Sin estabilidad contractual. Contratos de 3 meses renovados sin garantía.'}
     ] });
   }
-  var delegadoText='El delegado de desmotadoras verificó los 3 informes. Destaca: despidos de operarios en junio, desmotadora 2 con riesgo de explosión, personal temporario debajo del SMVM, y dependencia de la paritaria de Vicentín — los desmotadores no tienen paritaria propia.';
-  if(secretarioGuaycuruComment) delegadoText+=' Corregido por secretario: violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal).';
-  blocks.push({ kind:'card', label:'Original del delegado', title:'Fuente primaria · informe grado 2', lines:[{text:'"'+delegadoText+'"'}] });
-  // Worker transcripts — sources that fed the delegado's informe
-  blocks.push({ kind:'card', label:'Fuente primaria · 1-C', title:'Operario de desmotadora · turno mañana · Guaycurú', lines:[{expandable:true,text:'"Esta semana despidieron a 8 compañeros, todos del turno mañana. La empresa dice que es reducción de volumen, pero la desmotadora 2 tiene el sistema de aspiración roto desde hace dos semanas, se acumula la fibra de algodón y ayer casi se incendió — si no se limpia esa acumulación, es una bomba. Nos dan barbijos de papel que se llenan de fibra en 20 minutos, no son EPP respiratorio, y la desmotadora 1 es la única que está funcionando, las otras dos están paradas. Nos están matando de ritmo en la que funciona para compensar las que no andan, y encima nos echan.<br><br>Lo de los despidos no es reducción de personal, es limpieza — los que echaron son los que venían reclamando EPP y los que se negaban a cubrir doble turno cuando faltaba gente. Nos dicen que los van a reemplazar con temporarios, que cobran la mitad y no tienen estabilidad. Yo tengo contrato de 3 meses renovable, cada renovación es un reinicio, no suma antigüedad. Si reclamamos, no nos renovan. Es extorsión contractual."'}] });
-  blocks.push({ kind:'card', label:'Fuente primaria · 1-D', title:'Operario de desmotadora · turno noche · Guaycurú', lines:[{expandable:true,text:'"En el turno noche somos 4 fijos y 6 temporarios. Los temporarios cobran $280.000 de básico — eso está debajo del SMVM, cómo es posible que una empresa del grupo Vicentín pague debajo del mínimo. Y no tienen obra social completa, solo la básica, si un temporario se lastima en la desmotadora a las 2 de la mañana, ¿quién lo atiende? No hay médico de noche, no hay enfermería, solo un botiquín que siempre está desbasto.<br><br>Los contratos de 3 meses son un circo — cada 90 días te dicen \'volvemos a evaluar\' y lo que evalúan es si te callaste o no. Si pediste EPP, si reclamaste algo, si te quejaste del ritmo, no te renovan. Yo hace 8 meses que estoy renovando contrato, no sumo antigüedad, no tengo nada asegurado. Y encima la desmotadora 2 sigue andando mal, la aspiración no funciona y en la noche se acumula más fibra porque no hay supervisión, los supervisores solo están de día. Es negligencia — si explota de noche, no hay protocolo de evacuación."'}] });
-  blocks.push({ kind:'card', label:'Fuente primaria · 1-E', title:'Empleado administrativo · sección despacho · Guaycurú', lines:[{expandable:true,text:'"El despacho está parado — 15.000 toneladas de fibra de algodón en playa sin movimiento, los camiones no entran porque no hay pedido de carga, y los barcos que deberían despachar fibre pellets están esperando sin fecha. La desmotadora 2 sigue parada, la 3 la apagaron esta semana, solo la 1 funciona y al 50% de capacidad. Entró 40% menos algodón que la semana anterior, los proveedores no mandan porque Guaycurú les debe pagos de la última campaña. Y nosotros dependemos de la paritaria de Vicentín porque los desmotadores no tenemos paritaria propia — si Vicentín no cierra, nosotros tampoco.<br><br>Lo que nadie dice es que Guaycurú está siendo vaciado igual que Vicentín, pero más lento. Primero pararon desmotadoras, después echaron gente, después llenaron con temporarios al 50% de planta, y ahora el despacho no sale. No es crisis del sector, es decisión empresaria — desmotar menos, pagar menos, achicar. Y cuando los auditores de Vicentín vengan acá, van a encontrar lo mismo: planta funcionando al mínimo, personal precarizado, despacho parado. ¿Qué quieren vender? ¿La planta o el negocio de achicar?"'}] });
+  // Transcript sources — replaces old 'Original del delegado' + 3 worker cards
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('guaycuru') });
   if(secretarioReportSent){
     // Federación ya recibió — no editable
     blocks.push({ kind:'card', lines:[{text:'✓ Federación ya lo recibió — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goSecretarioHome()'}] });
@@ -4482,6 +4566,7 @@ function buildReconquistaInforme(){
   lines.push({lead:'5 · Condiciones de vida:',text:secretarioGuaycuruComment?'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: violación directa CCT Art. 2 — básico $280.000 debajo del SMVM. Sin estabilidad contractual.':'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: básico $280.000 debajo SMVM, sin estabilidad contractual.'});
   lines.push({lead:'Posición del sindicato:',text:secretarioEditedOnce?'1. Exigir cierre de paritaria con aumento real. 2. Reparación prensa 3 + enfermero — plazo 48 hs. 3. Negociar el cambio de directivas antes de implementarlo. 4. Contactar a SOMU para articular el conflicto. 5. Preparar respuesta si los auditores confirman venta. 6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2 — plazo 72 hs — negligencia criminal si no se repara.':'1. Exigir cierre de paritaria con aumento real. 2. Reparación prensa 3 + enfermero — plazo 48 hs. 3. Negociar el cambio de directivas antes de implementarlo. 4. Contactar a SOMU para articular el conflicto. 5. Preparar respuesta si los auditores confirman venta. 6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2.'});
   blocks.push({ kind:'card', label:'Grado 3 · Obligado/San Javier · enviado a Federación'+(secretarioEditedOnce?' · corregido':''), title:'Estado de situación semanal — firmado', lines:lines });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('reconquista') });
   blocks.push({ kind:'verify', check:'¿Confirmás que lo revisaste?', text:'Marcar como visto o pedir correcciones al secretario de Obligado/San Javier.', actions:[{label:'Confirmar',variant:'primary',onclick:'markSeenReconquistaFederacion()'},{label:'Corregir',variant:'outline',onclick:'federacionEditReconquista()'}] });
   return blocks;
 }
@@ -4495,6 +4580,7 @@ function buildFederacionPreinforme(){
     {lead:'7 · Articulación:',text:'SOMU plazo 30/06 — un paro marítimo afecta la exportación aceitera.'},
     {lead:'8 · VE:',text:'Vicentín: negligencia (fuga de 3 semanas), omisión (enfermería clausurada), jurídica (concurso como excusa).'+(secretarioGuaycuruComment?' Guaycurú: negligencia criminal (aspiración roto sin reparar), violación CCT Art. 2 (SMVM).':'')}
   ] });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('federacion') });
   blocks.push({ kind:'verify', check:'¿Querés modificar?', text:'Pedir cambios a la IA, redactar tu propio texto, o firmar y enviar.', actions:[{label:'Pedir cambios a la IA',variant:'primary',onclick:'federacionEdit()'},{label:'Firmar y enviar',variant:'outline',onclick:'isConfirmSend()'}] });
   return blocks;
 }
@@ -4511,6 +4597,7 @@ function buildFederacionFirma(){
     {label:'✓ Firmado y remitido a secretarios generales y comisión directiva',variant:'primary',onclick:'isConfirmSend()'},
     {label:'Publicar en Coyuntura como Reporte Gremial',variant:'outline',onclick:'goScreen(\'grado4pub\')'}
   ] });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('federacionFirma') });
   return blocks;
 }
 
@@ -4522,6 +4609,7 @@ function buildFederacionEnviada(){
     {lead:'7 · Articulación:',text:'SOMU plazo 30/06 — paro marítimo afecta exportación aceitera.'},
     {lead:'8 · VE:',text:'Negligencia, omisión, jurídica. Desmotadoras: negligencia criminal, violación CCT Art. 2.'}
   ] });
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('federacionEnviada') });
   blocks.push({ kind:'verify', check:'¿Querés que se publique en Coyuntura como Reporte Gremial?', text:'La IA pregunta si el reporte federal se publica públicamente en Coyuntura.', actions:[{label:'Sí, publicar en Coyuntura',variant:'primary',onclick:'goScreen(\'grado4pub\')'},{label:'No, reservar',variant:'outline'}] });
   return blocks;
 }
@@ -4631,7 +4719,7 @@ function showSourceA(){
   isChatStarted=true;
   var cc=document.getElementById('isChatContainer');
   if(cc) cc.innerHTML='';
-  cc.innerHTML='<div style="background:#5A574F;border-radius:16px;padding:12px 14px;margin-bottom:8px"><div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.76rem;color:#94A867;margin-bottom:5px">🎤 Audio · Damián · Empleado administrativo Vicentín</div><div style="font-size:.84rem;color:#F2F1EC;line-height:1.45">Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega para nada… el alquiler se comió todo el aumento. Van a priorizar expeller porque tiene menor retención — eso no es producción, es estrategia patronal para achicar retenciones. El concurso no es solo crisis, hay auditores evaluando activos para posible venta. Y los despidos no son reducción de personal, es vaciamiento.</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;color:#9C988C;margin-top:5px">Transcripción local · el audio no se envía</div></div>';
+  cc.innerHTML='<div style="background:#5A574F;border-radius:16px;padding:12px 14px;margin-bottom:8px"><div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.76rem;color:#94A867;margin-bottom:5px">🎤 Audio · Damián · Empleado administrativo Vicentín</div><div style="font-size:.84rem;color:#F2F1EC;line-height:1.45">'+transcript1A+'</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;color:#9C988C;margin-top:5px">Transcripción local · el audio no se envía</div></div>';
   document.getElementById('isChatWrap').style.display='';
 }
 
@@ -4639,7 +4727,7 @@ function showSourceB(){
   isChatStarted=true;
   var cc=document.getElementById('isChatContainer');
   if(cc) cc.innerHTML='';
-  cc.innerHTML='<div style="background:#5A574F;border-radius:16px;padding:12px 14px;margin-bottom:8px"><div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.76rem;color:#94A867;margin-bottom:5px">🎤 Audio · Raúl · Operario de prensa Vicentín</div><div style="font-size:.84rem;color:#F2F1EC;line-height:1.45">Hola, quiero dejar registrado lo que está pasando en prensa. Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto para reparar porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada, no fue grave pero podría haber sido. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale, o sea, cambia la directiva y nosotros tenemos que adaptar sin que nos digan nada formal, solo rumores. Los EPP siguen siendo los mismos de siempre, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Sobre paritaria: la comisión interna está tratando de negociar pero la empresa responde que el concurso limita las posibilidades, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, o sea, me pagan pero menos de lo que debería según convenio Art. 7bis.</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;color:#9C988C;margin-top:5px">Transcripción local · el audio no se envía</div></div>';
+  cc.innerHTML='<div style="background:#5A574F;border-radius:16px;padding:12px 14px;margin-bottom:8px"><div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.76rem;color:#94A867;margin-bottom:5px">🎤 Audio · Raúl · Operario de prensa Vicentín</div><div style="font-size:.84rem;color:#F2F1EC;line-height:1.45">'+transcript1B+'</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;color:#9C988C;margin-top:5px">Transcripción local · el audio no se envía</div></div>';
   document.getElementById('isChatWrap').style.display='';
 }
 
@@ -4757,6 +4845,35 @@ function renderBlock(block){
   if(block.kind==='actions'){
     html+='<div style="display:flex;flex-direction:column;gap:7px;margin-bottom:10px">';
     block.items.forEach(function(a){ html+=actionBtn(a); });
+    html+='</div>';
+  }
+  if(block.kind==='transcript-list'){
+    html+='<div style="background:#FBFAF6;border:1px solid rgba(110,131,69,.3);border-radius:14px;padding:12px 14px;margin-bottom:11px">';
+    html+='<div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;color:#6E8345;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(110,131,69,.2)">Transcripts que nutren este informe</div>';
+    block.items.forEach(function(t){
+      var tId='tlExp_'+Math.random().toString(36).substr(2,6);
+      html+='<div style="background:#F2F1EC;border:1px solid rgba(43,42,38,.1);border-radius:10px;padding:10px 12px;margin-bottom:7px">';
+      html+='<div style="display:flex;align-items:center;gap:6px;cursor:pointer" onclick="toggleTranscript(\''+tId+'\')">';
+      if(t.label) html+='<div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;color:#6E8345">'+t.label+'</div>';
+      if(t.title) html+='<div style="font-family:\'Archivo\',sans-serif;font-weight:700;font-size:.88rem;color:#2B2A26">'+t.title+'</div>';
+      html+='<div class="tlToggleBtn" style="font-family:\'Archivo\',sans-serif;font-size:.74rem;color:#6E8345;font-weight:600;margin-left:auto">Ver más ▾</div>';
+      html+='</div>';
+      html+='<div id="'+tId+'" style="max-height:0;overflow:hidden;transition:max-height .3s ease">';
+      html+='<div style="font-size:.84rem;color:#4A4842;line-height:1.5;margin-top:8px;padding:8px 10px;background:#FBFAF6;border-radius:6px">';
+      html+='<div style="font-family:\'JetBrains Mono\',monospace;font-size:.58rem;color:#94A867;margin-bottom:4px">Original del trabajador</div>';
+      html+=t.text+'</div>';
+      if(t.corrections && t.corrections.length>0){
+        t.corrections.forEach(function(c){
+          html+='<div style="font-size:.84rem;color:#4A4842;line-height:1.5;margin-top:6px;padding:8px 10px;background:#E8EDD7;border-radius:6px;border:1px solid rgba(110,131,69,.2)';
+          if(c.variant==='secretario') html+='background:#F6E7E1;border-color:rgba(166,85,62,.2)';
+          html+='">';
+          html+='<div style="font-family:\'JetBrains Mono\',monospace;font-size:.58rem;color:#6E8345;margin-bottom:4px">'+c.role+'</div>';
+          html+=c.text+'</div>';
+        });
+      }
+      html+='</div>';
+      html+='</div>';
+    });
     html+='</div>';
   }
   if(block.kind==='report-list'){
@@ -5047,6 +5164,8 @@ function buildTrabajadorInformeBlocks(){
     { kind:'card', label:'Familia 2 · Condiciones de trabajo', lines:[{text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'}], tags:[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}] },
     { kind:'card', label:'Familia 9 · Producción', lines:[{text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}], tags:[{fam:'9',label:'Directivas'},{fam:'9',label:'Producto final'},{fam:'9',label:'Traba en producción'}] }
   ];
+  // Transcript sources
+  blocks.push({ kind:'transcript-list', items:buildTranscriptItems('trabajador') });
   // Delegado status: progressive states — saw, corrected, sent
   if(!delegadoSeenA){
     if(trabajadorDemoDone){
