@@ -3907,18 +3907,25 @@ function buildTranscriptItems(scope){
     items.push({label:'Grado 2',title:'Original del delegado · Guaycurú',text:delGuyText,corrections:[]});
   }
   if(scope==='grado3'||scope==='grado3firma'||scope==='grado3enviada'||scope==='reconquista'||scope==='federacion'||scope==='federacionFirma'||scope==='federacionEnviada'){
-    // Vicentín chain
+    // Vicentín chain — worker transcripts always available (primary sources)
     items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:corrDelegadoA});
     items.push({label:'1-A',title:'Damián · Empleado administrativo · Vicentín',text:transcript1A,corrections:corrDelegadoB});
-    items.push({label:'Grado 2',title:'Delegado · Vicentín',text:delVicText,corrections:[]});
-    // Guaycurú chain
+    // Delegado Vicentín informe — only if signed and sent
+    if(delegadoReportSent) items.push({label:'Grado 2',title:'Delegado · Vicentín',text:delVicText,corrections:[]});
+    // Guaycurú chain — worker transcripts always available
     items.push({label:'1-C',title:'Operario de desmotadora · turno mañana · Guaycurú',text:transcript1C,corrections:corrSecGuaycuru});
     items.push({label:'1-D',title:'Operario de desmotadora · turno noche · Guaycurú',text:transcript1D,corrections:corrSecGuaycuru});
     items.push({label:'1-E',title:'Empleado administrativo · sección despacho · Guaycurú',text:transcript1E,corrections:corrSecGuaycuru});
-    items.push({label:'Grado 2',title:'Delegado · Guaycurú',text:delGuyText,corrections:[]});
+    // Delegado Guaycurú informe — only if signed and sent
+    if(delegadoReportSent) items.push({label:'Grado 2',title:'Delegado · Guaycurú',text:delGuyText,corrections:[]});
   }
-  // Add secretario correction at Grado 3 level for grado3/grado3enviada/reconquista/federacion scopes
-  if((scope==='grado3'||scope==='grado3firma'||scope==='grado3enviada'||scope==='reconquista'||scope==='federacion'||scope==='federacionFirma'||scope==='federacionEnviada')&&corrSecG3.length>0){
+  // Add secretario informe at Grado 3 level
+  // For secretario scopes (grado3/grado3firma/grado3enviada): always show their own correction
+  // For federación scopes: only if secretario signed and sent (secretarioReportSent)
+  if((scope==='grado3'||scope==='grado3firma'||scope==='grado3enviada'||scope==='reconquista')&&corrSecG3.length>0){
+    items.push({label:'Grado 3',title:'Secretario general · Obligado/San Javier',text:'Informe grado 3 firmado por secretario general. '+((secretarioEditedOnce?'Corregido: punto 7 aspiración desmotadora 2 (negligencia criminal, plazo 72 hs), básico desmotadores violación CCT Art. 2.':'Sin correcciones adicionales.')),corrections:corrSecG3});
+  }
+  if((scope==='federacion'||scope==='federacionFirma'||scope==='federacionEnviada')&&secretarioReportSent&&corrSecG3.length>0){
     items.push({label:'Grado 3',title:'Secretario general · Obligado/San Javier',text:'Informe grado 3 firmado por secretario general. '+((secretarioEditedOnce?'Corregido: punto 7 aspiración desmotadora 2 (negligencia criminal, plazo 72 hs), básico desmotadores violación CCT Art. 2.':'Sin correcciones adicionales.')),corrections:corrSecG3});
   }
   return items;
