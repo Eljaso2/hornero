@@ -4972,8 +4972,9 @@ function renderIS(){
   var chatNav=document.getElementById('isChatNav');
   if(isChatStarted){
     chatNav.style.display='';
-    if(state.isRole===1 && trabajadorInformeSent){
-      chatNav.innerHTML='<div style="display:flex;gap:12px;padding:4px 0"><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="goTrabajadorHome()">Mis Informes</a><span style="color:#6E6A60;font-size:.78rem">·</span><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="viewTrabajadorInforme()">Informe N° 11</a></div>';
+    if(state.isRole===1){
+      // Trabajador always gets "Mis Informes" link in chat nav
+      chatNav.innerHTML='<div style="display:flex;gap:12px;padding:4px 0"><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="goTrabajadorHome()">Mis Informes</a>'+((trabajadorInformeSent||state.isStep>=1)?'<span style="color:#6E6A60;font-size:.78rem">·</span><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="viewTrabajadorInforme()">Informe N° 11</a>':'')+'</div>';
     } else {
       var homeFn='go'+(state.isRole===2?'Delegado':state.isRole===3?'Secretario':'Federacion')+'Home()';
       chatNav.innerHTML='<div style="padding:4px 0"><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="'+homeFn+'">Mis Informes</a></div>';
@@ -5159,9 +5160,15 @@ function isConfirmSend(){
 }
 
 function buildTrabajadorInformeBlocks(){
+  var f2Text='2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.';
+  var f2Tags=[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}];
+  if(delegadoCorrectedA){
+    f2Text='Amputación parcial de 2 dedos en envasadora. Prensa 3 con fuga. Enfermería clausurada 3 meses — violación Art. 42 CCT. Equipamiento de Protección Personal insuficiente: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.';
+    f2Tags=[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Amputación'},{fam:'2',label:'Enfermería clausurada'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}];
+  }
   var blocks=[
     { kind:'card', label:'Familia 1 · Conflicto laboral', lines:[{text:'Paritaria sin cierre. Empresa argumenta concurso. Básico no cubre costo de vida.'}], tags:[{fam:'1',label:'Paritaria'},{fam:'1',label:'Conflicto salarial'}] },
-    { kind:'card', label:'Familia 2 · Condiciones de trabajo', lines:[{text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'}], tags:[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}] },
+    { kind:'card', label:'Familia 2 · Condiciones de trabajo'+(delegadoCorrectedA?' (corregido por delegado)':''), lines:[{text:f2Text}], tags:f2Tags },
     { kind:'card', label:'Familia 9 · Producción', lines:[{text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}], tags:[{fam:'9',label:'Directivas'},{fam:'9',label:'Producto final'},{fam:'9',label:'Traba en producción'}] }
   ];
   // Transcript sources
@@ -5361,11 +5368,11 @@ function isChatRunStep(step){
       if(step+1<isChatConv.length){
         setTimeout(function(){ isChatRunStep(step+1); },2500);
       } else {
-        // chat finished — for Grado 1 demo, advance step and dismiss chat to show blocks
+        // chat finished — for Grado 1 demo, advance step but keep chat open for manual navigation
         if(state.isRole===1 && state.isStep===0){
           state.isStep=1;
           setTimeout(function(){
-            isChatStarted=false;
+            // Don't close chat — keep it visible so Raúl manually clicks "Mis Informes"
             renderIS();
           },3000);
         }
