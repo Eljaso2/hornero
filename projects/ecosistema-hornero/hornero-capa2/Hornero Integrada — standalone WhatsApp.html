@@ -2438,7 +2438,7 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
 
     <!-- Chat — full screen when active -->
     <div id="isChatWrap" style="display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:#F4F3EE;min-height:0;padding:4px 16px 4px;border-top:2px solid #45433E">
-      <div id="isChatNav" style="display:none;flex:none;padding:6px 0 4px;position:sticky;top:0;z-index:2;background:#F4F3EE;border-bottom:1px solid rgba(43,42,38,.12)"></div>
+      <div id="isChatNav" style="display:none;flex:none;padding:10px 0 8px;position:sticky;top:0;z-index:2;background:#F4F3EE;border-bottom:1px solid rgba(43,42,38,.12)"></div>
       <div id="isChatContainer"></div>
     </div>
 
@@ -5251,52 +5251,40 @@ function isChatRunStep(step){
       if(step+1<isChatConv.length){
         setTimeout(function(){ isChatRunStep(step+1); },2500);
       } else {
-        // chat finished — for Grado 1, advance step and re-render blocks above; chat stays visible
+        // chat finished — for Grado 1 demo, advance step and dismiss chat to show blocks
         if(state.isRole===1 && state.isStep===0){
           state.isStep=1;
-          var roles=buildRoles();
-          var role=roles[state.isRole];
-          var istep=role.steps[1];
-          var bHtml='';
-          istep.blocks.forEach(function(b){ bHtml+=renderBlock(b); });
-          document.getElementById('isBlocksContainer').innerHTML=bHtml;
+          setTimeout(function(){
+            isChatStarted=false;
+            renderIS();
+          },3000);
         }
         // chat finished — handle different end states
         // apply pending corrections after chat animation finishes
         if(pendingCorrectionA){
           pendingCorrectionA=false;
           delegadoCorrectedA=true;
-          // keep chat visible, re-render blocks above
+          // correction applied — dismiss chat after delay, show updated blocks
           setTimeout(function(){
-            var istep=buildRoles()[state.isRole].steps[state.isStep];
-            var bHtml='';
-            istep.blocks.forEach(function(b){ bHtml+=renderBlock(b); });
-            document.getElementById('isBlocksContainer').innerHTML=bHtml;
-          },500);
+            isChatStarted=false;
+            renderIS();
+          },2000);
         }
         if(pendingCorrectionB){
           pendingCorrectionB=false;
           delegadoCorrectedB=true;
-          // keep chat visible, re-render blocks above
           setTimeout(function(){
-            var istep=buildRoles()[state.isRole].steps[state.isStep];
-            var bHtml='';
-            istep.blocks.forEach(function(b){ bHtml+=renderBlock(b); });
-            document.getElementById('isBlocksContainer').innerHTML=bHtml;
-          },500);
+            isChatStarted=false;
+            renderIS();
+          },2000);
         }
         if(pendingCorrectionGuaycuru){
           pendingCorrectionGuaycuru=false;
           secretarioGuaycuruComment=true;
-          // secretario correction applied — re-render blocks with corrected card
           setTimeout(function(){
-            var roles=buildRoles();
-            var role=roles[state.isRole];
-            var istep=role.steps[state.isStep];
-            var bHtml='';
-            istep.blocks.forEach(function(b){ bHtml+=renderBlock(b); });
-            document.getElementById('isBlocksContainer').innerHTML=bHtml;
-          },500);
+            isChatStarted=false;
+            renderIS();
+          },2000);
         }
         if(isDelegadoEditMode){
           // delegado edit from step 3 (Síntesis) — apply corrections, clear chat, re-render blocks
@@ -5353,6 +5341,14 @@ function isChatRunStep(step){
             var chatInput=document.getElementById('isChatInput');
             if(chatInput){ chatInput.disabled=true; chatInput.placeholder='Confirmá el reporte'; }
           },2500);
+        }
+        // If no confirm button is pending (not isCorrectMode nor isDelegadoEditMode),
+        // dismiss chat after a delay and show blocks — user has already read the dialogue
+        if(!isCorrectMode && !isDelegadoEditMode && !(state.isRole===1 && state.isStep===0)){
+          setTimeout(function(){
+            isChatStarted=false;
+            renderIS();
+          },3000);
         }
       }
     },3500+Math.random()*800);
