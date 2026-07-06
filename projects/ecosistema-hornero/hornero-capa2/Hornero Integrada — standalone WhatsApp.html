@@ -2436,8 +2436,9 @@ body{background:#E7E5DF;font-family:'Public Sans',system-ui,sans-serif;color:#2B
       <div id="isBlocksContainer"></div>
     </div>
 
-    <!-- Chat — bottom half when chat active -->
+    <!-- Chat — full screen when active -->
     <div id="isChatWrap" style="display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:#F4F3EE;min-height:0;padding:4px 16px 4px;border-top:2px solid #45433E">
+      <div id="isChatNav" style="display:none;flex:none;padding:0 0 4px"></div>
       <div id="isChatContainer"></div>
     </div>
 
@@ -3942,7 +3943,7 @@ function buildTrabajadorSteps(){
   if(trabajadorDemoDone){
     var trBlocks=[];
     trBlocks.push({ kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-      {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:delegadoCorrectedA?['Delegado corregió · EPP/enfermería']:delegadoSeenA?['Delegado ya lo vio']:[]},
+      {date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Delegado lo vio, lo corrigió y lo envió']:delegadoCorrectedA?['Delegado lo corrigió']:delegadoSeenA?['Delegado lo vio ✓']:[]},
       {date:'28/06',label:'Informe Trabajador N° 10',status:'ok'},
       {date:'21/06',label:'Informe Trabajador N° 09',status:'ok'},
       {date:'14/06',label:'Informe Trabajador N° 08',status:'ok'},
@@ -3974,7 +3975,7 @@ function buildTrabajadorSteps(){
         explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso. Podés confirmar lo que está, agregar detalles, o corregir.', note:'Sin verificación, el informe no ingresa al sistema.' } },
       { title:'Informe enviado al delegado', showInput:false,
         blocks:[
-          { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
+          { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
         ],
         explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
     ];
@@ -4024,7 +4025,7 @@ function buildTrabajadorSteps(){
       explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso — los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Podés confirmar lo que está, agregar detalles, o corregir lo que no te parezca.', note:'Sin verificación, el informe no ingresa al sistema. Una vez confirmado, circula al delegado del territorio (grado 2).' } },
     { title:'Informe enviado al delegado', showInput:false,
       blocks:[
-        { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
+        { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
       ],
       explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
   ];
@@ -4341,6 +4342,10 @@ function buildGuaycuruPanel(){
   var delegadoText='El delegado de desmotadoras verificó los 3 informes. Destaca: despidos de operarios en junio, desmotadora 2 con riesgo de explosión, personal temporario debajo del SMVM, y dependencia de la paritaria de Vicentín — los desmotadores no tienen paritaria propia.';
   if(secretarioGuaycuruComment) delegadoText+=' Corregido por secretario: violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal).';
   blocks.push({ kind:'card', label:'Original del delegado', title:'Fuente primaria · informe grado 2', lines:[{text:'"'+delegadoText+'"'}] });
+  // Worker transcripts — sources that fed the delegado's informe
+  blocks.push({ kind:'card', label:'Fuente primaria · 1-C', title:'Operario de desmotadora · turno mañana · Guaycurú', lines:[{expandable:true,text:'"Esta semana despidieron a 8 compañeros, todos del turno mañana. La empresa dice que es reducción de volumen, pero la desmotadora 2 tiene el sistema de aspiración roto desde hace dos semanas, se acumula la fibra de algodón y ayer casi se incendió — si no se limpia esa acumulación, es una bomba. Nos dan barbijos de papel que se llenan de fibra en 20 minutos, no son EPP respiratorio, y la desmotadora 1 es la única que está funcionando, las otras dos están paradas. Nos están matando de ritmo en la que funciona para compensar las que no andan, y encima nos echan.<br><br>Lo de los despidos no es reducción de personal, es limpieza — los que echaron son los que venían reclamando EPP y los que se negaban a cubrir doble turno cuando faltaba gente. Nos dicen que los van a reemplazar con temporarios, que cobran la mitad y no tienen estabilidad. Yo tengo contrato de 3 meses renovable, cada renovación es un reinicio, no suma antigüedad. Si reclamamos, no nos renovan. Es extorsión contractual."'}] });
+  blocks.push({ kind:'card', label:'Fuente primaria · 1-D', title:'Operario de desmotadora · turno noche · Guaycurú', lines:[{expandable:true,text:'"En el turno noche somos 4 fijos y 6 temporarios. Los temporarios cobran $280.000 de básico — eso está debajo del SMVM, cómo es posible que una empresa del grupo Vicentín pague debajo del mínimo. Y no tienen obra social completa, solo la básica, si un temporario se lastima en la desmotadora a las 2 de la mañana, ¿quién lo atiende? No hay médico de noche, no hay enfermería, solo un botiquín que siempre está desbasto.<br><br>Los contratos de 3 meses son un circo — cada 90 días te dicen \'volvemos a evaluar\' y lo que evalúan es si te callaste o no. Si pediste EPP, si reclamaste algo, si te quejaste del ritmo, no te renovan. Yo hace 8 meses que estoy renovando contrato, no sumo antigüedad, no tengo nada asegurado. Y encima la desmotadora 2 sigue andando mal, la aspiración no funciona y en la noche se acumula más fibra porque no hay supervisión, los supervisores solo están de día. Es negligencia — si explota de noche, no hay protocolo de evacuación."'}] });
+  blocks.push({ kind:'card', label:'Fuente primaria · 1-E', title:'Empleado administrativo · sección despacho · Guaycurú', lines:[{expandable:true,text:'"El despacho está parado — 15.000 toneladas de fibra de algodón en playa sin movimiento, los camiones no entran porque no hay pedido de carga, y los barcos que deberían despachar fibre pellets están esperando sin fecha. La desmotadora 2 sigue parada, la 3 la apagaron esta semana, solo la 1 funciona y al 50% de capacidad. Entró 40% menos algodón que la semana anterior, los proveedores no mandan porque Guaycurú les debe pagos de la última campaña. Y nosotros dependemos de la paritaria de Vicentín porque los desmotadores no tenemos paritaria propia — si Vicentín no cierra, nosotros tampoco.<br><br>Lo que nadie dice es que Guaycurú está siendo vaciado igual que Vicentín, pero más lento. Primero pararon desmotadoras, después echaron gente, después llenaron con temporarios al 50% de planta, y ahora el despacho no sale. No es crisis del sector, es decisión empresaria — desmotar menos, pagar menos, achicar. Y cuando los auditores de Vicentín vengan acá, van a encontrar lo mismo: planta funcionando al mínimo, personal precarizado, despacho parado. ¿Qué quieren vender? ¿La planta o el negocio de achicar?"'}] });
   if(secretarioReportSent){
     // Federación ya recibió — no editable
     blocks.push({ kind:'card', lines:[{text:'✓ Federación ya lo recibió — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goSecretarioHome()'}] });
@@ -4624,7 +4629,7 @@ function showSourceA(){
   isChatStarted=true;
   var cc=document.getElementById('isChatContainer');
   if(cc) cc.innerHTML='';
-  cc.innerHTML='<div style="background:#5A574F;border-radius:16px;padding:12px 14px;margin-bottom:8px"><div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.76rem;color:#94A867;margin-bottom:5px">🎤 Audio · Empleado administrativo Vicentín</div><div style="font-size:.84rem;color:#F2F1EC;line-height:1.45">Che, o sea, hoy en la oficina estuvimos con un tema… nos mandaron un mail de gerencia que van a cambiar la prioridad de producción, antes hacíamos más aceite refinado para exportación y ahora van a priorizar expeller, dicen que es porque el mercado chino pide más pellets, pero yo creo que es porque el expeller tiene menor retención, o sea, pagan menos impuesto de exportación por expeller que por aceite refinado, así la empresa se ahorra. Pero eso significa que la línea de refinería va a bajar ritmo, y los compañeros de esa sección ya están preocupados porque si bajan ritmo bajan necesidad de personal, y ya sabemos cómo es Vicentín con esto, primero bajan ritmo, después reducen turnos, después suspenden, después despiden. Y nosotros en admin también estamos preocupados porque la última paritaria todavía no se cerró bien, la empresa dice que no puede porque está en concurso, y el básico no llega a cubrir nada, yo pago 380 de alquiler en Reconquista y mi básico es 340, cómo se vive así. Y otra cosa, se rumoraba que van a venir auditores del concurso esta semana, no sé si es verdad pero los compañeros de prensa dicen que les pidieron que limpien todo, que la planta tiene que estar impecable, qué quieren mostrar los auditores, ¿la planta funciona o quieren vender? Ah, y entró menos soja esta semana, los camiones demoran porque hay control de ruta, eso también afecta.</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;color:#9C988C;margin-top:5px">Transcripción local · el audio no se envía</div></div>';
+  cc.innerHTML='<div style="background:#5A574F;border-radius:16px;padding:12px 14px;margin-bottom:8px"><div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.76rem;color:#94A867;margin-bottom:5px">🎤 Audio · Damián · Empleado administrativo Vicentín</div><div style="font-size:.84rem;color:#F2F1EC;line-height:1.45">Nos quieren hacer creer que el concurso es por crisis, pero la planta produce al 80%. El básico no llega para nada… el alquiler se comió todo el aumento. Van a priorizar expeller porque tiene menor retención — eso no es producción, es estrategia patronal para achicar retenciones. El concurso no es solo crisis, hay auditores evaluando activos para posible venta. Y los despidos no son reducción de personal, es vaciamiento.</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;color:#9C988C;margin-top:5px">Transcripción local · el audio no se envía</div></div>';
   document.getElementById('isChatWrap').style.display='';
 }
 
@@ -4632,7 +4637,7 @@ function showSourceB(){
   isChatStarted=true;
   var cc=document.getElementById('isChatContainer');
   if(cc) cc.innerHTML='';
-  cc.innerHTML='<div style="background:#5A574F;border-radius:16px;padding:12px 14px;margin-bottom:8px"><div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.76rem;color:#94A867;margin-bottom:5px">🎤 Audio · Operario de prensa Vicentín</div><div style="font-size:.84rem;color:#F2F1EC;line-height:1.45">Hola, quiero dejar registrado lo que está pasando en prensa. Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto para reparar porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada, no fue grave pero podría haber sido. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale, o sea, cambia la directiva y nosotros tenemos que adaptar sin que nos digan nada formal, solo rumores. También: 2 accidentes esta semana, uno en prensa y otro en envasadora, el de envasadora fue peor, se cortó la mano con la máquina, y no hay enfermería funcional en la planta, tuvieron que llevarlo al hospital de Reconquista. Y los EPP siguen siendo los mismos de siempre, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Sobre paritaria: la comisión interna está tratando de negociar pero la empresa responde que el concurso limita las posibilidades, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, o sea, me pagan pero menos de lo que debería según convenio Art. 7bis.</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;color:#9C988C;margin-top:5px">Transcripción local · el audio no se envía</div></div>';
+  cc.innerHTML='<div style="background:#5A574F;border-radius:16px;padding:12px 14px;margin-bottom:8px"><div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.76rem;color:#94A867;margin-bottom:5px">🎤 Audio · Raúl · Operario de prensa Vicentín</div><div style="font-size:.84rem;color:#F2F1EC;line-height:1.45">Hola, quiero dejar registrado lo que está pasando en prensa. Esta semana nos pidieron aumentar el ritmo, 20% más de volumen por turno, dicen que hay que procesar más porque la soja que entró antes de que suba el precio hay que sacarla rápido. Pero la prensa 3 tiene una fuga, está perdiendo aceite por la junta, y mantenimiento no viene, dicen que no hay presupuesto para reparar porque la empresa está en concurso. Nosotros seguimos produciendo con la fuga, perdemos material y es peligroso, el aceite caliente en el piso, ya se cayó un compañero la semana pasada, no fue grave pero podría haber sido. Y eso de que quieren priorizar expeller lo notamos, antes refinábamos más y ahora nos dicen que el expeller es lo que sale, o sea, cambia la directiva y nosotros tenemos que adaptar sin que nos digan nada formal, solo rumores. También: 2 accidentes esta semana, uno en prensa y otro en envasadora, el de envasadora fue peor, se cortó la mano con la máquina, y no hay enfermería funcional en la planta, tuvieron que llevarlo al hospital de Reconquista. Y los EPP siguen siendo los mismos de siempre, guantes que se rompen en una semana, botas que no aguantan el aceite caliente. Sobre paritaria: la comisión interna está tratando de negociar pero la empresa responde que el concurso limita las posibilidades, y nosotros decimos que la planta está produciendo, no está parada, si hay producción hay plata para pagar mejor. Me pagan horas extra que no compensan, o sea, me pagan pero menos de lo que debería según convenio Art. 7bis.</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:.62rem;color:#9C988C;margin-top:5px">Transcripción local · el audio no se envía</div></div>';
   document.getElementById('isChatWrap').style.display='';
 }
 
@@ -4841,8 +4846,23 @@ function renderIS(){
   var explainWasOpen = (document.getElementById('isExplainWrap').style.display !== 'none');
   document.getElementById('isExplainBtn').style.display = '';
 
-  // split layout: show chat panel only when chat is active
+  // full-screen chat: hide blocks when chat active, show chat full
+  document.getElementById('isBlocksWrap').style.display = isChatStarted ? 'none' : '';
   document.getElementById('isChatWrap').style.display = isChatStarted ? '' : 'none';
+  // chat navigation header — contextual links when chat is active
+  var chatNav=document.getElementById('isChatNav');
+  if(isChatStarted){
+    chatNav.style.display='';
+    if(state.isRole===1 && trabajadorInformeSent){
+      chatNav.innerHTML='<div style="display:flex;gap:12px;padding:4px 0"><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="goTrabajadorHome()">Mis Informes</a><span style="color:#6E6A60;font-size:.78rem">·</span><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="viewTrabajadorInforme()">Informe N° 11</a></div>';
+    } else {
+      var homeFn='go'+(state.isRole===2?'Delegado':state.isRole===3?'Secretario':'Federacion')+'Home()';
+      chatNav.innerHTML='<div style="padding:4px 0"><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="'+homeFn+'">Mis Informes</a></div>';
+    }
+  } else {
+    chatNav.style.display='none';
+    chatNav.innerHTML='';
+  }
 
   // chat bar always visible — on steps without dialogue, disable input and show contextual placeholder
   document.getElementById('isChatBar').style.display = '';
@@ -4917,6 +4937,7 @@ function renderIS(){
 var isChatStarted=false;
 var isChatStep=0;
 var isChatConv=[];
+var isChatSavedHTML='';
 
 function buildIsChatConv(){
   var r=state.isRole, s=state.isStep;
@@ -5024,7 +5045,7 @@ function buildTrabajadorInformeBlocks(){
     { kind:'card', label:'Familia 2 · Condiciones de trabajo', lines:[{text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.'}], tags:[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}] },
     { kind:'card', label:'Familia 9 · Producción', lines:[{text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}], tags:[{fam:'9',label:'Directivas'},{fam:'9',label:'Producto final'},{fam:'9',label:'Traba en producción'}] }
   ];
-  // If delegado hasn't seen it yet, allow correction; if delegado already saw it, only read
+  // Delegado status: progressive states — saw, corrected, sent
   if(!delegadoSeenA){
     if(trabajadorDemoDone){
       // Coming from Mis Informes — informe already sent, only correct or go back
@@ -5033,25 +5054,45 @@ function buildTrabajadorInformeBlocks(){
       // First time — allow confirm or correct
       blocks.push({ kind:'actions', items:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Quiero corregir algo',variant:'outline',onclick:'isChatCorrect()'}] });
     }
+  } else if(delegadoReportSent){
+    // Delegado saw, corrected and sent to secretario
+    blocks.push({ kind:'card', label:'Delegado lo vio, lo corrigió y lo envió', lines:[{text:'La delegada de Vicentín vio tu informe, lo corrigió y lo envió al secretario general.'}] });
+  } else if(delegadoCorrectedA){
+    // Delegado corrected but hasn't sent yet
+    blocks.push({ kind:'card', label:'Delegado lo corrigió', lines:[
+      {text:'La delegada de Vicentín corrigió tu informe. Las correcciones ya están incorporadas.'},
+      {lead:'F2 · Corrección:',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
+    ] });
   } else {
-    // Delegado already saw it — only read, no edit
-    blocks.push({ kind:'card', lines:[{text:'El delegado ya revisó este informe. No se puede editar.'}] });
+    // Delegado saw but didn't correct yet
+    blocks.push({ kind:'card', lines:[{text:'El delegado ya revisó este informe ✓. No se puede editar.'}] });
   }
   return blocks;
 }
 
 function viewTrabajadorInforme(){
-  // Show the developed informe; step 1 in trabajadorDemoDone array
   state.isStep=1;
-  isChatInit();
+  if(isChatSavedHTML){
+    // restore preserved chat
+    isChatStarted=true;
+    var cc=document.getElementById('isChatContainer');
+    if(cc) cc.innerHTML=isChatSavedHTML;
+    isChatSavedHTML='';
+  } else {
+    isChatInit();
+  }
   renderIS();
 }
 
 function goTrabajadorHome(){
   trabajadorDemoDone=true;
   state.isStep=0;
-  isChatStarted=false;
-  isChatInit();
+  if(isChatStarted){
+    // preserve chat state — save container HTML for restoration
+    var cc=document.getElementById('isChatContainer');
+    if(cc) isChatSavedHTML=cc.innerHTML;
+    isChatStarted=false;
+  }
   renderIS();
 }
 
@@ -5071,28 +5112,48 @@ function goSecretarioHome(){
 var isCorrectMode=false;
 var workerCorrectedOnce=false; // tracks if worker already corrected once
 function isChatCorrect(){
-  isCorrectMode=true;
   isDelegadoEditMode=false;
   isChatStarted=true;
   isChatStep=0;
   var cc=document.getElementById('isChatContainer');
   if(cc) cc.innerHTML='';
-  if(workerCorrectedOnce){
-    // second+ correction: Hornero asks what the worker wants to correct
-    isChatConv=[
-      { type:'hornero', text:'¿Qué algo más querés corregir del informe? Contame qué te parece que está mal, qué faltó o qué querés agregar.', time:'10:25' },
-      { type:'user', text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.', time:'10:26' },
-      { type:'hornero', text:'Corregido. Actualizo:<br><strong>F2 · Condiciones de trabajo</strong>: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><br>¿Querés corregir algo más o confirmá con el botón <strong>Confirmar y enviar</strong>?', time:'10:27' }
-    ];
+  if(trabajadorDemoDone && trabajadorInformeSent){
+    // Post-demo: informe already sent, reviewing classification — no confirm button at end
+    isCorrectMode=false;
+    if(workerCorrectedOnce){
+      isChatConv=[
+        { type:'hornero', text:'¿Qué más querés corregir del informe? Contame qué te parece que está mal, qué faltó o qué querés agregar.', time:'10:25' },
+        { type:'user', text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.', time:'10:26' },
+        { type:'hornero', text:'Corregido. Actualizo:<br><strong>F2 · Condiciones de trabajo</strong>: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><br>El informe ya fue enviado. Te aviso cuando el Delegado lo vea.', time:'10:27' }
+      ];
+    } else {
+      // first post-demo correction: Raúl asks about classification
+      isChatConv=[
+        { type:'user', text:'Yo había dicho que nos pidieron aumentar el ritmo y que hay fuga y aceite caliente en el piso, pero no sé cómo se etiquetó eso. ¿Está bien clasificado?', time:'10:20' },
+        { type:'hornero', text:'Lo que contaste sobre la fuga y aceite caliente se etiquetó como <strong>Salud laboral (Familia 2)</strong> — afectan tu salud y seguridad en la planta. Cambio de ritmo es Producción, Familia 9. ¿Querés confirmar y enviar, o corregir algo más?', time:'10:21' },
+        { type:'user', text:'Está bien así, quiero confirmar.', time:'10:22' },
+        { type:'hornero', text:'El informe ya fue enviado, así que si no cambias nada, quedate tranquilo. Te aviso cuando el Delegado lo vea, lo corrija o lo apruebe.', time:'10:23' }
+      ];
+      workerCorrectedOnce=true;
+    }
   } else {
-    // first correction: worker asks about EPP classification
-    isChatConv=[
-      { type:'user', text:'Yo había dicho que nos pidieron aumentar el ritmo y que los EPP se rompen, pero no sé cómo se etiquetó eso. ¿Está bien clasificado?', time:'10:20' },
-      { type:'hornero', text:'Lo que contaste sobre los EPP se etiquetó como <strong>Salud laboral (Familia 2)</strong>. Los equipamientos de protección personal insuficientes, los accidentes y la fuga de prensa 3 están bajo esa categoría — afectan tu salud y seguridad en la planta. ¿Quieres confirmar y enviar, o corregir algo más?', time:'10:21' },
-      { type:'user', text:'Está bien así, quiero confirmar.', time:'10:22' },
-      { type:'hornero', text:'Confirmá con el botón <strong>Confirmar y enviar</strong> que aparece arriba.', time:'10:23' }
-    ];
-    workerCorrectedOnce=true;
+    // Demo: first time, needs confirm button at end of chat
+    isCorrectMode=true;
+    if(workerCorrectedOnce){
+      isChatConv=[
+        { type:'hornero', text:'¿Qué algo más querés corregir del informe? Contame qué te parece que está mal, qué faltó o qué querés agregar.', time:'10:25' },
+        { type:'user', text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.', time:'10:26' },
+        { type:'hornero', text:'Corregido. Actualizo:<br><strong>F2 · Condiciones de trabajo</strong>: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><br>¿Querés corregir algo más o confirmá con el botón <strong>Confirmar y enviar</strong>?', time:'10:27' }
+      ];
+    } else {
+      isChatConv=[
+        { type:'user', text:'Yo había dicho que nos pidieron aumentar el ritmo y que los EPP se rompen, pero no sé cómo se etiquetó eso. ¿Está bien clasificado?', time:'10:20' },
+        { type:'hornero', text:'Lo que contaste sobre los EPP y la fuga se etiquetó como <strong>Salud laboral (Familia 2)</strong> — afectan tu salud y seguridad en la planta. Cambio de ritmo es <strong>Producción, Familia 9</strong>. ¿Querés confirmar y enviar, o corregir algo más?', time:'10:21' },
+        { type:'user', text:'Está bien así, quiero confirmar.', time:'10:22' },
+        { type:'hornero', text:'Confirmá con el botón <strong>Confirmar y enviar</strong> que aparece arriba.', time:'10:23' }
+      ];
+      workerCorrectedOnce=true;
+    }
   }
   renderIS();
   isChatRunStep(0);
