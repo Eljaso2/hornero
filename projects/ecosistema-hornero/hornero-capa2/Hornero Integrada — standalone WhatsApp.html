@@ -5074,27 +5074,16 @@ function buildTrabajadorInformeBlocks(){
 
 function viewTrabajadorInforme(){
   state.isStep=1;
-  if(isChatSavedHTML){
-    // restore preserved chat
-    isChatStarted=true;
-    var cc=document.getElementById('isChatContainer');
-    if(cc) cc.innerHTML=isChatSavedHTML;
-    isChatSavedHTML='';
-  } else {
-    isChatInit();
-  }
+  isChatStarted=false;
+  isChatSavedHTML='';
   renderIS();
 }
 
 function goTrabajadorHome(){
   trabajadorDemoDone=true;
   state.isStep=0;
-  if(isChatStarted){
-    // preserve chat state — save container HTML for restoration
-    var cc=document.getElementById('isChatContainer');
-    if(cc) isChatSavedHTML=cc.innerHTML;
-    isChatStarted=false;
-  }
+  isChatStarted=false;
+  isChatSavedHTML='';
   renderIS();
 }
 
@@ -5124,7 +5113,7 @@ function isChatCorrect(){
     isCorrectMode=false;
     if(workerCorrectedOnce){
       isChatConv=[
-        { type:'hornero', text:'¿Qué más querés corregir del informe? Contame qué te parece que está mal, qué faltó o qué querés agregar.', time:'10:25' },
+        { type:'hornero', text:'¿Querés volver a corregir? Ya hiciste una corrección antes.', time:'10:25' },
         { type:'user', text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.', time:'10:26' },
         { type:'hornero', text:'Corregido. Actualizo:<br><strong>F2 · Condiciones de trabajo</strong>: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><br>El informe ya fue enviado. Te aviso cuando el Delegado lo vea.', time:'10:27' }
       ];
@@ -5343,14 +5332,6 @@ function isChatRunStep(step){
             var chatInput=document.getElementById('isChatInput');
             if(chatInput){ chatInput.disabled=true; chatInput.placeholder='Confirmá el reporte'; }
           },2500);
-        }
-        // If no confirm button is pending (not isCorrectMode nor isDelegadoEditMode),
-        // dismiss chat after a delay and show blocks — user has already read the dialogue
-        if(!isCorrectMode && !isDelegadoEditMode && !(state.isRole===1 && state.isStep===0)){
-          setTimeout(function(){
-            isChatStarted=false;
-            renderIS();
-          },3000);
         }
       }
     },3500+Math.random()*800);
