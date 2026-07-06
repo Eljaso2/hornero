@@ -3862,7 +3862,7 @@ var transcript1E='"El despacho está parado — 15.000 toneladas de fibra de alg
 function buildTranscriptItems(scope){
   var items=[];
   // Corrección delegado de Raúl (1-B / informe A)
-  var corrDelegadoA=delegadoCorrectedA?[{role:'Corrección del delegado',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}]:[];
+  var corrDelegadoA=delegadoCorrectedA?[{role:'Corrección del delegado',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo. Enfermería y EPP ya estaban bien etiquetados por Raúl.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT — nuevo. Guantes se rompen en 1 semana, botas no aguantan aceite caliente — nuevo. Supervisores presionando para incrementar ritmo.'}]:[];
   // Corrección delegado de Damián (1-A / informe B)
   var corrDelegadoB=delegadoCorrectedB?[{role:'Corrección del delegado',text:'Cambio de prioridad de producción (refinado → expeller) = estrategia patronal, no solo producción. Concurso como situación económica — auditores evaluando activos para posible venta. Despidos = vaciamiento, no reducción de personal.'}]:[];
   // Corrección secretario de Guaycurú
@@ -4048,7 +4048,7 @@ function buildTrabajadorSteps(){
     if(delegadoCorrectedA){
       trBlocks.push({ kind:'card', label:'Corrección del delegado', title:'Tu informe fue corregido', lines:[
         {text:'La delegada de Vicentín corrigió tu informe y especificó:'},
-        {lead:'F2 · Condiciones de trabajo:',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
+        {lead:'F2 · Condiciones de trabajo:',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo. Enfermería y EPP ya estaban bien etiquetados.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
       ] });
     }
     return [
@@ -4060,12 +4060,12 @@ function buildTrabajadorSteps(){
         explain:{ kicker:'Informe grado 1', h3:'La IA organizó lo que contaste por familias', p:'Hornero procesó tu relato y lo organizó en tres familias: conflicto laboral, condiciones de trabajo y producción. Podés corregir si el delegado no lo vio todavía.', note:'La IA no publica sin verificación humana. Cada dato queda vinculado a tu relato original.' } },
       { title:'Verificación', showInput:false,
         blocks:[
-          { kind:'card', lines:[{text:'✓ Paritaria — correcto'},{text:'✓ Accidentes — correcto'},{text:'✓ Cambio de directivas — correcto'},{lead:'⚠ Equipamiento de Protección Personal — agregar:',text:'guantes se rompen en 1 semana, botas no aguantan aceite caliente'}], actions:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'}] }
+          { kind:'card', lines:[{text:'✓ Paritaria — correcto'},{text:'✓ Caída de compañero — correcto'},{text:'✓ Cambio de directivas — correcto'},{lead:'⚠ Equipamiento de Protección Personal — agregar:',text:'guantes se rompen en 1 semana, botas no aguantan aceite caliente'}], actions:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'}] }
         ],
         explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso. Podés confirmar lo que está, agregar detalles, o corregir.', note:'Sin verificación, el informe no ingresa al sistema.' } },
       { title:'Informe enviado al delegado', showInput:false,
         blocks:[
-          { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:delegadoCorrectedA?'✓ Familia 2 · Salud laboral — Amputación + enfermería clausurada + Equipamiento de Protección Personal':'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
+          { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:delegadoCorrectedA?'✓ Familia 2 · Salud laboral — Amputación + enfermería clausurada + Equipamiento de Protección Personal':'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + caída de compañero'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
         ],
         explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
     ];
@@ -4110,12 +4110,12 @@ function buildTrabajadorSteps(){
       explain:{ kicker:'Informe grado 1', h3:'La IA organizó lo que contaste por familias', p:'Hornero procesó tu relato y lo organizó en tres familias: conflicto laboral, condiciones de trabajo y producción. Lee el informe — si algo está mal o faltó algo, podés corregir. Si está bien, confirmá y se envía al delegado.', note:'La IA no publica sin verificación humana. Cada dato queda vinculado a tu relato original.' } },
     { title:'Verificación', showInput:false,
       blocks:[
-        { kind:'card', lines:[{text:'✓ Paritaria — correcto'},{text:'✓ Accidentes — correcto'},{text:'✓ Cambio de directivas — correcto'},{lead:'⚠ Equipamiento de Protección Personal — agregar:',text:'guantes se rompen en 1 semana, botas no aguantan aceite caliente'}], actions:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'}] }
+        { kind:'card', lines:[{text:'✓ Paritaria — correcto'},{text:'✓ Caída de compañero — correcto'},{text:'✓ Cambio de directivas — correcto'},{lead:'⚠ Equipamiento de Protección Personal — agregar:',text:'guantes se rompen en 1 semana, botas no aguantan aceite caliente'}], actions:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'}] }
       ],
       explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso — los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Podés confirmar lo que está, agregar detalles, o corregir lo que no te parezca.', note:'Sin verificación, el informe no ingresa al sistema. Una vez confirmado, circula al delegado del territorio (grado 2).' } },
     { title:'Informe enviado al delegado', showInput:false,
       blocks:[
-        { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:delegadoCorrectedA?'✓ Familia 2 · Salud laboral — Amputación + enfermería clausurada + Equipamiento de Protección Personal':'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
+        { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:delegadoCorrectedA?'✓ Familia 2 · Salud laboral — Amputación + enfermería clausurada + Equipamiento de Protección Personal':'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + caída de compañero'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
       ],
       explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
   ];
@@ -4189,14 +4189,14 @@ function buildDelegadoPanel(){
 
 function buildAdminAPanel(){
   var blocks=[];
-  // Raúl — operario de prensa: habla de accidents, EPP, fuga, ritmo, enfermería
+  // Raúl — operario de prensa: habla de EPP, fuga, ritmo; enfermería si Raúl la agregó
   var raulLines=[
     {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida.'},
-    {lead:'F2 · Condiciones de trabajo:',text:'Caída de compañero por aceite en piso. Prensa 3 con fuga de aceite por la junta. Enfermería no funcional — derivaron compañero al hospital de Reconquista. EPP insuficientes.'},
+    {lead:'F2 · Condiciones de trabajo:',text:raulEnfermeriaAdded?'Caída de compañero por aceite en piso. Prensa 3 con fuga de aceite por la junta. Enfermería clausurada 3 meses — violación Art. 42 CCT. EPP insuficientes: guantes se rompen en 1 semana, botas no aguantan aceite caliente.':'Caída de compañero por aceite en piso. Prensa 3 con fuga de aceite por la junta. EPP insuficientes.'},
     {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido. Priorizan expeller por menor retención.'}
   ];
   if(delegadoCorrectedA){
-    raulLines[1]={lead:'F2 · Condiciones de trabajo (corregido):',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'};
+    raulLines[1]={lead:'F2 · Condiciones de trabajo (corregido):',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'};
   }
   blocks.push({ kind:'card', label:'Informe grado 1 · Raúl · Operario de prensa · Vicentín', lines:raulLines });
   // Transcript sources — replaces old 'Original del trabajador' card
@@ -4249,8 +4249,8 @@ function commentAdminA(){
   if(cc) cc.innerHTML='';
   isChatConv=[
     { type:'hornero', text:'¿Qué observás en el informe de Raúl?', time:'11:05' },
-    { type:'user', text:'El informe dice "caída de compañero" y "enfermería no funcional" — pero la caída fue una amputación parcial de 2 dedos en envasadora, no solo una caída. Y la enfermería está clausurada desde hace 3 meses, eso es violación del Art. 42 CCT. También: los guantes se rompen en una semana, las botas no aguantan el aceite caliente, y los supervisores están presionando para incrementar ritmo.', time:'11:06' },
-    { type:'hornero', text:'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.', time:'11:07' }
+    { type:'user', text:raulEnfermeriaAdded?'El informe dice "caída de compañero" — pero la caída fue una amputación parcial de 2 dedos en envasadora, no solo una caída. También: los supervisores están presionando para incrementar ritmo.':'El informe dice "caída de compañero" — pero la caída fue una amputación parcial de 2 dedos en envasadora, no solo una caída. Y la enfermería está clausurada desde hace 3 meses, eso es violación del Art. 42 CCT y no está en el informe. También: los guantes se rompen en una semana, las botas no aguantan el aceite caliente, y los supervisores están presionando para incrementar ritmo.', time:'11:06' },
+    { type:'hornero', text:raulEnfermeriaAdded?'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo — <strong>nuevo</strong>. Enfermería clausurada y EPP ya estaban bien etiquetados.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.':'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT — <strong>nuevo</strong>. Guantes se rompen en 1 semana, botas no aguantan aceite caliente — <strong>nuevo</strong>. Supervisores presionando para incrementar ritmo — <strong>nuevo</strong>.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.', time:'11:07' }
   ];
   renderIS();
   isChatRunStep(0);
@@ -5163,14 +5163,21 @@ function isConfirmSend(){
 
 function buildTrabajadorInformeBlocks(){
   var f2Text='Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.';
+  var f2Label='Familia 2 · Condiciones de trabajo';
   var f2Tags=[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}];
+  if(raulEnfermeriaAdded&&!delegadoCorrectedA){
+    f2Text='Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Enfermería clausurada 3 meses — violación Art. 42 CCT.';
+    f2Label='Familia 2 · Condiciones de trabajo (+ enfermería)';
+    f2Tags=[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Enfermería clausurada'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}];
+  }
   if(delegadoCorrectedA){
     f2Text='Amputación parcial de 2 dedos en envasadora. Prensa 3 con fuga. Enfermería clausurada 3 meses — violación Art. 42 CCT. Equipamiento de Protección Personal insuficiente: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.';
+    f2Label='Familia 2 · Condiciones de trabajo (corregido por delegado)';
     f2Tags=[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Amputación'},{fam:'2',label:'Enfermería clausurada'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}];
   }
   var blocks=[
     { kind:'card', label:'Familia 1 · Conflicto laboral', lines:[{text:'Paritaria sin cierre. Empresa argumenta concurso. Básico no cubre costo de vida.'}], tags:[{fam:'1',label:'Paritaria'},{fam:'1',label:'Conflicto salarial'}] },
-    { kind:'card', label:'Familia 2 · Condiciones de trabajo'+(delegadoCorrectedA?' (corregido por delegado)':''), lines:[{text:f2Text}], tags:f2Tags },
+    { kind:'card', label:f2Label, lines:[{text:f2Text}], tags:f2Tags },
     { kind:'card', label:'Familia 9 · Producción', lines:[{text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido.'}], tags:[{fam:'9',label:'Directivas'},{fam:'9',label:'Producto final'},{fam:'9',label:'Traba en producción'}] }
   ];
   // Transcript sources
@@ -5191,7 +5198,7 @@ function buildTrabajadorInformeBlocks(){
     // Delegado corrected but hasn't sent yet
     blocks.push({ kind:'card', label:'Delegado lo corrigió', lines:[
       {text:'La delegada de Vicentín corrigió tu informe. Las correcciones ya están incorporadas.'},
-      {lead:'F2 · Corrección:',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
+      {lead:'F2 · Corrección:',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo. Enfermería y EPP ya estaban bien etiquetados.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
     ] });
   } else {
     // Delegado saw but didn't correct yet
@@ -5230,6 +5237,7 @@ function goSecretarioHome(){
 // Correction chat — worker corrects, IA responds, then worker confirms
 var isCorrectMode=false;
 var workerCorrectedOnce=false; // tracks if worker already corrected once
+var raulEnfermeriaAdded=false; // Raúl added enfermería in his correction
 function isChatCorrect(){
   isDelegadoEditMode=false;
   isChatStarted=true;
@@ -5240,6 +5248,7 @@ function isChatCorrect(){
     // Post-demo: informe already sent, reviewing classification — no confirm button at end
     isCorrectMode=false;
     if(workerCorrectedOnce){
+      raulEnfermeriaAdded=true;
       isChatConv=[
         { type:'hornero', text:'¿Querés volver a corregir?', time:'10:25' },
         { type:'user', text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.', time:'10:26' },
@@ -5249,7 +5258,7 @@ function isChatCorrect(){
       // first post-demo correction: Raúl asks about classification
       isChatConv=[
         { type:'user', text:'Yo había dicho que nos pidieron aumentar el ritmo y que hay fuga y aceite caliente en el piso, pero no sé cómo se etiquetó eso. ¿Está bien clasificado?', time:'10:20' },
-        { type:'hornero', text:'Lo que contaste sobre la fuga y aceite caliente se etiquetó como <strong>Salud laboral (Familia 2)</strong> — afectan tu salud y seguridad en la planta. Cambio de ritmo es Producción, Familia 9. ¿Querés confirmar y enviar, o corregir algo más?', time:'10:21' },
+        { type:'hornero', text:'Lo que contaste sobre la fuga y aceite caliente se etiquetó como <strong>Salud laboral (Familia 2)</strong> — afectan tu salud y seguridad en la planta. Cambio de ritmo es Producción, Familia 9. ¿Tenés alguna otra duda?', time:'10:21' },
         { type:'user', text:'Está bien así, quiero confirmar.', time:'10:22' },
         { type:'hornero', text:'El informe ya fue enviado, así que si no cambias nada, quedate tranquilo. Te aviso cuando el Delegado lo vea, lo corrija o lo apruebe.', time:'10:23' }
       ];
@@ -5267,7 +5276,7 @@ function isChatCorrect(){
     } else {
       isChatConv=[
         { type:'user', text:'Yo había dicho que nos pidieron aumentar el ritmo y que los EPP se rompen, pero no sé cómo se etiquetó eso. ¿Está bien clasificado?', time:'10:20' },
-        { type:'hornero', text:'Lo que contaste sobre los EPP y la fuga se etiquetó como <strong>Salud laboral (Familia 2)</strong> — afectan tu salud y seguridad en la planta. Cambio de ritmo es <strong>Producción, Familia 9</strong>. ¿Querés confirmar y enviar, o corregir algo más?', time:'10:21' },
+        { type:'hornero', text:'Lo que contaste sobre los EPP y la fuga se etiquetó como <strong>Salud laboral (Familia 2)</strong> — afectan tu salud y seguridad en la planta. Cambio de ritmo es <strong>Producción, Familia 9</strong>. ¿Tenés alguna otra duda?', time:'10:21' },
         { type:'user', text:'Está bien así, quiero confirmar.', time:'10:22' },
         { type:'hornero', text:'Confirmá con el botón <strong>Confirmar y enviar</strong> que aparece arriba.', time:'10:23' }
       ];
@@ -5379,13 +5388,11 @@ function isChatRunStep(step){
           },3000);
         }
         // chat finished — handle different end states
-        // apply pending corrections after chat animation finishes
+        // apply pending corrections after chat animation finishes — keep chat open for manual navigation
         if(pendingCorrectionA){
           pendingCorrectionA=false;
           delegadoCorrectedA=true;
-          // correction applied — dismiss chat after delay, show updated blocks
           setTimeout(function(){
-            isChatStarted=false;
             renderIS();
           },2000);
         }
@@ -5393,7 +5400,6 @@ function isChatRunStep(step){
           pendingCorrectionB=false;
           delegadoCorrectedB=true;
           setTimeout(function(){
-            isChatStarted=false;
             renderIS();
           },2000);
         }
@@ -5401,7 +5407,6 @@ function isChatRunStep(step){
           pendingCorrectionGuaycuru=false;
           secretarioGuaycuruComment=true;
           setTimeout(function(){
-            isChatStarted=false;
             renderIS();
           },2000);
         }
