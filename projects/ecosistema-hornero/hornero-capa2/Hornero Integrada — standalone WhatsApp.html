@@ -3886,7 +3886,7 @@ function buildTranscriptItems(scope){
   // Corrección del trabajador (Raúl) — segunda corrección
   var corrTrabajadorRaul=[{role:'Corrección del trabajador · Raúl',text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.<br><br>IA detectó: <strong>guantes/botas</strong> ya incorporado en Equipamiento de Protección Personal insuficiente. <strong>Enfermería clausurada 3 meses — violación Art. 42 CCT</strong> es nuevo.'}];
   if(scope==='trabajador'){
-    items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:corrTrabajadorRaul.concat(corrDelegadoA)});
+    items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:(workerCorrectedOnce?corrTrabajadorRaul:[]).concat(corrDelegadoA)});
   }
   if(scope==='delegadoA'){
     items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:[]});
