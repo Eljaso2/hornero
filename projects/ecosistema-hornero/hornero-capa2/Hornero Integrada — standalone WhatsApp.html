@@ -3883,8 +3883,10 @@ function buildTranscriptItems(scope){
   if(secretarioGuaycuruComment) delGuyText+=' Corregido por secretario: violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal).';
   var corrDelGuaycuru=[{role:'Informe grado 2 · Delegado Guaycurú',text:delGuyText}];
 
+  // Corrección del trabajador (Raúl) — segunda corrección
+  var corrTrabajadorRaul=[{role:'Corrección del trabajador · Raúl',text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.<br><br>IA detectó: <strong>guantes/botas</strong> ya incorporado en Equipamiento de Protección Personal insuficiente. <strong>Enfermería clausurada 3 meses — violación Art. 42 CCT</strong> es nuevo.'}];
   if(scope==='trabajador'){
-    items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:corrDelegadoA});
+    items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:corrTrabajadorRaul.concat(corrDelegadoA)});
   }
   if(scope==='delegadoA'){
     items.push({label:'1-B',title:'Raúl · Operario de prensa · Vicentín',text:transcript1B,corrections:[]});
@@ -4063,7 +4065,7 @@ function buildTrabajadorSteps(){
         explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso. Podés confirmar lo que está, agregar detalles, o corregir.', note:'Sin verificación, el informe no ingresa al sistema.' } },
       { title:'Informe enviado al delegado', showInput:false,
         blocks:[
-          { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
+          { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:delegadoCorrectedA?'✓ Familia 2 · Salud laboral — Amputación + enfermería clausurada + Equipamiento de Protección Personal':'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
         ],
         explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
     ];
@@ -4113,7 +4115,7 @@ function buildTrabajadorSteps(){
       explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso — los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Podés confirmar lo que está, agregar detalles, o corregir lo que no te parezca.', note:'Sin verificación, el informe no ingresa al sistema. Una vez confirmado, circula al delegado del territorio (grado 2).' } },
     { title:'Informe enviado al delegado', showInput:false,
       blocks:[
-        { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
+        { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:delegadoCorrectedA?'✓ Familia 2 · Salud laboral — Amputación + enfermería clausurada + Equipamiento de Protección Personal':'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + accidentes'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
       ],
       explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
   ];
@@ -5239,9 +5241,9 @@ function isChatCorrect(){
     isCorrectMode=false;
     if(workerCorrectedOnce){
       isChatConv=[
-        { type:'hornero', text:'¿Querés volver a corregir? Ya hiciste una corrección antes.', time:'10:25' },
+        { type:'hornero', text:'¿Querés volver a corregir?', time:'10:25' },
         { type:'user', text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.', time:'10:26' },
-        { type:'hornero', text:'Corregido. Actualizo:<br><strong>F2 · Condiciones de trabajo</strong>: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><br>El informe ya fue enviado. Te aviso cuando el Delegado lo vea.', time:'10:27' }
+        { type:'hornero', text:'De lo que contaste, <strong>guantes y botas</strong> ya están incorporados en F2 (Equipamiento de Protección Personal insuficiente). Lo nuevo es la <strong>enfermería clausurada 3 meses</strong> — eso es violación del Art. 42 del convenio, y no estaba en el informe.<br><br>Corregido. Actualizo F2:<br>✓ Equipamiento de Protección Personal insuficiente (guantes se rompen en 1 semana, botas no aguantan aceite caliente) — ya estaba<br>+ Enfermería clausurada 3 meses — violación Art. 42 CCT — <strong>nuevo</strong>', time:'10:27' }
       ];
     } else {
       // first post-demo correction: Raúl asks about classification
@@ -5260,7 +5262,7 @@ function isChatCorrect(){
       isChatConv=[
         { type:'hornero', text:'¿Qué algo más querés corregir del informe? Contame qué te parece que está mal, qué faltó o qué querés agregar.', time:'10:25' },
         { type:'user', text:'Me faltó contar que los guantes se rompen en una semana y las botas no aguantan el aceite caliente. Y que la enfermería está clausurada desde hace 3 meses.', time:'10:26' },
-        { type:'hornero', text:'Corregido. Actualizo:<br><strong>F2 · Condiciones de trabajo</strong>: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Enfermería clausurada 3 meses — violación Art. 42 CCT.<br><br>¿Querés corregir algo más o confirmá con el botón <strong>Confirmar y enviar</strong>?', time:'10:27' }
+        { type:'hornero', text:'De lo que contaste, <strong>guantes y botas</strong> ya están incorporados en F2 (Equipamiento de Protección Personal insuficiente). Lo nuevo es la <strong>enfermería clausurada 3 meses</strong> — eso es violación del Art. 42 del convenio, y no estaba en el informe.<br><br>Corregido. Actualizo F2:<br>✓ Equipamiento de Protección Personal insuficiente (guantes se rompen en 1 semana, botas no aguantan aceite caliente) — ya estaba<br>+ Enfermería clausurada 3 meses — violación Art. 42 CCT — <strong>nuevo</strong><br><br>¿Querés corregir algo más o confirmá con el botón <strong>Confirmar y enviar</strong>?', time:'10:27' }
       ];
     } else {
       isChatConv=[
