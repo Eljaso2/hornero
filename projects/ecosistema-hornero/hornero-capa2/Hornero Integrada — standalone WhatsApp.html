@@ -3862,7 +3862,7 @@ var transcript1E='"El despacho está parado — 15.000 toneladas de fibra de alg
 function buildTranscriptItems(scope){
   var items=[];
   // Corrección delegado de Raúl (1-B / informe A)
-  var corrDelegadoA=delegadoCorrectedA?[{role:'Corrección del delegado',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}]:[];
+  var corrDelegadoA=delegadoCorrectedA?[{role:'Corrección del delegado',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}]:[];
   // Corrección delegado de Damián (1-A / informe B)
   var corrDelegadoB=delegadoCorrectedB?[{role:'Corrección del delegado',text:'Cambio de prioridad de producción (refinado → expeller) = estrategia patronal, no solo producción. Concurso como situación económica — auditores evaluando activos para posible venta. Despidos = vaciamiento, no reducción de personal.'}]:[];
   // Corrección secretario de Guaycurú
@@ -4048,7 +4048,7 @@ function buildTrabajadorSteps(){
     if(delegadoCorrectedA){
       trBlocks.push({ kind:'card', label:'Corrección del delegado', title:'Tu informe fue corregido', lines:[
         {text:'La delegada de Vicentín corrigió tu informe y especificó:'},
-        {lead:'F2 · Condiciones de trabajo:',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
+        {lead:'F2 · Condiciones de trabajo:',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
       ] });
     }
     return [
@@ -4192,11 +4192,11 @@ function buildAdminAPanel(){
   // Raúl — operario de prensa: habla de accidents, EPP, fuga, ritmo, enfermería
   var raulLines=[
     {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida.'},
-    {lead:'F2 · Condiciones de trabajo:',text:'2 accidentes esta semana. Prensa 3 con fuga de aceite por la junta. Enfermería no funcional — derivaron compañero al hospital de Reconquista. EPP insuficientes.'},
+    {lead:'F2 · Condiciones de trabajo:',text:'Caída de compañero por aceite en piso. Prensa 3 con fuga de aceite por la junta. Enfermería no funcional — derivaron compañero al hospital de Reconquista. EPP insuficientes.'},
     {lead:'F9 · Producción:',text:'Cambio de directivas: de aceite refinado → expeller. +20% volumen pedido. Priorizan expeller por menor retención.'}
   ];
   if(delegadoCorrectedA){
-    raulLines[1]={lead:'F2 · Condiciones de trabajo (corregido):',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'};
+    raulLines[1]={lead:'F2 · Condiciones de trabajo (corregido):',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'};
   }
   blocks.push({ kind:'card', label:'Informe grado 1 · Raúl · Operario de prensa · Vicentín', lines:raulLines });
   // Transcript sources — replaces old 'Original del trabajador' card
@@ -4219,7 +4219,7 @@ function buildSintesisG2(){
   var lines=[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
-    {lead:'2 · Accidentes:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
+    {lead:'2 · Accidentes:',text:'Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
   ];
   if(delegadoCorrectedA){
     lines.push({lead:'4 · Estrategia patronal:',text:'Cambio de prioridad de producción: refinado → expeller, menor retención = empresa se ahorra. Concurso como situación económica — auditores para posible venta de activos.'});
@@ -4249,8 +4249,8 @@ function commentAdminA(){
   if(cc) cc.innerHTML='';
   isChatConv=[
     { type:'hornero', text:'¿Qué observás en el informe de Raúl?', time:'11:05' },
-    { type:'user', text:'El informe dice "2 accidentes" y "enfermería no funcional" — pero uno fue una amputación parcial de 2 dedos en envasadora, no solo un accidente. Y la enfermería está clausurada desde hace 3 meses, eso es violación del Art. 42 CCT. También: los guantes se rompen en una semana, las botas no aguantan el aceite caliente, y los supervisores están presionando para incrementar ritmo.', time:'11:06' },
-    { type:'hornero', text:'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.', time:'11:07' }
+    { type:'user', text:'El informe dice "caída de compañero" y "enfermería no funcional" — pero la caída fue una amputación parcial de 2 dedos en envasadora, no solo una caída. Y la enfermería está clausurada desde hace 3 meses, eso es violación del Art. 42 CCT. También: los guantes se rompen en una semana, las botas no aguantan el aceite caliente, y los supervisores están presionando para incrementar ritmo.', time:'11:06' },
+    { type:'hornero', text:'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT (no solo "no funcional"). Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.', time:'11:07' }
   ];
   renderIS();
   isChatRunStep(0);
@@ -4306,7 +4306,7 @@ function buildSintesisG2Enviada(){
   var lines=[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
-    {lead:'2 · Accidentes:',text:delegadoCorrectedB?'Prensa: amputación parcial de 2 dedos en envasadora, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT. Supervisores presionando para incrementar ritmo.':'Prensa: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
+    {lead:'2 · Accidentes:',text:delegadoCorrectedB?'Prensa: amputación parcial de 2 dedos en envasadora, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT. Supervisores presionando para incrementar ritmo.':'Prensa: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
   ];
   if(delegadoCorrectedA){
     lines.push({lead:'4 · Estrategia patronal:',text:'Cambio de prioridad de producción: refinado → expeller, menor retención = empresa se ahorra. Concurso como situación económica — auditores para posible venta de activos.'});
@@ -4326,7 +4326,7 @@ function buildGrado3Preinforme(){
   blocks.push({ kind:'card', label:'Grado 3 · Obligado/San Javier · pre-elaborado por IA'+(secretarioEditedOnce?' · corregido':''), title:'Estado de situación semanal', lines:[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto laboral:',text:'Paritaria Vicentín sin cierre · cambio de directivas confirmado · accidentes (amputación + enfermería clausurada) · precarización desmotadores Guaycurú al 50%. Despidos 8 operarios desmotadora junio.'},
-    {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'},
+    {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'},
     {lead:'9 · Producción:',text:'Vicentín 80% capacidad, expeller priorizado, auditores 23/06 · Guaycurú 50%, solo 1 de 3 desmotadoras activa, despacho parado · Puerto: 3 barcos esperando despacho.'},
     {lead:'5 · Condiciones de vida:',text:secretarioGuaycuruComment?'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: violación directa CCT Art. 2 — básico $280.000 debajo del SMVM. Sin estabilidad contractual.':'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: básico $280.000 debajo SMVM, sin estabilidad contractual.'}
   ] });
@@ -4368,7 +4368,7 @@ function buildGrado3Enviada(){
   var lines=[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto laboral:',text:'Paritaria Vicentín sin cierre · cambio de directivas confirmado · accidentes (amputación + enfermería clausurada) · precarización desmotadores Guaycurú al 50%. Despidos 8 operarios desmotadora junio.'},
-    {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'}
+    {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'}
   ];
   if(delegadoCorrectedA){
     lines.push({lead:'4 · Estrategia patronal:',text:'Cambio de prioridad de producción: refinado → expeller, menor retención = empresa se ahorra. Concurso como situación económica — auditores para posible venta de activos.'});
@@ -4390,7 +4390,7 @@ function buildVicentinPanel(){
   var lines=[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
-    {lead:'2 · Accidentes:',text:'2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
+    {lead:'2 · Accidentes:',text:'Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
   ];
   if(delegadoCorrectedA){
     lines.push({lead:'4 · Estrategia patronal:',text:'Cambio de prioridad de producción: refinado → expeller, menor retención = empresa se ahorra. Concurso como situación económica — auditores para posible venta de activos.'});
@@ -4559,7 +4559,7 @@ function buildReconquistaInforme(){
   var lines=[
     {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto laboral:',text:'Paritaria Vicentín sin cierre · cambio de directivas confirmado · accidentes (amputación + enfermería clausurada) · precarización desmotadores Guaycurú al 50%. Despidos 8 operarios desmotadora junio.'},
-    {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: 2 accidentes, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'}
+    {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'}
   ];
   if(secretarioEditedOnce){
     lines.push({lead:'2 · Salud laboral (corregido):',text:'Punto 7: Exigir reparación inmediata sistema de aspiración desmotadora 2 — riesgo de explosión, plazo 72 hs. Básico desmotadores: violación directa CCT Art. 2 — básico $280.000 debajo del SMVM.'});
@@ -5162,7 +5162,7 @@ function isConfirmSend(){
 }
 
 function buildTrabajadorInformeBlocks(){
-  var f2Text='2 accidentes esta semana. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.';
+  var f2Text='Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente.';
   var f2Tags=[{fam:'2',label:'Salud laboral'},{fam:'2',label:'Equip. Protección'},{fam:'2',label:'Ritmo'}];
   if(delegadoCorrectedA){
     f2Text='Amputación parcial de 2 dedos en envasadora. Prensa 3 con fuga. Enfermería clausurada 3 meses — violación Art. 42 CCT. Equipamiento de Protección Personal insuficiente: guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.';
@@ -5191,7 +5191,7 @@ function buildTrabajadorInformeBlocks(){
     // Delegado corrected but hasn't sent yet
     blocks.push({ kind:'card', label:'Delegado lo corrigió', lines:[
       {text:'La delegada de Vicentín corrigió tu informe. Las correcciones ya están incorporadas.'},
-      {lead:'F2 · Corrección:',text:'Amputación parcial de 2 dedos en envasadora (no solo "accidente"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
+      {lead:'F2 · Corrección:',text:'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
     ] });
   } else {
     // Delegado saw but didn't correct yet
