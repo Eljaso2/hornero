@@ -4179,7 +4179,7 @@ function buildDelegadoPanel(){
   // Mis informes — new report at top when sent, clickable to view full content
   var items=[
     {date:delegadoReportSent?'29/06':'22/06',label:delegadoReportSent?'Informe Delegado N° 03':'Informe Delegado N° 03',status:'ok',onclick:delegadoReportSent?'setStep(5);':'',
-     tags:delegadoReportSent?(secretarioReportSent?['Enviado · Visto · Aprobado']:secretarioEditedOnce?['Enviado · Corregido · Visto']:secretarioSeenVicentin?['Enviado · Visto']:['Enviado · No visto']):['Paritaria','Concurso'],
+     tags:delegadoReportSent?(secretarioReportSent?['Enviado · Visto · Aprobado']:secretarioEditedOnce?['Enviado · Corregido · Visto']:secretarioSeenVicentin?['Enviado · Visto']:['Enviado · No visto']):['No enviado'],
      sources:delegadoReportSent?[{label:'1-A · sector admin'+(delegadoCorrectedA?' · corregido':''),date:'29/06',status:'ok'},{label:'1-B · sector prensa'+(delegadoCorrectedB?' · corregido':''),date:'29/06',status:'ok'}]:null},
     {date:'15/06',label:'Informe Delegado N° 02',status:'ok',tags:['Enviado · Aprobado']},
     {date:'08/06',label:'Informe Delegado N° 01',status:'ok',tags:['Enviado · Corregido · Aprobado']},
