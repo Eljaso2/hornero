@@ -3862,7 +3862,7 @@ var transcript1E='"El despacho está parado — 15.000 toneladas de fibra de alg
 function buildTranscriptItems(scope){
   var items=[];
   // Corrección delegado de Raúl (1-B / informe A)
-  var corrDelegadoA=delegadoCorrectedA?[{role:'Corrección del delegado',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo. Enfermería y EPP ya estaban bien etiquetados por Raúl.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT — nuevo. Guantes se rompen en 1 semana, botas no aguantan aceite caliente — nuevo. Supervisores presionando para incrementar ritmo.'}]:[];
+  var corrDelegadoA=delegadoCorrectedA?[{role:'Corrección del delegado',text:raulEnfermeriaAdded?'Supervisores presionando para incrementar ritmo — nuevo.':'Enfermería clausurada 3 meses — violación Art. 42 CCT — nuevo. Guantes se rompen en 1 semana, botas no aguantan aceite caliente — nuevo. Supervisores presionando para incrementar ritmo.'}]:[];
   // Corrección delegado de Damián (1-A / informe B)
   var corrDelegadoB=delegadoCorrectedB?[{role:'Corrección del delegado',text:'Cambio de prioridad de producción (refinado → expeller) = estrategia patronal, no solo producción. Concurso como situación económica — auditores evaluando activos para posible venta. Despidos = vaciamiento, no reducción de personal.'}]:[];
   // Corrección secretario de Guaycurú
@@ -3971,12 +3971,13 @@ function buildRoles(){
         { title:'Notificación secretario · Guaycurú', showInput:false,
           blocks:[
             { kind:'card', label:'Informe grado 2 · Guaycurú · enviado ✓', title:'Desmotadoras — sem. 23-29/06', lines:[
-              {lead:'Fuentes:',text:'Elaborado en base a 3 informes grado 1 de trabajadores de desmotadoras Guaycurú: informe 1-C, 1-D, 1-E. Verificados por delegado de comisión interna desmotadoras.'},
               {lead:'1 · Conflicto:',text:'Despidos de 8 operarios de desmotadora en junio. Precarización: personal temporario al 50%. Sin paritaria propia.'},
               {lead:'2 · Salud laboral:',text:'Operarios sin Equipamiento de Protección Personal respiratorio. Desmotadora 2 con fuga en sistema de aspiración — riesgo de explosión.'},
               {lead:'9 · Producción:',text:'Guaycurú operando al 50%. Solo 1 de 3 desmotadoras activa. Despacho parado.'},
               {lead:'5 · Condiciones de vida:',text:'Operarios temporarios: básico $280.000 debajo del SMVM. Sin estabilidad contractual.'}
             ] },
+            { kind:'fuentes', label:'Fuentes', lines:[{lead:'Base:',text:'3 informes grado 1 · desmotadoras Guaycurú'}, {lead:'Informes:',text:'1-C, 1-D, 1-E'}, {lead:'Verificado:',text:'Delegado de comisión interna desmotadoras'}] },
+            { kind:'historial', label:'Historial de correcciones', items:[{who:'Trabajadores Guaycurú',action:'informaron grado 1 (1-C, 1-D, 1-E)',status:'base'}, {who:'Delegado de desmotadoras',action:'verificó informes',status:'viewed'}, {who:'Secretario general Obligado/San Javier',action:'corrigió informe Guaycurú',detail:'violación directa CCT Art. 2, acumulación fibra aspiración roto (negligencia criminal)',status:'corrected'}] },
             { kind:'card', label:'Comentario del secretario general', title:'Corrección agregada al informe', lines:[
               {lead:'Corrección 1:',text:'Básico desmotadores → violación directa CCT Art. 2 — no solo "debajo del SMVM".'},
               {lead:'Corrección 2:',text:'Desmotadora 2 → acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal si no se repara. No solo "fuga".'}
@@ -4040,7 +4041,7 @@ function buildTrabajadorSteps(){
   if(trabajadorDemoDone){
     var trBlocks=[];
     trBlocks.push({ kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-      {date:'01/07',label:'Informe Trabajador N° 11',status:trabajadorInformeSent?'ok':'draft',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Enviado · Corregido · Aprobado']:delegadoCorrectedA?['Enviado · Corregido']:delegadoSeenA?['Enviado · Visto']:trabajadorInformeSent?['Enviado · No visto']:['No enviado']},
+      {date:'01/07',label:'Informe Trabajador N° 11',status:trabajadorInformeSent?'ok':'draft',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Enviado · Aprobado']:delegadoCorrectedA?['Enviado · Corregido']:delegadoSeenA?['Enviado · Visto']:trabajadorInformeSent?['Enviado · No visto']:['No enviado']},
       {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Enviado · Aprobado']},
       {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Enviado · Aprobado']},
       {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Enviado · Corregido · Aprobado']},
@@ -4055,7 +4056,7 @@ function buildTrabajadorSteps(){
     if(delegadoCorrectedA){
       trBlocks.push({ kind:'card', label:'Corrección del delegado', title:'Tu informe fue corregido', lines:[
         {text:'La delegada de Vicentín corrigió tu informe y especificó:'},
-        {lead:'F2 · Condiciones de trabajo:',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo. Enfermería y EPP ya estaban bien etiquetados.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
+        {lead:'F2 · Condiciones de trabajo:',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
       ] });
     }
     return [
@@ -4156,6 +4157,7 @@ var secretarioGuaycuruComment=false; // whether secretario commented on Guaycur�
 
 // track federación (role 4) state
 var federacionSeenReconquista=false;
+var federacionEditedReconquista=false;
 var federacionReportSent=false;
 
 function buildDelegadoPanel(){
@@ -4163,11 +4165,11 @@ function buildDelegadoPanel(){
   // Mis informes — new report at top when sent, clickable to view full content
   var items=[
     {date:delegadoReportSent?'29/06':'22/06',label:delegadoReportSent?'Informe Delegado N° 03':'Informe Delegado N° 03',status:'ok',onclick:delegadoReportSent?'setStep(5);':'',
-     tags:delegadoReportSent?['Conflicto salarial','Salud laboral','Producción']:['Paritaria','Concurso'],
+     tags:delegadoReportSent?(secretarioReportSent?['Enviado · Visto · Aprobado']:secretarioEditedOnce?['Enviado · Corregido · Visto']:secretarioSeenVicentin?['Enviado · Visto']:['Enviado · No visto']):['Paritaria','Concurso'],
      sources:delegadoReportSent?[{label:'1-A · sector admin'+(delegadoCorrectedA?' · corregido':''),date:'29/06',status:'ok'},{label:'1-B · sector prensa'+(delegadoCorrectedB?' · corregido':''),date:'29/06',status:'ok'}]:null},
-    {date:'15/06',label:'Informe Delegado N° 02',status:'ok',tags:['Paritaria','EPP']},
-    {date:'08/06',label:'Informe Delegado N° 01',status:'ok',tags:['Salud laboral','Ritmo']},
-    {date:'01/06',label:'Informe Delegado N° 00',status:'ok',tags:['Situación general','Vicentín']}
+    {date:'15/06',label:'Informe Delegado N° 02',status:'ok',tags:['Enviado · Aprobado']},
+    {date:'08/06',label:'Informe Delegado N° 01',status:'ok',tags:['Enviado · Corregido · Aprobado']},
+    {date:'01/06',label:'Informe Delegado N° 00',status:'ok',tags:['Enviado · Aprobado']}
   ];
   // Notification from secretario — appears as new item when secretario commented on Guaycurú
   if(secretarioGuaycuruComment && delegadoReportSent && !delegadoSeenGuaycuruNotification){
@@ -4221,11 +4223,10 @@ function buildAdminAPanel(){
 
 function buildSintesisG2(){
   var blocks=[];
-  var fuentesText='Elaborado en base a 2 informes grado 1 de trabajadores de Vicentín SAIC, planta Reconquista: informe 1-A (Empleado administrativo, sección Administración) e informe 1-B (Operario de prensa, sección Prensa). Ambos fueron leídos y verificados por el delegado de comisión interna Vicentín.';
-  if(delegadoCorrectedA) fuentesText+=' Informe 1-A corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
-  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
+  var fuentesLines=[{lead:'Base:',text:'2 informes grado 1 · Vicentín SAIC · planta Reconquista'}, {lead:'1-A:',text:'Empleado administrativo, sección Administración'}, {lead:'1-B:',text:'Operario de prensa, sección Prensa'}, {lead:'Verificado:',text:'Delegado de comisión interna Vicentín'}];
+  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
+  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
   var lines=[
-    {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
     {lead:'2 · Accidentes:',text:'Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
   ];
@@ -4242,6 +4243,13 @@ function buildSintesisG2(){
     {lead:'Familia 5 — Condiciones de vida:',text:'Vivienda · Costo de vida · Canasta básica real'},
     {lead:'Familia 9 — Producción:',text:delegadoCorrectedA?'Cambio de directivas · Prioridad de producción · Producto final — tipo · Control de ruta · Capacidad — utilización':'Cambio de directivas · Producto final — tipo · Traba en producción · Capacidad — utilización'}
   ] });
+  blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
+  // Historial de correcciones — shows who corrected, from bottom to top
+  var historialItems=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
+  if(delegadoCorrectedA||delegadoCorrectedB) historialItems.push({who:'Delegada Olga',action:'corrigió informe'+(delegadoCorrectedA?' 1-A':'')+(delegadoCorrectedB?' 1-B':''),detail:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
+  else historialItems.push({who:'Delegada Olga',action:'verificó informes',status:'viewed'});
+  if(secretarioSeenVicentin) historialItems.push({who:'Secretario general Obligado/San Javier',action:secretarioReportSent?'visto y aprobado':'visto',status:'viewed'});
+  blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialItems });
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('vicentin') });
   blocks.push({ kind:'card', lines:[{text:'¿Querés editar o confirmar?'}], actions:[{label:'Confirmar reporte',variant:'primary',onclick:'isConfirmSend()'},{label:'Editar',variant:'outline',onclick:'isDelegadoEdit()'}] });
   return blocks;
@@ -4257,8 +4265,8 @@ function commentAdminA(){
   if(cc) cc.innerHTML='';
   isChatConv=[
     { type:'hornero', text:'¿Qué observás en el informe de Raúl?', time:'11:05' },
-    { type:'user', text:raulEnfermeriaAdded?'El informe dice "caída de compañero" — pero la caída fue una amputación parcial de 2 dedos en envasadora, no solo una caída. También: los supervisores están presionando para incrementar ritmo.':'El informe dice "caída de compañero" — pero la caída fue una amputación parcial de 2 dedos en envasadora, no solo una caída. Y la enfermería está clausurada desde hace 3 meses, eso es violación del Art. 42 CCT y no está en el informe. También: los guantes se rompen en una semana, las botas no aguantan el aceite caliente, y los supervisores están presionando para incrementar ritmo.', time:'11:06' },
-    { type:'hornero', text:raulEnfermeriaAdded?'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo — <strong>nuevo</strong>. Enfermería clausurada y EPP ya estaban bien etiquetados.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.':'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT — <strong>nuevo</strong>. Guantes se rompen en 1 semana, botas no aguantan aceite caliente — <strong>nuevo</strong>. Supervisores presionando para incrementar ritmo — <strong>nuevo</strong>.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.', time:'11:07' }
+    { type:'user', text:raulEnfermeriaAdded?'Los supervisores están presionando para incrementar ritmo, eso no está en el informe.':'La enfermería está clausurada desde hace 3 meses, eso es violación del Art. 42 CCT y no está en el informe. También: los guantes se rompen en una semana, las botas no aguantan el aceite caliente, y los supervisores están presionando para incrementar ritmo.', time:'11:06' },
+    { type:'hornero', text:raulEnfermeriaAdded?'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: Supervisores presionando para incrementar ritmo — <strong>nuevo</strong>. Enfermería clausurada y EPP ya estaban bien etiquetados.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.':'Correcto. Corrijo:<br><strong>F2 · Condiciones de trabajo</strong>: Enfermería clausurada 3 meses — violación Art. 42 CCT — <strong>nuevo</strong>. Guantes se rompen en 1 semana, botas no aguantan aceite caliente — <strong>nuevo</strong>. Supervisores presionando para incrementar ritmo — <strong>nuevo</strong>.<br><br>Se informa el cambio al trabajador (Raúl). Confirmá con <strong>Visto</strong>.', time:'11:07' }
   ];
   renderIS();
   isChatRunStep(0);
@@ -4308,11 +4316,10 @@ function commentAdminB(){
 
 function buildSintesisG2Enviada(){
   var blocks=[];
-  var fuentesText='Elaborado en base a 2 informes grado 1 de trabajadores de Vicentín SAIC, planta Reconquista: informe 1-A (Empleado administrativo, sección Administración) e informe 1-B (Operario de prensa, sección Prensa). Ambos fueron leídos y verificados por el delegado de comisión interna Vicentín.';
-  if(delegadoCorrectedA) fuentesText+=' Informe 1-A corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
-  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
+  var fuentesLines=[{lead:'Base:',text:'2 informes grado 1 · Vicentín SAIC · planta Reconquista'}, {lead:'1-A:',text:'Empleado administrativo, sección Administración'}, {lead:'1-B:',text:'Operario de prensa, sección Prensa'}, {lead:'Verificado:',text:'Delegado de comisión interna Vicentín'}];
+  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
+  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
   var lines=[
-    {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
     {lead:'2 · Accidentes:',text:delegadoCorrectedB?'Prensa: amputación parcial de 2 dedos en envasadora, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT. Supervisores presionando para incrementar ritmo.':'Prensa: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
   ];
@@ -4322,6 +4329,13 @@ function buildSintesisG2Enviada(){
   lines.push({lead:'9 · Producción:',text:delegadoCorrectedA?'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Entró menos soja, control de ruta. Patrón conocido: bajan ritmo → reducen turnos → suspenden → despiden.':(delegadoCorrectedB?'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Supervisores presionando ritmo. Entrada soja reducida.':'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Patrón conocido: bajan ritmo → reducen turnos → suspenden → despiden.')});
   lines.push({lead:'5 · Condiciones de vida:',text:'Admin: alquiler $380.000, básico $340.000, brecha 12%. Precarización desmotadores Guaycurú al 50%.'});
   blocks.push({ kind:'card', label:'Informe Grado 2 · Vicentín Reconquista · enviado ✓', title:'Panorama de planta — sem. 23-29/06', lines:lines });
+  blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
+  // Historial de correcciones — delegado sent (viewed by delegado)
+  var historialDel2=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
+  if(delegadoCorrectedA||delegadoCorrectedB) historialDel2.push({who:'Delegada Olga',action:'corrigió informe'+(delegadoCorrectedA?' 1-A':'')+(delegadoCorrectedB?' 1-B':''),detail:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
+  else historialDel2.push({who:'Delegada Olga',action:'verificó informes',status:'viewed'});
+  historialDel2.push({who:'Delegada Olga',action:'envió informe grado 2 ✓',status:'viewed'});
+  blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialDel2 });
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('vicentin') });
   blocks.push({ kind:'actions', items:[{label:'Mis Informes',variant:'primary',onclick:'goDelegadoHome()'}] });
   return blocks;
@@ -4329,10 +4343,9 @@ function buildSintesisG2Enviada(){
 
 function buildGrado3Preinforme(){
   var blocks=[];
-  var fuentesText='Elaborado en base a 2 informes grado 2: Vicentín (aceitera, delegado comisión interna) y Guaycurú (desmotadoras, delegado desmotadoras). Ambos verificados por secretario general Obligado/San Javier.';
-  if(secretarioGuaycuruComment) fuentesText+=' Informe Guaycurú corregido por secretario: violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal).';
+  var fuentesLines=[{lead:'Base:',text:'2 informes grado 2 · Vicentín (aceitera) + Guaycurú (desmotadoras)'}, {lead:'Vicentín:',text:'Delegado comisión interna'}, {lead:'Guaycurú:',text:'Delegado desmotadoras'}, {lead:'Verificado:',text:'Secretario general Obligado/San Javier'}];
+  if(secretarioGuaycuruComment) fuentesLines.push({lead:'Corrección Guaycurú:',text:'violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal)'});
   blocks.push({ kind:'card', label:'Grado 3 · Obligado/San Javier · pre-elaborado por IA'+(secretarioEditedOnce?' · corregido':''), title:'Estado de situación semanal', lines:[
-    {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto laboral:',text:'Paritaria Vicentín sin cierre · cambio de directivas confirmado · accidentes (amputación + enfermería clausurada) · precarización desmotadores Guaycurú al 50%. Despidos 8 operarios desmotadora junio.'},
     {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'},
     {lead:'9 · Producción:',text:'Vicentín 80% capacidad, expeller priorizado, auditores 23/06 · Guaycurú 50%, solo 1 de 3 desmotadoras activa, despacho parado · Puerto: 3 barcos esperando despacho.'},
@@ -4345,6 +4358,13 @@ function buildGrado3Preinforme(){
     {lead:'Familia 5 — Condiciones de vida:',text:secretarioGuaycuruComment?'Vivienda · Costo de vida · Violación CCT Art. 2 · SMVM · Brecha básico/canasta':'Vivienda · Costo de vida · SMVM · Brecha básico/canasta'},
     {lead:'Familia 9 — Producción:',text:'Cambio de directivas · Capacidad — utilización · Despacho parado · Fibra en playa'}
   ] });
+  blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
+  // Historial de correcciones — grado 3 chain
+  var historialItems3=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
+  historialItems3.push({who:'Delegados',action:'verificaron y elaboraron grado 2'+(delegadoCorrectedA?' · 1-A corregido':'')+(delegadoCorrectedB?' · 1-B corregido':''),status:((delegadoCorrectedA||delegadoCorrectedB)?'corrected':'viewed')});
+  if(secretarioGuaycuruComment) historialItems3.push({who:'Secretario general Obligado/San Javier',action:'corrigió informe Guaycurú',detail:'violación CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal)',status:'corrected'});
+  if(secretarioEditedOnce) historialItems3.push({who:'Secretario general Obligado/San Javier',action:'corrigió grado 3',detail:'punto 7 aspiración desmotadora 2 (negligencia criminal, plazo 72 hs), básico desmotadores violación CCT Art. 2',status:'corrected'});
+  blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialItems3 });
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('grado3') });
   blocks.push({ kind:'verify', check:'¿Querés modificar?', text:'Pedir cambios a la IA, redactar tu propio texto, o firmar y enviar.', actions:[{label:'Pedir cambios a la IA',variant:'primary',onclick:'secretarioEdit()'},{label:'Firmar y enviar',variant:'outline',onclick:'isConfirmSend()'}] });
   return blocks;
@@ -4369,12 +4389,11 @@ function buildGrado3Firma(){
 
 function buildGrado3Enviada(){
   var blocks=[];
-  var fuentesText='Elaborado en base a 2 informes grado 2: Vicentín (aceitera, delegado comisión interna) y Guaycurú (desmotadoras, delegado desmotadoras). Ambos verificados por secretario general Obligado/San Javier.';
-  if(delegadoCorrectedA) fuentesText+=' Informe 1-A Vicentín corregido por delegado.';
-  if(delegadoCorrectedB) fuentesText+=' Informe 1-B Vicentín corregido por delegado.';
-  if(secretarioGuaycuruComment) fuentesText+=' Informe Guaycurú corregido por secretario: violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal).';
+  var fuentesLines=[{lead:'Base:',text:'2 informes grado 2 · Vicentín (aceitera) + Guaycurú (desmotadoras)'}, {lead:'Vicentín:',text:'Delegado comisión interna'}, {lead:'Guaycurú:',text:'Delegado desmotadoras'}, {lead:'Verificado:',text:'Secretario general Obligado/San Javier'}];
+  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A Vicentín:',text:'corregido por delegado'});
+  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B Vicentín:',text:'corregido por delegado'});
+  if(secretarioGuaycuruComment) fuentesLines.push({lead:'Corrección Guaycurú:',text:'violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal)'});
   var lines=[
-    {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto laboral:',text:'Paritaria Vicentín sin cierre · cambio de directivas confirmado · accidentes (amputación + enfermería clausurada) · precarización desmotadores Guaycurú al 50%. Despidos 8 operarios desmotadora junio.'},
     {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'}
   ];
@@ -4385,6 +4404,13 @@ function buildGrado3Enviada(){
   lines.push({lead:'5 · Condiciones de vida:',text:secretarioGuaycuruComment?'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: violación directa CCT Art. 2 — básico $280.000 debajo del SMVM. Sin estabilidad contractual.':'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: básico $280.000 debajo SMVM, sin estabilidad contractual.'});
   lines.push({lead:'Posición del sindicato:',text:secretarioGuaycuruComment?'1. Exigir cierre de paritaria con aumento real. 2. Reparación prensa 3 + enfermero — plazo 48 hs. 3. Negociar el cambio de directivas antes de implementarlo. 4. Contactar a SOMU para articular el conflicto. 5. Preparar respuesta si los auditores confirman venta. 6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2 — plazo 72 hs — negligencia criminal si no se repara.':'1. Exigir cierre de paritaria con aumento real. 2. Reparación prensa 3 + enfermero — plazo 48 hs. 3. Negociar el cambio de directivas antes de implementarlo. 4. Contactar a SOMU para articular el conflicto. 5. Preparar respuesta si los auditores confirman venta. 6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2.'});
   blocks.push({ kind:'card', label:'Grado 3 · Obligado/San Javier · enviado a Federación ✓', title:'Estado de situación semanal — firmado', lines:lines });
+  blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
+  // Historial de correcciones — grado 3 enviado
+  var historialG3Env=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
+  historialG3Env.push({who:'Delegados',action:'verificaron y elaboraron grado 2'+(delegadoCorrectedA?' · 1-A corregido':'')+(delegadoCorrectedB?' · 1-B corregido':''),status:((delegadoCorrectedA||delegadoCorrectedB)?'corrected':'viewed')});
+  if(secretarioGuaycuruComment) historialG3Env.push({who:'Secretario general Obligado/San Javier',action:'corrigió informe Guaycurú',detail:'violación CCT Art. 2, acumulación fibra aspiración roto',status:'corrected'});
+  historialG3Env.push({who:'Secretario general Obligado/San Javier',action:'envió grado 3 a Federación ✓',status:'viewed'});
+  blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialG3Env });
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('grado3enviada') });
   blocks.push({ kind:'actions', items:[{label:'Mis Informes',variant:'primary',onclick:'goSecretarioHome()'}] });
   return blocks;
@@ -4392,11 +4418,10 @@ function buildGrado3Enviada(){
 
 function buildVicentinPanel(){
   var blocks=[];
-  var fuentesText='Elaborado en base a 2 informes grado 1 de trabajadores de Vicentín SAIC, planta Reconquista: informe 1-A (Empleado administrativo, sección Administración) e informe 1-B (Operario de prensa, sección Prensa). Ambos fueron leídos y verificados por el delegado de comisión interna Vicentín.';
-  if(delegadoCorrectedA) fuentesText+=' Informe 1-A corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
-  if(delegadoCorrectedB) fuentesText+=' Informe 1-B corregido por delegado: agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción).';
+  var fuentesLines=[{lead:'Base:',text:'2 informes grado 1 · Vicentín SAIC · planta Reconquista'}, {lead:'1-A:',text:'Empleado administrativo, sección Administración'}, {lead:'1-B:',text:'Operario de prensa, sección Prensa'}, {lead:'Verificado:',text:'Delegado de comisión interna Vicentín'}];
+  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
+  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
   var lines=[
-    {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
     {lead:'2 · Accidentes:',text:'Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
   ];
@@ -4406,6 +4431,13 @@ function buildVicentinPanel(){
   lines.push({lead:'9 · Producción:',text:delegadoCorrectedA?'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Entró menos soja, control de ruta. Patrón conocido: bajan ritmo → reducen turnos → suspenden → despiden.':'Cambio de directivas confirmado: refinado → expeller. +20% ritmo pedido. Patrón conocido: bajan ritmo → reducen turnos → suspenden → despiden.'});
   lines.push({lead:'5 · Condiciones de vida:',text:'Admin: alquiler $380.000, básico $340.000, brecha 12%. Precarización desmotadores Guaycurú al 50%.'});
   blocks.push({ kind:'card', label:'Informe grado 2 · Vicentín Reconquista · delegado', title:'Panorama de planta — sem. 23-29/06', lines:lines });
+  blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
+  // Historial de correcciones — Vicentín viewed by secretario
+  var historialVic=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
+  if(delegadoCorrectedA||delegadoCorrectedB) historialVic.push({who:'Delegada Olga',action:'corrigió informe'+(delegadoCorrectedA?' 1-A':'')+(delegadoCorrectedB?' 1-B':''),detail:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
+  else historialVic.push({who:'Delegada Olga',action:'verificó informes',status:'viewed'});
+  if(secretarioSeenVicentin) historialVic.push({who:'Secretario general Obligado/San Javier',action:secretarioReportSent?'visto y aprobado':'visto',status:'viewed'});
+  blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialVic });
   // Transcript sources — replaces old 'Original del delegado' card
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('vicentin') });
   if(secretarioReportSent){
@@ -4421,10 +4453,10 @@ function buildVicentinPanel(){
 
 function buildGuaycuruPanel(){
   var blocks=[];
+  var fuentesLines=[{lead:'Base:',text:'3 informes grado 1 · desmotadoras Guaycurú'}, {lead:'1-C:',text:'Operario de desmotadora, turno mañana'}, {lead:'1-D:',text:'Operario de desmotadora, turno noche'}, {lead:'1-E:',text:'Empleado administrativo, sección despacho'}, {lead:'Verificado:',text:'Delegado de comisión interna desmotadoras'}];
   if(secretarioGuaycuruComment){
     // corrected version — secretario already commented
     blocks.push({ kind:'card', label:'Informe grado 2 · Guaycurú · delegado de desmotadoras · corregido', title:'Desmotadoras — sem. 23-29/06', lines:[
-      {lead:'Fuentes:',text:'Elaborado en base a 3 informes grado 1 de trabajadores de desmotadoras Guaycurú: informe 1-C (Operario de desmotadora, turno mañana), informe 1-D (Operario de desmotadora, turno noche) e informe 1-E (Empleado administrativo, sección despacho). Verificados por delegado de comisión interna desmotadoras.'},
       {lead:'1 · Conflicto:',text:'Despidos de 8 operarios de desmotadora en junio. Empresa argumenta "reducción de volumen". Precarización: personal temporario al 50% de planta. Sin paritaria propia — dependen de Vicentín. Violación directa CCT Art. 2 — básico $280.000 debajo del SMVM.'},
       {lead:'2 · Salud laboral:',text:'Operarios sin Equipamiento de Protección Personal adecuado para fibra de algodón (respiratorio). Desmotadora 2: acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal si no se repara.'},
       {lead:'9 · Producción:',text:'Guaycurú operando al 50% de capacidad. 3 desmotadoras, solo 1 activa. Ingreso de algodón reducido 40%. Despacho parado — 15.000 tn de fibra en playa sin movimiento.'},
@@ -4433,13 +4465,18 @@ function buildGuaycuruPanel(){
   } else {
     // initial version — not yet corrected
     blocks.push({ kind:'card', label:'Informe grado 2 · Guaycurú · delegado de desmotadoras', title:'Desmotadoras — sem. 23-29/06', lines:[
-      {lead:'Fuentes:',text:'Elaborado en base a 3 informes grado 1 de trabajadores de desmotadoras Guaycurú: informe 1-C (Operario de desmotadora, turno mañana), informe 1-D (Operario de desmotadora, turno noche) e informe 1-E (Empleado administrativo, sección despacho). Verificados por delegado de comisión interna desmotadoras.'},
       {lead:'1 · Conflicto:',text:'Despidos de 8 operarios de desmotadora en junio. Empresa argumenta "reducción de volumen". Precarización: personal temporario al 50% de planta. Sin paritaria propia — dependen de Vicentín.'},
       {lead:'2 · Salud laboral:',text:'Operarios sin Equipamiento de Protección Personal adecuado para fibra de algodón (respiratorio). Desmotadora 2 con fuga en sistema de aspiración — riesgo de explosión por acumulación de fibra.'},
       {lead:'9 · Producción:',text:'Guaycurú operando al 50% de capacidad. 3 desmotadoras, solo 1 activa. Ingreso de algodón reducido 40%. Despacho parado — 15.000 tn de fibra en playa sin movimiento.'},
       {lead:'5 · Condiciones de vida:',text:'Operarios temporarios: básico $280.000 ( debajo del SMVM). Sin estabilidad contractual. Contratos de 3 meses renovados sin garantía.'}
     ] });
   }
+  blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
+  // Historial de correcciones — Guaycurú
+  var historialGuay=[{who:'Trabajadores',action:'informaron grado 1 (1-C, 1-D, 1-E)',status:'base'}];
+  historialGuay.push({who:'Delegado de desmotadoras',action:'verificó informes',status:'viewed'});
+  if(secretarioGuaycuruComment) historialGuay.push({who:'Secretario general Obligado/San Javier',action:'corrigió informe Guaycurú',detail:'violación directa CCT Art. 2, acumulación fibra aspiración roto (negligencia criminal)',status:'corrected'});
+  blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialGuay });
   // Transcript sources — replaces old 'Original del delegado' + 3 worker cards
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('guaycuru') });
   if(secretarioReportSent){
@@ -4460,10 +4497,11 @@ function buildSecretarioPanel(){
   // Mis informes — secretario's own grado 3 reports, clickable to view full content
   blocks.push({ kind:'report-list', title:'Mis informes', _id:'secMI', items:[
     {date:secretarioReportSent?'29/06':'22/06',label:secretarioReportSent?'Informe Secretario N° 03':'Informe Secretario N° 03',status:'ok',onclick:secretarioReportSent?'setStep(5);':'',
+     tags:secretarioReportSent?(federacionSeenReconquista?(federacionEditedReconquista?['Enviado · Corregido · Aprobado']:['Enviado · Aprobado']):['Enviado · No visto']):null,
      sources:secretarioReportSent?[{label:'Grado 2 · Vicentín (aceitera) · visto',date:'29/06',status:'ok'},{label:'Grado 2 · Guaycurú (desmotadoras)'+(secretarioGuaycuruComment?' · corregido':''),date:'29/06',status:'ok'},{label:'Grado 2 · Puerto / Marítimo · visto',date:'29/06',status:'ok'}]:null},
-    {date:'15/06',label:'Informe Secretario N° 02',status:'ok'},
-    {date:'08/06',label:'Informe Secretario N° 01',status:'ok'},
-    {date:'01/06',label:'Informe Secretario N° 00',status:'ok'}
+    {date:'15/06',label:'Informe Secretario N° 02',status:'ok',tags:['Enviado · Aprobado']},
+    {date:'08/06',label:'Informe Secretario N° 01',status:'ok',tags:['Enviado · Corregido · Aprobado']},
+    {date:'01/06',label:'Informe Secretario N° 00',status:'ok',tags:['Enviado · Aprobado']}
   ] });
   if(secretarioReportSent){
     // no pending — show message
@@ -4497,12 +4535,12 @@ function isDelegadoEdit(){
       { type:'hornero', text:'¿Qué algo más querés corregir del informe? Contame qué te parece que está mal, qué faltó o qué querés agregar.', time:'11:35' }
     ];
   } else {
-    // first correction: scripted dialogue about amputación / enfermería
+    // first correction: scripted dialogue about supervisores / enfermería
     isDelegadoEditMode=true;
     isChatConv=[
       { type:'hornero', text:'¿Qué querés corregir del informe? Contame qué te parece que está mal, qué faltó o qué querés agregar.', time:'11:30' },
-      { type:'user', text:'El accidente de envasadora no fue solo un corte de mano, fue una amputación parcial de dos dedos. Y la enfermería no está "no funcional" — está clausurada desde hace 3 meses, violación del Art. 42 del convenio.', time:'11:31' },
-      { type:'hornero', text:'Corregido. Actualizo: accidente envasadora → <strong>amputación parcial de 2 dedos, mano izquierda</strong>. Enfermería → <strong>clausurada 3 meses, violación Art. 42 CCT</strong>.<br><br>Se informa el cambio al trabajador de prensa. ¿Querés corregir algo más o confirmá con el botón Confirmar reporte?', time:'11:32' }
+      { type:'user', text:'Los supervisores están presionando para incrementar ritmo, eso no está en el informe. Y la enfermería no está "no funcional" — está clausurada desde hace 3 meses, violación del Art. 42 del convenio.', time:'11:31' },
+      { type:'hornero', text:'Corregido. Actualizo:<br>Supervisores presionando para incrementar ritmo — <strong>nuevo</strong>. Enfermería → <strong>clausurada 3 meses, violación Art. 42 CCT</strong> (no solo "no funcional").<br><br>Se informa el cambio al trabajador de prensa. ¿Querés corregir algo más o confirmá con el botón Confirmar reporte?', time:'11:32' }
     ];
   }
   renderIS();
@@ -4541,10 +4579,10 @@ function buildFederacionPanel(){
   ] });
   // Recibidos — informes from sindicatos
   blocks.push({ kind:'report-list', title:'Recibidos', items:[
-    {date:'29/06',label:'Informe Secretario N° 03 · Reconquista',status:federacionSeenReconquista?'seen':'pend',onclick:'setStep(1)',tags:['Nuevo','Urgente']},
-    {date:'22/06',label:'Informe Secretario N° 02 · Rosario',status:'ok'},
-    {date:'22/06',label:'Informe Secretario N° 02 · San Luis',status:'ok'},
-    {date:'22/06',label:'Informe Secretario N° 02 · Bahía Blanca',status:'ok'}
+    {date:'29/06',label:'Informe Secretario N° 03 · Reconquista',status:federacionSeenReconquista?(federacionEditedReconquista?'ok':'seen'):'pend',onclick:'setStep(1)',tags:federacionSeenReconquista?(federacionEditedReconquista?['Visto · Corregido']:['Visto']):['No visto']},
+    {date:'22/06',label:'Informe Secretario N° 02 · Rosario',status:'ok',tags:['Visto · Aprobado']},
+    {date:'22/06',label:'Informe Secretario N° 02 · San Luis',status:'ok',tags:['Visto · Aprobado']},
+    {date:'22/06',label:'Informe Secretario N° 02 · Bahía Blanca',status:'ok',tags:['Visto · Corregido · Aprobado']}
   ] });
   // button — enabled when Reconquista has been seen
   if(federacionReportSent){
@@ -4559,13 +4597,12 @@ function buildFederacionPanel(){
 
 function buildReconquistaInforme(){
   var blocks=[];
-  var fuentesText='Elaborado en base a 2 informes grado 2: Vicentín (aceitera, delegado comisión interna) y Guaycurú (desmotadoras, delegado desmotadoras). Ambos verificados por secretario general Obligado/San Javier.';
-  if(delegadoCorrectedA) fuentesText+=' Informe 1-A Vicentín corregido por delegado.';
-  if(delegadoCorrectedB) fuentesText+=' Informe 1-B Vicentín corregido por delegado.';
-  if(secretarioGuaycuruComment) fuentesText+=' Informe Guaycurú corregido por secretario: violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal).';
-  if(secretarioEditedOnce) fuentesText+=' Informe grado 3 corregido por secretario general: punto 7 aspiración desmotadora 2 (negligencia criminal, plazo 72 hs), básico desmotadores violación CCT Art. 2.';
+  var fuentesLines=[{lead:'Base:',text:'2 informes grado 2 · Vicentín (aceitera) + Guaycurú (desmotadoras)'}, {lead:'Vicentín:',text:'Delegado comisión interna'}, {lead:'Guaycurú:',text:'Delegado desmotadoras'}, {lead:'Verificado:',text:'Secretario general Obligado/San Javier'}];
+  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A Vicentín:',text:'corregido por delegado'});
+  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B Vicentín:',text:'corregido por delegado'});
+  if(secretarioGuaycuruComment) fuentesLines.push({lead:'Corrección Guaycurú:',text:'violación directa CCT Art. 2 (SMVM), acumulación fibra aspiración roto (negligencia criminal)'});
+  if(secretarioEditedOnce) fuentesLines.push({lead:'Corrección secretario:',text:'punto 7 aspiración desmotadora 2 (negligencia criminal, plazo 72 hs), básico desmotadores violación CCT Art. 2'});
   var lines=[
-    {lead:'Fuentes:',text:fuentesText},
     {lead:'1 · Conflicto laboral:',text:'Paritaria Vicentín sin cierre · cambio de directivas confirmado · accidentes (amputación + enfermería clausurada) · precarización desmotadores Guaycurú al 50%. Despidos 8 operarios desmotadora junio.'},
     {lead:'2 · Salud laboral:',text:secretarioGuaycuruComment?'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 acumulación de fibra por sistema de aspiración roto — riesgo de explosión, negligencia criminal. Sin Equipamiento de Protección Personal respiratorio.':'Vicentín: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente, enfermería clausurada Art. 42 CCT · Guaycurú: desmotadora 2 fuga aspiración, riesgo explosión fibra, sin Equipamiento de Protección Personal respiratorio.'}
   ];
@@ -4576,6 +4613,14 @@ function buildReconquistaInforme(){
   lines.push({lead:'5 · Condiciones de vida:',text:secretarioGuaycuruComment?'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: violación directa CCT Art. 2 — básico $280.000 debajo del SMVM. Sin estabilidad contractual.':'Reconquista: alquiler $380.000, básico Vicentín $340.000 brecha 12% · Desmotadores temporarios: básico $280.000 debajo SMVM, sin estabilidad contractual.'});
   lines.push({lead:'Posición del sindicato:',text:secretarioEditedOnce?'1. Exigir cierre de paritaria con aumento real. 2. Reparación prensa 3 + enfermero — plazo 48 hs. 3. Negociar el cambio de directivas antes de implementarlo. 4. Contactar a SOMU para articular el conflicto. 5. Preparar respuesta si los auditores confirman venta. 6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2 — plazo 72 hs — negligencia criminal si no se repara.':'1. Exigir cierre de paritaria con aumento real. 2. Reparación prensa 3 + enfermero — plazo 48 hs. 3. Negociar el cambio de directivas antes de implementarlo. 4. Contactar a SOMU para articular el conflicto. 5. Preparar respuesta si los auditores confirman venta. 6. Desmotadores: estabilidad contractual + Equipamiento de Protección Personal respiratorio + reparación aspiración desmotadora 2.'});
   blocks.push({ kind:'card', label:'Grado 3 · Obligado/San Javier · enviado a Federación'+(secretarioEditedOnce?' · corregido':''), title:'Estado de situación semanal — firmado', lines:lines });
+  blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
+  // Historial de correcciones — grado 3 viewed by federación
+  var historialFed=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
+  historialFed.push({who:'Delegados',action:'verificaron y elaboraron grado 2'+(delegadoCorrectedA?' · 1-A corregido':'')+(delegadoCorrectedB?' · 1-B corregido':''),status:((delegadoCorrectedA||delegadoCorrectedB)?'corrected':'viewed')});
+  if(secretarioGuaycuruComment) historialFed.push({who:'Secretario general Obligado/San Javier',action:'corrigió informe Guaycurú',detail:'violación CCT Art. 2, acumulación fibra aspiración roto',status:'corrected'});
+  if(secretarioEditedOnce) historialFed.push({who:'Secretario general Obligado/San Javier',action:'corrigió grado 3',detail:'punto 7 aspiración desmotadora 2 (negligencia criminal), básico desmotadores violación CCT Art. 2',status:'corrected'});
+  historialFed.push({who:'Secretario general Obligado/San Javier',action:'firmó y envió a Federación ✓',status:'viewed'});
+  blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialFed });
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('reconquista') });
   blocks.push({ kind:'verify', check:'¿Confirmás que lo revisaste?', text:'Marcar como visto o pedir correcciones al secretario de Obligado/San Javier.', actions:[{label:'Confirmar',variant:'primary',onclick:'markSeenReconquistaFederacion()'},{label:'Corregir',variant:'outline',onclick:'federacionEditReconquista()'}] });
   return blocks;
@@ -4583,13 +4628,18 @@ function buildReconquistaInforme(){
 
 function buildFederacionPreinforme(){
   var blocks=[];
+  var fuentesLines=[{lead:'Base:',text:'4 grado 3 recibidos'}, {lead:'Obligado/San Javier:',text:'Reconquista'}, {lead:'Otros:',text:'Rosario, San Luis, Bahía Blanca'}, {lead:'Verificado:',text:'Obligado/San Javier verificado por comisión directiva'}];
   blocks.push({ kind:'card', label:'Federación Aceitera · panorama federal · pre-elaborado por IA', title:'Inteligencia Sindical — sem. 23-29/06', lines:[
-    {lead:'Fuentes:',text:'Elaborado en base a grado 3 recibidos: Obligado/San Javier (Reconquista), Rosario, San Luis, Bahía Blanca. Obligado/San Javier verificado por comisión directiva.'},
     {lead:'1 · Conflictos:',text:'Paritarias sin cierre en 3 jurisdicciones. Vicentín: cambio de directivas + accidentes + enfermería clausurada.'},
     {lead:'9 · Producción:',text:'Vicentín prioriza expeller por menor retención. Desmotadoras al 50%. Puerto: despachos trabados.'},
     {lead:'7 · Articulación:',text:'SOMU plazo 30/06 — un paro marítimo afecta la exportación aceitera.'},
     {lead:'8 · VE:',text:'Vicentín: negligencia (fuga de 3 semanas), omisión (enfermería clausurada), jurídica (concurso como excusa).'+(secretarioGuaycuruComment?' Guaycurú: negligencia criminal (aspiración roto sin reparar), violación CCT Art. 2 (SMVM).':'')}
   ] });
+  blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
+  // Historial de correcciones — federación panorama
+  var historialFed2=[{who:'Secretarios generales',action:'enviaron grado 3',status:'base'}];
+  historialFed2.push({who:'Comisión directiva Obligado/San Javier',action:'verificó',status:'viewed'});
+  blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialFed2 });
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('federacion') });
   blocks.push({ kind:'verify', check:'¿Querés modificar?', text:'Pedir cambios a la IA, redactar tu propio texto, o firmar y enviar.', actions:[{label:'Pedir cambios a la IA',variant:'primary',onclick:'federacionEdit()'},{label:'Firmar y enviar',variant:'outline',onclick:'isConfirmSend()'}] });
   return blocks;
@@ -4803,6 +4853,34 @@ function renderBlock(block){
   if(block.kind==='note'){
     var ns = block.tone==='red' ? 'background:#F6E7E1;border-left:3px solid #A6553E;border-radius:0 9px 9px 0;padding:11px 13px;font-size:.82rem;color:#7E3A29;line-height:1.45;margin-bottom:10px' : 'font-size:.78rem;color:#6E6A60;text-align:center;margin-bottom:10px';
     html+='<div style="'+ns+'">'+block.text+'</div>';
+  }
+  if(block.kind==='fuentes'){
+    html+='<div style="background:#F5F4EE;border-left:3px solid #9C988D;border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:10px;font-size:.78rem;color:#6E6A60;line-height:1.45">';
+    if(block.label) html+='<div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.82rem;color:#4A4842;margin-bottom:7px">'+block.label+'</div>';
+    if(block.lines) block.lines.forEach(function(l){
+      html+='<p style="margin-bottom:4px">';
+      if(l.lead) html+='<strong style="color:#4A4842">'+l.lead+' </strong>';
+      html+=l.text+'</p>';
+    });
+    html+='</div>';
+  }
+  if(block.kind==='historial'){
+    html+='<div style="margin-bottom:10px">';
+    if(block.label) html+='<div style="font-family:\'Archivo\',sans-serif;font-weight:600;font-size:.82rem;color:#4A4842;margin-bottom:7px">'+block.label+'</div>';
+    if(block.items) block.items.forEach(function(h,idx){
+      var isLast=idx===block.items.length-1;
+      html+='<div style="display:flex;align-items:flex-start;gap:9px;position:relative">';
+      html+='<div style="flex:none;width:28px;text-align:center;position:relative">';
+      html+='<div style="width:10px;height:10px;border-radius:50%;border:2px solid #6E8345;background:'+((h.status==='corrected'?'#6E8345':h.status==='viewed'?'#E8EDD7':'#FBFAF6'))+';margin:3px auto"></div>';
+      if(!isLast) html+='<div style="width:2px;height:18px;background:rgba(110,131,69,.25);margin:2px auto"></div>';
+      html+='</div>';
+      html+='<div style="flex:1;padding-bottom:'+(!isLast?'8':'0')+'px">';
+      html+='<div style="font-size:.78rem;color:#2B2A26;line-height:1.3"><strong>'+h.who+'</strong> '+h.action+'</div>';
+      if(h.detail) html+='<div style="font-size:.72rem;color:#6E6A60;line-height:1.3;margin-top:2px">'+h.detail+'</div>';
+      html+='</div>';
+      html+='</div>';
+    });
+    html+='</div>';
   }
   if(block.kind==='record'){
     html+='<div style="background:#E8EDD7;border:2px solid rgba(110,131,69,.32);border-radius:15px;padding:14px;margin-bottom:10px">';
@@ -5218,7 +5296,7 @@ function buildTrabajadorInformeBlocks(){
     // Delegado corrected but hasn't sent yet
     blocks.push({ kind:'card', label:'Delegado lo corrigió', lines:[
       {text:'La delegada de Vicentín corrigió tu informe. Las correcciones ya están incorporadas.'},
-      {lead:'F2 · Corrección:',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo. Enfermería y EPP ya estaban bien etiquetados.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
+      {lead:'F2 · Corrección:',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
     ] });
   } else {
     // Delegado saw but didn't correct yet
