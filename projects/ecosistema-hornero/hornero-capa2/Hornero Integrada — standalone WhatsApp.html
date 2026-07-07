@@ -4040,8 +4040,7 @@ function buildTrabajadorSteps(){
   // Once delegado role has been activated, trabajador only sees their list — no demo
   if(trabajadorDemoDone){
     var trBlocks=[];
-    trBlocks.push({ kind:'report-list', title:'Mis informes', _id:'trMI', items:[
-      {date:'01/07',label:'Informe Trabajador N° 11',status:trabajadorInformeSent?'ok':'draft',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Enviado · Aprobado']:delegadoCorrectedA?['Enviado · Corregido']:delegadoSeenA?['Enviado · Visto']:trabajadorInformeSent?['Enviado · No visto']:['No enviado']},
+    var pastItems=[
       {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Enviado · Aprobado']},
       {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Enviado · Aprobado']},
       {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Enviado · Corregido · Aprobado']},
@@ -4052,38 +4051,53 @@ function buildTrabajadorSteps(){
       {date:'10/05',label:'Informe Trabajador N° 03',status:'ok',tags:['Enviado · Aprobado']},
       {date:'03/05',label:'Informe Trabajador N° 02',status:'ok',tags:['Enviado · Aprobado']},
       {date:'26/04',label:'Informe Trabajador N° 01',status:'ok',tags:['Enviado · Aprobado']}
-    ] });
+    ];
+    // Only show N°11 after the trabajador actually sent it (IA produced and worker confirmed)
+    if(trabajadorInformeSent){
+      pastItems.unshift({date:'01/07',label:'Informe Trabajador N° 11',status:'ok',onclick:'viewTrabajadorInforme()',tags:delegadoReportSent?['Enviado · Aprobado']:delegadoCorrectedA?['Enviado · Corregido']:delegadoSeenA?['Enviado · Visto']:['Enviado · No visto']});
+    }
+    trBlocks.push({ kind:'report-list', title:'Mis informes', _id:'trMI', items:pastItems });
     if(delegadoCorrectedA){
       trBlocks.push({ kind:'card', label:'Corrección del delegado', title:'Tu informe fue corregido', lines:[
         {text:'La delegada de Vicentín corrigió tu informe y especificó:'},
         {lead:'F2 · Condiciones de trabajo:',text:raulEnfermeriaAdded?'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Supervisores presionando para incrementar ritmo.':'Amputación parcial de 2 dedos en envasadora (no solo "caída"). Enfermería clausurada 3 meses — violación Art. 42 CCT. Guantes se rompen en 1 semana, botas no aguantan aceite caliente. Supervisores presionando para incrementar ritmo.'}
       ] });
     }
-    return [
-      { title:'Mis informes', showInput:false,
-        blocks:trBlocks,
-        explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Tus informes grado 1', p:'Tu informe ya fue enviado al delegado y está en el sistema. La IA procesó tu relato, lo etiquetó y lo organizó. El delegado lo verifica y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. Para cargar un nuevo informe, reiniciá la secuencia del HTML.' } },
-      { title:'Informe desarrollado', showInput:false,
-        blocks: buildTrabajadorInformeBlocks(),
-        explain:{ kicker:'Informe grado 1', h3:'La IA organizó lo que contaste por familias', p:'Hornero procesó tu relato y lo organizó en tres familias: conflicto laboral, condiciones de trabajo y producción. Podés corregir si el delegado no lo vio todavía.', note:'La IA no publica sin verificación humana. Cada dato queda vinculado a tu relato original.' } },
-      { title:'Verificación', showInput:false,
-        blocks:[
-          { kind:'card', lines:[{text:'✓ Paritaria — correcto'},{text:'✓ Caída de compañero — correcto'},{text:'✓ Cambio de directivas — correcto'},{lead:'⚠ Equipamiento de Protección Personal — agregar:',text:'guantes se rompen en 1 semana, botas no aguantan aceite caliente'}], actions:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'}] }
-        ],
-        explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso. Podés confirmar lo que está, agregar detalles, o corregir.', note:'Sin verificación, el informe no ingresa al sistema.' } },
-      { title:'Informe enviado al delegado', showInput:false,
-        blocks:[
-          { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:delegadoCorrectedA?'✓ Familia 2 · Salud laboral — Amputación + enfermería clausurada + Equipamiento de Protección Personal':'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + caída de compañero'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
-        ],
-        explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
-    ];
+    // Only show full steps when informe was actually sent
+    if(trabajadorInformeSent){
+      return [
+        { title:'Mis informes', showInput:false,
+          blocks:trBlocks,
+          explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Tus informes grado 1', p:'Tu informe ya fue enviado al delegado y está en el sistema. La IA procesó tu relato, lo etiquetó y lo organizó. El delegado lo verifica y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. Para cargar un nuevo informe, reiniciá la secuencia del HTML.' } },
+        { title:'Informe desarrollado', showInput:false,
+          blocks: buildTrabajadorInformeBlocks(),
+          explain:{ kicker:'Informe grado 1', h3:'La IA organizó lo que contaste por familias', p:'Hornero procesó tu relato y lo organizó en tres familias: conflicto laboral, condiciones de trabajo y producción. Podés corregir si el delegado no lo vio todavía.', note:'La IA no publica sin verificación humana. Cada dato queda vinculado a tu relato original.' } },
+        { title:'Verificación', showInput:false,
+          blocks:[
+            { kind:'card', lines:[{text:'✓ Paritaria — correcto'},{text:'✓ Caída de compañero — correcto'},{text:'✓ Cambio de directivas — correcto'},{lead:'⚠ Equipamiento de Protección Personal — agregar:',text:'guantes se rompen en 1 semana, botas no aguantan aceite caliente'}], actions:[{label:'Confirmar y enviar',variant:'primary',onclick:'isConfirmSend()'},{label:'Corregir',variant:'outline',onclick:'isChatCorrect()'}] }
+          ],
+          explain:{ kicker:'Verificación humana', h3:'Confirmá o corregí antes de enviar', p:'La IA detectó que lo que contaste sobre Equipamiento de Protección Personal puede ser más preciso. Podés confirmar lo que está, agregar detalles, o corregir.', note:'Sin verificación, el informe no ingresa al sistema.' } },
+        { title:'Informe enviado al delegado', showInput:false,
+          blocks:[
+            { kind:'card', label:'Informe grado 1 · enviado ✓', title:'Tu informe fue enviado', lines:[{text:'✓ Familia 1 · Conflicto laboral — Paritaria sin cierre'},{text:delegadoCorrectedA?'✓ Familia 2 · Salud laboral — Amputación + enfermería clausurada + Equipamiento de Protección Personal':'✓ Familia 2 · Salud laboral — Equipamiento de Protección Personal + caída de compañero'},{text:'✓ Familia 9 · Producción — cambio directivas expeller'},{text:'✓ Enviado al delegado de Vicentín — comisión interna'}], actions:!delegadoSeenA?[{label:'Editar',variant:'outline',onclick:'isChatCorrect()'},{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}]:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goTrabajadorHome()'}] }
+          ],
+          explain:{ kicker:'Informe confirmado', h3:'Tu informe grado 1 ya está en el sistema', p:'El informe circula al delegado de tu territorio (Vicentín). El delegado lo verifica, agrega análisis y elabora el grado 2.', note:'El trabajador solo ve sus propios informes. El delegado no ve los de otros territorios.' } }
+      ];
+    } else {
+      // Not yet sent — only past informes + prompt to start
+      trBlocks.push({ kind:'card', lines:[{text:'Para cargar un nuevo informe, contale al chat lo que pasó esta semana.'}], actions:[{label:'Cargar informe',variant:'primary',onclick:'startTrabajadorChat()'}] });
+      return [
+        { title:'Mis informes', showInput:false,
+          blocks:trBlocks,
+          explain:{ kicker:'Grado 1 · Trabajador de base', h3:'Tus informes grado 1', p:'Cada semana puedes cargar un informe grado 1 contando lo que pasó. La IA lo procesa, etiqueta y organiza. Luego el delegado lo verifica.', note:'El trabajador solo ve sus propios informes.' } }
+      ];
+    }
   }
   // Full demo — trabajador records, verifies, sends
   return [
     { title:'Contale al chat lo que pasó', showInput:false,
       blocks:[
         { kind:'report-list', items:[
-          {date:'01/07',label:'Informe Trabajador N° 11 · No enviado',status:'draft',onclick:'',tags:['No enviado']},
           {date:'28/06',label:'Informe Trabajador N° 10',status:'ok',tags:['Enviado · Aprobado']},
           {date:'21/06',label:'Informe Trabajador N° 09',status:'ok',tags:['Enviado · Aprobado']},
           {date:'14/06',label:'Informe Trabajador N° 08',status:'ok',tags:['Enviado · Corregido · Aprobado']},
@@ -5234,12 +5248,8 @@ function buildIsChatConv(){
 function isConfirmSend(){
   if(state.isRole===1){
     trabajadorInformeSent=true;
-    if(trabajadorDemoDone){
-      // After sending from Mis Informes, go back to home to show updated list
-      state.isStep=0;
-    } else {
-      state.isStep=4;
-    }
+    trabajadorDemoDone=true;
+    state.isStep=0;
   } else if(state.isRole===2){
     delegadoReportSent=true;
     state.isStep=5;
@@ -5309,6 +5319,16 @@ function viewTrabajadorInforme(){
   state.isStep=1;
   isChatStarted=false;
   isChatSavedHTML='';
+  renderIS();
+}
+
+function startTrabajadorChat(){
+  // Reset to full demo flow so trabajador can talk to IA
+  trabajadorDemoDone=false;
+  trabajadorInformeSent=false;
+  state.isRole=1;
+  state.isStep=0;
+  isChatInit();
   renderIS();
 }
 
