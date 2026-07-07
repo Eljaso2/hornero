@@ -4238,8 +4238,8 @@ function buildAdminAPanel(){
 function buildSintesisG2(){
   var blocks=[];
   var fuentesLines=[{lead:'Base:',text:'2 informes grado 1 · Vicentín SAIC · planta Reconquista'}, {lead:'1-A:',text:'Empleado administrativo, sección Administración'}, {lead:'1-B:',text:'Operario de prensa, sección Prensa'}, {lead:'Verificado:',text:'Delegado de comisión interna Vicentín'}];
-  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
-  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
+  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregada Familia 4 (Estrategia patronal) y ampliado F2 (Condiciones de trabajo)'});
+  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'ampliadas Familia 4 (Estrategia patronal: concurso como situación económica, auditores) y Familia 9 (Producción: control de ruta, refinería baja ritmo)'});
   var lines=[
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
     {lead:'2 · Accidentes:',text:'Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
@@ -4260,8 +4260,9 @@ function buildSintesisG2(){
   blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
   // Historial de correcciones — shows who corrected, from bottom to top
   var historialItems=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
-  if(delegadoCorrectedA||delegadoCorrectedB) historialItems.push({who:'Delegada Olga',action:'corrigió informe'+(delegadoCorrectedA?' 1-A':'')+(delegadoCorrectedB?' 1-B':''),detail:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
-  else historialItems.push({who:'Delegada Olga',action:'verificó informes',status:'viewed'});
+  if(delegadoCorrectedA) historialItems.push({who:'Delegada Olga',action:'corrigió informe 1-A (Raúl)',detail:'agregada Familia 4 (Estrategia patronal) y ampliado F2 (Condiciones de trabajo)',status:'corrected'});
+  if(delegadoCorrectedB) historialItems.push({who:'Delegada Olga',action:'corrigió informe 1-B (Damián)',detail:'ampliadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
+  if(!delegadoCorrectedA&&!delegadoCorrectedB) historialItems.push({who:'Delegada Olga',action:'verificó informes',status:'viewed'});
   if(secretarioSeenVicentin) historialItems.push({who:'Secretario general Obligado/San Javier',action:secretarioReportSent?'visto y aprobado':'visto',status:'viewed'});
   blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialItems });
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('vicentin') });
@@ -4290,13 +4291,11 @@ function buildAdminBPanel(){
   var blocks=[];
   // Damián — empleado administrativo: habla de concurso, salario, alquiler, estrategia
   var damianLines=[
-    {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida.'},
-    {lead:'F5 · Condiciones de vida:',text:'Alquiler promedio $380.000. Brecha básico/costo de vida: 12%.'}
+    {lead:'F1 · Conflicto laboral:',text:'Paritaria sin cierre. Empresa argumenta concurso para evitar aumento. Básico $340.000 — no cubre costo de vida. Despidos = vaciamiento, no reducción de personal.'},
+    {lead:'F4 · Estrategia patronal:',text:delegadoCorrectedB?'Cambio de prioridad de producción (refinado → expeller). Menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica — no solo productiva. Auditores confirmados, evaluación para posible venta de activos.':'Van a priorizar expeller porque tiene menor retención — estrategia patronal para achicar retenciones. Concurso no es solo crisis — hay auditores evaluando activos para posible venta.'},
+    {lead:'F5 · Condiciones de vida:',text:'Alquiler promedio $380.000. Brecha básico/costo de vida: 12%.'},
+    {lead:'F9 · Producción:',text:delegadoCorrectedB?'Entró menos soja, camiones demorados por control de ruta. Línea de refinería baja ritmo. Expeller priorizado.':'Planta produce al 80%. Expeller priorizado por menor retención. Menor retención = empresa se ahorra.'}
   ];
-  if(delegadoCorrectedB){
-    damianLines.push({lead:'F4 · Estrategia patronal (corregido):',text:'Cambio de prioridad de producción (refinado → expeller). Menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica — no solo productiva. Auditores confirmados, evaluación para posible venta de activos.'});
-    damianLines.push({lead:'F9 · Producción (corregido):',text:'Entró menos soja, camiones demorados por control de ruta. Línea de refinería baja ritmo. Expeller priorizado.'});
-  }
   blocks.push({ kind:'card', label:'Informe grado 1 · Damián · Empleado administrativo · Vicentín', lines:damianLines });
   // Transcript sources — replaces old 'Original del trabajador' card
   blocks.push({ kind:'transcript-list', items:buildTranscriptItems('delegadoB') });
@@ -4321,8 +4320,8 @@ function commentAdminB(){
   if(cc) cc.innerHTML='';
   isChatConv=[
     { type:'hornero', text:'¿Qué observás en el informe de Damián?', time:'11:15' },
-    { type:'user', text:'El informe no etiquetó el cambio de prioridad de producción como estrategia patronal. Damián dijo que van a priorizar expeller porque tiene menor retención — eso es estrategia patronal, no solo producción. Y el concurso tiene que figurar como situación económica de la empresa, no solo como excusa para no cerrar paritaria.', time:'11:16' },
-    { type:'hornero', text:'Correcto. Agrego:<br><strong>F4 · Estrategia patronal</strong>: cambio de prioridad de producción (refinado → expeller), menor retención = menor impuesto = empresa se ahorra. Concurso como situación económica — no solo productiva. Auditores confirmados — evaluación para posible venta de activos.<br><strong>F9 · Producción</strong>: entró menos soja, camiones demorados por control de ruta, línea de refinería baja ritmo, expeller priorizado.<br><br>Se informa el cambio al trabajador (Damián). Confirmá con <strong>Visto</strong>.', time:'11:17' }
+    { type:'user', text:'F4 está pero le falta: el concurso no es solo excusa, es situación económica con auditores evaluando activos para venta. Y F9 le falta: entró menos soja, control de ruta, refinería bajó ritmo. No solo "expeller priorizado".', time:'11:16' },
+    { type:'hornero', text:'Correcto. Amplío:<br><strong>F4 · Estrategia patronal</strong>: concurso como situación económica — no solo productiva. Auditores confirmados, evaluación para posible venta de activos.<br><strong>F9 · Producción</strong>: entró menos soja, camiones demorados por control de ruta, línea de refinería baja ritmo.<br><br>Se informa el cambio al trabajador (Damián). Confirmá con <strong>Visto</strong>.', time:'11:17' }
   ];
   renderIS();
   isChatRunStep(0);
@@ -4331,8 +4330,8 @@ function commentAdminB(){
 function buildSintesisG2Enviada(){
   var blocks=[];
   var fuentesLines=[{lead:'Base:',text:'2 informes grado 1 · Vicentín SAIC · planta Reconquista'}, {lead:'1-A:',text:'Empleado administrativo, sección Administración'}, {lead:'1-B:',text:'Operario de prensa, sección Prensa'}, {lead:'Verificado:',text:'Delegado de comisión interna Vicentín'}];
-  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
-  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
+  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregada Familia 4 (Estrategia patronal) y ampliado F2 (Condiciones de trabajo)'});
+  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'ampliadas Familia 4 (Estrategia patronal: concurso como situación económica, auditores) y Familia 9 (Producción: control de ruta, refinería baja ritmo)'});
   var lines=[
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
     {lead:'2 · Accidentes:',text:delegadoCorrectedB?'Prensa: amputación parcial de 2 dedos en envasadora, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT. Supervisores presionando para incrementar ritmo.':'Prensa: caída de compañero por aceite, fuga prensa 3, Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
@@ -4346,7 +4345,8 @@ function buildSintesisG2Enviada(){
   blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
   // Historial de correcciones — delegado sent (viewed by delegado)
   var historialDel2=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
-  if(delegadoCorrectedA||delegadoCorrectedB) historialDel2.push({who:'Delegada Olga',action:'corrigió informe'+(delegadoCorrectedA?' 1-A':'')+(delegadoCorrectedB?' 1-B':''),detail:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
+  if(delegadoCorrectedA) historialDel2.push({who:'Delegada Olga',action:'corrigió informe 1-A (Raúl)',detail:'agregada Familia 4 (Estrategia patronal) y ampliado F2 (Condiciones de trabajo)',status:'corrected'});
+  if(delegadoCorrectedB) historialDel2.push({who:'Delegada Olga',action:'corrigió informe 1-B (Damián)',detail:'ampliadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
   else historialDel2.push({who:'Delegada Olga',action:'verificó informes',status:'viewed'});
   historialDel2.push({who:'Delegada Olga',action:'envió informe grado 2 ✓',status:'viewed'});
   blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialDel2 });
@@ -4433,8 +4433,8 @@ function buildGrado3Enviada(){
 function buildVicentinPanel(){
   var blocks=[];
   var fuentesLines=[{lead:'Base:',text:'2 informes grado 1 · Vicentín SAIC · planta Reconquista'}, {lead:'1-A:',text:'Empleado administrativo, sección Administración'}, {lead:'1-B:',text:'Operario de prensa, sección Prensa'}, {lead:'Verificado:',text:'Delegado de comisión interna Vicentín'}];
-  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
-  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)'});
+  if(delegadoCorrectedA) fuentesLines.push({lead:'Corrección 1-A:',text:'agregada Familia 4 (Estrategia patronal) y ampliado F2 (Condiciones de trabajo)'});
+  if(delegadoCorrectedB) fuentesLines.push({lead:'Corrección 1-B:',text:'ampliadas Familia 4 (Estrategia patronal: concurso como situación económica, auditores) y Familia 9 (Producción: control de ruta, refinería baja ritmo)'});
   var lines=[
     {lead:'1 · Conflicto:',text:'Paritaria sin cierre. Empresa usa concurso como excusa — planta produce al 80%. Trabajador admin: básico no cubre costo de vida.'},
     {lead:'2 · Accidentes:',text:'Caída de compañero por aceite en piso. Prensa 3 con fuga. Equipamiento de Protección Personal insuficiente. Enfermería clausurada 3 meses — violación Art. 42 CCT.'}
@@ -4448,7 +4448,8 @@ function buildVicentinPanel(){
   blocks.push({ kind:'fuentes', label:'Fuentes', lines:fuentesLines });
   // Historial de correcciones — Vicentín viewed by secretario
   var historialVic=[{who:'Trabajadores',action:'informaron grado 1',status:'base'}];
-  if(delegadoCorrectedA||delegadoCorrectedB) historialVic.push({who:'Delegada Olga',action:'corrigió informe'+(delegadoCorrectedA?' 1-A':'')+(delegadoCorrectedB?' 1-B':''),detail:'agregadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
+  if(delegadoCorrectedA) historialVic.push({who:'Delegada Olga',action:'corrigió informe 1-A (Raúl)',detail:'agregada Familia 4 (Estrategia patronal) y ampliado F2 (Condiciones de trabajo)',status:'corrected'});
+  if(delegadoCorrectedB) historialVic.push({who:'Delegada Olga',action:'corrigió informe 1-B (Damián)',detail:'ampliadas Familia 4 (Estrategia patronal) y Familia 9 (Producción)',status:'corrected'});
   else historialVic.push({who:'Delegada Olga',action:'verificó informes',status:'viewed'});
   if(secretarioSeenVicentin) historialVic.push({who:'Secretario general Obligado/San Javier',action:secretarioReportSent?'visto y aprobado':'visto',status:'viewed'});
   blocks.push({ kind:'historial', label:'Historial de correcciones', items:historialVic });
