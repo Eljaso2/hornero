@@ -4230,7 +4230,7 @@ function buildAdminAPanel(){
   } else if(!delegadoSeenA){
     blocks.push({ kind:'actions', items:[{label:'Visto',variant:'primary',onclick:'markSeenA()'},{label:'Editar',variant:'outline',onclick:'commentAdminA()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
   } else {
-    blocks.push({ kind:'actions', items:[{label:'Editar',variant:'primary',onclick:'commentAdminA()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
+    blocks.push({ kind:'actions', items:[{label:'Aprobar',variant:'primary',onclick:'markSeenA()'},{label:'Editar',variant:'outline',onclick:'commentAdminA()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
   }
   return blocks;
 }
@@ -4304,7 +4304,7 @@ function buildAdminBPanel(){
   } else if(!delegadoSeenB){
     blocks.push({ kind:'actions', items:[{label:'Visto',variant:'primary',onclick:'markSeenB()'},{label:'Editar',variant:'outline',onclick:'commentAdminB()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
   } else {
-    blocks.push({ kind:'actions', items:[{label:'Editar',variant:'primary',onclick:'commentAdminB()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
+    blocks.push({ kind:'actions', items:[{label:'Aprobar',variant:'primary',onclick:'markSeenB()'},{label:'Editar',variant:'outline',onclick:'commentAdminB()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goDelegadoHome()'}] });
   }
   return blocks;
 }
@@ -4459,9 +4459,9 @@ function buildVicentinPanel(){
     // Federación ya recibió el grado 3 — no editable
     blocks.push({ kind:'card', lines:[{text:'✓ Federación ya lo recibió — no se puede editar'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goSecretarioHome()'}] });
   } else if(!secretarioSeenVicentin){
-    blocks.push({ kind:'actions', items:[{label:'Visto',variant:'primary',onclick:'markSeenVicentin()'},{label:'Editar',variant:'outline',onclick:'goSecretarioHome()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goSecretarioHome()'}] });
+    blocks.push({ kind:'actions', items:[{label:'Aprobado',variant:'primary',onclick:'markSeenVicentin()'},{label:'Editar',variant:'outline',onclick:'secretarioEditVicentin()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goSecretarioHome()'}] });
   } else {
-    blocks.push({ kind:'actions', items:[{label:'Editar',variant:'primary',onclick:'goSecretarioHome()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goSecretarioHome()'}] });
+    blocks.push({ kind:'actions', items:[{label:'Aprobado',variant:'primary',onclick:'goSecretarioHome()'},{label:'Editar',variant:'outline',onclick:'secretarioEditVicentin()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goSecretarioHome()'}] });
   }
   return blocks;
 }
@@ -4500,9 +4500,9 @@ function buildGuaycuruPanel(){
   } else if(secretarioGuaycuruComment){
     blocks.push({ kind:'card', lines:[{text:'✓ Corregido por secretario'}], actions:[{label:'Volver a Mis Informes',variant:'primary',onclick:'goSecretarioHome()'}] });
   } else if(!secretarioSeenGuaycuru){
-    blocks.push({ kind:'actions', items:[{label:'Visto',variant:'primary',onclick:'markSeenGuaycuru()'},{label:'Editar',variant:'outline',onclick:'commentGuaycuru()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goSecretarioHome()'}] });
+    blocks.push({ kind:'actions', items:[{label:'Aprobado',variant:'primary',onclick:'markSeenGuaycuru()'},{label:'Editar',variant:'outline',onclick:'commentGuaycuru()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goSecretarioHome()'}] });
   } else {
-    blocks.push({ kind:'actions', items:[{label:'Editar',variant:'primary',onclick:'commentGuaycuru()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goSecretarioHome()'}] });
+    blocks.push({ kind:'actions', items:[{label:'Aprobado',variant:'primary',onclick:'goSecretarioHome()'},{label:'Editar',variant:'outline',onclick:'commentGuaycuru()'},{label:'Volver a Mis Informes',variant:'outline',onclick:'goSecretarioHome()'}] });
   }
   return blocks;
 }
@@ -4512,7 +4512,7 @@ function buildSecretarioPanel(){
   // Mis informes — secretario's own grado 3 reports, clickable to view full content
   blocks.push({ kind:'report-list', title:'Mis informes', _id:'secMI', items:[
     {date:secretarioReportSent?'29/06':'22/06',label:secretarioReportSent?'Informe Secretario N° 03':'Informe Secretario N° 03',status:'ok',onclick:secretarioReportSent?'setStep(5);':'',
-     tags:secretarioReportSent?(federacionSeenReconquista?(federacionEditedReconquista?['Enviado · Corregido · Aprobado']:['Enviado · Aprobado']):['Enviado · No visto']):null,
+     tags:secretarioReportSent?(federacionSeenReconquista?(federacionEditedReconquista?['Enviado · Corregido · Aprobado']:['Enviado · Aprobado']):['Enviado · No visto']):['No enviado'],
      sources:secretarioReportSent?[{label:'Grado 2 · Vicentín (aceitera) · visto',date:'29/06',status:'ok'},{label:'Grado 2 · Guaycurú (desmotadoras)'+(secretarioGuaycuruComment?' · corregido':''),date:'29/06',status:'ok'},{label:'Grado 2 · Puerto / Marítimo · visto',date:'29/06',status:'ok'}]:null},
     {date:'15/06',label:'Informe Secretario N° 02',status:'ok',tags:['Enviado · Aprobado']},
     {date:'08/06',label:'Informe Secretario N° 01',status:'ok',tags:['Enviado · Corregido · Aprobado']},
@@ -4524,12 +4524,12 @@ function buildSecretarioPanel(){
   } else {
     // show pending grado 2 reports from delegados
     blocks.push({ kind:'report-list', title:'Pendientes', items:[
-      {date:'29/06',label:'Informe Delegado N° 03 · Vicentín',status:secretarioSeenVicentin?'seen':'pend',onclick:'setStep(1)',tags:['Paritaria','Accidente','Directivas']},
-      {date:'29/06',label:'Informe Delegado N° 03 · Guaycurú',status:secretarioSeenGuaycuru?'seen':'pend',onclick:'setStep(2)',tags:['Despidos','Explosión','SMVM']},
-      {date:'29/06',label:'Informe Delegado N° 03 · Puerto',status:secretarioSeenPuerto?'seen':'ok',tags:['SOMU','Despacho']}
+      {date:'29/06',label:'Informe Delegado N° 03 · Vicentín',status:delegadoReportSent?(secretarioSeenVicentin?'seen':'pend'):'pend',onclick:delegadoReportSent?'setStep(1)':'',tags:delegadoReportSent?(secretarioSeenVicentin?['Visto']:['No visto']):['No recibido']},
+      {date:'29/06',label:'Informe Delegado N° 03 · Guaycurú',status:delegadoReportSent?(secretarioSeenGuaycuru?'seen':'pend'):'pend',onclick:delegadoReportSent?'setStep(2)':'',tags:delegadoReportSent?(secretarioSeenGuaycuru?['Visto']:['No visto']):['No recibido']},
+      {date:'29/06',label:'Informe Delegado N° 03 · Puerto',status:'ok',tags:['Recibido · Visto']}
     ] });
-    // elaborar button — enabled when both Vicentín and Guaycurú seen
-    var canElaborate=secretarioSeenVicentin&&secretarioSeenGuaycuru;
+    // elaborar button — enabled when both Vicentín and Guaycurú seen AND received
+    var canElaborate=delegadoReportSent&&secretarioSeenVicentin&&secretarioSeenGuaycuru;
     blocks.push({ kind:'actions', items:[{label:'Elaborar Informe',variant:canElaborate?'primary':'disabled',onclick:canElaborate?'makeSecretarioReport()':''}] });
   }
   return blocks;
@@ -4749,6 +4749,23 @@ function commentGuaycuru(){
   isChatRunStep(0);
 }
 var secretarioEditedOnce=false; // tracks if secretario already edited once
+function secretarioEditVicentin(){
+  isDelegadoEditMode=false;
+  isCorrectMode=false;
+  isChatStarted=true;
+  isChatStep=0;
+  var cc=document.getElementById('isChatContainer');
+  if(cc) cc.innerHTML='';
+  // Secretario reads Vicentín informe and decides it's fine — no corrections needed
+  isChatConv=[
+    { type:'hornero', text:'¿Qué observás en el informe grado 2 de Vicentín? ¿Querés corregir algo, agregar algo, o está bien así?', time:'15:40' },
+    { type:'user', text:'No, está bien así. Lo apruebo.', time:'15:41' },
+    { type:'hornero', text:'Entendido. Informe Vicentín aprobado ✓. Podés volver a Mis Informes.', time:'15:42' }
+  ];
+  renderIS();
+  isChatRunStep(0);
+}
+
 function secretarioEdit(){
   isDelegadoEditMode=false;
   isCorrectMode=false;
@@ -5012,7 +5029,7 @@ function renderBlock(block){
       if(r.tags && r.tags.length){
         html+='<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px">';
         r.tags.forEach(function(t){
-          var isAlert=t.indexOf('No visto')>=0||t.indexOf('No enviado')>=0;
+          var isAlert=t.indexOf('No visto')>=0||t.indexOf('No enviado')>=0||t.indexOf('No recibido')>=0;
           html+='<span style="font-family:\'JetBrains Mono\',monospace;font-size:.58rem;background:'+((isAlert?'#F6E7E1':'#E8EDD7'))+';color:'+((isAlert?'#A6553E':'#586B33'))+';padding:2px 6px;border-radius:5px;font-weight:600;white-space:nowrap;line-height:1.4">'+t+'</span>';
         });
         html+='</div>';
@@ -5073,15 +5090,17 @@ function renderIS(){
   // full-screen chat: hide blocks when chat active, show chat full
   document.getElementById('isBlocksWrap').style.display = isChatStarted ? 'none' : '';
   document.getElementById('isChatWrap').style.display = isChatStarted ? '' : 'none';
-  // chat navigation header — contextual links when chat is active
+  // chat navigation header — contextual links when chat is active, and also on block views where navigation is needed
   var chatNav=document.getElementById('isChatNav');
-  if(isChatStarted){
+  var homeFn='go'+(state.isRole===1?'Trabajador':state.isRole===2?'Delegado':state.isRole===3?'Secretario':'Federacion')+'Home()';
+  // Show nav when: chat is active, OR blocks view on steps that need a "Mis Informes" link (delegado/secretario/federacion viewing informe details)
+  var needsBlockNav=!isChatStarted&&state.isRole>=2&&state.isStep>=1;
+  if(isChatStarted||needsBlockNav){
     chatNav.style.display='';
     if(state.isRole===1){
       // Trabajador always gets "Mis Informes" link in chat nav
       chatNav.innerHTML='<div style="display:flex;gap:12px;padding:4px 0"><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="goTrabajadorHome()">Mis Informes</a>'+((trabajadorInformeSent||state.isStep>=1)?'<span style="color:#6E6A60;font-size:.78rem">·</span><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="viewTrabajadorInforme()">Informe N° 11</a>':'')+'</div>';
     } else {
-      var homeFn='go'+(state.isRole===2?'Delegado':state.isRole===3?'Secretario':'Federacion')+'Home()';
       chatNav.innerHTML='<div style="padding:4px 0"><a style="font-family:\'Archivo\',sans-serif;font-size:.78rem;color:#6E8345;font-weight:600;cursor:pointer" onclick="'+homeFn+'">Mis Informes</a></div>';
     }
   } else {
