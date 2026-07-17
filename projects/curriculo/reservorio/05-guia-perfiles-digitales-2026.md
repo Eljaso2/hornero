@@ -8,8 +8,9 @@ Contenidos de esta guía
 	•	3. Academia.edu — perfil y subida de trabajos
 	•	4. ResearchGate — perfil y estrategia de difusión
 	•	5. LinkedIn — perfil profesional completo
-	•	6. Textos biográficos listos para copiar
-	•	7. Recordatorios / Datos pendientes
+	•	6. Web of Science / Publons — perfil de evaluador peer-review
+	•	7. Textos biográficos listos para copiar
+	•	8. Recordatorios / Datos pendientes
 
 
 1. GOOGLE SCHOLAR
@@ -213,7 +214,32 @@ Para editoriales y cultura:
 Destacar los dos libros publicados, las obras de ficción y documentales inspirados en tus investigaciones, y la actividad de divulgación.
 
 
-6. TEXTOS BIOGRÁFICOS LISTOS PARA COPIAR
+6. WEB OF SCIENCE / PUBLONS (REVIEWER PROFILE)
+Web of Science (ex Publons) es el registro internacional de evaluaciones peer-review. Ya tenés evaluaciones cargadas automáticamente por Cambridge University Press. Hay que verificar y completar el perfil.
+
+6.1 Acceder y verificar
+	•	Ir a: https://www.webofscience.com → iniciar sesión con la cuenta vinculada a tu email académico (alejandro.jasinski@gmail.com).
+	•	En tu perfil, buscar la sección 'Peer Reviews' — debería aparecer automáticamente la evaluación de "A History of Violence: Sugar Workers in Tucumán (Argentina) from Military Dictatorships to the Neoliberal Revolution" para Journal of Latin American Studies (Cambridge University Press), 2026.
+	•	Verificar que la información es correcta (revista, año, contenido evaluado).
+
+6.2 Configurar visibilidad
+	•	Ir a 'Review settings' en tu perfil.
+	•	Confirmar que 'Automatic addition of reviews from partnered journals' está activado (esto ya está activado, según el mail que recibiste).
+	•	Elegir visibilidad de cada evaluación: puedes mostrar el nombre del artículo evaluado, solo el nombre de la revista, o mantenerlo privado. Recomendación: mostrar nombre de la revista y año (no el título del artículo evaluado, para mantener confidencialidad del proceso editorial si la revista lo requiere).
+
+6.3 Completar el perfil
+	•	Agregar afiliación: Universidad de Buenos Aires / INDEAL
+	•	Agregar las demás evaluaciones manuales que ya tenés registradas en tu CV:
+		- Journal of Genocide Research (internacional) — artículo: "Intergenerational Transformative Memorialization for Colonial Crimes: Indigenous-Led Truth Trials as Decolonial Praxis", 2026
+		- Revista Austral de Ciencias Sociales (Chile)
+		- Revista Archivos (Argentina)
+		- Revista Colección – UCA (2020)
+		- Revista Latinoamericana de Antropología del Trabajo – CEIL-CONICET (2017)
+		- Historia, Voces y Memoria – FFyL-UBA (2016)
+
+💡 Publons/Web of Science permite agregar evaluaciones manuales si la revista no es partner automático. Para las que no se agregan solas, entrar en 'Add review' y completar: revista, año, tipo de evaluación (peer review).
+
+7. TEXTOS BIOGRÁFICOS LISTOS PARA COPIAR
 
 Biografía corta — Español (para presentaciones, solapas, perfiles)
 Historiador especializado en historia social latinoamericana, violencia empresarial, represión estatal y derechos humanos. Doctor en Historia (FFyL-UBA, 2021, Sobresaliente con Recomendación de Publicación). Investigador de la Secretaría de Derechos Humanos de la Nación (2013–2025), donde produjo informes históricos para causas judiciales de lesa humanidad, entre ellas el Juicio Ford y la Masacre de Napalpí. Investigador visitante en la Universidad de Konstanz (Alemania, 2026). Autor de El encanto del tanino (Prometeo, 2023) y Revuelta obrera y masacre en La Forestal (Biblos, 2013), entre otras publicaciones.
@@ -241,13 +267,13 @@ Perfil Academia.edu
 https://independent.academia.edu/JasinskiAlejandro
 
 
-7. RECORDATORIOS / DATOS PENDIENTES
+8. RECORDATORIOS / DATOS PENDIENTES
 
 ⏳ PENDIENTE: Coloquio Internacional de Historiadores · Berlín, Alemania · 19 de enero de 2027 — completar: título de la ponencia, nombre completo del evento, institución organizadora.
 ⏳ PENDIENTE: XX Jornadas Interescuelas 2026 · Universidad Nacional de Río Cuarto, Córdoba — completar: fecha exacta, título de la mesa, título de la ponencia.
 ⏳ PENDIENTE: Capítulo de libro UBACYT (en prensa) — completar: título del capítulo, nombre del libro/compilación, director/a de la compilación, editorial, año previsto.
 ⏳ PENDIENTE: Comisión de Arqueología, Ministerio de Cultura y Patrimonio de Santa Fe — completar: cargo o rol formal, nombre oficial de la comisión.
-⏳ PENDIENTE: Evaluador de Genocide Journal — confirmar nombre exacto de la revista y entregar informe pendiente.
+	•	Journal of Genocide Research (Routledge/Taylor & Francis) — artículo evaluado: "Intergenerational Transformative Memorialization for Colonial Crimes: Indigenous-Led Truth Trials as Decolonial Praxis", 2026.
 ⏳ PENDIENTE: Evaluador de Revista Austral de Ciencias Sociales (Chile) — entregar informe pendiente.
 ⏳ PENDIENTE: Novel ¡Talen! de Amílcar Bo (Contramar Editora) — confirmar año de publicación.
 ⏳ PENDIENTE: Konstanz 2026: confirmar si la Master Class y la presentación ante el KOLAF fueron en fechas distintas. Agregar fechas exactas.

@@ -287,6 +287,12 @@ Antología de manifiestos políticos argentinos. 1890-1956. CASULLO Mariana y CA
 
 Evaluaciones de artículos académicos
 
+Journal of Latin American Studies
+Evaluador del artículo "A History of Violence: Sugar Workers in Tucumán (Argentina) from Military Dictatorships to the Neoliberal Revolution", para Journal of Latin American Studies (Cambridge University Press), 2026. Registrado automáticamente en perfil Web of Science.
+
+Journal of Genocide Research
+Evaluador del artículo "Intergenerational Transformative Memorialization for Colonial Crimes: Indigenous-Led Truth Trials as Decolonial Praxis", para Journal of Genocide Research (Routledge/Taylor & Francis), 2026.
+
 Revista Colección
 “Definiendo estrategias para el enemigo: de la acción preventiva a la ofensiva anticomunista. El Estado y la Sección Especial (1930-1943)," para la Revista Colección, Pontificia Universidad Católica Argentina, 2020.
 

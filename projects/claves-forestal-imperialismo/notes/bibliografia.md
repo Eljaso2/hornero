@@ -60,13 +60,17 @@
 - Mimosa tannin en Africa → buscar fuentes sobre tannin industry en Kenya/Tanzania/South Africa
 - East Africa Tannin Extract Company → buscar
 - **Biblio Sudáfrica** (carpeta local: `/Users/eljaso/Documents/Trabajo/Investigaciones/La Forestal/La forestal y el peronismo/Biblio Sudáfrica.docx`) → consultar
+- **Cowen, M.P.** "Capital, Nation and Commodities: The Case of Forestal Land, Timber and Railway Company in Argentina and Africa, 1900–1945." En *Capitalism in a Mature Economy: Financial Institutions, Capital Exports and British Industry, 1870–1939*, editado por Youssef Cassis y Philip L. Cottrell, 186–216. London: Edward Elgar, 1990. → **CLAVE**: estudio transnacional de La Forestal; argumenta que deslocalización fue reacción contra "acciones nacionales de liberación y libertad" tanto como contra condiciones técnicas y de precios; demuestra que ganancias acumuladas en Argentina (1906-1921) financiaron expansión a Sudáfrica; discute rol del Foreign Office / Colonial Office como respaldo estatal imperial. Zotero: item 1088 (⚠️ PDFs no sincronizados localmente — carpetas WYWGTLD2 y A57WSMI4 solo cache markers)
+- **Cowen, M.P.** "Commodity Chains and Global Capitalism: A Quebracho-Wattle-Tannin Chain." *Review (Fernand Braudel Center)*, vol. 16, no. 2, Spring 1993, pp. 137–168. → **COMPLEMENTARIO**: análisis de cadena de commodities quebracho-wattle-tanino; expansión del argumento de 1990 en marco de world-systems analysis
+- **Swainson, Nicola.** "The Development of Multinational Corporations and Their Impact on the Economic Development of Argentina, with Special Reference to the British Railway Companies, 1854–1948." *Journal of Latin American Studies*, vol. 7, no. 1, May 1975, pp. 1–27. → **CLAVE**: marco sobre Foreign Office respaldando multinacionales británicas en Argentina; aplicable a La Forestal como otro actor corporativo imperial británico. ⚠️ No está en Zotero — agregar
+- **Swainson, Nicola.** "Company Formation in Kenya before 1945. With Particular Reference to the Role of Foreign Capital." IDS Working Paper 267. → **RELEVANTE**: demuestra que La Forestal ejerció presión política desde Londres sobre el Colonial Office en Kenya; "when it came to wielding power at the level of the Imperial Government, Forestal was in a stronger position than the trading company of A. Baumann" (p. 50-51); cita Cowen (1975) sobre wattle production. Zotero: `/Users/eljaso/Zotero/storage/DPTLFEYJ/wp267-316472.pdf` (19.2 MB, en disco)
 
 ## Legislación forestal y intentos de frenar la destrucción
 
 - Leyes forestales argentinas → buscar: Ley de Defensa del Bosque (¿1930s?), proyectos de regulación
 - Debates parlamentarios sobre La Forestal → buscar en tesis y fuentes
 - Denuncias contemporáneas: prensa, funcionarios, científicos → buscar en tesis Cap 6 "vandalismo económico"
-- British Chamber of Commerce, Foreign Office → buscar referencias
+- British Chamber of Commerce in Argentina, Foreign Office → **verificar FO 371 refs**: FO 371/177825 (Forestal Land Timber and Railway Company Ltd), FO 371/144557 (quebracho/tannin industry), FO 371/189586 (Argentine government dealings with Forestal), FO 371/126182 (quebracho extract exports), CO 852/1313 (Colonial Office - quebracho tannin supply). Buscar en Discovery: https://discovery.nationalarchives.gov.uk/ — filtrar FO 371, buscar "Forestal", "quebracho"
 
 ## Fuentes primarias (a citar)
 
@@ -111,3 +115,6 @@ Bibliografía marcada con **anonimizar** debe ser tratada sin autorreferencia en
 - [ ] Fuentes sobre tannin industry en Africa (Kenya/Tanzania/South Africa)
 - [ ] Fuentes sobre casos de negacionismo (Harteneck, Senn, denial woman)
 - [ ] Consultar Biblio Sudáfrica.docx local
+- [ ] **Sincronizar PDFs de Cowen en Zotero** (carpetas WYWGTLD2, A57WSMI4 — solo cache markers, no PDFs reales)
+- [ ] **Agregar Swainson (1975) a Zotero** — artículo JLAS sobre ferrocarriles y Foreign Office en Argentina
+- [ ] **Verificar refs FO 371 en UK National Archives Discovery** — confirmar refs exactas (FO 371/177825, etc.)

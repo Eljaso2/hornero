@@ -272,8 +272,8 @@ Las producciones históricas del autor han servido de base para las siguientes o
 	•	Jurado de defensa de tesis de Maestría en Historia Social Argentina y Latinoamericana: Álvarez, Carlos, "El movimiento obrero rosarino entre 1906 y 1913", Universidad Nacional de Rosario, 2024.
 
 13.2 Evaluación de Artículos Académicos (Referee / Par Evaluador)
-	•	Journal of Genocide Research (Internacional)
-	•	Journal of Latin American Studies (Internacional)
+	•	Journal of Genocide Research (Internacional). Artículo evaluado: "Intergenerational Transformative Memorialization for Colonial Crimes: Indigenous-Led Truth Trials as Decolonial Praxis", 2026.
+	•	Journal of Latin American Studies (Internacional). Artículo evaluado: "A History of Violence: Sugar Workers in Tucumán (Argentina) from Military Dictatorships to the Neoliberal Revolution", Cambridge University Press, 2026.
 	•	Revista Austral de Ciencias Sociales (Chile)
 	•	Revista Archivos (Argentina)
 	•	Revista Colección – Pontificia Universidad Católica Argentina. Artículo evaluado: "Definiendo estrategias para el enemigo...", 2020.

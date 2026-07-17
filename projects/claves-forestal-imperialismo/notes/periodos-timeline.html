@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Periodización histórica — Norte de Santa Fe</title>
+<style>
+  /* ── Palette & tokens ── */
+  .viz-root {
+    --surface-1:      #fcfcfb;
+    --surface-2:      #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;
+    --series-2:       #1baf7a;
+    --series-3:       #eda100;
+    --series-1-light: #cde2fb;
+    --series-2-light: #b8e8d5;
+    --series-3-light: #fce5b8;
+    --series-1-dark:  #1c5cab;
+    --series-2-dark:  #147f55;
+    --font-sans:      system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    .viz-root {
+      --surface-1:      #1a1a19;
+      --surface-2:      #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #199e70;
+      --series-3:       #c98500;
+      --series-1-light: #3987e530;
+      --series-2-light: #199e7030;
+      --series-3-light: #c9850030;
+      --series-1-dark:  #3987e5;
+      --series-2-dark:  #199e70;
+      --series-3-dark:  #c98500;
+    }
+  }
+
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .viz-root {
+    font-family: var(--font-sans);
+    background: var(--surface-2);
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding: 2rem 1rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── Title ── */
+  .viz-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.01em;
+  }
+  .viz-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  /* ── Timeline bar ── */
+  .timeline-bar {
+    display: flex;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    position: relative;
+    border: 1px solid var(--border);
+  }
+  .timeline-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    position: relative;
+    transition: filter 0.2s;
+  }
+  .timeline-segment:hover { filter: brightness(1.08); }
+
+  /* Period 1 — 31 years → 31/73 ≈ 42% */
+  .seg-1 {
+    flex: 0 0 42%;
+    background: var(--series-1);
+    color: #ffffff;
+  }
+  /* Period 2 — 23 years → 23/73 ≈ 32% */
+  .seg-2 {
+    flex: 0 0 32%;
+    background: var(--series-2);
+    color: #ffffff;
+  }
+  /* Period 3 — 19 years → 19/73 ≈ 26% */
+  .seg-3 {
+    flex: 0 0 26%;
+    background: var(--series-3);
+    color: var(--text-primary);
+  }
+
+  /* Surface gap (2px) between segments */
+  .timeline-segment:not(:last-child) {
+    border-right: 2px solid var(--surface-1);
+  }
+
+  /* Year markers */
+  .year-markers {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .year-markers span {
+    position: relative;
+  }
+  .year-markers span::before {
+    content: '';
+    position: absolute;
+    top: -1.2rem;
+    left: 50%;
+    width: 1px;
+    height: 0.6rem;
+    background: var(--baseline);
+  }
+
+  /* ── Period cards ── */
+  .period-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 640px) {
+    .period-cards { grid-template-columns: 1fr; }
+  }
+
+  .period-card {
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-1);
+  }
+  .period-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: 8px 8px 0 0;
+  }
+  .card-1::before { background: var(--series-1); }
+  .card-2::before { background: var(--series-2); }
+  .card-3::before { background: var(--series-3); }
+
+  /* Color dot */
+  .card-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--surface-1);
+    display: inline-block;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+  }
+  .card-1 .card-dot { background: var(--series-1); }
+  .card-2 .card-dot { background: var(--series-2); }
+  .card-3 .card-dot { background: var(--series-3); }
+
+  .card-period-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+  }
+  .card-dates {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+  }
+  .card-1 .card-tag {
+    background: var(--series-1-light);
+    color: var(--series-1-dark);
+  }
+  .card-2 .card-tag {
+    background: var(--series-2-light);
+    color: var(--series-2-dark);
+  }
+  .card-3 .card-tag {
+    background: var(--series-3-light);
+    color: var(--series-3-dark);
+  }
+
+  .card-section-title {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .card-body {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .card-body ul {
+    list-style: none;
+    padding: 0;
+  }
+  .card-body li {
+    padding: 0.15rem 0;
+    padding-left: 0.8rem;
+    position: relative;
+  }
+  .card-body li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .card-violence-tag {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+  }
+
+  /* ── Footer ── */
+  .viz-footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--gridline);
+    padding-top: 0.75rem;
+  }
+</style>
+</head>
+<body>
+<div class="viz-root" data-palette="#2a78d6,#1baf7a,#eda100">
+
+  <h1 class="viz-title">Periodización histórica del norte de Santa Fe</h1>
+  <p class="viz-subtitle">La Forestal: estrategias de explotación, acumulación y dominación — seguimos criterios de Iñigo Carrera</p>
+
+  <!-- Timeline bar: proportional by years -->
+  <div class="timeline-bar" role="img" aria-label="Timeline showing three historical periods proportional to their duration">
+    <div class="timeline-segment seg-1" aria-label="Período 1: Génesis y formación, 1890–1921">1890 – 1921</div>
+    <div class="timeline-segment seg-2" aria-label="Período 2: Desarrollo, 1921–1944">1921 – 1944</div>
+    <div class="timeline-segment seg-3" aria-label="Período 3: Crisis y reestructuración, 1944–1963">1944 – 1963</div>
+  </div>
+
+  <div class="year-markers" aria-hidden="true">
+    <span>1890</span>
+    <span>1921</span>
+    <span>1944</span>
+    <span>1963</span>
+  </div>
+
+  <!-- Period detail cards -->
+  <div class="period-cards">
+
+    <!-- Period 1 -->
+    <div class="period-card card-1">
+      <span class="card-dot" aria-hidden="true"></span>
+      <div class="card-period-label">Génesis y formación</div>
+      <div class="card-dates">1890 – 1921</div>
+      <span class="card-tag">Paternalismo despótico</span>
+
+      <div class="card-section-title">Hitos clave</div>
+      <div class="card-body">
+        <ul>
+          <li>Campañas militares y colonización; comunidades indígenas desplazadas o sometidas</li>
+          <li>Capitales alemanes y franceses fundan La Forestal (1906: fusión con finanzas británicas)</li>
+          <li>Expansión brutal: 2,1 M hectáreas, ~80% producción nacional</li>
+          <li>Primera experiencia sindical (1918); rebelión obrera</li>
+          <li><strong>Masacre de 1921</strong> — Gendarmería Volante financiada por la empresa</li>
+        </ul>
+      </div>
+
+      <div class="card-section-title">Violencia dominante</div>
+      <span class="card-violence-tag">Violencia directa — masacre, represión paramilitar</span>
+    </div>
+
+    <!-- Period 2 -->
+    <div class="period-card card-2">
+      <span class="card-dot" aria-hidden="true"></span>
+      <div class="card-period-label">Desarrollo — «La Forestal Benefactora»</div>
+      <div class="card-dates">1921 – 1944</div>
+      <span class="card-tag">Paternalismo autoritario</span>
+
+      <div class="card-section-title">Hitos clave</div>
+      <div class="card-body">
+        <ul>
+          <li>Programa de reformas sociales (1923): «obra de civilización y cultura»</li>
+          <li>Despliegue material: educación, salud, religión, recreación en pueblos-fábrica</li>
+          <li>«Pueblos reservados» vs «pueblos nuevos» — distingo de castas</li>
+          <li>21 lockouts entre 1921–1944; nueva masacre Villa Ana 1928</li>
+          <li>Reemergencia sindical (1936); deslocalización hacia África (Sudáfrica, Kenya)</li>
+        </ul>
+      </div>
+
+      <div class="card-section-title">Violencia dominante</div>
+      <span class="card-violence-tag">Violencia hegemónica — consentimiento + coerción; normalización; violencia silente</span>
+    </div>
+
+    <!-- Period 3 -->
+    <div class="period-card card-3">
+      <span class="card-dot" aria-hidden="true"></span>
+      <div class="card-period-label">Crisis y reestructuración</div>
+      <div class="card-dates">1944 – 1963</div>
+      <span class="card-tag">Deslocalización</span>
+
+      <div class="card-section-title">Hitos clave</div>
+      <div class="card-body">
+        <ul>
+          <li>Cierre progresivo de fábricas (1949–1963): Villa Guillermina, Tartagal, etc.</li>
+          <li>Empresa exige concesiones para prolongar industria condenada</li>
+          <li>Desmantelamiento definitivo (1964); éxodo social traumático</li>
+          <li>Comisión investigadora de Acevedo (1963): «capital colonialista», «tierra arrasada»</li>
+          <li>Gori (1965): «tragedia del quebracho»; Walsh: «ciudades fantasmas»</li>
+        </ul>
+      </div>
+
+      <div class="card-section-title">Violencia dominante</div>
+      <span class="card-violence-tag">Violencia silente — devastación ecológica; delito económico-político; tierra arrasada</span>
+    </div>
+
+  </div>
+
+  <div class="viz-footer">
+    Fuente: Jasinski, <em>El encanto del tanino</em> (2023), siguiendo periodización de Iñigo Carrera (2011)
+  </div>
+
+</div>
+
+<!-- Inline palette validator (logs CVD report to console) -->
+<script type="module">
+  import { validate } from '/private/tmp/claude-501/bundled-skills/2.1.207/eb0195cfab3e4fc82d2ddbed313506ef/dataviz/scripts/validate_palette.js';
+  const el = document.querySelector('.viz-root');
+  const hexes = el.dataset.palette.split(',');
+  try { console.table(validate(hexes, { mode: 'light', surface: '#fcfcfb' })); }
+  catch(e) { console.log('Palette validator not available inline — already validated externally'); }
+</script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 {
   "env": {
-    "ANTHROPIC_AUTH_TOKEN": "sk-9e7573681aeb4558a74859d7fa2b84d0",
+    "ANTHROPIC_API_KEY": "sk-9e7573681aeb4558a74859d7fa2b84d0",
+    "ANTHROPIC_AUTH_TOKEN": "",
     "ANTHROPIC_BASE_URL": "https://dashscope.aliyuncs.com/apps/anthropic",
     "API_TIMEOUT_MS": "3000000",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-5.1",
@@ -31,7 +32,7 @@
       "WebFetch(domain:sonidogremial.com.ar)",
       "WebFetch(domain:www.laizquierdadiario.com)",
       "Bash(python3)",
-      "Bash(open \"/Users/eljaso/Workspace/projects/ecosistema-hornero/hornero-capa2/Hornero Integrada — standalone WhatsApp.html\")"
+      "Bash(open \"/Users/eljaso/Workspace/projects/ecosistema-hornero/hornero-capa2/Hornero Integrada \u2014 standalone WhatsApp.html\")"
     ],
     "ask": []
   },

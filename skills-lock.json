@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "pomasa": {
+      "source": "extremeprogramming-cn/pomasa",
+      "sourceType": "github",
+      "skillPath": "skills/pomasa/SKILL.md",
+      "computedHash": "fcd4704defff7d5e0f5f24cf9b100945283835f439fd24fb4b70a1a29dba5399"
+    }
+  }
+}
