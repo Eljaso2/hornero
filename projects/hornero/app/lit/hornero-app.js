@@ -77,12 +77,9 @@ class HorneroApp extends HoComponent {
       @media(max-width:499px){
         .app-wrap { min-height: 100vh; }
         .phone { width: 100%; min-height: 100vh; }
-        .screen { background: var(--ho-bg, #F4F3EE); display: flex;
+        .screen { background: var(--ho-dark, #33312D); display: flex;
           flex-direction: column; position: relative;
-          height: 100dvh; overflow: hidden;
-          /* Safe area padding — flush against phone edges */
-          padding-top: env(safe-area-inset-top, 0px);
-          padding-bottom: env(safe-area-inset-bottom, 0px); }
+          height: 100dvh; overflow: hidden; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
       }
@@ -93,7 +90,8 @@ class HorneroApp extends HoComponent {
       /* ===== Top bar — app name + section title, centered ===== */
       .top-bar { background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
         padding: 9px 16px 13px; display: flex; align-items: center;
-        position: relative; flex: none; }
+        position: relative; flex: none;
+        padding-top: calc(9px + env(safe-area-inset-top, 0px)); }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC);
         border: none; display: flex; align-items: center; justify-content: center;
@@ -110,10 +108,10 @@ class HorneroApp extends HoComponent {
         scrollbar-width: none; }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
-      /* ===== Bottom nav — 6 buttons, in flex flow, thicker strokes ===== */
+      /* ===== Bottom nav — 6 buttons, covers safe area bottom ===== */
       .bottom-nav { background: var(--ho-dark, #33312D);
         display: flex; justify-content: space-around;
-        padding: 6px 0 12px; flex: none;
+        padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
         width: 100%; z-index: 100; }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
