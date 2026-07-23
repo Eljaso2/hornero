@@ -48,13 +48,13 @@ function goISReport(role, step) {
 function setRole(r) {
   state.isRole = r;
   state.isStep = 0;
-  renderIS();
+  if (typeof renderIS === 'function') renderIS();
   saveState();
 }
 
 function setStep(i) {
   state.isStep = i;
-  renderIS();
+  if (typeof renderIS === 'function') renderIS();
   saveState();
 }
 
@@ -94,42 +94,45 @@ function render() {
   // Bottom nav
   renderNav();
 
-  // IS dynamic content
-  if (state.screen === 'is') { isChatInit(); renderIS(); }
+  // IS dynamic content (safe call — module may not exist yet)
+  if (state.screen === 'is') {
+    if (typeof isChatInit === 'function') isChatInit();
+    if (typeof renderIS === 'function') renderIS();
+  }
 
-  // Module-specific inits
+  // Module-specific inits (safe calls — modules may not exist yet)
   if (state.screen === 'chatderecho' && !state.chatStarted) {
     state.chatStarted = true;
-    chatReset();
-    setTimeout(function() { chatRunStep(0); }, 1200);
+    if (typeof chatReset === 'function') chatReset();
+    setTimeout(function() { if (typeof chatRunStep === 'function') chatRunStep(0); }, 1200);
   }
   if (state.screen === 'documentacion' && !state.derInitStarted) {
     state.derInitStarted = true; state.derInitStep = 0;
-    derInitRunStep();
+    if (typeof derInitRunStep === 'function') derInitRunStep();
   }
   if (state.screen === 'argumento' && !state.argInitStarted) {
     state.argInitStarted = true; state.argInitStep = 0;
-    argInitRunStep();
+    if (typeof argInitRunStep === 'function') argInitRunStep();
   }
   if (state.screen === 'argumentoChat' && !state.argStarted) {
     state.argStarted = true; state.argStep = 0;
-    argChatRunStep(0);
+    if (typeof argChatRunStep === 'function') argChatRunStep(0);
   }
   if (state.screen === 've' && !state.veInitStarted) {
     state.veInitStarted = true; state.veInitStep = 0;
-    veInitRunStep();
+    if (typeof veInitRunStep === 'function') veInitRunStep();
   }
   if (state.screen === 'veChat' && !state.veStarted) {
     state.veStarted = true; state.veStep = 0;
-    veChatRunStep(0);
+    if (typeof veChatRunStep === 'function') veChatRunStep(0);
   }
   if (state.screen === 'comunicador' && !state.comInitStarted) {
     state.comInitStarted = true; state.comInitStep = 0;
-    comInitRunStep();
+    if (typeof comInitRunStep === 'function') comInitRunStep();
   }
   if (state.screen === 'comunicadorChat' && !state.comStarted) {
     state.comStarted = true; state.comStep = 0;
-    comRunStep(0);
+    if (typeof comRunStep === 'function') comRunStep(0);
   }
 }
 

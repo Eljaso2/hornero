@@ -1,10 +1,15 @@
 // Hornero PWA — Service Worker v2
 // Cachea app modular + data para funcionamiento offline
 
-var CACHE_NAME = 'hornero-v2';
+var CACHE_NAME = 'hornero-v3';
 var ASSETS = [
   './index.html',
   './css/hornero.css',
+  './js/state.js',
+  './js/db.js',
+  './js/navigation.js',
+  './js/data-loader.js',
+  './data/is-piloto-aceitero.json',
   './assets/manifest.json',
   './assets/hornero-icon-192.png',
   './assets/hornero-icon-512.png',

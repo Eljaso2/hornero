@@ -77,6 +77,25 @@ function loadAllData() {
 function seedData(jsonData) {
   if (!jsonData || !db) return Promise.resolve();
 
+  // Version check: skip seeding if data already exists with same version
+  var dataVersion = jsonData.meta && jsonData.meta.version;
+  if (dataVersion) {
+    return dbGet('uiState', 'seeded-version-' + dataVersion).then(function(existing) {
+      if (existing) {
+        console.log('Data already seeded (version ' + dataVersion + '), skipping');
+        return Promise.resolve();
+      }
+      return doSeed(jsonData, dataVersion);
+    }).catch(function() {
+      // If uiState lookup fails, proceed with seeding anyway
+      return doSeed(jsonData, dataVersion);
+    });
+  }
+  // No version in data — seed regardless
+  return doSeed(jsonData, null);
+}
+
+function doSeed(jsonData, dataVersion) {
   var promises = [];
 
   // Seed fuentes primarias
@@ -100,8 +119,18 @@ function seedData(jsonData) {
     });
   }
 
+  // Seed sector data (NEW: previously lost after JSON loading)
+  if (jsonData.sector) {
+    var sectorRecord = Object.assign({ id: jsonData.sector.federacion || 'default-sector' }, jsonData.sector);
+    promises.push(guardarSector(sectorRecord));
+  }
+
   return Promise.all(promises).then(function() {
-    console.log('Data seeded: ' + promises.length + ' records');
+    // Mark seeding as complete for this version
+    if (dataVersion) {
+      dbPut('uiState', { key: 'seeded-version-' + dataVersion, value: 'done' });
+    }
+    console.log('Data seeded: ' + promises.length + ' records (version ' + (dataVersion || 'unknown') + ')');
   });
 }
 

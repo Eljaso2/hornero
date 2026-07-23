@@ -4,7 +4,7 @@
 
 var HORNERO_DB = {
   name: 'hornero-app',
-  version: 1,
+  version: 2,
   stores: {
     // Cargas: input del trabajador (voz/texto/foto) antes de procesar
     cargas: { keyPath: 'id', indexes: [
@@ -45,7 +45,22 @@ var HORNERO_DB = {
       { name: 'estado', keyPath: 'estado' } // 'pendiente','sincronizado','error'
     ]},
     // UI state: replaces localStorage persistence
-    uiState: { keyPath: 'key' }
+    uiState: { keyPath: 'key' },
+    // Sectores: federación, CCT, empresas, territorios
+    sectores: { keyPath: 'id', indexes: [
+      { name: 'federacion', keyPath: 'federacion' },
+      { name: 'cct', keyPath: 'cct' }
+    ]},
+    // Usuarios: grade, territory, sindicato
+    usuarios: { keyPath: 'id', indexes: [
+      { name: 'grade', keyPath: 'grade' },
+      { name: 'territorio', keyPath: 'territorio' }
+    ]},
+    // Convenios: CCT data, cláusulas, paritarias
+    convenios: { keyPath: 'id', indexes: [
+      { name: 'cctNumero', keyPath: 'cctNumero' },
+      { name: 'rama', keyPath: 'rama' }
+    ]}
   }
 };
 
@@ -133,6 +148,22 @@ function dbDelete(storeName, key) {
 }
 
 // ===== Specific Functions =====
+
+// Sectores (federación/CCT metadata)
+function guardarSector(sector) { return dbPut('sectores', sector); }
+function obtenerSector(id) { return dbGet('sectores', id); }
+function obtenerSectoresPorFederacion(federacion) { return dbGetByIndex('sectores', 'federacion', federacion); }
+
+// Usuarios (grade system)
+function guardarUsuario(usuario) { return dbPut('usuarios', usuario); }
+function obtenerUsuario(id) { return dbGet('usuarios', id); }
+function obtenerUsuariosPorGrade(grade) { return dbGetByIndex('usuarios', 'grade', grade); }
+
+// Convenios (CCT data)
+function guardarConvenio(convenio) { return dbPut('convenios', convenio); }
+function obtenerConvenio(id) { return dbGet('convenios', id); }
+function obtenerConveniosPorNumero(cctNumero) { return dbGetByIndex('convenios', 'cctNumero', cctNumero); }
+function obtenerConveniosPorRama(rama) { return dbGetByIndex('convenios', 'rama', rama); }
 
 // Cargas (worker input)
 function guardarCarga(carga) { return dbPut('cargas', carga); }
