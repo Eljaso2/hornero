@@ -74,7 +74,8 @@ class HorneroApp extends HoComponent {
         .app-wrap { min-height: 100vh; }
         .phone { width: 100%; min-height: 100vh; }
         .screen { background: var(--ho-bg, #F4F3EE); display: flex;
-          flex-direction: column; position: relative; height: 100vh; overflow: hidden; }
+          flex-direction: column; position: relative;
+          height: 100dvh; overflow: hidden; }
       }
 
       /* ===== Animations ===== */
@@ -97,22 +98,23 @@ class HorneroApp extends HoComponent {
 
       /* ===== Body scroll ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; padding-bottom: 50px; }
+        scrollbar-width: none; }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
-      /* ===== Bottom nav — 6 buttons, centered, thicker strokes ===== */
+      /* ===== Bottom nav — 6 buttons, in flex flow, thicker strokes ===== */
       .bottom-nav { background: var(--ho-dark, #33312D);
-        display: flex; justify-content: center;
+        display: flex; justify-content: space-around;
         padding: 6px 0 12px; flex: none;
-        position: absolute; bottom: 0; left: 0; width: 100%; z-index: 100; }
+        width: 100%; z-index: 100; }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
-        padding: 4px 12px; font-family: 'Archivo', sans-serif;
-        transition: opacity .2s; }
-      .nav-btn svg { width: 22px; height: 22px; stroke: #9C988D;
+        padding: 4px 0; font-family: 'Archivo', sans-serif;
+        transition: opacity .2s; flex: 1; min-width: 0; }
+      .nav-btn svg { width: 20px; height: 20px; stroke: #9C988D;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .nav-btn.active svg { stroke: #FBFAF6; stroke-width: 2.6; }
-      .nav-btn .label { font-size: .58rem; font-weight: 600; color: #9C988D; }
+      .nav-btn .label { font-size: .56rem; font-weight: 600; color: #9C988D;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #FBFAF6; }
 
       /* ===== Status bar (phone mockup) ===== */
