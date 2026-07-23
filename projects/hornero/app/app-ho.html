@@ -46,9 +46,9 @@
         console.warn('Init error (app still works):', err);
       });
 
-    // Register service worker
+    // Register service worker (must be at root for full scope)
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('assets/service-worker.js');
+      navigator.serviceWorker.register('./service-worker.js', { scope: './' });
     }
   </script>
 
