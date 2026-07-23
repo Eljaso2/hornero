@@ -91,7 +91,8 @@ class HorneroApp extends HoComponent {
         ${this.screen === 'is' ? '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>' : ''}
         ${this.screen === 'novedades' ? '<hornero-coyuntura grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-coyuntura>' : ''}
         ${this.screen === 'ecosistema' ? '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>' : ''}
-        ${this.screen !== 'home' && this.screen !== 'is' && this.screen !== 'novedades' && this.screen !== 'ecosistema' ? '<div style="padding:20px;text-align:center;color:#9C988D">Sección ' + currentTitle + ' — pendiente</div>' : ''}
+        ${this.screen === 'condicion' ? '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>' : ''}
+        ${this.screen !== 'home' && this.screen !== 'is' && this.screen !== 'novedades' && this.screen !== 'ecosistema' && this.screen !== 'condicion' ? '<div style="padding:20px;text-align:center;color:#9C988D">Sección ' + currentTitle + ' — pendiente</div>' : ''}
       </div>
 
       <div class="bottom-nav">

@@ -23,4 +23,7 @@ import './hornero-chat.js';
 // Ecosistema: <hornero-ecosistema> — Qué es Hornero, Xiong, cadena de valor
 import './hornero-ecosistema.js';
 
+// Condición obrera: <hornero-condicion> — wrapper CE · IFT · Cómo Somos · SMVM
+import './hornero-condicion.js';
+
 export { HoComponent, html, css };
