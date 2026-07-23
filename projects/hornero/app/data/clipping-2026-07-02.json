@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "version": "2026-07-02-v1",
+    "tipo": "clipping-diario",
+    "fecha": "2026-07-02",
+    "frecuencia": "diario",
+    "numero": 4,
+    "fuentes": ["Sonido Gremial", "InfoGremiales", "La Izquierda Diario"]
+  },
+  "noticias": [
+    {
+      "id": "cd-2026-07-02-1",
+      "fecha": "2026-07-02",
+      "violencia": "VD+VC",
+      "tags": ["paritaria", "aceitera", "conflicto-salarial"],
+      "emoji": "🤝",
+      "titulo": "Paritaria aceitera: cierre con básico $2,7M — patronal arrancó con 0%",
+      "bajada": "Federación Aceitera cerró paritaria: básico sube a $2.719.040. Yofra: \"cada vez quieren conflicto, el ofrecimiento es cero.\"",
+      "fuente": "Sonido Gremial — 30/06/2026"
+    },
+    {
+      "id": "cd-2026-07-02-2",
+      "fecha": "2026-07-02",
+      "violencia": "VD+VC",
+      "tags": ["CONICET", "despidos", "ciencia", "ajuste"],
+      "emoji": "🔬",
+      "titulo": "CONICET: 379 becarios posdoctorales en riesgo — ATE movilizó al Polo Científico",
+      "bajada": "379 becarios en riesgo de desvinculación. Obra social cancelada sin aviso. García: \"Están preparando el cartel de venta.\"",
+      "fuente": "InfoGremiales — 01/07/2026"
+    },
+    {
+      "id": "cd-2026-07-02-3",
+      "fecha": "2026-07-02",
+      "violencia": "VD+VC",
+      "tags": ["militarización", "INTI", "CNEA", "INTA", "despidos"],
+      "emoji": "🏛️",
+      "titulo": "Desguace militarizado: Gendarmería en INTI, CNEA reducida 57%, INTA 897 expulsados",
+      "bajada": "Gendarmería en INTI, director CNEA escoltado. INTA: \"todo un éxito\" celebrando sangría de recursos. Localidades sin personal.",
+      "fuente": "La Izquierda Diario, InfoGremiales — 30/06-02/07"
+    },
+    {
+      "id": "cd-2026-07-02-4",
+      "fecha": "2026-07-02",
+      "violencia": "VD+VC",
+      "tags": ["lácteos", "Verónica", "lockout", "vaciamiento"],
+      "emoji": "🥛",
+      "titulo": "Lácteos Verónica: 700 trabajadores sin salario — familia Espiñeira creó 3 empresas mientras dejaba de pagar",
+      "bajada": "5 meses de parálisis, 3 salarios adeudados. Espiñeira creó Kawsay SA, Agro Prada, Grandal. Strada: \"vaciamiento deliberado.\"",
+      "fuente": "InfoGremiales — 01-02/07/2026"
+    },
+    {
+      "id": "cd-2026-07-02-5",
+      "fecha": "2026-07-02",
+      "violencia": "VC",
+      "tags": ["Yofra", "violencia-cultural", "paritaria", "reforma-laboral"],
+      "emoji": "🗣️",
+      "titulo": "Yofra: \"La propuesta fue cero\" — violencia cultural patronal en la paritaria aceitera",
+      "bajada": "0% para forzar conflicto y negociar desde debilidad obrera. Articulación entre presión patronal y reforma laboral que limita huelga.",
+      "fuente": "Sonido Gremial — 19-30/06/2026"
+    }
+  ]
+}
