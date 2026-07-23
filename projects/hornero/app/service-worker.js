@@ -1,7 +1,9 @@
-// Hornero PWA — Service Worker v4
-// Cachea HoComponent app + data para funcionamiento offline
+// Hornero PWA — Service Worker v5
+// Install: cachea assets core (sin Google Fonts — se cachean dinámico)
+// Fetch: cache-first, offline-first
+// Resilient install: cada asset individual, un fallo no mata todo
 
-var CACHE_NAME = 'hornero-v4';
+var CACHE_NAME = 'hornero-v5';
 var ASSETS = [
   './app-ho.html',
   './css/hornero.css',
@@ -21,23 +23,29 @@ var ASSETS = [
   './lit/hornero-chat.js',
   './lit/hornero-ecosistema.js',
   './lit/hornero-condicion.js',
-  './assets/manifest.json',
+  './manifest.json',
   './assets/hornero-icon-192.png',
   './assets/hornero-icon-512.png',
-  'https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap'
+  './assets/hornero-icon.svg'
 ];
 
-// Install: cache all assets
+// Install: cache core assets individually (resilient — skip failures)
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(ASSETS);
+      return Promise.allSettled(
+        ASSETS.map(function(url) {
+          return cache.add(url).catch(function(err) {
+            console.warn('SW: failed to cache', url, err);
+          });
+        })
+      );
     })
   );
   self.skipWaiting();
 });
 
-// Activate: clean old caches
+// Activate: clean old caches + take control immediately
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
@@ -56,7 +64,7 @@ self.addEventListener('fetch', function(event) {
     caches.match(event.request).then(function(cached) {
       if (cached) return cached;
       return fetch(event.request).then(function(response) {
-        // Cache new requests dynamically
+        // Cache successful responses dynamically (fonts, etc.)
         if (response && response.status === 200) {
           var responseClone = response.clone();
           caches.open(CACHE_NAME).then(function(cache) {
@@ -65,7 +73,7 @@ self.addEventListener('fetch', function(event) {
         }
         return response;
       }).catch(function() {
-        // Fallback: return cached app for navigation requests
+        // Fallback for navigation: return cached app shell
         if (event.request.mode === 'navigate') {
           return caches.match('./app-ho.html');
         }
