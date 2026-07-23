@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Hornero — App Web Components</title>
+  <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
+  <link rel="manifest" href="assets/manifest.json">
+  <link rel="icon" href="assets/hornero-icon.svg">
+  <meta name="theme-color" content="#6E8345">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+
+  <!-- Global CSS variables (used by all components) -->
+  <link rel="stylesheet" href="css/hornero.css">
+
+  <!-- IndexedDB (shared between vanilla and HoComponent) -->
+  <script src="js/db.js"></script>
+  <!-- Data loader (seeds IndexedDB from JSON) -->
+  <script src="js/data-loader.js"></script>
+</head>
+<body>
+  <!-- HoComponent app shell -->
+  <hornero-app></hornero-app>
+
+  <!-- Init: IndexedDB → seed data → register SW -->
+  <script>
+    initDB()
+      .then(function() { return loadAllData(); })
+      .then(function(results) {
+        var pilotoData = results && results['is-piloto-aceitero.json'];
+        if (pilotoData) return seedData(pilotoData);
+      })
+      .catch(function(err) {
+        console.warn('Init error (app still works):', err);
+      });
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('assets/service-worker.js');
+    }
+  </script>
+
+  <!-- Load HoComponent Web Components (ES module) -->
+  <script type="module" src="lit/hornero-components.js"></script>
+</body>
+</html>
