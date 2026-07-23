@@ -20,4 +20,7 @@ import './hornero-coyuntura.js';
 // Chat: <hornero-chat> — Motor de chat reutilizable (typing, bubbles, input, progress)
 import './hornero-chat.js';
 
+// Ecosistema: <hornero-ecosistema> — Qué es Hornero, Xiong, cadena de valor
+import './hornero-ecosistema.js';
+
 export { HoComponent, html, css };
