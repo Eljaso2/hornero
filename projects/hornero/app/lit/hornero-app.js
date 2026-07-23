@@ -25,18 +25,18 @@ class HorneroApp extends HoComponent {
     this.navDef = [
       { id: 'home', icon: '🪶', label: 'Inicio' },
       { id: 'is', icon: '✍️', label: 'Reporte' },
+      { id: 'actualidad', icon: '📰', label: 'Actualidad' },
       { id: 'condicion', icon: '📊', label: 'Panorama' },
-      { id: 'documentacion', icon: '✊', label: 'Lucha' },
       { id: 'ecosistema', icon: '🌿', label: 'Eco' },
     ];
 
     this.titles = {
       home: 'Inicio',
       is: 'Reporte gremial',
+      actualidad: 'Actualidad',
       condicion: 'Condición obrera',
       documentacion: 'Documentación',
       ecosistema: 'Ecosistema Hornero',
-      novedades: 'Coyuntura',
       smvm: 'SMVM',
       felicidad: 'Felicidad Laboral',
       ve: 'Comportamiento Empresarial',
@@ -131,10 +131,10 @@ class HorneroApp extends HoComponent {
             <div class="body-scroll">
               ${this.screen === 'home' ? '<hornero-home grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-home>' : ''}
               ${this.screen === 'is' ? '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>' : ''}
-              ${this.screen === 'novedades' ? '<hornero-coyuntura grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-coyuntura>' : ''}
+              ${this.screen === 'actualidad' ? '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>' : ''}
               ${this.screen === 'ecosistema' ? '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>' : ''}
               ${this.screen === 'condicion' ? '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>' : ''}
-              ${this.screen !== 'home' && this.screen !== 'is' && this.screen !== 'novedades' && this.screen !== 'ecosistema' && this.screen !== 'condicion' ? '<div style="padding:20px;text-align:center;color:#9C988D">Sección ' + currentTitle + ' — pendiente</div>' : ''}
+              ${this.screen !== 'home' && this.screen !== 'is' && this.screen !== 'actualidad' && this.screen !== 'ecosistema' && this.screen !== 'condicion' ? '<div style="padding:20px;text-align:center;color:#9C988D">Sección ' + currentTitle + ' — pendiente</div>' : ''}
             </div>
 
             <div class="bottom-nav">

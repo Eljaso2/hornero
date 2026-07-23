@@ -58,11 +58,11 @@ class HorneroHome extends HoComponent {
         <span class="tag">${this.sector}</span>
       </div>
 
-      <div class="card" data-screen="novedades">
-        <div class="kicker">📰 Coyuntura</div>
-        <div class="card-title">Clipping semanal</div>
-        <div class="card-desc">Noticias laborales procesadas, clasificadas y contextualizadas</div>
-        <span class="tag">semana actual</span>
+      <div class="card" data-screen="actualidad">
+        <div class="kicker">📰 Actualidad</div>
+        <div class="card-title">Clipping · Mate · Situación sindical</div>
+        <div class="card-desc">Noticias diarias, informe mensual Mate, reporte sindical (si la federación aprueba)</div>
+        <span class="tag">diario · mensual · grade 4</span>
       </div>
 
       <div class="card" data-screen="condicion">

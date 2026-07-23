@@ -14,8 +14,11 @@ import './hornero-home.js';
 // IS: <hornero-is> — Inteligencia Sindical, roles, observaciones, informes
 import './hornero-is.js';
 
-// Coyuntura: <hornero-coyuntura> — Clipping semanal, cards, filter
+// Coyuntura: <hornero-coyuntura> — legacy, kept as backup
 import './hornero-coyuntura.js';
+
+// Actualidad: <hornero-actualidad> — Clipping diario + Mate mensual + Situación sindical
+import './hornero-actualidad.js';
 
 // Chat: <hornero-chat> — Motor de chat reutilizable (typing, bubbles, input, progress)
 import './hornero-chat.js';
