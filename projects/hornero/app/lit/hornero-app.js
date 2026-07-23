@@ -80,38 +80,39 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar ===== */
+      /* ===== Top bar — app name + section title, centered ===== */
       .top-bar { background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
-        padding: 9px 16px 13px; display: flex; align-items: center; gap: 11px; flex: none; }
-      .top-bar button { width: 32px; height: 32px; border-radius: 50%;
+        padding: 9px 16px 13px; display: flex; align-items: center;
+        position: relative; flex: none; }
+      .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC);
         border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; flex: none; }
-      .top-bar .title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: 1.02rem; flex: 1; }
-      .top-bar .avatar { width: 26px; height: 26px; border-radius: 50%;
-        background: var(--ho-green-light, #94A867);
-        display: flex; align-items: center; justify-content: center; flex: none; }
+        cursor: pointer; flex: none; position: absolute; left: 16px; }
+      .top-bar .titles { display: flex; flex-direction: column; align-items: center;
+        justify-content: center; width: 100%; }
+      .top-bar .app-name { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; }
+      .top-bar .section-name { font-family: 'Archivo', sans-serif; font-weight: 600;
+        font-size: .68rem; color: var(--ho-green-light, #94A867); margin-top: 2px; }
 
       /* ===== Body scroll ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
         scrollbar-width: none; padding-bottom: 50px; }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
-      /* ===== Bottom nav — 8 buttons, tighter spacing, thicker strokes ===== */
+      /* ===== Bottom nav — 6 buttons, centered, thicker strokes ===== */
       .bottom-nav { background: var(--ho-dark, #33312D);
-        display: flex; justify-content: space-between;
-        padding: 6px 4px 12px; flex: none;
+        display: flex; justify-content: center;
+        padding: 6px 0 12px; flex: none;
         position: absolute; bottom: 0; left: 0; width: 100%; z-index: 100; }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
-        padding: 4px 6px; font-family: 'Archivo', sans-serif;
-        transition: opacity .2s; flex: 1; min-width: 0; }
+        padding: 4px 12px; font-family: 'Archivo', sans-serif;
+        transition: opacity .2s; }
       .nav-btn svg { width: 22px; height: 22px; stroke: #9C988D;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .nav-btn.active svg { stroke: #FBFAF6; stroke-width: 2.6; }
-      .nav-btn .label { font-size: .58rem; font-weight: 600; color: #9C988D;
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+      .nav-btn .label { font-size: .58rem; font-weight: 600; color: #9C988D; }
       .nav-btn.active .label { color: #FBFAF6; }
 
       /* ===== Status bar (phone mockup) ===== */
@@ -139,7 +140,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'condicion') {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
     } else {
-      // Placeholder for screens not yet implemented (consulta, formacion, archivo, perfil)
+      // Placeholder for screens not yet implemented
       screenContent = '<div style="padding:40px 20px;text-align:center;color:#9C988D;font-family:Archivo,sans-serif">' +
         '<div style="font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px">🏗️ EN CONSTRUCCIÓN</div>' +
         '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">' + currentTitle + '</div>' +
@@ -158,10 +159,11 @@ class HorneroApp extends HoComponent {
             </div>
 
             <div class="top-bar">
-              <button title="Inicio">🪶</button>
-              ${showBack ? '<button title="Volver">←</button>' : ''}
-              <span class="title">${currentTitle}</span>
-              <div class="avatar"><div style="width:11px;height:11px;border-radius:50% 50% 50% 2px;background:#45433E"></div></div>
+              ${showBack ? '<button class="back-btn" title="Volver">←</button>' : ''}
+              <div class="titles">
+                <span class="app-name">HORNERO</span>
+                <span class="section-name">${currentTitle}</span>
+              </div>
             </div>
 
             <div class="body-scroll">
@@ -188,10 +190,9 @@ class HorneroApp extends HoComponent {
         this.set('screen', btn.dataset.screen);
       });
     });
-    // Bind top bar buttons
-    const topBtns = this.shadowRoot.querySelectorAll('.top-bar button');
-    if (topBtns[0]) topBtns[0].addEventListener('click', () => this.set('screen', 'home'));
-    if (topBtns[1]) topBtns[1].addEventListener('click', () => this.set('screen', 'home'));
+    // Bind back button
+    const backBtn = this.shadowRoot.querySelector('.back-btn');
+    if (backBtn) backBtn.addEventListener('click', () => this.set('screen', 'home'));
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
       this.set('screen', e.detail.screen);
