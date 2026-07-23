@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "version": "2026-05-v1",
+    "tipo": "mate",
+    "mes": "2026-05",
+    "fuente": "MATE — Mirador de la Actualidad del Trabajo y la Economía",
+    "urlInforme": "https://mateconomia.com.ar/infomate"
+  },
+  "datosMacro": {
+    "inflacionOficial": "3.4% mensual",
+    "inflacionObrera": "760% anual servicios básicos",
+    "smvm": "$2.344.000",
+    "salarioMedioRegistrado": "$900.000",
+    "canastaBasicaTotal": "$1.800.000",
+    "empleoTotal": "18.5M",
+    "ejercitoActivo": "13.2M (71%)",
+    "reservaFlotante": "2.4M (13%)",
+    "reservaLatente": "1.5M (8%)",
+    "pauperizacion": "1.4M (8%)"
+  },
+  "secciones": [
+    {
+      "titulo": "Inflación",
+      "bajada": "334% general acumulado vs 760% servicios básicos. Inflación obrera real duplica la oficial.",
+      "datos": ["INDEC: 3.4% mensual", "Servicios básicos: +760% anual", "Canasta obrera: +$1.800.000"]
+    },
+    {
+      "titulo": "Salario",
+      "bajada": "Salario medio registrado $900K. Brecha de género 29.1%. SMVM no cubre canasta básica.",
+      "datos": ["SMVM: $2.344.000", "Medio registrado: $900.000", "Brecha género: 29.1%"]
+    },
+    {
+      "titulo": "Transferencia y ganancias",
+      "bajada": "18 privatizadas +55% profits. Mindlin, Vila-Manzano, Eurnekian concentran ganancias mientras despiden.",
+      "datos": ["18 privatizadas: +55% profits", "Mindlin grupo: +$2.1B", "Vila-Manzano: +$1.8B"]
+    },
+    {
+      "titulo": "Empleo",
+      "bajada": "Ejército activo 13.2M (71%). Reserva flotante 2.4M. Informalidad crece. 26.500 empresas cerradas.",
+      "datos": ["Total: 18.5M", "Activo: 13.2M (71%)", "Flotante: 2.4M (13%)", "Pauperización: 1.4M (8%)"]
+    },
+    {
+      "titulo": "Ajuste",
+      "bajada": "Vaciamiento del Estado: CONICET, CNEA, INTI, INTA bajo ataque. Milei-Caputo-Petri-Bullrich desguace coordinado.",
+      "datos": ["CONICET: 379 becarios en riesgo", "CNEA: -57.8%", "INTA: 897 expulsados", "Gendarmería en INTI"]
+    }
+  ],
+  "routing": { "n9": true, "n6": true, "n11": true }
+}
