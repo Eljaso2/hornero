@@ -1,5 +1,5 @@
 // ===== <hornero-home> — Pantalla inicio =====
-// Cards de entry points, grade badge, sector tag
+// Cards de entry points a las 6 esferas, grade badge, sector tag
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -21,11 +21,6 @@ class HorneroHome extends HoComponent {
   _styles() {
     return css`
       :host { display: block; padding: 16px; }
-      .card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 13px; padding: 14px; margin-bottom: 10px;
-        cursor: pointer; transition: border-color .2s; }
-      .card:hover { border-color: var(--ho-green, #6E8345); }
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); margin-bottom: 6px; }
@@ -39,6 +34,20 @@ class HorneroHome extends HoComponent {
       .grade-badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; padding: 2px 8px; border-radius: 5px; float: right;
         background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC); }
+
+      .card { background: var(--ho-card, #FBFAF6);
+        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        border-radius: 13px; padding: 14px; margin-bottom: 10px;
+        cursor: pointer; transition: border-color .2s; }
+      .card:hover { border-color: var(--ho-green, #6E8345); }
+
+      /* Color accents per esfera */
+      .card-actualidad { border-left: 3px solid #6E8345; }
+      .card-consulta { border-left: 3px solid #94A867; }
+      .card-formacion { border-left: 3px solid #586B33; }
+      .card-reporte { border-left: 3px solid #B0863F; }
+      .card-panorama { border-left: 3px solid #45433E; }
+      .card-archivo { border-left: 3px solid #9C988D; }
     `;
   }
 
@@ -50,26 +59,48 @@ class HorneroHome extends HoComponent {
                        this.grade === 'B.d' ? 'B.d — federación' : this.grade;
 
     return html`
-      <div class="card" data-screen="is">
-        <span class="grade-badge">${gradeLabel}</span>
-        <div class="kicker">✍️ Reporte gremial</div>
-        <div class="card-title">Inteligencia Sindical</div>
-        <div class="card-desc">Carga observaciones, consulta informes, seguimiento territorial</div>
-        <span class="tag">${this.sector}</span>
-      </div>
+      <span class="grade-badge">${gradeLabel}</span>
 
-      <div class="card" data-screen="actualidad">
-        <div class="kicker">📰 Actualidad</div>
-        <div class="card-title">Clipping · Mate · Situación sindical</div>
-        <div class="card-desc">Noticias diarias, informe mensual Mate, reporte sindical (si la federación aprueba)</div>
+      <div class="card card-actualidad" data-screen="actualidad">
+        <div class="kicker">📰 ESFERA 1</div>
+        <div class="card-title">Actualidad y agenda</div>
+        <div class="card-desc">Clipping diario, Mate mensual, situación sindical — noticias, eventos, convocatorias</div>
         <span class="tag">diario · mensual · grade 4</span>
       </div>
 
-      <div class="card" data-screen="condicion">
-        <div class="kicker">📊 Panorama</div>
-        <div class="card-title">Condición obrera</div>
-        <div class="card-desc">CE · IFT · Cómo Somos · SMVM — diagnóstico de la clase trabajadora</div>
-        <span class="tag">índices</span>
+      <div class="card card-consulta" data-screen="consulta">
+        <div class="kicker">💬 ESFERA 2</div>
+        <div class="card-title">Consulta y asesoramiento</div>
+        <div class="card-desc">Chat IA con sesgo sindical propio — convenio vivo, derechos, contexto</div>
+        <span class="tag">chat · RAG · sesgo deliberado</span>
+      </div>
+
+      <div class="card card-formacion" data-screen="formacion">
+        <div class="kicker">📖 ESFERA 3</div>
+        <div class="card-title">Formación política y sindical</div>
+        <div class="card-desc">Educación, cursos, materiales — formación vivida, no declarada</div>
+        <span class="tag">cursos · materiales · codiseño</span>
+      </div>
+
+      <div class="card card-reporte" data-screen="is">
+        <div class="kicker">✍️ ESFERA 4</div>
+        <div class="card-title">Gestión y comunicación interna</div>
+        <div class="card-desc">IS — carga observaciones, consulta informes, coordinación, circulares</div>
+        <span class="tag">${this.sector} · observaciones · informes</span>
+      </div>
+
+      <div class="card card-panorama" data-screen="condicion">
+        <div class="kicker">📊 ESFERA 5</div>
+        <div class="card-title">Diagnóstico y panorama</div>
+        <div class="card-desc">CE · IFT · Cómo Somos · SMVM — análisis de situación, contexto</div>
+        <span class="tag">índices · diagnóstico</span>
+      </div>
+
+      <div class="card card-archivo" data-screen="archivo">
+        <div class="kicker">🗄️ ESFERA 6</div>
+        <div class="card-title">Archivo</div>
+        <div class="card-desc">Repositorio documental, historia — convenios, estatutos, memoria sindical</div>
+        <span class="tag">documentos · historia · memoria</span>
       </div>
     `;
   }

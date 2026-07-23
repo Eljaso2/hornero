@@ -22,27 +22,38 @@ class HorneroApp extends HoComponent {
     this.userTerritory = '';
     this.userSector = 'aceitero';
 
+    // 8 nav buttons: las 6 esferas + Inicio + Perfil
     this.navDef = [
       { id: 'home', label: 'Inicio', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
+      { id: 'actualidad', label: 'Actualidad', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
+      { id: 'consulta', label: 'Consulta', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
+      { id: 'formacion', label: 'Formación', svg: '<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>' },
       { id: 'is', label: 'Reporte', svg: '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>' },
-      { id: 'actualidad', label: 'Actualidad', svg: '<path d="M2 3h6a4 4 0 014 0v6a4 4 0 01-4 0H2zM2 21h6a4 4 0 014 0v-6a4 4 0 00-4 0H2z"/><line x1="22" y2="12" x2="14" y1="12"/><line x2="12" y2="14" x1="22"/><line x2="12" y1="2" x2="22"/>' },
       { id: 'condicion', label: 'Panorama', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
-      { id: 'ecosistema', label: 'Eco', svg: '<path d="M3.05 21h18a2.5 2.5 0 002.45-3.45l-9-18a2.5 2.5 0 00-4.9 0l-9 18A2.5 2.5 0 003.05 21zM12 9v4m0 4h.01"/>' },
+      { id: 'archivo', label: 'Archivo', svg: '<path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>' },
+      { id: 'perfil', label: 'Perfil', svg: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
     ];
 
     this.titles = {
       home: 'Inicio',
-      is: 'Reporte gremial',
       actualidad: 'Actualidad',
-      condicion: 'Condición obrera',
-      documentacion: 'Documentación',
-      ecosistema: 'Ecosistema Hornero',
+      consulta: 'Consulta y asesoramiento',
+      formacion: 'Formación',
+      is: 'Reporte gremial',
+      condicion: 'Panorama',
+      archivo: 'Archivo',
+      perfil: 'Perfil',
+      // Subscreens
       smvm: 'SMVM',
       felicidad: 'Felicidad Laboral',
       ve: 'Comportamiento Empresarial',
+      ecosistema: 'Ecosistema Hornero',
       argumento: 'Argumento',
       comunicador: 'Comunicador',
     };
+
+    // Screens with implemented components
+    this.implementedScreens = ['home', 'is', 'actualidad', 'ecosistema', 'condicion'];
   }
 
   _styles() {
@@ -88,19 +99,20 @@ class HorneroApp extends HoComponent {
         scrollbar-width: none; padding-bottom: 50px; }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
-      /* ===== Bottom nav ===== */
+      /* ===== Bottom nav — 8 buttons, tighter spacing, thicker strokes ===== */
       .bottom-nav { background: var(--ho-dark, #33312D);
-        display: flex; justify-content: space-around;
-        padding: 8px 0 14px; flex: none;
+        display: flex; justify-content: space-between;
+        padding: 6px 4px 12px; flex: none;
         position: absolute; bottom: 0; left: 0; width: 100%; z-index: 100; }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
-        gap: 4px; background: none; border: none; cursor: pointer;
-        padding: 4px 10px; font-family: 'Archivo', sans-serif;
-        transition: opacity .2s; }
+        gap: 3px; background: none; border: none; cursor: pointer;
+        padding: 4px 6px; font-family: 'Archivo', sans-serif;
+        transition: opacity .2s; flex: 1; min-width: 0; }
       .nav-btn svg { width: 22px; height: 22px; stroke: #9C988D;
-        stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .nav-btn.active svg { stroke: #FBFAF6; stroke-width: 2; }
-      .nav-btn .label { font-size: .62rem; font-weight: 600; color: #9C988D; }
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .nav-btn.active svg { stroke: #FBFAF6; stroke-width: 2.6; }
+      .nav-btn .label { font-size: .58rem; font-weight: 600; color: #9C988D;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #FBFAF6; }
 
       /* ===== Status bar (phone mockup) ===== */
@@ -114,6 +126,27 @@ class HorneroApp extends HoComponent {
   _render() {
     const currentTitle = this.titles[this.screen] || 'Hornero';
     const showBack = this.screen !== 'home';
+
+    // Build screen content
+    let screenContent = '';
+    if (this.screen === 'home') {
+      screenContent = '<hornero-home grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-home>';
+    } else if (this.screen === 'is') {
+      screenContent = '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>';
+    } else if (this.screen === 'actualidad') {
+      screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>';
+    } else if (this.screen === 'ecosistema') {
+      screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
+    } else if (this.screen === 'condicion') {
+      screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
+    } else {
+      // Placeholder for screens not yet implemented (consulta, formacion, archivo, perfil)
+      screenContent = '<div style="padding:40px 20px;text-align:center;color:#9C988D;font-family:Archivo,sans-serif">' +
+        '<div style="font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px">🏗️ EN CONSTRUCCIÓN</div>' +
+        '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">' + currentTitle + '</div>' +
+        '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">Esta esfera se está desarrollando. Próximamente estará disponible.</div>' +
+        '</div>';
+    }
 
     return html`
       <div class="app-wrap">
@@ -133,12 +166,7 @@ class HorneroApp extends HoComponent {
             </div>
 
             <div class="body-scroll">
-              ${this.screen === 'home' ? '<hornero-home grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-home>' : ''}
-              ${this.screen === 'is' ? '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>' : ''}
-              ${this.screen === 'actualidad' ? '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>' : ''}
-              ${this.screen === 'ecosistema' ? '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>' : ''}
-              ${this.screen === 'condicion' ? '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>' : ''}
-              ${this.screen !== 'home' && this.screen !== 'is' && this.screen !== 'actualidad' && this.screen !== 'ecosistema' && this.screen !== 'condicion' ? '<div style="padding:20px;text-align:center;color:#9C988D">Sección ' + currentTitle + ' — pendiente</div>' : ''}
+              ${screenContent}
             </div>
 
             <div class="bottom-nav">

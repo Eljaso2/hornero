@@ -5,28 +5,32 @@
 // Core helper
 import { HoComponent, html, css } from './ho-component.js';
 
-// Shell: <hornero-app> — navigation, auth, state global
+// Shell: <hornero-app> — navigation, auth, state global, 8 nav buttons
 import './hornero-app.js';
 
-// Home: <hornero-home> — cards, novedades, entry points
+// Home: <hornero-home> — cards de entry points a las 6 esferas
 import './hornero-home.js';
 
-// IS: <hornero-is> — Inteligencia Sindical, roles, observaciones, informes
-import './hornero-is.js';
-
-// Coyuntura: <hornero-coyuntura> — legacy, kept as backup
-import './hornero-coyuntura.js';
-
-// Actualidad: <hornero-actualidad> — Clipping diario + Mate mensual + Situación sindical
+// ESFERA 1 — Actualidad y agenda
 import './hornero-actualidad.js';
 
-// Chat: <hornero-chat> — Motor de chat reutilizable (typing, bubbles, input, progress)
-import './hornero-chat.js';
+// ESFERA 2 — Consulta y asesoramiento (placeholder en hornero-app.js)
 
-// Ecosistema: <hornero-ecosistema> — Qué es Hornero, Xiong, cadena de valor
-import './hornero-ecosistema.js';
+// ESFERA 3 — Formación política y sindical (placeholder en hornero-app.js)
 
-// Condición obrera: <hornero-condicion> — wrapper CE · IFT · Cómo Somos · SMVM
+// ESFERA 4 — Gestión y comunicación interna
+import './hornero-is.js';
+
+// ESFERA 5 — Diagnóstico y panorama
 import './hornero-condicion.js';
+
+// ESFERA 6 — Archivo (placeholder en hornero-app.js)
+
+// Perfil (placeholder en hornero-app.js)
+
+// Sub-screens
+import './hornero-coyuntura.js';  // Clipping semanal (legacy, backup)
+import './hornero-chat.js';       // Motor de chat reutilizable
+import './hornero-ecosistema.js'; // Qué es Hornero, Xiong, cadena de valor
 
 export { HoComponent, html, css };
