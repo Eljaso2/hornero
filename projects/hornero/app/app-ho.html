@@ -75,15 +75,26 @@
         console.warn('Init error (app still works):', err);
       });
 
-    // Register service worker (must be at root for full scope)
+    // Register service worker — check for updates every 5 min
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+      navigator.serviceWorker.register('./service-worker.js', { scope: './', updateViaCache: 'none' })
         .then(function(reg) {
           console.log('SW registered:', reg.scope);
+          // Check for updates periodically (every 5 minutes)
+          setInterval(function() { reg.update(); }, 300000);
         })
         .catch(function(err) {
           console.warn('SW registration failed:', err);
         });
+
+      // Listen for SW update messages
+      navigator.serviceWorker.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'SW_UPDATE_AVAILABLE') {
+          // Show update banner in hornero-app component
+          var app = document.querySelector('hornero-app');
+          if (app) app.set('updateAvailable', true);
+        }
+      });
     }
 
     // PWA install prompt — capture beforeinstallprompt and show custom banner

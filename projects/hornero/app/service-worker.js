@@ -1,11 +1,11 @@
-// Hornero PWA — Service Worker v5
+// Hornero PWA — Service Worker v6
 // Install: cachea assets core (sin Google Fonts — se cachean dinámico)
-// Fetch: cache-first, offline-first
+// Fetch: cache-first, pero HTML siempre del network (para updates en tiempo real)
 // Resilient install: cada asset individual, un fallo no mata todo
+// Auto-update: notifica a la app cuando hay una nueva versión disponible
 
-var CACHE_NAME = 'hornero-v5';
+var CACHE_NAME = 'hornero-v6';
 var ASSETS = [
-  './app-ho.html',
   './css/hornero.css',
   './js/db.js',
   './js/data-loader.js',
@@ -45,7 +45,7 @@ self.addEventListener('install', function(event) {
   self.skipWaiting();
 });
 
-// Activate: clean old caches + take control immediately
+// Activate: clean old caches + take control + notify clients
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
@@ -53,18 +53,29 @@ self.addEventListener('activate', function(event) {
         keys.filter(function(k) { return k !== CACHE_NAME; })
              .map(function(k) { return caches.delete(k); })
       );
+    }).then(function() {
+      return self.clients.matchAll();
+    }).then(function(clients) {
+      clients.forEach(function(client) {
+        client.postMessage({ type: 'SW_UPDATE_AVAILABLE' });
+      });
     })
   );
   self.clients.claim();
 });
 
-// Fetch: cache-first strategy (offline-first)
+// Fetch strategy:
+// - HTML pages: network-first (always get latest for real-time updates)
+// - Static assets (JS, CSS, JSON): cache-first (fast, offline)
+// - Fonts/images: cache-first
 self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(cached) {
-      if (cached) return cached;
-      return fetch(event.request).then(function(response) {
-        // Cache successful responses dynamically (fonts, etc.)
+  var url = new URL(event.request.url);
+
+  // HTML pages: network-first for real-time updates
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('.html')) {
+    event.respondWith(
+      fetch(event.request).then(function(response) {
+        // Cache the latest HTML
         if (response && response.status === 200) {
           var responseClone = response.clone();
           caches.open(CACHE_NAME).then(function(cache) {
@@ -73,10 +84,27 @@ self.addEventListener('fetch', function(event) {
         }
         return response;
       }).catch(function() {
-        // Fallback for navigation: return cached app shell
-        if (event.request.mode === 'navigate') {
-          return caches.match('./app-ho.html');
+        // Offline fallback: return cached HTML
+        return caches.match(event.request).then(function(cached) {
+          return cached || caches.match('./app-ho.html');
+        });
+      })
+    );
+    return;
+  }
+
+  // Everything else: cache-first (fast + offline)
+  event.respondWith(
+    caches.match(event.request).then(function(cached) {
+      if (cached) return cached;
+      return fetch(event.request).then(function(response) {
+        if (response && response.status === 200) {
+          var responseClone = response.clone();
+          caches.open(CACHE_NAME).then(function(cache) {
+            cache.put(event.request, responseClone);
+          });
         }
+        return response;
       });
     })
   );

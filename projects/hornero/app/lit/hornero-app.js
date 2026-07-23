@@ -1,7 +1,7 @@
 // ===== <hornero-app> — Shell principal =====
 // Navigation, auth, state global
 // Native Web Component — zero dependencies
-// Phone mockup frame en desktop, full screen en mobile
+// Desktop: phone mockup frame · Mobile/PWA: full screen native
 
 import { HoComponent, html, css } from './ho-component.js';
 
@@ -12,6 +12,7 @@ class HorneroApp extends HoComponent {
       userGrade: String,
       userTerritory: String,
       userSector: String,
+      updateAvailable: Boolean,
     };
   }
 
@@ -21,6 +22,7 @@ class HorneroApp extends HoComponent {
     this.userGrade = 'A';
     this.userTerritory = '';
     this.userSector = 'aceitero';
+    this.updateAvailable = false;
 
     // 6 nav buttons: Inicio + 4 esferas implementadas + Perfil
     // (Formación y Archivo accesibles desde Home cards, no en bottom nav)
@@ -50,14 +52,11 @@ class HorneroApp extends HoComponent {
       argumento: 'Argumento',
       comunicador: 'Comunicador',
     };
-
-    // Screens with implemented components
-    this.implementedScreens = ['home', 'is', 'actualidad', 'ecosistema', 'condicion'];
   }
 
   _styles() {
     return css`
-      /* ===== Phone mockup frame (desktop) ===== */
+      /* ===== Phone mockup frame (desktop only) ===== */
       .app-wrap { background: var(--ho-body-bg, #E7E5DF); }
       @media(min-width:500px){
         .app-wrap { min-height: 100vh; display: flex; justify-content: center;
@@ -69,20 +68,30 @@ class HorneroApp extends HoComponent {
         .screen { background: var(--ho-bg, #F4F3EE); border-radius: 35px;
           overflow: hidden; height: 824px; display: flex;
           flex-direction: column; position: relative; }
+        /* Desktop: show simulated status bar */
+        .status-bar { background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 10px 22px 5px; font-size: .74rem; flex: none;
+          font-family: 'JetBrains Mono', monospace; }
       }
       @media(max-width:499px){
         .app-wrap { min-height: 100vh; }
         .phone { width: 100%; min-height: 100vh; }
         .screen { background: var(--ho-bg, #F4F3EE); display: flex;
           flex-direction: column; position: relative;
-          height: 100dvh; overflow: hidden; }
+          height: 100dvh; overflow: hidden;
+          /* Safe area padding — flush against phone edges */
+          padding-top: env(safe-area-inset-top, 0px);
+          padding-bottom: env(safe-area-inset-bottom, 0px); }
+        /* Mobile/PWA: hide simulated status bar */
+        .status-bar { display: none; }
       }
 
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
       /* ===== Top bar — app name + section title, centered ===== */
-      .top-bar { background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
+      .top-bar { background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
         padding: 9px 16px 13px; display: flex; align-items: center;
         position: relative; flex: none; }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
@@ -117,11 +126,15 @@ class HorneroApp extends HoComponent {
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #FBFAF6; }
 
-      /* ===== Status bar (phone mockup) ===== */
-      .status-bar { background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 10px 22px 5px; font-size: .74rem; flex: none;
-        font-family: 'JetBrains Mono', monospace; }
+      /* ===== Update banner ===== */
+      .update-banner { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
+        padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+        font-family: 'Archivo', sans-serif; font-size: .82rem; font-weight: 600;
+        flex: none; cursor: pointer; }
+      .update-banner:hover { background: var(--ho-green-dark, #586B33); }
+      .update-banner .update-dismiss { background: none; border: none;
+        color: var(--ho-text-off, #F2F1EC); cursor: pointer; font-size: 1rem;
+        padding: 4px 8px; }
     `;
   }
 
@@ -160,6 +173,8 @@ class HorneroApp extends HoComponent {
               <span>● ● ● 📶 🔋</span>
             </div>
 
+            ${this.updateAvailable ? '<div class="update-banner" id="updateBanner">⟳ Actualización disponible — toca para recargar<button class="update-dismiss" id="updateDismiss">✕</button></div>' : ''}
+
             <div class="top-bar">
               ${showBack ? '<button class="back-btn" title="Volver">←</button>' : ''}
               <div class="titles">
@@ -195,10 +210,34 @@ class HorneroApp extends HoComponent {
     // Bind back button
     const backBtn = this.shadowRoot.querySelector('.back-btn');
     if (backBtn) backBtn.addEventListener('click', () => this.set('screen', 'home'));
+    // Bind update banner
+    const updateBanner = this.shadowRoot.querySelector('#updateBanner');
+    if (updateBanner) updateBanner.addEventListener('click', () => {
+      this.updateAvailable = false;
+      window.location.reload();
+    });
+    const updateDismiss = this.shadowRoot.querySelector('#updateDismiss');
+    if (updateDismiss) updateDismiss.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.set('updateAvailable', false);
+    });
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
       this.set('screen', e.detail.screen);
     });
+
+    // Check for SW updates on each render
+    this._checkForUpdates();
+  }
+
+  _checkForUpdates() {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'SW_UPDATE_AVAILABLE') {
+          this.set('updateAvailable', true);
+        }
+      });
+    }
   }
 }
 
