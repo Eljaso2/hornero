@@ -17,4 +17,7 @@ import './hornero-is.js';
 // Coyuntura: <hornero-coyuntura> — Clipping semanal, cards, filter
 import './hornero-coyuntura.js';
 
+// Chat: <hornero-chat> — Motor de chat reutilizable (typing, bubbles, input, progress)
+import './hornero-chat.js';
+
 export { HoComponent, html, css };
