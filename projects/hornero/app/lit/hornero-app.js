@@ -23,11 +23,11 @@ class HorneroApp extends HoComponent {
     this.userSector = 'aceitero';
 
     this.navDef = [
-      { id: 'home', icon: '🪶', label: 'Inicio' },
-      { id: 'is', icon: '✍️', label: 'Reporte' },
-      { id: 'actualidad', icon: '📰', label: 'Actualidad' },
-      { id: 'condicion', icon: '📊', label: 'Panorama' },
-      { id: 'ecosistema', icon: '🌿', label: 'Eco' },
+      { id: 'home', label: 'Inicio', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
+      { id: 'is', label: 'Reporte', svg: '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>' },
+      { id: 'actualidad', label: 'Actualidad', svg: '<path d="M2 3h6a4 4 0 014 0v6a4 4 0 01-4 0H2zM2 21h6a4 4 0 014 0v-6a4 4 0 00-4 0H2z"/><line x1="22" y2="12" x2="14" y1="12"/><line x2="12" y2="14" x1="22"/><line x2="12" y1="2" x2="22"/>' },
+      { id: 'condicion', label: 'Panorama', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
+      { id: 'ecosistema', label: 'Eco', svg: '<path d="M3.05 21h18a2.5 2.5 0 002.45-3.45l-9-18a2.5 2.5 0 00-4.9 0l-9 18A2.5 2.5 0 003.05 21zM12 9v4m0 4h.01"/>' },
     ];
 
     this.titles = {
@@ -91,13 +91,17 @@ class HorneroApp extends HoComponent {
       /* ===== Bottom nav ===== */
       .bottom-nav { background: var(--ho-dark, #33312D);
         display: flex; justify-content: space-around;
-        padding: 9px 0 13px; flex: none;
+        padding: 8px 0 14px; flex: none;
         position: absolute; bottom: 0; left: 0; width: 100%; z-index: 100; }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
-        gap: 3px; background: none; border: none; cursor: pointer;
-        padding: 3px 9px; font-family: 'Archivo', sans-serif; }
-      .nav-btn .icon { font-size: 1.15rem; }
-      .nav-btn .label { font-size: .62rem; font-weight: 600; }
+        gap: 4px; background: none; border: none; cursor: pointer;
+        padding: 4px 10px; font-family: 'Archivo', sans-serif;
+        transition: opacity .2s; }
+      .nav-btn svg { width: 22px; height: 22px; stroke: #9C988D;
+        stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .nav-btn.active svg { stroke: #FBFAF6; stroke-width: 2; }
+      .nav-btn .label { font-size: .62rem; font-weight: 600; color: #9C988D; }
+      .nav-btn.active .label { color: #FBFAF6; }
 
       /* ===== Status bar (phone mockup) ===== */
       .status-bar { background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
@@ -138,10 +142,9 @@ class HorneroApp extends HoComponent {
             </div>
 
             <div class="bottom-nav">
-              ${this.navDef.map(n => '<button class="nav-btn" data-screen="' + n.id + '">' +
-                '<span class="icon" style="' + (n.id === this.screen ? '' : 'opacity:.5') + '">' + n.icon + '</span>' +
-                '<span class="label" style="color:' + (n.id === this.screen ? '#94A867' : '#9C988D') + ';' +
-                'font-weight:' + (n.id === this.screen ? '700' : '600') + '">' + n.label + '</span>' +
+              ${this.navDef.map(n => '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
+                '<svg viewBox="0 0 24 24">' + n.svg + '</svg>' +
+                '<span class="label">' + n.label + '</span>' +
                 '</button>').join('')}
             </div>
 
