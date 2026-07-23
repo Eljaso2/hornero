@@ -1,11 +1,11 @@
 {
   "name": "Hornero — Organizar es Construir",
   "short_name": "Hornero",
-  "description": "Organización sindical: informes gremiales, clipping, argumento, derecho, SMVM",
-  "start_url": "./index.html",
+  "description": "Asistente IA sindical para trabajadores argentinos",
+  "start_url": "./app-ho.html",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F4F3EE",
+  "background_color": "#33312D",
   "theme_color": "#6E8345",
   "lang": "es",
   "icons": [

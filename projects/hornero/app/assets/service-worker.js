@@ -1,15 +1,26 @@
-// Hornero PWA — Service Worker v2
-// Cachea app modular + data para funcionamiento offline
+// Hornero PWA — Service Worker v4
+// Cachea HoComponent app + data para funcionamiento offline
 
-var CACHE_NAME = 'hornero-v3';
+var CACHE_NAME = 'hornero-v4';
 var ASSETS = [
-  './index.html',
+  './app-ho.html',
   './css/hornero.css',
-  './js/state.js',
   './js/db.js',
-  './js/navigation.js',
   './js/data-loader.js',
   './data/is-piloto-aceitero.json',
+  './data/mate-2026-05.json',
+  './data/clipping-2026-07-02.json',
+  './data/clipping-4.json',
+  './lit/ho-component.js',
+  './lit/hornero-components.js',
+  './lit/hornero-app.js',
+  './lit/hornero-home.js',
+  './lit/hornero-is.js',
+  './lit/hornero-actualidad.js',
+  './lit/hornero-coyuntura.js',
+  './lit/hornero-chat.js',
+  './lit/hornero-ecosistema.js',
+  './lit/hornero-condicion.js',
   './assets/manifest.json',
   './assets/hornero-icon-192.png',
   './assets/hornero-icon-512.png',
@@ -45,7 +56,7 @@ self.addEventListener('fetch', function(event) {
     caches.match(event.request).then(function(cached) {
       if (cached) return cached;
       return fetch(event.request).then(function(response) {
-        // Cache new requests dynamically (fonts CSS, font files, data JSONs, etc.)
+        // Cache new requests dynamically
         if (response && response.status === 200) {
           var responseClone = response.clone();
           caches.open(CACHE_NAME).then(function(cache) {
@@ -54,9 +65,9 @@ self.addEventListener('fetch', function(event) {
         }
         return response;
       }).catch(function() {
-        // Fallback: return cached HTML for navigation requests
+        // Fallback: return cached app for navigation requests
         if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
+          return caches.match('./app-ho.html');
         }
       });
     })

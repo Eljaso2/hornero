@@ -2,14 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <title>Hornero — App Web Components</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <title>Hornero</title>
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="assets/manifest.json">
   <link rel="icon" href="assets/hornero-icon.svg">
-  <meta name="theme-color" content="#6E8345">
+  <meta name="theme-color" content="#33312D">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Hornero">
+  <link rel="apple-touch-icon" href="assets/hornero-icon-192.png">
 
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
@@ -21,6 +23,12 @@
   <script src="js/db.js"></script>
   <!-- Data loader (seeds IndexedDB from JSON) -->
   <script src="js/data-loader.js"></script>
+
+  <style>
+    /* App-level: full viewport, no scroll bounce, safe areas */
+    body { overscroll-behavior: none; overflow: hidden; }
+    hornero-app { display: block; width: 100%; height: 100dvh; }
+  </style>
 </head>
 <body>
   <!-- HoComponent app shell -->
