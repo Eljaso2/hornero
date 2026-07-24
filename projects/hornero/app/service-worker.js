@@ -65,8 +65,8 @@ self.addEventListener('activate', function(event) {
 });
 
 // Fetch strategy:
-// - HTML pages: network-first (always get latest for real-time updates)
-// - Static assets (JS, CSS, JSON): cache-first (fast, offline)
+// - HTML pages: network-first (always get latest)
+// - JS/CSS/JSON (app code): stale-while-revalidate (fast from cache, update in background)
 // - Fonts/images: cache-first
 self.addEventListener('fetch', function(event) {
   var url = new URL(event.request.url);
@@ -75,7 +75,6 @@ self.addEventListener('fetch', function(event) {
   if (event.request.mode === 'navigate' || url.pathname.endsWith('.html')) {
     event.respondWith(
       fetch(event.request).then(function(response) {
-        // Cache the latest HTML
         if (response && response.status === 200) {
           var responseClone = response.clone();
           caches.open(CACHE_NAME).then(function(cache) {
@@ -84,7 +83,6 @@ self.addEventListener('fetch', function(event) {
         }
         return response;
       }).catch(function() {
-        // Offline fallback: return cached HTML
         return caches.match(event.request).then(function(cached) {
           return cached || caches.match('./app-ho.html');
         });
@@ -93,7 +91,29 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // Everything else: cache-first (fast + offline)
+  // App code (JS, CSS, JSON): stale-while-revalidate
+  // Returns cached immediately (fast) but fetches fresh version in background
+  // Next load gets the updated version
+  var isAppCode = url.pathname.endsWith('.js') || url.pathname.endsWith('.css') || url.pathname.endsWith('.json');
+  if (isAppCode && url.origin === self.location.origin) {
+    event.respondWith(
+      caches.match(event.request).then(function(cached) {
+        // Return cached immediately, but also fetch fresh version
+        var fetchPromise = fetch(event.request).then(function(response) {
+          if (response && response.status === 200) {
+            caches.open(CACHE_NAME).then(function(cache) {
+              cache.put(event.request, response.clone());
+            });
+          }
+          return response;
+        }).catch(function() { return cached; });
+        return cached || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // Everything else (fonts, images): cache-first
   event.respondWith(
     caches.match(event.request).then(function(cached) {
       if (cached) return cached;
