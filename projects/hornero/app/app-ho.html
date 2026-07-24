@@ -57,32 +57,8 @@
   </style>
 </head>
 <body>
-  <!-- HoComponent app shell — inline login fallback renders instantly, hidden when Shadow DOM takes over -->
-  <hornero-app>
-    <div style="height:100vh;width:100%;background:#33312D;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif">
-      <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:80px;margin-top:40px">
-        <img src="assets/Screenshot_2026-07-24_at_12.25.13_pm-removebg-preview.png" alt="Hornero" style="width:120px;height:auto;margin-bottom:14px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))" />
-        <div style="font-family:Inter,sans-serif;font-weight:900;font-size:1.8rem;letter-spacing:.12em;text-transform:uppercase;color:#F2F1EC">HORNERO</div>
-        <div style="font-family:Public Sans,sans-serif;font-weight:500;font-size:.72rem;color:#94A867;margin-top:6px;letter-spacing:.04em;white-space:nowrap">«El futuro, algo por lo que hay que luchar»</div>
-      </div>
-      <div style="width:100%;max-width:320px">
-        <div style="margin-bottom:16px">
-          <label style="font-family:JetBrains Mono,monospace;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9C988D;margin-bottom:6px;display:block">Usuario</label>
-          <input type="text" placeholder="Ingresá tu usuario" autocomplete="username" style="width:100%;box-sizing:border-box;background:#5A574F;border:1.5px solid #5A574F;border-radius:10px;padding:12px 14px;font-family:Public Sans,sans-serif;font-size:.92rem;font-weight:500;color:#F2F1EC;outline:none" />
-        </div>
-        <div style="margin-bottom:16px">
-          <label style="font-family:JetBrains Mono,monospace;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9C988D;margin-bottom:6px;display:block">Contraseña</label>
-          <input type="password" placeholder="Ingresá tu contraseña" autocomplete="current-password" style="width:100%;box-sizing:border-box;background:#5A574F;border:1.5px solid #5A574F;border-radius:10px;padding:12px 14px;font-family:Public Sans,sans-serif;font-size:.92rem;font-weight:500;color:#F2F1EC;outline:none" />
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px">
-          <input type="checkbox" checked style="accent-color:#6E8345;width:18px;height:18px;cursor:pointer" />
-          <label style="font-family:Public Sans,sans-serif;font-size:.82rem;font-weight:500;color:#9C988D;cursor:pointer">Recordarme</label>
-        </div>
-        <button style="width:100%;background:#6E8345;color:#F2F1EC;border:none;border-radius:10px;padding:14px;font-family:Archivo,sans-serif;font-weight:700;font-size:.92rem;letter-spacing:.08em;cursor:pointer">Ingresar</button>
-      </div>
-      <div style="font-family:JetBrains Mono,monospace;font-size:.62rem;color:#7A7568;margin-top:32px;text-align:center">Piloto aceitero · v2026-07</div>
-    </div>
-  </hornero-app>
+  <!-- HoComponent app shell — Shadow DOM renders instantly via sync session -->
+  <hornero-app></hornero-app>
 
   <!-- PWA install banner (shown when browser supports install) -->
   <div class="pwa-install-banner hidden" id="pwaBanner">
