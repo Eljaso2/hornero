@@ -124,9 +124,9 @@ class HorneroHome extends HoComponent {
       .agenda-manana { background: #6E8345; color: #F2F1EC; font-size: .86rem;
         padding: 6px 13px; }
       .agenda-manana .agenda-label { font-size: .54rem; color: #C8D9A4; }
-      .agenda-prox { background: #94A867; color: #F2F1EC; font-size: .70rem;
+      .agenda-prox { background: #7FB5D5; color: #FFF; font-size: .70rem;
         padding: 3px 8px; border-radius: 16px; line-height: 1.2; }
-      .agenda-prox .agenda-label { font-size: .48rem; color: #D4DFBE; }
+      .agenda-prox .agenda-label { font-size: .48rem; color: #D4E8F2; }
       .agenda-date { font-family: 'JetBrains Mono', monospace;
         opacity: .7; margin-left: 2px; }
       .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .54rem; }
