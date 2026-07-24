@@ -1,12 +1,10 @@
-// Hornero PWA — Service Worker v7
-// DEV MODE: JS/CSS/JSON = network-first (instant updates during active development)
-// Production: revert to stale-while-revalidate for faster cached loads
-// Install: cachea assets core (sin Google Fonts — se cachean dinámico)
-// Fetch: network-first para HTML + app code, cache-first para fonts/images
-// Resilient install: cada asset individual, un fallo no mata todo
-// Auto-update: notifica a la app cuando hay una nueva versión disponible
+// Hornero PWA — Service Worker v9
+// DEV MODE: bypass Chrome HTTP cache — force network on every request
+// All app code fetches use { cache: 'no-cache' } to ignore Chrome's internal cache
+// This means: push changes → open app → see changes immediately, no cache clearing
+// Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v8';
+var CACHE_NAME = 'hornero-v9';
 var ASSETS = [
   './css/hornero.css',
   './js/db.js',
@@ -77,10 +75,10 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event) {
   var url = new URL(event.request.url);
 
-  // HTML pages: network-first for real-time updates
+  // HTML pages: network-first — bypass Chrome HTTP cache (force fresh)
   if (event.request.mode === 'navigate' || url.pathname.endsWith('.html')) {
     event.respondWith(
-      fetch(event.request).then(function(response) {
+      fetch(event.request, { cache: 'no-cache' }).then(function(response) {
         if (response && response.status === 200) {
           var responseClone = response.clone();
           caches.open(CACHE_NAME).then(function(cache) {
@@ -97,13 +95,12 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // App code (JS, CSS, JSON): network-first during active development
-  // Returns fresh version immediately — no stale cache, instant updates
-  // Production mode: revert to stale-while-revalidate (cached first, background update)
+  // App code (JS, CSS, JSON): network-first — bypass Chrome HTTP cache (force fresh)
+  // Every fetch goes to the server, not to Chrome's internal cache
   var isAppCode = url.pathname.endsWith('.js') || url.pathname.endsWith('.css') || url.pathname.endsWith('.json');
   if (isAppCode && url.origin === self.location.origin) {
     event.respondWith(
-      fetch(event.request).then(function(response) {
+      fetch(event.request, { cache: 'no-cache' }).then(function(response) {
         if (response && response.status === 200) {
           var responseClone = response.clone();
           caches.open(CACHE_NAME).then(function(cache) {
