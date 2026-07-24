@@ -154,15 +154,12 @@ class HorneroApp extends HoComponent {
         scrollbar-width: none; background: var(--ho-bg, #F4F3EE); }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
-      /* ===== Bottom nav — white, dark outlines, blur separator ===== */
-      .bottom-nav { background: #F4F3EE;
+      /* ===== Bottom nav — gradient hacia blanco, se funde con home bar ===== */
+      .bottom-nav { background: linear-gradient(to bottom, #F4F3EE 0%, #FFFFFF 100%);
         display: flex; justify-content: space-around;
         padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
         width: 100%; z-index: 100; position: relative;
         border-top: 1px solid rgba(43,42,38,.08); }
-      .bottom-nav::before { content: ''; position: absolute; top: -8px; left: 0; right: 0;
-        height: 8px; background: linear-gradient(transparent, rgba(244,243,238,.9));
-        pointer-events: none; filter: blur(2px); }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;
