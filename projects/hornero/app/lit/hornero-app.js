@@ -22,13 +22,41 @@ class HorneroApp extends HoComponent {
   constructor() {
     super();
     this.screen = 'home';
-    this.userGrade = 'A';
-    this.userTerritory = '';
-    this.userSector = 'aceitero';
-    this.userName = '';
-    this.loggedIn = false;
     this.updateAvailable = false;
     this.clipExpandId = '';
+
+    // Synchronous session restore from localStorage (avoids login flash)
+    const stored = localStorage.getItem('hornero-session');
+    if (stored) {
+      try {
+        const session = JSON.parse(stored);
+        if (session && session.grade) {
+          this.loggedIn = true;
+          this.userGrade = session.grade;
+          this.userTerritory = session.territory;
+          this.userSector = session.sector || 'aceitero';
+          this.userName = session.nombre || session.username;
+        } else {
+          this.loggedIn = false;
+          this.userGrade = 'A';
+          this.userTerritory = '';
+          this.userSector = 'aceitero';
+          this.userName = '';
+        }
+      } catch(e) {
+        this.loggedIn = false;
+        this.userGrade = 'A';
+        this.userTerritory = '';
+        this.userSector = 'aceitero';
+        this.userName = '';
+      }
+    } else {
+      this.loggedIn = false;
+      this.userGrade = 'A';
+      this.userTerritory = '';
+      this.userSector = 'aceitero';
+      this.userName = '';
+    }
 
     // 6 nav buttons: Inicio + 4 esferas implementadas + Perfil
     // (Formación y Archivo accesibles desde Home cards, no en bottom nav)
