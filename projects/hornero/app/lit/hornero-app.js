@@ -111,7 +111,7 @@ class HorneroApp extends HoComponent {
       @media(max-width:499px){
         .app-wrap { min-height: 100vh; }
         .phone { width: 100%; min-height: 100vh; }
-        .screen { background: var(--ho-dark, #33312D); display: flex;
+        .screen { background: #FFFFFF; display: flex;
           flex-direction: column; position: relative;
           height: 100dvh; overflow: hidden; }
         /* Mobile/PWA: hide simulated status bar */

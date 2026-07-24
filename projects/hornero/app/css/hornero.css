@@ -1,6 +1,6 @@
 /* ===== Hornero Design Tokens ===== */
 :root {
-  color-scheme: dark light;
+  color-scheme: light;
   --ho-green: #6E8345;
   --ho-green-light: #94A867;
   --ho-green-pale: #E8EDD7;
@@ -24,8 +24,8 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-html{background:var(--ho-dark);background-attachment:fixed;min-height:100vh;min-height:-webkit-fill-available}
-body{background:var(--ho-dark);background-attachment:fixed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased;overscroll-behavior:none;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:#FFFFFF;background-attachment:fixed;min-height:100vh;min-height:-webkit-fill-available}
+body{background:#FFFFFF;background-attachment:fixed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased;overscroll-behavior:none;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
 
 /* Desktop: phone mockup centered */
 @media(min-width:500px){
@@ -34,11 +34,11 @@ body{background:var(--ho-dark);background-attachment:fixed;font-family:'Public S
   .phone{width:412px;background:var(--ho-dark);border-radius:46px;padding:12px;box-shadow:0 40px 80px -30px var(--ho-shadow);position:sticky;top:40px}
   .screen{background:var(--ho-bg);border-radius:35px;overflow:hidden;height:824px;display:flex;flex-direction:column;position:relative}
 }
-/* Mobile: full screen native — dark screen covers home bar, body-scroll is light */
+/* Mobile: full screen native — white background flows into home bar */
 @media(max-width:499px){
-  .app-wrap{min-height:100vh;background:var(--ho-dark)}
-  .phone{width:100%;min-height:100vh;background:var(--ho-dark)}
-  .screen{background:var(--ho-dark);display:flex;flex-direction:column;position:relative;height:100dvh;overflow:hidden}
+  .app-wrap{min-height:100vh;background:#FFFFFF}
+  .phone{width:100%;min-height:100vh;background:#FFFFFF}
+  .screen{background:#FFFFFF;display:flex;flex-direction:column;position:relative;height:100dvh;overflow:hidden}
 }
 
 @keyframes apfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -54,8 +54,7 @@ body{background:var(--ho-dark);background-attachment:fixed;font-family:'Public S
 .menu-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:600;font-size:.88rem;color:var(--ho-text-off);text-decoration:none;margin-bottom:3px;transition:background .2s}
 .menu-link:hover{background:rgba(148,168,103,.2)}
 .menu-link.active{background:rgba(148,168,103,.3);color:var(--ho-green-light)}
-.bottom-nav{background:#6E6A60;display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative}
-.bottom-nav::before{content:'';position:absolute;top:-12px;left:0;right:0;height:12px;background:linear-gradient(transparent,#6E6A60);pointer-events:none}
+.bottom-nav{background:linear-gradient(to bottom,#F4F3EE,#FFFFFF);display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative;border-top:1px solid rgba(43,42,38,.08)}
 .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:3px 9px;font-family:'Archivo',sans-serif}
 .nav-btn .icon{font-size:1.15rem}
 .nav-btn .label{font-size:.62rem;font-weight:600}
