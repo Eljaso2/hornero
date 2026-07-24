@@ -6,7 +6,7 @@
 // Resilient install: cada asset individual, un fallo no mata todo
 // Auto-update: notifica a la app cuando hay una nueva versión disponible
 
-var CACHE_NAME = 'hornero-v7';
+var CACHE_NAME = 'hornero-v8';
 var ASSETS = [
   './css/hornero.css',
   './js/db.js',

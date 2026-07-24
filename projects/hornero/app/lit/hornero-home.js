@@ -96,7 +96,7 @@ class HorneroHome extends HoComponent {
         background: linear-gradient(transparent, rgba(33,31,29,.85));
         color: #F2F1EC; }
       .news-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: 1.05rem; line-height: 1.25; }
+        font-size: 1.18rem; line-height: 1.22; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
       .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         background: rgba(110,131,69,.6); color: #F2F1EC;
@@ -109,20 +109,23 @@ class HorneroHome extends HoComponent {
 
       /* --- Agenda cloud --- */
       .agenda-wrap { margin-top: 4px; }
-      .agenda-cloud { display: flex; flex-wrap: wrap; align-items: center;
-        gap: 6px 8px; }
+      .agenda-cloud { display: flex; flex-wrap: wrap; justify-content: center;
+        align-items: center; gap: 7px 9px; }
       .agenda-bubble { font-family: 'Archivo', sans-serif; font-weight: 600;
-        padding: 5px 11px; border-radius: 20px; cursor: pointer;
+        padding: 5px 12px; border-radius: 20px; cursor: pointer;
         transition: transform .2s; white-space: nowrap; }
       .agenda-bubble:hover { transform: scale(1.05); }
       .agenda-label { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
         margin-right: 2px; }
-      .agenda-hoy { background: #C0392B; color: #FFF; font-size: .82rem; }
+      .agenda-hoy { background: #C0392B; color: #FFF; font-size: .92rem;
+        padding: 7px 14px; }
       .agenda-hoy .agenda-label { color: #FFD5D5; }
-      .agenda-manana { background: #6E8345; color: #F2F1EC; font-size: .82rem; }
+      .agenda-manana { background: #6E8345; color: #F2F1EC; font-size: .86rem;
+        padding: 6px 13px; }
       .agenda-manana .agenda-label { color: #C8D9A4; }
-      .agenda-prox { background: #94A867; color: #F2F1EC; font-size: .78rem; }
+      .agenda-prox { background: #94A867; color: #F2F1EC; font-size: .78rem;
+        padding: 5px 11px; }
       .agenda-prox .agenda-label { color: #D4DFBE; }
       .agenda-date { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         opacity: .7; margin-left: 3px; }
@@ -185,23 +188,38 @@ class HorneroHome extends HoComponent {
       '<span class="dot' + (i === this.carouselIndex ? ' active' : '') + '" data-index="' + i + '"></span>'
     ).join('');
 
-    // --- Agenda: HOY / MAÑANA / PRÓX ---
+    // --- Agenda cloud: HOY center, MAÑANA around, PRÓX edges ---
     const today = new Date(); today.setHours(0,0,0,0);
-    const agendaBubbles = this._agenda.map(ev => {
+    const sorted = this._agenda.map(ev => {
       const evDate = new Date(ev.fecha + 'T00:00:00');
       const diffDays = Math.round((evDate - today) / 86400000);
       let cls, label;
-      if (diffDays === 0) { cls = 'agenda-hoy'; label = 'HOY'; }
+      if (diffDays <= 0) { cls = 'agenda-hoy'; label = 'HOY'; }
       else if (diffDays === 1) { cls = 'agenda-manana'; label = 'MAÑANA'; }
       else { cls = 'agenda-prox'; label = 'PRÓX'; }
-      // Format date: DD/MM
       const dayNum = evDate.getDate();
       const monthNum = evDate.getMonth() + 1;
       const dateStr = dayNum + '/' + monthNum;
-      return '<span class="agenda-bubble ' + cls + '">' +
-        '<span class="agenda-label">' + label + '</span> ' +
-        ev.nombre + '<span class="agenda-date">' + dateStr + '</span></span>';
-    }).join('');
+      return { ...ev, cls, label, dateStr, diffDays };
+    }).sort((a, b) => a.diffDays - b.diffDays); // most urgent first
+
+    // Cloud layout: urgent center → edges less urgent
+    // Split: hoy[], manana[], prox[] → arrange: proxEdges, manana, hoyCenter, manana, proxEdges
+    const hoy = sorted.filter(e => e.cls === 'agenda-hoy');
+    const manana = sorted.filter(e => e.cls === 'agenda-manana');
+    const prox = sorted.filter(e => e.cls === 'agenda-prox');
+
+    // Split prox into two halves for left/right edges
+    const proxLeft = prox.slice(0, Math.ceil(prox.length / 2));
+    const proxRight = prox.slice(Math.ceil(prox.length / 2));
+
+    const cloudOrder = [...proxLeft, ...manana, ...hoy, ...manana.length ? [] : [], ...proxRight];
+
+    const agendaBubbles = cloudOrder.map(ev =>
+      '<span class="agenda-bubble ' + ev.cls + '">' +
+        '<span class="agenda-label">' + ev.label + '</span> ' +
+        ev.nombre + '<span class="agenda-date">' + ev.dateStr + '</span></span>'
+    ).join('');
 
     // --- Consulta icons ---
     const debateSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';

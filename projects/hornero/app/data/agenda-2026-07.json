@@ -6,6 +6,7 @@
     "fuente": "Hornero — agenda sindical"
   },
   "eventos": [
+    { "id": "ev-0", "nombre": "Plenario paritaria aceitera", "fecha": "2026-07-24", "tipo": "paritaria", "urgencia": 1 },
     { "id": "ev-1", "nombre": "Paritaria aceitera", "fecha": "2026-07-25", "tipo": "paritaria", "urgencia": 1 },
     { "id": "ev-2", "nombre": "Asamblea delegados", "fecha": "2026-07-28", "tipo": "asamblea", "urgencia": 2 },
     { "id": "ev-3", "nombre": "Marcha CGT", "fecha": "2026-07-30", "tipo": "marcha", "urgencia": 2 },
