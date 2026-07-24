@@ -24,8 +24,6 @@
 
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--ho-body-bg);font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased}
-/* Mobile/PWA: dark body background so safe areas don't show white */
-@media(max-width:499px){body{background:var(--ho-dark)}}
 
 /* Desktop: phone mockup centered */
 @media(min-width:500px){
