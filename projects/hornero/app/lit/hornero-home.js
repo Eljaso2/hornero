@@ -81,15 +81,15 @@ class HorneroHome extends HoComponent {
 
       /* --- News carousel --- */
       .carousel-wrap { position: relative; margin-bottom: 8px;
-        border-radius: 13px; overflow: hidden; }
+        margin-left: -16px; margin-right: -16px; overflow: hidden; }
       .carousel-track { display: flex; overflow-x: auto;
         scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
         scrollbar-width: none; }
       .carousel-track::-webkit-scrollbar { width: 0; }
       .news-slide { scroll-snap-align: start; width: 100%; flex-shrink: 0;
-        position: relative; min-height: 200px;
+        position: relative; min-height: 220px;
         background: var(--ho-dark, #33312D); }
-      .news-slide img { width: 100%; height: 200px; object-fit: cover;
+      .news-slide img { width: 100%; height: 220px; object-fit: cover;
         display: block; }
       .news-overlay { position: absolute; bottom: 0; left: 0; right: 0;
         padding: 36px 14px 12px;
