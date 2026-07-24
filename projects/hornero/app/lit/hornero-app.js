@@ -135,18 +135,18 @@ class HorneroApp extends HoComponent {
         border: none; display: flex; align-items: center; justify-content: center;
         cursor: pointer; flex: none; position: absolute; left: 16px; top: 24px; }
       .header-logo-wrap { position: relative; display: flex; align-items: center;
-        justify-content: center; margin-bottom: -20px; z-index: 10; }
-      .header-logo-wrap svg.header-logo { width: 70px; height: 70px;
-        filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
+        justify-content: center; margin-bottom: -24px; z-index: 10; }
+      .header-logo-wrap img.header-logo { width: 60px; height: auto;
+        filter: drop-shadow(0 2px 8px rgba(0,0,0,.4)); }
       .header-text { position: absolute; top: 50%; left: 50%;
         transform: translate(-50%, -50%); display: flex; flex-direction: column;
-        align-items: center; gap: 2px; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
+        align-items: center; gap: 1px; text-shadow: 0 1px 6px rgba(0,0,0,.7); }
       .header-text .app-name { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .92rem; letter-spacing: .18em; text-transform: uppercase;
+        font-size: .88rem; letter-spacing: .16em; text-transform: uppercase;
         color: #F2F1EC; }
       .header-text .app-motto { font-family: 'Public Sans', sans-serif; font-weight: 500;
-        font-size: .62rem; color: #C8D9A4; letter-spacing: .04em;
-        text-align: center; max-width: 180px; line-height: 1.3; }
+        font-size: .56rem; color: #C8D9A4; letter-spacing: .04em;
+        text-align: center; white-space: nowrap; }
 
       /* ===== Section label — below header, only when inside esfera ===== */
       .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
@@ -238,9 +238,6 @@ class HorneroApp extends HoComponent {
         '</div>';
     }
 
-    // Feather logo SVG — large version for header, title+motto overlaid on center
-    const featherSvg = '<svg class="header-logo" viewBox="0 0 512 512" width="70" height="70" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="#6E8345"/><g transform="translate(256,256) scale(1.4)" fill="#F2F1EC" stroke="none"><path d="M0,-120 L0,120" stroke="#F2F1EC" stroke-width="5" fill="none"/><path d="M0,-120 Q-60,-80 -50,-40 Q-40,0 -45,40 Q-50,70 -30,100 L0,120 Z" fill="#F2F1EC" opacity="0.9"/><path d="M0,-120 Q60,-80 50,-40 Q40,0 45,40 Q50,70 30,100 L0,120 Z" fill="#F2F1EC" opacity="0.7"/><line x1="0" y1="-90" x2="-55" y2="-70" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-60" x2="-48" y2="-35" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-30" x2="-42" y2="0" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="0" x2="-40" y2="30" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="30" x2="-35" y2="60" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="60" x2="-20" y2="85" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-90" x2="55" y2="-70" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-60" x2="48" y2="-35" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-30" x2="42" y2="0" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="0" x2="40" y2="30" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="30" x2="35" y2="60" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="60" x2="20" y2="85" stroke="#94A867" stroke-width="1.5"/></g></svg>';
-
     return html`
       <div class="app-wrap">
         <div class="phone">
@@ -256,7 +253,7 @@ class HorneroApp extends HoComponent {
             <div class="top-bar">
               ${showBack ? '<button class="back-btn" title="Volver">←</button>' : ''}
               <div class="header-logo-wrap">
-                ${featherSvg}
+                <img class="header-logo" src="assets/hornero-logo.png" alt="Hornero" />
                 <div class="header-text">
                   <span class="app-name">HORNERO</span>
                   <span class="app-motto">«El futuro, algo por lo que hay que luchar»</span>

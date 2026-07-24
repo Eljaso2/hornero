@@ -65,9 +65,9 @@ class HorneroLogin extends HoComponent {
 
       .logo-sub {
         font-family: 'Public Sans', sans-serif; font-weight: 500;
-        font-size: .82rem; color: var(--ho-green-light, #94A867);
-        margin-top: 6px; letter-spacing: .06em;
-      }
+        font-size: .72rem; color: var(--ho-green-light, #94A867);
+        margin-top: 6px; letter-spacing: .04em;
+        white-space: nowrap; }
 
       .form-area {
         width: 100%; max-width: 320px;
@@ -146,12 +146,10 @@ class HorneroLogin extends HoComponent {
   }
 
   _render() {
-    const featherSvg = '<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#F2F1EC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10"/><path d="M12 22V2"/><path d="M12 2Q7 6 8 10Q7 14 8 18Q9 20 12 22" fill="#F2F1EC" fill-opacity=".7" stroke="none"/><path d="M12 2Q17 6 16 10Q17 14 16 18Q15 20 12 22" fill="#94A867" fill-opacity=".5" stroke="none"/><line x1="12" y1="6" x2="8" y2="8" stroke="#94A867" stroke-width="1"/><line x1="12" y1="10" x2="8" y2="12" stroke="#94A867" stroke-width="1"/><line x1="12" y1="14" x2="9" y2="16" stroke="#94A867" stroke-width="1"/><line x1="12" y1="6" x2="16" y2="8" stroke="#94A867" stroke-width="1"/><line x1="12" y1="10" x2="16" y2="12" stroke="#94A867" stroke-width="1"/><line x1="12" y1="14" x2="15" y2="16" stroke="#94A867" stroke-width="1"/></svg>';
-
     return html`
       <div class="login-wrap">
         <div class="logo-area">
-          <div class="logo-icon">${featherSvg}</div>
+          <img src="assets/hornero-logo.png" alt="Hornero" style="width:90px;height:auto;margin-bottom:14px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))" />
           <div class="logo-name">HORNERO</div>
           <div class="logo-sub">«El futuro, algo por lo que hay que luchar»</div>
         </div>
