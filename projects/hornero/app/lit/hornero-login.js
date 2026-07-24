@@ -83,7 +83,8 @@ class HorneroLogin extends HoComponent {
       }
 
       .field input {
-        width: 100%; background: var(--ho-dark-mid, #5A574F);
+        width: 100%; box-sizing: border-box;
+        background: var(--ho-dark-mid, #5A574F);
         border: 1.5px solid var(--ho-dark-mid, #5A574F);
         border-radius: 10px; padding: 12px 14px;
         font-family: 'Public Sans', sans-serif; font-size: .92rem;
