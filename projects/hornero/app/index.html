@@ -1,11 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <title>Hornero</title>
-  <meta http-equiv="refresh" content="0;url=app-ho.html">
+  <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="assets/hornero-icon.svg">
+  <meta name="theme-color" content="#33312D">
+  <meta name="supported-color-schemes" content="dark light">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Hornero">
+  <link rel="apple-touch-icon" href="assets/hornero-icon-192.png">
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@700;800;900&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+
+  <!-- Global CSS variables (used by all components) -->
+  <link rel="stylesheet" href="css/hornero.css">
+
+  <!-- IndexedDB (shared between vanilla and HoComponent) -->
+  <script src="js/db.js"></script>
+  <!-- Data loader (seeds IndexedDB from JSON) -->
+  <script src="js/data-loader.js"></script>
+
+  <style>
+    /* App-level: dark background extends under home bar / pill area */
+    html { background: #33312D !important;
+      background-attachment: fixed !important;
+      min-height: 100vh; min-height: -webkit-fill-available; }
+    body { background: #33312D !important;
+      background-attachment: fixed !important;
+      overscroll-behavior: none; overflow: hidden;
+      margin: 0; padding: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0px); }
+    hornero-app { display: block; width: 100%; min-height: 100vh;
+      min-height: -webkit-fill-available; }
+    /* PWA install banner */
+    .pwa-install-banner { position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
+      padding: 14px 16px 20px; display: flex; align-items: center; gap: 12px;
+      z-index: 200; font-family: 'Archivo', sans-serif;
+      box-shadow: 0 -4px 16px rgba(0,0,0,.15); transition: transform .3s; }
+    .pwa-install-banner.hidden { transform: translateY(100%); }
+    .pwa-install-banner .banner-icon { width: 48px; height: 48px;
+      border-radius: 12px; background: var(--ho-green, #6E8345);
+      display: flex; align-items: center; justify-content: center; }
+    .pwa-install-banner .banner-text { flex: 1; }
+    .pwa-install-banner .banner-title { font-weight: 700; font-size: .92rem; }
+    .pwa-install-banner .banner-desc { font-size: .78rem; color: #9C988D; margin-top: 2px; }
+    .pwa-install-btn { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
+      border: none; border-radius: 8px; padding: 10px 18px; font-family: 'Archivo', sans-serif;
+      font-weight: 700; font-size: .82rem; cursor: pointer; }
+    .pwa-install-dismiss { background: none; border: none; color: #9C988D;
+      font-size: .82rem; cursor: pointer; padding: 10px 8px; }
+  </style>
 </head>
 <body>
-  <p>Redirigiendo a <a href="app-ho.html">Hornero App</a>...</p>
+  <!-- HoComponent app shell -->
+  <hornero-app></hornero-app>
+
+  <!-- PWA install banner (shown when browser supports install) -->
+  <div class="pwa-install-banner hidden" id="pwaBanner">
+    <div class="banner-icon"><img src="assets/hornero-icon-192.png" width="36" height="36" alt="H"></div>
+    <div class="banner-text">
+      <div class="banner-title">Instalar Hornero</div>
+      <div class="banner-desc">Abrir como app — sin barra de navegador</div>
+    </div>
+    <button class="pwa-install-btn" id="pwaInstallBtn">Instalar</button>
+    <button class="pwa-install-dismiss" id="pwaDismissBtn">✕</button>
+  </div>
+
+  <!-- Init: IndexedDB → seed data → register SW → PWA install -->
+  <script>
+    initDB()
+      .then(function() { return loadAllData(); })
+      .then(function(results) {
+        var pilotoData = results && results['is-piloto-aceitero.json'];
+        if (pilotoData) return seedData(pilotoData);
+      })
+      .catch(function(err) {
+        console.warn('Init error (app still works):', err);
+      });
+
+    // Register service worker — check for updates every 5 min
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js', { scope: './', updateViaCache: 'none' })
+        .then(function(reg) {
+          console.log('SW registered:', reg.scope);
+          // Check for updates periodically (every 5 minutes)
+          setInterval(function() { reg.update(); }, 300000);
+        })
+        .catch(function(err) {
+          console.warn('SW registration failed:', err);
+        });
+
+      // Listen for SW update messages
+      navigator.serviceWorker.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'SW_UPDATE_AVAILABLE') {
+          // Show update banner in hornero-app component
+          var app = document.querySelector('hornero-app');
+          if (app) app.set('updateAvailable', true);
+        }
+      });
+    }
+
+    // PWA install prompt — capture beforeinstallprompt and show custom banner
+    var deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      // Show custom install banner
+      document.getElementById('pwaBanner').classList.remove('hidden');
+      console.log('beforeinstallprompt captured — install banner shown');
+    });
+
+    document.getElementById('pwaInstallBtn').addEventListener('click', function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choiceResult) {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('PWA installed');
+          }
+          deferredPrompt = null;
+          document.getElementById('pwaBanner').classList.add('hidden');
+        });
+      }
+    });
+
+    document.getElementById('pwaDismissBtn').addEventListener('click', function() {
+      document.getElementById('pwaBanner').classList.add('hidden');
+    });
+
+    // If app is already installed, never show banner
+    window.addEventListener('appinstalled', function() {
+      document.getElementById('pwaBanner').classList.add('hidden');
+    });
+  </script>
+
+  <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
+  <script type="module" src="lit/hornero-components.js?v=11"></script>
 </body>
 </html>

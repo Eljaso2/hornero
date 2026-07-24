@@ -136,42 +136,43 @@ class HorneroApp extends HoComponent {
       .top-bar .corner-logo img { width: 32px; height: auto; opacity: .85; }
       .header-text { display: flex; flex-direction: column;
         align-items: center; gap: 2px; }
-      .header-text .app-name { font-family: 'Bebas Neue', sans-serif; font-weight: 400;
-        font-size: 1.5rem; letter-spacing: .18em; text-transform: uppercase;
+      .header-text .app-name { font-family: 'Inter', sans-serif; font-weight: 900;
+        font-size: 1.3rem; letter-spacing: .12em; text-transform: uppercase;
         color: #F2F1EC; }
       .header-text .app-motto { font-family: 'Public Sans', sans-serif; font-weight: 500;
         font-size: .64rem; color: #9C988D; letter-spacing: .04em;
         text-align: center; white-space: nowrap; }
 
-      /* ===== Section label — below gradient header, on light background ===== */
+      /* ===== Section label — below gradient header, instant appear ===== */
       .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: #2B2A26; padding: 8px 16px 6px; background: var(--ho-bg, #F4F3EE);
-        flex: none; animation: apfade .3s ease; }
+        flex: none; }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
         scrollbar-width: none; background: var(--ho-bg, #F4F3EE); }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
-      /* ===== Bottom nav — 6 buttons, lighter gray, covers safe area bottom ===== */
-      .bottom-nav { background: #6E6A60;
+      /* ===== Bottom nav — white, dark outlines, blur separator ===== */
+      .bottom-nav { background: #F4F3EE;
         display: flex; justify-content: space-around;
         padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
-        width: 100%; z-index: 100; position: relative; }
-      .bottom-nav::before { content: ''; position: absolute; top: -12px; left: 0; right: 0;
-        height: 12px; background: linear-gradient(transparent, #6E6A60);
-        pointer-events: none; }
+        width: 100%; z-index: 100; position: relative;
+        border-top: 1px solid rgba(43,42,38,.08); }
+      .bottom-nav::before { content: ''; position: absolute; top: -8px; left: 0; right: 0;
+        height: 8px; background: linear-gradient(transparent, rgba(244,243,238,.9));
+        pointer-events: none; filter: blur(2px); }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; flex: 1; min-width: 0; }
-      .nav-btn svg { width: 20px; height: 20px; stroke: #B0AB9F;
+      .nav-btn svg { width: 20px; height: 20px; stroke: #33312D;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .nav-btn.active svg { stroke: #FBFAF6; stroke-width: 2.6; }
-      .nav-btn .label { font-size: .56rem; font-weight: 600; color: #B0AB9F;
+      .nav-btn.active svg { stroke: #6E8345; stroke-width: 2.6; }
+      .nav-btn .label { font-size: .56rem; font-weight: 600; color: #33312D;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-      .nav-btn.active .label { color: #FBFAF6; }
+      .nav-btn.active .label { color: #6E8345; }
 
       /* ===== Update banner ===== */
       .update-banner { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
