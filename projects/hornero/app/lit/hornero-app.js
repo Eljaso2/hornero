@@ -121,21 +121,28 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — app name + section title, centered ===== */
+      /* ===== Top bar — logo + HORNERO, smooth transition ===== */
       .top-bar { background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
-        padding: 12px 16px 14px; display: flex; align-items: center;
-        position: relative; flex: none;
-        padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
+        padding: 20px 16px 18px; display: flex; align-items: center;
+        justify-content: center; position: relative; flex: none;
+        padding-top: calc(20px + env(safe-area-inset-top, 0px)); }
+      .top-bar::after { content: ''; position: absolute; bottom: -12px; left: 0; right: 0;
+        height: 12px; background: linear-gradient(var(--ho-dark, #33312D), transparent);
+        pointer-events: none; }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC);
         border: none; display: flex; align-items: center; justify-content: center;
         cursor: pointer; flex: none; position: absolute; left: 16px; }
-      .top-bar .titles { display: flex; flex-direction: column; align-items: center;
-        justify-content: center; width: 100%; }
+      .top-bar .brand { display: flex; align-items: center; gap: 10px; }
+      .top-bar .brand svg { width: 24px; height: 24px; }
       .top-bar .app-name { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1rem; letter-spacing: .18em; text-transform: uppercase; }
-      .top-bar .section-name { font-family: 'Archivo', sans-serif; font-weight: 600;
-        font-size: .76rem; color: var(--ho-green-light, #94A867); margin-top: 2px; }
+
+      /* ===== Section label — below header, only when inside esfera ===== */
+      .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+        color: #2B2A26; padding: 10px 16px 6px; background: var(--ho-bg, #F4F3EE);
+        flex: none; animation: apfade .3s ease; }
 
       /* ===== Body scroll ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -218,6 +225,9 @@ class HorneroApp extends HoComponent {
         '</div>';
     }
 
+    // Feather logo SVG — simplified from hornero-icon.svg, app colors
+    const featherSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#F2F1EC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10"/><path d="M12 22V2"/><path d="M12 2Q7 6 8 10Q7 14 8 18Q9 20 12 22" fill="#F2F1EC" fill-opacity=".7" stroke="none"/><path d="M12 2Q17 6 16 10Q17 14 16 18Q15 20 12 22" fill="#94A867" fill-opacity=".5" stroke="none"/><line x1="12" y1="6" x2="8" y2="8" stroke="#94A867" stroke-width="1"/><line x1="12" y1="10" x2="8" y2="12" stroke="#94A867" stroke-width="1"/><line x1="12" y1="14" x2="9" y2="16" stroke="#94A867" stroke-width="1"/><line x1="12" y1="6" x2="16" y2="8" stroke="#94A867" stroke-width="1"/><line x1="12" y1="10" x2="16" y2="12" stroke="#94A867" stroke-width="1"/><line x1="12" y1="14" x2="15" y2="16" stroke="#94A867" stroke-width="1"/></svg>';
+
     return html`
       <div class="app-wrap">
         <div class="phone">
@@ -232,11 +242,13 @@ class HorneroApp extends HoComponent {
 
             <div class="top-bar">
               ${showBack ? '<button class="back-btn" title="Volver">←</button>' : ''}
-              <div class="titles">
+              <div class="brand">
+                ${featherSvg}
                 <span class="app-name">HORNERO</span>
-                <span class="section-name">${currentTitle}</span>
               </div>
             </div>
+
+            ${showBack ? '<div class="section-label">' + currentTitle + '</div>' : ''}
 
             <div class="body-scroll">
               ${screenContent}

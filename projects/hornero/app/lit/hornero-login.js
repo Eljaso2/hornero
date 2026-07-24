@@ -145,14 +145,14 @@ class HorneroLogin extends HoComponent {
   }
 
   _render() {
-    const horneroSvg = '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>';
+    const featherSvg = '<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#F2F1EC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10"/><path d="M12 22V2"/><path d="M12 2Q7 6 8 10Q7 14 8 18Q9 20 12 22" fill="#F2F1EC" fill-opacity=".7" stroke="none"/><path d="M12 2Q17 6 16 10Q17 14 16 18Q15 20 12 22" fill="#94A867" fill-opacity=".5" stroke="none"/><line x1="12" y1="6" x2="8" y2="8" stroke="#94A867" stroke-width="1"/><line x1="12" y1="10" x2="8" y2="12" stroke="#94A867" stroke-width="1"/><line x1="12" y1="14" x2="9" y2="16" stroke="#94A867" stroke-width="1"/><line x1="12" y1="6" x2="16" y2="8" stroke="#94A867" stroke-width="1"/><line x1="12" y1="10" x2="16" y2="12" stroke="#94A867" stroke-width="1"/><line x1="12" y1="14" x2="15" y2="16" stroke="#94A867" stroke-width="1"/></svg>';
 
     return html`
       <div class="login-wrap">
         <div class="logo-area">
-          <div class="logo-icon">${horneroSvg}</div>
+          <div class="logo-icon">${featherSvg}</div>
           <div class="logo-name">HORNERO</div>
-          <div class="logo-sub">Organizar es Construir</div>
+          <div class="logo-sub">«El futuro, algo por lo que hay que luchar»</div>
         </div>
 
         <div class="form-area">
