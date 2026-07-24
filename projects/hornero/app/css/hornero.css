@@ -23,18 +23,19 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--ho-body-bg);font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased}
+body{background:var(--ho-dark);font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased}
 
 /* Desktop: phone mockup centered */
 @media(min-width:500px){
+  body{background:var(--ho-body-bg)}
   .app-wrap{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:40px 20px}
   .phone{width:412px;background:var(--ho-dark);border-radius:46px;padding:12px;box-shadow:0 40px 80px -30px var(--ho-shadow);position:sticky;top:40px}
   .screen{background:var(--ho-bg);border-radius:35px;overflow:hidden;height:824px;display:flex;flex-direction:column;position:relative}
 }
-/* Mobile: full screen, no phone frame */
+/* Mobile: full screen native — dark body covers home bar/pill bar area */
 @media(max-width:499px){
-  .app-wrap{min-height:100vh}
-  .phone{width:100%;min-height:100vh}
+  .app-wrap{min-height:100vh;background:var(--ho-dark)}
+  .phone{width:100%;min-height:100vh;background:var(--ho-dark)}
   .screen{background:var(--ho-bg);display:flex;flex-direction:column;position:relative;height:100dvh;overflow:hidden}
 }
 
