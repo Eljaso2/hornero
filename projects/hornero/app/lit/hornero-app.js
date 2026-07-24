@@ -99,9 +99,9 @@ class HorneroApp extends HoComponent {
       .top-bar .titles { display: flex; flex-direction: column; align-items: center;
         justify-content: center; width: 100%; }
       .top-bar .app-name { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .82rem; letter-spacing: .18em; text-transform: uppercase; }
+        font-size: 1rem; letter-spacing: .18em; text-transform: uppercase; }
       .top-bar .section-name { font-family: 'Archivo', sans-serif; font-weight: 600;
-        font-size: .68rem; color: var(--ho-green-light, #94A867); margin-top: 2px; }
+        font-size: .76rem; color: var(--ho-green-light, #94A867); margin-top: 2px; }
 
       /* ===== Body scroll ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
