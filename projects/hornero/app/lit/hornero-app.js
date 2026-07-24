@@ -192,10 +192,10 @@ class HorneroApp extends HoComponent {
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; flex: 1; min-width: 0; }
-      .nav-btn svg { width: 20px; height: 20px; stroke: #33312D;
+      .nav-btn svg { width: 24px; height: 24px; stroke: #33312D;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .nav-btn.active svg { stroke: #6E8345; stroke-width: 2.6; }
-      .nav-btn .label { font-size: .56rem; font-weight: 600; color: #33312D;
+      .nav-btn .label { font-size: .60rem; font-weight: 600; color: #33312D;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #6E8345; }
 
