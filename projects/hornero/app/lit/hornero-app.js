@@ -169,14 +169,17 @@ class HorneroApp extends HoComponent {
         text-align: left; white-space: nowrap; }
 
       /* ===== Section label — below header, back button + title inline ===== */
+      /* ===== Section label — title centered, back-btn on left, space always reserved ===== */
       .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: #2B2A26; padding: 8px 16px 6px; background: var(--ho-bg, #F4F3EE);
-        flex: none; display: flex; align-items: center; gap: 8px; }
+        flex: none; display: flex; align-items: center; }
+      .section-label .back-slot { width: 32px; flex: none; }
       .section-label .back-btn { width: 24px; height: 24px; border-radius: 50%;
         background: rgba(43,42,38,.08); color: #2B2A26;
         border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; flex: none; font-size: .9rem; line-height: 1; }
+        cursor: pointer; font-size: .9rem; line-height: 1; }
+      .section-label .label-text { flex: 1; text-align: center; }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -280,7 +283,7 @@ class HorneroApp extends HoComponent {
               </div>
             </div>
 
-            ${showBack ? '<div class="section-label"><button class="back-btn" title="Volver">←</button>' + currentTitle + '</div>' : ''}
+            ${showBack ? '<div class="section-label"><div class="back-slot"><button class="back-btn" title="Volver">←</button></div><span class="label-text">' + currentTitle + '</span></div>' : ''}
 
             <div class="body-scroll">
               ${screenContent}
