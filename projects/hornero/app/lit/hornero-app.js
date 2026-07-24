@@ -15,7 +15,6 @@ class HorneroApp extends HoComponent {
       userName: String,
       loggedIn: Boolean,
       updateAvailable: Boolean,
-      clipExpandId: String,
     };
   }
 
@@ -23,7 +22,6 @@ class HorneroApp extends HoComponent {
     super();
     this.screen = 'home';
     this.updateAvailable = false;
-    this.clipExpandId = '';
 
     // Synchronous session restore from localStorage (avoids login flash)
     const stored = localStorage.getItem('hornero-session');
@@ -159,10 +157,6 @@ class HorneroApp extends HoComponent {
       .top-bar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0;
         height: 12px; background: linear-gradient(to bottom, #33312D, var(--ho-bg, #F4F3EE));
         filter: blur(4px); -webkit-filter: blur(4px); pointer-events: none; }
-      .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
-        background: rgba(255,255,255,.15); color: var(--ho-text-off, #F2F1EC);
-        border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; flex: none; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); }
       .top-bar .corner-logo { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
       .top-bar .corner-logo img { width: 32px; height: auto; opacity: .85; }
       .header-text { display: flex; flex-direction: column;
@@ -174,11 +168,15 @@ class HorneroApp extends HoComponent {
         font-size: .64rem; color: #9C988D; letter-spacing: .04em;
         text-align: left; white-space: nowrap; }
 
-      /* ===== Section label — below gradient header, instant appear ===== */
+      /* ===== Section label — below header, back button + title inline ===== */
       .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: #2B2A26; padding: 8px 16px 6px; background: var(--ho-bg, #F4F3EE);
-        flex: none; }
+        flex: none; display: flex; align-items: center; gap: 8px; }
+      .section-label .back-btn { width: 24px; height: 24px; border-radius: 50%;
+        background: rgba(43,42,38,.08); color: #2B2A26;
+        border: none; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; flex: none; font-size: .9rem; line-height: 1; }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -238,7 +236,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'is') {
       screenContent = '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>';
     } else if (this.screen === 'actualidad') {
-      screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '" clip-expand-id="' + this.clipExpandId + '"></hornero-actualidad>';
+      screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
     } else if (this.screen === 'condicion') {
@@ -275,7 +273,6 @@ class HorneroApp extends HoComponent {
             ${this.updateAvailable ? '<div class="update-banner" id="updateBanner">⟳ Actualización disponible — toca para recargar<button class="update-dismiss" id="updateDismiss">✕</button></div>' : ''}
 
             <div class="top-bar">
-              ${showBack ? '<button class="back-btn" title="Volver">←</button>' : ''}
               <div class="corner-logo"><img src="assets/hornero-logo.png" alt="Hornero" /></div>
               <div class="header-text">
                 <span class="app-name">HORNERO</span>
@@ -283,7 +280,7 @@ class HorneroApp extends HoComponent {
               </div>
             </div>
 
-            ${showBack ? '<div class="section-label">' + currentTitle + '</div>' : ''}
+            ${showBack ? '<div class="section-label"><button class="back-btn" title="Volver">←</button>' + currentTitle + '</div>' : ''}
 
             <div class="body-scroll">
               ${screenContent}
@@ -326,11 +323,6 @@ class HorneroApp extends HoComponent {
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
       this.set('screen', e.detail.screen);
-      if (e.detail.clipExpandId) {
-        this.set('clipExpandId', e.detail.clipExpandId);
-      } else {
-        this.set('clipExpandId', '');
-      }
     });
 
     // Bind logout button (Perfil screen)
