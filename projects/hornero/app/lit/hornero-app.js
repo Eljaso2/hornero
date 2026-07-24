@@ -13,6 +13,7 @@ class HorneroApp extends HoComponent {
       userTerritory: String,
       userSector: String,
       updateAvailable: Boolean,
+      clipExpandId: String,
     };
   }
 
@@ -23,6 +24,7 @@ class HorneroApp extends HoComponent {
     this.userTerritory = '';
     this.userSector = 'aceitero';
     this.updateAvailable = false;
+    this.clipExpandId = '';
 
     // 6 nav buttons: Inicio + 4 esferas implementadas + Perfil
     // (Formación y Archivo accesibles desde Home cards, no en bottom nav)
@@ -147,7 +149,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'is') {
       screenContent = '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>';
     } else if (this.screen === 'actualidad') {
-      screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>';
+      screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '" clip-expand-id="' + this.clipExpandId + '"></hornero-actualidad>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
     } else if (this.screen === 'condicion') {
@@ -222,6 +224,11 @@ class HorneroApp extends HoComponent {
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
       this.set('screen', e.detail.screen);
+      if (e.detail.clipExpandId) {
+        this.set('clipExpandId', e.detail.clipExpandId);
+      } else {
+        this.set('clipExpandId', '');
+      }
     });
 
     // Check for SW updates on each render

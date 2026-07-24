@@ -11,6 +11,7 @@ class HorneroActualidad extends HoComponent {
       sector: String,
       tab: String,       // 'clipping' | 'mate' | 'sindical'
       filter: String,    // 'todos' | 'VD' | 'VC' | 'VS'
+      clipExpandId: String, // ID of clipping to auto-expand (from Home navigation)
     };
   }
 
@@ -20,8 +21,10 @@ class HorneroActualidad extends HoComponent {
     this.sector = 'aceitero';
     this.tab = 'clipping';
     this.filter = 'todos';
+    this.clipExpandId = '';
     this._clipping = [];
     this._mate = null;
+    this._expandedCards = {}; // track which cards are expanded
   }
 
   async connectedCallback() {
@@ -91,12 +94,21 @@ class HorneroActualidad extends HoComponent {
 
       .clip-card { background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 13px; padding: 14px; margin: 0 16px 10px; }
+        border-radius: 13px; padding: 14px; margin: 0 16px 10px;
+        cursor: pointer; transition: border-color .2s; }
+      .clip-card:hover { border-color: rgba(43,42,38,.25); }
       .clip-emoji { font-size: 1.1rem; }
       .clip-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px; }
+        font-size: 1rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px; }
       .clip-bajada { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; }
+      .clip-desarrollo { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
+        line-height: 1.5; margin-top: 6px;
+        max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+      .clip-desarrollo.expanded { max-height: 600px; }
+      .clip-toggle { font-family: 'Archivo', sans-serif; font-size: .74rem;
+        color: var(--ho-green); font-weight: 600; cursor: pointer;
+        background: none; border: none; padding: 4px 0; margin-top: 4px; }
       .clip-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
       .clip-tag-VD { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: #E8D5D5; color: #C0392B; padding: 3px 8px;
@@ -209,10 +221,16 @@ class HorneroActualidad extends HoComponent {
       `<span class="clip-tag-topic">${t}</span>`
     ).join('');
 
-    return `<div class="clip-card">
+    const isExpanded = this._expandedCards[n.id] || this.clipExpandId === n.id;
+    const toggleLabel = isExpanded ? '✕ Cerrar' : '▸ Leer más';
+
+    return `<div class="clip-card" data-clip-id="${n.id}">
+      ${n.foto ? '<img src="' + n.foto + '" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:10px" loading="lazy">' : ''}
       <span class="clip-emoji">${n.emoji || '📰'}</span>
       <div class="clip-title">${n.titulo}</div>
       <div class="clip-bajada">${n.bajada}</div>
+      <div class="clip-desarrollo${isExpanded ? ' expanded' : ''}">${n.desarrollo || n.bajada}</div>
+      <button class="clip-toggle" data-clip-id="${n.id}">${toggleLabel}</button>
       <div class="clip-tags">${vTagsHtml} ${topicTagsHtml}</div>
       <div class="clip-fuente">${n.fuente}</div>
     </div>`;
@@ -289,6 +307,12 @@ class HorneroActualidad extends HoComponent {
   }
 
   _afterRender() {
+    // If clipExpandId was passed, auto-switch to clipping tab
+    if (this.clipExpandId && this.tab !== 'clipping') {
+      this.tab = 'clipping';
+      // Don't re-render here, it's already in the right state from connectedCallback
+    }
+
     // Tab switching
     this.shadowRoot.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -303,6 +327,33 @@ class HorneroActualidad extends HoComponent {
         this.set('filter', btn.dataset.filter);
       });
     });
+
+    // Clip card expand/collapse
+    this.shadowRoot.querySelectorAll('.clip-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.clipId;
+        this._expandedCards[id] = !this._expandedCards[id];
+        this.render();
+      });
+    });
+
+    // Also expand on card click (not on toggle button)
+    this.shadowRoot.querySelectorAll('.clip-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.dataset.clipId;
+        this._expandedCards[id] = !this._expandedCards[id];
+        this.render();
+      });
+    });
+
+    // Scroll to expanded card if clipExpandId was passed
+    if (this.clipExpandId) {
+      const target = this.shadowRoot.querySelector(`[data-clip-id="${this.clipExpandId}"]`);
+      if (target) {
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+      }
+    }
   }
 }
 

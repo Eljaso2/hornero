@@ -96,7 +96,7 @@ class HorneroHome extends HoComponent {
         background: linear-gradient(transparent, rgba(33,31,29,.85));
         color: #F2F1EC; }
       .news-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .86rem; line-height: 1.3; }
+        font-size: 1.05rem; line-height: 1.25; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
       .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         background: rgba(110,131,69,.6); color: #F2F1EC;
@@ -109,31 +109,36 @@ class HorneroHome extends HoComponent {
 
       /* --- Agenda cloud --- */
       .agenda-wrap { margin-top: 4px; }
-      .agenda-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .78rem; color: #6E6A60; margin-bottom: 8px; }
       .agenda-cloud { display: flex; flex-wrap: wrap; align-items: center;
         gap: 6px 8px; }
       .agenda-bubble { font-family: 'Archivo', sans-serif; font-weight: 600;
-        padding: 4px 10px; border-radius: 20px; cursor: pointer;
+        padding: 5px 11px; border-radius: 20px; cursor: pointer;
         transition: transform .2s; white-space: nowrap; }
       .agenda-bubble:hover { transform: scale(1.05); }
-      .agenda-urgent { background: #6E8345; color: #F2F1EC; font-size: .82rem; }
-      .agenda-soon { background: #94A867; color: #F2F1EC; font-size: .78rem; }
-      .agenda-mid { background: #E8EDD7; color: #586B33; font-size: .74rem; }
-      .agenda-far { background: #E6E3DB; color: #6E6A60; font-size: .70rem; }
+      .agenda-label { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+        margin-right: 2px; }
+      .agenda-hoy { background: #C0392B; color: #FFF; font-size: .82rem; }
+      .agenda-hoy .agenda-label { color: #FFD5D5; }
+      .agenda-manana { background: #6E8345; color: #F2F1EC; font-size: .82rem; }
+      .agenda-manana .agenda-label { color: #C8D9A4; }
+      .agenda-prox { background: #94A867; color: #F2F1EC; font-size: .78rem; }
+      .agenda-prox .agenda-label { color: #D4DFBE; }
+      .agenda-date { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        opacity: .7; margin-left: 3px; }
 
       /* ===== ESFERA 2: Consulta — 3 íconos ===== */
       .esfera-consulta { margin-bottom: 20px; }
-      .consulta-icons { display: flex; justify-content: space-around; }
+      .consulta-icons { display: flex; justify-content: space-around; gap: 4px; }
       .icon-btn { display: flex; flex-direction: column; align-items: center;
-        gap: 6px; background: none; border: none; cursor: pointer;
-        padding: 12px 8px; font-family: 'Archivo', sans-serif;
+        gap: 7px; background: none; border: none; cursor: pointer;
+        padding: 14px 6px; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; }
       .icon-btn:hover { opacity: .8; }
-      .icon-btn svg { width: 32px; height: 32px; stroke: #6E8345;
-        stroke-width: 2; fill: none; stroke-linecap: round;
+      .icon-btn svg { width: 46px; height: 46px; stroke: #6E8345;
+        stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
-      .icon-btn .icon-label { font-size: .74rem; font-weight: 600;
+      .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
         color: #2B2A26; }
 
       /* ===== Esferas 3-6: ghost cards ===== */
@@ -143,8 +148,9 @@ class HorneroHome extends HoComponent {
         transition: border-color .2s; position: relative; }
       .esfera-card:hover { border-color: rgba(43,42,38,.18); }
       .esfera-card.locked { cursor: default; }
-      .esfera-card .card-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: #2B2A26; }
+      .esfera-card .card-name { font-family: 'JetBrains Mono', monospace;
+        font-weight: 600; font-size: .68rem; letter-spacing: .14em;
+        text-transform: uppercase; color: #2B2A26; }
       .esfera-card .card-desc { font-size: .82rem; color: #6E6A60;
         line-height: 1.4; margin-top: 4px; }
       .esfera-card .card-tag { font-family: 'JetBrains Mono', monospace;
@@ -162,9 +168,9 @@ class HorneroHome extends HoComponent {
   _render() {
     const lockSvg = '<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
 
-    // --- Carousel slides ---
+    // --- Carousel slides (clickable → Actualidad clipping) ---
     const newsSlides = this._clipping.map((n, i) =>
-      '<div class="news-slide" data-index="' + i + '">' +
+      '<div class="news-slide" data-index="' + i + '" data-clip-id="' + (n.id || '') + '">' +
         (n.foto ? '<img src="' + n.foto + '" alt="" loading="lazy">' : '') +
         '<div class="news-overlay">' +
           '<div class="news-title">' + (n.emoji || '') + ' ' + (n.titulo || '') + '</div>' +
@@ -179,12 +185,22 @@ class HorneroHome extends HoComponent {
       '<span class="dot' + (i === this.carouselIndex ? ' active' : '') + '" data-index="' + i + '"></span>'
     ).join('');
 
-    // --- Agenda ---
+    // --- Agenda: HOY / MAÑANA / PRÓX ---
+    const today = new Date(); today.setHours(0,0,0,0);
     const agendaBubbles = this._agenda.map(ev => {
-      const cls = ev.urgencia <= 1 ? 'agenda-urgent' :
-                 ev.urgencia <= 2 ? 'agenda-soon' :
-                 ev.urgencia <= 4 ? 'agenda-mid' : 'agenda-far';
-      return '<span class="agenda-bubble ' + cls + '">' + ev.nombre + '</span>';
+      const evDate = new Date(ev.fecha + 'T00:00:00');
+      const diffDays = Math.round((evDate - today) / 86400000);
+      let cls, label;
+      if (diffDays === 0) { cls = 'agenda-hoy'; label = 'HOY'; }
+      else if (diffDays === 1) { cls = 'agenda-manana'; label = 'MAÑANA'; }
+      else { cls = 'agenda-prox'; label = 'PRÓX'; }
+      // Format date: DD/MM
+      const dayNum = evDate.getDate();
+      const monthNum = evDate.getMonth() + 1;
+      const dateStr = dayNum + '/' + monthNum;
+      return '<span class="agenda-bubble ' + cls + '">' +
+        '<span class="agenda-label">' + label + '</span> ' +
+        ev.nombre + '<span class="agenda-date">' + dateStr + '</span></span>';
     }).join('');
 
     // --- Consulta icons ---
@@ -210,7 +226,6 @@ class HorneroHome extends HoComponent {
         </div>
 
         <div class="agenda-wrap">
-          <div class="agenda-name">Agenda</div>
           <div class="agenda-cloud">
             ${agendaBubbles}
           </div>
@@ -268,6 +283,19 @@ class HorneroHome extends HoComponent {
   }
 
   _afterRender() {
+    // Carousel slides — click → go to Actualidad clipping with that ID
+    this.shadowRoot.querySelectorAll('.news-slide').forEach(slide => {
+      slide.addEventListener('click', () => {
+        const clipId = slide.dataset.clipId;
+        // Navigate to actualidad screen, pass clippingId via state
+        if (typeof state !== 'undefined') {
+          state.screen = 'actualidad';
+          state.clipExpandId = clipId;
+        }
+        this.emit('screen-change', { screen: 'actualidad', clipExpandId: clipId });
+      });
+    });
+
     // Carousel scroll → update dots
     const track = this.shadowRoot.querySelector('#carouselTrack');
     const dots = this.shadowRoot.querySelector('#carouselDots');
