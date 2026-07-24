@@ -179,7 +179,7 @@ class HorneroApp extends HoComponent {
         background: rgba(43,42,38,.08); color: #2B2A26;
         border: none; display: flex; align-items: center; justify-content: center;
         cursor: pointer; font-size: .9rem; line-height: 1; }
-      .section-label .label-text { flex: 1; text-align: center; }
+      .section-label .label-text { flex: 1; text-align: right; }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
