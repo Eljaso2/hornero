@@ -23,7 +23,8 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--ho-dark);font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased}
+html{background:var(--ho-dark);background-attachment:fixed;min-height:100vh;min-height:-webkit-fill-available}
+body{background:var(--ho-dark);background-attachment:fixed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased;overscroll-behavior:none;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
 
 /* Desktop: phone mockup centered */
 @media(min-width:500px){

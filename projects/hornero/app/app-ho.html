@@ -25,11 +25,17 @@
   <script src="js/data-loader.js"></script>
 
   <style>
-    /* App-level: full viewport, no scroll bounce, dark background everywhere */
-    html { background: #33312D !important; }
-    body { background: #33312D !important; overscroll-behavior: none; overflow: hidden;
-      margin: 0; padding: 0; }
-    hornero-app { display: block; width: 100%; height: 100dvh; }
+    /* App-level: dark background extends under home bar / pill area */
+    html { background: #33312D !important;
+      background-attachment: fixed !important;
+      min-height: 100vh; min-height: -webkit-fill-available; }
+    body { background: #33312D !important;
+      background-attachment: fixed !important;
+      overscroll-behavior: none; overflow: hidden;
+      margin: 0; padding: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0px); }
+    hornero-app { display: block; width: 100%; min-height: 100vh;
+      min-height: -webkit-fill-available; }
     /* PWA install banner */
     .pwa-install-banner { position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
