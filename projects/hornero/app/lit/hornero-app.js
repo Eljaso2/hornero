@@ -121,21 +121,18 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — light background, logo centrado ===== */
+      /* ===== Top bar — title + motto centrado, logo chico corner derecho ===== */
       .top-bar { background: var(--ho-bg, #F4F3EE); color: var(--ho-text, #2B2A26);
-        padding: 24px 16px 8px; display: flex; flex-direction: column;
-        align-items: center; justify-content: center; position: relative; flex: none;
-        padding-top: calc(8px + env(safe-area-inset-top, 0px));
-        margin-bottom: 0; }
+        padding: 8px 16px 6px; display: flex; align-items: center;
+        justify-content: center; position: relative; flex: none;
+        padding-top: calc(8px + env(safe-area-inset-top, 0px)); }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-text, #2B2A26);
         border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; flex: none; position: absolute; left: 16px; top: 24px; }
-      .header-logo-wrap { position: relative; display: flex; align-items: center;
-        justify-content: center; margin-bottom: -24px; z-index: 10; }
-      .header-logo-wrap img.header-logo { width: 60px; height: auto; }
-      .header-text { position: absolute; top: 50%; left: 50%;
-        transform: translate(-50%, -50%); display: flex; flex-direction: column;
+        cursor: pointer; flex: none; position: absolute; left: 16px; }
+      .top-bar .corner-logo { position: absolute; right: 14px; top: calc(8px + env(safe-area-inset-top, 0px)); }
+      .top-bar .corner-logo img { width: 32px; height: auto; opacity: .85; }
+      .header-text { display: flex; flex-direction: column;
         align-items: center; gap: 1px; }
       .header-text .app-name { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.1rem; letter-spacing: .16em; text-transform: uppercase;
@@ -248,12 +245,10 @@ class HorneroApp extends HoComponent {
 
             <div class="top-bar">
               ${showBack ? '<button class="back-btn" title="Volver">←</button>' : ''}
-              <div class="header-logo-wrap">
-                <img class="header-logo" src="assets/hornero-logo.png" alt="Hornero" />
-                <div class="header-text">
-                  <span class="app-name">HORNERO</span>
-                  <span class="app-motto">«El futuro, algo por lo que hay que luchar»</span>
-                </div>
+              <div class="corner-logo"><img src="assets/hornero-logo.png" alt="Hornero" /></div>
+              <div class="header-text">
+                <span class="app-name">HORNERO</span>
+                <span class="app-motto">«El futuro, algo por lo que hay que luchar»</span>
               </div>
             </div>
 
