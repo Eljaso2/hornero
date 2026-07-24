@@ -87,9 +87,9 @@ class HorneroHome extends HoComponent {
         scrollbar-width: none; }
       .carousel-track::-webkit-scrollbar { width: 0; }
       .news-slide { scroll-snap-align: start; width: 100%; flex-shrink: 0;
-        position: relative; min-height: 220px;
+        position: relative; min-height: 260px;
         background: var(--ho-dark, #33312D); }
-      .news-slide img { width: 100%; height: 220px; object-fit: cover;
+      .news-slide img { width: 100%; height: 260px; object-fit: cover;
         display: block; }
       .news-overlay { position: absolute; bottom: 0; left: 0; right: 0;
         padding: 36px 14px 12px;
