@@ -225,7 +225,7 @@ class HorneroActualidad extends HoComponent {
     const toggleLabel = isExpanded ? '✕ Cerrar' : '▸ Leer más';
 
     return `<div class="clip-card" data-clip-id="${n.id}">
-      ${n.foto ? '<img src="' + n.foto + '" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:10px" loading="lazy">' : ''}
+      ${n.foto ? '<img src="' + n.foto + '" alt="" style="width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:10px" loading="lazy">' : ''}
       <span class="clip-emoji">${n.emoji || '📰'}</span>
       <div class="clip-title">${n.titulo}</div>
       <div class="clip-bajada">${n.bajada}</div>
