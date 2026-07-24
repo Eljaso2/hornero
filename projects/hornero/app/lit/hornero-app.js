@@ -138,10 +138,10 @@ class HorneroApp extends HoComponent {
         transform: translate(-50%, -50%); display: flex; flex-direction: column;
         align-items: center; gap: 1px; }
       .header-text .app-name { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .88rem; letter-spacing: .16em; text-transform: uppercase;
+        font-size: 1.1rem; letter-spacing: .16em; text-transform: uppercase;
         color: var(--ho-text, #2B2A26); }
       .header-text .app-motto { font-family: 'Public Sans', sans-serif; font-weight: 500;
-        font-size: .56rem; color: var(--ho-text-light, #9C988D); letter-spacing: .04em;
+        font-size: .64rem; color: var(--ho-text-light, #9C988D); letter-spacing: .04em;
         text-align: center; white-space: nowrap; }
 
       /* ===== Section label — below header, only when inside esfera ===== */
@@ -167,10 +167,10 @@ class HorneroApp extends HoComponent {
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; flex: 1; min-width: 0; }
-      .nav-btn svg { width: 20px; height: 20px; stroke: #9C988D;
+      .nav-btn svg { width: 20px; height: 20px; stroke: #B0AB9F;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .nav-btn.active svg { stroke: #FBFAF6; stroke-width: 2.6; }
-      .nav-btn .label { font-size: .56rem; font-weight: 600; color: #9C988D;
+      .nav-btn .label { font-size: .56rem; font-weight: 600; color: #B0AB9F;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #FBFAF6; }
 
