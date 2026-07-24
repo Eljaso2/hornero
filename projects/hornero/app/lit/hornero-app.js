@@ -83,6 +83,7 @@ class HorneroApp extends HoComponent {
       ecosistema: 'Ecosistema Hornero',
       argumento: 'Argumento',
       comunicador: 'Comunicador',
+      contenido: 'Contenido',
     };
   }
 
@@ -242,6 +243,8 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
+    } else if (this.screen === 'contenido') {
+      screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-contenido>';
     } else if (this.screen === 'condicion') {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
     } else {

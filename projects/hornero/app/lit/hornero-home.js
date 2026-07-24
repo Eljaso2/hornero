@@ -264,7 +264,7 @@ class HorneroHome extends HoComponent {
             <svg viewBox="0 0 24 24">${consultaSvg}</svg>
             <span class="icon-label">Consulta</span>
           </button>
-          <button class="icon-btn" data-screen="consulta">
+          <button class="icon-btn" data-screen="contenido">
             <svg viewBox="0 0 24 24">${contenidoSvg}</svg>
             <span class="icon-label">Contenido</span>
           </button>

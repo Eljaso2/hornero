@@ -14,7 +14,11 @@ import './hornero-home.js?v=25';
 // ESFERA 1 — Actualidad y agenda
 import './hornero-actualidad.js?v=25';
 
-// ESFERA 2 — Consulta y asesoramiento (placeholder en hornero-app.js)
+// ESFERA 2 — Consulta y asesoramiento
+// Sub-screen: Contenido sindical (podcast, reel, columna, entrevista)
+import './hornero-contenido.js?v=25';
+
+// (Debate y Consulta: placeholder en hornero-app.js)
 
 // ESFERA 3 — Formación política y sindical (placeholder en hornero-app.js)
 
