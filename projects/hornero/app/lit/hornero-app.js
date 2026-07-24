@@ -121,22 +121,32 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — logo + HORNERO, smooth transition ===== */
+      /* ===== Top bar — logo centrado, título + lema encima ===== */
       .top-bar { background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
-        padding: 20px 16px 18px; display: flex; align-items: center;
-        justify-content: center; position: relative; flex: none;
-        padding-top: calc(20px + env(safe-area-inset-top, 0px)); }
-      .top-bar::after { content: ''; position: absolute; bottom: -12px; left: 0; right: 0;
-        height: 12px; background: linear-gradient(var(--ho-dark, #33312D), transparent);
-        pointer-events: none; }
+        padding: 24px 16px 8px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; position: relative; flex: none;
+        padding-top: calc(24px + env(safe-area-inset-top, 0px));
+        margin-bottom: 0; }
+      .top-bar::after { content: ''; position: absolute; bottom: -16px; left: 0; right: 0;
+        height: 16px; background: linear-gradient(var(--ho-dark, #33312D), transparent);
+        pointer-events: none; z-index: 10; }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC);
         border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; flex: none; position: absolute; left: 16px; }
-      .top-bar .brand { display: flex; align-items: center; gap: 10px; }
-      .top-bar .brand svg { width: 24px; height: 24px; }
-      .top-bar .app-name { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1rem; letter-spacing: .18em; text-transform: uppercase; }
+        cursor: pointer; flex: none; position: absolute; left: 16px; top: 24px; }
+      .header-logo-wrap { position: relative; display: flex; align-items: center;
+        justify-content: center; margin-bottom: -20px; z-index: 10; }
+      .header-logo-wrap svg.header-logo { width: 70px; height: 70px;
+        filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
+      .header-text { position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%); display: flex; flex-direction: column;
+        align-items: center; gap: 2px; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
+      .header-text .app-name { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: .92rem; letter-spacing: .18em; text-transform: uppercase;
+        color: #F2F1EC; }
+      .header-text .app-motto { font-family: 'Public Sans', sans-serif; font-weight: 500;
+        font-size: .62rem; color: #C8D9A4; letter-spacing: .04em;
+        text-align: center; max-width: 180px; line-height: 1.3; }
 
       /* ===== Section label — below header, only when inside esfera ===== */
       .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
@@ -228,8 +238,8 @@ class HorneroApp extends HoComponent {
         '</div>';
     }
 
-    // Feather logo SVG — simplified from hornero-icon.svg, app colors
-    const featherSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="#F2F1EC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10"/><path d="M12 22V2"/><path d="M12 2Q7 6 8 10Q7 14 8 18Q9 20 12 22" fill="#F2F1EC" fill-opacity=".7" stroke="none"/><path d="M12 2Q17 6 16 10Q17 14 16 18Q15 20 12 22" fill="#94A867" fill-opacity=".5" stroke="none"/><line x1="12" y1="6" x2="8" y2="8" stroke="#94A867" stroke-width="1"/><line x1="12" y1="10" x2="8" y2="12" stroke="#94A867" stroke-width="1"/><line x1="12" y1="14" x2="9" y2="16" stroke="#94A867" stroke-width="1"/><line x1="12" y1="6" x2="16" y2="8" stroke="#94A867" stroke-width="1"/><line x1="12" y1="10" x2="16" y2="12" stroke="#94A867" stroke-width="1"/><line x1="12" y1="14" x2="15" y2="16" stroke="#94A867" stroke-width="1"/></svg>';
+    // Feather logo SVG — large version for header, title+motto overlaid on center
+    const featherSvg = '<svg class="header-logo" viewBox="0 0 512 512" width="70" height="70" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="#6E8345"/><g transform="translate(256,256) scale(1.4)" fill="#F2F1EC" stroke="none"><path d="M0,-120 L0,120" stroke="#F2F1EC" stroke-width="5" fill="none"/><path d="M0,-120 Q-60,-80 -50,-40 Q-40,0 -45,40 Q-50,70 -30,100 L0,120 Z" fill="#F2F1EC" opacity="0.9"/><path d="M0,-120 Q60,-80 50,-40 Q40,0 45,40 Q50,70 30,100 L0,120 Z" fill="#F2F1EC" opacity="0.7"/><line x1="0" y1="-90" x2="-55" y2="-70" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-60" x2="-48" y2="-35" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-30" x2="-42" y2="0" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="0" x2="-40" y2="30" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="30" x2="-35" y2="60" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="60" x2="-20" y2="85" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-90" x2="55" y2="-70" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-60" x2="48" y2="-35" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="-30" x2="42" y2="0" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="0" x2="40" y2="30" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="30" x2="35" y2="60" stroke="#94A867" stroke-width="1.5"/><line x1="0" y1="60" x2="20" y2="85" stroke="#94A867" stroke-width="1.5"/></g></svg>';
 
     return html`
       <div class="app-wrap">
@@ -245,9 +255,12 @@ class HorneroApp extends HoComponent {
 
             <div class="top-bar">
               ${showBack ? '<button class="back-btn" title="Volver">←</button>' : ''}
-              <div class="brand">
+              <div class="header-logo-wrap">
                 ${featherSvg}
-                <span class="app-name">HORNERO</span>
+                <div class="header-text">
+                  <span class="app-name">HORNERO</span>
+                  <span class="app-motto">«El futuro, algo por lo que hay que luchar»</span>
+                </div>
               </div>
             </div>
 
