@@ -63,9 +63,10 @@ class HorneroHome extends HoComponent {
 
   _styles() {
     return css`
-      :host { display: block; padding: 16px; }
+      /* ===== Home container — light background ===== */
+      :host { display: block; padding: 16px; background: #F4F3EE; }
 
-      /* ===== Section name — kicker style (JetBrains Mono uppercase, visible) ===== */
+      /* ===== Section name — kicker style, dark on light bg ===== */
       .esfera-name { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: #2B2A26; margin-bottom: 10px; }
