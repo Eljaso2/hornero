@@ -44,7 +44,7 @@ class HorneroLogin extends HoComponent {
 
       .logo-area {
         display: flex; flex-direction: column; align-items: center;
-        margin-bottom: 60px;
+        margin-bottom: 100px;
       }
 
       .logo-icon {
