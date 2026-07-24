@@ -149,8 +149,8 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — solid dark where name sits, gradient starts below ===== */
-      .top-bar { background: linear-gradient(to bottom, #33312D 0%, #33312D 40%, #5A574F 55%, #6E6A60 70%, #8A8580 85%, var(--ho-bg, #F4F3EE) 100%);
+      /* ===== Top bar — solid dark where name+lema sit, gradient starts between name and motto ===== */
+      .top-bar { background: linear-gradient(to bottom, #33312D 0%, #33312D 55%, #5A574F 65%, #6E6A60 75%, #8A8580 88%, var(--ho-bg, #F4F3EE) 100%);
         color: var(--ho-text-off, #F2F1EC);
         padding: 0 16px; display: flex; align-items: center;
         justify-content: flex-start; position: relative; flex: none;
