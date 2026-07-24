@@ -65,9 +65,10 @@ class HorneroHome extends HoComponent {
     return css`
       :host { display: block; padding: 16px; }
 
-      /* ===== Section name — visible, dark text ===== */
-      .esfera-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: #2B2A26; margin-bottom: 10px; }
+      /* ===== Section name — kicker style (JetBrains Mono uppercase, visible) ===== */
+      .esfera-name { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+        color: #2B2A26; margin-bottom: 10px; }
 
       /* ===== Invisible card — same bg as page, padding, no visible border ===== */
       .ghost-card { background: var(--ho-card, #FBFAF6);
@@ -217,7 +218,7 @@ class HorneroHome extends HoComponent {
 
       <!-- ESFERA 2: Consulta -->
       <div class="esfera-consulta">
-        <div class="esfera-name">Consulta</div>
+        <div class="esfera-name">Chateá con la IA Sindical</div>
         <div class="consulta-icons">
           <button class="icon-btn" data-screen="consulta">
             <svg viewBox="0 0 24 24">${debateSvg}</svg>
