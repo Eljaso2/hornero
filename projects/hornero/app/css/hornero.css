@@ -1,5 +1,6 @@
 /* ===== Hornero Design Tokens ===== */
 :root {
+  color-scheme: dark light;
   --ho-green: #6E8345;
   --ho-green-light: #94A867;
   --ho-green-pale: #E8EDD7;
@@ -53,8 +54,8 @@ body{background:var(--ho-dark);background-attachment:fixed;font-family:'Public S
 .menu-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:600;font-size:.88rem;color:var(--ho-text-off);text-decoration:none;margin-bottom:3px;transition:background .2s}
 .menu-link:hover{background:rgba(148,168,103,.2)}
 .menu-link.active{background:rgba(148,168,103,.3);color:var(--ho-green-light)}
-.bottom-nav{background:var(--ho-dark);display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative}
-.bottom-nav::before{content:'';position:absolute;top:-12px;left:0;right:0;height:12px;background:linear-gradient(transparent,var(--ho-dark));pointer-events:none}
+.bottom-nav{background:#6E6A60;display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative}
+.bottom-nav::before{content:'';position:absolute;top:-12px;left:0;right:0;height:12px;background:linear-gradient(transparent,#6E6A60);pointer-events:none}
 .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:3px 9px;font-family:'Archivo',sans-serif}
 .nav-btn .icon{font-size:1.15rem}
 .nav-btn .label{font-size:.62rem;font-weight:600}
