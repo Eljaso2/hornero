@@ -95,8 +95,8 @@ class HorneroHome extends HoComponent {
         padding: 36px 14px 12px;
         background: linear-gradient(transparent, rgba(33,31,29,.85));
         color: #F2F1EC; }
-      .news-title { font-family: 'Inter', sans-serif; font-weight: 800;
-        font-size: 1.32rem; line-height: 1.18; letter-spacing: -.01em; }
+      .news-title { font-family: 'Archivo Narrow', sans-serif; font-weight: 800;
+        font-size: 1.32rem; line-height: 1.18; letter-spacing: .02em; text-transform: uppercase; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
       .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         background: rgba(110,131,69,.6); color: #F2F1EC;
