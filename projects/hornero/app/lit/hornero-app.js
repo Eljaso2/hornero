@@ -171,12 +171,12 @@ class HorneroApp extends HoComponent {
   }
 
   _render() {
-    // Login gate — show login screen if not logged in
+    // Login gate — show login screen if not logged in (full screen, no shell chrome)
     if (!this.loggedIn) {
       return html`
         <div class="app-wrap">
           <div class="phone">
-            <div class="screen">
+            <div class="screen" style="background:var(--ho-dark,#33312D);display:flex;flex-direction:column;overflow:hidden">
               <hornero-login></hornero-login>
             </div>
           </div>

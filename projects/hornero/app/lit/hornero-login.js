@@ -34,11 +34,12 @@ class HorneroLogin extends HoComponent {
       :host { display: block; }
 
       .login-wrap {
-        min-height: 100dvh;
+        height: 100%; width: 100%;
         background: var(--ho-dark, #33312D);
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
         padding: 40px 24px;
+        box-sizing: border-box;
       }
 
       .logo-area {
