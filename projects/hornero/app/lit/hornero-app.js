@@ -121,20 +121,21 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — gradient header, title + motto centrado ===== */
-      .top-bar { background: linear-gradient(to bottom, var(--ho-dark, #33312D), #6E6A60);
+      /* ===== Top bar — gradient oscuro→claro, título centrado verticalmente ===== */
+      .top-bar { background: linear-gradient(to bottom, var(--ho-dark, #33312D) 0%, #5A574F 30%, #6E6A60 60%, #8A8580 85%, var(--ho-bg, #F4F3EE) 100%);
         color: var(--ho-text-off, #F2F1EC);
-        padding: 20px 16px 6px; display: flex; align-items: center;
+        padding: 0 16px; display: flex; align-items: center;
         justify-content: center; position: relative; flex: none;
-        padding-top: calc(20px + env(safe-area-inset-top, 0px)); }
+        min-height: 90px;
+        padding-top: env(safe-area-inset-top, 0px); }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: rgba(255,255,255,.15); color: var(--ho-text-off, #F2F1EC);
         border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; flex: none; position: absolute; left: 16px; }
-      .top-bar .corner-logo { position: absolute; right: 14px; top: calc(20px + env(safe-area-inset-top, 0px)); }
+        cursor: pointer; flex: none; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); }
+      .top-bar .corner-logo { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
       .top-bar .corner-logo img { width: 32px; height: auto; opacity: .85; }
       .header-text { display: flex; flex-direction: column;
-        align-items: center; gap: 1px; }
+        align-items: center; gap: 2px; }
       .header-text .app-name { font-family: 'Bebas Neue', sans-serif; font-weight: 400;
         font-size: 1.5rem; letter-spacing: .18em; text-transform: uppercase;
         color: #F2F1EC; }
@@ -142,14 +143,11 @@ class HorneroApp extends HoComponent {
         font-size: .64rem; color: #9C988D; letter-spacing: .04em;
         text-align: center; white-space: nowrap; }
 
-      /* ===== Section label — below gradient header, blends into content ===== */
+      /* ===== Section label — below gradient header, on light background ===== */
       .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: #F2F1EC; padding: 8px 16px 6px; background: #6E6A60;
-        flex: none; animation: apfade .3s ease; position: relative; }
-      .section-label::after { content: ''; position: absolute; bottom: -8px; left: 0; right: 0;
-        height: 8px; background: linear-gradient(#6E6A60, var(--ho-bg, #F4F3EE));
-        pointer-events: none; }
+        color: #2B2A26; padding: 8px 16px 6px; background: var(--ho-bg, #F4F3EE);
+        flex: none; animation: apfade .3s ease; }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;

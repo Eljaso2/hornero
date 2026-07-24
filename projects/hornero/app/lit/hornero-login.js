@@ -58,8 +58,8 @@ class HorneroLogin extends HoComponent {
       .logo-icon svg { width: 36px; height: 36px; fill: #F2F1EC; }
 
       .logo-name {
-        font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.4rem; letter-spacing: .18em; text-transform: uppercase;
+        font-family: 'Bebas Neue', sans-serif; font-weight: 400;
+        font-size: 2rem; letter-spacing: .18em; text-transform: uppercase;
         color: var(--ho-text-off, #F2F1EC);
       }
 
