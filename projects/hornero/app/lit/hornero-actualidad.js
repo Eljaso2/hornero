@@ -99,7 +99,7 @@ class HorneroActualidad extends HoComponent {
       .clip-card:hover { border-color: rgba(43,42,38,.25); }
       .clip-emoji { font-size: 1.1rem; }
       .clip-title { font-family: 'Archivo Narrow', sans-serif; font-weight: 800;
-        font-size: 1rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px; line-height: 1.3; }
+        font-size: 1rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px; line-height: 1.3; text-transform: uppercase; }
       .clip-bajada { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; }
       .clip-desarrollo { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
