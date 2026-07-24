@@ -40,7 +40,7 @@ class HorneroApp extends HoComponent {
       actualidad: 'Actualidad',
       consulta: 'Consulta y asesoramiento',
       formacion: 'Formación',
-      is: 'Reporte gremial',
+      is: 'Comunicación interna',
       condicion: 'Panorama',
       archivo: 'Archivo',
       perfil: 'Perfil',
