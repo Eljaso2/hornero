@@ -149,7 +149,7 @@ class HorneroLogin extends HoComponent {
     return html`
       <div class="login-wrap">
         <div class="logo-area">
-          <img src="assets/hornero-login-logo.png?v=15" alt="Hornero" style="width:120px;height:auto;margin-bottom:14px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))" />
+          <img src="assets/hornero-login-logo.png?v=16" alt="Hornero" style="width:120px;height:auto;margin-bottom:14px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))" />
           <div class="logo-name">HORNERO</div>
           <div class="logo-sub">«El futuro, algo por lo que hay que luchar»</div>
         </div>
