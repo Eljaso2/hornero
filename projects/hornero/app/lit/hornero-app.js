@@ -153,7 +153,7 @@ class HorneroApp extends HoComponent {
       .top-bar { background: linear-gradient(to bottom, #33312D 0%, #33312D 40%, #5A574F 55%, #6E6A60 70%, #8A8580 85%, var(--ho-bg, #F4F3EE) 100%);
         color: var(--ho-text-off, #F2F1EC);
         padding: 0 16px; display: flex; align-items: center;
-        justify-content: center; position: relative; flex: none;
+        justify-content: flex-start; position: relative; flex: none;
         min-height: 90px;
         padding-top: env(safe-area-inset-top, 0px); }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
@@ -163,13 +163,13 @@ class HorneroApp extends HoComponent {
       .top-bar .corner-logo { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
       .top-bar .corner-logo img { width: 32px; height: auto; opacity: .85; }
       .header-text { display: flex; flex-direction: column;
-        align-items: center; gap: 2px; }
+        align-items: flex-start; gap: 2px; }
       .header-text .app-name { font-family: 'Inter', sans-serif; font-weight: 900;
         font-size: 1.3rem; letter-spacing: .12em; text-transform: uppercase;
-        color: #F2F1EC; }
+        color: var(--ho-green-light, #94A867); }
       .header-text .app-motto { font-family: 'Public Sans', sans-serif; font-weight: 500;
         font-size: .64rem; color: #9C988D; letter-spacing: .04em;
-        text-align: center; white-space: nowrap; }
+        text-align: left; white-space: nowrap; }
 
       /* ===== Section label — below gradient header, instant appear ===== */
       .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
