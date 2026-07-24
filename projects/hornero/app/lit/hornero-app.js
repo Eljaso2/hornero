@@ -149,13 +149,16 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — solid dark where name+lema sit, gradient starts between name and motto ===== */
-      .top-bar { background: linear-gradient(to bottom, #33312D 0%, #33312D 55%, #5A574F 65%, #6E6A60 75%, #8A8580 88%, var(--ho-bg, #F4F3EE) 100%);
+      /* ===== Top bar — solid dark, blurred fade line at bottom edge ===== */
+      .top-bar { background: #33312D;
         color: var(--ho-text-off, #F2F1EC);
         padding: 0 16px; display: flex; align-items: center;
         justify-content: flex-start; position: relative; flex: none;
         min-height: 90px;
         padding-top: env(safe-area-inset-top, 0px); }
+      .top-bar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+        height: 12px; background: linear-gradient(to bottom, #33312D, var(--ho-bg, #F4F3EE));
+        filter: blur(4px); -webkit-filter: blur(4px); pointer-events: none; }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: rgba(255,255,255,.15); color: var(--ho-text-off, #F2F1EC);
         border: none; display: flex; align-items: center; justify-content: center;
