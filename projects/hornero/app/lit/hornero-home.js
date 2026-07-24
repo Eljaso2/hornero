@@ -110,25 +110,27 @@ class HorneroHome extends HoComponent {
       /* --- Agenda cloud --- */
       .agenda-wrap { margin-top: 4px; }
       .agenda-cloud { display: flex; flex-wrap: wrap; justify-content: center;
-        align-items: center; gap: 7px 9px; }
+        align-items: center; gap: 3px 4px; }
       .agenda-bubble { font-family: 'Archivo', sans-serif; font-weight: 600;
         padding: 5px 12px; border-radius: 20px; cursor: pointer;
         transition: transform .2s; white-space: nowrap; }
       .agenda-bubble:hover { transform: scale(1.05); }
-      .agenda-label { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+      .agenda-label { font-family: 'JetBrains Mono', monospace;
         font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
         margin-right: 2px; }
       .agenda-hoy { background: #C0392B; color: #FFF; font-size: .92rem;
         padding: 7px 14px; }
-      .agenda-hoy .agenda-label { color: #FFD5D5; }
+      .agenda-hoy .agenda-label { font-size: .58rem; color: #FFD5D5; }
       .agenda-manana { background: #6E8345; color: #F2F1EC; font-size: .86rem;
         padding: 6px 13px; }
-      .agenda-manana .agenda-label { color: #C8D9A4; }
-      .agenda-prox { background: #94A867; color: #F2F1EC; font-size: .78rem;
-        padding: 5px 11px; }
-      .agenda-prox .agenda-label { color: #D4DFBE; }
-      .agenda-date { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        opacity: .7; margin-left: 3px; }
+      .agenda-manana .agenda-label { font-size: .54rem; color: #C8D9A4; }
+      .agenda-prox { background: #94A867; color: #F2F1EC; font-size: .70rem;
+        padding: 3px 8px; border-radius: 16px; line-height: 1.2; }
+      .agenda-prox .agenda-label { font-size: .48rem; color: #D4DFBE; }
+      .agenda-date { font-family: 'JetBrains Mono', monospace;
+        opacity: .7; margin-left: 2px; }
+      .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .54rem; }
+      .agenda-prox .agenda-date { font-size: .46rem; }
 
       /* ===== ESFERA 2: Consulta — 3 íconos ===== */
       .esfera-consulta { margin-bottom: 20px; }
