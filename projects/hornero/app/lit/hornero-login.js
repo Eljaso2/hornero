@@ -65,8 +65,8 @@ class HorneroLogin extends HoComponent {
 
       .logo-sub {
         font-family: 'Public Sans', sans-serif; font-weight: 500;
-        font-size: .72rem; color: var(--ho-green-light, #94A867);
-        margin-top: 6px; letter-spacing: .04em;
+        font-size: .88rem; color: var(--ho-green-light, #94A867);
+        margin-top: 8px; letter-spacing: .04em;
         white-space: nowrap; }
 
       .form-area {
