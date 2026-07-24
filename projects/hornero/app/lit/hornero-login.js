@@ -71,6 +71,7 @@ class HorneroLogin extends HoComponent {
 
       .form-area {
         width: 100%; max-width: 320px;
+        animation: apfade .4s ease;
       }
 
       .field {
@@ -139,7 +140,7 @@ class HorneroLogin extends HoComponent {
       .version-tag {
         font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: #7A7568; margin-top: 32px; text-align: center;
-      }
+        animation: apfade .4s ease; }
 
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
     `;
