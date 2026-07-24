@@ -89,9 +89,9 @@ class HorneroApp extends HoComponent {
 
       /* ===== Top bar — app name + section title, centered ===== */
       .top-bar { background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
-        padding: 9px 16px 13px; display: flex; align-items: center;
+        padding: 12px 16px 14px; display: flex; align-items: center;
         position: relative; flex: none;
-        padding-top: calc(9px + env(safe-area-inset-top, 0px)); }
+        padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
       .top-bar .back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC);
         border: none; display: flex; align-items: center; justify-content: center;

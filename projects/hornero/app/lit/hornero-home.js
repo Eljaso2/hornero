@@ -61,8 +61,6 @@ class HorneroHome extends HoComponent {
         cursor: pointer; transition: border-color .2s;
         position: relative; }
       .card:hover { border-color: var(--ho-green, #6E8345); }
-      .card.locked { opacity: .7; cursor: default; }
-      .card.locked:hover { border-color: var(--ho-border, rgba(43,42,38,.12)); }
 
       /* Lock icon in top-right corner */
       .lock-icon { position: absolute; top: 10px; right: 12px;
