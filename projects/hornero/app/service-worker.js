@@ -1,18 +1,23 @@
-// Hornero PWA — Service Worker v6
+// Hornero PWA — Service Worker v7
+// DEV MODE: JS/CSS/JSON = network-first (instant updates during active development)
+// Production: revert to stale-while-revalidate for faster cached loads
 // Install: cachea assets core (sin Google Fonts — se cachean dinámico)
-// Fetch: cache-first, pero HTML siempre del network (para updates en tiempo real)
+// Fetch: network-first para HTML + app code, cache-first para fonts/images
 // Resilient install: cada asset individual, un fallo no mata todo
 // Auto-update: notifica a la app cuando hay una nueva versión disponible
 
-var CACHE_NAME = 'hornero-v6';
+var CACHE_NAME = 'hornero-v7';
 var ASSETS = [
   './css/hornero.css',
   './js/db.js',
   './js/data-loader.js',
+  './js/navigation.js',
+  './js/state.js',
   './data/is-piloto-aceitero.json',
   './data/mate-2026-05.json',
   './data/clipping-2026-07-02.json',
   './data/clipping-4.json',
+  './data/agenda-2026-07.json',
   './lit/ho-component.js',
   './lit/hornero-components.js',
   './lit/hornero-app.js',
@@ -23,6 +28,7 @@ var ASSETS = [
   './lit/hornero-chat.js',
   './lit/hornero-ecosistema.js',
   './lit/hornero-condicion.js',
+  './lit/hornero-login.js',
   './manifest.json',
   './assets/hornero-icon-192.png',
   './assets/hornero-icon-512.png',
@@ -57,7 +63,7 @@ self.addEventListener('activate', function(event) {
       return self.clients.matchAll();
     }).then(function(clients) {
       clients.forEach(function(client) {
-        client.postMessage({ type: 'SW_UPDATE_AVAILABLE' });
+        client.postMessage({ type: 'SW_UPDATE_AVAILABLE', version: CACHE_NAME, timestamp: Date.now() });
       });
     })
   );
@@ -91,23 +97,25 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // App code (JS, CSS, JSON): stale-while-revalidate
-  // Returns cached immediately (fast) but fetches fresh version in background
-  // Next load gets the updated version
+  // App code (JS, CSS, JSON): network-first during active development
+  // Returns fresh version immediately — no stale cache, instant updates
+  // Production mode: revert to stale-while-revalidate (cached first, background update)
   var isAppCode = url.pathname.endsWith('.js') || url.pathname.endsWith('.css') || url.pathname.endsWith('.json');
   if (isAppCode && url.origin === self.location.origin) {
     event.respondWith(
-      caches.match(event.request).then(function(cached) {
-        // Return cached immediately, but also fetch fresh version
-        var fetchPromise = fetch(event.request).then(function(response) {
-          if (response && response.status === 200) {
-            caches.open(CACHE_NAME).then(function(cache) {
-              cache.put(event.request, response.clone());
-            });
-          }
-          return response;
-        }).catch(function() { return cached; });
-        return cached || fetchPromise;
+      fetch(event.request).then(function(response) {
+        if (response && response.status === 200) {
+          var responseClone = response.clone();
+          caches.open(CACHE_NAME).then(function(cache) {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return response;
+      }).catch(function() {
+        // Network failed — serve from cache (offline fallback)
+        return caches.match(event.request).then(function(cached) {
+          return cached || new Response('Offline', { status: 503 });
+        });
       })
     );
     return;

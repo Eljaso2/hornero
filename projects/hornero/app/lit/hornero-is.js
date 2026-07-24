@@ -20,13 +20,40 @@ class HorneroIs extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
-    this.role = 1;
+    this.role = 0;  // 0 = not yet set; auto-determined from grade when logged in
     this.step = 0;
     this.chatStarted = false;
     this.chatStep = 0;
     this._informes = [];
     this._fuentes = [];
     this._correcciones = [];
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    // Auto-select role based on grade (login provides grade)
+    this._autoSelectRole();
+  }
+
+  _autoSelectRole() {
+    // Grade → role mapping (from login session)
+    if (this.grade === 'B.a') this.role = 1;
+    else if (this.grade === 'B.b') this.role = 2;
+    else if (this.grade === 'B.c') this.role = 3;
+    else if (this.grade === 'B.d') this.role = 4;
+    else this.role = 0;  // Grade A — no access, shouldn't reach this screen
+
+    // Skip role selection step — go directly to step 1
+    if (this.role > 0) this.step = 1;
+    this.render();
+  }
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    super.attributeChangedCallback(name, oldVal, newVal);
+    // Re-determine role when grade changes (e.g. after login)
+    if (name === 'grade' && oldVal !== newVal) {
+      this._autoSelectRole();
+    }
   }
 
   _styles() {

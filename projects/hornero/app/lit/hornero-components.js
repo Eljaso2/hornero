@@ -32,5 +32,6 @@ import './hornero-condicion.js';
 import './hornero-coyuntura.js';  // Clipping semanal (legacy, backup)
 import './hornero-chat.js';       // Motor de chat reutilizable
 import './hornero-ecosistema.js'; // Qué es Hornero, Xiong, cadena de valor
+import './hornero-login.js';      // Login screen (client-side auth para piloto)
 
 export { HoComponent, html, css };
