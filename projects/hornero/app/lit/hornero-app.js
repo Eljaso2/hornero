@@ -111,7 +111,7 @@ class HorneroApp extends HoComponent {
       @media(max-width:499px){
         .app-wrap { min-height: 100vh; }
         .phone { width: 100%; min-height: 100vh; }
-        .screen { background: var(--ho-bg, #F4F3EE); display: flex;
+        .screen { background: var(--ho-dark, #33312D); display: flex;
           flex-direction: column; position: relative;
           height: 100dvh; overflow: hidden; }
         /* Mobile/PWA: hide simulated status bar */
@@ -154,9 +154,9 @@ class HorneroApp extends HoComponent {
         color: #2B2A26; padding: 10px 16px 6px; background: var(--ho-bg, #F4F3EE);
         flex: none; animation: apfade .3s ease; }
 
-      /* ===== Body scroll ===== */
+      /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; }
+        scrollbar-width: none; background: var(--ho-bg, #F4F3EE); }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Bottom nav — 6 buttons, covers safe area bottom ===== */
