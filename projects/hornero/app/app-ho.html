@@ -95,12 +95,11 @@
           console.warn('SW registration failed:', err);
         });
 
-      // Listen for SW update messages
+      // Listen for SW update messages — auto-reload for seamless update
       navigator.serviceWorker.addEventListener('message', function(e) {
         if (e.data && e.data.type === 'SW_UPDATE_AVAILABLE') {
-          // Show update banner in hornero-app component
-          var app = document.querySelector('hornero-app');
-          if (app) app.set('updateAvailable', true);
+          // Seamless: reload after 1s so new SW takes full control
+          setTimeout(function() { window.location.reload(); }, 1000);
         }
       });
     }
@@ -139,6 +138,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=33"></script>
+  <script type="module" src="lit/hornero-components.js?v=34"></script>
 </body>
 </html>

@@ -373,14 +373,6 @@ class HorneroApp extends HoComponent {
     this.set('screen', 'home');
   }
 
-  _checkForUpdates() {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.addEventListener('message', (e) => {
-        if (e.data && e.data.type === 'SW_UPDATE_AVAILABLE') {
-          this.set('updateAvailable', true);
-        }
-      });
-    }
   }
 }
 

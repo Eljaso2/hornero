@@ -16,7 +16,7 @@ Academia.edu: https://independent.academia.edu/JasinskiAlejandro
 2. PERFIL ACADÉMICO Y PROFESIONAL
 Historiador especializado en historia social latinoamericana, violencia empresarial, represión estatal y derechos humanos. Doctor en Historia por la Universidad de Buenos Aires (UBA), con tesis calificada con Sobresaliente y Recomendación de Publicación. Investiga las relaciones entre empresas, Estado y trabajadores en Argentina y América Latina, con particular atención a las formas de violencia, los genocidios históricos y los procesos de memoria y justicia.
 Su primera tesis investigó el ciclo conflictivo y la masacre obrera ocurrida en dominios de la compañía británica La Forestal, norte de Santa Fe, en 1921. El trabajo doctoral profundizó en la historia social de la región en los veinticinco años posteriores, con atención a las estrategias empresariales y las luchas sociales.
-Entre 2013 y 2025 trabajó como investigador en la Secretaría de Derechos Humanos de la Nación, produciendo informes históricos para causas judiciales de lesa humanidad (Causa Ford, masacres de Napalpí, Patagonia y San Antonio de Obligado, desapariciones en democracia). Ha participado como testigo experto e integra la Unidad Ejecutora de Sentencia del Juicio por la Masacre de Napalpí. Es autor de dos libros como autor individual y coautor de varios más, con amplia difusión académica y pública.
+Entre 2013 y 2025 trabajó como investigador en la Secretaría de Derechos Humanos de la Nación, produciendo informes históricos para causas judiciales de lesa humanidad (Causa Ford, masacres de Napalpí, Patagonia y San Antonio de Obligado, desapariciones en democracia). Ha participado como testigo experto e integra la Unidad Ejecutora de Sentencia del Juicio por la Masacre de Napalpí. Es autor de dos libros como autor individual y coautor de varios más, con amplia difusión académica y pública. Lecturer en la Summer School de Utrecht University sobre Advocacy for Academic Freedom and Human Rights (Países Bajos, agosto 2026).
 
 3. FORMACIÓN ACADÉMICA
 Doctorado en Historia
@@ -150,7 +150,16 @@ Modalidad: Virtual – 8 encuentros
 Codocente: Lic. Luciano Sánchez
 Período: 2026
 Carácter: Independiente
-6.5 Docencia en Nivel Secundario y Terciario (selección)
+6.5 Utrecht University – Summer School (Países Bajos)
+Lecturer – Advocacy for Academic Freedom and Human Rights
+Subtítulo: "Internationalization in a fragmented world"
+Institución: Utrecht University – Faculty of Law, Economics and Governance (en colaboración con Ruhr University Bochum, Utrecht Network y COST Action 23149 "Democratization at Stake")
+Período: 13–14 agosto (online) + 17–21 agosto 2026 (presencial, Utrecht, Países Bajos)
+Nivel: Advanced Master | ECTS: 3
+Directores del curso: Bart van de Laar (Utrecht University) e Iris Vernekohl (Ruhr University Bochum)
+Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-and-human-rights
+
+6.6 Docencia en Nivel Secundario y Terciario (selección)
 	•	Escuela Juan Salvador Gaviota – Titular, Medios Audiovisuales (Polimodal, 2004–2005)
 	•	Colegio Reconquista (Público) – Titular, Taller de Periodismo en 3º año / Lengua (2005)
 	•	Colegio Salesiano San Juan Evangelista de La Boca – Suplente, Educación Cívica, 1° y 3° año (24 hs)
@@ -297,6 +306,12 @@ Co-organizadores: Kirsten Mahlke, Valeria Vegh Weis y Elizabeth Gómez Alcorta
 Período: Enero de 2018
 Rol: Docente titular
 Actividad: Seminario de Verano (Summer School): "Empresas y trabajadores en Dictadura. Transformaciones productivas y violaciones a los derechos humanos. Aportes desde el caso argentino", Facultad de Filosofía, Letras y Ciencias Humanas, USP
+
+13.4 Países Bajos – Utrecht University (2026)
+Período: 13–14 agosto (componente online) + 17–21 agosto 2026 (componente presencial)
+Rol: Lecturer
+Actividad: Summer School "Advocacy for Academic Freedom and Human Rights — Internationalization in a fragmented world". Curso Advanced Master (3 ECTS), organizado por Utrecht University – Faculty of Law, Economics and Governance, en colaboración con Ruhr University Bochum, Utrecht Network y COST Action 23149 "Democratization at Stake"
+Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-and-human-rights
 
 13. CONFERENCIAS, PANELES Y PARTICIPACIÓN EN EVENTOS ACADÉMICOS
 13.1 Conferencias (selección)

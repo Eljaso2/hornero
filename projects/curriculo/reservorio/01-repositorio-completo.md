@@ -488,6 +488,13 @@ Docente titular
 Junto al Prof. Pablo Peláez. Seminario de Verano “Empresas y trabajadores en Dictadura. Transformaciones productivas y violaciones a los derechos humanos. Aportes desde el caso argentino. Summer School de Facultad de Filosofía, Letras y Ciencias Humanas, Universidad de San Pablo, Enero de 2018, San Pablo, Brasil
 
 
+UTRECHT UNIVERSITY
+
+Summer School – Advanced Master
+Lecturer
+Summer School “Advocacy for Academic Freedom and Human Rights — Internationalization in a fragmented world”. Utrecht University – Faculty of Law, Economics and Governance, en colaboración con Ruhr University Bochum, Utrecht Network y COST Action 23149 “Democratization at Stake”. 13–14 agosto (componente online) + 17–21 agosto 2026 (componente presencial, Utrecht, Países Bajos). 3 ECTS. Directores del curso: Bart van de Laar (Utrecht University) e Iris Vernekohl (Ruhr University Bochum). Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-and-human-rights
+
+
 Secundaria 
 
 
@@ -768,6 +775,10 @@ III Workshop “Pensar la clase trabajadora: el problema de la espacialidad en 
 Workshop 
 Co-organizador
 Taller “Restitución y reparación para los pueblos indígenas en el marco del colonialismo en Sudamérica”, Universidad de Konstanz, Alemania, 16 a 18 de septiembre de 2023. Organizado junto a Kirsten Mahlke, Valeria Vegh Weis y Elizabeth Gómez Alcorta.
+
+Summer School – Utrecht University (2026)
+Lecturer
+Summer School “Advocacy for Academic Freedom and Human Rights — Internationalization in a fragmented world”. Utrecht University – Faculty of Law, Economics and Governance, en colaboración con Ruhr University Bochum, Utrecht Network y COST Action 23149 “Democratization at Stake”. 13–14 agosto (componente online) + 17–21 agosto 2026 (componente presencial, Utrecht, Países Bajos). 3 ECTS. Directores del curso: Bart van de Laar (Utrecht University) e Iris Vernekohl (Ruhr University Bochum). Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-and-human-rights
 
 Encuentro
 Expositor

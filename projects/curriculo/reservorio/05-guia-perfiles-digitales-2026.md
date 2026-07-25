@@ -97,7 +97,7 @@ Departamento:
 Historia / Instituto Interdisciplinario de Estudios e Investigaciones de América Latina (INDEAL)
 
 Bio (campo 'About me' — versión en inglés):
-Historian specializing in Latin American social history, corporate violence, state repression, and human rights. PhD in History (FFyL-UBA, 2021, highest honors with publication recommendation). Researcher at Argentina's Secretariat of Human Rights (2013–2025), producing historical reports for crimes against humanity trials, including the Ford trial and the Napalpí Massacre. Visiting researcher at the University of Konstanz, Germany (2026). Author of El encanto del tanino (Prometeo, 2023) and Revuelta obrera y masacre en La Forestal (Biblos, 2013), among other publications.
+Historian specializing in Latin American social history, corporate violence, state repression, and human rights. PhD in History (FFyL-UBA, 2021, highest honors with publication recommendation). Researcher at Argentina's Secretariat of Human Rights (2013–2025), producing historical reports for crimes against humanity trials, including the Ford trial and the Napalpí Massacre. Visiting researcher at the University of Konstanz, Germany (2026). Lecturer at Utrecht University Summer School on Advocacy for Academic Freedom and Human Rights (Netherlands, August 2026). Author of El encanto del tanino (Prometeo, 2023) and Revuelta obrera y masacre en La Forestal (Biblos, 2013), among other publications.
 
 Research Interests (copiar uno por uno en el campo):
 Historia social latinoamericana
@@ -136,7 +136,7 @@ Departamento:
 Facultad de Filosofía y Letras — Departamento de Historia
 
 Bio (campo 'About'):
-Historiador especializado en historia social latinoamericana, violencia empresarial, represión estatal y derechos humanos. Doctor en Historia (FFyL-UBA, 2021, Sobresaliente con Recomendación de Publicación). Investigador de la Secretaría de Derechos Humanos de la Nación (2013–2025), donde produjo informes históricos para causas judiciales de lesa humanidad, entre ellas el Juicio Ford y la Masacre de Napalpí. Investigador visitante en la Universidad de Konstanz (Alemania, 2026). Autor de El encanto del tanino (Prometeo, 2023) y Revuelta obrera y masacre en La Forestal (Biblos, 2013), entre otras publicaciones.
+Historiador especializado en historia social latinoamericana, violencia empresarial, represión estatal y derechos humanos. Doctor en Historia (FFyL-UBA, 2021, Sobresaliente con Recomendación de Publicación). Investigador de la Secretaría de Derechos Humanos de la Nación (2013–2025), donde produjo informes históricos para causas judiciales de lesa humanidad, entre ellas el Juicio Ford y la Masacre de Napalpí. Investigador visitante en la Universidad de Konstanz (Alemania, 2026). Lecturer en la Summer School de Utrecht University sobre Advocacy for Academic Freedom and Human Rights (Países Bajos, agosto 2026). Autor de El encanto del tanino (Prometeo, 2023) y Revuelta obrera y masacre en La Forestal (Biblos, 2013), entre otras publicaciones.
 
 4.2 Agregar publicaciones y skills
 	•	Ir a 'Research' → 'Add research' para agregar publicaciones no detectadas automáticamente.
@@ -156,7 +156,7 @@ Nombre:
 Alejandro Jasinski
 
 Titular / Headline (lo que aparece debajo del nombre — copiar tal cual):
-Historiador | Investigador en Historia Social, Violencia Empresarial y DDHH | Doctor en Historia UBA | Autor | Docente
+Historiador | Investigador en Historia Social, Violencia Empresarial y DDHH | Doctor en Historia UBA | Autor | Docente | Lecturer Utrecht University
 
 Ubicación:
 Buenos Aires, Argentina
@@ -166,7 +166,7 @@ Soy historiador especializado en historia social latinoamericana, violencia empr
 
 Doctor en Historia por la Universidad de Buenos Aires (2021, Sobresaliente con Recomendación de Publicación). Durante más de una década fui investigador de la Secretaría de Derechos Humanos de la Nación (2013–2025), produciendo informes históricos que sirvieron como prueba en juicios de lesa humanidad, incluyendo el Juicio Ford (primera condena por responsabilidad empresarial en Argentina), la Masacre de Napalpí (1924) y los casos Dálmine-Siderca y Mercedes Benz.
 
-En 2026 fui investigador visitante en la Universidad de Konstanz (Alemania), donde presenté investigaciones sobre violencia empresarial y políticas de reparación ante el Graduate School Post-Eurocentric Europe y el Latin American Konstanz Forum (KOLAF).
+En 2026 fui investigador visitante en la Universidad de Konstanz (Alemania), donde presenté investigaciones sobre violencia empresarial y políticas de reparación ante el Graduate School Post-Eurocentric Europe y el Latin American Konstanz Forum (KOLAF). También en 2026, fui lecturer en la Summer School de Utrecht University (Países Bajos) sobre Advocacy for Academic Freedom and Human Rights, un curso Advanced Master organizado en colaboración con Ruhr University Bochum y COST Action 23149 "Democratization at Stake".
 
 Soy autor de El encanto del tanino (Prometeo, 2023) y Revuelta obrera y masacre en La Forestal (Biblos, 2013). Mis investigaciones han servido de base para novelas, documentales y series televisivas, y han sido presentadas en más de 15 provincias argentinas y en universidades de Brasil, Alemania y Chile.
 
@@ -176,6 +176,7 @@ Docente en posgrado y grado en UBA. Columnista en El Cohete a la Luna y en Radio
 Agregar las siguientes posiciones (de más reciente a más antigua):
 
 Investigador Visitante · Universidad de Konstanz · enero 2026 – febrero 2026 · Konstanz, Alemania
+Lecturer · Utrecht University Summer School · agosto 2026 · Utrecht, Países Bajos
 Docente de Posgrado · Universidad de Buenos Aires · 2021 – presente · Buenos Aires
 Investigador · Secretaría de Derechos Humanos de la Nación · 2013 – 2025 · Buenos Aires
 Columnista · El Cohete a la Luna · 2018 – presente
@@ -242,23 +243,23 @@ Web of Science (ex Publons) es el registro internacional de evaluaciones peer-re
 7. TEXTOS BIOGRÁFICOS LISTOS PARA COPIAR
 
 Biografía corta — Español (para presentaciones, solapas, perfiles)
-Historiador especializado en historia social latinoamericana, violencia empresarial, represión estatal y derechos humanos. Doctor en Historia (FFyL-UBA, 2021, Sobresaliente con Recomendación de Publicación). Investigador de la Secretaría de Derechos Humanos de la Nación (2013–2025), donde produjo informes históricos para causas judiciales de lesa humanidad, entre ellas el Juicio Ford y la Masacre de Napalpí. Investigador visitante en la Universidad de Konstanz (Alemania, 2026). Autor de El encanto del tanino (Prometeo, 2023) y Revuelta obrera y masacre en La Forestal (Biblos, 2013), entre otras publicaciones.
+Historiador especializado en historia social latinoamericana, violencia empresarial, represión estatal y derechos humanos. Doctor en Historia (FFyL-UBA, 2021, Sobresaliente con Recomendación de Publicación). Investigador de la Secretaría de Derechos Humanos de la Nación (2013–2025), donde produjo informes históricos para causas judiciales de lesa humanidad, entre ellas el Juicio Ford y la Masacre de Napalpí. Investigador visitante en la Universidad de Konstanz (Alemania, 2026). Lecturer en la Summer School de Utrecht University sobre Advocacy for Academic Freedom and Human Rights (Países Bajos, agosto 2026). Autor de El encanto del tanino (Prometeo, 2023) y Revuelta obrera y masacre en La Forestal (Biblos, 2013), entre otras publicaciones.
 
 Biografía corta — Inglés (para perfiles internacionales)
-Historian specializing in Latin American social history, corporate violence, state repression, and human rights. PhD in History (FFyL-UBA, 2021, highest honors with publication recommendation). Researcher at Argentina's Secretariat of Human Rights (2013–2025), producing historical reports for crimes against humanity trials, including the Ford trial and the Napalpí Massacre. Visiting researcher at the University of Konstanz, Germany (2026). Author of El encanto del tanino (Prometeo, 2023) and Revuelta obrera y masacre en La Forestal (Biblos, 2013), among other publications.
+Historian specializing in Latin American social history, corporate violence, state repression, and human rights. PhD in History (FFyL-UBA, 2021, highest honors with publication recommendation). Researcher at Argentina's Secretariat of Human Rights (2013–2025), producing historical reports for crimes against humanity trials, including the Ford trial and the Napalpí Massacre. Visiting researcher at the University of Konstanz, Germany (2026). Lecturer at Utrecht University Summer School on Advocacy for Academic Freedom and Human Rights (Netherlands, August 2026). Author of El encanto del tanino (Prometeo, 2023) and Revuelta obrera y masacre en La Forestal (Biblos, 2013), among other publications.
 
 Línea de autor — Español
-Alejandro Jasinski es historiador (UBA) especializado en historia social latinoamericana, violencia empresarial y derechos humanos. Es autor de El encanto del tanino (Prometeo, 2023) e investigador de la Secretaría de Derechos Humanos de la Nación.
+Alejandro Jasinski es historiador (UBA) especializado en historia social latinoamericana, violencia empresarial y derechos humanos. Es autor de El encanto del tanino (Prometeo, 2023), investigador de la Secretaría de Derechos Humanos de la Nación y lecturer en la Summer School de Utrecht University sobre libertad académica y derechos humanos (2026).
 
 Author line — English
-Alejandro Jasinski is a historian (UBA) specializing in Latin American social history, corporate violence, and human rights. He is the author of El encanto del tanino (Prometeo, 2023) and a researcher at Argentina's National Secretariat of Human Rights.
+Alejandro Jasinski is a historian (UBA) specializing in Latin American social history, corporate violence, and human rights. He is the author of El encanto del tanino (Prometeo, 2023), a researcher at Argentina's National Secretariat of Human Rights, and a lecturer at the Utrecht University Summer School on Academic Freedom and Human Rights (2026).
 
 Titular / Tagline bilingüe (para encabezados de perfiles)
-Historiador | Historia Social, Violencia Empresarial y Derechos Humanos | UBA / Konstanz
-Historian | Social History, Corporate Violence & Human Rights | UBA / Konstanz
+Historiador | Historia Social, Violencia Empresarial y Derechos Humanos | UBA / Konstanz / Utrecht
+Historian | Social History, Corporate Violence & Human Rights | UBA / Konstanz / Utrecht
 
 Línea de autor (para publicaciones)
-Alejandro Jasinski es historiador (UBA) especializado en historia social latinoamericana, violencia empresarial y derechos humanos. Es autor de El encanto del tanino (Prometeo, 2023) e investigador de la Secretaría de Derechos Humanos de la Nación.
+Alejandro Jasinski es historiador (UBA) especializado en historia social latinoamericana, violencia empresarial y derechos humanos. Es autor de El encanto del tanino (Prometeo, 2023), investigador de la Secretaría de Derechos Humanos de la Nación y lecturer en la Summer School de Utrecht University sobre libertad académica y derechos humanos (2026).
 
 ORCID para citar en publicaciones
 ORCID: https://orcid.org/0009-0004-1133-9429

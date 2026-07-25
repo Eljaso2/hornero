@@ -1,0 +1,160 @@
+/* CV Académico — Alejandro Jasinski
+   Diseño: limpio, respirado, serif/sans, azul académico
+   Optimizado para weasyprint PDF */
+
+@page {
+    size: A4;
+    margin: 18mm 18mm 22mm 18mm;
+}
+
+/* ─── BASE ─── */
+body {
+    font-family: 'Georgia', 'Palatino', 'Times New Roman', serif;
+    font-size: 10pt;
+    line-height: 1.50;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+/* ─── TITULO ─── */
+h1 {
+    font-family: 'Helvetica Neue', 'Arial', 'Calibri', sans-serif;
+    font-size: 20pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 1pt;
+    margin: 0 0 4pt 0;
+    padding: 0;
+}
+
+/* First h1 only — nombre */
+h1:first-of-type {
+    font-size: 22pt;
+    margin-bottom: 2pt;
+}
+
+/* Subtitle paragraph after first h1 */
+h1:first-of-type + p {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 10.5pt;
+    font-weight: 400;
+    color: #555;
+    margin: 0 0 16pt 0;
+    padding-bottom: 6pt;
+    border-bottom: 2.5pt solid #2a5d8f;
+}
+
+/* ─── MAJOR SECTIONS (1. DATOS, 2. PERFIL...) ─── */
+h1:not(:first-of-type) {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 12pt;
+    font-weight: 700;
+    color: #2a5d8f;
+    margin: 16pt 0 0 0;
+    padding: 4pt 0 2pt 0;
+    border-bottom: 1.8pt solid #2a5d8f;
+    letter-spacing: 0.3pt;
+}
+
+/* ─── SUB-SECTIONS (5.1, 6.1, etc.) ─── */
+h2 {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 11pt;
+    font-weight: 600;
+    color: #3a3a3a;
+    margin: 10pt 0 3pt 0;
+    padding: 0;
+}
+
+/* ─── SUB-SUB-HEADERS (Doctorado en Historia, etc.) ─── */
+h3 {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #444;
+    margin: 6pt 0 2pt 0;
+    padding: 0;
+}
+
+/* ─── TOPIC HEADERS (a) Responsabilidad..., b) Estructura...) ─── */
+h4 {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 10pt;
+    font-weight: 500;
+    color: #2a5d8f;
+    margin: 6pt 0 1pt 0;
+    padding: 1pt 0;
+    border-bottom: 0.5pt solid #ccc;
+}
+
+/* ─── PARAGRAPHS ─── */
+p {
+    margin: 3pt 0;
+    orphans: 3;
+    widows: 3;
+}
+
+/* Field lines — label in bold with blue accent */
+p > strong:first-child {
+    color: #2a5d8f;
+}
+
+/* ─── LISTS ─── */
+ul {
+    margin: 3pt 0 6pt 0;
+    padding-left: 16pt;
+    list-style-type: '• ';
+}
+
+li {
+    margin: 3pt 0;
+    padding-left: 2pt;
+    line-height: 1.45;
+}
+
+li > p {
+    margin: 0;
+}
+
+/* Nested sub-lists */
+li > ul {
+    margin: 2pt 0 3pt 0;
+    padding-left: 14pt;
+}
+
+li > ul > li {
+    margin: 1pt 0;
+}
+
+/* ─── SEPARATOR RULES ─── */
+hr {
+    border: none;
+    border-top: 0.5pt solid #ddd;
+    margin: 4pt 0;
+}
+
+/* ─── LINKS ─── */
+a {
+    color: #2a5d8f;
+    text-decoration: none;
+}
+
+/* ─── CODE ─── */
+code {
+    font-family: 'Courier New', monospace;
+    font-size: 8.5pt;
+    color: #666;
+    background: #f7f7f7;
+    padding: 1pt 3pt;
+}
+
+/* ─── PRINT ─── */
+@media print {
+    h1:not(:first-of-type) { page-break-before: auto; }
+    h2 { page-break-after: avoid; }
+    h3 { page-break-after: avoid; }
+    h4 { page-break-after: avoid; }
+    li { page-break-inside: avoid; }
+    p { page-break-inside: avoid; }
+}
