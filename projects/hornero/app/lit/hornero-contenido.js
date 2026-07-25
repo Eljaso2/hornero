@@ -357,12 +357,12 @@ class HorneroContenido extends HoComponent {
         role: 'hornero',
         sections: [
           {
-            title: '🎙️ Podcast sindical — vamos a armarlo',
-            body: 'Un podcast es audio narrado, 5-15 minutos. Se escucha en el colectivo, en la planta, en la asamblea. Te guío paso a paso: tema, estructura, script, fuentes.',
+            title: 'Chateá con la IA Sindical',
+            body: 'Te guío para armar un podcast sindical — audio narrado, 5-15 minutos. Se escucha en el colectivo, en la planta, en la asamblea. Contame tu tema y te propongo estructura, script y fuentes.',
           },
           {
-            title: 'Primero: ¿de qué querés hablar?',
-            body: 'Contame el tema o el ángulo. Puede ser paritaria aceitera, condiciones en Vicentín, reforma laboral, SMVM, organización — o cualquier cosa que te interese comunicar.',
+            title: '¿De qué querés hablar?',
+            body: 'Paritaria aceitera, condiciones en Vicentín, reforma laboral, SMVM, organización — o cualquier tema que te interese.',
           },
         ],
         tags: ['podcast', 'audio', 'narrativa'],
@@ -372,12 +372,12 @@ class HorneroContenido extends HoComponent {
         role: 'hornero',
         sections: [
           {
-            title: '📱 Reel sindical — impacto en 30 segundos',
-            body: 'Un reel es video corto, 30-90 segundos. Hook visual, mensaje central, call to action. Se comparte en redes y genera alcance rápido.',
+            title: 'Chateá con la IA Sindical',
+            body: 'Te guío para armar un reel sindical — video corto, 30-90 segundos. Hook visual, mensaje central, call to action. Contame qué querés comunicar y te propongo texto on-screen y estructura.',
           },
           {
             title: '¿Qué mensaje querés que impacte?',
-            body: 'Contame el mensaje central. Puede ser: paritaria aceitera, denuncia condiciones, SMVM vs canasta, organización sindical, resistencia patronal.',
+            body: 'Paritaria aceitera, denuncia de condiciones, SMVM vs canasta, organización sindical — o el mensaje que quieras.',
           },
         ],
         tags: ['reel', 'video', 'redes'],
@@ -387,12 +387,12 @@ class HorneroContenido extends HoComponent {
         role: 'hornero',
         sections: [
           {
-            title: '✍️ Columna de opinión — argumento documentado',
-            body: 'Una columna para diario, 800-1200 palabras. Ángulo, datos, quote de referente, cierre. La IA te ayuda con estructura, fuentes y argumentos.',
+            title: 'Chateá con la IA Sindical',
+            body: 'Te guío para armar una columna de opinión — texto para diario, 800-1200 palabras. Ángulo, datos, quote de referente, cierre. Contame tu tema y te propongo estructura, fuentes y argumentos.',
           },
           {
             title: '¿Qué ángulo querés tomar?',
-            body: 'Contame el tema o ángulo. Paritaria aceitera y concurso, reforma laboral, SMVM y distribución del ingreso, condiciones laborales, organización sindical.',
+            body: 'Paritaria aceitera, SMVM y distribución del ingreso, reforma laboral, condiciones de trabajo — o el ángulo que quieras.',
           },
         ],
         tags: ['columna', 'texto', 'argumento'],
@@ -402,12 +402,12 @@ class HorneroContenido extends HoComponent {
         role: 'hornero',
         sections: [
           {
-            title: '📻 Preparación para entrevista radial',
-            body: 'Te preparo completo: puntos clave, argumentos, quotes para citar, ejercicio de respuestas. No te mandamos solo a la radio.',
+            title: 'Chateá con la IA Sindical',
+            body: 'Te guío para prepararte para una entrevista — puntos clave, argumentos, quotes para citar, ejercicio de respuestas. Contame de qué va la entrevista y te armo la preparación completa.',
           },
           {
             title: '¿De qué va la entrevista?',
-            body: 'Contame el tema. Paritaria aceitera, reforma laboral, SMVM, condiciones de trabajo, organización sindical — te armo los puntos y las fuentes.',
+            body: 'Paritaria aceitera, reforma laboral, SMVM, condiciones de trabajo — o el tema que te van a preguntar.',
           },
         ],
         tags: ['entrevista', 'radio', 'preparación'],
@@ -470,25 +470,25 @@ class HorneroContenido extends HoComponent {
     const tags = [];
     const usedQuotes = [];
 
-    // Format-specific structure
+    // Format-specific structure — same chat format, different context
     if (formato === 'podcast') {
       sections.push({
-        title: '🎙️ Podcast: estructura del episodio',
+        title: 'Chateá con la IA Sindical',
         body: this._podcastStructure(matchedThemes, step),
       });
     } else if (formato === 'reel') {
       sections.push({
-        title: '📱 Reel: estructura del video',
+        title: 'Chateá con la IA Sindical',
         body: this._reelStructure(matchedThemes, step),
       });
     } else if (formato === 'columna') {
       sections.push({
-        title: '✍️ Columna: estructura del artículo',
+        title: 'Chateá con la IA Sindical',
         body: this._columnaStructure(matchedThemes, step),
       });
     } else if (formato === 'entrevista') {
       sections.push({
-        title: '📻 Entrevista: puntos clave',
+        title: 'Chateá con la IA Sindical',
         body: this._entrevistaStructure(matchedThemes, step),
       });
     }
@@ -568,7 +568,7 @@ class HorneroContenido extends HoComponent {
     const suggestions = {
       podcast: {
         sections: [
-          { title: '💡 Ideas para tu podcast', body: 'Te propongo temas con impacto:\n• Paritaria aceitera 2026 — cómo se negocia con concurso\n• Condiciones en Vicentín: planta al 80%, enfermería clausurada\n• SMVM vs básico del convenio — la brecha que no se ve\n• Reforma laboral: lo que Yofra y Cremonte dicen\n• Organización sindical: "Organizar es construir" (Yofra)' },
+          { title: 'Chateá con la IA Sindical', body: 'Te propongo temas con impacto:\n• Paritaria aceitera 2026 — cómo se negocia con concurso\n• Condiciones en Vicentín: planta al 80%, enfermería clausurada\n• SMVM vs básico del convenio — la brecha que no se ve\n• Reforma laboral: lo que Yofra y Cremonte dicen\n• Organización sindical: "Organizar es construir" (Yofra)' },
           { title: '', body: '', quote: 'Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Ciclo "Por las hendijas del Quebracho", enero 2021' },
           { title: 'Próximo paso', body: 'Elegí uno o contame tu propio tema. Podés escribir libremente — la IA te guía.' },
         ],
@@ -576,7 +576,7 @@ class HorneroContenido extends HoComponent {
       },
       reel: {
         sections: [
-          { title: '💡 Ideas para tu reel', body: 'Te propongo mensajes con impacto:\n• "Paritaria aceitera: la patronal propuso CERO" (Yofra)\n• "Tu básico no cubre el alquiler — $340K vs $380K"\n• "Enfermería clausurada 3 meses — violación Art.42"\n• "Reforma laboral = siglo XIX" (Cremonte)\n• "Organizar es construir" (Yofra)' },
+          { title: 'Chateá con la IA Sindical', body: 'Te propongo mensajes con impacto:\n• "Paritaria aceitera: la patronal propuso CERO" (Yofra)\n• "Tu básico no cubre el alquiler — $340K vs $380K"\n• "Enfermería clausurada 3 meses — violación Art.42"\n• "Reforma laboral = siglo XIX" (Cremonte)\n• "Organizar es construir" (Yofra)' },
           { title: '', body: '', quote: 'La propuesta patronal fue cero. Nosotros arrancamos con huelga de 7 días y forzamos la mano del ministro.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Gestión Sindical, diciembre 2025' },
           { title: 'Próximo paso', body: 'Elegí un mensaje o proponé el que quieras. La IA te arma el hook y el texto on-screen.' },
         ],
@@ -584,7 +584,7 @@ class HorneroContenido extends HoComponent {
       },
       columna: {
         sections: [
-          { title: '💡 Ideas para tu columna', body: 'Ángulos con argumento:\n• Paritaria aceitera y concurso preventivo — ¿excusa o estrategia?\n• SMVM vs básico convenio — distribución del ingreso\n• Reforma laboral: retorno al siglo XIX (Cremonte)\n• CCT 420/05: territorio conquistado, cláusulas bajo ataque\n• Condiciones aceiteras: planta 80%, enfermería clausurada, EPP insuficientes' },
+          { title: 'Chateá con la IA Sindical', body: 'Ángulos con argumento:\n• Paritaria aceitera y concurso preventivo — ¿excusa o estrategia?\n• SMVM vs básico convenio — distribución del ingreso\n• Reforma laboral: retorno al siglo XIX (Cremonte)\n• CCT 420/05: territorio conquistado, cláusulas bajo ataque\n• Condiciones aceiteras: planta 80%, enfermería clausurada, EPP insuficientes' },
           { title: '', body: '', quote: 'El convenio no es solo un texto legal — es un territorio conquistado. Cada cláusula es una lucha que se ganó.', quoteAuthor: 'Cremonte', quoteSource: 'Clase convenios aceiteros, 2026' },
           { title: 'Próximo paso', body: 'Elegí un ángulo o proponé el que quieras. La IA te arma estructura, datos, quotes y cierre.' },
         ],
@@ -592,7 +592,7 @@ class HorneroContenido extends HoComponent {
       },
       entrevista: {
         sections: [
-          { title: '💡 Temas para tu entrevista', body: 'Puntos que impactan en radio:\n• Paritaria aceitera: "La propuesta fue cero" (Yofra)\n• SMVM: básico convenio debajo del mínimo legal\n• Condiciones: planta 80%, enfermería clausurada, accidentes\n• Reforma laboral: "Retorno al siglo XIX" (Cremonte)\n• Organización: FreSU 100 sindicatos, huelga general' },
+          { title: 'Chateá con la IA Sindical', body: 'Puntos que impactan en radio:\n• Paritaria aceitera: "La propuesta fue cero" (Yofra)\n• SMVM: básico convenio debajo del mínimo legal\n• Condiciones: planta 80%, enfermería clausurada, accidentes\n• Reforma laboral: "Retorno al siglo XIX" (Cremonte)\n• Organización: FreSU 100 sindicatos, huelga general' },
           { title: '', body: '', quote: 'Este gobierno vino a declararnos la guerra. No va a alcanzar con el diálogo. Hay que hacer huelga.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Reelección FOEIAP, marzo 2026' },
           { title: 'Próximo paso', body: 'Elegí un tema o contame qué te van a preguntar. Te armo puntos, argumentos, y ejercicio de respuestas.' },
         ],
