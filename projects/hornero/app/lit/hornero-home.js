@@ -133,7 +133,10 @@ class HorneroHome extends HoComponent {
       .agenda-prox .agenda-date { font-size: .46rem; }
 
       /* ===== ESFERA 2: Consulta — 3 íconos ===== */
-      .esfera-consulta { margin-bottom: 20px; }
+      .esfera-consulta { margin-bottom: 20px;
+        background: var(--ho-card, #FBFAF6);
+        border-radius: 13px; padding: 16px 14px 18px;
+        border: 1px solid rgba(43,42,38,.06); }
       .consulta-icons { display: flex; justify-content: space-around; gap: 4px; }
       .icon-btn { display: flex; flex-direction: column; align-items: center;
         gap: 7px; background: none; border: none; cursor: pointer;
