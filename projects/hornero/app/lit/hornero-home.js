@@ -72,11 +72,11 @@ class HorneroHome extends HoComponent {
         color: #2B2A26; margin-bottom: 10px; }
 
       /* ===== Section badge — overlay on carousel photo, right corner ===== */
-      .section-badge { position: absolute; top: 12px; right: 14px; z-index: 3;
-        font-family: 'JetBrains Mono', monospace; font-size: .64rem;
+      .section-badge { position: absolute; top: 10px; right: 12px; z-index: 3;
+        font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: #F2F1EC; background: rgba(33,31,29,.55);
-        padding: 4px 10px 3px; border-radius: 6px; }
+        color: rgba(242,241,236,.85); background: rgba(33,31,29,.35);
+        padding: 3px 7px 2px; border-radius: 5px; }
 
       /* ===== Invisible card — same bg as page, padding, no visible border ===== */
       .ghost-card { background: var(--ho-card, #FBFAF6);
@@ -89,10 +89,10 @@ class HorneroHome extends HoComponent {
       /* --- News carousel --- */
       .carousel-wrap { position: relative; margin-bottom: 8px;
         margin-left: -16px; margin-right: -16px; overflow: hidden; }
-      /* Dark gradient top edge — fuses carousel with header closure */
+      /* Whisper of dark — almost imperceptible fusion with header closure */
       .carousel-wrap::before { content: ''; position: absolute;
-        top: 0; left: 0; right: 0; height: 24px;
-        background: linear-gradient(to bottom, rgba(51,49,45,.28), transparent);
+        top: 0; left: 0; right: 0; height: 8px;
+        background: linear-gradient(to bottom, rgba(51,49,45,.06), transparent);
         z-index: 2; }
       .carousel-track { display: flex; overflow-x: auto;
         scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
