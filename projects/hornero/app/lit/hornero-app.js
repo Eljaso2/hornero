@@ -84,6 +84,30 @@ class HorneroApp extends HoComponent {
       argumento: 'Argumento',
       comunicador: 'Comunicador',
       contenido: 'Producción de contenido',
+      // Actualidad sub-screens
+      clipping: 'Clipping de noticias',
+      infomate: 'InfoMate',
+      gremial: 'Reporte Gremial',
+    };
+
+    // Parent screen map — back button navigation
+    this._parentScreen = {
+      actualidad: 'home',
+      consulta: 'home',
+      is: 'home',
+      condicion: 'home',
+      perfil: 'home',
+      // Actualidad sub-screens → back to actualidad
+      clipping: 'actualidad',
+      infomate: 'actualidad',
+      gremial: 'actualidad',
+      // Condicion sub-screens → back to condicion
+      smvm: 'condicion',
+      felicidad: 'condicion',
+      ve: 'condicion',
+      // Other sub-screens
+      ecosistema: 'home',
+      contenido: 'consulta',
     };
   }
 
@@ -242,6 +266,12 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>';
     } else if (this.screen === 'actualidad') {
       screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>';
+    } else if (this.screen === 'clipping') {
+      screenContent = '<hornero-clipping grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-clipping>';
+    } else if (this.screen === 'infomate') {
+      screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-infomate>';
+    } else if (this.screen === 'gremial') {
+      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-gremial>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
     } else if (this.screen === 'consulta') {
@@ -315,9 +345,11 @@ class HorneroApp extends HoComponent {
         this.set('screen', btn.dataset.screen);
       });
     });
-    // Bind back button
+    // Bind back button — navigate to parent screen
     const backBtn = this.shadowRoot.querySelector('.back-btn');
-    if (backBtn) backBtn.addEventListener('click', () => this.set('screen', 'home'));
+    if (backBtn) backBtn.addEventListener('click', () => {
+      this.set('screen', this._parentScreen[this.screen] || 'home');
+    });
     // Bind update banner
     const updateBanner = this.shadowRoot.querySelector('#updateBanner');
     if (updateBanner) updateBanner.addEventListener('click', () => {
