@@ -4,7 +4,7 @@
 // This means: push changes → open app → see changes immediately, no cache clearing
 // Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v30';
+var CACHE_NAME = 'hornero-v31';
 var ASSETS = [
   './css/hornero.css',
   './js/db.js',
@@ -50,7 +50,7 @@ self.addEventListener('install', function(event) {
   self.skipWaiting();
 });
 
-// Activate: clean old caches + take control + notify clients
+// Activate: clean old caches + claim clients FIRST + then notify
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
@@ -59,6 +59,10 @@ self.addEventListener('activate', function(event) {
              .map(function(k) { return caches.delete(k); })
       );
     }).then(function() {
+      // Claim clients FIRST — ensure new SW controls page before notifying
+      return self.clients.claim();
+    }).then(function() {
+      // Now notify all clients that update is ready
       return self.clients.matchAll();
     }).then(function(clients) {
       clients.forEach(function(client) {
@@ -66,7 +70,6 @@ self.addEventListener('activate', function(event) {
       });
     })
   );
-  self.clients.claim();
 });
 
 // Fetch strategy:
