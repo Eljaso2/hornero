@@ -372,8 +372,6 @@ class HorneroApp extends HoComponent {
     this.set('userName', '');
     this.set('screen', 'home');
   }
-
-  }
 }
 
 customElements.define('hornero-app', HorneroApp);
