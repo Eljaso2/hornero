@@ -63,13 +63,20 @@ class HorneroHome extends HoComponent {
 
   _styles() {
     return css`
-      /* ===== Home container — light background ===== */
-      :host { display: block; padding: 16px; background: #F4F3EE; }
+      /* ===== Home container — no top padding → photo fuses with header ===== */
+      :host { display: block; padding: 0 16px 16px; background: #F4F3EE; }
 
       /* ===== Section name — kicker style, dark on light bg ===== */
       .esfera-name { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: #2B2A26; margin-bottom: 10px; }
+
+      /* ===== Section badge — overlay on carousel photo, right corner ===== */
+      .section-badge { position: absolute; top: 12px; right: 14px; z-index: 3;
+        font-family: 'JetBrains Mono', monospace; font-size: .64rem;
+        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+        color: #F2F1EC; background: rgba(33,31,29,.55);
+        padding: 4px 10px 3px; border-radius: 6px; }
 
       /* ===== Invisible card — same bg as page, padding, no visible border ===== */
       .ghost-card { background: var(--ho-card, #FBFAF6);
@@ -82,6 +89,11 @@ class HorneroHome extends HoComponent {
       /* --- News carousel --- */
       .carousel-wrap { position: relative; margin-bottom: 8px;
         margin-left: -16px; margin-right: -16px; overflow: hidden; }
+      /* Dark gradient top edge — fuses carousel with header closure */
+      .carousel-wrap::before { content: ''; position: absolute;
+        top: 0; left: 0; right: 0; height: 24px;
+        background: linear-gradient(to bottom, rgba(51,49,45,.28), transparent);
+        z-index: 2; }
       .carousel-track { display: flex; overflow-x: auto;
         scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
         scrollbar-width: none; }
@@ -237,9 +249,8 @@ class HorneroHome extends HoComponent {
     return html`
       <!-- ESFERA 1: Actualidad -->
       <div class="esfera-actualidad">
-        <div class="esfera-name">Actualidad</div>
-
         <div class="carousel-wrap">
+          <div class="section-badge">Actualidad</div>
           <div class="carousel-track" id="carouselTrack">
             ${newsSlides}
           </div>
