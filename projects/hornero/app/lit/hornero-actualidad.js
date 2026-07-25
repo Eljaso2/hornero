@@ -1,5 +1,9 @@
 // ===== <hornero-actualidad> — Esfera Actualidad =====
-// Stacked carousels: Clipping · InfoMate · Reporte Gremial
+// Timeline mezclado: Noticias + InfoMate + Reporte Gremial
+// Infinite scroll: 10 items → scroll → 10 más → ...
+// Noticias: card con foto/título/bajada/tags → tap → popup overlay con desarrollo
+// InfoMate: card con data tags, no popup
+// Reporte Gremial: gate card, pendiente aprobación
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -9,8 +13,6 @@ class HorneroActualidad extends HoComponent {
     return {
       grade: String,
       sector: String,
-      clippingIndex: Number,
-      mateIndex: Number,
     };
   }
 
@@ -18,220 +20,97 @@ class HorneroActualidad extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
-    this.clippingIndex = 0;
-    this.mateIndex = 0;
-    this._clipping = [];
-    this._clippingMeta = {};
-    this._mate = null;
-    this._mateMeta = {};
+    this._allItems = [];
+    this._visibleCount = 10;
+    this._popupItem = null;
+    this._observer = null;
+    this._clippingRaw = null;
+    this._mateRaw = null;
   }
 
   async connectedCallback() {
     super.connectedCallback();
-    await this._loadData();
+    await this._loadAllSources();
+    this._mergeTimeline();
+    this.render();
   }
 
-  async _loadData() {
-    // Load clipping
+  // ===== Data loading =====
+
+  async _loadAllSources() {
+    // Clipping (noticias)
     try {
       const response = await fetch('data/clipping-2026-07-02.json');
       const data = await response.json();
-      if (data.noticias) {
-        this._clipping = data.noticias;
-        this._clippingMeta = data.meta || {};
-        // Cache in IndexedDB
-        if (typeof guardarClipping === 'function') {
-          for (const item of data.noticias) {
-            await guardarClipping(item);
-          }
+      this._clippingRaw = data;
+      // Cache in IndexedDB
+      if (typeof guardarClipping === 'function' && data.noticias) {
+        for (const item of data.noticias) {
+          await guardarClipping(item);
         }
       }
     } catch(e) { console.warn('Actualidad: clipping load failed', e); }
 
-    // Load Mate
+    // InfoMate
     try {
       const response = await fetch('data/mate-2026-05.json');
       const data = await response.json();
-      this._mate = data;
-      this._mateMeta = data.meta || {};
+      this._mateRaw = data;
     } catch(e) { console.warn('Actualidad: mate load failed', e); }
-
-    this.render();
   }
 
-  _styles() {
-    return css`
-      :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+  // ===== Merge 3 sources → unified timeline =====
 
-      /* ===== Scrollable container for stacked carousels ===== */
-      .carousels-scroll { flex: 1; overflow-y: auto;
-        -webkit-overflow-scrolling: touch; padding: 0 16px 16px; }
+  _mergeTimeline() {
+    const items = [];
 
-      /* ===== Carousel section ===== */
-      .carousel-section { margin-bottom: 20px; }
+    // Noticias from clipping
+    if (this._clippingRaw && this._clippingRaw.noticias) {
+      for (const n of this._clippingRaw.noticias) {
+        items.push({
+          id: n.id || 'n-' + Math.random().toString(36).slice(2),
+          tipo: 'noticia',
+          fecha: n.fecha || this._clippingRaw.meta.fecha || '2026-07-01',
+          titulo: n.titulo || '',
+          bajada: n.bajada || '',
+          desarrollo: n.desarrollo || '',
+          foto: n.foto || '',
+          tags: n.tags || [],
+          fuente: n.fuente || '',
+          emoji: n.emoji || '',
+        });
+      }
+    }
 
-      /* ===== Carousel header — label + número + fecha ===== */
-      .carousel-header { display: flex; align-items: center; gap: 8px;
-        margin-bottom: 10px; }
-      .carousel-label { font-family: 'JetBrains Mono', monospace;
-        font-size: .68rem; font-weight: 600; letter-spacing: .14em;
-        text-transform: uppercase; color: #2B2A26; }
-      .carousel-num { font-family: 'JetBrains Mono', monospace;
-        font-size: .68rem; font-weight: 700; color: var(--ho-green, #6E8345); }
-      .carousel-date { font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; font-weight: 500; color: #6E6A60; }
-      .carousel-status { font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; font-weight: 500; color: #9C988D; }
+    // InfoMate sections
+    if (this._mateRaw && this._mateRaw.secciones) {
+      const mateFecha = this._mateRaw.meta.mes || '2026-05';
+      const mateMesLabel = this._formatMes(mateFecha);
+      for (const s of this._mateRaw.secciones) {
+        items.push({
+          id: 'mate-' + s.titulo.toLowerCase().replace(/\s+/g, '-'),
+          tipo: 'mate',
+          fecha: mateFecha,
+          fechaLabel: mateMesLabel,
+          titulo: s.titulo || '',
+          bajada: s.bajada || '',
+          datos: s.datos || [],
+        });
+      }
+    }
 
-      /* ===== Carousel — reuse Home pattern ===== */
-      .carousel-wrap { position: relative; margin-bottom: 8px;
-        margin-left: -16px; margin-right: -16px; overflow: hidden; }
-      .carousel-track { display: flex; overflow-x: auto;
-        scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; }
-      .carousel-track::-webkit-scrollbar { width: 0; }
+    // Reporte Gremial placeholder
+    items.push({
+      id: 'gremial-placeholder',
+      tipo: 'gremial',
+      fecha: '2026-07-01',
+      titulo: 'Reporte Gremial',
+    });
 
-      /* ===== News slide — same as Home ===== */
-      .news-slide { scroll-snap-align: start; width: 100%; flex-shrink: 0;
-        position: relative; min-height: 260px;
-        background: var(--ho-dark, #33312D); }
-      .news-slide img { width: 100%; height: 260px; object-fit: cover;
-        display: block; }
-      .news-overlay { position: absolute; bottom: 0; left: 0; right: 0;
-        padding: 36px 14px 12px;
-        background: linear-gradient(transparent, rgba(33,31,29,.85));
-        color: #F2F1EC; }
-      .news-title { font-family: 'Archivo Narrow', sans-serif; font-weight: 800;
-        font-size: 1.32rem; line-height: 1.18; letter-spacing: .02em;
-        text-transform: uppercase; }
-      .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-      .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
-        background: rgba(110,131,69,.6); color: #F2F1EC;
-        padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    // Sort: most recent first
+    items.sort((a, b) => b.fecha.localeCompare(a.fecha));
 
-      /* ===== Último badge ===== */
-      .ultimo-badge { font-family: 'JetBrains Mono', monospace;
-        font-size: .56rem; font-weight: 700; letter-spacing: .06em;
-        background: var(--ho-green, #6E8345); color: #F2F1EC;
-        padding: 2px 7px; border-radius: 4px;
-        position: absolute; top: 10px; right: 12px; }
-
-      /* ===== Mate slide (no photo, dark bg) ===== */
-      .mate-slide { scroll-snap-align: start; width: 100%; flex-shrink: 0;
-        position: relative; min-height: 260px;
-        background: var(--ho-dark-surface, #45433E); }
-      .mate-overlay { position: absolute; bottom: 0; left: 0; right: 0;
-        padding: 36px 14px 12px;
-        background: linear-gradient(transparent, rgba(33,31,29,.85));
-        color: #F2F1EC; }
-      .mate-title { font-family: 'Archivo Narrow', sans-serif; font-weight: 800;
-        font-size: 1.1rem; line-height: 1.18; letter-spacing: .02em;
-        text-transform: uppercase; }
-      .mate-bajada { font-size: .78rem; color: #C8C4BC; line-height: 1.4;
-        margin-top: 4px; }
-      .mate-data { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-      .mate-data-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
-        background: rgba(176,134,63,.6); color: #F2F1EC;
-        padding: 2px 6px; border-radius: 4px; font-weight: 600; }
-
-      /* ===== Reporte Gremial gate slide ===== */
-      .gremial-slide { scroll-snap-align: start; width: 100%; flex-shrink: 0;
-        min-height: 260px; background: var(--ho-dark, #33312D);
-        display: flex; align-items: center; justify-content: center;
-        position: relative; }
-      .gremial-content { text-align: center; padding: 30px 20px;
-        color: #F2F1EC; }
-      .gremial-icon { font-size: 2.4rem; margin-bottom: 12px; }
-      .gremial-title { font-family: 'Archivo Narrow', sans-serif; font-weight: 800;
-        font-size: 1rem; text-transform: uppercase; margin-bottom: 8px; }
-      .gremial-desc { font-size: .82rem; color: #9C988D; line-height: 1.4; }
-      .gremial-note { font-size: .72rem; color: #7A766D; margin-top: 12px; }
-
-      /* ===== Carousel dots ===== */
-      .carousel-dots { display: flex; justify-content: center; gap: 5px;
-        padding: 8px 0; }
-      .dot { width: 6px; height: 6px; border-radius: 50%;
-        background: #9C988D; transition: background .2s; cursor: pointer; }
-      .dot.active { background: #6E8345; }
-
-      /* ===== Disclaimer ===== */
-      .mate-disclaimer { background: var(--ho-green-pale, #E8EDD7); border-radius: 8px;
-        padding: 7px 11px; font-size: .72rem; color: var(--ho-green-dark, #586B33);
-        margin: 0 16px 16px; line-height: 1.4; }
-    `;
-  }
-
-  _render() {
-    // --- Clipping carousel ---
-    const clippingHeader = this._buildClippingHeader();
-    const clippingSlides = this._buildClippingSlides();
-    const clippingDots = this._clipping.map((_, i) =>
-      '<span class="dot' + (i === this.clippingIndex ? ' active' : '') + '" data-index="' + i + '" data-carousel="clipping"></span>'
-    ).join('');
-
-    // --- InfoMate carousel ---
-    const mateSections = this._mate ? (this._mate.secciones || []) : [];
-    const mateHeader = this._buildMateHeader();
-    const mateSlides = this._buildMateSlides();
-    const mateDots = mateSections.map((_, i) =>
-      '<span class="dot' + (i === this.mateIndex ? ' active' : '') + '" data-index="' + i + '" data-carousel="mate"></span>'
-    ).join('');
-
-    // --- Reporte Gremial ---
-    const gremialSection = this._buildGremialSection();
-
-    return html`
-      <div class="carousels-scroll">
-
-        <!-- CLIPPING -->
-        <div class="carousel-section">
-          ${clippingHeader}
-          <div class="carousel-wrap">
-            <div class="carousel-track" id="clippingTrack">
-              ${clippingSlides}
-            </div>
-          </div>
-          <div class="carousel-dots" id="clippingDots">
-            ${clippingDots}
-          </div>
-        </div>
-
-        <!-- INFOMATE -->
-        <div class="carousel-section">
-          ${mateHeader}
-          ${mateSlides ? '<div class="carousel-wrap"><div class="carousel-track" id="mateTrack">' + mateSlides + '</div></div><div class="carousel-dots" id="mateDots">' + mateDots + '</div>' : ''}
-          ${this._mate ? '<div class="mate-disclaimer">⚠️ Datos reorganizados con categorías del campo obrero (Inigo Carrera / PIMSA), no categorías INDEC. La IA propone — vos decidís.</div>' : ''}
-        </div>
-
-        <!-- REPORTE GREMIAL -->
-        ${gremialSection}
-
-      </div>
-    `;
-  }
-
-  // ===== Header builders =====
-
-  _buildClippingHeader() {
-    const meta = this._clippingMeta;
-    const num = meta.numero ? 'N°' + meta.numero : '';
-    const fecha = meta.fecha || meta.semana || '';
-    return '<div class="carousel-header">' +
-      '<span class="carousel-label">📰 Clipping</span>' +
-      (num ? '<span class="carousel-num">' + num + '</span>' : '') +
-      (fecha ? '<span class="carousel-date">' + fecha + '</span>' : '') +
-    '</div>';
-  }
-
-  _buildMateHeader() {
-    const meta = this._mateMeta;
-    const mes = meta.mes || '';
-    const mesLabel = mes ? this._formatMes(mes) : '';
-    return '<div class="carousel-header">' +
-      '<span class="carousel-label">🧮 InfoMate</span>' +
-      (mesLabel ? '<span class="carousel-date">' + mesLabel + '</span>' : '') +
-    '</div>';
+    this._allItems = items;
   }
 
   _formatMes(mesStr) {
@@ -242,99 +121,316 @@ class HorneroActualidad extends HoComponent {
     return months[m] + ' ' + parts[0];
   }
 
-  // ===== Slide builders =====
-
-  _buildClippingSlides() {
-    return this._clipping.map((n, i) => {
-      const isUltimo = i === this._clipping.length - 1;
-      const tagsHtml = (n.tags || []).map(t =>
-        '<span class="news-tag">' + t + '</span>'
-      ).join('');
-      return '<div class="news-slide" data-index="' + i + '">' +
-        (n.foto ? '<img src="' + n.foto + '" alt="" loading="lazy">' : '') +
-        '<div class="news-overlay">' +
-          (isUltimo ? '<span class="ultimo-badge">último</span>' : '') +
-          '<div class="news-title">' + (n.emoji || '') + ' ' + (n.titulo || '') + '</div>' +
-          '<div class="news-tags">' + tagsHtml + '</div>' +
-        '</div>' +
-      '</div>';
-    }).join('');
+  _formatFecha(fecha) {
+    // "2026-07-02" → "02/07"
+    if (!fecha) return '';
+    const parts = fecha.split('-');
+    if (parts.length === 2) return this._formatMes(fecha); // "2026-05" → "mayo 2026"
+    return parts[2] + '/' + parts[1];
   }
 
-  _buildMateSlides() {
-    if (!this._mate) return '';
-    const sections = this._mate.secciones || [];
-    return sections.map((s, i) => {
-      const isUltimo = i === sections.length - 1;
-      const dataTagsHtml = (s.datos || []).map(d =>
-        '<span class="mate-data-tag">' + d + '</span>'
-      ).join('');
-      return '<div class="mate-slide" data-index="' + i + '">' +
-        '<div class="mate-overlay">' +
-          (isUltimo ? '<span class="ultimo-badge">último</span>' : '') +
-          '<div class="mate-title">' + s.titulo + '</div>' +
-          '<div class="mate-bajada">' + s.bajada + '</div>' +
-          '<div class="mate-data">' + dataTagsHtml + '</div>' +
-        '</div>' +
-      '</div>';
-    }).join('');
+  // ===== Styles =====
+
+  _styles() {
+    return css`
+      :host { display: flex; flex-direction: column; height: 100%;
+        background: var(--ho-bg, #F4F3EE); }
+
+      /* Feed scroll container */
+      .feed-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+        padding: 12px 16px 16px; scrollbar-width: none; }
+      .feed-scroll::-webkit-scrollbar { width: 0; }
+
+      /* Feed card — base */
+      .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
+        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        transition: border-color .2s; }
+
+      /* Noticia card — white bg, clickable */
+      .feed-card-noticia { background: var(--ho-card, #FBFAF6); cursor: pointer; }
+      .feed-card-noticia:hover { border-color: var(--ho-green, #6E8345); }
+
+      /* Mate card — pale green bg, not clickable */
+      .feed-card-mate { background: var(--ho-green-pale, #E8EDD7); cursor: default; }
+
+      /* Gremial card — dark bg, not clickable */
+      .feed-card-gremial { background: var(--ho-dark, #33312D); cursor: default; }
+
+      /* Card image */
+      .feed-card-img { width: 100%; height: 140px; object-fit: cover; display: block; }
+
+      /* Card body */
+      .feed-card-body { padding: 12px 14px; }
+
+      /* Card fecha badge */
+      .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text-mid, #6E6A60);
+        padding: 2px 6px; border-radius: 5px; font-weight: 500; }
+
+      /* Card emoji inline */
+      .feed-card-emoji { font-size: 1rem; margin-left: 4px; }
+
+      /* Card titulo */
+      .feed-card-titulo { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .88rem; color: var(--ho-text, #2B2A26); margin-top: 4px;
+        line-height: 1.25; }
+
+      /* Card bajada — clipped to ~2 lines */
+      .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.4;
+        max-height: 2.8em; overflow: hidden; margin-top: 3px; }
+
+      /* Tags row */
+      .feed-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+      .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+
+      /* Mate data tags — gold tinted */
+      .feed-card-data-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+      .data-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: rgba(176,134,63,.35); color: #3D3B35;
+        padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+
+      /* Gremial card inner */
+      .feed-card-icon { font-size: 2rem; margin-bottom: 8px; }
+      .feed-card-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: #9C988D; line-height: 1.4; }
+      .feed-card-note { font-family: 'Public Sans', sans-serif; font-size: .72rem;
+        color: #7A766D; margin-top: 10px; line-height: 1.4; }
+
+      /* Sentinel — infinite scroll trigger */
+      .feed-sentinel { height: 40px; display: flex; justify-content: center;
+        align-items: center; color: var(--ho-text-light, #9C988D);
+        font-family: 'JetBrains Mono', monospace; font-size: .68rem; }
+      .feed-sentinel.hidden { display: none; }
+
+      /* Source label badge — colored per source */
+      .source-badge { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-left: 4px; }
+      .source-badge.noticia { background: var(--ho-green, #6E8345); color: #F2F1EC; }
+      .source-badge.mate { background: var(--ho-gold, #B0863F); color: #F2F1EC; }
+      .source-badge.gremial { background: var(--ho-dark-surface, #45433E); color: #F2F1EC; }
+
+      /* ===== Popup overlay ===== */
+      .popup-overlay { position: fixed; inset: 0;
+        background: rgba(33,31,29,.65); z-index: 50;
+        display: flex; align-items: flex-start; justify-content: center;
+        padding: 16px; overflow-y: auto; -webkit-overflow-scrolling: touch;
+        animation: popfade .25s ease; }
+
+      .popup-content { background: var(--ho-card, #FBFAF6); border-radius: 13px;
+        max-width: 100%; width: 380px; position: relative;
+        overflow: hidden; }
+
+      .popup-close { position: absolute; top: 10px; right: 12px;
+        background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
+        width: 28px; height: 28px; border-radius: 50%; border: none;
+        cursor: pointer; font-size: .85rem; z-index: 10;
+        display: flex; align-items: center; justify-content: center; }
+
+      .popup-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+
+      .popup-body { padding: 14px 16px 20px; }
+
+      .popup-emoji { font-size: 1.2rem; }
+
+      .popup-titulo { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.02rem; color: var(--ho-text, #2B2A26);
+        margin-top: 4px; line-height: 1.2; }
+
+      .popup-desarrollo { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.6; margin-top: 10px; }
+
+      .popup-fuente { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-light, #9C988D); margin-top: 8px; font-style: italic; }
+
+      .popup-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+
+      @keyframes popfade { from { opacity: 0 } to { opacity: 1 } }
+    `;
   }
 
-  _buildGremialSection() {
-    return '<div class="carousel-section">' +
-      '<div class="carousel-header">' +
-        '<span class="carousel-label">✊ Reporte Gremial</span>' +
-        '<span class="carousel-status">pendiente</span>' +
+  // ===== Render =====
+
+  _render() {
+    const visible = this._allItems.slice(0, this._visibleCount);
+    const hasMore = this._visibleCount < this._allItems.length;
+
+    const cardsHtml = visible.map(item => this._renderCard(item)).join('');
+    const sentinelHtml = hasMore
+      ? '<div class="feed-sentinel" id="feedSentinel">↓ más contenido</div>'
+      : '<div class="feed-sentinel hidden" id="feedSentinel"></div>';
+
+    const popupHtml = this._popupItem ? this._renderPopup(this._popupItem) : '';
+
+    return html`
+      <div class="feed-scroll" id="feedScroll">
+        ${cardsHtml}
+        ${sentinelHtml}
+      </div>
+      ${popupHtml}
+    `;
+  }
+
+  // ===== Card renderers =====
+
+  _renderCard(item) {
+    if (item.tipo === 'noticia') return this._renderNoticiaCard(item);
+    if (item.tipo === 'mate') return this._renderMateCard(item);
+    if (item.tipo === 'gremial') return this._renderGremialCard(item);
+    return '';
+  }
+
+  _renderNoticiaCard(item) {
+    const tagsHtml = (item.tags || []).map(t =>
+      '<span class="tag">' + t + '</span>'
+    ).join('');
+
+    return '<div class="feed-card feed-card-noticia" data-id="' + item.id + '">' +
+      (item.foto ? '<img class="feed-card-img" src="' + item.foto + '" alt="" loading="lazy">' : '') +
+      '<div class="feed-card-body">' +
+        '<span class="feed-card-fecha">' + this._formatFecha(item.fecha) + '</span>' +
+        '<span class="source-badge noticia">📰</span>' +
+        (item.emoji ? '<span class="feed-card-emoji">' + item.emoji + '</span>' : '') +
+        '<div class="feed-card-titulo">' + item.titulo + '</div>' +
+        '<div class="feed-card-bajada">' + item.bajada + '</div>' +
+        '<div class="feed-card-tags">' + tagsHtml + '</div>' +
       '</div>' +
-      '<div class="carousel-wrap">' +
-        '<div class="carousel-track">' +
-          '<div class="gremial-slide">' +
-            '<span class="ultimo-badge">último</span>' +
-            '<div class="gremial-content">' +
-              '<div class="gremial-icon">✊</div>' +
-              '<div class="gremial-title">Situación sindical</div>' +
-              '<div class="gremial-desc">La federación aún no ha aprobado la publicación de su reporte sindical.</div>' +
-              '<div class="gremial-note">Esta sección se activa cuando una federación o unión (grade 4) aprueba publicar su informe gremial. Solo se muestra contenido aprobado — no speculation.</div>' +
-            '</div>' +
-          '</div>' +
+    '</div>';
+  }
+
+  _renderMateCard(item) {
+    const dataTagsHtml = (item.datos || []).map(d =>
+      '<span class="data-tag">' + d + '</span>'
+    ).join('');
+
+    return '<div class="feed-card feed-card-mate" data-id="' + item.id + '">' +
+      '<div class="feed-card-body">' +
+        '<span class="feed-card-fecha">' + (item.fechaLabel || this._formatFecha(item.fecha)) + '</span>' +
+        '<span class="source-badge mate">🧮</span>' +
+        '<div class="feed-card-titulo">' + item.titulo + '</div>' +
+        '<div class="feed-card-bajada">' + item.bajada + '</div>' +
+        '<div class="feed-card-data-tags">' + dataTagsHtml + '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  _renderGremialCard(item) {
+    return '<div class="feed-card feed-card-gremial" data-id="' + item.id + '">' +
+      '<div class="feed-card-body" style="text-align:center;padding:20px 14px">' +
+        '<span class="source-badge gremial">✊</span>' +
+        '<div class="feed-card-icon">✊</div>' +
+        '<div class="feed-card-titulo" style="color:#F2F1EC">' + item.titulo + '</div>' +
+        '<div class="feed-card-desc">La federación aún no ha aprobado la publicación de su reporte sindical.</div>' +
+        '<div class="feed-card-note">Esta sección se activa cuando una federación o unión (grade 4) aprueba publicar su informe gremial. Solo se muestra contenido aprobado.</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  // ===== Popup renderer =====
+
+  _renderPopup(item) {
+    const tagsHtml = (item.tags || []).map(t =>
+      '<span class="tag">' + t + '</span>'
+    ).join('');
+
+    return '<div class="popup-overlay" id="popupOverlay">' +
+      '<div class="popup-content">' +
+        '<button class="popup-close" id="popupClose">✕</button>' +
+        (item.foto ? '<img class="popup-img" src="' + item.foto + '" alt="" loading="lazy">' : '') +
+        '<div class="popup-body">' +
+          (item.emoji ? '<div class="popup-emoji">' + item.emoji + '</div>' : '') +
+          '<div class="popup-titulo">' + item.titulo + '</div>' +
+          '<div class="popup-desarrollo">' + item.desarrollo + '</div>' +
+          (item.fuente ? '<div class="popup-fuente">Fuente: ' + item.fuente + '</div>' : '') +
+          (tagsHtml ? '<div class="popup-tags">' + tagsHtml + '</div>' : '') +
         '</div>' +
       '</div>' +
     '</div>';
   }
 
+  // ===== After-render bindings =====
+
   _afterRender() {
-    // Carousel scroll → update dots (same logic as Home)
-    this._bindCarousel('clipping');
-    this._bindCarousel('mate');
-  }
+    // Infinite scroll: IntersectionObserver on sentinel
+    this._setupInfiniteScroll();
 
-  _bindCarousel(name) {
-    const track = this.shadowRoot.querySelector('#' + name + 'Track');
-    const dots = this.shadowRoot.querySelector('#' + name + 'Dots');
-    if (!track) return;
-
-    // Scroll → update dots
-    track.addEventListener('scroll', () => {
-      const idx = Math.round(track.scrollLeft / track.offsetWidth);
-      const prop = name === 'clipping' ? 'clippingIndex' : 'mateIndex';
-      if (idx >= 0 && idx !== this[prop]) {
-        this[prop] = idx;
-        if (dots) {
-          dots.querySelectorAll('.dot').forEach((d, i) => {
-            d.classList.toggle('active', i === idx);
-          });
-        }
-      }
+    // Noticia card clicks → open popup
+    this.shadowRoot.querySelectorAll('.feed-card-noticia').forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.dataset.id;
+        const item = this._allItems.find(i => i.id === id);
+        if (item) this._openPopup(item);
+      });
     });
 
-    // Dot click → scroll to slide
-    if (dots) {
-      dots.querySelectorAll('.dot').forEach(d => {
-        d.addEventListener('click', () => {
-          const idx = parseInt(d.dataset.index);
-          track.scrollTo({ left: idx * track.offsetWidth, behavior: 'smooth' });
-        });
+    // Popup close buttons
+    if (this._popupItem) {
+      const closeBtn = this.shadowRoot.querySelector('#popupClose');
+      if (closeBtn) closeBtn.addEventListener('click', () => this._closePopup());
+
+      const overlay = this.shadowRoot.querySelector('#popupOverlay');
+      if (overlay) overlay.addEventListener('click', (e) => {
+        // Close only if clicked on overlay bg (not popup-content)
+        if (e.target === overlay) this._closePopup();
       });
+    }
+  }
+
+  // ===== Infinite scroll =====
+
+  _setupInfiniteScroll() {
+    // Disconnect previous observer
+    if (this._observer) {
+      this._observer.disconnect();
+      this._observer = null;
+    }
+
+    const sentinel = this.shadowRoot.querySelector('#feedSentinel');
+    const feedScroll = this.shadowRoot.querySelector('#feedScroll');
+    if (!sentinel || this._visibleCount >= this._allItems.length) return;
+
+    // Use feed-scroll as root — IntersectionObserver works inside Shadow DOM
+    this._observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          this._visibleCount += 10;
+          this.render();
+        }
+      }
+    }, { root: feedScroll || null, rootMargin: '200px' });
+
+    this._observer.observe(sentinel);
+  }
+
+  // ===== Popup =====
+
+  _openPopup(item) {
+    // Save scroll position before popup overlays the feed
+    const scroll = this.shadowRoot.querySelector('#feedScroll');
+    if (scroll) this._savedScrollTop = scroll.scrollTop;
+    this._popupItem = item;
+    this.render();
+  }
+
+  _closePopup() {
+    this._popupItem = null;
+    this.render();
+    // Restore scroll position after closing popup
+    const scroll = this.shadowRoot.querySelector('#feedScroll');
+    if (scroll && this._savedScrollTop) {
+      requestAnimationFrame(() => {
+        scroll.scrollTop = this._savedScrollTop;
+        this._savedScrollTop = null;
+      });
+    }
+  }
+
+  disconnectedCallback() {
+    if (this._observer) {
+      this._observer.disconnect();
+      this._observer = null;
     }
   }
 }
