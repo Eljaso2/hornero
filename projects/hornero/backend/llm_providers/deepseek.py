@@ -48,7 +48,7 @@ async def call_deepseek(
         "max_tokens": max_tokens,
     }
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
+    async with httpx.AsyncClient(timeout=120.0) as client:
         response = await client.post(base_url, json=payload, headers=headers)
         response.raise_for_status()
         data = response.json()

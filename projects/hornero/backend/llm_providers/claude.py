@@ -1,8 +1,6 @@
-"""Claude (Anthropic) API adapter"""
+"""Claude (Anthropic) API adapter — also works with DashScope Anthropic-compatible endpoint"""
 
 import httpx
-
-ANTHROPIC_MESSAGES_URL = "https://api.anthropic.com/v1/messages"
 
 
 async def call_claude(
@@ -10,11 +8,12 @@ async def call_claude(
     system_prompt: str,
     user_message: str,
     history: list,
-    model: str = "claude-haiku-4-5-20251001",
+    model: str = "glm-5.1",
     temperature: float = 0.3,
     max_tokens: int = 2000,
+    base_url: str = "https://dashscope.aliyuncs.com/apps/anthropic/v1/messages",
 ) -> str:
-    """Call Anthropic Claude API and return the assistant message content."""
+    """Call Anthropic-compatible API (standard Anthropic or DashScope) and return the assistant message content."""
 
     # Build messages array (Anthropic format: no system in messages, separate field)
     messages = []
@@ -48,9 +47,9 @@ async def call_claude(
         "max_tokens": max_tokens,
     }
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
+    async with httpx.AsyncClient(timeout=60.0) as client:
         response = await client.post(
-            ANTHROPIC_MESSAGES_URL, json=payload, headers=headers
+            base_url, json=payload, headers=headers
         )
         response.raise_for_status()
         data = response.json()

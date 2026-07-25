@@ -15,19 +15,22 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import httpx
 
 from knowledge_base import get_system_prompt, get_format_hint
 from llm_providers.deepseek import call_deepseek
 from llm_providers.claude import call_claude
 
-load_dotenv()
+load_dotenv(override=True)
 
 # ===== Config =====
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "deepseek")
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "claude")
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
 DEEPSEEK_BASE_URL = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com/v1/chat/completions")
 DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
+ANTHROPIC_BASE_URL = os.getenv("ANTHROPIC_BASE_URL", "https://api.anthropic.com/v1/messages")
+ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "https://eljaso2.github.io")
 LOCAL_ORIGIN = os.getenv("LOCAL_ORIGIN", "http://localhost:*")
 APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
@@ -106,12 +109,15 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
                 system_prompt=system_prompt,
                 user_message=full_message,
                 history=req.history,
+                model=ANTHROPIC_MODEL,
+                base_url=ANTHROPIC_BASE_URL,
             )
         else:
             raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(500, f"LLM HTTP error {e.response.status_code}: {e.response.text}")
     except Exception as e:
-        # If LLM call fails, return error info
-        raise HTTPException(500, f"LLM call failed: {str(e)}")
+        raise HTTPException(500, f"LLM call failed: {type(e).__name__}: {str(e)}")
 
     # Parse LLM response — expect JSON
     parsed = parse_llm_response(raw_response)
