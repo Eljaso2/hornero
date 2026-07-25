@@ -27,6 +27,10 @@
 html{background:#FFFFFF;background-attachment:fixed;min-height:100vh;min-height:-webkit-fill-available}
 body{background:#FFFFFF;background-attachment:fixed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased;overscroll-behavior:none;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
 
+/* App-native feel: text can't be selected/copied, only clicked/tapped */
+.screen{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.screen input,.screen textarea,.screen [contenteditable]{user-select:text;-webkit-user-select:text;-webkit-touch-callout:default}
+
 /* Desktop: phone mockup centered */
 @media(min-width:500px){
   body{background:var(--ho-body-bg)}
