@@ -277,7 +277,6 @@ class HorneroContenido extends HoComponent {
       <div class="chat-container">
         <hornero-chat
           title="${chatTitle}"
-          disclaimer="⚠️ La IA propone — vos decidís, editás, aprobás. Fuentes: CCT 420/05, Yofra, Cremonte."
           input-placeholder="Escribí tu tema, pregunta, o pedido..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"

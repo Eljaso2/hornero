@@ -229,6 +229,10 @@ class HorneroApp extends HoComponent {
 
     const currentTitle = this.titles[this.screen] || 'Hornero';
     const showBack = this.screen !== 'home';
+    // Chat screens: no section-label, no bottom-nav
+    const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido';
+    const showSectionLabel = showBack && !isChatScreen;
+    const showBottomNav = !isChatScreen;
 
     // Build screen content
     let screenContent = '';
@@ -283,18 +287,18 @@ class HorneroApp extends HoComponent {
               </div>
             </div>
 
-            ${showBack ? '<div class="section-label"><div class="back-slot"><button class="back-btn" title="Volver">←</button></div><span class="label-text">' + currentTitle + '</span></div>' : ''}
+            ${showSectionLabel ? '<div class="section-label"><div class="back-slot"><button class="back-btn" title="Volver">←</button></div><span class="label-text">' + currentTitle + '</span></div>' : ''}
 
             <div class="body-scroll">
               ${screenContent}
             </div>
 
-            <div class="bottom-nav">
-              ${this.navDef.map(n => '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
+            ${showBottomNav ? '<div class="bottom-nav">' +
+              this.navDef.map(n => '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
                 '<svg viewBox="0 0 24 24">' + n.svg + '</svg>' +
                 '<span class="label">' + n.label + '</span>' +
-                '</button>').join('')}
-            </div>
+                '</button>').join('') +
+              '</div>' : ''}
 
           </div>
         </div>

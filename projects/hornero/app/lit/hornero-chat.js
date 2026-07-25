@@ -1,7 +1,7 @@
 // ===== <hornero-chat> — Motor de chat reutilizable =====
 // Typing dots, bubbles (user + hornero), input bar, progress
 // Native Web Component — zero dependencies
-// Usado por: IS, Derecho, Argumento, Comunicador, CE, SMVM
+// Usado por: IS, Derecho, Argumento, Comunicador, CE, SMVM, Contenido
 
 import { HoComponent, html, css } from './ho-component.js';
 
@@ -9,7 +9,6 @@ class HorneroChat extends HoComponent {
   static get properties() {
     return {
       title: String,
-      disclaimer: String,
       messages: Object,   // Array of { role, sections, tags, time }
       inputPlaceholder: String,
       typing: Boolean,
@@ -20,7 +19,6 @@ class HorneroChat extends HoComponent {
   constructor() {
     super();
     this.title = 'Chat';
-    this.disclaimer = '⚠️ La IA propone — vos decidís, editás, aprobás';
     this.messages = [];
     this.inputPlaceholder = 'Escribí tu consulta...';
     this.typing = false;
@@ -31,24 +29,6 @@ class HorneroChat extends HoComponent {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #F4F3EE); }
-
-      /* Top bar */
-      .chat-top { background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
-        padding: 9px 16px 13px; display: flex; align-items: center; gap: 11px; flex: none; }
-      .chat-top button { width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC);
-        border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; flex: none; }
-      .chat-top .title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: 1.02rem; flex: 1; }
-      .chat-top .avatar { width: 26px; height: 26px; border-radius: 50%;
-        background: var(--ho-green-light, #94A867);
-        display: flex; align-items: center; justify-content: center; flex: none; }
-
-      /* Disclaimer */
-      .chat-disclaimer { background: var(--ho-green-pale, #E8EDD7); border-radius: 8px;
-        padding: 7px 11px; font-size: .72rem; color: var(--ho-green-dark, #586B33);
-        margin: 12px 16px; line-height: 1.4; flex: none; }
 
       /* Progress bar */
       .chat-progress-wrap { padding: 4px 16px 0; flex: none; }
@@ -71,11 +51,10 @@ class HorneroChat extends HoComponent {
       .msg-row.user { justify-content: flex-end; }
       .msg-row.hornero { justify-content: flex-start; }
       .msg-avatar { width: 28px; height: 28px; border-radius: 50%;
-        background: var(--ho-green-light, #94A867);
+        background: var(--ho-dark, #33312D);
         display: flex; align-items: center; justify-content: center;
-        flex: none; align-self: flex-end; }
-      .msg-av-inner { width: 12px; height: 12px; border-radius: 50% 50% 50% 2px;
-        background: var(--ho-dark-surface, #45433E); }
+        flex: none; align-self: flex-end; overflow: hidden; }
+      .msg-avatar img { width: 20px; height: 20px; }
       .msg-bubble { max-width: 80%; border-radius: 16px; padding: 12px 14px;
         line-height: 1.5; position: relative; }
       .msg-row.user .msg-bubble { background: var(--ho-green, #6E8345);
@@ -125,23 +104,23 @@ class HorneroChat extends HoComponent {
       .typing-dot:nth-child(2) { animation-delay: .2s; }
       .typing-dot:nth-child(3) { animation-delay: .4s; }
 
-      /* Input bar */
+      /* Input bar — single button, mic → send when text present */
       .chat-input { background: var(--ho-dark-surface, #45433E);
         padding: 10px 12px 14px; display: flex; align-items: center;
         gap: 8px; flex: none; }
       .chat-input-field { flex: 1; background: var(--ho-dark-mid, #5A574F);
         border: 1px solid var(--ho-input-border, rgba(242,241,236,.15));
         border-radius: 999px; padding: 9px 14px; font-size: .82rem;
-        color: var(--ho-text-off, #F2F1EC); font-family: 'Public Sans', sans-serif; }
+        color: var(--ho-text-off, #F2F1EC); font-family: 'Public Sans', sans-serif;
+        outline: none; }
       .chat-input-field::placeholder { color: #9C988C; }
-      .chat-send-btn { width: 38px; height: 38px; border-radius: 50%;
+      .chat-action-btn { width: 38px; height: 38px; border-radius: 50%;
         background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
         border: none; display: flex; align-items: center; justify-content: center;
-        font-size: .95rem; cursor: pointer; flex: none; }
-      .chat-mic-btn { width: 38px; height: 38px; border-radius: 50%;
-        background: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC);
-        border: none; display: flex; align-items: center; justify-content: center;
-        font-size: .95rem; cursor: pointer; flex: none; }
+        cursor: pointer; flex: none; transition: background .2s; }
+      .chat-action-btn.mic-state { background: var(--ho-dark-mid, #5A574F); }
+      .chat-action-btn svg { width: 18px; height: 18px; stroke: var(--ho-text-off, #F2F1EC);
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
     `;
   }
 
@@ -152,12 +131,9 @@ class HorneroChat extends HoComponent {
         <div class="chat-progress-label">${this.progress}%</div>
       </div>` : '';
 
-    const disclaimerHtml = this.disclaimer ?
-      `<div class="chat-disclaimer">${this.disclaimer}</div>` : '';
-
     const typingHtml = this.typing ?
       `<div class="typing-row">
-        <div class="msg-avatar"><div class="msg-av-inner"></div></div>
+        <div class="msg-avatar"><img src="assets/hornero-logo.png" alt="H"></div>
         <div class="typing-bubble">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>
@@ -165,14 +141,12 @@ class HorneroChat extends HoComponent {
 
     const messagesHtml = (this.messages || []).map(m => this._renderMessage(m)).join('');
 
-    return html`
-      <div class="chat-top">
-        <button title="Volver">←</button>
-        <span class="title">${this.title}</span>
-        <div class="avatar"><div class="msg-av-inner"></div></div>
-      </div>
+    // Mic SVG icon (waveform style)
+    const micSvg = '<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>';
+    // Send SVG icon (arrow right)
+    const sendSvg = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9" fill="currentColor" stroke="none"/>';
 
-      ${disclaimerHtml}
+    return html`
       ${progressFill}
 
       <div class="chat-scroll">
@@ -181,9 +155,10 @@ class HorneroChat extends HoComponent {
       </div>
 
       <div class="chat-input">
-        <input class="chat-input-field" type="text" placeholder="${this.inputPlaceholder}">
-        <button class="chat-mic-btn" title="Mic">🎤</button>
-        <button class="chat-send-btn" title="Enviar">➤</button>
+        <input class="chat-input-field" type="text" placeholder="${this.inputPlaceholder}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <button class="chat-action-btn mic-state" title="Mic">
+          <svg viewBox="0 0 24 24">${micSvg}</svg>
+        </button>
       </div>
     `;
   }
@@ -191,7 +166,7 @@ class HorneroChat extends HoComponent {
   _renderMessage(m) {
     const role = m.role || 'hornero';
     const avatarHtml = role === 'hornero' ?
-      '<div class="msg-avatar"><div class="msg-av-inner"></div></div>' : '';
+      '<div class="msg-avatar"><img src="assets/hornero-logo.png" alt="H"></div>' : '';
     const timeHtml = m.time ? `<div class="msg-time">${m.time}</div>` : '';
 
     let bubbleHtml = '';
@@ -222,25 +197,43 @@ class HorneroChat extends HoComponent {
   }
 
   _afterRender() {
-    // Back button
-    const backBtn = this.shadowRoot.querySelector('.chat-top button');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
-        this.emit('chat-back');
-      });
-    }
-
-    // Send button
-    const sendBtn = this.shadowRoot.querySelector('.chat-send-btn');
+    const actionBtn = this.shadowRoot.querySelector('.chat-action-btn');
     const inputField = this.shadowRoot.querySelector('.chat-input-field');
-    if (sendBtn && inputField) {
-      sendBtn.addEventListener('click', () => {
+
+    if (actionBtn && inputField) {
+      // Mic SVG icon path
+      const micSvg = '<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>';
+      // Send SVG icon
+      const sendSvg = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9" fill="currentColor" stroke="none"/>';
+
+      // Toggle mic → send based on input content
+      const updateBtn = () => {
+        const hasText = inputField.value.trim().length > 0;
+        if (hasText) {
+          actionBtn.classList.remove('mic-state');
+          actionBtn.title = 'Enviar';
+          actionBtn.innerHTML = '<svg viewBox="0 0 24 24">' + sendSvg + '</svg>';
+        } else {
+          actionBtn.classList.add('mic-state');
+          actionBtn.title = 'Mic';
+          actionBtn.innerHTML = '<svg viewBox="0 0 24 24">' + micSvg + '</svg>';
+        }
+      };
+
+      inputField.addEventListener('input', updateBtn);
+      // Initial state
+      updateBtn();
+
+      // Button click — send if text, mic placeholder otherwise
+      actionBtn.addEventListener('click', () => {
         const text = inputField.value.trim();
         if (text) {
           this.emit('chat-send', { text });
           inputField.value = '';
+          updateBtn();
         }
       });
+
       // Enter key sends
       inputField.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -248,10 +241,15 @@ class HorneroChat extends HoComponent {
           if (text) {
             this.emit('chat-send', { text });
             inputField.value = '';
+            updateBtn();
           }
         }
       });
     }
+
+    // Scroll to bottom after render
+    const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    if (scroll) scroll.scrollTop = scroll.scrollHeight;
   }
 
   // ===== Public API for parent components =====
