@@ -353,8 +353,6 @@ class HorneroApp extends HoComponent {
       this._handleLogout();
     });
 
-    // Check for SW updates on each render
-    this._checkForUpdates();
   }
 
   async _handleLogout() {

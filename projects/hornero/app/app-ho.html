@@ -95,10 +95,16 @@
           console.warn('SW registration failed:', err);
         });
 
-      // Listen for SW update messages — auto-reload for seamless update
+      // Listen for SW update messages — auto-reload with loop guard
       navigator.serviceWorker.addEventListener('message', function(e) {
         if (e.data && e.data.type === 'SW_UPDATE_AVAILABLE') {
-          // Seamless: reload after 1s so new SW takes full control
+          // Guard: don't reload if we just reloaded (< 5s ago)
+          var lastReload = sessionStorage.getItem('hornero-sw-reload');
+          if (lastReload && Date.now() - parseInt(lastReload, 10) < 5000) {
+            console.log('SW update received too soon after reload — skipping to avoid loop');
+            return;
+          }
+          sessionStorage.setItem('hornero-sw-reload', String(Date.now()));
           setTimeout(function() { window.location.reload(); }, 1000);
         }
       });
@@ -138,6 +144,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=34"></script>
+  <script type="module" src="lit/hornero-components.js?v=35"></script>
 </body>
 </html>
