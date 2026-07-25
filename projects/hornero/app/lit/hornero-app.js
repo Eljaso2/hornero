@@ -153,7 +153,7 @@ class HorneroApp extends HoComponent {
         color: var(--ho-text-off, #F2F1EC);
         padding: 0 16px; display: flex; align-items: center;
         justify-content: flex-start; position: relative; flex: none;
-        min-height: 90px;
+        min-height: 98px;
         padding-top: env(safe-area-inset-top, 0px); }
       .top-bar .corner-logo { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
       .top-bar .corner-logo img { width: 32px; height: auto; opacity: .85; }
