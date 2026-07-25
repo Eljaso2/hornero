@@ -14,6 +14,7 @@ class HorneroConsulta extends HoComponent {
       chatActive: Boolean,
       messages: Array,
       iaStep: Number,
+      showBack: Boolean,
     };
   }
 
@@ -23,7 +24,7 @@ class HorneroConsulta extends HoComponent {
     if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
       return 'http://' + h + ':8000/api/chat';
     }
-    return 'https://hornero-ia.fedaceitera.com.ar/api/chat';
+    return 'https://hornero-ia.onrender.com/api/chat';
   }
 
   constructor() {
@@ -34,6 +35,9 @@ class HorneroConsulta extends HoComponent {
     this.chatActive = false;
     this.messages = [];
     this.iaStep = 0;
+    this.showBack = true;
+    this._typing = false;
+    this._suggestions = [];
 
     // ===== Knowledge Base (fallback offline) =====
     this._iaKB = {
@@ -209,6 +213,8 @@ class HorneroConsulta extends HoComponent {
           input-placeholder="Escribí tu pregunta, tema, o pedido..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
+          show-back="${this.showBack}"
+          suggestions="${JSON.stringify(this._suggestions)}"
         ></hornero-chat>
       </div>
     `;
@@ -243,6 +249,7 @@ class HorneroConsulta extends HoComponent {
     this.messages = [];
     this.iaStep = 0;
     this._typing = false;
+    this._suggestions = this._getSuggestionsForGreeting(formato);
     const firstMsg = this._generateGreeting(formato);
     this.messages = [firstMsg];
     this.render();
@@ -254,6 +261,7 @@ class HorneroConsulta extends HoComponent {
     this.messages = [];
     this.iaStep = 0;
     this._typing = false;
+    this._suggestions = [];
     this.render();
   }
 
@@ -261,6 +269,7 @@ class HorneroConsulta extends HoComponent {
     if (chatEl && this.messages.length > 0) {
       chatEl.messages = this.messages;
       chatEl.typing = this._typing;
+      chatEl.suggestions = this._suggestions;
       chatEl.render();
     }
   }
@@ -269,6 +278,7 @@ class HorneroConsulta extends HoComponent {
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
     this.messages = [...this.messages, userMsg];
     this._typing = true;
+    this._suggestions = [];  // Clear suggestions while processing
     this.render();
 
     // Try backend LLM first, fallback to local KB
@@ -277,6 +287,7 @@ class HorneroConsulta extends HoComponent {
       this.messages = [...this.messages, iaMsg];
       this.iaStep++;
       this._typing = false;
+      this._suggestions = this._getSuggestionsForResponse(text, this.formato);
       this.render();
     });
   }
@@ -312,6 +323,7 @@ class HorneroConsulta extends HoComponent {
     this.messages = [...this.messages, iaMsg];
     this.iaStep++;
     this._typing = false;
+    this._suggestions = data.suggestions || this._getSuggestionsForResponse(text, this.formato);
     this.render();
   }
 
@@ -429,6 +441,48 @@ class HorneroConsulta extends HoComponent {
     const now = new Date();
     return now.getHours().toString().padStart(2, '0') + ':' +
            now.getMinutes().toString().padStart(2, '0');
+  }
+
+  // ===== Suggestion generation =====
+  _getSuggestionsForGreeting(formato) {
+    const suggestions = {
+      podcast: ['Paritaria aceitera 2026', 'Condiciones en Vicentín', 'Reforma laboral', 'SMVM y básico', '¿Cómo se estructura un podcast?'],
+      reel: ['Denuncia condiciones', 'Paritaria: la patronal propuso CERO', 'SMVM vs canasta', 'Reforma laboral', '¿Qué hook me propones?'],
+      columna: ['Paritaria y concurso preventivo', 'SMVM vs básico convenio', 'Reforma laboral: siglo XIX', 'CCT 420 territorio conquistado', '¿Qué ángulo me recomendas?'],
+      entrevista: ['Paritaria aceitera', 'SMVM y distribución', 'Condiciones de trabajo', 'Reforma laboral', '¿Qué puntos clave?'],
+    };
+    return suggestions[formato] || suggestions.podcast;
+  }
+
+  _getSuggestionsForResponse(userText, formato) {
+    const lower = userText.toLowerCase();
+    // Contextual suggestions based on keywords
+    if (lower.includes('paritaria') || lower.includes('salario') || lower.includes('básico')) {
+      return ['Más datos sobre paritaria', 'Quote de Yofra', '¿Qué hizo Caputo?', 'SMVM vs básico convenio', 'Armar contenido completo'];
+    }
+    if (lower.includes('condiciones') || lower.includes('planta') || lower.includes('enfermería')) {
+      return ['Más datos sobre Vicentín', 'Quote de Yofra sobre condiciones', 'EPP y accidentes', 'Enfermería clausurada', 'Armar denuncia'];
+    }
+    if (lower.includes('smvm') || lower.includes('mínimo') || lower.includes('canasta')) {
+      return ['Datos SMVM 2026', 'Quote de Cremonte', 'Básico vs alquiler', 'Distribución del ingreso', 'Armar contenido'];
+    }
+    if (lower.includes('reforma') || lower.includes('dnu') || lower.includes('ley bases')) {
+      return ['Bargaining por empresa', 'Ultraactividad', 'Banco de horas', 'Quote de Cremonte', 'OIT y responsabilidad'];
+    }
+    if (lower.includes('yofra')) {
+      return ['Discursos de Yofra', 'Organización sindical', 'Huelga general', 'FreSU 50 organizaciones', 'Quote sobre paritaria'];
+    }
+    if (lower.includes('cremonte')) {
+      return ['Valor y fuerza de trabajo', 'Principio protector', 'OIT Conferencia 114', 'Distribución del ingreso', 'Quote sobre convenio'];
+    }
+    // Generic follow-up suggestions
+    const generic = {
+      podcast: ['Contame más', 'Quote de Yofra', 'Quote de Cremonte', 'Armar script completo', 'Cambiar tema'],
+      reel: ['Contame más', 'Hook alternativo', 'Texto on-screen', 'Call to action', 'Cambiar tema'],
+      columna: ['Contame más', 'Datos concretos', 'Quote de referente', 'Armar draft completo', 'Cambiar ángulo'],
+      entrevista: ['Contame más', 'Puntos clave', 'Ejercicio de respuestas', 'Quote para citar', 'Preparación completa'],
+    };
+    return generic[formato] || generic.podcast;
   }
 }
 
