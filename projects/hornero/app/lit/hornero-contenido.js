@@ -431,7 +431,7 @@ class HorneroContenido extends HoComponent {
       return 'http://' + h + ':8000/api/chat';
     }
     // Production backend — actualizar cuando VPS esté deployado
-    return 'https://hornero-ia.fedaceitera.com.ar/api/chat';
+    return 'https://hornero-ia.onrender.com/api/chat';
   }
 
   _handleUserMessage(text) {

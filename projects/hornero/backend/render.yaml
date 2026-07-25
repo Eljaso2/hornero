@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: hornero-ia
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: LLM_PROVIDER
+        value: deepseek
+      - key: DEEPSEEK_API_KEY
+        sync: false  # Set manually in Render dashboard
+      - key: DEEPSEEK_BASE_URL
+        value: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+      - key: DEEPSEEK_MODEL
+        value: glm-5.1
+      - key: ALLOWED_ORIGIN
+        value: https://eljaso2.github.io
+      - key: APP_BACKEND_URL
+        fromService:
+          name: hornero-ia
+          type: web
+          property: hostUrl
