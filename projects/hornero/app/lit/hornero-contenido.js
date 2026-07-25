@@ -200,8 +200,8 @@ class HorneroContenido extends HoComponent {
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); margin-bottom: 8px; }
-      .section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); padding: 4px 0 12px; }
+      .section-title { font-family: 'Public Sans', sans-serif; font-weight: 500;
+        font-size: .88rem; line-height: 1.45; color: var(--ho-text, #2B2A26); padding: 4px 0 16px; }
 
       .format-grid { display: flex; flex-direction: column; gap: 10px; }
       .format-card { background: var(--ho-card, #FBFAF6);
@@ -261,7 +261,7 @@ class HorneroContenido extends HoComponent {
 
       return html`
         <div class="format-screen">
-          <div class="section-title">¿Qué querés producir?</div>
+          <div class="section-title">¿Te van a hacer una entrevista? ¿Te pidieron escribir una nota para el diario del pueblo? ¿Querés contar lo que pasó en IG o en un podcast? Chateá con la IA Sindical: te puede ayudar con algunos tips para reforzar y comunicar mejor tus ideas.</div>
           <div class="format-grid">
             ${cardsHtml}
           </div>
