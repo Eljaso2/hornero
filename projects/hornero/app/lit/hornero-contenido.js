@@ -1,6 +1,6 @@
 // ===== <hornero-contenido> — Contenido Sindical =====
 // 4 formatos: Podcast, Reel IG, Columna opinión, Entrevista radial
-// Chat IA local con knowledge base: convenios aceiteros + Yofra + Cremonte
+// Chat IA con backend LLM (DeepSeek/Claude) + fallback offline con KB local
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -416,6 +416,18 @@ class HorneroContenido extends HoComponent {
     return greetings[formato] || greetings.podcast;
   }
 
+  // ===== Backend URL =====
+  // Local dev: http://localhost:8000/api/chat
+  // Production: URL del VPS argentino
+  static get API_URL() {
+    // Detect local dev vs production
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'http://localhost:8000/api/chat';
+    }
+    // Production backend — actualizar cuando VPS esté deployado
+    return 'https://hornero-ia.fedaceitera.com.ar/api/chat';
+  }
+
   _handleUserMessage(text) {
     // Add user message
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
@@ -425,15 +437,55 @@ class HorneroContenido extends HoComponent {
     this._typing = true;
     this.render();
 
-    // Generate IA response after delay (simulates thinking)
-    const delay = 800 + Math.random() * 1200;
-    setTimeout(() => {
+    // Try backend LLM first, fallback to local KB if offline/error
+    this._callBackend(text).catch(() => {
+      // Fallback: use local keyword-matching response
       const iaMsg = this._generateResponse(text, this.formato, this.iaStep);
       this.messages = [...this.messages, iaMsg];
       this.iaStep++;
       this._typing = false;
       this.render();
-    }, delay);
+    });
+  }
+
+  async _callBackend(text) {
+    // Build history for context (last 6 messages, exclude current user msg)
+    const history = this.messages.slice(-7, -1).map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const response = await fetch(HorneroContenido.API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        formato: this.formato,
+        history: history,
+        grade: this.grade,
+        sector: this.sector,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Backend error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Build IA message from backend response
+    const iaMsg = {
+      role: 'hornero',
+      sections: data.sections || [],
+      tags: data.tags || [this.formato],
+      time: data.time || this._timeNow(),
+    };
+
+    this.messages = [...this.messages, iaMsg];
+    this.iaStep++;
+    this._typing = false;
+    this.render();
   }
 
   _generateResponse(userText, formato, step) {
