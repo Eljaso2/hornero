@@ -239,16 +239,8 @@ class HorneroContenido extends HoComponent {
         padding: 7px 11px; font-size: .72rem; color: var(--ho-green-dark, #586B33);
         margin-top: 12px; line-height: 1.4; }
 
-      /* Chat container */
+      /* Chat container — fills entire screen */
       .chat-container { display: flex; flex-direction: column; height: 100%; }
-
-      /* Back to formats button */
-      .back-to-formats { background: var(--ho-dark-surface, #45433E);
-        color: var(--ho-text-off, #F2F1EC); border: none;
-        padding: 6px 12px; font-family: 'Archivo', sans-serif;
-        font-weight: 600; font-size: .72rem; border-radius: 6px;
-        cursor: pointer; display: flex; align-items: center; gap: 4px;
-        margin: 8px 16px; flex: none; }
     `;
   }
 
@@ -288,7 +280,6 @@ class HorneroContenido extends HoComponent {
 
     return html`
       <div class="chat-container">
-        <button class="back-to-formats" id="backFormats">← Cambiar formato</button>
         <hornero-chat
           title="${chatTitle}"
           disclaimer="⚠️ La IA propone — vos decidís, editás, aprobás. Fuentes: CCT 420/05, Yofra, Cremonte."
@@ -323,16 +314,8 @@ class HorneroContenido extends HoComponent {
         this._handleUserMessage(e.detail.text);
       });
 
-      // Listen for chat-back events
+      // Listen for chat-back events — go back to format selection
       chatEl.addEventListener('chat-back', () => {
-        this._goBackToFormats();
-      });
-    }
-
-    // Back to formats button
-    const backBtn = this.shadowRoot.querySelector('#backFormats');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
         this._goBackToFormats();
       });
     }
