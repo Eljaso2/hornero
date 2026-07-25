@@ -1,0 +1,10 @@
+# Don't commit API keys!
+.env
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+
+# Docker
+.docker
