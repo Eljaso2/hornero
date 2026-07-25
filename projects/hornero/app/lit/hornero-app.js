@@ -148,16 +148,13 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — solid dark, blurred fade line at bottom edge ===== */
-      .top-bar { background: #33312D;
+      /* ===== Top bar — degradé de color hacia el body ===== */
+      .top-bar { background: linear-gradient(to bottom, #33312D 0%, #33312D 70%, #F4F3EE 100%);
         color: var(--ho-text-off, #F2F1EC);
         padding: 0 16px; display: flex; align-items: center;
         justify-content: flex-start; position: relative; flex: none;
         min-height: 90px;
         padding-top: env(safe-area-inset-top, 0px); }
-      .top-bar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-        height: 12px; background: linear-gradient(to bottom, #33312D, var(--ho-bg, #F4F3EE));
-        filter: blur(4px); -webkit-filter: blur(4px); pointer-events: none; }
       .top-bar .corner-logo { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
       .top-bar .corner-logo img { width: 32px; height: auto; opacity: .85; }
       .header-text { display: flex; flex-direction: column;
