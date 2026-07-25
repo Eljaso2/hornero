@@ -70,7 +70,7 @@ class HorneroApp extends HoComponent {
     this.titles = {
       home: 'Inicio',
       actualidad: 'Actualidad',
-      consulta: 'Consulta y asesoramiento',
+      consulta: 'Chateá con la IA Sindical',
       formacion: 'Formación',
       is: 'Comunicación interna',
       condicion: 'Panorama',
@@ -83,7 +83,7 @@ class HorneroApp extends HoComponent {
       ecosistema: 'Ecosistema Hornero',
       argumento: 'Argumento',
       comunicador: 'Comunicador',
-      contenido: 'Contenido',
+      contenido: 'Producción de contenido',
     };
   }
 
