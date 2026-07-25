@@ -19,8 +19,9 @@ class HorneroConsulta extends HoComponent {
 
   // ===== Backend URL =====
   static get API_URL() {
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      return 'http://localhost:8000/api/chat';
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/chat';
     }
     return 'https://hornero-ia.fedaceitera.com.ar/api/chat';
   }
