@@ -261,15 +261,10 @@ class HorneroContenido extends HoComponent {
 
       return html`
         <div class="format-screen">
-          <div class="kicker">📝 CONTENIDO SINDICAL</div>
           <div class="section-title">¿Qué querés producir?</div>
           <div class="format-grid">
             ${cardsHtml}
           </div>
-          <div class="format-hint">
-            La IA te guía paso a paso — elegís tema, armás estructura, citás fuentes, revisás draft. Todo basado en convenios aceiteros y discursos de Yofra y Cremonte.
-          </div>
-          <div class="disclaimer">⚠️ La IA propone — vos decidís, editás, aprobás</div>
         </div>
       `;
     }
