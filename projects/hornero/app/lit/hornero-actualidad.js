@@ -112,6 +112,7 @@ class HorneroActualidad extends HoComponent {
       .noticia-list { margin-top: 8px; }
       .noticia-line { display: flex; align-items: baseline; gap: 4px;
         padding: 2px 0; }
+      .noticia-line.hidden { display: none; }
       .noticia-emoji { font-size: .78rem; }
       .noticia-title { font-family: 'Public Sans', sans-serif; font-size: .76rem;
         color: var(--ho-text, #2B2A26); line-height: 1.3;
@@ -120,6 +121,15 @@ class HorneroActualidad extends HoComponent {
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
         padding: 2px 6px; border-radius: 4px; font-weight: 600;
         white-space: nowrap; }
+
+      /* Expand/collapse toggle */
+      .noticia-toggle {
+        font-family: 'JetBrains Mono', monospace; font-size: .64rem;
+        color: var(--ho-green, #6E8345); cursor: pointer;
+        padding: 4px 0 2px; letter-spacing: .06em;
+        font-weight: 600; user-select: none;
+        transition: color .2s; }
+      .noticia-toggle:hover { color: var(--ho-green-dark, #586B33); }
 
       /* InfoMate section */
       .mate-desc {
@@ -145,17 +155,25 @@ class HorneroActualidad extends HoComponent {
       const label = 'CLIPPING N°' + ed.numero;
       const sublabel = this._formatFechaShort(ed.fecha) + ' · ' + ed.semana;
 
-      // Build noticia mini-list: emoji + title + one tag per noticia
+      // Build noticia mini-list: first one visible, rest collapsible
       let noticiaList = '';
-      if (data && data.noticias) {
+      if (data && data.noticias && data.noticias.length > 0) {
         noticiaList = '<div class="noticia-list">';
-        for (const n of data.noticias) {
+        for (let ni = 0; ni < data.noticias.length; ni++) {
+          const n = data.noticias[ni];
           const firstTag = (n.tags && n.tags[0]) ? '<span class="noticia-tag">' + n.tags[0] + '</span>' : '';
-          noticiaList += '<div class="noticia-line">' +
+          const hiddenClass = (ni > 0) ? ' hidden' : '';
+          noticiaList += '<div class="noticia-line' + hiddenClass + '" data-noticia-idx="' + ni + '">' +
             (n.emoji ? '<span class="noticia-emoji">' + n.emoji + '</span>' : '') +
             '<span class="noticia-title">' + (n.titulo || '') + '</span>' +
             firstTag +
           '</div>';
+        }
+        // Add toggle if more than 1 noticia
+        if (data.noticias.length > 1) {
+          const restCount = data.noticias.length - 1;
+          noticiaList += '<div class="noticia-toggle" data-expanded="false" data-clip-edicion="' + ed.numero + '">'
+            + '▾ Ver ' + restCount + ' más</div>';
         }
         noticiaList += '</div>';
       }
@@ -201,14 +219,41 @@ class HorneroActualidad extends HoComponent {
 
   _afterRender() {
     this.shadowRoot.querySelectorAll('.product-card').forEach(card => {
-      card.addEventListener('click', () => {
+      card.addEventListener('click', (e) => {
+        // Don't navigate if clicking the toggle
+        if (e.target.closest('.noticia-toggle')) return;
         const screen = card.dataset.screen;
         const clipEdicion = card.dataset.clipEdicion;
         if (screen === 'clipping' && clipEdicion) {
-          // Navigate to clipping screen with specific edition
           this.emit('screen-change', { screen: 'clipping', clipEdicion: parseInt(clipEdicion) });
         } else {
           this.goScreen(screen);
+        }
+      });
+    });
+
+    // Toggle expand/collapse for noticia lists
+    this.shadowRoot.querySelectorAll('.noticia-toggle').forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const expanded = toggle.dataset.expanded === 'true';
+        const clipNum = toggle.dataset.clipEdicion;
+        const list = toggle.closest('.noticia-list');
+        const totalNoticias = list.querySelectorAll('.noticia-line');
+        const restCount = totalNoticias.length - 1;
+
+        if (expanded) {
+          // Collapse: hide all except first
+          totalNoticias.forEach((line, idx) => {
+            if (idx > 0) line.classList.add('hidden');
+          });
+          toggle.dataset.expanded = 'false';
+          toggle.textContent = '▾ Ver ' + restCount + ' más';
+        } else {
+          // Expand: show all
+          totalNoticias.forEach(line => line.classList.remove('hidden'));
+          toggle.dataset.expanded = 'true';
+          toggle.textContent = '▴ Ver menos';
         }
       });
     });
