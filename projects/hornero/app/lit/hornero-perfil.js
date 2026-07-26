@@ -137,6 +137,7 @@ class HorneroPerfil extends HoComponent {
         color: #9C988D; min-width: 80px; }
       .agremiacion-value { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-off, #F2F1EC); font-weight: 600; line-height: 1.3; }
+      .agremiacion-value.muted { color: #7A766D; font-weight: 400; }
 
       /* Saved message */
       .saved-msg { background: #D7E8D7; color: #3D6B3D;
@@ -177,12 +178,11 @@ class HorneroPerfil extends HoComponent {
     const agremFields = [];
     if (agrem.federacion) agremFields.push({ label: 'Federación', value: agrem.federacion });
     if (agrem.sindicato) agremFields.push({ label: 'Sindicato', value: agrem.sindicato });
-    if (agrem.convenio) {
-      const convenioLine = agrem.sectorName ? agrem.convenio + ' · ' + agrem.sectorName : agrem.convenio;
-      agremFields.push({ label: 'Convenio', value: convenioLine });
-    }
+    // Convenio y Empresa siempre se muestran (vacíos si no hay dato)
+    const convenioLine = agrem.convenio ? (agrem.sectorName ? agrem.convenio + ' · ' + agrem.sectorName : agrem.convenio) : '';
+    agremFields.push({ label: 'Convenio', value: convenioLine });
     if (agrem.territorio) agremFields.push({ label: 'Territorio', value: agrem.territorio });
-    if (agrem.empresa) agremFields.push({ label: 'Empresa', value: agrem.empresa });
+    agremFields.push({ label: 'Empresa', value: agrem.empresa || '' });
 
     // If no agremiación data at all, show a minimal card
     const hasAgremiacion = agremFields.length > 0;
@@ -204,7 +204,7 @@ class HorneroPerfil extends HoComponent {
           ${hasAgremiacion ? agremFields.map(f =>
             '<div class="agremiacion-field">' +
             '<span class="agremiacion-label">' + f.label + '</span>' +
-            '<span class="agremiacion-value">' + f.value + '</span>' +
+            '<span class="agremiacion-value' + (f.value ? '' : ' muted') + '">' + (f.value || '—') + '</span>' +
             '</div>'
           ).join('') : ''}
         </div>
