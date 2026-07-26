@@ -88,6 +88,19 @@ class HorneroChat extends HoComponent {
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #F4F3EE); position: relative; }
 
+      /* History button — top-right corner of chat */
+      .chat-history-btn { position: absolute; top: 12px; right: 12px; z-index: 20;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .chat-history-btn:hover { background: var(--ho-green-pale, #E8EDD7);
+        border-color: var(--ho-green-light, #94A867); transform: scale(1.08); }
+      .chat-history-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-history-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
+
 
       /* History drawer overlay */
       .history-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -161,6 +174,7 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
+        padding-top: 44px; /* room for history btn + one line gap */
         -webkit-overflow-scrolling: touch; }
 
       /* Animations */
@@ -440,6 +454,10 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     return html`
+      <button class="chat-history-btn" id="chatHistoryBtn" title="Historial de chats">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </button>
+
       ${progressFill}
 
       <div class="chat-scroll">
@@ -558,6 +576,14 @@ class HorneroChat extends HoComponent {
     const attachBtn = this.shadowRoot.querySelector('.chat-attach-btn');
     const fileInput = this.shadowRoot.querySelector('.chat-file-input');
     const removeAttachBtn = this.shadowRoot.querySelector('.chat-attach-remove');
+
+    // === History button (top-right corner) → open drawer ===
+    const historyBtn = this.shadowRoot.querySelector('#chatHistoryBtn');
+    if (historyBtn) {
+      historyBtn.addEventListener('click', () => {
+        this._openHistoryDrawer();
+      });
+    }
 
     // === Toggle mic/send visibility based on input content ===
     if (inputField && micBtn && sendBtn) {
