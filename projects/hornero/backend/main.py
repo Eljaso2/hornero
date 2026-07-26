@@ -59,9 +59,22 @@ app.add_middleware(
 
 
 # ===== Request/Response models =====
+class GreetingRequest(BaseModel):
+    section: str = "consulta"  # consulta|contenido|debate
+    grade: str = "A"
+    sector: str = "aceitero"
+
+
+class GreetingResponse(BaseModel):
+    sections: list
+    tags: list
+    time: str
+    raw: str = ""
+
+
 class ChatRequest(BaseModel):
     message: str
-    formato: str = "consulta"  # podcast|reel|columna|entrevista|consulta
+    formato: str = "consulta"  # podcast|reel|columna|entrevista|consulta|contenido|debate
     history: list = []  # [{role, text, sections}]
     grade: str = "A"
     sector: str = "aceitero"
@@ -79,6 +92,56 @@ class ChatResponse(BaseModel):
 async def get_config():
     """Return backend config for the app to know where to connect."""
     return {"backendUrl": APP_BACKEND_URL, "provider": LLM_PROVIDER}
+
+
+@app.post("/api/greeting")
+async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
+    """Generate the IA's opening message when user enters a chat section.
+
+    The IA greets, explains what it is, and tells what the user can consult
+    in that specific section.
+    """
+    system_prompt = get_system_prompt(req.section)
+    greeting_hint = get_greeting_hint(req.section)
+
+    try:
+        if LLM_PROVIDER == "deepseek":
+            raw_response = await call_deepseek(
+                api_key=DEEPSEEK_API_KEY,
+                system_prompt=system_prompt,
+                user_message=greeting_hint,
+                history=[],
+                model=DEEPSEEK_MODEL,
+                base_url=DEEPSEEK_BASE_URL,
+                temperature=0.5,  # Slightly higher for more natural greeting
+            )
+        elif LLM_PROVIDER == "claude":
+            raw_response = await call_claude(
+                api_key=ANTHROPIC_API_KEY,
+                system_prompt=system_prompt,
+                user_message=greeting_hint,
+                history=[],
+                model=ANTHROPIC_MODEL,
+                base_url=ANTHROPIC_BASE_URL,
+                temperature=0.5,
+            )
+        else:
+            raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(500, f"LLM HTTP error {e.response.status_code}: {e.response.text}")
+    except Exception as e:
+        raise HTTPException(500, f"LLM call failed: {type(e).__name__}: {str(e)}")
+
+    parsed = parse_llm_response(raw_response)
+    now = datetime.now()
+    time_str = now.strftime("%H:%M")
+
+    return GreetingResponse(
+        sections=parsed.get("sections", []),
+        tags=parsed.get("tags", [req.section, "greeting"]),
+        time=time_str,
+        raw=raw_response,
+    )
 
 
 @app.post("/api/chat")

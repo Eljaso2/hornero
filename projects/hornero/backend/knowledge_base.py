@@ -187,5 +187,21 @@ def get_format_hint(formato: str) -> str:
         'columna': 'El usuario está armando una columna de opinión — texto para diario, 800-1200 palabras. Proponé ángulo, datos, argumento, quote de referente, cierre.',
         'entrevista': 'El usuario está preparándose para una entrevista radial. Proponé puntos clave, argumentos, quotes para citar, ejercicio de respuestas.',
         'consulta': 'Consulta general. Responde con naturalidad — charla, contexto, datos, quotes y fuentes.',
+        'contenido': 'El usuario quiere producir contenido sindical. Puede elegir podcast, reel, columna, entrevista — o pedir ayuda general.',
+        'debate': 'El usuario quiere debatir o discutir temas sindicales. Responde con argumentos, contexto, datos.',
     }
     return hints.get(formato, hints['consulta'])
+
+
+def get_greeting_hint(section: str) -> str:
+    """Prompt for the IA's opening message when user enters a chat section.
+
+    The IA should greet, explain what it is (IA Sindical de Hornero),
+    and explain what the user can consult in that specific section.
+    """
+    hints = {
+        'consulta': 'El usuario acaba de entrar a la sección Consulta. Inicia la conversación: saluda con calidez sindical, explica que sos la IA Sindical de Hornero (asistente para trabajadores aceiteros), y explica qué puede consultar aquí: paritaria aceitera, condiciones laborales, SMVM y distribución del ingreso, reforma laboral, convenio CCT 420/05, organización sindical, referentes como Yofra y Cremonte. Terminá preguntando qué le interesa.',
+        'contenido': 'El usuario acaba de entrar a la sección Contenido. Inicia la conversación: saluda con calidez sindical, explica que sos la IA Sindical de Hornero, y explica qué puede hacer aquí: producir contenido sindical con impacto — podcast (audio narrado 5-15 min), reel para Instagram (video corto 30-90 seg), columna de opinión (texto para diario), preparación para entrevista radial. También puede pedir ayuda general sobre cualquier tema sindical. Terminá preguntando qué formato le interesa o qué tema quiere abordar.',
+        'debate': 'El usuario acaba de entrar a la sección Debate. Inicia la conversación: saluda con calidez sindical, explica que sos la IA Sindical de Hornero, y explica qué puede hacer aquí: debatir y discutir temas sindicales con argumentos, datos y contexto. Puede explorar reformas laborales, paritaria, condiciones, organización, distribución del ingreso. Terminá preguntando qué tema quiere debatir.',
+    }
+    return hints.get(section, hints['consulta'])
