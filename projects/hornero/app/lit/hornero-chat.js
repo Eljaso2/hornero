@@ -364,7 +364,7 @@ class HorneroChat extends HoComponent {
 
       <div class="chat-input">
         ${attachPreview}
-        <input class="chat-input-field" type="text" placeholder="${this.inputPlaceholder}" autocomplete="off" spellcheck="false">
+        <input class="chat-input-field" type="text" placeholder="${this.inputPlaceholder}" autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore>
         <input class="chat-file-input" type="file" accept="image/*,video/*">
         <div class="chat-toolbar">
           <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
