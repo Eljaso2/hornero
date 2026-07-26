@@ -1,5 +1,6 @@
 // ===== <hornero-clipping> — Clipping de noticias (sub-screen) =====
 // Lista de noticias con popup overlay para desarrollo
+// Multi-edición: carga índice → última edición, navegación ←→
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -20,16 +21,34 @@ class HorneroClipping extends HoComponent {
     this._meta = {};
     this._popupItem = null;
     this._savedScrollTop = null;
+    this._ediciones = [];     // clipping-index.ediciones[]
+    this._edicionIdx = 0;     // current index in _ediciones (0 = latest)
   }
 
   async connectedCallback() {
     super.connectedCallback();
-    await this._loadClipping();
+    await this._loadIndex();
   }
 
-  async _loadClipping() {
+  // ===== Data loading =====
+
+  async _loadIndex() {
     try {
-      const response = await fetch('data/clipping-2026-07-02.json');
+      const res = await fetch('data/clipping-index.json');
+      const idx = await res.json();
+      this._ediciones = idx.ediciones || [];
+      // Default to latest edition (index 0)
+      this._edicionIdx = 0;
+      await this._loadEdition(this._ediciones[0].archivo);
+    } catch(e) {
+      console.warn('Clipping: index load failed, fallback to hardcoded', e);
+      await this._loadEdition('data/clipping-2026-07-02.json');
+    }
+  }
+
+  async _loadEdition(filePath) {
+    try {
+      const response = await fetch(filePath);
       const data = await response.json();
       this._meta = data.meta || {};
       this._noticias = data.noticias || [];
@@ -40,7 +59,7 @@ class HorneroClipping extends HoComponent {
         }
       }
       this.render();
-    } catch(e) { console.warn('Clipping: load failed', e); }
+    } catch(e) { console.warn('Clipping: edition load failed', e); }
   }
 
   _formatFecha(fecha) {
@@ -63,9 +82,22 @@ class HorneroClipping extends HoComponent {
       /* Kicker line — clipping edition */
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-        color: var(--ho-green-dark, #586B33); padding: 4px 0 12px;
+        color: var(--ho-green-dark, #586B33);
         background: var(--ho-green-pale, #E8EDD7); border-radius: 6px;
-        padding: 6px 10px; margin-bottom: 12px; }
+        padding: 6px 10px; margin-bottom: 4px;
+        display: flex; justify-content: space-between; align-items: center; }
+
+      /* Edition navigation */
+      .edicion-nav { display: flex; gap: 6px; align-items: center; }
+      .edicion-btn { background: var(--ho-green, #6E8345); color: #F2F1EC;
+        border: none; border-radius: 4px; cursor: pointer;
+        font-size: .72rem; padding: 3px 8px; font-weight: 600;
+        transition: opacity .2s; }
+      .edicion-btn:hover { opacity: .8; }
+      .edicion-btn:disabled { opacity: .35; cursor: default; }
+      .edicion-label { font-size: .56rem; color: var(--ho-text-light, #9C988D); }
+
+      .kicker-text { flex: 1; }
 
       /* Feed card — noticia */
       .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
@@ -140,6 +172,17 @@ class HorneroClipping extends HoComponent {
       ? 'CLIPPING N°' + this._meta.numero + ' · ' + this._formatFecha(this._meta.fecha)
       : 'CLIPPING';
 
+    // Edition navigation
+    const hasPrev = this._edicionIdx < this._ediciones.length - 1;
+    const hasNext = this._edicionIdx > 0;
+    const edicionNav = this._ediciones.length > 1
+      ? '<div class="edicion-nav">' +
+          '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>← anterior</button>' +
+          '<span class="edicion-label">N°' + (this._meta.numero || '') + '</span>' +
+          '<button class="edicion-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + '>próxima →</button>' +
+        '</div>'
+      : '';
+
     const cardsHtml = this._noticias.map(n => {
       const tagsHtml = (n.tags || []).map(t =>
         '<span class="tag">' + t + '</span>'
@@ -161,7 +204,10 @@ class HorneroClipping extends HoComponent {
 
     return html`
       <div class="scroll" id="clipScroll">
-        <div class="kicker">${metaLabel}</div>
+        <div class="kicker">
+          <span class="kicker-text">${metaLabel}</span>
+          ${edicionNav}
+        </div>
         ${cardsHtml}
       </div>
       ${popupHtml}
@@ -191,6 +237,12 @@ class HorneroClipping extends HoComponent {
   // ===== After-render =====
 
   _afterRender() {
+    // Edition navigation buttons
+    const prevBtn = this.shadowRoot.querySelector('#edPrev');
+    const nextBtn = this.shadowRoot.querySelector('#edNext');
+    if (prevBtn) prevBtn.addEventListener('click', () => this._goEdition(1));   // older
+    if (nextBtn) nextBtn.addEventListener('click', () => this._goEdition(-1));  // newer
+
     // Card clicks → open popup
     this.shadowRoot.querySelectorAll('.feed-card').forEach(card => {
       card.addEventListener('click', () => {
@@ -209,6 +261,14 @@ class HorneroClipping extends HoComponent {
         if (e.target === overlay) this._closePopup();
       });
     }
+  }
+
+  _goEdition(delta) {
+    const newIdx = this._edicionIdx + delta;
+    if (newIdx < 0 || newIdx >= this._ediciones.length) return;
+    this._edicionIdx = newIdx;
+    this._popupItem = null;
+    this._loadEdition(this._ediciones[newIdx].archivo);
   }
 
   _openPopup(item) {

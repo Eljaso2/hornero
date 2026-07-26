@@ -38,8 +38,14 @@ class HorneroHome extends HoComponent {
   }
 
   async _loadData() {
+    // Clipping — load latest edition from index
     try {
-      const clipRes = await fetch('data/clipping-2026-07-02.json');
+      const idxRes = await fetch('data/clipping-index.json');
+      const idx = await idxRes.json();
+      const latest = (idx.ediciones && idx.ediciones[0])
+        ? idx.ediciones[0].archivo
+        : 'data/clipping-2026-07-02.json';
+      const clipRes = await fetch(latest);
       const clipData = await clipRes.json();
       this._clipping = clipData.noticias || [];
     } catch(e) { console.warn('Home: clipping load failed', e); }

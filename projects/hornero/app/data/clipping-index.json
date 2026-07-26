@@ -1,0 +1,33 @@
+{
+  "version": "2026-07-02-v1",
+  "ediciones": [
+    {
+      "numero": 4,
+      "fecha": "2026-07-02",
+      "archivo": "data/clipping-2026-07-02.json",
+      "semana": "27 junio – 2 julio 2026",
+      "noticias": 10
+    },
+    {
+      "numero": 3,
+      "fecha": "2026-06-26",
+      "archivo": "data/clipping-2026-06-26.json",
+      "semana": "25–26 junio 2026",
+      "noticias": 10
+    },
+    {
+      "numero": 2,
+      "fecha": "2026-06-24",
+      "archivo": "data/clipping-2026-06-24.json",
+      "semana": "23–24 junio 2026",
+      "noticias": 10
+    },
+    {
+      "numero": 1,
+      "fecha": "2026-06-22",
+      "archivo": "data/clipping-2026-06-22.json",
+      "semana": "15–22 junio 2026",
+      "noticias": 10
+    }
+  ]
+}

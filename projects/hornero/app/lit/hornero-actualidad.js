@@ -30,9 +30,14 @@ class HorneroActualidad extends HoComponent {
   // ===== Data loading =====
 
   async _loadAllSources() {
-    // Clipping (noticias)
+    // Clipping — load latest edition from index
     try {
-      const response = await fetch('data/clipping-2026-07-02.json');
+      const idxRes = await fetch('data/clipping-index.json');
+      const idx = await idxRes.json();
+      const latest = (idx.ediciones && idx.ediciones[0])
+        ? idx.ediciones[0].archivo
+        : 'data/clipping-2026-07-02.json';
+      const response = await fetch(latest);
       this._clippingRaw = await response.json();
       if (typeof guardarClipping === 'function' && this._clippingRaw.noticias) {
         for (const item of this._clippingRaw.noticias) {
