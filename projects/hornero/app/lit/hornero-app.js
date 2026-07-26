@@ -172,36 +172,38 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — degradé de color hacia el body ===== */
-      .top-bar { background: linear-gradient(to bottom, #33312D 0%, #33312D 70%, #F4F3EE 100%);
-        color: var(--ho-text-off, #F2F1EC);
+      /* ===== Top bar — logo centrado, color = fondo body ===== */
+      .top-bar { background: var(--ho-bg, #F4F3EE);
+        color: var(--ho-text, #2B2A26);
         padding: 0 16px; display: flex; align-items: center;
-        justify-content: flex-start; position: relative; flex: none;
-        min-height: 98px;
+        justify-content: center; position: relative; flex: none;
+        min-height: 64px;
         padding-top: env(safe-area-inset-top, 0px); }
-      .top-bar .corner-logo { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); }
-      .top-bar .corner-logo img { width: 32px; height: auto; opacity: .85; }
+      .top-bar .header-logo { display: flex; align-items: center; gap: 10px; }
+      .top-bar .header-logo img { width: 32px; height: auto; }
       .header-text { display: flex; flex-direction: column;
         align-items: flex-start; gap: 2px; }
       .header-text .app-name { font-family: 'Inter', sans-serif; font-weight: 900;
-        font-size: 1.3rem; letter-spacing: .12em; text-transform: uppercase;
-        color: var(--ho-green-light, #94A867); }
+        font-size: 1.2rem; letter-spacing: .12em; text-transform: uppercase;
+        color: var(--ho-green, #6E8345); }
       .header-text .app-motto { font-family: 'Public Sans', sans-serif; font-weight: 500;
-        font-size: .64rem; color: #9C988D; letter-spacing: .04em;
-        text-align: left; white-space: nowrap; }
+        font-size: .62rem; color: var(--ho-text-light, #9C988D); letter-spacing: .04em;
+        white-space: nowrap; }
 
-      /* ===== Section label — below header, back button + title inline ===== */
-      /* ===== Section label — title centered, back-btn on left, space always reserved ===== */
-      .section-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: #2B2A26; padding: 8px 16px 6px; background: var(--ho-bg, #F4F3EE);
-        flex: none; display: flex; align-items: center; }
-      .section-label .back-slot { width: 32px; flex: none; }
-      .section-label .back-btn { width: 24px; height: 24px; border-radius: 50%;
-        background: rgba(43,42,38,.08); color: #2B2A26;
-        border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; font-size: .9rem; line-height: 1; }
-      .section-label .label-text { flex: 1; text-align: right; }
+      /* ===== Sections bar — horizontal scrollable ===== */
+      .sections-bar { background: var(--ho-bg, #F4F3EE);
+        flex: none; display: flex; overflow-x: auto;
+        padding: 6px 12px 8px; gap: 0;
+        scrollbar-width: none; border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12)); }
+      .sections-bar::-webkit-scrollbar { width: 0; }
+      .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
+        font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+        background: none; border: none; cursor: pointer;
+        padding: 6px 12px; white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        transition: color .2s, border-color .2s; }
+      .sections-btn.active { color: var(--ho-green, #6E8345);
+        border-bottom-color: var(--ho-green, #6E8345); }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -252,10 +254,9 @@ class HorneroApp extends HoComponent {
     }
 
     const currentTitle = this.titles[this.screen] || 'Hornero';
-    const showBack = this.screen !== 'home';
-    // Chat screens: no section-label, no bottom-nav
+    // Chat screens: no sections-bar, no bottom-nav
     const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido';
-    const showSectionLabel = showBack && !isChatScreen;
+    const showSectionsBar = !isChatScreen;
     const showBottomNav = !isChatScreen;
 
     // Build screen content
@@ -312,14 +313,18 @@ class HorneroApp extends HoComponent {
             ${this.updateAvailable ? '<div class="update-banner" id="updateBanner">⟳ Actualización disponible — toca para recargar<button class="update-dismiss" id="updateDismiss">✕</button></div>' : ''}
 
             <div class="top-bar">
-              <div class="corner-logo"><img src="assets/hornero-logo.png" alt="Hornero" /></div>
-              <div class="header-text">
-                <span class="app-name">HORNERO</span>
-                <span class="app-motto">«El futuro, algo por lo que hay que luchar»</span>
+              <div class="header-logo">
+                <img src="assets/hornero-logo.png" alt="Hornero" />
+                <div class="header-text">
+                  <span class="app-name">HORNERO</span>
+                  <span class="app-motto">«El futuro, algo por lo que hay que luchar»</span>
+                </div>
               </div>
             </div>
 
-            ${showSectionLabel ? '<div class="section-label"><div class="back-slot"><button class="back-btn" title="Volver">←</button></div><span class="label-text">' + currentTitle + '</span></div>' : ''}
+            ${showSectionsBar ? '<div class="sections-bar">' +
+              this.navDef.map(n => '<button class="sections-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' + n.label + '</button>').join('') +
+              '</div>' : ''}
 
             <div class="body-scroll">
               ${screenContent}
@@ -339,16 +344,17 @@ class HorneroApp extends HoComponent {
   }
 
   _afterRender() {
-    // Bind navigation button clicks
-    this.shadowRoot.querySelectorAll('.nav-btn').forEach(btn => {
+    // Bind sections bar button clicks (top navigation)
+    this.shadowRoot.querySelectorAll('.sections-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         this.set('screen', btn.dataset.screen);
       });
     });
-    // Bind back button — navigate to parent screen
-    const backBtn = this.shadowRoot.querySelector('.back-btn');
-    if (backBtn) backBtn.addEventListener('click', () => {
-      this.set('screen', this._parentScreen[this.screen] || 'home');
+    // Bind bottom nav button clicks
+    this.shadowRoot.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.set('screen', btn.dataset.screen);
+      });
     });
     // Bind update banner
     const updateBanner = this.shadowRoot.querySelector('#updateBanner');
