@@ -33,8 +33,13 @@ class HorneroApp extends HoComponent {
           const oldFed = session.agremiacion.federacion;
           if (oldFed && oldFed.includes('FOEIAP')) {
             session.agremiacion.federacion = 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)';
-            localStorage.setItem('hornero-session', JSON.stringify(session));
           }
+          // Migration: Vicentín territory "San Lorenzo" → "Norte de Santa Fe"
+          const oldTerr = session.agremiacion.territorio;
+          if (oldTerr === 'San Lorenzo' && session.agremiacion.empresa && session.agremiacion.empresa.includes('Vicentín')) {
+            session.agremiacion.territorio = 'Norte de Santa Fe';
+          }
+          localStorage.setItem('hornero-session', JSON.stringify(session));
         }
         if (session && session.grade) {
           this.loggedIn = true;

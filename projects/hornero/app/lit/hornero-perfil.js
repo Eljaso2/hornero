@@ -184,9 +184,6 @@ class HorneroPerfil extends HoComponent {
     const gradeInfo = this._getGradeLabel();
     const agrem = this._getAgremiacionInfo();
 
-    // Agremiación badge: use sindicato name short or federacion or sector
-    const badgeText = agrem.sindicato || agrem.federacion || this.sector.toUpperCase();
-
     // Build agremiación fields — only show fields that have data
     const agremFields = [];
     if (agrem.federacion) agremFields.push({ label: 'Federación', value: agrem.federacion });
@@ -213,7 +210,6 @@ class HorneroPerfil extends HoComponent {
         <!-- Agremiación -->
         <div class="agremiacion-card">
           <div class="info-card-title" style="color:#9C988D">✊ AGREMIACIÓN</div>
-          <span class="agremiacion-badge">${badgeText}</span>
           ${hasAgremiacion ? agremFields.map(f =>
             '<div class="agremiacion-field">' +
             '<span class="agremiacion-label">' + f.label + '</span>' +
