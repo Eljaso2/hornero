@@ -358,7 +358,7 @@ class HorneroApp extends HoComponent {
             ${this.updateAvailable ? '<div class="update-banner" id="updateBanner">⟳ Actualización disponible — toca para recargar<button class="update-dismiss" id="updateDismiss">✕</button></div>' : ''}
 
             <div class="top-bar">
-              ${this.screen !== 'home' ?
+              ${this.screen !== 'home' && !isChatScreen ?
                 '<button class="top-bar-back" id="backBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
               <div class="header-text">
                 <span class="app-name">HORNERO</span>

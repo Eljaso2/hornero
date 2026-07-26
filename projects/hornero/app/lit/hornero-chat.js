@@ -16,6 +16,8 @@ class HorneroChat extends HoComponent {
       progress: Number,   // 0-100
       suggestions: Array, // Array of strings — quick-reply buttons
       showBack: Boolean,  // Show "← Volver" button
+      section: String,    // 'consulta', 'contenido', 'debate' — for history tagging
+      sessionId: String,  // Current chat session ID
     };
   }
 
@@ -28,8 +30,12 @@ class HorneroChat extends HoComponent {
     this.progress = 0;
     this.suggestions = [];
     this.showBack = false;
+    this.section = '';
+    this.sessionId = '';
     this._isListening = false; // mic state
     this._recognition = null;  // SpeechRecognition instance
+    this._showHistory = false; // history drawer state
+    this._historySessions = []; // cached session list
     this._initSpeechRecognition();
   }
 
@@ -82,7 +88,7 @@ class HorneroChat extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #F4F3EE); position: relative; }
 
       /* Back button */
       .chat-back-btn { background: none; border: none; cursor: pointer;
@@ -93,6 +99,79 @@ class HorneroChat extends HoComponent {
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-back-btn:hover { color: var(--ho-green, #6E8345); }
       .chat-back-btn:hover svg { stroke: var(--ho-green, #6E8345); }
+
+      /* History icon (clock) */
+      .chat-history-btn { background: none; border: none; cursor: pointer;
+        width: 32px; height: 32px; border-radius: 50%; display: flex;
+        align-items: center; justify-content: center;
+        padding: 10px 0 4px; transition: background .2s; }
+      .chat-history-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-light, #9C988D); fill: none;
+        stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-history-btn:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .chat-history-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
+
+      /* History drawer overlay */
+      .history-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(43,42,38,.35); z-index: 50; display: flex;
+        justify-content: flex-end; transition: opacity .3s; }
+      .history-overlay.hidden { opacity: 0; pointer-events: none; }
+
+      /* History drawer panel */
+      .history-drawer { width: 85%; max-width: 340px; height: 100%;
+        background: var(--ho-bg, #F4F3EE); display: flex; flex-direction: column;
+        box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease; }
+      @keyframes slideIn { from { transform: translateX(100%); } to { transform: none; } }
+
+      .history-header { padding: 16px; display: flex; align-items: center;
+        justify-content: space-between; flex: none;
+        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12)); }
+      .history-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .92rem; color: var(--ho-text, #2B2A26); }
+      .history-close-btn { background: none; border: none; cursor: pointer;
+        width: 28px; height: 28px; border-radius: 50%; display: flex;
+        align-items: center; justify-content: center;
+        transition: background .2s; }
+      .history-close-btn:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .history-close-btn svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60);
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+      .history-list { flex: 1; overflow-y: auto; padding: 8px 0; }
+
+      .history-item { padding: 12px 16px; cursor: pointer;
+        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
+        display: flex; flex-direction: column; gap: 4px;
+        transition: background .2s; }
+      .history-item:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .history-item.active { background: var(--ho-green-pale, #E8EDD7); }
+
+      .history-item-section { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+        color: var(--ho-green-dark, #586B33); }
+      .history-item-preview { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text, #2B2A26); line-height: 1.3; overflow: hidden;
+        text-overflow: ellipsis; white-space: nowrap; }
+      .history-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; }
+      .history-item-count { background: var(--ho-green-pale, #E8EDD7);
+        padding: 2px 8px; border-radius: 8px; font-weight: 600;
+        color: var(--ho-green-dark, #586B33); }
+
+      .history-empty { padding: 40px 20px; text-align: center;
+        font-family: 'Archivo', sans-serif; font-size: .82rem;
+        color: var(--ho-text-light, #9C988D); }
+
+      .history-item-delete { background: none; border: none; cursor: pointer;
+        padding: 4px; align-self: flex-end; display: flex; }
+      .history-item-delete svg { width: 14px; height: 14px;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .history-item-delete:hover svg { stroke: var(--ho-gold, #B0863F); }
+
+      /* Section badge colors */
+      .section-consulta { color: #6E8345; }
+      .section-contenido { color: #B0863F; }
+      .section-debate { color: #5A7EA8; }
 
       /* Progress bar */
       .chat-progress-wrap { padding: 4px 16px 0; flex: none; }
@@ -297,11 +376,17 @@ class HorneroChat extends HoComponent {
   }
 
   _render() {
-    // Back button
+    // Back button + history icon — history icon always visible when section is set
+    const clockSvg = '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>';
+    const xSvg = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
     const backHtml = this.showBack ?
       `<button class="chat-back-btn">
         <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         Volver
+      </button>` : '';
+    const historyBtnHtml = this.section ?
+      `<button class="chat-history-btn" title="Historial de chats">
+        <svg viewBox="0 0 24 24">${clockSvg}</svg>
       </button>` : '';
 
     const progressFill = this.progress > 0 ?
@@ -351,8 +436,44 @@ class HorneroChat extends HoComponent {
         <button class="chat-attach-remove" title="Quitar adjunto">✕</button>
       </div>` : '';
 
+    // History drawer
+    const sectionLabels = { consulta: 'Consulta', contenido: 'Contenido', debate: 'Debate' };
+    const historyDrawerHtml = this._showHistory ?
+      `<div class="history-overlay">
+        <div class="history-drawer">
+          <div class="history-header">
+            <div class="history-header-title">Historial</div>
+            <button class="history-close-btn">
+              <svg viewBox="0 0 24 24">${xSvg}</svg>
+            </button>
+          </div>
+          <div class="history-list">
+            ${this._historySessions.length === 0 ?
+              '<div class="history-empty">No hay chats guardados</div>' :
+              this._historySessions.map(s => {
+                const sectionLabel = sectionLabels[s.section] || s.section;
+                const isActive = s.sessionId === this.sessionId;
+                const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
+                const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
+                return `<div class="history-item${isActive ? ' active' : ''}" data-session-id="${s.sessionId}">
+                  <div class="history-item-section section-${s.section || 'consulta'}">${sectionLabel}</div>
+                  <div class="history-item-preview">${s.preview || 'Chat sin texto'}</div>
+                  <div class="history-item-meta">
+                    <span>${dateStr} ${timeStr}</span>
+                    <span class="history-item-count">${s.messageCount} msgs</span>
+                  </div>
+                  <button class="history-item-delete" data-delete-session="${s.sessionId}" title="Borrar chat">
+                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                  </button>
+                </div>`;
+              }).join('')}
+          </div>
+        </div>
+      </div>` : '';
+
     return html`
       ${backHtml}
+      ${historyBtnHtml}
       ${progressFill}
 
       <div class="chat-scroll">
@@ -378,6 +499,8 @@ class HorneroChat extends HoComponent {
           </button>
         </div>
       </div>
+
+      ${historyDrawerHtml}
     `;
   }
 
@@ -585,6 +708,57 @@ class HorneroChat extends HoComponent {
       });
     }
 
+    // === History button ===
+    const historyBtn = this.shadowRoot.querySelector('.chat-history-btn');
+    if (historyBtn) {
+      historyBtn.addEventListener('click', () => {
+        this._openHistoryDrawer();
+      });
+    }
+
+    // === History drawer: close ===
+    const historyOverlay = this.shadowRoot.querySelector('.history-overlay');
+    const historyCloseBtn = this.shadowRoot.querySelector('.history-close-btn');
+    if (historyOverlay) {
+      // Close on overlay click (outside drawer)
+      historyOverlay.addEventListener('click', (e) => {
+        if (e.target === historyOverlay) {
+          this._closeHistoryDrawer();
+        }
+      });
+    }
+    if (historyCloseBtn) {
+      historyCloseBtn.addEventListener('click', () => {
+        this._closeHistoryDrawer();
+      });
+    }
+
+    // === History drawer: select session ===
+    this.shadowRoot.querySelectorAll('.history-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        // Don't trigger if delete button was clicked
+        if (e.target.closest('.history-item-delete')) return;
+        const sid = item.dataset.sessionId;
+        if (sid) {
+          this._closeHistoryDrawer();
+          this.emit('chat-session-select', { sessionId: sid, section: this.section });
+        }
+      });
+    });
+
+    // === History drawer: delete session ===
+    this.shadowRoot.querySelectorAll('.history-item-delete').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const sid = btn.dataset.deleteSession;
+        if (sid && typeof borrarChatSession === 'function') {
+          borrarChatSession(sid).then(() => {
+            this._openHistoryDrawer(); // Refresh drawer
+          });
+        }
+      });
+    });
+
     // === Message action buttons (copy, forward, like/dislike) ===
     this.shadowRoot.querySelectorAll('.msg-action-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -670,6 +844,24 @@ class HorneroChat extends HoComponent {
 
   clearSuggestions() {
     this.suggestions = [];
+    this.render();
+  }
+
+  // ===== History Drawer =====
+  async _openHistoryDrawer() {
+    try {
+      if (typeof obtenerChatSessions === 'function') {
+        this._historySessions = await obtenerChatSessions();
+      } else {
+        this._historySessions = [];
+      }
+    } catch(e) { console.warn('Chat: history sessions load failed', e); this._historySessions = []; }
+    this._showHistory = true;
+    this.render();
+  }
+
+  _closeHistoryDrawer() {
+    this._showHistory = false;
     this.render();
   }
 }

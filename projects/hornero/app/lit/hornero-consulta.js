@@ -41,6 +41,13 @@ class HorneroConsulta extends HoComponent {
     this.iaStep = 0;
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
+    this._sessionId = ''; // Current session ID — new on each visit
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    // Generate new sessionId on each visit — start fresh
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
   }
 
   _styles() {
@@ -59,6 +66,9 @@ class HorneroConsulta extends HoComponent {
           input-placeholder="Escribí tu consulta, pregunta, o tema..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
+          section="${this._chatSection}"
+          session-id="${this._sessionId}"
+          show-back="true"
         ></hornero-chat>
       </div>
     `;
@@ -71,6 +81,14 @@ class HorneroConsulta extends HoComponent {
       chatEl.addEventListener('chat-send', (e) => {
         this._handleUserMessage(e.detail.text);
       });
+      // Listen for session selection from history drawer
+      chatEl.addEventListener('chat-session-select', (e) => {
+        this._loadSession(e.detail.sessionId);
+      });
+      // Listen for back button — navigate to home
+      chatEl.addEventListener('chat-back', () => {
+        this.emit('screen-change', { screen: 'home' });
+      });
     }
 
     // Load history from IndexedDB first, then request greeting if empty
@@ -81,21 +99,26 @@ class HorneroConsulta extends HoComponent {
 
   async _loadChatHistory() {
     this._historyLoaded = true;
-    try {
-      if (typeof obtenerChatHistory === 'function') {
-        const saved = await obtenerChatHistory(this._chatSection);
-        if (saved && saved.length > 0) {
-          this.messages = saved;
-          this.render();
-          return; // History exists — no greeting needed
-        }
-      }
-    } catch(e) { console.warn('Consulta: chat history load failed', e); }
-
-    // No history — request greeting from backend
+    // On each visit: start fresh with new sessionId
+    // No need to load previous session — the user can access via history drawer
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
+  }
+
+  // Load an existing session from history
+  async _loadSession(sessionId) {
+    try {
+      if (typeof obtenerChatSessionMessages === 'function') {
+        const saved = await obtenerChatSessionMessages(sessionId);
+        if (saved && saved.length > 0) {
+          this._sessionId = sessionId;
+          this.messages = saved;
+          this._historyLoaded = true;
+          this.render();
+        }
+      }
+    } catch(e) { console.warn('Consulta: session load failed', e); }
   }
 
   _syncChatMessages(chatEl) {
@@ -230,11 +253,12 @@ class HorneroConsulta extends HoComponent {
   async _saveChatHistory() {
     try {
       if (typeof guardarChatMsg === 'function') {
-        // Save each message with section tag
+        // Save each message with section + sessionId
         for (const m of this.messages) {
           if (!m.id) {
             m.id = typeof generarUUID === 'function' ? generarUUID() : 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
             m.section = this._chatSection;
+            m.sessionId = this._sessionId;
             m.timestamp = Date.now();
           }
           await guardarChatMsg(m);
