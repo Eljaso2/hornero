@@ -20,6 +20,7 @@ import httpx
 from knowledge_base import get_system_prompt, get_format_hint, get_greeting_hint
 from llm_providers.deepseek import call_deepseek
 from llm_providers.claude import call_claude
+from clipping_cache import get_clipping, refresh
 
 load_dotenv(override=True)
 
@@ -38,9 +39,16 @@ APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 # ===== FastAPI app =====
 app = FastAPI(
     title="Hornero IA Sindical",
-    description="Backend proxy para chat IA sindical — LLM + knowledge base sindical",
-    version="0.1.0",
+    description="Backend proxy para chat IA sindical — LLM + knowledge base sindical + clipping dinámico",
+    version="0.2.0",
 )
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize clipping cache on startup."""
+    count = refresh()
+    print(f"Clipping cache initialized: {count} items")
+
 
 # CORS — allow app origin + localhost for development
 origins = [ALLOWED_ORIGIN]
@@ -103,7 +111,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     The IA greets, explains what it is, and tells what the user can consult
     in that specific section.
     """
-    system_prompt = get_system_prompt(req.section)
+    system_prompt = get_system_prompt(req.section, get_clipping())
     greeting_hint = get_greeting_hint(req.section)
 
     try:
@@ -152,7 +160,7 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
     """Main chat endpoint — receives user message, returns structured IA response."""
 
     # Build system prompt
-    system_prompt = get_system_prompt(req.formato)
+    system_prompt = get_system_prompt(req.formato, get_clipping())
     format_hint = get_format_hint(req.formato)
 
     # Build the user message with format context
@@ -207,8 +215,16 @@ async def health():
     return {
         "status": "ok",
         "provider": LLM_PROVIDER,
+        "clipping_items": len(get_clipping()),
         "timestamp": datetime.now().isoformat(),
     }
+
+
+@app.post("/api/refresh-clipping")
+async def refresh_clipping():
+    """Force refresh of clipping cache from GitHub Pages."""
+    count = refresh()
+    return {"status": "ok", "clipping_items": count, "timestamp": datetime.now().isoformat()}
 
 
 # ===== Response parser =====

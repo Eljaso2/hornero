@@ -156,9 +156,11 @@ PRINCIPIOS_COMUNES = """=== PRINCIPIOS DE DIÁLOGO (todos los personas) ===
 
 4. RECONOCÉ EMOCIÓN primero, datos después. Si alguien expresa preocupación, respondé con empatía antes de citar cifras.
 
-5. CONTENCIÓN DE DATOS. DATOS, CIFRAS y QUOTES: SOLO usás los que están en las FUENTES. Si una cifra no está, no la mencionás. Si no hay datos: "No tengo datos sobre eso, pero puedo ayudarte con: paritaria, condiciones, SMVM, reforma, convenio, organización." Cada dato citá su fuente. Quotes: quote + autor + fuente, sin alterar texto.
+5. CONTENCIÓN DE DATOS. DATOS, CIFRAS y QUOTES: SOLO usás los que están en las FUENTES o en las NOTICIAS ACTUALES. Si una cifra no está, no la mencionás. Si no hay datos: "No tengo datos sobre eso, pero puedo ayudarte con: paritaria, condiciones, SMVM, reforma, convenio, organización." Cada dato citá su fuente. Quotes: quote + autor + fuente, sin alterar texto.
 
 6. IA PROPONE, TRABAJADOR DECIDE. Sugerís, no impones.
+
+7. CITACIÓN DE FUENTES — SIEMPRE visible. Si usás datos de las FUENTES sindicales, citá: autor + documento. Si usás datos del CLIPPING (noticias actuales), citá: **Fuente: nombre del medio, fecha**. Ejemplo: "Según Sonido Gremial del 2 de julio..." o "Fuente: InfoGremiales, 30 de junio." NUNCA menciones un dato sin citar de dónde viene.
 
 === FORMATO DE RESPUESTA ===
 
@@ -194,8 +196,11 @@ Tags: temas + formato + persona (debate/consulta/contenido).
 
 # ===== SYSTEM PROMPTS (persona + principios + knowledge base) =====
 
-def get_system_prompt(formato: str) -> str:
-    """Return system prompt based on formato/section — each with its own persona."""
+def get_system_prompt(formato: str, clipping_items: list = None) -> str:
+    """Return system prompt based on formato/section — each with its own persona.
+
+    Includes dynamic clipping data if available.
+    """
 
     personas = {
         'debate': PERSONA_DEBATE,
@@ -204,7 +209,53 @@ def get_system_prompt(formato: str) -> str:
     }
 
     persona = personas.get(formato, PERSONA_CONSULTA)  # default: abogado
-    return persona + "\n" + PRINCIPIOS_COMUNES + "\n\nFUENTES DISPONIBLES:\n" + KNOWLEDGE_BASE
+    prompt = persona + "\n" + PRINCIPIOS_COMUNES + "\n\nFUENTES DISPONIBLES:\n" + KNOWLEDGE_BASE
+
+    # Add dynamic clipping if available
+    if clipping_items:
+        clipping_text = get_clipping_text(clipping_items)
+        if clipping_text:
+            prompt += "\n\n" + clipping_text
+
+    return prompt
+
+
+def get_clipping_text(items: list) -> str:
+    """Format clipping items as text for system prompt injection.
+
+    Each item formatted as: [NOTICIA: titulo — bajada. Fuente: fuente, Fecha: fecha]
+    Includes citation rule to force source attribution.
+    """
+    if not items:
+        return ""
+
+    lines = ["=== NOTICIAS ACTUALES (Clipping Hornero) ===", ""]
+
+    for item in items:
+        titulo = item.get("titulo", "").strip()
+        bajada = item.get("bajada", "").strip()
+        fuente = item.get("fuente", "").strip()
+        fecha = item.get("fecha", "").strip()
+        tags = ", ".join(item.get("tags", [])[:5])
+
+        if not titulo:
+            continue
+
+        # Format: concise noticia entry
+        entry = f"[NOTICIA: {titulo}"
+        if bajada:
+            # Truncate bajada to ~80 chars for token efficiency
+            short_bajada = bajada[:80] + "..." if len(bajada) > 80 else bajada
+            entry += f" — {short_bajada}"
+        entry += f". Fuente: {fuente}, Fecha: {fecha}]"
+        if tags:
+            entry += f" Tags: {tags}"
+        lines.append(entry)
+
+    lines.append("")
+    lines.append("REGLA DE CITACIÓN: Si usás datos de estas noticias, SIEMPRE citá la fuente visible: \"Fuente: Sonido Gremial, 2 de julio\" o \"Según InfoGremiales del 30 de junio\". Si la noticia no está en esta lista, no la mencionás.")
+
+    return "\n".join(lines)
 
 
 def get_format_hint(formato: str) -> str:
