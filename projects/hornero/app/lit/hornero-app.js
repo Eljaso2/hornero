@@ -116,18 +116,18 @@ class HorneroApp extends HoComponent {
     await this._restoreSession();
 
     // ===== History API: device back button navigates within app =====
-    // Push initial state for home screen
     history.replaceState({ screen: 'home' }, '', '');
 
-    // Listen for browser/device back button (popstate event)
     window.addEventListener('popstate', (e) => {
       if (e.state && e.state.screen) {
         this.set('screen', e.state.screen);
       } else {
-        // No state → go to home (don't exit app)
         this.set('screen', 'home');
       }
     });
+
+    // Set initial theme color
+    this._updateThemeColor();
   }
 
   async _restoreSession() {
@@ -406,6 +406,40 @@ class HorneroApp extends HoComponent {
       history.pushState({ screen: screen }, '', '#' + screen);
     }
     this.set('screen', screen);
+  }
+
+  // ===== Theme color — status bar + bottom bar match app color =====
+  _updateThemeColor() {
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (!metaTheme) return;
+
+    // Login screen (not logged in) → dark color matching login background
+    if (!this.loggedIn) {
+      metaTheme.setAttribute('content', '#33312D');
+      document.documentElement.style.background = '#33312D';
+      document.body.style.background = '#33312D';
+      return;
+    }
+
+    // Main app screens → light color matching app background
+    const appBg = '#F4F3EE';  // var(--ho-bg)
+    metaTheme.setAttribute('content', appBg);
+    document.documentElement.style.background = appBg;
+    document.body.style.background = appBg;
+
+    // iOS: update apple status bar style
+    const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+    if (appleMeta) {
+      appleMeta.setAttribute('content', 'default'); // white status bar on iOS
+    }
+  }
+
+  // Override attributeChangedCallback to update theme when screen/login changes
+  attributeChangedCallback(name, oldVal, newVal) {
+    super.attributeChangedCallback(name, oldVal, newVal);
+    if (name === 'screen' || name === 'loggedIn') {
+      this._updateThemeColor();
+    }
   }
 
   async _handleLogout() {
