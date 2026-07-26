@@ -1,5 +1,5 @@
 // ===== <hornero-perfil> — Perfil del usuario =====
-// Nombre editable, email, sector laboral, sindicato
+// Dos tarjetas: Datos Personales (usuario, email, nivel) + Agremiación (federación, sindicato, convenio, territorio, empresa)
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -48,7 +48,7 @@ class HorneroPerfil extends HoComponent {
       if (typeof dbGetAll === 'function') {
         const sectores = await dbGetAll('sectores') || [];
         if (sectores.length > 0) {
-          this._sectorData = sectores[0]; // Use first matching sector
+          this._sectorData = sectores[0];
         }
       }
     } catch(e) {
@@ -70,23 +70,27 @@ class HorneroPerfil extends HoComponent {
     return labels[this.grade] || { num: 0, role: 'Sin acceso', color: '' };
   }
 
-  // ===== Sector/sindicato info =====
+  // ===== Agremiación info =====
 
-  _getSindicatoInfo() {
+  _getAgremiacionInfo() {
     const sector = this._sectorData;
-    // Fallback to seed data structure if IndexedDB empty
+    // Fallback to seed data if IndexedDB empty
     if (!sector || !sector.federacion) {
       return {
         federacion: 'Federación de Obreros y Empleados de la Industria Aceitera y Afines del País (FOEIAP)',
+        sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte Santa Fe',
         convenio: 'CCT 420/05',
         sectorName: 'Industria aceitera',
+        territorio: 'Norte de Santa Fe',
         empresas: ['Vicentín SAIC', 'Guaycurú'],
       };
     }
     return {
       federacion: sector.federacion || '',
+      sindicato: sector.sindicato || 'Sindicato local',
       convenio: sector.convenio || '',
       sectorName: sector.nombre || this.sector,
+      territorio: this.userTerritory || 'Norte de Santa Fe',
       empresas: (sector.empresas || []).map(e => e.nombre || e),
     };
   }
@@ -102,49 +106,35 @@ class HorneroPerfil extends HoComponent {
         padding: 16px; scrollbar-width: none; }
       .scroll::-webkit-scrollbar { width: 0; }
 
-      /* Avatar + name header */
-      .avatar-row { display: flex; align-items: center; gap: 14px;
-        margin-bottom: 16px; }
-      .avatar-circle { width: 56px; height: 56px; border-radius: 50%;
-        background: var(--ho-green, #6E8345); display: flex;
-        align-items: center; justify-content: center;
-        font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.4rem; color: var(--ho-text-off, #F2F1EC); }
-      .avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: 1.1rem; color: var(--ho-text, #2B2A26); }
-      .avatar-grade { font-family: 'JetBrains Mono', monospace; font-size: .66rem;
-        font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-        color: var(--ho-text-light, #9C988D); margin-top: 2px; }
-
-      /* Grade badge */
-      .grade-badge { display: inline-flex; align-items: center; gap: 5px;
-        font-family: 'JetBrains Mono', monospace; font-size: .66rem;
-        font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-        padding: 5px 10px; border-radius: 6px; margin-bottom: 8px; }
-      .grade-badge.green { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33); }
-      .grade-badge.gold { background: #F0E4CC; color: #7A5E2C; }
-      .grade-badge.mid { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-dark-mid, #5A574F); }
-      .grade-badge.dark { background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-dark, #33312D); border: 1px solid var(--ho-dark, #33312D); }
-
       /* Info cards */
       .info-card { background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 13px; padding: 16px; margin-bottom: 12px; }
       .info-card-title { font-family: 'JetBrains Mono', monospace; font-size: .66rem;
         font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-        color: var(--ho-text-light, #9C988D); margin-bottom: 10px; }
-      .info-field { display: flex; align-items: flex-start; gap: 8px;
-        margin-bottom: 8px; }
+        color: var(--ho-text-light, #9C988D); margin-bottom: 12px; }
+      .info-field { display: flex; align-items: baseline; gap: 8px;
+        margin-bottom: 10px; }
       .info-field-label { font-family: 'Public Sans', sans-serif; font-size: .78rem;
-        color: #9C988D; min-width: 72px; }
-      .info-field-value { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text, #2B2A26); font-weight: 500; }
-      .info-field-value.bold { font-weight: 700; }
+        color: #9C988D; min-width: 60px; }
+      .info-field-value { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text, #2B2A26); font-weight: 600; }
+      .info-field-value.muted { font-weight: 400; color: #6E6A60; }
+
+      /* Nivel badge */
+      .nivel-badge { display: inline-flex; align-items: center; gap: 5px;
+        font-family: 'JetBrains Mono', monospace; font-size: .66rem;
+        font-weight: 600; letter-spacing: .10em; text-transform: uppercase;
+        padding: 4px 9px; border-radius: 6px; }
+      .nivel-badge.green { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33); }
+      .nivel-badge.gold { background: #F0E4CC; color: #7A5E2C; }
+      .nivel-badge.mid { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-dark-mid, #5A574F); }
+      .nivel-badge.dark { background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-dark, #33312D); border: 1px solid var(--ho-dark, #33312D); }
 
       /* Edit mode */
       .edit-input { width: 100%; background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 10px; padding: 10px 12px; font-size: .82rem;
+        border: 1.5px solid var(--ho-border, rgba(43,42,38,.12));
+        border-radius: 10px; padding: 10px 12px; font-size: .86rem;
         font-family: 'Public Sans', sans-serif; color: var(--ho-text, #2B2A26);
         outline: none; transition: border-color .2s; }
       .edit-input:focus { border-color: var(--ho-green, #6E8345); }
@@ -153,23 +143,23 @@ class HorneroPerfil extends HoComponent {
       .edit-btn { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
         border: none; border-radius: 10px; padding: 10px 20px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .82rem;
-        cursor: pointer; margin-top: 8px; }
+        cursor: pointer; margin-top: 4px; }
       .edit-btn.secondary { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text, #2B2A26); }
-      .edit-btn.danger { background: #A6553E; }
 
-      /* Sindicato card */
-      .sindicato-card { background: var(--ho-dark, #33312D);
+      /* Agremiación card (dark) */
+      .agremiacion-card { background: var(--ho-dark, #33312D);
         border-radius: 13px; padding: 16px; margin-bottom: 12px; }
-      .sindicato-badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+      .agremiacion-badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
         padding: 5px 10px; border-radius: 6px; display: inline-block;
+        margin-bottom: 10px; }
+      .agremiacion-field { display: flex; align-items: baseline; gap: 8px;
         margin-bottom: 8px; }
-      .sindicato-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text-off, #F2F1EC); margin-bottom: 4px; }
-      .sindicato-detail { font-family: 'Public Sans', sans-serif; font-size: .78rem;
-        color: #9C988D; line-height: 1.4; }
-      .sindicato-detail strong { color: var(--ho-text-off, #F2F1EC); }
+      .agremiacion-label { font-family: 'Public Sans', sans-serif; font-size: .78rem;
+        color: #9C988D; min-width: 80px; }
+      .agremiacion-value { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-off, #F2F1EC); font-weight: 600; line-height: 1.3; }
 
       /* Saved message */
       .saved-msg { background: #D7E8D7; color: #3D6B3D;
@@ -201,38 +191,41 @@ class HorneroPerfil extends HoComponent {
     }
 
     const gradeInfo = this._getGradeLabel();
-    const sindicato = this._getSindicatoInfo();
-    const initials = (this.userName || 'U').charAt(0).toUpperCase();
+    const agrem = this._getAgremiacionInfo();
 
     return html`
       <div class="scroll">
         ${this.savedMsg ? '<div class="saved-msg">' + this.savedMsg + '</div>' : ''}
 
-        <!-- Avatar + name -->
-        <div class="avatar-row">
-          <div class="avatar-circle">${initials}</div>
-          <div>
-            <div class="avatar-name">${this.userName || 'Usuario'}</div>
-            <div class="avatar-grade">Grade ${this.grade} · ${gradeInfo.role}</div>
-            <span class="grade-badge ${gradeInfo.color}">NIVEL ${gradeInfo.num} · ${gradeInfo.role.toUpperCase()}</span>
-          </div>
-        </div>
-
-        <!-- Personal info card -->
+        <!-- Datos Personales -->
         <div class="info-card">
           <div class="info-card-title">👤 DATOS PERSONALES</div>
-          ${this.editing ? this._renderEditFields() : this._renderInfoFields()}
+          ${this.editing ? this._renderEditFields() : this._renderInfoFields(gradeInfo)}
         </div>
 
-        <!-- Sector laboral + sindicato card -->
-        <div class="sindicato-card">
-          <div class="sindicato-badge">✊ ${sindicato.federacion.includes('FOEIAP') ? 'FOEIAP' : this.sector.toUpperCase()}</div>
-          <div class="sindicato-name">${sindicato.federacion}</div>
-          <div class="sindicato-detail">
-            <strong>Convenio:</strong> ${sindicato.convenio}<br>
-            <strong>Sector:</strong> ${sindicato.sectorName}<br>
-            <strong>Territorio:</strong> ${this.userTerritory}<br>
-            <strong>Empresas:</strong> ${sindicato.empresas.join(', ')}
+        <!-- Agremiación -->
+        <div class="agremiacion-card">
+          <div class="info-card-title" style="color:#9C988D">✊ AGREMIACIÓN</div>
+          <div class="agremiacion-badge">${agrem.federacion.includes('FOEIAP') ? 'FOEIAP' : this.sector.toUpperCase()}</div>
+          <div class="agremiacion-field">
+            <span class="agremiacion-label">Federación</span>
+            <span class="agremiacion-value">${agrem.federacion}</span>
+          </div>
+          <div class="agremiacion-field">
+            <span class="agremiacion-label">Sindicato</span>
+            <span class="agremiacion-value">${agrem.sindicato}</span>
+          </div>
+          <div class="agremiacion-field">
+            <span class="agremiacion-label">Convenio</span>
+            <span class="agremiacion-value">${agrem.convenio} · ${agrem.sectorName}</span>
+          </div>
+          <div class="agremiacion-field">
+            <span class="agremiacion-label">Territorio</span>
+            <span class="agremiacion-value">${agrem.territorio}</span>
+          </div>
+          <div class="agremiacion-field">
+            <span class="agremiacion-label">Empresa</span>
+            <span class="agremiacion-value">${agrem.empresas.join(', ')}</span>
           </div>
         </div>
 
@@ -242,41 +235,37 @@ class HorneroPerfil extends HoComponent {
     `;
   }
 
-  _renderInfoFields() {
+  _renderInfoFields(gradeInfo) {
     const email = this._sessionData.email || '';
     return html`
       <div class="info-field">
-        <span class="info-field-label">Nombre</span>
-        <span class="info-field-value bold">${this.userName || 'Usuario'}</span>
+        <span class="info-field-label">Usuario</span>
+        <span class="info-field-value">${this.userName || 'Usuario'}</span>
       </div>
       <div class="info-field">
         <span class="info-field-label">Email</span>
-        <span class="info-field-value">${email || 'No configurado'}</span>
+        <span class="info-field-value ${email ? '' : 'muted'}">${email || 'No configurado'}</span>
       </div>
       <div class="info-field">
-        <span class="info-field-label">Usuario</span>
-        <span class="info-field-value">${this._sessionData.username || ''}</span>
+        <span class="info-field-label">Nivel</span>
+        <span class="nivel-badge ${gradeInfo.color}">N${gradeInfo.num} · ${gradeInfo.role}</span>
       </div>
-      <div class="info-field">
-        <span class="info-field-label">Territorio</span>
-        <span class="info-field-value">${this.userTerritory}</span>
-      </div>
-      <button class="edit-btn" id="edit-btn">✏️ Editar nombre y email</button>
+      <button class="edit-btn" id="edit-btn">✏️ Editar</button>
     `;
   }
 
   _renderEditFields() {
     const currentEmail = this._sessionData.email || '';
     return html`
-      <div class="info-field" style="flex-direction:column;gap:6px">
-        <span class="info-field-label">Nombre</span>
+      <div style="margin-bottom:10px">
+        <span class="info-field-label">Usuario</span>
         <input class="edit-input" id="edit-name" type="text" value="${this._editName || this.userName}" placeholder="Tu nombre visible" />
       </div>
-      <div class="info-field" style="flex-direction:column;gap:6px">
+      <div style="margin-bottom:10px">
         <span class="info-field-label">Email</span>
         <input class="edit-input" id="edit-email" type="email" value="${this._editEmail || currentEmail}" placeholder="Tu email (opcional)" />
       </div>
-      <div style="display:flex;gap:8px;margin-top:8px">
+      <div style="display:flex;gap:8px">
         <button class="edit-btn" id="save-btn">💾 Guardar</button>
         <button class="edit-btn secondary" id="cancel-btn">Cancelar</button>
       </div>
@@ -348,7 +337,7 @@ class HorneroPerfil extends HoComponent {
       console.warn('Perfil: save failed', e);
     }
 
-    // Also update the PILOT_USERS display name in IndexedDB usuarios store
+    // Update the usuarios store in IndexedDB too
     try {
       if (typeof guardarUsuario === 'function') {
         await guardarUsuario({
