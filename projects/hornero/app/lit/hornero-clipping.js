@@ -79,25 +79,32 @@ class HorneroClipping extends HoComponent {
         padding: 12px 16px 16px; scrollbar-width: none; }
       .scroll::-webkit-scrollbar { width: 0; }
 
-      /* Kicker line — clipping edition */
-      .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-        color: var(--ho-green-dark, #586B33);
-        background: var(--ho-green-pale, #E8EDD7); border-radius: 6px;
-        padding: 6px 10px; margin-bottom: 4px;
-        display: flex; justify-content: space-between; align-items: center; }
-
-      /* Edition navigation */
-      .edicion-nav { display: flex; gap: 6px; align-items: center; }
+      /* Edition header — centrality: label in center, arrows on sides */
+      .edicion-header { margin-bottom: 12px; }
+      .edicion-row { display: flex; align-items: center; gap: 8px; }
       .edicion-btn { background: var(--ho-green, #6E8345); color: #F2F1EC;
         border: none; border-radius: 4px; cursor: pointer;
-        font-size: .72rem; padding: 3px 8px; font-weight: 600;
+        font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+        padding: 5px 10px; font-weight: 600; letter-spacing: .06em;
         transition: opacity .2s; }
       .edicion-btn:hover { opacity: .8; }
-      .edicion-btn:disabled { opacity: .35; cursor: default; }
-      .edicion-label { font-size: .56rem; color: var(--ho-text-light, #9C988D); }
+      .edicion-btn:disabled { opacity: .3; cursor: default; }
+      .edicion-center { flex: 1; text-align: center; }
+      .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.08rem; color: var(--ho-green-dark, #586B33);
+        letter-spacing: .04em; }
+      .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
+        margin-top: 1px; }
 
-      .kicker-text { flex: 1; }
+      /* Edition date selector — dropdown of available editions */
+      .edicion-selector { display: flex; justify-content: center; margin-top: 6px; }
+      .edicion-select { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        border: 1px solid var(--ho-green, #6E8345); border-radius: 6px;
+        padding: 4px 10px; font-weight: 600; cursor: pointer;
+        appearance: none; -webkit-appearance: none;
+        text-align: center; text-align-last: center; }
 
       /* Feed card — noticia */
       .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
@@ -167,21 +174,43 @@ class HorneroClipping extends HoComponent {
 
   // ===== Render =====
 
-  _render() {
-    const metaLabel = this._meta.numero
-      ? 'CLIPPING N°' + this._meta.numero + ' · ' + this._formatFecha(this._meta.fecha)
-      : 'CLIPPING';
+  _formatFechaLong(fecha) {
+    if (!fecha) return '';
+    const parts = fecha.split('-');
+    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    return parseInt(parts[2]) + ' de ' + months[parseInt(parts[1]) - 1] + ' 2026';
+  }
 
-    // Edition navigation
+  _render() {
+    const numero = this._meta.numero || '';
+    const fecha = this._meta.fecha || '';
+    const fechaShort = this._formatFecha(fecha);
+    const fechaLong = this._formatFechaLong(fecha);
+
+    // Edition navigation: ← anterior | CLIPPING N°X · fecha | próximo →
     const hasPrev = this._edicionIdx < this._ediciones.length - 1;
     const hasNext = this._edicionIdx > 0;
-    const edicionNav = this._ediciones.length > 1
-      ? '<div class="edicion-nav">' +
-          '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>← anterior</button>' +
-          '<span class="edicion-label">N°' + (this._meta.numero || '') + '</span>' +
-          '<button class="edicion-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + '>próxima →</button>' +
-        '</div>'
-      : '';
+
+    // Edition selector dropdown
+    const options = this._ediciones.map((ed, i) =>
+      '<option value="' + i + '"' + (i === this._edicionIdx ? ' selected' : '') + '>' +
+        'N°' + ed.numero + ' · ' + this._formatFecha(ed.fecha) + ' · ' + ed.semana +
+      '</option>'
+    ).join('');
+
+    const edicionHeader = '<div class="edicion-header">' +
+      '<div class="edicion-row">' +
+        '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>← anterior</button>' +
+        '<div class="edicion-center">' +
+          '<div class="edicion-numero">CLIPPING N°' + numero + '</div>' +
+          '<div class="edicion-fecha">' + fechaLong + '</div>' +
+        '</div>' +
+        '<button class="edicion-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + '>próximo →</button>' +
+      '</div>' +
+      (this._ediciones.length > 1
+        ? '<div class="edicion-selector"><select class="edicion-select" id="edSelect">' + options + '</select></div>'
+        : '') +
+    '</div>';
 
     const cardsHtml = this._noticias.map(n => {
       const tagsHtml = (n.tags || []).map(t =>
@@ -204,10 +233,7 @@ class HorneroClipping extends HoComponent {
 
     return html`
       <div class="scroll" id="clipScroll">
-        <div class="kicker">
-          <span class="kicker-text">${metaLabel}</span>
-          ${edicionNav}
-        </div>
+        ${edicionHeader}
         ${cardsHtml}
       </div>
       ${popupHtml}
@@ -242,6 +268,17 @@ class HorneroClipping extends HoComponent {
     const nextBtn = this.shadowRoot.querySelector('#edNext');
     if (prevBtn) prevBtn.addEventListener('click', () => this._goEdition(1));   // older
     if (nextBtn) nextBtn.addEventListener('click', () => this._goEdition(-1));  // newer
+
+    // Edition selector dropdown
+    const select = this.shadowRoot.querySelector('#edSelect');
+    if (select) select.addEventListener('change', () => {
+      const idx = parseInt(select.value);
+      if (idx >= 0 && idx < this._ediciones.length) {
+        this._edicionIdx = idx;
+        this._popupItem = null;
+        this._loadEdition(this._ediciones[idx].archivo);
+      }
+    });
 
     // Card clicks → open popup
     this.shadowRoot.querySelectorAll('.feed-card').forEach(card => {
