@@ -71,6 +71,14 @@ class HorneroContenido extends HoComponent {
       });
     }
 
+    // Show format suggestions after greeting
+    if (this.messages.length === 1 && this.messages[0].role === 'hornero' && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
+      if (chatEl) chatEl.setSuggestions(this._formatSuggestions());
+    } else if (this.messages.length > 1) {
+      // Clear suggestions once user has engaged
+      if (chatEl) chatEl.clearSuggestions();
+    }
+
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
@@ -122,13 +130,21 @@ class HorneroContenido extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '¡Hola! Soy la IA Sindical', body: 'Te guío para producir contenido sindical con impacto. Podés elegir formato o pedir ayuda general sobre cualquier tema sindical.' },
-        { title: 'Formatos disponibles', body: '• 🎙️ Podcast — audio narrado, 5-15 min, ideal para difusión interna\n• 📱 Reel IG — video corto, 30-90 seg, para redes con impacto visual\n• ✍️ Columna opinión — texto para diario, 800-1200 palabras\n• 📻 Entrevista radial — preparación completa: puntos, argumentos, fuentes' },
+        { title: '¡Hola! Soy la IA Sindical', body: 'Te guío para producir contenido sindical con impacto. Elegí un formato o pedí ayuda general sobre cualquier tema sindical.' },
         { title: '', body: '', quote: 'Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Ciclo "Por las hendijas del Quebracho", enero 2021' },
       ],
       tags: ['contenido', 'greeting'],
       time: this._timeNow(),
     };
+  }
+
+  _formatSuggestions() {
+    return [
+      '🎙️ Podcast',
+      '📱 Reel IG',
+      '✍️ Columna',
+      '📻 Entrevista',
+    ];
   }
 
   _handleUserMessage(text) {

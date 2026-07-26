@@ -215,22 +215,23 @@ class HorneroChat extends HoComponent {
       .typing-dot:nth-child(2) { animation-delay: .2s; }
       .typing-dot:nth-child(3) { animation-delay: .4s; }
 
-      /* Suggestion buttons */
-      .chat-suggestions { display: flex; gap: 8px; padding: 10px 16px;
-        overflow-x: auto; scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch; flex: none; }
+      /* Suggestion buttons — format options */
+      .chat-suggestions { display: grid; grid-template-columns: 1fr 1fr;
+        gap: 8px; padding: 10px 16px; flex: none; }
       .chat-suggestions::-webkit-scrollbar { display: none; }
-      .chat-suggestion-btn { scroll-snap-align: start; flex: none;
-        border-radius: 20px; padding: 8px 16px;
-        background: var(--ho-green-pale, #E8EDD7);
-        border: 1px solid var(--ho-green-light, #94A867);
-        color: var(--ho-green-dark, #586B33);
-        font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        font-weight: 600; cursor: pointer;
-        transition: background .2s, color .2s, transform .15s; }
-      .chat-suggestion-btn:hover { background: var(--ho-green, #6E8345);
-        color: var(--ho-text-off, #F2F1EC); transform: translateY(-1px); }
-      .chat-suggestion-btn:active { transform: translateY(0); }
+      .chat-suggestion-btn { border-radius: 12px; padding: 12px 10px;
+        background: var(--ho-card, #FBFAF6);
+        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        color: var(--ho-text, #2B2A26);
+        font-family: 'Archivo', sans-serif; font-size: .78rem;
+        font-weight: 700; cursor: pointer; text-align: center;
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        transition: border-color .2s, background .2s; }
+      .chat-suggestion-btn:hover { border-color: var(--ho-green, #6E8345);
+        background: var(--ho-green-pale, #E8EDD7); }
+      .chat-suggestion-btn:active { background: var(--ho-green, #6E8345);
+        color: var(--ho-text-off, #F2F1EC); }
+      .suggestion-emoji { font-size: 1.4rem; }
 
       /* === Input bar: fondo CLARO (no gris oscuro) === */
       .chat-input { background: var(--ho-bg, #F4F3EE);
@@ -319,7 +320,16 @@ class HorneroChat extends HoComponent {
     // Suggestions row
     const suggestionsHtml = (this.suggestions && this.suggestions.length > 0) ?
       `<div class="chat-suggestions">
-        ${this.suggestions.map(s => `<button class="chat-suggestion-btn">${s}</button>`).join('')}
+        ${this.suggestions.map(s => {
+          // Split emoji icon from label text
+          const parts = s.split(/\s+/);
+          const emoji = parts[0]; // First part is emoji
+          const label = parts.slice(1).join(' ') || parts[0]; // Rest is label, or whole if no emoji
+          const isEmoji = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}✊✍🎙📱📻]/u.test(emoji);
+          const emojiHtml = isEmoji ? `<span class="suggestion-emoji">${emoji}</span>` : '';
+          const labelText = isEmoji ? label : s;
+          return `<button class="chat-suggestion-btn">${emojiHtml}<span>${labelText}</span></button>`;
+        }).join('')}
       </div>` : '';
 
     // SVG icons
