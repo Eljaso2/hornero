@@ -321,22 +321,14 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-contenido>';
     } else if (this.screen === 'condicion') {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
+    } else if (this.screen === 'perfil') {
+      screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-perfil>';
     } else {
       // Placeholder for screens not yet implemented
-      let extra = '';
-      if (this.screen === 'perfil') {
-        extra = '<div style="margin-top:24px;text-align:center">' +
-          '<div style="font-family:JetBrains Mono,monospace;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9C988D;margin-bottom:4px">SESIÓN</div>' +
-          '<div style="font-family:Public Sans,sans-serif;font-size:.92rem;color:#F2F1EC;margin-bottom:4px">' + (this.userName || 'Usuario') + '</div>' +
-          '<div style="font-family:JetBrains Mono,monospace;font-size:.62rem;color:#94A867;margin-bottom:16px">Grade ' + this.userGrade + ' · ' + this.userTerritory + ' · ' + this.userSector + '</div>' +
-          '<button id="logout-btn" style="background:#A6553E;color:#F2F1EC;border:none;border-radius:10px;padding:12px 24px;font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer">Cerrar sesión</button>' +
-          '</div>';
-      }
       screenContent = '<div style="padding:40px 20px;text-align:center;color:#9C988D;font-family:Archivo,sans-serif">' +
         '<div style="font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px">🏗️ EN CONSTRUCCIÓN</div>' +
         '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">' + currentTitle + '</div>' +
         '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">Esta esfera se está desarrollando. Próximamente estará disponible.</div>' +
-        extra +
         '</div>';
     }
 
@@ -420,12 +412,6 @@ class HorneroApp extends HoComponent {
       this._navigateTo(e.detail.screen);
     });
 
-    // Bind logout button (Perfil screen)
-    const logoutBtn = this.shadowRoot.querySelector('#logout-btn');
-    if (logoutBtn) logoutBtn.addEventListener('click', () => {
-      this._handleLogout();
-    });
-
     // Listen for login-success from <hornero-login>
     this.shadowRoot.addEventListener('login-success', (e) => {
       const session = e.detail;
@@ -439,6 +425,13 @@ class HorneroApp extends HoComponent {
     // Listen for logout from any child component (Perfil screen)
     this.shadowRoot.addEventListener('logout-request', () => {
       this._handleLogout();
+    });
+
+    // Listen for profile-updated from <hornero-perfil> (name/email changes)
+    this.shadowRoot.addEventListener('profile-updated', (e) => {
+      if (e.detail && e.detail.nombre) {
+        this.set('userName', e.detail.nombre);
+      }
     });
 
   }
