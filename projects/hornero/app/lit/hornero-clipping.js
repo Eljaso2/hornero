@@ -188,7 +188,7 @@ class HorneroClipping extends HoComponent {
       .edicion-btn:disabled { opacity: .3; cursor: default; }
       .edicion-center { flex: 1; text-align: center; }
       .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.08rem; color: var(--ho-green-dark, #586B33);
+        font-size: .88rem; color: var(--ho-green-dark, #586B33);
         letter-spacing: .04em; }
       .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
