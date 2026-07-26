@@ -67,6 +67,25 @@ class HorneroApp extends HoComponent {
       { id: 'perfil', label: 'Perfil', svg: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
     ];
 
+    // Sections bar — ALL screens (scrollable horizontal tabs below header)
+    this.sectionsDef = [
+      { id: 'home', label: 'Inicio' },
+      { id: 'actualidad', label: 'Actualidad' },
+      { id: 'clipping', label: 'Clipping' },
+      { id: 'infomate', label: 'InfoMate' },
+      { id: 'gremial', label: 'Gremial' },
+      { id: 'consulta', label: 'Consulta IA' },
+      { id: 'contenido', label: 'Contenido' },
+      { id: 'is', label: 'Reporte' },
+      { id: 'condicion', label: 'Panorama' },
+      { id: 'smvm', label: 'SMVM' },
+      { id: 'felicidad', label: 'Felicidad' },
+      { id: 've', label: 'Comportamiento' },
+      { id: 'ecosistema', label: 'Ecosistema' },
+      { id: 'formacion', label: 'Formación' },
+      { id: 'perfil', label: 'Perfil' },
+    ];
+
     this.titles = {
       home: 'Inicio',
       actualidad: 'Actualidad',
@@ -342,7 +361,7 @@ class HorneroApp extends HoComponent {
             </div>
 
             ${showSectionsBar ? '<div class="sections-bar">' +
-              this.navDef.map(n => '<button class="sections-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' + n.label + '</button>').join('') +
+              this.sectionsDef.map(s => '<button class="sections-btn' + (s.id === this.screen ? ' active' : '') + '" data-screen="' + s.id + '">' + s.label + '</button>').join('') +
               '</div>' : ''}
 
             <div class="body-scroll">
@@ -375,13 +394,10 @@ class HorneroApp extends HoComponent {
         this._navigateTo(btn.dataset.screen);
       });
     });
-    // Bind back button in header — go to parent screen
+    // Bind back button in header — just go back in history, popstate handles screen change
     const backBtn = this.shadowRoot.querySelector('#backBtn');
     if (backBtn) {
       backBtn.addEventListener('click', () => {
-        const parent = this._parentScreen[this.screen] || 'home';
-        this._navigateTo(parent);
-        // Also go back in browser history (sync both)
         history.back();
       });
     }
