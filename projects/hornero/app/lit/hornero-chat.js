@@ -422,10 +422,11 @@ class HorneroChat extends HoComponent {
         const divider = (i < arr.length - 1) ? '<div class="msg-divider"></div>' : '';
         return `<div class="msg-section">${content}</div>${divider}`;
       }).join('');
-      const tagsHtml = m.tags ?
-        `<div class="msg-tags">${m.tags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
-      contentHtml += tagsHtml;
     }
+    // Tags rendered for both text and sections modes
+    const tagsHtml = m.tags ?
+      `<div class="msg-tags">${m.tags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
+    contentHtml += tagsHtml;
 
     // Actions: copiar, reenviar, like/dislike
     const actionsHtml = `<div class="msg-actions">

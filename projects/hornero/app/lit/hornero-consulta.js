@@ -106,6 +106,7 @@ class HorneroConsulta extends HoComponent {
       const data = await response.json();
       this.messages = [{
         role: 'hornero',
+        text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['consulta', 'greeting'],
         time: data.time || this._timeNow(),
@@ -171,6 +172,7 @@ class HorneroConsulta extends HoComponent {
     const data = await response.json();
     this.messages = [...this.messages, {
       role: 'hornero',
+      text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['consulta'],
       time: data.time || this._timeNow(),

@@ -66,7 +66,8 @@ class GreetingRequest(BaseModel):
 
 
 class GreetingResponse(BaseModel):
-    sections: list
+    text: str = ""
+    sections: list = []
     tags: list
     time: str
     raw: str = ""
@@ -81,7 +82,8 @@ class ChatRequest(BaseModel):
 
 
 class ChatResponse(BaseModel):
-    sections: list
+    text: str = ""
+    sections: list = []
     tags: list
     time: str
     raw: str = ""  # Raw LLM response for debugging
@@ -137,6 +139,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     time_str = now.strftime("%H:%M")
 
     return GreetingResponse(
+        text=parsed.get("text", ""),
         sections=parsed.get("sections", []),
         tags=parsed.get("tags", [req.section, "greeting"]),
         time=time_str,
@@ -190,6 +193,7 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
     time_str = now.strftime("%H:%M")
 
     return ChatResponse(
+        text=parsed.get("text", ""),
         sections=parsed.get("sections", []),
         tags=parsed.get("tags", [req.formato]),
         time=time_str,
