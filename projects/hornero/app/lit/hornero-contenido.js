@@ -38,7 +38,7 @@ class HorneroContenido extends HoComponent {
     this.sector = 'aceitero';
     this.messages = [];
     this.iaStep = 0;
-    this._typing = false;
+    this._typing = false; this._greetingRequested = false;
   }
 
   _styles() {
@@ -71,7 +71,7 @@ class HorneroContenido extends HoComponent {
       });
     }
 
-    if (this.messages.length === 0) {
+    if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
   }
@@ -85,6 +85,7 @@ class HorneroContenido extends HoComponent {
   }
 
   async _requestGreeting() {
+    this._greetingRequested = true;
     this._typing = true;
     this.render();
 
@@ -108,10 +109,10 @@ class HorneroContenido extends HoComponent {
         tags: data.tags || ['contenido', 'greeting'],
         time: data.time || this._timeNow(),
       }];
-      this._typing = false;
+      this._typing = false; this._greetingRequested = false;
       this.render();
     } catch (e) {
-      this._typing = false;
+      this._typing = false; this._greetingRequested = false;
       this.messages = [this._localGreeting()];
       this.render();
     }
@@ -139,7 +140,7 @@ class HorneroContenido extends HoComponent {
     this._callBackend(text).catch(() => {
       this.messages = [...this.messages, this._localResponse(text)];
       this.iaStep++;
-      this._typing = false;
+      this._typing = false; this._greetingRequested = false;
       this.render();
     });
   }
@@ -173,7 +174,7 @@ class HorneroContenido extends HoComponent {
       time: data.time || this._timeNow(),
     }];
     this.iaStep++;
-    this._typing = false;
+    this._typing = false; this._greetingRequested = false;
     this.render();
   }
 

@@ -38,7 +38,7 @@ class HorneroConsulta extends HoComponent {
     this.sector = 'aceitero';
     this.messages = [];
     this.iaStep = 0;
-    this._typing = false;
+    this._typing = false; this._greetingRequested = false;
   }
 
   _styles() {
@@ -72,7 +72,7 @@ class HorneroConsulta extends HoComponent {
     }
 
     // If no messages yet, request greeting from backend
-    if (this.messages.length === 0) {
+    if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
   }
@@ -86,6 +86,7 @@ class HorneroConsulta extends HoComponent {
   }
 
   async _requestGreeting() {
+    this._greetingRequested = true;
     this._typing = true;
     this.render();
 
@@ -109,11 +110,11 @@ class HorneroConsulta extends HoComponent {
         tags: data.tags || ['consulta', 'greeting'],
         time: data.time || this._timeNow(),
       }];
-      this._typing = false;
+      this._typing = false; this._greetingRequested = false;
       this.render();
     } catch (e) {
       // Fallback: local greeting
-      this._typing = false;
+      this._typing = false; this._greetingRequested = false;
       this.messages = [this._localGreeting()];
       this.render();
     }
@@ -141,7 +142,7 @@ class HorneroConsulta extends HoComponent {
     this._callBackend(text).catch(() => {
       this.messages = [...this.messages, this._localResponse(text)];
       this.iaStep++;
-      this._typing = false;
+      this._typing = false; this._greetingRequested = false;
       this.render();
     });
   }
@@ -175,7 +176,7 @@ class HorneroConsulta extends HoComponent {
       time: data.time || this._timeNow(),
     }];
     this.iaStep++;
-    this._typing = false;
+    this._typing = false; this._greetingRequested = false;
     this.render();
   }
 
