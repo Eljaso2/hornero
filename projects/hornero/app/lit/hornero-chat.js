@@ -1,5 +1,6 @@
 // ===== <hornero-chat> — Motor de chat reutilizable =====
-// Typing dots, bubbles (user + hornero), input bar, progress, suggestions, back, copy
+// User: bubble verde. App: sin bubble, texto plano + acciones (copiar, reenviar, like/dislike)
+// Input bar: fondo claro, attach image/video, mic funcional (Web Speech API)
 // Native Web Component — zero dependencies
 // Usado por: IS, Derecho, Argumento, Comunicador, CE, SMVM, Contenido
 
@@ -9,7 +10,7 @@ class HorneroChat extends HoComponent {
   static get properties() {
     return {
       title: String,
-      messages: Object,   // Array of { role, sections, tags, time }
+      messages: Object,   // Array of { role, sections, tags, time, image, video }
       inputPlaceholder: String,
       typing: Boolean,
       progress: Number,   // 0-100
@@ -27,6 +28,55 @@ class HorneroChat extends HoComponent {
     this.progress = 0;
     this.suggestions = [];
     this.showBack = false;
+    this._isListening = false; // mic state
+    this._recognition = null;  // SpeechRecognition instance
+    this._initSpeechRecognition();
+  }
+
+  _initSpeechRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      this._recognition = new SpeechRecognition();
+      this._recognition.lang = 'es-AR';
+      this._recognition.continuous = false;
+      this._recognition.interimResults = false;
+      this._recognition.maxAlternatives = 1;
+
+      this._recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        const inputField = this.shadowRoot.querySelector('.chat-input-field');
+        if (inputField) {
+          inputField.value = transcript;
+          // Trigger input event to update send button
+          inputField.dispatchEvent(new Event('input'));
+        }
+        this._isListening = false;
+        this._updateMicVisual(false);
+      };
+
+      this._recognition.onerror = () => {
+        this._isListening = false;
+        this._updateMicVisual(false);
+      };
+
+      this._recognition.onend = () => {
+        this._isListening = false;
+        this._updateMicVisual(false);
+      };
+    }
+  }
+
+  _updateMicVisual(isActive) {
+    const micBtn = this.shadowRoot.querySelector('.chat-mic-btn');
+    if (micBtn) {
+      if (isActive) {
+        micBtn.classList.add('listening');
+        micBtn.title = 'Escuchando...';
+      } else {
+        micBtn.classList.remove('listening');
+        micBtn.title = 'Mic';
+      }
+    }
   }
 
   _styles() {
@@ -56,43 +106,52 @@ class HorneroChat extends HoComponent {
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
         -webkit-overflow-scrolling: touch; }
 
-      /* Message bubbles */
+      /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }
         to { opacity: 1; transform: none } }
       @keyframes dotbounce { 0%,80%,100% { opacity:.3 } 40% { opacity:1 } }
 
-      .msg-row { display: flex; gap: 10px; margin-bottom: 14px; animation: msgin .35s ease; }
-      .msg-row.user { justify-content: flex-end; }
-      .msg-row.hornero { justify-content: flex-start; }
+      /* === USER message: bubble (green, right-aligned) === */
+      .msg-row { margin-bottom: 14px; animation: msgin .35s ease; }
+      .msg-row.user { display: flex; justify-content: flex-end; }
 
-      .msg-avatar { width: 30px; height: 30px; border-radius: 50%;
-        background: var(--ho-green-pale, #E8EDD7);
-        display: flex; align-items: center; justify-content: center;
-        flex: none; align-self: flex-end; overflow: hidden; }
-      .msg-avatar img { width: 22px; height: 22px; }
-
-      .msg-bubble { max-width: 82%; border-radius: 18px; padding: 14px 16px;
-        line-height: 1.55; position: relative; }
-
-      .msg-row.user .msg-bubble { background: var(--ho-green, #6E8345);
+      .msg-row.user .msg-bubble {
+        max-width: 82%; background: var(--ho-green, #6E8345);
         color: var(--ho-text-off, #F2F1EC);
-        border-bottom-right-radius: 4px; }
+        border-radius: 18px 18px 4px 18px; padding: 12px 16px;
+        font-family: 'Public Sans', sans-serif; font-size: .84rem;
+        line-height: 1.5; position: relative; }
 
-      .msg-row.hornero .msg-bubble { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        box-shadow: 0 1px 3px rgba(0,0,0,.04);
-        border-bottom-left-radius: 4px; }
+      .msg-row.user .msg-time {
+        font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        color: #E1E7D0; opacity: .7; margin-top: 5px; text-align: right; }
 
-      .msg-time { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        opacity: .7; margin-top: 6px; }
-      .msg-row.user .msg-time { color: #E1E7D0; text-align: right; }
-      .msg-row.hornero .msg-time { color: var(--ho-text-light, #9C988D); }
+      /* User image/video attachment */
+      .msg-media { max-width: 220px; margin-bottom: 6px; border-radius: 12px; overflow: hidden; }
+      .msg-media img { width: 100%; display: block; border-radius: 12px; }
+      .msg-media video { width: 100%; display: block; border-radius: 12px; }
 
-      /* Sections within a hornero message */
+      /* === HORNERO message: NO bubble — plain text block === */
+      .msg-row.hornero { display: flex; flex-direction: column; align-items: flex-start; }
+
+      .msg-content { max-width: 90%; animation: msgin .35s ease; }
+
+      .msg-avatar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+      .msg-avatar { width: 26px; height: 26px; border-radius: 50%;
+        background: var(--ho-green-pale, #E8EDD7);
+        display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden; }
+      .msg-avatar img { width: 18px; height: 18px; }
+      .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .78rem; color: var(--ho-green-dark, #586B33); }
+
+      .msg-text { font-family: 'Public Sans', sans-serif; font-size: .84rem;
+        color: var(--ho-text, #2B2A26); line-height: 1.55;
+        margin-bottom: 8px; }
+
       .msg-section { margin-bottom: 12px; }
       .msg-section:last-child { margin-bottom: 0; }
       .msg-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .9rem; color: var(--ho-text, #2B2A26); margin-bottom: 6px; }
+        font-size: .92rem; color: var(--ho-text, #2B2A26); margin-bottom: 6px; }
       .msg-section-body { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.55; }
       .msg-section-body p { margin-bottom: 4px; }
@@ -122,23 +181,36 @@ class HorneroChat extends HoComponent {
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
         padding: 4px 10px; border-radius: 8px; font-weight: 600; }
 
-      /* Copy button on hornero messages */
-      .msg-copy-btn { position: absolute; top: 8px; right: 8px;
-        background: none; border: none; cursor: pointer;
-        font-size: .72rem; color: var(--ho-text-light, #9C988D);
-        opacity: 0; transition: opacity .2s; padding: 2px 4px; }
-      .msg-row.hornero:hover .msg-copy-btn { opacity: 1; }
-      .msg-copy-btn:hover { color: var(--ho-green, #6E8345); }
+      .msg-time.hornero-time { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        color: var(--ho-text-light, #9C988D); opacity: .7; margin-top: 6px; }
 
-      /* Typing dots */
-      .typing-row { display: flex; gap: 10px; margin-bottom: 14px;
-        justify-content: flex-start; animation: msgin .2s ease; }
-      .typing-bubble { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        box-shadow: 0 1px 3px rgba(0,0,0,.04);
-        border-radius: 18px; border-bottom-left-radius: 4px;
-        padding: 12px 18px; display: flex; gap: 6px; align-items: center; }
-      .typing-dot { width: 9px; height: 9px; border-radius: 50%;
+      /* === Actions row: copiar, reenviar, like/dislike (after hornero msg) === */
+      .msg-actions { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
+      .msg-action-btn { background: none; border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        border-radius: 8px; padding: 5px 10px; cursor: pointer;
+        font-family: 'Public Sans', sans-serif; font-size: .72rem;
+        color: var(--ho-text-mid, #6E6A60); display: flex; align-items: center; gap: 4px;
+        transition: border-color .2s, color .2s; }
+      .msg-action-btn:hover { border-color: var(--ho-green, #6E8345);
+        color: var(--ho-green, #6E8345); }
+      .msg-action-btn.liked { color: var(--ho-green, #6E8345);
+        border-color: var(--ho-green, #6E8345); background: var(--ho-green-pale, #E8EDD7); }
+      .msg-action-btn.disliked { color: var(--ho-gold, #B0863F);
+        border-color: var(--ho-gold, #B0863F); background: #F0E4CC; }
+      .msg-action-btn svg { width: 14px; height: 14px; stroke: currentColor;
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .msg-action-btn.liked svg.thumb-up { fill: var(--ho-green, #6E8345); }
+      .msg-action-btn.disliked svg.thumb-down { fill: var(--ho-gold, #B0863F); }
+
+      /* Typing indicator — no bubble, just dots inline */
+      .typing-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+        animation: msgin .2s ease; }
+      .typing-avatar { width: 26px; height: 26px; border-radius: 50%;
+        background: var(--ho-green-pale, #E8EDD7);
+        display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden; }
+      .typing-avatar img { width: 18px; height: 18px; }
+      .typing-dots { display: flex; gap: 5px; align-items: center; }
+      .typing-dot { width: 8px; height: 8px; border-radius: 50%;
         background: var(--ho-green-light, #94A867); animation: dotbounce 1.4s ease infinite; }
       .typing-dot:nth-child(2) { animation-delay: .2s; }
       .typing-dot:nth-child(3) { animation-delay: .4s; }
@@ -160,25 +232,63 @@ class HorneroChat extends HoComponent {
         color: var(--ho-text-off, #F2F1EC); transform: translateY(-1px); }
       .chat-suggestion-btn:active { transform: translateY(0); }
 
-      /* Input bar — single button, mic → send when text present */
-      .chat-input { background: var(--ho-dark-surface, #45433E);
-        padding: 12px 14px calc(16px + env(safe-area-inset-bottom, 0px));
-        display: flex; align-items: center; gap: 8px; flex: none; }
-      .chat-input-field { flex: 1; background: var(--ho-dark-mid, #5A574F);
-        border: 1px solid var(--ho-input-border, rgba(242,241,236,.15));
-        border-radius: 999px; padding: 10px 16px; font-size: .84rem;
-        color: var(--ho-text-off, #F2F1EC); font-family: 'Public Sans', sans-serif;
-        outline: none; transition: border-color .2s; }
-      .chat-input-field:focus { border-color: var(--ho-green-light, #94A867); }
-      .chat-input-field::placeholder { color: #9C988C; }
-      .chat-action-btn { width: 40px; height: 40px; border-radius: 50%;
-        background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
-        border: none; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; flex: none; transition: background .2s, transform .15s; }
-      .chat-action-btn:hover { transform: scale(1.05); }
-      .chat-action-btn.mic-state { background: var(--ho-dark-mid, #5A574F); }
-      .chat-action-btn svg { width: 18px; height: 18px; stroke: var(--ho-text-off, #F2F1EC);
-        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      /* === Input bar: fondo CLARO (no gris oscuro) === */
+      .chat-input { background: var(--ho-bg, #F4F3EE);
+        border-top: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        padding: 10px 12px calc(14px + env(safe-area-inset-bottom, 0px));
+        display: flex; align-items: flex-end; gap: 6px; flex: none; }
+
+      .chat-input-field { flex: 1; background: var(--ho-card, #FBFAF6);
+        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        border-radius: 22px; padding: 10px 16px; font-size: .84rem;
+        color: var(--ho-text, #2B2A26); font-family: 'Public Sans', sans-serif;
+        outline: none; transition: border-color .2s; min-height: 42px;
+        resize: none; }
+      .chat-input-field:focus { border-color: var(--ho-green, #6E8345); }
+      .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
+
+      /* Input toolbar buttons */
+      .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; }
+      .chat-toolbar-btn { width: 38px; height: 38px; border-radius: 50%;
+        border: none; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; flex: none; transition: background .2s, transform .15s; }
+      .chat-toolbar-btn:hover { transform: scale(1.08); }
+      .chat-toolbar-btn svg { width: 18px; height: 18px; stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+      .chat-attach-btn { background: var(--ho-green-pale, #E8EDD7); }
+      .chat-attach-btn svg { stroke: var(--ho-green-dark, #586B33); fill: var(--ho-green-dark, #586B33); }
+
+      .chat-mic-btn { background: var(--ho-green-pale, #E8EDD7); }
+      .chat-mic-btn svg { stroke: var(--ho-green-dark, #586B33); fill: none; }
+      .chat-mic-btn.listening { background: var(--ho-green, #6E8345);
+        animation: micpulse 1.2s ease infinite; }
+      .chat-mic-btn.listening svg { stroke: var(--ho-text-off, #F2F1EC); }
+
+      @keyframes micpulse { 0%,100% { box-shadow: 0 0 0 0 rgba(110,131,68,.3) }
+        50% { box-shadow: 0 0 0 8px rgba(110,131,68,.1) } }
+
+      .chat-send-btn { background: var(--ho-green, #6E8345); }
+      .chat-send-btn svg { stroke: var(--ho-text-off, #F2F1EC);
+        fill: var(--ho-text-off, #F2F1EC); }
+
+      .chat-mic-btn.hidden { display: none; }
+      .chat-send-btn.hidden { display: none; }
+
+      /* Hidden file input for attachments */
+      .chat-file-input { display: none; }
+
+      /* Attachment preview in input */
+      .chat-attach-preview { max-width: 80px; max-height: 60px; border-radius: 8px;
+        overflow: hidden; flex: none; margin-right: 4px; }
+      .chat-attach-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .chat-attach-preview video { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .chat-attach-remove { position: absolute; top: -4px; right: -4px;
+        background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
+        border: none; border-radius: 50%; width: 18px; height: 18px;
+        font-size: .62rem; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; }
+      .chat-attach-preview-wrap { position: relative; flex: none; }
     `;
   }
 
@@ -198,8 +308,8 @@ class HorneroChat extends HoComponent {
 
     const typingHtml = this.typing ?
       `<div class="typing-row">
-        <div class="msg-avatar"><img src="assets/hornero-logo.png" alt="H"></img></div>
-        <div class="typing-bubble">
+        <div class="typing-avatar"><img src="assets/hornero-logo.png" alt="H"></div>
+        <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>
       </div>` : '';
@@ -212,10 +322,21 @@ class HorneroChat extends HoComponent {
         ${this.suggestions.map(s => `<button class="chat-suggestion-btn">${s}</button>`).join('')}
       </div>` : '';
 
-    // Mic SVG icon (waveform style)
+    // SVG icons
+    const attachSvg = '<path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>';
     const micSvg = '<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>';
-    // Send SVG icon (arrow right)
     const sendSvg = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9" fill="currentColor" stroke="none"/>';
+
+    // Attachment preview (if pending)
+    const attachPreview = this._pendingAttachment ?
+      `<div class="chat-attach-preview-wrap">
+        <div class="chat-attach-preview">
+          ${this._pendingAttachment.type === 'image' ?
+            `<img src="${this._pendingAttachment.dataUrl}" alt="adjunto">` :
+            `<video src="${this._pendingAttachment.dataUrl}" muted></video>`}
+        </div>
+        <button class="chat-attach-remove" title="Quitar adjunto">✕</button>
+      </div>` : '';
 
     return html`
       ${backHtml}
@@ -229,31 +350,54 @@ class HorneroChat extends HoComponent {
       ${suggestionsHtml}
 
       <div class="chat-input">
-        <input class="chat-input-field" type="text" placeholder="${this.inputPlaceholder}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-        <button class="chat-action-btn mic-state" title="Mic">
-          <svg viewBox="0 0 24 24">${micSvg}</svg>
-        </button>
+        ${attachPreview}
+        <input class="chat-input-field" type="text" placeholder="${this.inputPlaceholder}" autocomplete="off" spellcheck="false">
+        <input class="chat-file-input" type="file" accept="image/*,video/*">
+        <div class="chat-toolbar">
+          <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
+            <svg viewBox="0 0 24 24">${attachSvg}</svg>
+          </button>
+          <button class="chat-toolbar-btn chat-mic-btn" title="Mic">
+            <svg viewBox="0 0 24 24">${micSvg}</svg>
+          </button>
+          <button class="chat-toolbar-btn chat-send-btn hidden" title="Enviar">
+            <svg viewBox="0 0 24 24">${sendSvg}</svg>
+          </button>
+        </div>
       </div>
     `;
   }
 
   _renderMessage(m) {
     const role = m.role || 'hornero';
-    const avatarHtml = role === 'hornero' ?
-      '<div class="msg-avatar"><img src="assets/hornero-logo.png" alt="H"></div>' : '';
-    const timeHtml = m.time ? `<div class="msg-time">${m.time}</div>` : '';
 
-    // Copy button for hornero messages
-    const copyBtn = role === 'hornero' ?
-      `<button class="msg-copy-btn" title="Copiar">📋</button>` : '';
+    // === USER message: bubble ===
+    if (role === 'user') {
+      const timeHtml = m.time ? `<div class="msg-time">${m.time}</div>` : '';
+      const mediaHtml = m.image ?
+        `<div class="msg-media"><img src="${m.image}" alt="imagen"></div>` :
+        m.video ?
+        `<div class="msg-media"><video src="${m.video}" controls></video></div>` : '';
+      const textHtml = m.text ? m.text : '';
+      return `<div class="msg-row user">
+        <div class="msg-bubble">${mediaHtml}${textHtml}${timeHtml}</div>
+      </div>`;
+    }
 
-    let bubbleHtml = '';
+    // === HORNERO message: NO bubble — plain text ===
+    const timeHtml = m.time ? `<div class="msg-time hornero-time">${m.time}</div>` : '';
+
+    // Avatar + name row
+    const avatarRow = `<div class="msg-avatar-row">
+      <div class="msg-avatar"><img src="assets/hornero-logo.png" alt="H"></div>
+      <div class="msg-avatar-name">IA Sindical</div>
+    </div>`;
+
+    let contentHtml = '';
     if (m.text) {
-      // Simple text message
-      bubbleHtml = `<div class="msg-bubble">${m.text}${timeHtml}${copyBtn}</div>`;
+      contentHtml = `<div class="msg-text">${m.text}</div>`;
     } else if (m.sections) {
-      // Structured message with sections, quotes, tags
-      const sectionsHtml = m.sections.map((s, i, arr) => {
+      contentHtml = m.sections.map((s, i, arr) => {
         let content = '';
         if (s.title) content += `<div class="msg-section-title">${s.title}</div>`;
         if (s.body) content += `<div class="msg-section-body"><p>${s.body}</p></div>`;
@@ -265,54 +409,79 @@ class HorneroChat extends HoComponent {
           if (s.quoteSource) content += `<div class="msg-quote-source">${s.quoteSource}</div>`;
           content += '</div>';
         }
-        // Add divider between sections (not after last)
         const divider = (i < arr.length - 1) ? '<div class="msg-divider"></div>' : '';
         return `<div class="msg-section">${content}</div>${divider}`;
       }).join('');
       const tagsHtml = m.tags ?
         `<div class="msg-tags">${m.tags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
-      bubbleHtml = `<div class="msg-bubble">${sectionsHtml}${tagsHtml}${timeHtml}${copyBtn}</div>`;
+      contentHtml += tagsHtml;
     }
 
-    return `<div class="msg-row ${role}">${avatarHtml}${bubbleHtml}</div>`;
+    // Actions: copiar, reenviar, like/dislike
+    const actionsHtml = `<div class="msg-actions">
+      <button class="msg-action-btn" data-action="copy" title="Copiar">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copiar
+      </button>
+      <button class="msg-action-btn" data-action="forward" title="Reenviar">
+        <svg viewBox="0 0 24 24"><polyline points="15 17 20 12 15 7"/><path d="M4 12h16"/></svg>
+        Reenviar
+      </button>
+      <button class="msg-action-btn" data-action="like" title="Me gusta">
+        <svg class="thumb-up" viewBox="0 0 24 24"><path d="M7 22V11L2 12V22H7Z"/><path d="M7 11L12 2C13.1 2 14 2.9 14 4V8H20C21.1 8 22 8.9 22 10V20C22 21.1 21.1 22 20 22H7"/></svg>
+      </button>
+      <button class="msg-action-btn" data-action="dislike" title="No me gusta">
+        <svg class="thumb-down" viewBox="0 0 24 24"><path d="M17 2V13L22 12V2H17Z"/><path d="M17 13L12 22C10.9 22 10 21.1 10 19V16H4C2.9 16 2 15.1 2 14V4C2 2.9 2.9 2 4 2H17"/></svg>
+      </button>
+    </div>`;
+
+    return `<div class="msg-row hornero">
+      ${avatarRow}
+      <div class="msg-content">
+        ${contentHtml}
+        ${timeHtml}
+        ${actionsHtml}
+      </div>
+    </div>`;
   }
 
   _afterRender() {
-    const actionBtn = this.shadowRoot.querySelector('.chat-action-btn');
     const inputField = this.shadowRoot.querySelector('.chat-input-field');
+    const micBtn = this.shadowRoot.querySelector('.chat-mic-btn');
+    const sendBtn = this.shadowRoot.querySelector('.chat-send-btn');
+    const attachBtn = this.shadowRoot.querySelector('.chat-attach-btn');
+    const fileInput = this.shadowRoot.querySelector('.chat-file-input');
+    const removeAttachBtn = this.shadowRoot.querySelector('.chat-attach-remove');
 
-    if (actionBtn && inputField) {
-      // Mic SVG icon path
-      const micSvg = '<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>';
-      // Send SVG icon
-      const sendSvg = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9" fill="currentColor" stroke="none"/>';
-
-      // Toggle mic → send based on input content
-      const updateBtn = () => {
-        const hasText = inputField.value.trim().length > 0;
+    // === Toggle mic/send visibility based on input content ===
+    if (inputField && micBtn && sendBtn) {
+      const updateToolbar = () => {
+        const hasText = inputField.value.trim().length > 0 || this._pendingAttachment;
         if (hasText) {
-          actionBtn.classList.remove('mic-state');
-          actionBtn.title = 'Enviar';
-          actionBtn.innerHTML = '<svg viewBox="0 0 24 24">' + sendSvg + '</svg>';
+          sendBtn.classList.remove('hidden');
+          micBtn.classList.add('hidden');
         } else {
-          actionBtn.classList.add('mic-state');
-          actionBtn.title = 'Mic';
-          actionBtn.innerHTML = '<svg viewBox="0 0 24 24">' + micSvg + '</svg>';
+          sendBtn.classList.add('hidden');
+          micBtn.classList.remove('hidden');
         }
       };
 
-      inputField.addEventListener('input', updateBtn);
-      // Initial state
-      updateBtn();
+      inputField.addEventListener('input', updateToolbar);
+      updateToolbar();
 
-      // Button click — send if text, mic placeholder otherwise
-      actionBtn.addEventListener('click', () => {
+      // === Send button ===
+      sendBtn.addEventListener('click', () => {
         const text = inputField.value.trim();
-        if (text) {
-          this.emit('chat-send', { text });
+        const detail = { text };
+        if (this._pendingAttachment) {
+          detail.image = this._pendingAttachment.type === 'image' ? this._pendingAttachment.dataUrl : null;
+          detail.video = this._pendingAttachment.type === 'video' ? this._pendingAttachment.dataUrl : null;
+          detail.fileName = this._pendingAttachment.fileName;
+          this._pendingAttachment = null;
+        }
+        if (text || detail.image || detail.video) {
+          this.emit('chat-send', detail);
           inputField.value = '';
-          updateBtn();
-          // Clear suggestions when user sends a message
           this.suggestions = [];
           this.render();
         }
@@ -320,34 +489,78 @@ class HorneroChat extends HoComponent {
 
       // Enter key sends
       inputField.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          const text = inputField.value.trim();
-          if (text) {
-            this.emit('chat-send', { text });
-            inputField.value = '';
-            updateBtn();
-            // Clear suggestions when user sends a message
-            this.suggestions = [];
-            this.render();
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendBtn.click();
+        }
+      });
+
+      // === Mic button — Web Speech API ===
+      if (micBtn) {
+        micBtn.addEventListener('click', () => {
+          if (this._recognition) {
+            if (this._isListening) {
+              this._recognition.stop();
+              this._isListening = false;
+              this._updateMicVisual(false);
+            } else {
+              this._isListening = true;
+              this._updateMicVisual(true);
+              this._recognition.start();
+            }
+          } else {
+            // No SpeechRecognition support — fallback: focus input
+            inputField.focus();
           }
+        });
+      }
+    }
+
+    // === Attach button — file picker ===
+    if (attachBtn && fileInput) {
+      attachBtn.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const type = file.type.startsWith('image') ? 'image' : 'video';
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            this._pendingAttachment = {
+              type: type,
+              dataUrl: ev.target.result,
+              fileName: file.name,
+            };
+            this.render();
+          };
+          reader.readAsDataURL(file);
         }
       });
     }
 
-    // Suggestion buttons → emit chat-send with text
+    // Remove attachment preview
+    if (removeAttachBtn) {
+      removeAttachBtn.addEventListener('click', () => {
+        this._pendingAttachment = null;
+        this.render();
+      });
+    }
+
+    // === Suggestion buttons → emit chat-send ===
     this.shadowRoot.querySelectorAll('.chat-suggestion-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const text = btn.textContent.trim();
         if (text) {
           this.emit('chat-send', { text });
-          // Clear suggestions after click
           this.suggestions = [];
           this.render();
         }
       });
     });
 
-    // Back button → emit chat-back
+    // === Back button ===
     const backBtn = this.shadowRoot.querySelector('.chat-back-btn');
     if (backBtn) {
       backBtn.addEventListener('click', () => {
@@ -355,18 +568,59 @@ class HorneroChat extends HoComponent {
       });
     }
 
-    // Copy buttons → copy message text to clipboard
-    this.shadowRoot.querySelectorAll('.msg-copy-btn').forEach(btn => {
+    // === Message action buttons (copy, forward, like/dislike) ===
+    this.shadowRoot.querySelectorAll('.msg-action-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const bubble = btn.closest('.msg-bubble');
-        if (bubble) {
-          const text = bubble.textContent.replace('📋', '').trim();
+        const action = btn.dataset.action;
+        const msgContent = btn.closest('.msg-content');
+
+        if (action === 'copy') {
+          const text = msgContent ? msgContent.textContent.trim() : '';
           if (navigator.clipboard) {
             navigator.clipboard.writeText(text).then(() => {
-              btn.textContent = '✅';
-              setTimeout(() => { btn.textContent = '📋'; }, 1500);
+              const orig = btn.innerHTML;
+              btn.innerHTML = '✅ Copiado';
+              btn.style.color = 'var(--ho-green, #6E8345)';
+              btn.style.borderColor = 'var(--ho-green, #6E8345)';
+              setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 1500);
             });
           }
+        }
+
+        if (action === 'forward') {
+          const text = msgContent ? msgContent.textContent.trim() : '';
+          // Web Share API if available, otherwise copy
+          if (navigator.share) {
+            navigator.share({ title: 'IA Sindical', text: text }).catch(() => {});
+          } else {
+            // Fallback: copy to clipboard
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(text).then(() => {
+                const orig = btn.innerHTML;
+                btn.innerHTML = '✅ Copiado para reenviar';
+                btn.style.color = 'var(--ho-green, #6E8345)';
+                setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1500);
+              });
+            }
+          }
+        }
+
+        if (action === 'like') {
+          // Toggle like state
+          btn.classList.toggle('liked');
+          // Remove dislike from sibling
+          const dislikeBtn = btn.parentElement.querySelector('[data-action="dislike"]');
+          if (dislikeBtn) dislikeBtn.classList.remove('disliked');
+          this.emit('chat-feedback', { type: 'like', liked: btn.classList.contains('liked') });
+        }
+
+        if (action === 'dislike') {
+          // Toggle dislike state
+          btn.classList.toggle('disliked');
+          // Remove like from sibling
+          const likeBtn = btn.parentElement.querySelector('[data-action="like"]');
+          if (likeBtn) likeBtn.classList.remove('liked');
+          this.emit('chat-feedback', { type: 'dislike', disliked: btn.classList.contains('disliked') });
         }
       });
     });
@@ -376,13 +630,12 @@ class HorneroChat extends HoComponent {
     if (scroll) scroll.scrollTop = scroll.scrollHeight;
   }
 
-  // ===== Public API for parent components =====
+  // ===== Public API =====
   addMessage(msg) {
     const current = this.messages || [];
     current.push(msg);
     this.messages = current;
     this.render();
-    // Scroll to bottom
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll) scroll.scrollTop = scroll.scrollHeight;
   }
@@ -394,7 +647,6 @@ class HorneroChat extends HoComponent {
   setSuggestions(arr) {
     this.suggestions = arr || [];
     this.render();
-    // Scroll to bottom to show suggestions
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll) scroll.scrollTop = scroll.scrollHeight;
   }

@@ -235,7 +235,7 @@ class HorneroConsulta extends HoComponent {
     if (chatEl) {
       this._syncChatMessages(chatEl);
       chatEl.addEventListener('chat-send', (e) => {
-        this._handleUserMessage(e.detail.text);
+        this._handleUserMessage(e.detail);
       });
       chatEl.addEventListener('chat-back', () => {
         this._goBackToFormats();
@@ -274,8 +274,11 @@ class HorneroConsulta extends HoComponent {
     }
   }
 
-  _handleUserMessage(text) {
+  _handleUserMessage(detail) {
+    const text = detail.text || '';
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
+    if (detail.image) userMsg.image = detail.image;
+    if (detail.video) userMsg.video = detail.video;
     this.messages = [...this.messages, userMsg];
     this._typing = true;
     this._suggestions = [];  // Clear suggestions while processing

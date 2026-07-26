@@ -311,7 +311,7 @@ class HorneroContenido extends HoComponent {
 
       // Listen for chat-send events
       chatEl.addEventListener('chat-send', (e) => {
-        this._handleUserMessage(e.detail.text);
+        this._handleUserMessage(e.detail);
       });
 
       // Listen for chat-back events — go back to format selection
@@ -434,9 +434,12 @@ class HorneroContenido extends HoComponent {
     return 'https://hornero-ia.onrender.com/api/chat';
   }
 
-  _handleUserMessage(text) {
+  _handleUserMessage(detail) {
     // Add user message
+    const text = detail.text || '';
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
+    if (detail.image) userMsg.image = detail.image;
+    if (detail.video) userMsg.video = detail.video;
     this.messages = [...this.messages, userMsg];
 
     // Show typing, clear suggestions while processing
