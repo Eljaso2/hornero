@@ -185,10 +185,11 @@ class HorneroPerfil extends HoComponent {
     const gradeInfo = this._getGradeLabel();
     const agrem = this._getAgremiacionInfo();
 
-    // Build agremiación fields — Rol first, then Federación, skip Sindicato (redundant with rol)
+    // Build agremiación fields — Rol first, then Federación, Sindicato, etc
     const agremFields = [];
     if (agrem.rol) agremFields.push({ label: 'Rol', value: agrem.rol });
     if (agrem.federacion) agremFields.push({ label: 'Federación', value: agrem.federacion });
+    if (agrem.sindicato) agremFields.push({ label: 'Sindicato', value: agrem.sindicato });
     // Convenio y Empresa siempre se muestran (vacíos si no hay dato)
     const convenioLine = agrem.convenio ? (agrem.sectorName ? agrem.convenio + ' · ' + agrem.sectorName : agrem.convenio) : '';
     agremFields.push({ label: 'Convenio', value: convenioLine });
