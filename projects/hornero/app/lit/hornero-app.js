@@ -186,16 +186,14 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — logo left, title centered ===== */
+      /* ===== Top bar — title centered ===== */
       .top-bar { background: var(--ho-bg, #F4F3EE);
         color: var(--ho-text, #2B2A26);
         padding: 0 16px; display: flex; align-items: center;
-        position: relative; flex: none;
+        justify-content: center; position: relative; flex: none;
         min-height: 56px;
         padding-top: env(safe-area-inset-top, 0px); }
-      .top-bar .header-logo { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); }
-      .top-bar .header-logo img { width: 28px; height: auto; }
-      .header-text { flex: 1; display: flex; align-items: center; justify-content: center; }
+      .header-text { display: flex; align-items: center; }
       .header-text .app-name { font-family: 'Inter', sans-serif; font-weight: 900;
         font-size: 1.1rem; letter-spacing: .12em; text-transform: uppercase;
         color: var(--ho-green, #6E8345); }
@@ -323,7 +321,6 @@ class HorneroApp extends HoComponent {
             ${this.updateAvailable ? '<div class="update-banner" id="updateBanner">⟳ Actualización disponible — toca para recargar<button class="update-dismiss" id="updateDismiss">✕</button></div>' : ''}
 
             <div class="top-bar">
-              <div class="header-logo"><img src="assets/hornero-logo.png" alt="Hornero" /></div>
               <div class="header-text">
                 <span class="app-name">HORNERO</span>
               </div>
