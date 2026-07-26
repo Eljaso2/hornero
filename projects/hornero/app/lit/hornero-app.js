@@ -114,6 +114,20 @@ class HorneroApp extends HoComponent {
   async connectedCallback() {
     super.connectedCallback();
     await this._restoreSession();
+
+    // ===== History API: device back button navigates within app =====
+    // Push initial state for home screen
+    history.replaceState({ screen: 'home' }, '', '');
+
+    // Listen for browser/device back button (popstate event)
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.screen) {
+        this.set('screen', e.state.screen);
+      } else {
+        // No state → go to home (don't exit app)
+        this.set('screen', 'home');
+      }
+    });
   }
 
   async _restoreSession() {
@@ -181,14 +195,10 @@ class HorneroApp extends HoComponent {
         padding-top: env(safe-area-inset-top, 0px); }
       .top-bar .header-logo { display: flex; align-items: center; gap: 10px; }
       .top-bar .header-logo img { width: 32px; height: auto; }
-      .header-text { display: flex; flex-direction: column;
-        align-items: flex-start; gap: 2px; }
+      .header-text { display: flex; align-items: center; }
       .header-text .app-name { font-family: 'Inter', sans-serif; font-weight: 900;
         font-size: 1.2rem; letter-spacing: .12em; text-transform: uppercase;
         color: var(--ho-green, #6E8345); }
-      .header-text .app-motto { font-family: 'Public Sans', sans-serif; font-weight: 500;
-        font-size: .62rem; color: var(--ho-text-light, #9C988D); letter-spacing: .04em;
-        white-space: nowrap; }
 
       /* ===== Sections bar — horizontal scrollable ===== */
       .sections-bar { background: var(--ho-bg, #F4F3EE);
@@ -317,7 +327,6 @@ class HorneroApp extends HoComponent {
                 <img src="assets/hornero-logo.png" alt="Hornero" />
                 <div class="header-text">
                   <span class="app-name">HORNERO</span>
-                  <span class="app-motto">«El futuro, algo por lo que hay que luchar»</span>
                 </div>
               </div>
             </div>
@@ -347,13 +356,13 @@ class HorneroApp extends HoComponent {
     // Bind sections bar button clicks (top navigation)
     this.shadowRoot.querySelectorAll('.sections-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        this.set('screen', btn.dataset.screen);
+        this._navigateTo(btn.dataset.screen);
       });
     });
     // Bind bottom nav button clicks
     this.shadowRoot.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        this.set('screen', btn.dataset.screen);
+        this._navigateTo(btn.dataset.screen);
       });
     });
     // Bind update banner
@@ -369,7 +378,7 @@ class HorneroApp extends HoComponent {
     });
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
-      this.set('screen', e.detail.screen);
+      this._navigateTo(e.detail.screen);
     });
 
     // Bind logout button (Perfil screen)
@@ -393,6 +402,15 @@ class HorneroApp extends HoComponent {
       this._handleLogout();
     });
 
+  }
+
+  // ===== Navigation with History API =====
+  _navigateTo(screen) {
+    // Only push state if screen actually changes (avoid duplicate history entries)
+    if (this.screen !== screen) {
+      history.pushState({ screen: screen }, '', '#' + screen);
+    }
+    this.set('screen', screen);
   }
 
   async _handleLogout() {
