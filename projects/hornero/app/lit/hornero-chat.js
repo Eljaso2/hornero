@@ -15,7 +15,6 @@ class HorneroChat extends HoComponent {
       typing: Boolean,
       progress: Number,   // 0-100
       suggestions: Array, // Array of strings — quick-reply buttons
-      showBack: Boolean,  // Show "← Volver" button
       section: String,    // 'consulta', 'contenido', 'debate' — for history tagging
       sessionId: String,  // Current chat session ID
     };
@@ -29,7 +28,6 @@ class HorneroChat extends HoComponent {
     this.typing = false;
     this.progress = 0;
     this.suggestions = [];
-    this.showBack = false;
     this.section = '';
     this.sessionId = '';
     this._isListening = false; // mic state
@@ -90,26 +88,6 @@ class HorneroChat extends HoComponent {
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #F4F3EE); position: relative; }
 
-      /* Back button */
-      .chat-back-btn { background: none; border: none; cursor: pointer;
-        font-family: 'Archivo', sans-serif; font-size: .78rem;
-        color: var(--ho-text-mid, #6E6A60); padding: 10px 16px 4px;
-        display: flex; align-items: center; gap: 6px; flex: none; }
-      .chat-back-btn svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60);
-        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .chat-back-btn:hover { color: var(--ho-green, #6E8345); }
-      .chat-back-btn:hover svg { stroke: var(--ho-green, #6E8345); }
-
-      /* History icon (clock) */
-      .chat-history-btn { background: none; border: none; cursor: pointer;
-        width: 32px; height: 32px; border-radius: 50%; display: flex;
-        align-items: center; justify-content: center;
-        padding: 10px 0 4px; transition: background .2s; }
-      .chat-history-btn svg { width: 16px; height: 16px;
-        stroke: var(--ho-text-light, #9C988D); fill: none;
-        stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-      .chat-history-btn:hover { background: var(--ho-green-pale, #E8EDD7); }
-      .chat-history-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
 
       /* History drawer overlay */
       .history-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -318,21 +296,21 @@ class HorneroChat extends HoComponent {
       /* === Input bar: fondo CLARO (no gris oscuro) === */
       .chat-input { background: var(--ho-bg, #F4F3EE);
         border-top: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        padding: 10px 12px calc(14px + env(safe-area-inset-bottom, 0px));
-        display: flex; align-items: flex-end; gap: 6px; flex: none; }
+        padding: 6px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+        display: flex; align-items: center; gap: 6px; flex: none; }
 
       .chat-input-field { flex: 1; background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 22px; padding: 10px 16px; font-size: .90rem;
+        border-radius: 22px; padding: 8px 16px; font-size: .88rem;
         color: var(--ho-text, #2B2A26); font-family: 'Public Sans', sans-serif;
-        outline: none; transition: border-color .2s; min-height: 42px;
+        outline: none; transition: border-color .2s; min-height: 36px;
         resize: none; }
       .chat-input-field:focus { border-color: var(--ho-green, #6E8345); }
       .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
 
       /* Input toolbar buttons */
       .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; }
-      .chat-toolbar-btn { width: 38px; height: 38px; border-radius: 50%;
+      .chat-toolbar-btn { width: 36px; height: 36px; border-radius: 50%;
         border: none; cursor: pointer; display: flex; align-items: center;
         justify-content: center; flex: none; transition: background .2s, transform .15s; }
       .chat-toolbar-btn:hover { transform: scale(1.08); }
@@ -376,18 +354,8 @@ class HorneroChat extends HoComponent {
   }
 
   _render() {
-    // Back button + history icon — history icon always visible when section is set
-    const clockSvg = '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>';
+    // History drawer X icon
     const xSvg = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
-    const backHtml = this.showBack ?
-      `<button class="chat-back-btn">
-        <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Volver
-      </button>` : '';
-    const historyBtnHtml = this.section ?
-      `<button class="chat-history-btn" title="Historial de chats">
-        <svg viewBox="0 0 24 24">${clockSvg}</svg>
-      </button>` : '';
 
     const progressFill = this.progress > 0 ?
       `<div class="chat-progress-wrap">
@@ -472,8 +440,6 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     return html`
-      ${backHtml}
-      ${historyBtnHtml}
       ${progressFill}
 
       <div class="chat-scroll">
@@ -699,22 +665,6 @@ class HorneroChat extends HoComponent {
         }
       });
     });
-
-    // === Back button ===
-    const backBtn = this.shadowRoot.querySelector('.chat-back-btn');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
-        this.emit('chat-back');
-      });
-    }
-
-    // === History button ===
-    const historyBtn = this.shadowRoot.querySelector('.chat-history-btn');
-    if (historyBtn) {
-      historyBtn.addEventListener('click', () => {
-        this._openHistoryDrawer();
-      });
-    }
 
     // === History drawer: close ===
     const historyOverlay = this.shadowRoot.querySelector('.history-overlay');

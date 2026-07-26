@@ -82,10 +82,6 @@ class HorneroContenido extends HoComponent {
       chatEl.addEventListener('chat-session-select', (e) => {
         this._loadSession(e.detail.sessionId);
       });
-      // Listen for back button — navigate to home
-      chatEl.addEventListener('chat-back', () => {
-        this.emit('screen-change', { screen: 'home' });
-      });
     }
 
     // Show format suggestions after greeting
@@ -130,7 +126,6 @@ class HorneroContenido extends HoComponent {
       chatEl.typing = this._typing;
       chatEl.section = this._chatSection;
       chatEl.sessionId = this._sessionId;
-      chatEl.showBack = true;
       chatEl.render();
     }
   }
