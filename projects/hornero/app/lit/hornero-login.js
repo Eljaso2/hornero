@@ -7,13 +7,20 @@ import { HoComponent, html, css } from './ho-component.js';
 
 // Usuarios piloto — se migran a backend JWT en Phase 1 real
 // 4 niveles de acceso para testing: B.d (4), B.c (3), B.b (2), B.a (1)
+// Agremiación: federación, sindicato, convenio, territorio (display), empresa — por usuario
 const PILOT_USERS = {
-  'piloto':   { password: 'hornero2026', grade: 'B.d', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Piloto (vos) — Nivel 4' },
-  'test4':    { password: 'fed2026',     grade: 'B.d', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N4 — Federación' },
-  'test3':    { password: 'sec2026',     grade: 'B.c', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N3 — Secretaría' },
-  'test2':    { password: 'del2026',     grade: 'B.b', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N2 — Delegada' },
-  'test1a':   { password: 'base2026',    grade: 'B.a', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N1 — Raúl (base)' },
-  'test1b':   { password: 'adm2026',     grade: 'B.a', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N1 — Damián (admin)' },
+  'eljaso':   { password: 'hornero2026', grade: 'B.d', territory: 'norte-santa-fe', sector: 'hornero', nombre: 'Eljaso',
+    agremiacion: { federacion: 'Hornero', sindicato: 'Hornero', convenio: '', sectorName: '', territorio: 'Norte de Santa Fe', empresa: '' } },
+  'test4':    { password: 'fed2026',     grade: 'B.d', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N4 — Federación',
+    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC, Guaycurú' } },
+  'test3':    { password: 'sec2026',     grade: 'B.c', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N3 — Secretaría',
+    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'San Lorenzo', empresa: 'Vicentín SAIC' } },
+  'test2':    { password: 'del2026',     grade: 'B.b', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N2 — Delegada',
+    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'San Lorenzo', empresa: 'Vicentín SAIC' } },
+  'test1a':   { password: 'base2026',    grade: 'B.a', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N1 — Raúl (base)',
+    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'San Lorenzo', empresa: 'Vicentín SAIC' } },
+  'test1b':   { password: 'adm2026',     grade: 'B.a', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N1 — Damián (admin)',
+    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'San Lorenzo', empresa: 'Vicentín SAIC — Administración' } },
 };
 
 class HorneroLogin extends HoComponent {
@@ -230,6 +237,7 @@ class HorneroLogin extends HoComponent {
       territory: user.territory,
       sector: user.sector,
       nombre: user.nombre,
+      agremiacion: user.agremiacion || {},
       timestamp: Date.now(),
     };
 
