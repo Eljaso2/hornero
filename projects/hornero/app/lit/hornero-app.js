@@ -28,6 +28,14 @@ class HorneroApp extends HoComponent {
     if (stored) {
       try {
         const session = JSON.parse(stored);
+        // Migration: FOEIAP → F.T.C.I.O.D y A.R.A. (patch old session data)
+        if (session && session.agremiacion) {
+          const oldFed = session.agremiacion.federacion;
+          if (oldFed && oldFed.includes('FOEIAP')) {
+            session.agremiacion.federacion = 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)';
+            localStorage.setItem('hornero-session', JSON.stringify(session));
+          }
+        }
         if (session && session.grade) {
           this.loggedIn = true;
           this.userGrade = session.grade;
