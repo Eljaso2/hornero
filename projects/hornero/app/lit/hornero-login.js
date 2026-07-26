@@ -6,13 +6,14 @@
 import { HoComponent, html, css } from './ho-component.js';
 
 // Usuarios piloto — se migran a backend JWT en Phase 1 real
+// 4 niveles de acceso para testing: B.d (4), B.c (3), B.b (2), B.a (1)
 const PILOT_USERS = {
-  'piloto':     { password: 'hornero2026',  grade: 'B.d', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Piloto (Eljaso)' },
-  'raul':       { password: 'aceitero2026', grade: 'B.a', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Raúl' },
-  'damian':     { password: 'admin2026',    grade: 'B.a', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Damián' },
-  'olga':       { password: 'delegada2026', grade: 'B.b', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Olga' },
-  'secretaria': { password: 'secretaria2026', grade: 'B.c', territory: 'san-lorenzo',  sector: 'aceitero', nombre: 'Secretaria' },
-  'federacion': { password: 'federacion2026', grade: 'B.d', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Federación' },
+  'piloto':   { password: 'hornero2026', grade: 'B.d', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Piloto (vos) — Nivel 4' },
+  'test4':    { password: 'fed2026',     grade: 'B.d', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N4 — Federación' },
+  'test3':    { password: 'sec2026',     grade: 'B.c', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N3 — Secretaría' },
+  'test2':    { password: 'del2026',     grade: 'B.b', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N2 — Delegada' },
+  'test1a':   { password: 'base2026',    grade: 'B.a', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N1 — Raúl (base)' },
+  'test1b':   { password: 'adm2026',     grade: 'B.a', territory: 'san-lorenzo',    sector: 'aceitero', nombre: 'Tester N1 — Damián (admin)' },
 };
 
 class HorneroLogin extends HoComponent {
