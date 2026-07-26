@@ -1,5 +1,6 @@
 // ===== <hornero-perfil> — Perfil del usuario =====
-// Dos tarjetas: Datos Personales (usuario, email, nivel) + Agremiación (federación, sindicato, convenio, territorio, empresa)
+// Dos tarjetas: Datos Personales (usuario, email, nivel) + Agremiación
+// Agremiación viene del session (login), solo muestra campos con datos
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -27,7 +28,6 @@ class HorneroPerfil extends HoComponent {
     this._editName = '';
     this._editEmail = '';
     this._sessionData = {};
-    this._sectorData = {};
   }
 
   async connectedCallback() {
@@ -42,18 +42,6 @@ class HorneroPerfil extends HoComponent {
         this.sector = session.sector || 'aceitero';
       }
     } catch(e) {}
-
-    // Load sector/sindicato data from IndexedDB
-    try {
-      if (typeof dbGetAll === 'function') {
-        const sectores = await dbGetAll('sectores') || [];
-        if (sectores.length > 0) {
-          this._sectorData = sectores[0];
-        }
-      }
-    } catch(e) {
-      console.warn('Perfil: sector data not available', e);
-    }
 
     this.render();
   }
@@ -70,28 +58,17 @@ class HorneroPerfil extends HoComponent {
     return labels[this.grade] || { num: 0, role: 'Sin acceso', color: '' };
   }
 
-  // ===== Agremiación info =====
+  // ===== Agremiación info from session =====
 
   _getAgremiacionInfo() {
-    const sector = this._sectorData;
-    // Fallback to seed data if IndexedDB empty
-    if (!sector || !sector.federacion) {
-      return {
-        federacion: 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)',
-        sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte Santa Fe',
-        convenio: 'CCT 420/05',
-        sectorName: 'Industria aceitera',
-        territorio: 'Norte de Santa Fe',
-        empresas: ['Vicentín SAIC', 'Guaycurú'],
-      };
-    }
+    const agrem = this._sessionData.agremiacion || {};
     return {
-      federacion: sector.federacion || '',
-      sindicato: sector.sindicato || 'Sindicato local',
-      convenio: sector.convenio || '',
-      sectorName: sector.nombre || this.sector,
-      territorio: this.userTerritory || 'Norte de Santa Fe',
-      empresas: (sector.empresas || []).map(e => e.nombre || e),
+      federacion: agrem.federacion || '',
+      sindicato: agrem.sindicato || '',
+      convenio: agrem.convenio || '',
+      sectorName: agrem.sectorName || '',
+      territorio: agrem.territorio || '',
+      empresa: agrem.empresa || '',
     };
   }
 
@@ -193,6 +170,23 @@ class HorneroPerfil extends HoComponent {
     const gradeInfo = this._getGradeLabel();
     const agrem = this._getAgremiacionInfo();
 
+    // Agremiación badge: use sindicato name short or federacion or sector
+    const badgeText = agrem.sindicato || agrem.federacion || this.sector.toUpperCase();
+
+    // Build agremiación fields — only show fields that have data
+    const agremFields = [];
+    if (agrem.federacion) agremFields.push({ label: 'Federación', value: agrem.federacion });
+    if (agrem.sindicato) agremFields.push({ label: 'Sindicato', value: agrem.sindicato });
+    if (agrem.convenio) {
+      const convenioLine = agrem.sectorName ? agrem.convenio + ' · ' + agrem.sectorName : agrem.convenio;
+      agremFields.push({ label: 'Convenio', value: convenioLine });
+    }
+    if (agrem.territorio) agremFields.push({ label: 'Territorio', value: agrem.territorio });
+    if (agrem.empresa) agremFields.push({ label: 'Empresa', value: agrem.empresa });
+
+    // If no agremiación data at all, show a minimal card
+    const hasAgremiacion = agremFields.length > 0;
+
     return html`
       <div class="scroll">
         ${this.savedMsg ? '<div class="saved-msg">' + this.savedMsg + '</div>' : ''}
@@ -206,27 +200,13 @@ class HorneroPerfil extends HoComponent {
         <!-- Agremiación -->
         <div class="agremiacion-card">
           <div class="info-card-title" style="color:#9C988D">✊ AGREMIACIÓN</div>
-          <div class="agremiacion-badge">${agrem.federacion.includes('F.T.C.I.O.D') ? 'F.T.C.I.O.D y A.R.A.' : this.sector.toUpperCase()}</div>
-          <div class="agremiacion-field">
-            <span class="agremiacion-label">Federación</span>
-            <span class="agremiacion-value">${agrem.federacion}</span>
-          </div>
-          <div class="agremiacion-field">
-            <span class="agremiacion-label">Sindicato</span>
-            <span class="agremiacion-value">${agrem.sindicato}</span>
-          </div>
-          <div class="agremiacion-field">
-            <span class="agremiacion-label">Convenio</span>
-            <span class="agremiacion-value">${agrem.convenio} · ${agrem.sectorName}</span>
-          </div>
-          <div class="agremiacion-field">
-            <span class="agremiacion-label">Territorio</span>
-            <span class="agremiacion-value">${agrem.territorio}</span>
-          </div>
-          <div class="agremiacion-field">
-            <span class="agremiacion-label">Empresa</span>
-            <span class="agremiacion-value">${agrem.empresas.join(', ')}</span>
-          </div>
+          <span class="agremiacion-badge">${badgeText}</span>
+          ${hasAgremiacion ? agremFields.map(f =>
+            '<div class="agremiacion-field">' +
+            '<span class="agremiacion-label">' + f.label + '</span>' +
+            '<span class="agremiacion-value">' + f.value + '</span>' +
+            '</div>'
+          ).join('') : ''}
         </div>
 
         <!-- Logout -->
