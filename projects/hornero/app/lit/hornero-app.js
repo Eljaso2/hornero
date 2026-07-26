@@ -186,13 +186,26 @@ class HorneroApp extends HoComponent {
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
-      /* ===== Top bar — title centered ===== */
+      /* ===== Top bar — back button + title centered ===== */
       .top-bar { background: var(--ho-bg, #F4F3EE);
         color: var(--ho-text, #2B2A26);
         padding: 0 16px; display: flex; align-items: center;
         justify-content: center; position: relative; flex: none;
         min-height: 56px;
         padding-top: env(safe-area-inset-top, 0px); }
+      .top-bar-back { position: absolute; left: 16px;
+        top: calc(50% + env(safe-area-inset-top, 0px) / 2);
+        transform: translateY(-50%); width: 30px; height: 30px;
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(43,42,38,.15));
+        background: var(--ho-card, #FBFAF6); cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s; flex: none; }
+      .top-bar-back:hover { background: var(--ho-green-pale, #E8EDD7);
+        border-color: var(--ho-green-light, #94A867); }
+      .top-bar-back svg { width: 14px; height: 14px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .top-bar-back:hover svg { stroke: var(--ho-green-dark, #586B33); }
       .header-text { display: flex; align-items: center; }
       .header-text .app-name { font-family: 'Inter', sans-serif; font-weight: 900;
         font-size: 1.1rem; letter-spacing: .12em; text-transform: uppercase;
@@ -321,6 +334,8 @@ class HorneroApp extends HoComponent {
             ${this.updateAvailable ? '<div class="update-banner" id="updateBanner">⟳ Actualización disponible — toca para recargar<button class="update-dismiss" id="updateDismiss">✕</button></div>' : ''}
 
             <div class="top-bar">
+              ${this.screen !== 'home' ?
+                '<button class="top-bar-back" id="backBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
               <div class="header-text">
                 <span class="app-name">HORNERO</span>
               </div>
@@ -360,6 +375,16 @@ class HorneroApp extends HoComponent {
         this._navigateTo(btn.dataset.screen);
       });
     });
+    // Bind back button in header — go to parent screen
+    const backBtn = this.shadowRoot.querySelector('#backBtn');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        const parent = this._parentScreen[this.screen] || 'home';
+        this._navigateTo(parent);
+        // Also go back in browser history (sync both)
+        history.back();
+      });
+    }
     // Bind update banner
     const updateBanner = this.shadowRoot.querySelector('#updateBanner');
     if (updateBanner) updateBanner.addEventListener('click', () => {
