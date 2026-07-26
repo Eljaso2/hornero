@@ -32,17 +32,30 @@ class HorneroPerfil extends HoComponent {
 
   async connectedCallback() {
     super.connectedCallback();
-    // Load session data
+    // Load session data — try localStorage first, then IndexedDB
+    let session = null;
     try {
-      const session = JSON.parse(localStorage.getItem('hornero-session'));
-      if (session) {
-        this._sessionData = session;
-        this.userName = session.nombre || session.username || '';
-        this.userTerritory = session.territory || '';
-        this.sector = session.sector || 'aceitero';
-      }
+      const stored = localStorage.getItem('hornero-session');
+      if (stored) session = JSON.parse(stored);
     } catch(e) {}
-
+    // If no session or missing email, try IndexedDB
+    if (!session || (!session.email && typeof dbGet === 'function')) {
+      try {
+        const dbSession = await dbGet('uiState', 'session');
+        if (dbSession) {
+          // Merge: prefer localStorage for most fields, but IndexedDB for email
+          if (!session) session = dbSession;
+          else if (dbSession.email && !session.email) session.email = dbSession.email;
+          else if (dbSession.nombre && dbSession.nombre !== session.nombre) session.nombre = dbSession.nombre;
+        }
+      } catch(e) {}
+    }
+    if (session) {
+      this._sessionData = session;
+      this.userName = session.nombre || session.username || '';
+      this.userTerritory = session.territory || '';
+      this.sector = session.sector || 'aceitero';
+    }
     this.render();
   }
 

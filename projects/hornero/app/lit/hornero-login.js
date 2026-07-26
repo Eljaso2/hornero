@@ -263,7 +263,7 @@ class HorneroLogin extends HoComponent {
       return;
     }
 
-    // Login successful — save session
+    // Login successful — preserve previously saved profile data (nombre, email)
     const session = {
       username: username,
       grade: user.grade,
@@ -273,6 +273,27 @@ class HorneroLogin extends HoComponent {
       agremiacion: user.agremiacion || {},
       timestamp: Date.now(),
     };
+
+    // Merge saved profile data (edited nombre, email) from existing session
+    try {
+      // Try IndexedDB first
+      if (typeof dbGet === 'function') {
+        const savedSession = await dbGet('uiState', 'session');
+        if (savedSession && savedSession.username === username) {
+          if (savedSession.nombre && savedSession.nombre !== user.nombre) session.nombre = savedSession.nombre;
+          if (savedSession.email) session.email = savedSession.email;
+        }
+      }
+      // Also check localStorage (may have more recent data)
+      const stored = localStorage.getItem('hornero-session');
+      if (stored) {
+        const savedLocal = JSON.parse(stored);
+        if (savedLocal && savedLocal.username === username) {
+          if (savedLocal.nombre && savedLocal.nombre !== user.nombre) session.nombre = savedLocal.nombre;
+          if (savedLocal.email) session.email = savedLocal.email;
+        }
+      }
+    } catch(e) { console.warn('Login: profile merge failed', e); }
 
     // Save to IndexedDB (persistent)
     if (typeof dbPut === 'function') {
