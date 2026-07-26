@@ -3,9 +3,12 @@
 # Tres PERSONAS diferenciadas: Debate (compañero), Consulta (abogado), Contenido (periodista)
 
 KNOWLEDGE_BASE = """
-=== REFERENTES SINDICALES ===
+=== ORGANIZACIÓN SINDICAL ===
 
-DANIEL YOFRA — Secretario General de la FOEIAP (Federación de Obreros y Empleados de la Industria Aceitera) y de la Federación Nacional Aceitera. Líder sindical aceitero argentino. Referente en paritaria aceitera 2025-2026, organización sindical, resistencia a la reforma laboral. Construyó FreSU (Frente Sindical Unitario) con 100 organizaciones. Condujo huelga de 7 días que forzó negociación paritaria 2025. Sus posiciones: defensa del convenio, organización como construcción, huelga como herramienta, "la propuesta patronal fue cero".
+FEDERACIÓN ACEITERA — F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina). Es la federación sindical que representa a los trabajadores aceiteros, desmotadores de algodón y afines de todo el país. Negocia paritarias salariales con las cámaras patronales (CIARA, CIAVEC, CARBIO). Organiza huelgas nacionales cuando las patronales no ofrecen aumentos dignos — en 2026 llamó a Huelga Nacional Aceitera tras recibir oferta de 0%. Defiende la democracia sindical — commemora la movilización del 17 de julio 2013 donde más de 500 trabajadores marcharon para defender la gestión democrática. Promueve formación sindical, salud laboral (Comités Mixtos en Salud y Seguridad Laboral), y acción social. Solidaria con otros sindicatos (UOM, ATE, URGARA, Dragado y Balizamiento). Combate la tercerización, la precarización laboral, y las políticas neoliberales. Tiene periódico propio: "El Trabajador Aceitero y Desmotador". Sede: México 1527/31, CABA. Tel: (011) 4382-7513. Web: federacionaceitera.com.ar. Twitter: @FTCIODyARA. Instagram: @aceiterosdesmotadores.
+Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual es F.T.C.I.O.D y A.R.A.
+
+DANIEL YOFRA — Secretario General de la F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines). Líder sindical aceitero argentino. Referente en paritaria aceitera 2025-2026, organización sindical, resistencia a la reforma laboral. Construyó FreSU (Frente Sindical Unitario) con 100 organizaciones. Condujo huelga de 7 días que forzó negociación paritaria 2025. Sus posiciones: defensa del convenio, organización como construcción, huelga como herramienta, "la propuesta patronal fue cero".
 
 CREMONTE — Investigador labour (derecho laboral). Analista de distribución del ingreso, salario mínimo, reforma laboral. Autor de "Valor y precio de la fuerza de trabajo" (2023). Participa en ALAL (Asociación Americana de Juristas Laboralistas), audiencias congressional, conferencia OIT Geneva 2026. Sus posiciones: reforma laboral como retorno al siglo XIX, principio protector de la LCT, ultraactividad como red de negociación, básico del convenio debajo del SMVM como violación del piso legal, distribución del ingreso como relación de fuerzas.
 
@@ -26,10 +29,10 @@ GUAYCURÚ — Desmotadora de algodón (planta aceitera auxiliar). 1 línea de 2 
 - Enfermería: Art. 42 CCT — obligatoria, la clausura es violación
 - Contribución solidaria: 1% mensual + 6% semestral extraordinaria
 Quote: "El CCT 420/05 es el territorio conquistado. Cada cláusula — nocturno, extras, enfermería, antigüedad — es una lucha que se ganó. La patronal quiere desconocerlo. El sindicato lo defiende."
-— FOEIAP — Federación de Obreros y Empleados de la Industria Aceitera
+— F.T.C.I.O.D y A.R.A.
 Fuente: CCT 420/05, Res. ST 343/2005
 
-[FUENTE: Paritaria aceitera 2026, FOEIAP/SOMU]
+[FUENTE: Paritaria aceitera 2026, F.T.C.I.O.D y A.R.A./SOMU]
 - SOMU demanda 15% de aumento
 - Empresas ofrecen 8%
 - Vicentín argumenta concurso preventivo limita posibilidades
@@ -38,10 +41,10 @@ Fuente: CCT 420/05, Res. ST 343/2005
 - Paritaria 2025 cerró después de 7 días de huelga nacional — forzó mano de Caputo
 - FOEIAP resistió: "La propuesta fue cero" (Yofra)
 Quote: "La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa para no pagar lo que corresponde. Si la planta funciona al 80%, hay producción, hay plata."
-— Daniel Yofra, Sec. Gral. FOEIAP
+— Daniel Yofra, Sec. Gral. F.T.C.I.O.D y A.R.A.
 Fuente: Asamblea paritaria aceitera, junio 2026
 
-[FUENTE: Condiciones laborales aceiteras, FOEIAP informe gremial junio 2026]
+[FUENTE: Condiciones laborales aceiteras, F.T.C.I.O.D y A.R.A. informe gremial junio 2026]
 - Vicentín planta: 80% capacidad — no está parada
 - Prioridad producción: expeller sobre refinado (menor retención exportación = empresa ahorra impuestos)
 - EPP insuficientes: guantes se rompen en una semana, botas no aguantan aceite caliente
@@ -51,7 +54,7 @@ Fuente: Asamblea paritaria aceitera, junio 2026
 - Guaycurú desmotadora: 1 línea de 2, temporales sin cobrar días no trabajados
 - Polvo algodón: sin máscaras adecuadas, solo barbijos de tela
 Quote: "Primero bajan ritmo, después reducen turnos, después suspenden, después despiden. Y nosotros nos tenemos que organizar antes que eso pase, no después."
-— Daniel Yofra, Sec. Gral. FOEIAP
+— Daniel Yofra, Sec. Gral. F.T.C.I.O.D y A.R.A.
 Fuente: Informe gremial FOEIAP, junio 2026
 
 [FUENTE: SMVM y básico convenio, Cremonte 2023 / CIFRA 2025]
@@ -65,7 +68,7 @@ Quote: "El salario mínimo no es un número abstracto — es el piso de lo que u
 — Cremonte, investigador labour
 Fuente: "Valor y precio de la fuerza de trabajo", 2023
 
-[FUENTE: Discursos de Daniel Yofra, Sec. Gral. FOEIAP/Federación Nacional Aceitera]
+[FUENTE: Discursos de Daniel Yofra, Sec. Gral. F.T.C.I.O.D y A.R.A.]
 1. Organización: "Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate. El que no está, no construye."
    Fuente: Ciclo "Por las hendijas del Quebracho", enero 2021
 
