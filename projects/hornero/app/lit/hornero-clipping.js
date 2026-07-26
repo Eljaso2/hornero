@@ -1,6 +1,7 @@
 // ===== <hornero-clipping> — Clipping de noticias (sub-screen) =====
 // Lista de noticias con popup overlay para desarrollo
 // Multi-edición: carga índice → última edición, navegación ←→
+// Calendario mensual: click en fecha → calendario, días marcados
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -23,6 +24,8 @@ class HorneroClipping extends HoComponent {
     this._savedScrollTop = null;
     this._ediciones = [];     // clipping-index.ediciones[]
     this._edicionIdx = 0;     // current index in _ediciones (0 = latest)
+    this._calOpen = false;     // calendar popup open
+    this._calMonth = null;     // calendar display month (YYYY-MM)
   }
 
   async connectedCallback() {
@@ -37,7 +40,6 @@ class HorneroClipping extends HoComponent {
       const res = await fetch('data/clipping-index.json');
       const idx = await res.json();
       this._ediciones = idx.ediciones || [];
-      // Default to latest edition (index 0)
       this._edicionIdx = 0;
       await this._loadEdition(this._ediciones[0].archivo);
     } catch(e) {
@@ -52,12 +54,12 @@ class HorneroClipping extends HoComponent {
       const data = await response.json();
       this._meta = data.meta || {};
       this._noticias = data.noticias || [];
-      // Cache in IndexedDB
       if (typeof guardarClipping === 'function') {
         for (const item of this._noticias) {
           await guardarClipping(item);
         }
       }
+      this._calOpen = false;
       this.render();
     } catch(e) { console.warn('Clipping: edition load failed', e); }
   }
@@ -66,6 +68,83 @@ class HorneroClipping extends HoComponent {
     if (!fecha) return '';
     const parts = fecha.split('-');
     return parts[2] + '/' + parts[1];
+  }
+
+  _formatFechaLong(fecha) {
+    if (!fecha) return '';
+    const d = new Date(fecha + 'T00:00:00');
+    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    return d.getDate() + ' de ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  // Build a Set of dates that have clipping editions (for calendar marking)
+  _clippingDates() {
+    const dates = new Set();
+    for (const ed of this._ediciones) {
+      if (ed.fecha) dates.add(ed.fecha);
+    }
+    return dates;
+  }
+
+  // Find edition index for a given date
+  _findEditionIdx(dateStr) {
+    for (let i = 0; i < this._ediciones.length; i++) {
+      if (this._ediciones[i].fecha === dateStr) return i;
+    }
+    return -1;
+  }
+
+  // ===== Calendar rendering =====
+
+  _renderCalendar() {
+    // Determine which month to display
+    const currentFecha = this._meta.fecha || '2026-07-02';
+    const displayMonth = this._calMonth || currentFecha.substring(0, 7); // YYYY-MM
+    const [year, month] = displayMonth.split('-').map(Number);
+
+    const clippingDates = this._clippingDates();
+    const monthsShort = ['Jul','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const monthsFull = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const weekdays = ['L','M','X','J','V','S','D'];
+
+    // First day of month (0=Sun → shift to Mon=0)
+    const firstDay = new Date(year, month - 1, 1).getDay();
+    const startOffset = (firstDay === 0) ? 6 : firstDay - 1; // Monday start
+    const daysInMonth = new Date(year, month, 0).getDate();
+
+    // Previous/next month for navigation
+    const prevMonth = month === 1 ? (year - 1) + '-12' : year + '-' + String(month - 1).padStart(2, '0');
+    const nextMonth = month === 12 ? (year + 1) + '-01' : year + '-' + String(month + 1).padStart(2, '0');
+
+    // Build day grid
+    let dayCells = '';
+    // Empty cells before first day
+    for (let i = 0; i < startOffset; i++) {
+      dayCells += '<div class="cal-day cal-empty"></div>';
+    }
+    // Day cells
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = year + '-' + String(month).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+      const hasClipping = clippingDates.has(dateStr);
+      const isCurrent = dateStr === currentFecha;
+      const cls = 'cal-day' + (hasClipping ? ' cal-marked' : '') + (isCurrent ? ' cal-current' : '');
+      dayCells += '<div class="' + cls + '" data-date="' + dateStr + '">' + d + '</div>';
+    }
+
+    return '<div class="cal-overlay" id="calOverlay">' +
+      '<div class="cal-panel">' +
+        '<div class="cal-header">' +
+          '<button class="cal-nav-btn" id="calPrev" data-month="' + prevMonth + '">←</button>' +
+          '<div class="cal-month-label">' + monthsFull[month - 1] + ' ' + year + '</div>' +
+          '<button class="cal-nav-btn" id="calNext" data-month="' + nextMonth + '">→</button>' +
+        '</div>' +
+        '<div class="cal-weekdays">' + weekdays.map(w => '<div class="cal-weekday">' + w + '</div>').join('') + '</div>' +
+        '<div class="cal-grid">' + dayCells + '</div>' +
+        '<div class="cal-legend">' +
+          '<span class="cal-legend-marked">●</span> hay clipping' +
+        '</div>' +
+      '</div>' +
+    '</div>';
   }
 
   // ===== Styles =====
@@ -93,18 +172,55 @@ class HorneroClipping extends HoComponent {
       .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.08rem; color: var(--ho-green-dark, #586B33);
         letter-spacing: .04em; }
-      .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+      .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
-        margin-top: 1px; }
+        margin-top: 2px; cursor: pointer; transition: color .2s; }
+      .edicion-fecha:hover { color: var(--ho-green-dark, #586B33); }
 
-      /* Edition date selector — dropdown of available editions */
-      .edicion-selector { display: flex; justify-content: center; margin-top: 6px; }
-      .edicion-select { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
-        border: 1px solid var(--ho-green, #6E8345); border-radius: 6px;
-        padding: 4px 10px; font-weight: 600; cursor: pointer;
-        appearance: none; -webkit-appearance: none;
-        text-align: center; text-align-last: center; }
+      /* ===== Calendar overlay ===== */
+      .cal-overlay { position: fixed; inset: 0;
+        background: rgba(33,31,29,.55); z-index: 40;
+        display: flex; align-items: center; justify-content: center;
+        animation: popfade .2s ease; }
+
+      .cal-panel { background: var(--ho-card, #FBFAF6); border-radius: 13px;
+        padding: 16px 14px 12px; width: 320px;
+        box-shadow: 0 8px 24px rgba(33,31,29,.2); }
+
+      .cal-header { display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 10px; }
+      .cal-nav-btn { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        border: none; border-radius: 4px; width: 28px; height: 28px;
+        cursor: pointer; font-size: .9rem; font-weight: 700;
+        display: flex; align-items: center; justify-content: center; }
+      .cal-nav-btn:hover { background: var(--ho-green, #6E8345); color: #F2F1EC; }
+      .cal-month-label { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .92rem; color: var(--ho-text, #2B2A26); }
+
+      .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr);
+        gap: 2px; margin-bottom: 4px; }
+      .cal-weekday { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
+        color: var(--ho-text-light, #9C988D); text-align: center;
+        font-weight: 600; letter-spacing: .04em; }
+
+      .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+      .cal-day { font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+        text-align: center; padding: 6px 0; border-radius: 6px;
+        color: var(--ho-text-mid, #6E6A60); font-weight: 500; }
+      .cal-empty { color: transparent; }
+
+      .cal-marked { background: var(--ho-green-pale, #E8EDD7);
+        color: var(--ho-green-dark, #586B33); font-weight: 700;
+        cursor: pointer; transition: background .2s; }
+      .cal-marked:hover { background: var(--ho-green, #6E8345); color: #F2F1EC; }
+
+      .cal-current { background: var(--ho-green, #6E8345); color: #F2F1EC;
+        font-weight: 800; box-shadow: 0 0 0 2px var(--ho-green-dark, #586B33); }
+
+      .cal-legend { display: flex; align-items: center; gap: 6px;
+        margin-top: 10px; font-family: 'JetBrains Mono', monospace;
+        font-size: .58rem; color: var(--ho-text-mid, #6E6A60); }
+      .cal-legend-marked { color: var(--ho-green, #6E8345); font-size: .72rem; }
 
       /* Feed card — noticia */
       .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
@@ -139,7 +255,7 @@ class HorneroClipping extends HoComponent {
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
         padding: 3px 8px; border-radius: 6px; font-weight: 600; }
 
-      /* ===== Popup overlay ===== */
+      /* ===== Popup overlay (noticia) ===== */
       .popup-overlay { position: fixed; inset: 0;
         background: rgba(33,31,29,.65); z-index: 50;
         display: flex; align-items: flex-start; justify-content: center;
@@ -174,43 +290,29 @@ class HorneroClipping extends HoComponent {
 
   // ===== Render =====
 
-  _formatFechaLong(fecha) {
-    if (!fecha) return '';
-    const parts = fecha.split('-');
-    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-    return parseInt(parts[2]) + ' de ' + months[parseInt(parts[1]) - 1] + ' 2026';
-  }
-
   _render() {
     const numero = this._meta.numero || '';
     const fecha = this._meta.fecha || '';
-    const fechaShort = this._formatFecha(fecha);
     const fechaLong = this._formatFechaLong(fecha);
 
-    // Edition navigation: ← anterior | CLIPPING N°X · fecha | próximo →
     const hasPrev = this._edicionIdx < this._ediciones.length - 1;
     const hasNext = this._edicionIdx > 0;
 
-    // Edition selector dropdown
-    const options = this._ediciones.map((ed, i) =>
-      '<option value="' + i + '"' + (i === this._edicionIdx ? ' selected' : '') + '>' +
-        'N°' + ed.numero + ' · ' + this._formatFecha(ed.fecha) + ' · ' + ed.semana +
-      '</option>'
-    ).join('');
-
+    // Edition header: ← anterior | CLIPPING N°X (center) | próximo →
+    // Date line below is clickable → opens calendar
     const edicionHeader = '<div class="edicion-header">' +
       '<div class="edicion-row">' +
         '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>← anterior</button>' +
         '<div class="edicion-center">' +
           '<div class="edicion-numero">CLIPPING N°' + numero + '</div>' +
-          '<div class="edicion-fecha">' + fechaLong + '</div>' +
+          '<div class="edicion-fecha" id="edFecha">' + fechaLong + '</div>' +
         '</div>' +
         '<button class="edicion-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + '>próximo →</button>' +
       '</div>' +
-      (this._ediciones.length > 1
-        ? '<div class="edicion-selector"><select class="edicion-select" id="edSelect">' + options + '</select></div>'
-        : '') +
     '</div>';
+
+    // Calendar popup (if open)
+    const calHtml = this._calOpen ? this._renderCalendar() : '';
 
     const cardsHtml = this._noticias.map(n => {
       const tagsHtml = (n.tags || []).map(t =>
@@ -236,6 +338,7 @@ class HorneroClipping extends HoComponent {
         ${edicionHeader}
         ${cardsHtml}
       </div>
+      ${calHtml}
       ${popupHtml}
     `;
   }
@@ -269,16 +372,51 @@ class HorneroClipping extends HoComponent {
     if (prevBtn) prevBtn.addEventListener('click', () => this._goEdition(1));   // older
     if (nextBtn) nextBtn.addEventListener('click', () => this._goEdition(-1));  // newer
 
-    // Edition selector dropdown
-    const select = this.shadowRoot.querySelector('#edSelect');
-    if (select) select.addEventListener('change', () => {
-      const idx = parseInt(select.value);
-      if (idx >= 0 && idx < this._ediciones.length) {
-        this._edicionIdx = idx;
-        this._popupItem = null;
-        this._loadEdition(this._ediciones[idx].archivo);
-      }
+    // Date line → open calendar
+    const fechaEl = this.shadowRoot.querySelector('#edFecha');
+    if (fechaEl) fechaEl.addEventListener('click', () => {
+      this._calMonth = (this._meta.fecha || '2026-07-02').substring(0, 7);
+      this._calOpen = true;
+      this.render();
     });
+
+    // Calendar events
+    if (this._calOpen) {
+      // Click marked day → load that edition
+      this.shadowRoot.querySelectorAll('.cal-marked').forEach(cell => {
+        cell.addEventListener('click', () => {
+          const dateStr = cell.dataset.date;
+          const idx = this._findEditionIdx(dateStr);
+          if (idx >= 0) {
+            this._edicionIdx = idx;
+            this._calOpen = false;
+            this._popupItem = null;
+            this._loadEdition(this._ediciones[idx].archivo);
+          }
+        });
+      });
+
+      // Calendar month navigation ← →
+      const calPrev = this.shadowRoot.querySelector('#calPrev');
+      const calNext = this.shadowRoot.querySelector('#calNext');
+      if (calPrev) calPrev.addEventListener('click', () => {
+        this._calMonth = calPrev.dataset.month;
+        this.render();
+      });
+      if (calNext) calNext.addEventListener('click', () => {
+        this._calMonth = calNext.dataset.month;
+        this.render();
+      });
+
+      // Click overlay background → close calendar
+      const calOverlay = this.shadowRoot.querySelector('#calOverlay');
+      if (calOverlay) calOverlay.addEventListener('click', (e) => {
+        if (e.target === calOverlay) {
+          this._calOpen = false;
+          this.render();
+        }
+      });
+    }
 
     // Card clicks → open popup
     this.shadowRoot.querySelectorAll('.feed-card').forEach(card => {
