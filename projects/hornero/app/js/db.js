@@ -4,7 +4,7 @@
 
 var HORNERO_DB = {
   name: 'hornero-app',
-  version: 2,
+  version: 3,
   stores: {
     // Cargas: input del trabajador (voz/texto/foto) antes de procesar
     cargas: { keyPath: 'id', indexes: [
@@ -60,6 +60,11 @@ var HORNERO_DB = {
     convenios: { keyPath: 'id', indexes: [
       { name: 'cctNumero', keyPath: 'cctNumero' },
       { name: 'rama', keyPath: 'rama' }
+    ]},
+    // Chat history: messages per section (debate, consulta, contenido)
+    chatHistory: { keyPath: 'id', indexes: [
+      { name: 'section', keyPath: 'section' },
+      { name: 'timestamp', keyPath: 'timestamp' }
     ]}
   }
 };
@@ -223,4 +228,28 @@ function marcarSyncCompletado(id) {
 // ===== UUID Generator =====
 function generarUUID() {
   return 'h-' + Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 5);
+}
+
+// ===== Chat History =====
+// Persistir mensajes de chat por sección (debate, consulta, contenido)
+// Cada mensaje: { id, section, role, text, sections, tags, time, timestamp }
+
+function guardarChatMsg(msg) {
+  // Ensure msg has id and timestamp
+  if (!msg.id) msg.id = generarUUID();
+  if (!msg.timestamp) msg.timestamp = Date.now();
+  return dbPut('chatHistory', msg);
+}
+
+function obtenerChatHistory(section) {
+  return dbGetByIndex('chatHistory', 'section', section).then(function(messages) {
+    // Sort by timestamp ascending (oldest first)
+    return (messages || []).sort(function(a, b) { return a.timestamp - b.timestamp; });
+  });
+}
+
+function borrarChatHistory(section) {
+  return obtenerChatHistory(section).then(function(messages) {
+    return Promise.all((messages || []).map(function(m) { return dbDelete('chatHistory', m.id); }));
+  });
 }

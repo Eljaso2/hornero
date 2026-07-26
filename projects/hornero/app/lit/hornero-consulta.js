@@ -36,9 +36,11 @@ class HorneroConsulta extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
+    this._chatSection = 'consulta'; // Section key for history
     this.messages = [];
     this.iaStep = 0;
     this._typing = false; this._greetingRequested = false;
+    this._historyLoaded = false;
   }
 
   _styles() {
@@ -71,7 +73,26 @@ class HorneroConsulta extends HoComponent {
       });
     }
 
-    // If no messages yet, request greeting from backend
+    // Load history from IndexedDB first, then request greeting if empty
+    if (!this._historyLoaded) {
+      this._loadChatHistory();
+    }
+  }
+
+  async _loadChatHistory() {
+    this._historyLoaded = true;
+    try {
+      if (typeof obtenerChatHistory === 'function') {
+        const saved = await obtenerChatHistory(this._chatSection);
+        if (saved && saved.length > 0) {
+          this.messages = saved;
+          this.render();
+          return; // History exists — no greeting needed
+        }
+      }
+    } catch(e) { console.warn('Consulta: chat history load failed', e); }
+
+    // No history — request greeting from backend
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
@@ -112,6 +133,7 @@ class HorneroConsulta extends HoComponent {
         time: data.time || this._timeNow(),
       }];
       this._typing = false; this._greetingRequested = false;
+      this._saveChatHistory();
       this.render();
     } catch (e) {
       // Fallback: local greeting
@@ -138,6 +160,7 @@ class HorneroConsulta extends HoComponent {
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
     this.messages = [...this.messages, userMsg];
     this._typing = true;
+    this._saveChatHistory();
     this.render();
 
     this._callBackend(text).catch(() => {
@@ -179,6 +202,7 @@ class HorneroConsulta extends HoComponent {
     }];
     this.iaStep++;
     this._typing = false; this._greetingRequested = false;
+    this._saveChatHistory();
     this.render();
   }
 
@@ -201,6 +225,22 @@ class HorneroConsulta extends HoComponent {
     const now = new Date();
     return now.getHours().toString().padStart(2, '0') + ':' +
            now.getMinutes().toString().padStart(2, '0');
+  }
+
+  async _saveChatHistory() {
+    try {
+      if (typeof guardarChatMsg === 'function') {
+        // Save each message with section tag
+        for (const m of this.messages) {
+          if (!m.id) {
+            m.id = typeof generarUUID === 'function' ? generarUUID() : 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+            m.section = this._chatSection;
+            m.timestamp = Date.now();
+          }
+          await guardarChatMsg(m);
+        }
+      }
+    } catch(e) { console.warn('Consulta: chat history save failed', e); }
   }
 }
 

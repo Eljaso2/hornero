@@ -119,7 +119,7 @@ class HorneroChat extends HoComponent {
         max-width: 82%; background: var(--ho-green, #6E8345);
         color: var(--ho-text-off, #F2F1EC);
         border-radius: 18px 18px 4px 18px; padding: 12px 16px;
-        font-family: 'Public Sans', sans-serif; font-size: .84rem;
+        font-family: 'Public Sans', sans-serif; font-size: .90rem;
         line-height: 1.5; position: relative; }
 
       .msg-row.user .msg-time {
@@ -144,15 +144,15 @@ class HorneroChat extends HoComponent {
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .78rem; color: var(--ho-green-dark, #586B33); }
 
-      .msg-text { font-family: 'Public Sans', sans-serif; font-size: .84rem;
+      .msg-text { font-family: 'Public Sans', sans-serif; font-size: .90rem;
         color: var(--ho-text, #2B2A26); line-height: 1.55;
         margin-bottom: 8px; }
 
       .msg-section { margin-bottom: 12px; }
       .msg-section:last-child { margin-bottom: 0; }
       .msg-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); margin-bottom: 6px; }
-      .msg-section-body { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        font-size: .96rem; color: var(--ho-text, #2B2A26); margin-bottom: 6px; }
+      .msg-section-body { font-family: 'Public Sans', sans-serif; font-size: .88rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.55; }
       .msg-section-body p { margin-bottom: 4px; }
 
@@ -164,7 +164,7 @@ class HorneroChat extends HoComponent {
       .msg-quote { background: var(--ho-green-pale, #E8EDD7);
         border-left: 3px solid var(--ho-green, #6E8345);
         border-radius: 0 10px 10px 0; padding: 10px 14px;
-        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        font-family: 'Public Sans', sans-serif; font-size: .88rem;
         color: #3D3B35; line-height: 1.55;
         margin: 8px 0; font-style: italic; }
       .msg-quote-icon { font-size: .72rem; color: var(--ho-green, #6E8345);
@@ -241,7 +241,7 @@ class HorneroChat extends HoComponent {
 
       .chat-input-field { flex: 1; background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 22px; padding: 10px 16px; font-size: .84rem;
+        border-radius: 22px; padding: 10px 16px; font-size: .90rem;
         color: var(--ho-text, #2B2A26); font-family: 'Public Sans', sans-serif;
         outline: none; transition: border-color .2s; min-height: 42px;
         resize: none; }

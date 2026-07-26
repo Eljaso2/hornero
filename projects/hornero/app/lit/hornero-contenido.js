@@ -36,9 +36,11 @@ class HorneroContenido extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
+    this._chatSection = 'contenido';
     this.messages = [];
     this.iaStep = 0;
     this._typing = false; this._greetingRequested = false;
+    this._historyLoaded = false;
   }
 
   _styles() {
@@ -75,9 +77,27 @@ class HorneroContenido extends HoComponent {
     if (this.messages.length === 1 && this.messages[0].role === 'hornero' && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
       if (chatEl) chatEl.setSuggestions(this._formatSuggestions());
     } else if (this.messages.length > 1) {
-      // Clear suggestions once user has engaged
       if (chatEl) chatEl.clearSuggestions();
     }
+
+    // Load history from IndexedDB first, then request greeting if empty
+    if (!this._historyLoaded) {
+      this._loadChatHistory();
+    }
+  }
+
+  async _loadChatHistory() {
+    this._historyLoaded = true;
+    try {
+      if (typeof obtenerChatHistory === 'function') {
+        const saved = await obtenerChatHistory(this._chatSection);
+        if (saved && saved.length > 0) {
+          this.messages = saved;
+          this.render();
+          return;
+        }
+      }
+    } catch(e) { console.warn('Contenido: chat history load failed', e); }
 
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
@@ -119,6 +139,7 @@ class HorneroContenido extends HoComponent {
         time: data.time || this._timeNow(),
       }];
       this._typing = false; this._greetingRequested = false;
+      this._saveChatHistory();
       this.render();
     } catch (e) {
       this._typing = false; this._greetingRequested = false;
@@ -152,6 +173,7 @@ class HorneroContenido extends HoComponent {
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
     this.messages = [...this.messages, userMsg];
     this._typing = true;
+    this._saveChatHistory();
     this.render();
 
     this._callBackend(text).catch(() => {
@@ -193,6 +215,7 @@ class HorneroContenido extends HoComponent {
     }];
     this.iaStep++;
     this._typing = false; this._greetingRequested = false;
+    this._saveChatHistory();
     this.render();
   }
 
@@ -211,6 +234,21 @@ class HorneroContenido extends HoComponent {
     const now = new Date();
     return now.getHours().toString().padStart(2, '0') + ':' +
            now.getMinutes().toString().padStart(2, '0');
+  }
+
+  async _saveChatHistory() {
+    try {
+      if (typeof guardarChatMsg === 'function') {
+        for (const m of this.messages) {
+          if (!m.id) {
+            m.id = typeof generarUUID === 'function' ? generarUUID() : 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+            m.section = this._chatSection;
+            m.timestamp = Date.now();
+          }
+          await guardarChatMsg(m);
+        }
+      }
+    } catch(e) { console.warn('Contenido: chat history save failed', e); }
   }
 }
 
