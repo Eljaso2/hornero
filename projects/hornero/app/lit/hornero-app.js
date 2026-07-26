@@ -126,7 +126,11 @@ class HorneroApp extends HoComponent {
       ve: 'condicion',
       // Other sub-screens
       ecosistema: 'home',
-      contenido: 'consulta',
+      contenido: 'home',
+      formacion: 'home',
+      argumento: 'home',
+      comunicador: 'home',
+      archivo: 'home',
     };
   }
 
