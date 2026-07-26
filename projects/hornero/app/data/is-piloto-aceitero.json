@@ -151,7 +151,7 @@
     }
   ],
   "sector": {
-    "federacion": "Federación de Obreros y Empleados de la Industria Aceitera y Afines del País (FOEIAP)",
+    "federacion": "F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)",
     "convenio": "CCT 420/05",
     "empresas": [
       { "id": "vicentin-saic", "nombre": "Vicentín SAIC", "planta": "Reconquista", "sectores": ["Prensa", "Refinería", "Envasadora", "Administración", "Logística"] },

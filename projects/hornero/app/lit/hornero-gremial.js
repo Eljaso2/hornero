@@ -23,8 +23,8 @@ class HorneroGremial extends HoComponent {
     this._informes = [];
     this._fuentes = [];
     this._correcciones = [];
-    this._gremioName = 'FOEIAP';
-    this._gremioFull = 'Federación de Obreros y Empleados de la Industria Aceitera';
+    this._gremioName = 'F.T.C.I.O.D y A.R.A.';
+    this._gremioFull = 'Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina';
     this._selectedInformeId = null;  // Para grade 2-3: informe seleccionado para corregir
     this._confirmMsg = '';
   }

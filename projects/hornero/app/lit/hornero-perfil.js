@@ -77,7 +77,7 @@ class HorneroPerfil extends HoComponent {
     // Fallback to seed data if IndexedDB empty
     if (!sector || !sector.federacion) {
       return {
-        federacion: 'Federación de Obreros y Empleados de la Industria Aceitera y Afines del País (FOEIAP)',
+        federacion: 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)',
         sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte Santa Fe',
         convenio: 'CCT 420/05',
         sectorName: 'Industria aceitera',
@@ -206,7 +206,7 @@ class HorneroPerfil extends HoComponent {
         <!-- Agremiación -->
         <div class="agremiacion-card">
           <div class="info-card-title" style="color:#9C988D">✊ AGREMIACIÓN</div>
-          <div class="agremiacion-badge">${agrem.federacion.includes('FOEIAP') ? 'FOEIAP' : this.sector.toUpperCase()}</div>
+          <div class="agremiacion-badge">${agrem.federacion.includes('F.T.C.I.O.D') ? 'F.T.C.I.O.D y A.R.A.' : this.sector.toUpperCase()}</div>
           <div class="agremiacion-field">
             <span class="agremiacion-label">Federación</span>
             <span class="agremiacion-value">${agrem.federacion}</span>
