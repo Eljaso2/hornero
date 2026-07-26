@@ -93,7 +93,7 @@ class HorneroHome extends HoComponent {
       .esfera-actualidad { margin-bottom: 20px; }
 
       /* --- News carousel --- */
-      .carousel-wrap { position: relative; margin-bottom: 8px;
+      .carousel-wrap { position: relative; margin-bottom: 16px;
         margin-left: -16px; margin-right: -16px; overflow: hidden; }
       /* Whisper of dark — almost imperceptible fusion with header closure */
       .carousel-wrap::before { content: ''; position: absolute;

@@ -1,6 +1,6 @@
 // ===== <hornero-actualidad> — Esfera Actualidad =====
-// Portada: ediciones clipping + InfoMate intercalados
-// Cada card navega a sub-screen con contenido completo
+// Portada: ediciones clipping (títulos + tags) + InfoMate intercalados
+// Cada card navega a sub-screen con edición específica
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -37,13 +37,11 @@ class HorneroActualidad extends HoComponent {
       const idx = await idxRes.json();
       this._ediciones = idx.ediciones || [];
 
-      // Load each edition
       for (const ed of this._ediciones) {
         try {
           const res = await fetch(ed.archivo);
           const data = await res.json();
           this._clippingData[ed.numero] = data;
-          // Cache in IndexedDB
           if (typeof guardarClipping === 'function' && data.noticias) {
             for (const item of data.noticias) {
               await guardarClipping(item);
@@ -65,12 +63,6 @@ class HorneroActualidad extends HoComponent {
     const parts = mesStr.split('-');
     const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
     return months[parseInt(parts[1]) - 1] + ' ' + parts[0];
-  }
-
-  _formatFecha(fecha) {
-    if (!fecha) return '';
-    const parts = fecha.split('-');
-    return parts[2] + '/' + parts[1];
   }
 
   _formatFechaShort(fecha) {
@@ -116,15 +108,26 @@ class HorneroActualidad extends HoComponent {
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .06em;
         margin-top: 1px; }
 
-      .product-desc {
+      /* Noticia mini-list inside clipping card */
+      .noticia-list { margin-top: 8px; }
+      .noticia-line { display: flex; align-items: baseline; gap: 4px;
+        padding: 2px 0; }
+      .noticia-emoji { font-size: .78rem; }
+      .noticia-title { font-family: 'Public Sans', sans-serif; font-size: .76rem;
+        color: var(--ho-text, #2B2A26); line-height: 1.3;
+        font-weight: 500; flex: 1; }
+      .noticia-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
+        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        padding: 2px 6px; border-radius: 4px; font-weight: 600;
+        white-space: nowrap; }
+
+      /* InfoMate section */
+      .mate-desc {
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.4;
         margin-top: 5px; }
 
-      .product-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
-      .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
-        padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+      .data-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
       .data-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: rgba(176,134,63,.35); color: #3D3B35;
         padding: 3px 8px; border-radius: 6px; font-weight: 600; }
@@ -134,36 +137,39 @@ class HorneroActualidad extends HoComponent {
   // ===== Render =====
 
   _render() {
-    // Build cards: clipping editions + InfoMate intercalated
-    // Order: latest clipping → InfoMate → remaining clippings (older)
     let cardsHtml = '';
 
-    // Latest clipping edition (N°4) first
     for (let i = 0; i < this._ediciones.length; i++) {
       const ed = this._ediciones[i];
       const data = this._clippingData[ed.numero];
       const label = 'CLIPPING N°' + ed.numero;
       const sublabel = this._formatFechaShort(ed.fecha) + ' · ' + ed.semana;
-      const desc = data && data.noticias
-        ? (data.noticias.length + ' noticias laborales con análisis sindical')
-        : 'Noticias laborales con análisis sindical';
-      const tags = data && data.noticias && data.noticias[0]
-        ? (data.noticias[0].tags || []).slice(0, 4).map(t => '<span class="tag">' + t + '</span>').join('')
-        : '';
 
-      cardsHtml += '<div class="product-card product-card-clipping" data-screen="clipping" data-edicion="' + ed.numero + '">' +
+      // Build noticia mini-list: emoji + title + one tag per noticia
+      let noticiaList = '';
+      if (data && data.noticias) {
+        noticiaList = '<div class="noticia-list">';
+        for (const n of data.noticias) {
+          const firstTag = (n.tags && n.tags[0]) ? '<span class="noticia-tag">' + n.tags[0] + '</span>' : '';
+          noticiaList += '<div class="noticia-line">' +
+            (n.emoji ? '<span class="noticia-emoji">' + n.emoji + '</span>' : '') +
+            '<span class="noticia-title">' + (n.titulo || '') + '</span>' +
+            firstTag +
+          '</div>';
+        }
+        noticiaList += '</div>';
+      }
+
+      cardsHtml += '<div class="product-card product-card-clipping" data-screen="clipping" data-clip-edicion="' + ed.numero + '">' +
         '<div class="product-emoji">📰</div>' +
         '<div class="product-label">' + label + '</div>' +
         '<div class="product-sublabel">' + sublabel + '</div>' +
-        '<div class="product-desc">' + desc + '</div>' +
-        (tags ? '<div class="product-tags">' + tags + '</div>' : '') +
+        noticiaList +
       '</div>';
 
       // Insert InfoMate after the latest clipping (i=0)
       if (i === 0) {
-        const mateLabel = this._mateRaw && this._mateRaw.meta
-          ? 'INFOMATE'
-          : 'INFOMATE';
+        const mateLabel = 'INFOMATE';
         const mateSublabel = this._mateRaw && this._mateRaw.meta
           ? this._formatMes(this._mateRaw.meta.mes)
           : '';
@@ -178,8 +184,8 @@ class HorneroActualidad extends HoComponent {
           '<div class="product-emoji">🧮</div>' +
           '<div class="product-label">' + mateLabel + '</div>' +
           '<div class="product-sublabel">' + mateSublabel + '</div>' +
-          '<div class="product-desc">' + mateDesc + '</div>' +
-          (mateTags ? '<div class="product-tags">' + mateTags + '</div>' : '') +
+          '<div class="mate-desc">' + mateDesc + '</div>' +
+          (mateTags ? '<div class="data-tags">' + mateTags + '</div>' : '') +
         '</div>';
       }
     }
@@ -194,16 +200,13 @@ class HorneroActualidad extends HoComponent {
   // ===== After-render =====
 
   _afterRender() {
-    // Bind product card clicks → navigate to sub-screen
     this.shadowRoot.querySelectorAll('.product-card').forEach(card => {
       card.addEventListener('click', () => {
         const screen = card.dataset.screen;
-        const edicion = card.dataset.edicion;
-        // If clipping card, pass edition info so clipping screen can navigate
-        if (screen === 'clipping' && edicion) {
-          // Navigate to clipping screen — the screen will load the latest by default
-          // but user can use calendar/arrows to find the right edition
-          this.goScreen('clipping');
+        const clipEdicion = card.dataset.clipEdicion;
+        if (screen === 'clipping' && clipEdicion) {
+          // Navigate to clipping screen with specific edition
+          this.emit('screen-change', { screen: 'clipping', clipEdicion: parseInt(clipEdicion) });
         } else {
           this.goScreen(screen);
         }

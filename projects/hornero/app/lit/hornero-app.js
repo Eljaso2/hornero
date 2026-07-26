@@ -308,7 +308,8 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'actualidad') {
       screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>';
     } else if (this.screen === 'clipping') {
-      screenContent = '<hornero-clipping grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-clipping>';
+      const edicionAttr = this._clipEdicion ? ' edicion="' + this._clipEdicion + '"' : '';
+      screenContent = '<hornero-clipping grade="' + this.userGrade + '" sector="' + this.userSector + '"' + edicionAttr + '></hornero-clipping>';
     } else if (this.screen === 'infomate') {
       screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-infomate>';
     } else if (this.screen === 'gremial') {
@@ -409,7 +410,9 @@ class HorneroApp extends HoComponent {
     });
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
-      this._navigateTo(e.detail.screen);
+      const detail = e.detail || {};
+      this._clipEdicion = detail.clipEdicion || null;
+      this._navigateTo(detail.screen);
     });
 
     // Listen for login-success from <hornero-login>

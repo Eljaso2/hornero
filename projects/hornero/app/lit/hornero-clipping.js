@@ -11,6 +11,7 @@ class HorneroClipping extends HoComponent {
     return {
       grade: String,
       sector: String,
+      edicion: Number,       // edition number to load (passed from actualidad)
     };
   }
 
@@ -18,6 +19,7 @@ class HorneroClipping extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
+    this.edicion = null;
     this._noticias = [];
     this._meta = {};
     this._popupItem = null;
@@ -40,8 +42,22 @@ class HorneroClipping extends HoComponent {
       const res = await fetch('data/clipping-index.json');
       const idx = await res.json();
       this._ediciones = idx.ediciones || [];
-      this._edicionIdx = 0;
-      await this._loadEdition(this._ediciones[0].archivo);
+
+      // If edicion property is set, load that specific edition
+      if (this.edicion) {
+        const targetIdx = this._ediciones.findIndex(ed => ed.numero === this.edicion);
+        if (targetIdx >= 0) {
+          this._edicionIdx = targetIdx;
+          await this._loadEdition(this._ediciones[targetIdx].archivo);
+        } else {
+          // Edition not found, fall back to latest
+          this._edicionIdx = 0;
+          await this._loadEdition(this._ediciones[0].archivo);
+        }
+      } else {
+        this._edicionIdx = 0;
+        await this._loadEdition(this._ediciones[0].archivo);
+      }
     } catch(e) {
       console.warn('Clipping: index load failed, fallback to hardcoded', e);
       await this._loadEdition('data/clipping-2026-07-02.json');
