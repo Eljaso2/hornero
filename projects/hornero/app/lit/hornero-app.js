@@ -398,7 +398,10 @@ class HorneroApp extends HoComponent {
     const backBtn = this.shadowRoot.querySelector('#backBtn');
     if (backBtn) {
       backBtn.addEventListener('click', () => {
-        history.back();
+        // Navigate to parent screen (defined in _parentScreen map)
+        // Don't rely on history.back() which goes to previous history entry, not necessarily the parent
+        const parent = this._parentScreen[this.screen] || 'home';
+        this._navigateTo(parent);
       });
     }
     // Bind update banner
