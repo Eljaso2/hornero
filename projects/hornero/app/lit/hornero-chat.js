@@ -126,9 +126,9 @@ class HorneroChat extends HoComponent {
       .history-item-section { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
         color: var(--ho-green-dark, #586B33); }
-      .history-item-preview { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text, #2B2A26); line-height: 1.3; overflow: hidden;
-        text-overflow: ellipsis; white-space: nowrap; }
+      .history-item-preview { font-family: 'Archivo', sans-serif; font-size: .86rem;
+        font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .history-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; }
       .history-item-count { background: var(--ho-green-pale, #E8EDD7);
@@ -425,7 +425,7 @@ class HorneroChat extends HoComponent {
                 const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
                 return `<div class="history-item${isActive ? ' active' : ''}" data-session-id="${s.sessionId}">
                   <div class="history-item-section section-${s.section || 'consulta'}">${sectionLabel}</div>
-                  <div class="history-item-preview">${s.preview || 'Chat sin texto'}</div>
+                  <div class="history-item-preview">${s.preview || 'Nuevo chat'}</div>
                   <div class="history-item-meta">
                     <span>${dateStr} ${timeStr}</span>
                     <span class="history-item-count">${s.messageCount} msgs</span>

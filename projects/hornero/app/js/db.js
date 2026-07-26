@@ -277,10 +277,12 @@ function obtenerChatSessionMessages(sessionId) {
 
 function obtenerChatSessions() {
   // Returns distinct sessions with metadata: sessionId, section, timestamp, preview
+  // Preview = first user question (not IA greeting which is always the same)
   return dbGetAll('chatHistory').then(function(allMessages) {
     if (!allMessages || allMessages.length === 0) return [];
     // Group by sessionId
     var sessionsMap = {};
+    var sessionFirstUser = {}; // track first user message per session
     allMessages.forEach(function(m) {
       if (!m.sessionId) return; // skip legacy messages without sessionId
       if (!sessionsMap[m.sessionId]) {
@@ -293,14 +295,25 @@ function obtenerChatSessions() {
         };
       }
       sessionsMap[m.sessionId].messageCount++;
-      // Use first user message as preview
-      if (!sessionsMap[m.sessionId].preview && m.role === 'user') {
-        sessionsMap[m.sessionId].preview = (m.text || '').substring(0, 60);
+      // Track first user message as preview/title
+      if (m.role === 'user' && !sessionFirstUser[m.sessionId]) {
+        sessionFirstUser[m.sessionId] = true;
+        // Extract text — user messages have m.text
+        var userText = (m.text || '').trim();
+        if (userText) {
+          sessionsMap[m.sessionId].preview = userText.substring(0, 80);
+          sessionsMap[m.sessionId].timestamp = m.timestamp;
+        }
+      }
+      // Update timestamp to most recent message (for sort order)
+      if (m.timestamp > sessionsMap[m.sessionId].timestamp) {
         sessionsMap[m.sessionId].timestamp = m.timestamp;
       }
-      // If no user message, use first message
-      if (!sessionsMap[m.sessionId].preview) {
-        sessionsMap[m.sessionId].preview = (m.text || '').substring(0, 60);
+    });
+    // For sessions with no user message yet (only greeting), show placeholder
+    Object.keys(sessionsMap).forEach(function(sid) {
+      if (!sessionsMap[sid].preview) {
+        sessionsMap[sid].preview = 'Nuevo chat';
       }
     });
     // Convert to array, sort by timestamp descending (most recent first)
