@@ -63,9 +63,10 @@ def refresh() -> int:
         # Keep existing cache if fetch fails (don't wipe it)
 
     if items:
-        # Sort by fecha (most recent first), limit to last 15
+        # Sort by fecha (most recent first), keep ALL available items
+        # Token cost is negligible (~$0.001/request for 40 items)
         items.sort(key=lambda x: x.get("fecha", ""), reverse=True)
-        _cache = items[:15]
+        _cache = items
         _cache_timestamp = time.time()
 
     return len(_cache)
