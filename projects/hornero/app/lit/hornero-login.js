@@ -10,17 +10,17 @@ import { HoComponent, html, css } from './ho-component.js';
 // Agremiación: federación, sindicato, convenio, territorio (display), empresa — por usuario
 const PILOT_USERS = {
   'eljaso':   { password: 'hornero2026', grade: 'B.d', territory: 'norte-santa-fe', sector: 'hornero', nombre: 'Eljaso',
-    agremiacion: { federacion: 'Hornero', sindicato: 'Hornero', convenio: '', sectorName: '', territorio: 'Norte de Santa Fe', empresa: '' } },
-  'test4':    { password: 'fed2026',     grade: 'B.d', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N4 — Federación',
-    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC, Guaycurú' } },
+    agremiacion: { rol: 'Administrador', federacion: 'Hornero', sindicato: 'Hornero', convenio: '', sectorName: '', territorio: 'Norte de Santa Fe', empresa: '' } },
+  'test4':    { password: 'fed2026',     grade: 'B.d', territory: 'rosario', sector: 'aceitero', nombre: 'Tester N4 — Federación',
+    agremiacion: { rol: 'Secretario General de la Federación', federacion: 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Rosario', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Rosario', empresa: 'Dreyfus' } },
   'test3':    { password: 'sec2026',     grade: 'B.c', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N3 — Secretaría',
-    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
+    agremiacion: { rol: 'Secretario General del Sindicato', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
   'test2':    { password: 'del2026',     grade: 'B.b', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N2 — Delegada',
-    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
+    agremiacion: { rol: 'Delegado', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
   'test1a':   { password: 'base2026',    grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 — Raúl (base)',
-    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
+    agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
   'test1b':   { password: 'adm2026',     grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 — Damián (admin)',
-    agremiacion: { federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC — Administración' } },
+    agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC — Administración' } },
 };
 
 class HorneroLogin extends HoComponent {

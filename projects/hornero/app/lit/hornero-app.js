@@ -28,16 +28,27 @@ class HorneroApp extends HoComponent {
     if (stored) {
       try {
         const session = JSON.parse(stored);
-        // Migration: FOEIAP → F.T.C.I.O.D y A.R.A. (patch old session data)
+        // Migration: FOEIAP → F.T.C.I.O.D y A.R.A.
         if (session && session.agremiacion) {
-          const oldFed = session.agremiacion.federacion;
-          if (oldFed && oldFed.includes('FOEIAP')) {
-            session.agremiacion.federacion = 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)';
+          const a = session.agremiacion;
+          if (a.federacion && a.federacion.includes('FOEIAP')) {
+            a.federacion = 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)';
           }
           // Migration: Vicentín territory "San Lorenzo" → "Norte de Santa Fe"
-          const oldTerr = session.agremiacion.territorio;
-          if (oldTerr === 'San Lorenzo' && session.agremiacion.empresa && session.agremiacion.empresa.includes('Vicentín')) {
-            session.agremiacion.territorio = 'Norte de Santa Fe';
+          if (a.territorio === 'San Lorenzo' && a.empresa && a.empresa.includes('Vicentín')) {
+            a.territorio = 'Norte de Santa Fe';
+          }
+          // Migration: add rol field based on grade (if missing)
+          if (!a.rol) {
+            const rolMap = { 'B.d': 'Secretario General de la Federación', 'B.c': 'Secretario General del Sindicato', 'B.b': 'Delegado', 'B.a': 'Trabajador de Base' };
+            a.rol = rolMap[session.grade] || 'Trabajador de Base';
+          }
+          // Migration: test4 should have Dreyfus/Rosario
+          if (session.username === 'test4') {
+            a.sindicato = 'Sindicato de Obreros de la Industria Aceitera — Rosario';
+            a.territorio = 'Rosario';
+            a.empresa = 'Dreyfus';
+            a.rol = 'Secretario General de la Federación';
           }
           localStorage.setItem('hornero-session', JSON.stringify(session));
         }
