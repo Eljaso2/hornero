@@ -147,6 +147,9 @@ class HorneroChat extends HoComponent {
       .msg-text { font-family: 'Public Sans', sans-serif; font-size: .90rem;
         color: var(--ho-text, #2B2A26); line-height: 1.55;
         margin-bottom: 8px; }
+      .msg-text p { margin-bottom: 10px; }
+      .msg-text p:last-child { margin-bottom: 0; }
+      .msg-text strong { font-weight: 700; color: var(--ho-green-dark, #586B33); }
 
       .msg-section { margin-bottom: 12px; }
       .msg-section:last-child { margin-bottom: 0; }
@@ -405,7 +408,10 @@ class HorneroChat extends HoComponent {
 
     let contentHtml = '';
     if (m.text) {
-      contentHtml = `<div class="msg-text">${m.text}</div>`;
+      // Split text into paragraphs — double newline = paragraph break
+      const paragraphs = m.text.split(/\n\n+/).filter(p => p.trim());
+      const paragraphsHtml = paragraphs.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+      contentHtml = `<div class="msg-text">${paragraphsHtml}</div>`;
     } else if (m.sections) {
       contentHtml = m.sections.map((s, i, arr) => {
         let content = '';
