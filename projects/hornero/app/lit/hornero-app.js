@@ -212,6 +212,20 @@ class HorneroApp extends HoComponent {
           height: 100dvh; overflow: hidden; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
+        /* Mobile: top-bar dark background merges with system status bar */
+        .top-bar { background: var(--ho-dark, #33312D);
+          color: var(--ho-text-off, #F2F1EC); }
+        .top-bar-back { background: var(--ho-dark-surface, #45433E);
+          border-color: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC); }
+        .top-bar-back:hover { background: var(--ho-dark-mid, #5A574F);
+          border-color: var(--ho-green-light, #94A867); }
+        /* Mobile: sections-bar dark to match header */
+        .sections-bar { background: var(--ho-dark-surface, #45433E);
+          border-bottom-color: rgba(242,241,236,.08); }
+        .sections-btn { color: #9C988D; }
+        .sections-btn.active { color: var(--ho-green-light, #94A867);
+          border-bottom-color: var(--ho-green-light, #94A867); }
+        .header-text .app-name { color: var(--ho-green-light, #94A867); }
       }
 
       /* ===== Animations ===== */
@@ -262,8 +276,8 @@ class HorneroApp extends HoComponent {
         scrollbar-width: none; background: var(--ho-bg, #F4F3EE); }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
-      /* ===== Bottom nav — gradient hacia blanco, se funde con home bar ===== */
-      .bottom-nav { background: linear-gradient(to bottom, #F4F3EE 0%, #FFFFFF 100%);
+      /* ===== Bottom nav — warm light background, no white ===== */
+      .bottom-nav { background: linear-gradient(to bottom, var(--ho-bg, #F4F3EE) 0%, var(--ho-body-bg, #E7E5DF) 100%);
         display: flex; justify-content: space-around;
         padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
         width: 100%; z-index: 100; position: relative;
@@ -321,7 +335,8 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>';
     } else if (this.screen === 'clipping') {
       const edicionAttr = this._clipEdicion ? ' edicion="' + this._clipEdicion + '"' : '';
-      screenContent = '<hornero-clipping grade="' + this.userGrade + '" sector="' + this.userSector + '"' + edicionAttr + '></hornero-clipping>';
+      const expandAttr = this._clipExpandId ? ' expand-id="' + this._clipExpandId + '"' : '';
+      screenContent = '<hornero-clipping grade="' + this.userGrade + '" sector="' + this.userSector + '"' + edicionAttr + expandAttr + '></hornero-clipping>';
     } else if (this.screen === 'infomate') {
       screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-infomate>';
     } else if (this.screen === 'gremial') {
@@ -424,6 +439,7 @@ class HorneroApp extends HoComponent {
     this.shadowRoot.addEventListener('screen-change', (e) => {
       const detail = e.detail || {};
       this._clipEdicion = detail.clipEdicion || null;
+      this._clipExpandId = detail.clipExpandId || null;
       this._navigateTo(detail.screen);
     });
 

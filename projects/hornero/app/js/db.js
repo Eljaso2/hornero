@@ -4,7 +4,7 @@
 
 var HORNERO_DB = {
   name: 'hornero-app',
-  version: 3,
+  version: 4,
   stores: {
     // Cargas: input del trabajador (voz/texto/foto) antes de procesar
     cargas: { keyPath: 'id', indexes: [
@@ -61,10 +61,11 @@ var HORNERO_DB = {
       { name: 'cctNumero', keyPath: 'cctNumero' },
       { name: 'rama', keyPath: 'rama' }
     ]},
-    // Chat history: messages per section (debate, consulta, contenido)
+    // Chat history: messages per section + sessionId (debate, consulta, contenido)
     chatHistory: { keyPath: 'id', indexes: [
       { name: 'section', keyPath: 'section' },
-      { name: 'timestamp', keyPath: 'timestamp' }
+      { name: 'timestamp', keyPath: 'timestamp' },
+      { name: 'sessionId', keyPath: 'sessionId' }
     ]}
   }
 };
@@ -84,6 +85,16 @@ function initDB() {
           if (storeDef.indexes) {
             storeDef.indexes.forEach(function(idx) {
               store.createIndex(idx.name, idx.keyPath, { unique: false });
+            });
+          }
+        } else {
+          // Store exists — add any missing indexes (for version upgrades)
+          var store = event.target.transaction.objectStore(storeName);
+          if (storeDef.indexes) {
+            storeDef.indexes.forEach(function(idx) {
+              if (!store.indexNames.contains(idx.name)) {
+                store.createIndex(idx.name, idx.keyPath, { unique: false });
+              }
             });
           }
         }
@@ -250,6 +261,57 @@ function obtenerChatHistory(section) {
 
 function borrarChatHistory(section) {
   return obtenerChatHistory(section).then(function(messages) {
+    return Promise.all((messages || []).map(function(m) { return dbDelete('chatHistory', m.id); }));
+  });
+}
+
+// ===== Chat Session Helpers =====
+// Session-based chat: each visit = new sessionId, start fresh
+// History shows all past sessions tagged by section
+
+function obtenerChatSessionMessages(sessionId) {
+  return dbGetByIndex('chatHistory', 'sessionId', sessionId).then(function(messages) {
+    return (messages || []).sort(function(a, b) { return a.timestamp - b.timestamp; });
+  });
+}
+
+function obtenerChatSessions() {
+  // Returns distinct sessions with metadata: sessionId, section, timestamp, preview
+  return dbGetAll('chatHistory').then(function(allMessages) {
+    if (!allMessages || allMessages.length === 0) return [];
+    // Group by sessionId
+    var sessionsMap = {};
+    allMessages.forEach(function(m) {
+      if (!m.sessionId) return; // skip legacy messages without sessionId
+      if (!sessionsMap[m.sessionId]) {
+        sessionsMap[m.sessionId] = {
+          sessionId: m.sessionId,
+          section: m.section,
+          timestamp: m.timestamp,
+          preview: '',
+          messageCount: 0
+        };
+      }
+      sessionsMap[m.sessionId].messageCount++;
+      // Use first user message as preview
+      if (!sessionsMap[m.sessionId].preview && m.role === 'user') {
+        sessionsMap[m.sessionId].preview = (m.text || '').substring(0, 60);
+        sessionsMap[m.sessionId].timestamp = m.timestamp;
+      }
+      // If no user message, use first message
+      if (!sessionsMap[m.sessionId].preview) {
+        sessionsMap[m.sessionId].preview = (m.text || '').substring(0, 60);
+      }
+    });
+    // Convert to array, sort by timestamp descending (most recent first)
+    var sessions = Object.values(sessionsMap);
+    sessions.sort(function(a, b) { return b.timestamp - a.timestamp; });
+    return sessions;
+  });
+}
+
+function borrarChatSession(sessionId) {
+  return obtenerChatSessionMessages(sessionId).then(function(messages) {
     return Promise.all((messages || []).map(function(m) { return dbDelete('chatHistory', m.id); }));
   });
 }

@@ -740,7 +740,7 @@ class HorneroChat extends HoComponent {
         if (e.target.closest('.history-item-delete')) return;
         const sid = item.dataset.sessionId;
         if (sid) {
-          this._closeHistoryDrawer();
+          // Emit event FIRST — parent's re-render will close drawer naturally
           this.emit('chat-session-select', { sessionId: sid, section: this.section });
         }
       });
@@ -826,6 +826,7 @@ class HorneroChat extends HoComponent {
     const current = this.messages || [];
     current.push(msg);
     this.messages = current;
+    this._showHistory = false; // Close drawer when new message arrives
     this.render();
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll) scroll.scrollTop = scroll.scrollHeight;

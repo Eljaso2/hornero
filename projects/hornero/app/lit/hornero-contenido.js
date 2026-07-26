@@ -66,9 +66,6 @@ class HorneroContenido extends HoComponent {
           input-placeholder="Escribí tu tema, formato, o pedido..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
-          section="${this._chatSection}"
-          session-id="${this._sessionId}"
-          show-back="true"
         ></hornero-chat>
       </div>
     `;
@@ -128,9 +125,12 @@ class HorneroContenido extends HoComponent {
   }
 
   _syncChatMessages(chatEl) {
-    if (chatEl && this.messages.length > 0) {
+    if (chatEl) {
       chatEl.messages = this.messages;
       chatEl.typing = this._typing;
+      chatEl.section = this._chatSection;
+      chatEl.sessionId = this._sessionId;
+      chatEl.showBack = true;
       chatEl.render();
     }
   }
