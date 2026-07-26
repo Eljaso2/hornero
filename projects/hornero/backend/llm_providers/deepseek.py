@@ -20,14 +20,19 @@ async def call_deepseek(
     # Build messages array
     messages = [{"role": "system", "content": system_prompt}]
 
-    # Add conversation history (last 6 messages for context window)
-    for msg in history[-6:]:
+    # Add conversation history (last 12 messages for better context)
+    for msg in history[-12:]:
         role = "user" if msg.get("role") == "user" else "assistant"
-        # For assistant messages, use the full sections as text
-        if role == "assistant" and msg.get("sections"):
-            content = "\n".join(
-                s.get("body", "") or s.get("quote", "") for s in msg["sections"]
-            )
+        # For assistant messages, prefer text over sections for conversational context
+        if role == "assistant":
+            if msg.get("text"):
+                content = msg["text"]
+            elif msg.get("sections"):
+                content = "\n".join(
+                    s.get("body", "") or s.get("quote", "") for s in msg["sections"]
+                )
+            else:
+                content = ""
         else:
             content = msg.get("text", "")
         if content:

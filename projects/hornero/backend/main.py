@@ -242,16 +242,9 @@ def parse_llm_response(raw: str) -> dict:
         except json.JSONDecodeError:
             pass
 
-    # Fallback: wrap raw text as a single section
+    # Fallback: if LLM responded in plain text (not JSON), treat as conversational text
     return {
-        "sections": [
-            {
-                "title": "Chateá con la IA Sindical",
-                "body": raw.strip(),
-                "quote": "",
-                "quoteAuthor": "",
-                "quoteSource": "",
-            }
-        ],
+        "text": raw.strip(),
+        "sections": [],
         "tags": ["respuesta-libre"],
     }
