@@ -24,8 +24,8 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-html{background:#FFFFFF;background-attachment:fixed;min-height:100vh;min-height:-webkit-fill-available}
-body{background:#FFFFFF;background-attachment:fixed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased;overscroll-behavior:none;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:#33312D;background-attachment:fixed;min-height:100vh;min-height:-webkit-fill-available}
+body{background:#33312D;background-attachment:fixed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased;overscroll-behavior:none;overflow:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
 
 /* App-native feel: text can't be selected/copied, only clicked/tapped */
 .screen{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
@@ -38,11 +38,11 @@ body{background:#FFFFFF;background-attachment:fixed;font-family:'Public Sans',sy
   .phone{width:412px;background:var(--ho-dark);border-radius:46px;padding:12px;box-shadow:0 40px 80px -30px var(--ho-shadow);position:sticky;top:40px}
   .screen{background:var(--ho-bg);border-radius:35px;overflow:hidden;height:824px;display:flex;flex-direction:column;position:relative}
 }
-/* Mobile: full screen native — white background flows into home bar */
+/* Mobile: full screen native — dark bg matches login, screen content uses ho-bg */
 @media(max-width:499px){
-  .app-wrap{min-height:100vh;background:#FFFFFF}
-  .phone{width:100%;min-height:100vh;background:#FFFFFF}
-  .screen{background:#FFFFFF;display:flex;flex-direction:column;position:relative;height:100dvh;overflow:hidden}
+  .app-wrap{min-height:100vh;background:#33312D}
+  .phone{width:100%;min-height:100vh;background:#33312D}
+  .screen{background:var(--ho-bg);display:flex;flex-direction:column;position:relative;height:100dvh;overflow:hidden}
 }
 
 @keyframes apfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -58,7 +58,7 @@ body{background:#FFFFFF;background-attachment:fixed;font-family:'Public Sans',sy
 .menu-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:600;font-size:.88rem;color:var(--ho-text-off);text-decoration:none;margin-bottom:3px;transition:background .2s}
 .menu-link:hover{background:rgba(148,168,103,.2)}
 .menu-link.active{background:rgba(148,168,103,.3);color:var(--ho-green-light)}
-.bottom-nav{background:linear-gradient(to bottom,#F4F3EE,#FFFFFF);display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative;border-top:1px solid rgba(43,42,38,.08)}
+.bottom-nav{background:linear-gradient(to bottom,#F4F3EE,#E7E5DF);display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative;border-top:1px solid rgba(43,42,38,.08)}
 .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:3px 9px;font-family:'Archivo',sans-serif}
 .nav-btn .icon{font-size:1.15rem}
 .nav-btn .label{font-size:.62rem;font-weight:600}
