@@ -11,7 +11,8 @@ class HorneroClipping extends HoComponent {
     return {
       grade: String,
       sector: String,
-      edicion: Number,       // edition number to load (passed from actualidad)
+      edicion: Number,       // edition number to load
+      expandId: String,       // noticia ID to auto-expand on load
     };
   }
 
@@ -20,6 +21,7 @@ class HorneroClipping extends HoComponent {
     this.grade = 'A';
     this.sector = 'aceitero';
     this.edicion = null;
+    this.expandId = null;
     this._noticias = [];
     this._meta = {};
     this._popupItem = null;
@@ -442,6 +444,21 @@ class HorneroClipping extends HoComponent {
         if (item) this._openPopup(item);
       });
     });
+
+    // Auto-expand specific noticia if expandId is set (from Home carousel click)
+    if (this.expandId) {
+      const targetItem = this._noticias.find(n => n.id === this.expandId);
+      if (targetItem) {
+        // Scroll to the card first, then open popup after a brief delay
+        const targetCard = this.shadowRoot.querySelector('.feed-card[data-id="' + this.expandId + '"]');
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        setTimeout(() => this._openPopup(targetItem), 300);
+      }
+      // Clear expandId so it doesn't re-expand on subsequent renders
+      this.expandId = null;
+    }
 
     // Popup close
     if (this._popupItem) {

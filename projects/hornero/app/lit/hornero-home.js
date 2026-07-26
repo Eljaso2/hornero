@@ -45,6 +45,8 @@ class HorneroHome extends HoComponent {
       const latest = (idx.ediciones && idx.ediciones[0])
         ? idx.ediciones[0].archivo
         : 'data/clipping-2026-07-02.json';
+      this._clipNumero = (idx.ediciones && idx.ediciones[0])
+        ? idx.ediciones[0].numero : 4;
       const clipRes = await fetch(latest);
       const clipData = await clipRes.json();
       this._clipping = clipData.noticias || [];
@@ -323,16 +325,16 @@ class HorneroHome extends HoComponent {
   }
 
   _afterRender() {
-    // Carousel slides — click → go to Actualidad clipping with that ID
+    // Carousel slides — click → go directly to clipping sub-screen
     this.shadowRoot.querySelectorAll('.news-slide').forEach(slide => {
       slide.addEventListener('click', () => {
         const clipId = slide.dataset.clipId;
-        // Navigate to actualidad screen, pass clippingId via state
+        // Navigate directly to clipping (not actualidad hub)
         if (typeof state !== 'undefined') {
-          state.screen = 'actualidad';
+          state.screen = 'clipping';
           state.clipExpandId = clipId;
         }
-        this.emit('screen-change', { screen: 'actualidad', clipExpandId: clipId });
+        this.emit('screen-change', { screen: 'clipping', clipEdicion: this._clipNumero, clipExpandId: clipId });
       });
     });
 
