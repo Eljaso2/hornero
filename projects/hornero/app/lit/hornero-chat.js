@@ -20,6 +20,8 @@ class HorneroChat extends HoComponent {
       historyTitle: String, // Custom title for history drawer — default "Historial"
       informeBadge: Boolean, // True = outline grueso + fondo pálido (informe nuevo)
       informesTitle: String, // Custom title for informes drawer — default "Informes"
+      persona: String,      // Active persona: companero|abogado|periodista|relator|ia-sindical
+      personaPills: Boolean, // Show persona switcher pills (mesa de trabajo UI)
     };
   }
 
@@ -36,6 +38,8 @@ class HorneroChat extends HoComponent {
     this.historyTitle = 'Historial';
     this.informeBadge = false;
     this.informesTitle = 'Informes';
+    this.persona = 'ia-sindical';
+    this.personaPills = false;
     this._isListening = false; // mic state
     this._recognition = null;  // SpeechRecognition instance
     this._showHistory = false; // history drawer state
@@ -347,8 +351,28 @@ class HorneroChat extends HoComponent {
         background: var(--ho-green-pale, #E8EDD7);
         display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden; }
       .msg-avatar img { width: 18px; height: 18px; }
+      .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .78rem; color: var(--ho-green-dark, #586B33); }
+        font-size: .78rem; }
+
+      /* === Typing avatar: persona-aware === */
+      .typing-avatar-emoji { font-size: .72rem; line-height: 1; }
+
+      /* === Persona pills — mesa de trabajo === */
+      .chat-persona-pills { display: flex; gap: 8px; padding: 6px 10px;
+        background: var(--ho-card, #FBFAF6); border-top: 1px solid var(--ho-border, rgba(43,42,38,.10));
+        flex-wrap: wrap; justify-content: center; }
+      .persona-pill { display: flex; align-items: center; gap: 5px;
+        padding: 4px 10px 4px 4px; border-radius: 20px; cursor: pointer;
+        border: 1.5px solid var(--ho-border, rgba(43,42,38,.15));
+        background: transparent; transition: all .2s ease; font-family: 'Archivo', sans-serif; }
+      .persona-pill:hover { transform: scale(1.05); }
+      .persona-pill.active { font-weight: 700; }
+      .persona-pill-icon { width: 22px; height: 22px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none; }
+      .persona-pill-icon img { width: 14px; height: 14px; }
+      .persona-pill-emoji { font-size: .68rem; line-height: 1; }
+      .persona-pill-label { font-size: .72rem; }
 
       .msg-text { font-family: 'Public Sans', sans-serif; font-size: .90rem;
         color: var(--ho-text, #2B2A26); line-height: 1.55;
@@ -553,9 +577,13 @@ class HorneroChat extends HoComponent {
         <div class="chat-progress-label">${this.progress}%</div>
       </div>` : '';
 
+    const typingPersona = this._getPersonaConfig(this.persona || 'ia-sindical');
+    const typingAvatarInner = typingPersona.img
+      ? `<img src="${typingPersona.img}" alt="H">`
+      : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
     const typingHtml = this.typing ?
-      `<div class="typing-row">
-        <div class="typing-avatar"><img src="assets/hornero-logo.png" alt="H"></div>
+      `<div class="typing-row persona-${this.persona || 'ia-sindical'}">
+        <div class="typing-avatar" style="background:${typingPersona.bg}">${typingAvatarInner}</div>
         <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>
@@ -575,6 +603,23 @@ class HorneroChat extends HoComponent {
           const emojiHtml = isEmoji ? `<span class="suggestion-emoji">${emoji}</span>` : '';
           const labelText = isEmoji ? label : s;
           return `<button class="chat-suggestion-btn">${emojiHtml}<span>${labelText}</span></button>`;
+        }).join('')}
+      </div>` : '';
+
+    // Persona pills — mesa de trabajo (who's at the table)
+    const personaOptions = ['ia-sindical', 'abogado', 'companero', 'periodista'];
+    const personaPillsHtml = this.personaPills ?
+      `<div class="chat-persona-pills">
+        ${personaOptions.map(p => {
+          const cfg = this._getPersonaConfig(p);
+          const isActive = this.persona === p;
+          const inner = cfg.img
+            ? `<img src="${cfg.img}" alt="H">`
+            : `<span class="persona-pill-emoji">${cfg.emoji}</span>`;
+          return `<button class="persona-pill${isActive ? ' active' : ''}" data-persona="${p}" style="background:${isActive ? cfg.bg : 'transparent'}; border-color:${isActive ? cfg.color : 'var(--ho-border, rgba(43,42,38,.15))'}">
+            <span class="persona-pill-icon" style="background:${cfg.bg}">${inner}</span>
+            <span class="persona-pill-label" style="color:${isActive ? cfg.color : 'var(--ho-text-mid, #6E6A60)'}">${cfg.name}</span>
+          </button>`;
         }).join('')}
       </div>` : '';
 
@@ -683,6 +728,8 @@ class HorneroChat extends HoComponent {
       </div>
 
       ${suggestionsHtml}
+
+      ${personaPillsHtml}
 
       <div class="chat-input">
         ${attachPreview}
@@ -822,6 +869,18 @@ class HorneroChat extends HoComponent {
     return `<div class="msg-quote"><span class="msg-quote-icon">❝</span><p>${content}</p></div>`;
   }
 
+  // ===== Persona config: avatar icon, name, colors per persona =====
+  _getPersonaConfig(persona) {
+    const map = {
+      'ia-sindical':  { emoji: '🪶', name: 'IA Sindical', bg: 'var(--ho-green-pale, #E8EDD7)', color: 'var(--ho-green-dark, #586B33)', img: 'assets/hornero-logo.png' },
+      'abogado':      { emoji: '⚖️', name: 'Abogado',     bg: '#D4E4F7', color: '#2B5278', img: null },
+      'companero':    { emoji: '✊', name: 'Compañero',   bg: '#FDE8D0', color: '#A05A2C', img: null },
+      'periodista':   { emoji: '🎙️', name: 'Periodista',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
+      'relator':      { emoji: '📝', name: 'Relator',     bg: '#E0E8D7', color: '#4A6A2C', img: null },
+    };
+    return map[persona] || map['ia-sindical'];
+  }
+
   _renderMessage(m, msgIndex) {
     const role = m.role || 'hornero';
 
@@ -841,10 +900,14 @@ class HorneroChat extends HoComponent {
     // === HORNERO message: NO bubble — plain text ===
     const timeHtml = m.time ? `<div class="msg-time hornero-time">${m.time}</div>` : '';
 
-    // Avatar + name row
-    const avatarRow = `<div class="msg-avatar-row">
-      <div class="msg-avatar"><img src="assets/hornero-logo.png" alt="H"></div>
-      <div class="msg-avatar-name">IA Sindical</div>
+    // Avatar + name row — persona-aware
+    const personaCfg = this._getPersonaConfig(m.persona || 'ia-sindical');
+    const avatarInner = personaCfg.img
+      ? `<img src="${personaCfg.img}" alt="H">`
+      : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
+    const avatarRow = `<div class="msg-avatar-row persona-${m.persona || 'ia-sindical'}">
+      <div class="msg-avatar" style="background:${personaCfg.bg}">${avatarInner}</div>
+      <div class="msg-avatar-name" style="color:${personaCfg.color}">${personaCfg.name}</div>
     </div>`;
 
     // === REPORTE DESPLEGABLE: if tags include 'reporte-generado' ===
@@ -1089,6 +1152,18 @@ class HorneroChat extends HoComponent {
         if (text) {
           this.emit('chat-send', { text });
           this.suggestions = [];
+          this.render();
+        }
+      });
+    });
+
+    // === Persona pills → switch persona ===
+    this.shadowRoot.querySelectorAll('.persona-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = btn.dataset.persona;
+        if (p && p !== this.persona) {
+          this.persona = p;
+          this.emit('persona-switch', { persona: p });
           this.render();
         }
       });
