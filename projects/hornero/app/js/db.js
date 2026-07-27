@@ -300,13 +300,14 @@ function obtenerChatSessions() {
         };
       }
       sessionsMap[m.sessionId].messageCount++;
-      // Track first user message as preview/title
+      // Track first user message as preview/title (use m.title if generated)
       if (m.role === 'user' && !sessionFirstUser[m.sessionId]) {
         sessionFirstUser[m.sessionId] = true;
-        // Extract text — user messages have m.text
         var userText = (m.text || '').trim();
-        if (userText) {
-          sessionsMap[m.sessionId].preview = userText.substring(0, 80);
+        // Use generated title if available, otherwise raw text
+        var previewText = m.title || userText.substring(0, 80);
+        if (previewText) {
+          sessionsMap[m.sessionId].preview = previewText;
           sessionsMap[m.sessionId].timestamp = m.timestamp;
         }
       }

@@ -195,8 +195,50 @@ class HorneroGremial extends HoComponent {
     };
   }
 
+  // ===== Generate a descriptive chat title from the user's first message =====
+  _generateTitle(text, section) {
+    const t = (text || '').toLowerCase().trim();
+    const keywords = [
+      ['paritaria', 'Paritaria aceitera'],
+      ['salario mínimo', 'SMVM y salario'],
+      ['smvm', 'SMVM y salario'],
+      ['condiciones', 'Reporte de condiciones'],
+      ['seguridad', 'Reporte de seguridad'],
+      ['accidente', 'Accidente laboral'],
+      ['art', 'Reporte ART'],
+      ['despidos', 'Despidos y estabilidad'],
+      ['estabilidad', 'Reporte de estabilidad'],
+      ['jornada', 'Jornada laboral'],
+      ['horas extra', 'Horas extras'],
+      ['contrato', 'Contrato de trabajo'],
+      ['sindicato', 'Organización sindical'],
+      ['delegado', 'Delegados y representación'],
+      ['acoso', 'Acoso laboral'],
+      ['discriminación', 'Discriminación laboral'],
+      ['reporte', 'Reporte de situación'],
+      ['situación', 'Situación laboral'],
+      ['trabajo', 'Situación laboral'],
+      ['insalubridad', 'Insalubridad'],
+      ['rhythm', 'Ritmo de trabajo'],
+      ['ritmo', 'Ritmo de trabajo'],
+      ['maltrato', 'Maltrato laboral'],
+      ['firma', 'Firma y documentación'],
+      ['convenio', 'Convenio colectivo'],
+      ['organización', 'Organización sindical'],
+    ];
+    for (const [kw, title] of keywords) {
+      if (t.includes(kw)) return title;
+    }
+    const clean = text.trim().replace(/[?!.]+$/, '').substring(0, 50);
+    return clean.length > 10 ? clean + '…' : 'Reporte';
+  }
+
   _handleUserMessage(text) {
+    // Generate title for session from the first user message
+    const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
+    const title = isFirstUserMsg ? this._generateTitle(text, 'reporte') : undefined;
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
+    if (title) userMsg.title = title;
     this.messages = [...this.messages, userMsg];
     this._typing = true;
     this._saveChatHistory();

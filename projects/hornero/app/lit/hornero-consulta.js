@@ -182,8 +182,67 @@ class HorneroConsulta extends HoComponent {
     };
   }
 
+  // ===== Generate a descriptive chat title from the user's first message =====
+  _generateTitle(text, section) {
+    const t = (text || '').toLowerCase().trim();
+    // Keyword → title map (most specific first)
+    const keywords = [
+      ['paritaria', 'Paritaria aceitera'],
+      ['smvm', 'SMVM y salario mínimo'],
+      ['salario mínimo', 'SMVM y salario mínimo'],
+      ['salario', 'Salario y remuneración'],
+      ['convenio', 'Convenio colectivo'],
+      ['cct 420', 'Convenio CCT 420'],
+      ['cct', 'Convenio colectivo'],
+      ['reforma laboral', 'Reforma laboral'],
+      ['reforma', 'Reforma laboral'],
+      ['despidos', 'Despidos y estabilidad'],
+      ['estabilidad', 'Estabilidad laboral'],
+      ['jornada', 'Jornada laboral'],
+      ['horas extra', 'Horas extras'],
+      ['vacaciones', 'Vacaciones y descanso'],
+      ['licencia', 'Licencias laborales'],
+      ['enfermedad', 'Enfermedad y licencia'],
+      ['accidente', 'Accidentes laborales'],
+      ['art', 'ART y seguridad'],
+      ['seguridad', 'Seguridad laboral'],
+      ['sindicato', 'Organización sindical'],
+      ['delegado', 'Delegados y representación'],
+      ['asamblea', 'Asamblea y participación'],
+      ['organización', 'Organización sindical'],
+      ['greca', 'GRECA y afiliación'],
+      ['afiliación', 'Afiliación sindical'],
+      ['yofra', 'Daniel Yofra'],
+      ['cremonte', 'Investigador Cremonte'],
+      ['reporte', 'Reporte de situación'],
+      ['situación', 'Situación laboral'],
+      ['condiciones', 'Condiciones laborales'],
+      ['trabajo', 'Condiciones laborales'],
+      ['derechos', 'Derechos laborales'],
+      ['ley', 'Legislación laboral'],
+      ['contrato', 'Contrato de trabajo'],
+      ['firma', 'Firma y documentación'],
+      ['código', 'Código laboral'],
+      ['discriminación', 'Discriminación laboral'],
+      ['acoso', 'Acoso laboral'],
+      ['mujeres', 'Mujeres y trabajo'],
+      ['capacitación', 'Capacitación laboral'],
+      ['formación', 'Formación sindical'],
+    ];
+    for (const [kw, title] of keywords) {
+      if (t.includes(kw)) return title;
+    }
+    // Fallback: clean up first 50 chars as title
+    const clean = text.trim().replace(/[?!.]+$/, '').substring(0, 50);
+    return clean.length > 10 ? clean + '…' : 'Consulta';
+  }
+
   _handleUserMessage(text) {
+    // Generate title for session from the first user message
+    const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
+    const title = isFirstUserMsg ? this._generateTitle(text, 'consulta') : undefined;
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
+    if (title) userMsg.title = title;
     this.messages = [...this.messages, userMsg];
     this._typing = true;
     this._saveChatHistory();
