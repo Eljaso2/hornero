@@ -261,6 +261,15 @@ class HorneroChat extends HoComponent {
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #F4F3EE); position: relative; }
 
+      /* Download toast — centered overlay that appears briefly after export */
+      .download-toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        z-index: 1000; background: var(--ho-green-dark, #586B33); color: #fff;
+        padding: 16px 28px; border-radius: 12px; font-family: 'Archivo', sans-serif;
+        font-weight: 700; font-size: .9rem; text-align: center; line-height: 1.4;
+        opacity: 0; transition: opacity .3s ease; pointer-events: none;
+        box-shadow: 0 4px 20px rgba(43,42,38,.3); }
+      .download-toast.show { opacity: 1; }
+
       /* History button — top-right corner of chat */
       .chat-history-btn { position: absolute; top: 12px; right: 12px; z-index: 20;
         width: 32px; height: 32px; border-radius: 50%;
@@ -881,8 +890,8 @@ class HorneroChat extends HoComponent {
     const sectionConfig = {
       consulta:  { emoji: '📖', label: 'Consulta',  color: '#6E8345' },
       contenido: { emoji: '🎙️', label: 'Contenido', color: '#B0863F' },
-      debate:    { emoji: '✊', label: 'Compañero', color: '#5A7EA8' },
-      reporte:   { emoji: '📝', label: 'Reporte',   color: '#586B33' },
+      debate:    { emoji: '✊🏾', label: 'Compañero', color: '#5A7EA8' },
+      reporte:   { emoji: '🪶', label: 'Reporte',   color: '#586B33' },
     };
     const defaultSection = { emoji: '🪶', label: 'IA Sindical', color: '#586B33' };
 
@@ -1019,6 +1028,8 @@ class HorneroChat extends HoComponent {
       ${historyDrawerHtml}
 
       ${informesDrawerHtml}
+
+      <div class="download-toast" id="downloadToast">📥 Descargado como TXT</div>
     `;
   }
 
@@ -1286,10 +1297,24 @@ class HorneroChat extends HoComponent {
       </button>
     </div>`;
 
+    // Redirect derivation button — if message has redirect_persona
+    const redirectPersona = m.redirect_persona || '';
+    const redirectBtnHtml = redirectPersona ? (() => {
+      const targetCfg = this._getPersonaConfig(redirectPersona);
+      const targetInner = targetCfg.img
+        ? `<img src="${targetCfg.img}" alt="H">`
+        : `<span class="msg-redirect-emoji">${targetCfg.emoji}</span>`;
+      return `<button class="msg-redirect-btn" data-redirect-persona="${redirectPersona}" style="background:${targetCfg.bg}; border-color:${targetCfg.color}; color:${targetCfg.color}">
+        <span class="msg-redirect-icon-circle" style="background:${targetCfg.bg}">${targetInner}</span>
+        Chatear con ${targetCfg.name}
+      </button>`;
+    })() : '';
+
     return `<div class="msg-row hornero">
       ${avatarRow}
       <div class="msg-content">
         ${contentHtml}
+        ${redirectBtnHtml}
         ${timeHtml}
         ${actionsHtml}
       </div>
@@ -1879,6 +1904,16 @@ ${msgs.map(m => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    this._showDownloadToast(filename || title || 'chat-hornero');
+  }
+
+  // Show brief toast notification confirming the download
+  _showDownloadToast(filename) {
+    const toast = this.shadowRoot.querySelector('#downloadToast');
+    if (!toast) return;
+    toast.textContent = `📥 "${filename}.txt" descargado`;
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); }, 2500);
   }
 
   // ===== Public API =====

@@ -108,10 +108,14 @@ class HorneroConsulta extends HoComponent {
           this.render();
         }
       });
-      // Listen for persona switch from mesa de trabajo pills
+      // Listen for persona switch from mesa de trabajo icons
       chatEl.addEventListener('persona-switch', (e) => {
         this._activePersona = e.detail.persona;
         this.render();
+      });
+      // Listen for persona redirect from derivation button
+      chatEl.addEventListener('persona-redirect', (e) => {
+        this._handlePersonaRedirect(e.detail.persona);
       });
       // Listen for audio message from mic recording
       chatEl.addEventListener('chat-audio', (e) => {
@@ -188,6 +192,7 @@ class HorneroConsulta extends HoComponent {
         sections: data.sections || [],
         tags: data.tags || ['consulta', 'greeting'],
         persona: data.persona || this._activePersona,
+        redirect_persona: data.redirect_persona || '',
         time: data.time || this._timeNow(),
       }];
       this._activePersona = data.persona || this._activePersona;
@@ -329,6 +334,7 @@ class HorneroConsulta extends HoComponent {
       sections: data.sections || [],
       tags: data.tags || ['consulta'],
       persona: data.persona || this._activePersona,
+      redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
     this._activePersona = data.persona || this._activePersona;
@@ -388,6 +394,7 @@ class HorneroConsulta extends HoComponent {
       sections: data.sections || [],
       tags: data.tags || ['consulta', 'audio'],
       persona: data.persona || this._activePersona,
+      redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
     this._activePersona = data.persona || this._activePersona;
@@ -459,6 +466,19 @@ class HorneroConsulta extends HoComponent {
       this._saveChatHistory();
       this.render();
     }
+  }
+
+  _handlePersonaRedirect(targetPersona) {
+    // If redirecting to relator — navigate to gremial screen
+    if (targetPersona === 'relator') {
+      this.emit('screen-change', { screen: 'gremial' });
+      return;
+    }
+    // Otherwise, switch persona within current chat
+    this._activePersona = targetPersona;
+    this.messages = [];
+    this._greetingRequested = false;
+    this.render();
   }
 }
 
