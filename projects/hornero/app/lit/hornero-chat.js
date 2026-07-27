@@ -867,10 +867,10 @@ class HorneroChat extends HoComponent {
 
       .chat-input-field { flex: 1; background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 22px; padding: 8px 16px; font-size: .88rem;
+        border-radius: 22px; padding: 6px 14px; font-size: .88rem;
         color: var(--ho-text, #2B2A26); font-family: 'Public Sans', sans-serif;
         outline: none; transition: border-color .2s;
-        min-height: 36px; max-height: 120px;
+        min-height: 28px; max-height: 120px;
         resize: none; overflow-y: auto;
         line-height: 1.4; }
       .chat-input-field:focus { border-color: var(--ho-green, #6E8345); }
@@ -878,11 +878,11 @@ class HorneroChat extends HoComponent {
 
       /* Input toolbar buttons */
       .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; align-self: flex-end; }
-      .chat-toolbar-btn { width: 36px; height: 36px; border-radius: 50%;
+      .chat-toolbar-btn { width: 28px; height: 28px; border-radius: 50%;
         border: none; cursor: pointer; display: flex; align-items: center;
         justify-content: center; flex: none; transition: background .2s, transform .15s; }
       .chat-toolbar-btn:hover { transform: scale(1.08); }
-      .chat-toolbar-btn svg { width: 18px; height: 18px; stroke-width: 2;
+      .chat-toolbar-btn svg { width: 15px; height: 15px; stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
       .chat-attach-btn { background: var(--ho-green-pale, #E8EDD7); }
