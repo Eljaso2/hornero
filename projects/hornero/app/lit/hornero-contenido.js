@@ -42,6 +42,7 @@ class HorneroContenido extends HoComponent {
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
     this._sessionId = ''; // Current session ID — new on each visit
+    this._activePersona = 'periodista'; // Default persona for contenido section
   }
 
   connectedCallback() {
@@ -66,6 +67,8 @@ class HorneroContenido extends HoComponent {
           input-placeholder="Escribí tu tema, formato, o pedido..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
+          persona="${this._activePersona}"
+          persona-pills="${true}"
         ></hornero-chat>
       </div>
     `;
@@ -89,6 +92,11 @@ class HorneroContenido extends HoComponent {
           this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
           this.render();
         }
+      });
+      // Listen for persona switch from mesa de trabajo pills
+      chatEl.addEventListener('persona-switch', (e) => {
+        this._activePersona = e.detail.persona;
+        this.render();
       });
     }
 
@@ -134,6 +142,8 @@ class HorneroContenido extends HoComponent {
       chatEl.typing = this._typing;
       chatEl.section = this._chatSection;
       chatEl.sessionId = this._sessionId;
+      chatEl.persona = this._activePersona;
+      chatEl.personaPills = true;
       chatEl.render();
     }
   }
@@ -151,6 +161,7 @@ class HorneroContenido extends HoComponent {
           section: 'contenido',
           grade: this.grade,
           sector: this.sector,
+          requested_persona: this._activePersona,
         }),
       });
 
@@ -162,8 +173,10 @@ class HorneroContenido extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['contenido', 'greeting'],
+        persona: data.persona || 'periodista',
         time: data.time || this._timeNow(),
       }];
+      this._activePersona = data.persona || 'periodista';
       this._typing = false; this._greetingRequested = false;
       this._saveChatHistory();
       this.render();
@@ -226,6 +239,7 @@ class HorneroContenido extends HoComponent {
         history: history,
         grade: this.grade,
         sector: this.sector,
+        requested_persona: this._activePersona,
       }),
     });
 
@@ -237,8 +251,10 @@ class HorneroContenido extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['contenido'],
+      persona: data.persona || this._activePersona,
       time: data.time || this._timeNow(),
     }];
+    this._activePersona = data.persona || this._activePersona;
     this.iaStep++;
     this._typing = false; this._greetingRequested = false;
     this._saveChatHistory();
