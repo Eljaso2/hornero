@@ -443,7 +443,7 @@ def get_chunks_text(chunk_ids: list) -> str:
     if not chunk_ids:
         return ""
 
-    chunks = [c for c in KB_CHUNKS if c["id"] in chunk_ids]
+    chunks = [c for c in ALL_CHUNKS if c["id"] in chunk_ids]
     if not chunks:
         return ""
 

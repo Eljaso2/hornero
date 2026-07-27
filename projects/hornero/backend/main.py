@@ -85,7 +85,7 @@ class GreetingRequest(BaseModel):
     section: str = "consulta"  # consulta|contenido|debate
     grade: str = "A"
     sector: str = "aceitero"
-    requested_persona: str = ""  # companero|abogado|periodista|relator|ia-sindical — override
+    requested_persona: str = ""  # companero|abogado|periodista|relator|historiador|ia-sindical — override
 
 
 class GreetingResponse(BaseModel):
@@ -104,7 +104,7 @@ class ChatRequest(BaseModel):
     history: list = []  # [{role, text, sections}]
     grade: str = "A"
     sector: str = "aceitero"
-    requested_persona: str = ""  # companero|abogado|periodista|relator — override
+    requested_persona: str = ""  # companero|abogado|periodista|relator|historiador — override
 
 
 class ChatResponse(BaseModel):
@@ -113,7 +113,7 @@ class ChatResponse(BaseModel):
     tags: list
     time: str
     raw: str = ""  # Raw LLM response for debugging
-    persona: str = "ia-sindical"  # Who responded: companero|abogado|periodista|relator|ia-sindical
+    persona: str = "ia-sindical"  # Who responded: companero|abogado|periodista|relator|historiador|ia-sindical
     redirect_persona: str = ""  # Derivation: persona to redirect to (empty = no redirect)
 
 
@@ -135,7 +135,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     """
     # Greeting: no RAG retrieval needed (persona + principles are sufficient)
     # Use requested_persona if provided, otherwise section-based default
-    if req.requested_persona and req.requested_persona in ["companero", "abogado", "periodista", "relator", "ia-sindical"]:
+    if req.requested_persona and req.requested_persona in ["companero", "abogado", "periodista", "relator", "historiador", "ia-sindical"]:
         effective_persona = req.requested_persona
     elif req.requested_persona and req.requested_persona in PERSONA_MAP:
         effective_persona = PERSONA_MAP.get(req.requested_persona, 'abogado')
@@ -178,7 +178,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
 
     # Determine persona from LLM response or fallback
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "ia-sindical"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "historiador", "ia-sindical"] else effective_persona
 
     return GreetingResponse(
         text=parsed.get("text", ""),
@@ -260,7 +260,7 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
 
     # Determine persona from LLM response or fallback
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "ia-sindical"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "historiador", "ia-sindical"] else effective_persona
 
     return ChatResponse(
         text=parsed.get("text", ""),
@@ -357,7 +357,7 @@ async def audio_chat_endpoint(
     time_str = now.strftime("%H:%M")
 
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "ia-sindical"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "historiador", "ia-sindical"] else effective_persona
 
     return ChatResponse(
         text=parsed.get("text", ""),

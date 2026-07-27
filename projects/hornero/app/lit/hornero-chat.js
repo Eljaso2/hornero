@@ -20,8 +20,7 @@ class HorneroChat extends HoComponent {
       historyTitle: String, // Custom title for history drawer — default "Historial"
       informeBadge: Boolean, // True = outline grueso + fondo pálido (informe nuevo)
       informesTitle: String, // Custom title for informes drawer — default "Informes"
-      persona: String,      // Active persona: companero|abogado|periodista|relator|ia-sindical
-      personaPills: Boolean, // Show persona switcher pills (mesa de trabajo UI)
+      persona: String,      // Active persona: companero|abogado|periodista|relator|historiador|ia-sindical
       username: String,      // Login username for per-user data isolation
     };
   }
@@ -40,7 +39,6 @@ class HorneroChat extends HoComponent {
     this.informeBadge = false;
     this.informesTitle = 'Informes';
     this.persona = 'ia-sindical';
-    this.personaPills = false;
     this.username = '';
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
@@ -849,21 +847,28 @@ class HorneroChat extends HoComponent {
         }).join('')}
       </div>` : '';
 
-    // Persona icons — top-left corner (mesa de trabajo)
-    const personaOptions = ['abogado', 'companero', 'periodista', 'relator', 'historiador'];
-    const personaIconsHtml = this.personaPills ?
-      personaOptions.map(p => {
-        const cfg = this._getPersonaConfig(p);
-        const isActive = this.persona === p;
-        const inner = cfg.img
-          ? `<img src="${cfg.img}" alt="H">`
-          : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-        const idx = personaOptions.indexOf(p);
-        const leftPos = 12 + idx * 36;
-        return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" style="left:${leftPos}px; background:${isActive ? cfg.bg : 'var(--ho-card, #FBFAF6)'}; border-color:${isActive ? cfg.color : 'var(--ho-border, rgba(43,42,38,.12))'}">
-          <span class="persona-icon-inner" style="background:${isActive ? cfg.bg : 'transparent'}">${inner}</span>
-        </button>`;
-      }).join('') : '';
+    // Persona icons — top-left corner (always visible, show OTHER personas)
+    const allPersonas = ['abogado', 'companero', 'periodista', 'relator', 'historiador'];
+    const otherPersonas = allPersonas.filter(p => p !== this.persona);
+    // Screen mapping for navigation
+    const personaScreenMap = {
+      'abogado': { screen: 'consulta', persona: 'abogado' },
+      'companero': { screen: 'consulta', persona: 'companero' },
+      'periodista': { screen: 'contenido', persona: 'periodista' },
+      'relator': { screen: 'gremial' },
+      'historiador': { screen: 'historiador' },
+    };
+    const personaIconsHtml = otherPersonas.map((p, idx) => {
+      const cfg = this._getPersonaConfig(p);
+      const inner = cfg.img
+        ? `<img src="${cfg.img}" alt="H">`
+        : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
+      const leftPos = 12 + idx * 36;
+      const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
+      return `<button class="chat-persona-icon" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px; background:${cfg.bg}; border-color:${cfg.color}">
+        <span class="persona-icon-inner" style="background:${cfg.bg}">${inner}</span>
+      </button>`;
+    }).join('');
 
     // SVG icons
     const attachSvg = '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>';
@@ -1153,11 +1158,11 @@ class HorneroChat extends HoComponent {
   _getPersonaConfig(persona) {
     const map = {
       'ia-sindical':  { emoji: '🪶', name: 'IA Sindical', bg: 'var(--ho-green-pale, #E8EDD7)', color: 'var(--ho-green-dark, #586B33)', img: 'assets/hornero-logo.png' },
-      'abogado':      { emoji: '📖', name: 'Abogado',     bg: '#D4E4F7', color: '#2B5278', img: null },
-      'companero':    { emoji: '✊🏾', name: 'Compañero',   bg: '#C89660', color: '#7A3B1E', img: null },
-      'periodista':   { emoji: '🎙️', name: 'Periodista',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
-      'relator':      { emoji: '📝', name: 'Reporte Gremial', bg: '#E0E8D7', color: '#4A6A2C', img: null },
-      'historiador':  { emoji: '🤓', name: 'Historiador',  bg: '#D7D4E8', color: '#4A3A5A', img: null },
+      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: null },
+      'companero':    { emoji: '✊🏾', name: 'Compañero/a',   bg: '#C89660', color: '#7A3B1E', img: null },
+      'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
+      'relator':      { emoji: '📝', name: 'Relator/a', bg: '#E0E8D7', color: '#4A6A2C', img: null },
+      'historiador':  { emoji: '🤓', name: 'Historiador/a',  bg: '#D7D4E8', color: '#4A3A5A', img: null },
     };
     return map[persona] || map['ia-sindical'];
   }
@@ -1464,14 +1469,13 @@ class HorneroChat extends HoComponent {
       });
     });
 
-    // === Persona icon buttons → switch persona ===
+    // === Persona icon buttons → navigate to that persona's screen ===
     this.shadowRoot.querySelectorAll('.chat-persona-icon').forEach(btn => {
       btn.addEventListener('click', () => {
-        const p = btn.dataset.persona;
-        if (p && p !== this.persona) {
-          this.persona = p;
-          this.emit('persona-switch', { persona: p });
-          this.render();
+        const screen = btn.dataset.navScreen;
+        const persona = btn.dataset.navPersona;
+        if (screen) {
+          this.emit('persona-navigate', { persona, screen });
         }
       });
     });

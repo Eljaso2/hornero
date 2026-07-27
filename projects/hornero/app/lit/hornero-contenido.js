@@ -58,6 +58,11 @@ class HorneroContenido extends HoComponent {
     super.connectedCallback();
     // Generate new sessionId on each visit — start fresh
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    // Get username from login session for per-user data isolation
+    try {
+      const session = JSON.parse(localStorage.getItem('hornero-session'));
+      if (session && session.username) this._username = session.username;
+    } catch(e) {}
   }
 
   _styles() {
@@ -77,7 +82,6 @@ class HorneroContenido extends HoComponent {
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           persona="${this._activePersona}"
-          persona-pills="${true}"
           username="${this._username}"
         ></hornero-chat>
       </div>
@@ -103,14 +107,13 @@ class HorneroContenido extends HoComponent {
           this.render();
         }
       });
-      // Listen for persona switch from mesa de trabajo icons
-      chatEl.addEventListener('persona-switch', (e) => {
-        this._activePersona = e.detail.persona;
-        this.render();
+      // Listen for persona navigate from top-bar icons
+      chatEl.addEventListener('persona-navigate', (e) => {
+        this._handlePersonaNavigate(e.detail.persona, e.detail.screen);
       });
       // Listen for persona redirect from derivation button
       chatEl.addEventListener('persona-redirect', (e) => {
-        this._handlePersonaRedirect(e.detail.persona);
+        this._handlePersonaNavigate(e.detail.persona);
       });
       // Listen for audio message from mic recording
       chatEl.addEventListener('chat-audio', (e) => {
@@ -162,7 +165,6 @@ class HorneroContenido extends HoComponent {
       chatEl.sessionId = this._sessionId;
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
-      chatEl.personaPills = true;
       chatEl.render();
     }
   }
@@ -198,7 +200,7 @@ class HorneroContenido extends HoComponent {
       }];
       this._activePersona = data.persona || 'periodista';
       this._typing = false; this._greetingRequested = false;
-      this._saveChatHistory();
+      // Don't save to IndexedDB yet — session only created when user sends a message
       this.render();
     } catch (e) {
       this._typing = false; this._greetingRequested = false;
@@ -377,17 +379,18 @@ class HorneroContenido extends HoComponent {
     } catch(e) { console.warn('Contenido: chat history save failed', e); }
   }
 
-  _handlePersonaRedirect(targetPersona) {
-    // If redirecting to relator — navigate to gremial screen
-    if (targetPersona === 'relator') {
-      this.emit('screen-change', { screen: 'gremial' });
-      return;
+  _handlePersonaNavigate(targetPersona, targetScreen) {
+    const screenMap = {
+      'abogado': { screen: 'consulta', persona: 'abogado' },
+      'companero': { screen: 'consulta', persona: 'companero' },
+      'periodista': { screen: 'contenido', persona: 'periodista' },
+      'relator': { screen: 'gremial' },
+      'historiador': { screen: 'historiador' },
+    };
+    const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
+    if (target) {
+      this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
     }
-    // Otherwise, switch persona within current chat
-    this._activePersona = targetPersona;
-    this.messages = [];
-    this._greetingRequested = false;
-    this.render();
   }
 }
 

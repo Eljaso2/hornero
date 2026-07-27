@@ -82,7 +82,6 @@ class HorneroConsulta extends HoComponent {
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           persona="${this._activePersona}"
-          persona-pills="${true}"
           username="${this._username}"
         ></hornero-chat>
       </div>
@@ -108,20 +107,13 @@ class HorneroConsulta extends HoComponent {
           this.render();
         }
       });
-      // Listen for persona switch from mesa de trabajo icons
-      chatEl.addEventListener('persona-switch', (e) => {
-        this._activePersona = e.detail.persona;
-        // Reset chat and request new greeting for the new persona
-        this.messages = [];
-        this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-        this._greetingRequested = false;
-        this._typing = true;
-        this.render();
-        this._requestGreeting();
+      // Listen for persona navigate from top-bar icons
+      chatEl.addEventListener('persona-navigate', (e) => {
+        this._handlePersonaNavigate(e.detail.persona, e.detail.screen);
       });
       // Listen for persona redirect from derivation button
       chatEl.addEventListener('persona-redirect', (e) => {
-        this._handlePersonaRedirect(e.detail.persona);
+        this._handlePersonaNavigate(e.detail.persona);
       });
       // Listen for audio message from mic recording
       chatEl.addEventListener('chat-audio', (e) => {
@@ -167,7 +159,6 @@ class HorneroConsulta extends HoComponent {
       chatEl.sessionId = this._sessionId;
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
-      chatEl.personaPills = true;
       chatEl.render();
     }
   }
@@ -474,17 +465,19 @@ class HorneroConsulta extends HoComponent {
     }
   }
 
-  _handlePersonaRedirect(targetPersona) {
-    // If redirecting to relator — navigate to gremial screen
-    if (targetPersona === 'relator') {
-      this.emit('screen-change', { screen: 'gremial' });
-      return;
+  _handlePersonaNavigate(targetPersona, targetScreen) {
+    // All persona icon clicks navigate to that persona's screen
+    const screenMap = {
+      'abogado': { screen: 'consulta', persona: 'abogado' },
+      'companero': { screen: 'consulta', persona: 'companero' },
+      'periodista': { screen: 'contenido', persona: 'periodista' },
+      'relator': { screen: 'gremial' },
+      'historiador': { screen: 'historiador' },
+    };
+    const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
+    if (target) {
+      this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
     }
-    // Otherwise, switch persona within current chat
-    this._activePersona = targetPersona;
-    this.messages = [];
-    this._greetingRequested = false;
-    this.render();
   }
 }
 

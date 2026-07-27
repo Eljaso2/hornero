@@ -295,9 +295,10 @@ function obtenerChatSessions(username) {
   // If username provided, only return sessions belonging to that user
   return dbGetAll('chatHistory').then(function(allMessages) {
     if (!allMessages || allMessages.length === 0) return [];
-    // Filter by username (include legacy messages without username for backward compat)
+    // Filter by username — strict: only show messages belonging to this user
+    // No backward-compat leak: messages with empty/undefined username are excluded
     if (username) {
-      allMessages = allMessages.filter(function(m) { return m.username === username || !m.username; });
+      allMessages = allMessages.filter(function(m) { return m.username === username; });
     }
     // Group by sessionId
     var sessionsMap = {};

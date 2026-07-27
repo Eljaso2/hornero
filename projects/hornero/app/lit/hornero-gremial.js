@@ -56,6 +56,11 @@ class HorneroGremial extends HoComponent {
   connectedCallback() {
     super.connectedCallback();
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    // Get username from login session for per-user data isolation
+    try {
+      const session = JSON.parse(localStorage.getItem('hornero-session'));
+      if (session && session.username) this._username = session.username;
+    } catch(e) {}
   }
 
   _styles() {
@@ -121,9 +126,13 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
+      // Listen for persona navigate from top-bar icons
+      chatEl.addEventListener('persona-navigate', (e) => {
+        this._handlePersonaNavigate(e.detail.persona, e.detail.screen);
+      });
       // Listen for persona redirect from derivation button
       chatEl.addEventListener('persona-redirect', (e) => {
-        this._handlePersonaRedirect(e.detail.persona);
+        this._handlePersonaNavigate(e.detail.persona);
       });
     }
     if (!this._historyLoaded) {
@@ -552,17 +561,17 @@ class HorneroGremial extends HoComponent {
     return now.getFullYear() + '-W' + (weekNum < 10 ? '0' : '') + weekNum;
   }
 
-  _handlePersonaRedirect(targetPersona) {
-    // Gremial only has relator — all redirects navigate to other screens
+  _handlePersonaNavigate(targetPersona, targetScreen) {
     const screenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
       'companero': { screen: 'consulta', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
-      'ia-sindical': { screen: 'consulta', persona: 'ia-sindical' },
+      'relator': { screen: 'gremial' },
+      'historiador': { screen: 'historiador' },
     };
-    const target = screenMap[targetPersona];
+    const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
     if (target) {
-      this.emit('screen-change', { screen: target.screen, persona: target.persona });
+      this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
     }
   }
 }

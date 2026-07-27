@@ -113,6 +113,7 @@ class HorneroApp extends HoComponent {
       { id: 'gremial', label: 'Reporte' },
       { id: 'chat', label: 'Chat' },
       { id: 'contenido', label: 'Contenido' },
+      { id: 'historiador', label: 'Historiador' },
       { id: 'condicion', label: 'Panorama' },
       { id: 'smvm', label: 'SMVM' },
       { id: 'felicidad', label: 'Felicidad' },
@@ -144,6 +145,7 @@ class HorneroApp extends HoComponent {
       clipping: 'Clipping de noticias',
       infomate: 'InfoMate',
       gremial: 'Reporte Gremial · IA Sindical',
+      historiador: 'Historiador',
     };
 
     // Parent screen map — back button navigation
@@ -169,6 +171,7 @@ class HorneroApp extends HoComponent {
       argumento: 'home',
       comunicador: 'home',
       archivo: 'home',
+      historiador: 'home',
     };
   }
 
@@ -348,7 +351,7 @@ class HorneroApp extends HoComponent {
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
       .persona-icon-companero { background: #C89660; }
-      .persona-icon-historiador { background: #D7D4E8; }
+      .persona-icon-historiador { background: #D4C5A0; }
       .chat-choice-text { flex: 1; }
       .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: #2B2A26; }
@@ -383,7 +386,7 @@ class HorneroApp extends HoComponent {
 
     const currentTitle = this.titles[this.screen] || 'Hornero';
     // Chat screens: show sections-bar, hide bottom-nav
-    const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido' || this.screen === 'gremial';
+    const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido' || this.screen === 'gremial' || this.screen === 'historiador';
     const showSectionsBar = true;
     const showBottomNav = !isChatScreen;
 
@@ -403,6 +406,8 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-infomate>';
     } else if (this.screen === 'gremial') {
       screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-gremial>';
+    } else if (this.screen === 'historiador') {
+      screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
     } else if (this.screen === 'archivo') {
@@ -418,14 +423,14 @@ class HorneroApp extends HoComponent {
         '<div class="chat-choice" data-screen="gremial">' +
           '<div class="chat-choice-icon persona-icon-ia-sindical"><span class="persona-choice-emoji">🪶</span></div>' +
           '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Relator</div>' +
+            '<div class="chat-choice-name">Relator/a</div>' +
             '<div class="chat-choice-desc">Te ayudo a elaborar un reporte gremial</div>' +
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="consulta" data-persona="abogado">' +
           '<div class="chat-choice-icon persona-icon-abogado"><span class="persona-choice-emoji">📖</span></div>' +
           '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Abogado</div>' +
+            '<div class="chat-choice-name">Abogado/a</div>' +
             '<div class="chat-choice-desc">Derechos, convenios, legislación laboral — asesoría legal</div>' +
           '</div>' +
         '</div>' +
@@ -439,15 +444,15 @@ class HorneroApp extends HoComponent {
         '<div class="chat-choice" data-screen="consulta" data-persona="companero">' +
           '<div class="chat-choice-icon persona-icon-companero"><span class="persona-choice-emoji">✊🏾</span></div>' +
           '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Compañero</div>' +
+            '<div class="chat-choice-name">Compañero/a</div>' +
             '<div class="chat-choice-desc">Experiencia obrera, organización, asambleas, debate sindical</div>' +
           '</div>' +
         '</div>' +
-        '<div class="chat-choice" data-screen="consulta" data-persona="historiador">' +
-          '<div class="chat-choice-icon persona-icon-historiador"><span class="persona-choice-emoji">🤓</span></div>' +
+        '<div class="chat-choice" data-screen="historiador" data-persona="historiador">' +
+          '<div class="chat-choice-icon persona-icon-historiador"><span class="persona-choice-emoji">📚</span></div>' +
           '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Historiador</div>' +
-            '<div class="chat-choice-desc">Historia obrera, La Forestal, masacres, referentes, archivos</div>' +
+            '<div class="chat-choice-name">Historiador/a</div>' +
+            '<div class="chat-choice-desc">Historia obrera, formación, cursos, preguntas y archivos sobre historia</div>' +
           '</div>' +
         '</div>' +
       '</div>';
