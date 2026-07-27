@@ -20,7 +20,7 @@ class HorneroChat extends HoComponent {
       historyTitle: String, // Custom title for history drawer — default "Historial"
       informeBadge: Boolean, // True = outline grueso + fondo pálido (informe nuevo)
       informesTitle: String, // Custom title for informes drawer — default "Informes"
-      persona: String,      // Active persona: companero|abogado|periodista|relator|historiador|ia-sindical
+      persona: String,      // Active persona: companero|abogado|periodista|relator|historiador
       username: String,      // Login username for per-user data isolation
     };
   }
@@ -38,7 +38,7 @@ class HorneroChat extends HoComponent {
     this.historyTitle = 'Historial';
     this.informeBadge = false;
     this.informesTitle = 'Informes';
-    this.persona = 'ia-sindical';
+    this.persona = 'abogado';
     this.username = '';
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
@@ -845,12 +845,12 @@ class HorneroChat extends HoComponent {
         <div class="chat-progress-label">${this.progress}%</div>
       </div>` : '';
 
-    const typingPersona = this._getPersonaConfig(this.persona || 'ia-sindical');
+    const typingPersona = this._getPersonaConfig(this.persona);
     const typingAvatarInner = typingPersona.img
       ? `<img src="${typingPersona.img}" alt="H">`
       : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
     const typingHtml = this.typing ?
-      `<div class="typing-row persona-${this.persona || 'ia-sindical'}">
+      `<div class="typing-row persona-${this.persona}">
         <div class="typing-avatar" style="background:${typingPersona.bg}">${typingAvatarInner}</div>
         <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
@@ -1191,7 +1191,7 @@ class HorneroChat extends HoComponent {
       'relator':      { emoji: '📝', name: 'Relator/a', bg: '#E0E8D7', color: '#4A6A2C', img: 'assets/personajes/relator.png' },
       'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/historiadora.png' },
     };
-    return map[persona] || map['ia-sindical'];
+    return map[persona] || map['abogado'];
   }
 
   _renderMessage(m, msgIndex) {
@@ -1220,11 +1220,11 @@ class HorneroChat extends HoComponent {
     const timeHtml = m.time ? `<div class="msg-time hornero-time">${m.time}</div>` : '';
 
     // Avatar + name row — persona-aware
-    const personaCfg = this._getPersonaConfig(m.persona || 'ia-sindical');
+    const personaCfg = this._getPersonaConfig(m.persona || this.persona);
     const avatarInner = personaCfg.img
       ? `<img src="${personaCfg.img}" alt="H">`
       : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
-    const avatarRow = `<div class="msg-avatar-row persona-${m.persona || 'ia-sindical'}">
+    const avatarRow = `<div class="msg-avatar-row persona-${m.persona || this.persona}">
       <div class="msg-avatar" style="background:${personaCfg.bg}">${avatarInner}</div>
       <div class="msg-avatar-name" style="color:${personaCfg.color}">${personaCfg.name}</div>
     </div>`;
