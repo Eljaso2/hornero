@@ -1109,7 +1109,7 @@ class HorneroChat extends HoComponent {
   _getPersonaConfig(persona) {
     const map = {
       'ia-sindical':  { emoji: '🪶', name: 'IA Sindical', bg: 'var(--ho-green-pale, #E8EDD7)', color: 'var(--ho-green-dark, #586B33)', img: 'assets/hornero-logo.png' },
-      'abogado':      { emoji: '⚖️', name: 'Abogado',     bg: '#D4E4F7', color: '#2B5278', img: null },
+      'abogado':      { emoji: '🪶', name: 'Abogado',     bg: '#D4E4F7', color: '#2B5278', img: null },
       'companero':    { emoji: '✊🏾', name: 'Compañero',   bg: '#C89660', color: '#7A3B1E', img: null },
       'periodista':   { emoji: '🎙️', name: 'Periodista',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
       'relator':      { emoji: '📝', name: 'Relator',     bg: '#E0E8D7', color: '#4A6A2C', img: null },

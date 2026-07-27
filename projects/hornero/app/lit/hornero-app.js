@@ -347,7 +347,7 @@ class HorneroApp extends HoComponent {
       .persona-icon-ia-sindical { background: #E8EDD7; }
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
-      .persona-icon-companero { background: #FDE8D0; }
+      .persona-icon-companero { background: #C89660; }
       .chat-choice-text { flex: 1; }
       .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: #2B2A26; }
@@ -418,11 +418,11 @@ class HorneroApp extends HoComponent {
           '<div class="chat-choice-icon persona-icon-ia-sindical"><span class="persona-choice-emoji">🪶</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">IA Sindical</div>' +
-            '<div class="chat-choice-desc">Consulta general — cualquier tema sindical o laboral</div>' +
+            '<div class="chat-choice-desc">Te ayudo a elaborar un reporte gremial</div>' +
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="consulta" data-persona="abogado">' +
-          '<div class="chat-choice-icon persona-icon-abogado"><span class="persona-choice-emoji">⚖️</span></div>' +
+          '<div class="chat-choice-icon persona-icon-abogado"><span class="persona-choice-emoji">🪶</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Abogado</div>' +
             '<div class="chat-choice-desc">Derechos, convenios, legislación laboral — asesoría legal</div>' +
@@ -436,7 +436,7 @@ class HorneroApp extends HoComponent {
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="consulta" data-persona="companero">' +
-          '<div class="chat-choice-icon persona-icon-companero"><span class="persona-choice-emoji">✊</span></div>' +
+          '<div class="chat-choice-icon persona-icon-companero"><span class="persona-choice-emoji">✊🏾</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Compañero</div>' +
             '<div class="chat-choice-desc">Experiencia obrera, organización, asambleas, debate sindical</div>' +
