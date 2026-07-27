@@ -850,7 +850,7 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Persona icons — top-left corner (mesa de trabajo)
-    const personaOptions = ['abogado', 'companero', 'periodista', 'relator'];
+    const personaOptions = ['abogado', 'companero', 'periodista', 'relator', 'historiador'];
     const personaIconsHtml = this.personaPills ?
       personaOptions.map(p => {
         const cfg = this._getPersonaConfig(p);
@@ -892,6 +892,7 @@ class HorneroChat extends HoComponent {
       contenido: { emoji: '🎙️', label: 'Contenido', color: '#B0863F' },
       debate:    { emoji: '✊🏾', label: 'Compañero', color: '#5A7EA8' },
       reporte:   { emoji: '🪶', label: 'Reporte',   color: '#586B33' },
+      historia:  { emoji: '🤓', label: 'Historia',   color: '#4A3A5A' },
     };
     const defaultSection = { emoji: '🪶', label: 'IA Sindical', color: '#586B33' };
 
@@ -1156,6 +1157,7 @@ class HorneroChat extends HoComponent {
       'companero':    { emoji: '✊🏾', name: 'Compañero',   bg: '#C89660', color: '#7A3B1E', img: null },
       'periodista':   { emoji: '🎙️', name: 'Periodista',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
       'relator':      { emoji: '📝', name: 'Reporte Gremial', bg: '#E0E8D7', color: '#4A6A2C', img: null },
+      'historiador':  { emoji: '🤓', name: 'Historiador',  bg: '#D7D4E8', color: '#4A3A5A', img: null },
     };
     return map[persona] || map['ia-sindical'];
   }

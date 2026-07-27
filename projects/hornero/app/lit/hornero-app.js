@@ -348,6 +348,7 @@ class HorneroApp extends HoComponent {
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
       .persona-icon-companero { background: #C89660; }
+      .persona-icon-historiador { background: #D7D4E8; }
       .chat-choice-text { flex: 1; }
       .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: #2B2A26; }
@@ -440,6 +441,13 @@ class HorneroApp extends HoComponent {
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Compañero</div>' +
             '<div class="chat-choice-desc">Experiencia obrera, organización, asambleas, debate sindical</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="chat-choice" data-screen="consulta" data-persona="historiador">' +
+          '<div class="chat-choice-icon persona-icon-historiador"><span class="persona-choice-emoji">🤓</span></div>' +
+          '<div class="chat-choice-text">' +
+            '<div class="chat-choice-name">Historiador</div>' +
+            '<div class="chat-choice-desc">Historia obrera, La Forestal, masacres, referentes, archivos</div>' +
           '</div>' +
         '</div>' +
       '</div>';
