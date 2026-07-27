@@ -86,7 +86,7 @@ class HorneroApp extends HoComponent {
       { id: 'home', label: 'Inicio', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
       { id: 'actualidad', label: 'Actualidad', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
       { id: 'chat', label: 'Chat', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
-      { id: 'is', label: 'Reporte', svg: '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>' },
+      { id: 'gremial', label: 'Reporte', svg: '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>' },
       { id: 'condicion', label: 'Panorama', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
       { id: 'perfil', label: 'Perfil', svg: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
     ];
@@ -97,10 +97,10 @@ class HorneroApp extends HoComponent {
       { id: 'actualidad', label: 'Actualidad' },
       { id: 'clipping', label: 'Clipping' },
       { id: 'infomate', label: 'InfoMate' },
-      { id: 'gremial', label: 'Gremial' },
+      { id: 'gremial', label: 'Reporte' },
       { id: 'chat', label: 'Chat' },
       { id: 'contenido', label: 'Contenido' },
-      { id: 'is', label: 'Reporte' },
+      { id: 'is', label: 'Comunicación' },
       { id: 'condicion', label: 'Panorama' },
       { id: 'smvm', label: 'SMVM' },
       { id: 'felicidad', label: 'Felicidad' },
@@ -131,7 +131,7 @@ class HorneroApp extends HoComponent {
       // Actualidad sub-screens
       clipping: 'Clipping de noticias',
       infomate: 'InfoMate',
-      gremial: 'Reporte Gremial',
+      gremial: 'Reporte Gremial · IA Sindical',
     };
 
     // Parent screen map — back button navigation
@@ -145,7 +145,7 @@ class HorneroApp extends HoComponent {
       // Actualidad sub-screens → back to actualidad
       clipping: 'actualidad',
       infomate: 'actualidad',
-      gremial: 'actualidad',
+      gremial: 'home',
       // Condicion sub-screens → back to condicion
       smvm: 'condicion',
       felicidad: 'condicion',
@@ -365,7 +365,7 @@ class HorneroApp extends HoComponent {
 
     const currentTitle = this.titles[this.screen] || 'Hornero';
     // Chat screens: show sections-bar, hide bottom-nav
-    const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido';
+    const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido' || this.screen === 'gremial';
     const showSectionsBar = true;
     const showBottomNav = !isChatScreen;
 

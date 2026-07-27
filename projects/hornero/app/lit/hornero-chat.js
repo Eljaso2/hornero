@@ -15,8 +15,9 @@ class HorneroChat extends HoComponent {
       typing: Boolean,
       progress: Number,   // 0-100
       suggestions: Array, // Array of strings — quick-reply buttons
-      section: String,    // 'consulta', 'contenido', 'debate' — for history tagging
+      section: String,    // 'consulta', 'contenido', 'debate', 'reporte' — for history tagging
       sessionId: String,  // Current chat session ID
+      historyTitle: String, // Custom title for history drawer — default "Historial"
     };
   }
 
@@ -30,10 +31,12 @@ class HorneroChat extends HoComponent {
     this.suggestions = [];
     this.section = '';
     this.sessionId = '';
+    this.historyTitle = 'Historial';
     this._isListening = false; // mic state
     this._recognition = null;  // SpeechRecognition instance
     this._showHistory = false; // history drawer state
     this._historySessions = []; // cached session list
+    this._expandedReports = {}; // message index → boolean (expanded/collapsed)
     this._initSpeechRecognition();
   }
 
@@ -163,6 +166,59 @@ class HorneroChat extends HoComponent {
       .section-consulta { color: #6E8345; }
       .section-contenido { color: #B0863F; }
       .section-debate { color: #5A7EA8; }
+      .section-reporte { color: #586B33; }
+
+      /* Reporte card — expandable document in chat */
+      .reporte-card { background: var(--ho-card, #FBFAF6);
+        border: 1.5px solid var(--ho-green, #6E8345);
+        border-radius: 13px; padding: 14px; margin-top: 10px;
+        animation: msgin .35s ease; }
+      .reporte-card-header { display: flex; align-items: center; gap: 8px;
+        cursor: pointer; padding-bottom: 8px;
+        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08)); }
+      .reporte-card-icon { font-size: 1.1rem; flex: none; }
+      .reporte-card-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .92rem; color: var(--ho-text, #2B2A26); flex: 1; }
+      .reporte-card-toggle { font-family: 'JetBrains Mono', monospace;
+        font-size: .66rem; color: var(--ho-text-light, #9C988D);
+        background: none; border: none; cursor: pointer; flex: none;
+        padding: 2px 6px; }
+      .reporte-card-body { max-height: 60px; overflow: hidden;
+        position: relative; transition: max-height .4s ease; }
+      .reporte-card-body.expanded { max-height: none; }
+      .reporte-card-body .msg-fade { position: absolute; bottom: 0; left: 0;
+        right: 0; height: 20px;
+        background: linear-gradient(transparent, var(--ho-card, #FBFAF6)); }
+      .reporte-card-body.expanded .msg-fade { display: none; }
+      .reporte-card-section { margin-bottom: 10px; }
+      .reporte-card-section:last-child { margin-bottom: 0; }
+      .reporte-card-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .84rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px; }
+      .reporte-card-section-body { font-family: 'Public Sans', sans-serif;
+        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
+      .reporte-card-divider { height: 1px; background: var(--ho-border, rgba(43,42,38,.1));
+        margin: 8px 0; }
+      .reporte-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+        padding-top: 8px; border-top: 1px solid var(--ho-border, rgba(43,42,38,.08)); }
+      .reporte-card-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        padding: 4px 10px; border-radius: 8px; font-weight: 600; }
+      .reporte-card-actions { display: flex; gap: 8px; margin-top: 12px;
+        padding-top: 10px; border-top: 1px solid var(--ho-border, rgba(43,42,38,.08)); }
+      .reporte-btn { border-radius: 12px; padding: 10px 18px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .86rem;
+        cursor: pointer; display: flex; align-items: center; gap: 6px;
+        transition: background .2s, border-color .2s; flex: 1; justify-content: center; }
+      .reporte-btn-approve { background: var(--ho-green, #6E8345);
+        color: var(--ho-text-off, #F2F1EC); border: none; }
+      .reporte-btn-approve:hover { background: var(--ho-green-dark, #586B33); }
+      .reporte-btn-correct { background: none;
+        border: 1.5px solid var(--ho-gold, #B0863F);
+        color: var(--ho-gold, #B0863F); }
+      .reporte-btn-correct:hover { background: #F0E4CC; }
+      .reporte-card.estado-aceptado { border-color: var(--ho-green-light, #94A867);
+        opacity: .85; }
+      .reporte-card.estado-aceptado .reporte-card-actions { display: none; }
 
       /* Progress bar */
       .chat-progress-wrap { padding: 4px 16px 0; flex: none; }
@@ -385,7 +441,7 @@ class HorneroChat extends HoComponent {
         </div>
       </div>` : '';
 
-    const messagesHtml = (this.messages || []).map(m => this._renderMessage(m)).join('');
+    const messagesHtml = (this.messages || []).map((m, i) => this._renderMessage(m, i)).join('');
 
     // Suggestions row
     const suggestionsHtml = (this.suggestions && this.suggestions.length > 0) ?
@@ -419,12 +475,12 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // History drawer
-    const sectionLabels = { consulta: 'Consulta', contenido: 'Contenido', debate: 'Debate' };
+    const sectionLabels = { consulta: 'Consulta', contenido: 'Contenido', debate: 'Debate', reporte: 'Reporte' };
     const historyDrawerHtml = this._showHistory ?
       `<div class="history-overlay">
         <div class="history-drawer">
           <div class="history-header">
-            <div class="history-header-title">Historial</div>
+            <div class="history-header-title">${this.historyTitle || 'Historial'}</div>
             <button class="history-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
             </button>
@@ -488,7 +544,7 @@ class HorneroChat extends HoComponent {
     `;
   }
 
-  _renderMessage(m) {
+  _renderMessage(m, msgIndex) {
     const role = m.role || 'hornero';
 
     // === USER message: bubble ===
@@ -512,6 +568,67 @@ class HorneroChat extends HoComponent {
       <div class="msg-avatar"><img src="assets/hornero-logo.png" alt="H"></div>
       <div class="msg-avatar-name">IA Sindical</div>
     </div>`;
+
+    // === REPORTE DESPLEGABLE: if tags include 'reporte-generado' ===
+    const tags = m.tags || [];
+    const isReporteGenerado = tags.includes('reporte-generado');
+    const isReporteAprobado = tags.includes('reporte-aprobado') || tags.includes('informe-guardado');
+
+    if (isReporteGenerado && m.sections && m.sections.length > 0) {
+      // Render as expandable report card
+      const estadoClass = isReporteAprobado ? 'estado-aceptado' : '';
+      const expandedKey = 'report-' + msgIndex;
+      const isExpanded = this._expandedReports[expandedKey] || false;
+
+      const titleSection = m.sections[0];
+      const cardTitle = titleSection.title || 'Informe Gremial';
+      const summary = titleSection.body ? titleSection.body.substring(0, 120) : '';
+
+      const sectionsHtml = m.sections.map((s, i) => {
+        let content = '';
+        if (i > 0 && s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
+        else if (i > 0) content += `<div class="reporte-card-section-title">Detalle</div>`;
+        if (s.body) content += `<div class="reporte-card-section-body">${s.body}</div>`;
+        const divider = (i < m.sections.length - 1) ? '<div class="reporte-card-divider"></div>' : '';
+        return `<div class="reporte-card-section">${content}</div>${divider}`;
+      }).join('');
+
+      // Tags inside card (excluding system tags)
+      const visibleTags = tags.filter(t => t !== 'reporte-generado' && t !== 'reporte' && t !== 'reporte-aprobado');
+      const tagsHtml = visibleTags.length > 0 ?
+        `<div class="reporte-card-tags">${visibleTags.map(t => `<span class="reporte-card-tag">${t}</span>`).join('')}</div>` : '';
+
+      // Action buttons (only for non-accepted reports)
+      const actionsHtml = isReporteAprobado ? '' :
+        `<div class="reporte-card-actions">
+          <button class="reporte-btn reporte-btn-approve" data-reporte-action="aprobar" data-msg-index="${msgIndex}">✅ Aprobar</button>
+          <button class="reporte-btn reporte-btn-correct" data-reporte-action="corregir" data-msg-index="${msgIndex}">📝 Corregir</button>
+        </div>`;
+
+      // Text before the card (like "Leelo con cuidado...")
+      const textBefore = m.text ? `<div class="msg-text"><p>${m.text}</p></div>` : '';
+
+      return `<div class="msg-row hornero">
+        ${avatarRow}
+        <div class="msg-content">
+          ${textBefore}
+          <div class="reporte-card ${estadoClass}" data-report-key="${expandedKey}">
+            <div class="reporte-card-header" data-toggle-report="${expandedKey}">
+              <span class="reporte-card-icon">📄</span>
+              <span class="reporte-card-title">${cardTitle}</span>
+              <button class="reporte-card-toggle">${isExpanded ? '▼ Cerrar' : '▶ Expandir'}</button>
+            </div>
+            <div class="reporte-card-body${isExpanded ? ' expanded' : ''}">
+              ${isExpanded ? '' : `<div class="msg-fade"></div>`}
+              ${sectionsHtml}
+            </div>
+            ${tagsHtml}
+            ${actionsHtml}
+          </div>
+          ${timeHtml}
+        </div>
+      </div>`;
+    }
 
     let contentHtml = '';
     if (m.text) {
@@ -788,6 +905,45 @@ class HorneroChat extends HoComponent {
           const likeBtn = btn.parentElement.querySelector('[data-action="like"]');
           if (likeBtn) likeBtn.classList.remove('liked');
           this.emit('chat-feedback', { type: 'dislike', disliked: btn.classList.contains('disliked') });
+        }
+      });
+    });
+
+    // === Reporte card: expand/collapse toggle ===
+    this.shadowRoot.querySelectorAll('[data-toggle-report]').forEach(header => {
+      header.addEventListener('click', () => {
+        const key = header.dataset.toggleReport;
+        this._expandedReports[key] = !this._expandedReports[key];
+        // Re-render the card only (not full render to avoid scroll reset)
+        const card = this.shadowRoot.querySelector(`[data-report-key="${key}"]`);
+        if (card) {
+          const body = card.querySelector('.reporte-card-body');
+          const toggleBtn = card.querySelector('.reporte-card-toggle');
+          const fade = card.querySelector('.msg-fade');
+          if (body) {
+            if (this._expandedReports[key]) {
+              body.classList.add('expanded');
+              if (toggleBtn) toggleBtn.textContent = '▼ Cerrar';
+              if (fade) fade.style.display = 'none';
+            } else {
+              body.classList.remove('expanded');
+              if (toggleBtn) toggleBtn.textContent = '▶ Expandir';
+              if (fade) fade.style.display = '';
+            }
+          }
+        }
+      });
+    });
+
+    // === Reporte card: approve/correct buttons ===
+    this.shadowRoot.querySelectorAll('.reporte-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.reporteAction;
+        const msgIndex = Number(btn.dataset.msgIndex);
+        if (action === 'aprobar') {
+          this.emit('reporte-action', { action: 'aprobar', msgIndex });
+        } else if (action === 'corregir') {
+          this.emit('reporte-action', { action: 'corregir', msgIndex });
         }
       });
     });
