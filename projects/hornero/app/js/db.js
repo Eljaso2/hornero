@@ -256,35 +256,45 @@ function obtenerInformesPorTerritorio(territorio) { return dbGetByIndex('informe
 function obtenerInformesEntrantes(userGrade, territorio, empresa) {
   return dbGetAll('informes').then(function(all) {
     if (!all || all.length === 0) return [];
-    var lowerGrade, targetEstado;
+    var lowerGrade;
     if (userGrade === 'B.b') {
-      // Delegate sees G1 pendientes from their territory + empresa
+      // Delegate sees G1 from their territory + empresa (all estados, not just pendientes)
       lowerGrade = 1;
-      targetEstado = 'pendiente';
       return all.filter(function(inf) {
         return inf.grado === lowerGrade &&
-               inf.estado === targetEstado &&
                inf.territorio === territorio &&
                (inf.empresa === empresa || !empresa) &&
                inf.username !== ''; // exclude anonymous
+      }).sort(function(a, b) { // newest first, pendientes before revisados
+        var aPend = a.estado === 'pendiente' ? 0 : 1;
+        var bPend = b.estado === 'pendiente' ? 0 : 1;
+        if (aPend !== bPend) return aPend - bPend;
+        return (b.timestamp || 0) - (a.timestamp || 0);
       });
     }
     if (userGrade === 'B.c') {
-      // Secretary sees G2 pendientes from their territory (all empresas)
+      // Secretary sees G2 from their territory (all empresas, all estados)
       lowerGrade = 2;
-      targetEstado = 'pendiente';
       return all.filter(function(inf) {
         return inf.grado === lowerGrade &&
-               inf.estado === targetEstado &&
                inf.territorio === territorio;
+      }).sort(function(a, b) {
+        var aPend = a.estado === 'pendiente' ? 0 : 1;
+        var bPend = b.estado === 'pendiente' ? 0 : 1;
+        if (aPend !== bPend) return aPend - bPend;
+        return (b.timestamp || 0) - (a.timestamp || 0);
       });
     }
     if (userGrade === 'B.d') {
-      // Federation sees G3 pendientes from all territories
+      // Federation sees G3 from all territories (all estados)
       lowerGrade = 3;
-      targetEstado = 'pendiente';
       return all.filter(function(inf) {
-        return inf.grado === lowerGrade && inf.estado === targetEstado;
+        return inf.grado === lowerGrade;
+      }).sort(function(a, b) {
+        var aPend = a.estado === 'pendiente' ? 0 : 1;
+        var bPend = b.estado === 'pendiente' ? 0 : 1;
+        if (aPend !== bPend) return aPend - bPend;
+        return (b.timestamp || 0) - (a.timestamp || 0);
       });
     }
     // B.a (base) — no incoming informes

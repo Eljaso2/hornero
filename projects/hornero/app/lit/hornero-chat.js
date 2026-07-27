@@ -418,6 +418,12 @@ class HorneroChat extends HoComponent {
         transition: background .2s, border-color .2s; margin-top: 4px; }
       .informes-item-edit-btn:hover { background: #F0E4CC; }
 
+      .informes-item-reviewed { opacity: .55; }
+      .informes-separator { font-family: 'Archivo', sans-serif; font-size: .72rem;
+        font-weight: 700; color: var(--ho-text-light, #9C988D);
+        padding: 8px 16px 4px; border-top: 2px solid var(--ho-border, rgba(43,42,38,.18));
+        margin-top: 6px; letter-spacing: .04em; text-transform: uppercase; }
+
       .informes-item-visto-label { font-family: 'Archivo', sans-serif;
         font-size: .72rem; font-weight: 700; color: var(--ho-green-dark, #586B33);
         background: var(--ho-green-pale, #E8EDD7); border-radius: 8px;
@@ -1237,9 +1243,12 @@ class HorneroChat extends HoComponent {
               </button>
             </div>
             <div class="informes-list">
-              ${this._informesEntrantes.length === 0 ?
-                '<div class="informes-empty">No hay reportes pendientes de revisión</div>' :
-                this._informesEntrantes.map(inf => {
+              ${(() => {
+                const pendientes = this._informesEntrantes.filter(inf => inf.estado === 'pendiente');
+                const revisados = this._informesEntrantes.filter(inf => inf.estado !== 'pendiente');
+                if (this._informesEntrantes.length === 0) return '<div class="informes-empty">No hay reportes recibidos</div>';
+
+                const renderItem = (inf, isReviewed) => {
                   const numero = inf.numero || '';
                   const titleText = numero ? 'Reporte Gremial N°' + numero :
                     (inf.sections && inf.sections.length > 0 ?
@@ -1251,22 +1260,50 @@ class HorneroChat extends HoComponent {
                     `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
                   const gradoBadge = inf.grado ? `<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G${inf.grado}</span>` : '';
                   const empresaLabel = inf.empresa ? `<span class="informes-item-tag">${inf.empresa}</span>` : '';
-                  const reviewBtnHtml = `<div class="informes-review-actions">
+                  const estadoLabelMap = {
+                    'pendiente': '⏳ Pendiente',
+                    'visto': '👁 Visto',
+                    'aprobado': '✅ Aprobado',
+                    'aprobado-delegado': '✅ Aprobado',
+                    'corregido-delegado': '📝 Corregido',
+                  };
+                  const estadoClassMap = {
+                    'pendiente': 'estado-pendiente',
+                    'visto': 'estado-visto',
+                    'aprobado': 'estado-aprobado',
+                    'aprobado-delegado': 'estado-aprobado',
+                    'corregido-delegado': 'estado-corregido',
+                  };
+                  const estadoLabel = estadoLabelMap[inf.estado] || inf.estado;
+                  const estadoClass = estadoClassMap[inf.estado] || '';
+                  const fadeClass = isReviewed ? ' informes-item-reviewed' : '';
+                  const reviewBtnHtml = !isReviewed ? `<div class="informes-review-actions">
                     <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><polyline points="20 6 9 17 4 12"/></svg></button>
                     <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-                  </div>`;
-                  return `<div class="informes-item" data-informe-id="${inf.id}">
+                  </div>` : '';
+                  return `<div class="informes-item${fadeClass}" data-informe-id="${inf.id}">
                     <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
                     <div class="informes-item-meta">
                       <span>${dateStr}</span>
                       ${inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : ''}
                       ${gradoBadge} ${empresaLabel}
-                      <span class="informes-item-estado estado-pendiente">⏳ Pendiente</span>
+                      <span class="informes-item-estado ${estadoClass}">${estadoLabel}</span>
                     </div>
                     ${tagsHtml}
                     ${reviewBtnHtml}
                   </div>`;
-                }).join('')}
+                };
+
+                let html = '';
+                if (pendientes.length > 0) {
+                  html += pendientes.map(inf => renderItem(inf, false)).join('');
+                }
+                if (revisados.length > 0) {
+                  html += `<div class="informes-separator">Revisados</div>`;
+                  html += revisados.map(inf => renderItem(inf, true)).join('');
+                }
+                return html;
+              })()}
             </div>
           </div>
         </div>` : '') : ''}
