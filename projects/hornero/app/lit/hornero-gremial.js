@@ -144,6 +144,7 @@ class HorneroGremial extends HoComponent {
       chatEl.historyTitle = 'Mis Informes';
       chatEl.informesTitle = 'Informes';
       chatEl.informeBadge = this._informeBadge;
+      chatEl.persona = this._activePersona;
       // Do NOT call chatEl.render() here — the chat re-renders itself
       // when its attributes change (from gremial render) or from drawer open/close.
       // Double render was causing the blank screen bug.
@@ -163,6 +164,7 @@ class HorneroGremial extends HoComponent {
           section: 'reporte',
           grade: this.grade,
           sector: this.sector,
+          requested_persona: 'relator',
         }),
       });
 
@@ -174,6 +176,7 @@ class HorneroGremial extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['reporte', 'greeting'],
+        persona: data.persona || 'relator',
         time: data.time || this._timeNow(),
       }];
       this._typing = false;
@@ -277,6 +280,7 @@ class HorneroGremial extends HoComponent {
         history: history,
         grade: this.grade,
         sector: this.sector,
+        requested_persona: 'relator',
       }),
     });
 
@@ -288,6 +292,7 @@ class HorneroGremial extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['reporte'],
+      persona: data.persona || 'relator',
       time: data.time || this._timeNow(),
     }];
     this._typing = false;
