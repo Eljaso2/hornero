@@ -794,6 +794,21 @@ class HorneroChat extends HoComponent {
       /* Hidden file input for attachments */
       .chat-file-input { display: none; }
 
+      /* Delete message button — always visible on every message */
+      .msg-delete-btn { background: none; border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        border-radius: 8px; padding: 5px 10px; cursor: pointer;
+        font-family: 'Public Sans', sans-serif; font-size: .72rem;
+        color: var(--ho-text-light, #9C988D); display: flex; align-items: center; gap: 4px;
+        transition: border-color .2s, color .2s, background .2s; }
+      .msg-delete-btn:hover { border-color: #D32F2F; color: #D32F2F;
+        background: rgba(211,47,47,.08); }
+      .msg-delete-btn svg { width: 14px; height: 14px; stroke: currentColor;
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+      /* Delete button for user bubbles — positioned below bubble */
+      .msg-row.user .msg-delete-row { display: flex; justify-content: flex-end;
+        margin-top: 4px; }
+
       /* Attachment preview in input */
       .chat-attach-preview { max-width: 80px; max-height: 60px; border-radius: 8px;
         overflow: hidden; flex: none; margin-right: 4px; }
@@ -1170,7 +1185,7 @@ class HorneroChat extends HoComponent {
   _renderMessage(m, msgIndex) {
     const role = m.role || 'hornero';
 
-    // === USER message: bubble ===
+    // === USER message: bubble + delete ===
     if (role === 'user') {
       const timeHtml = m.time ? `<div class="msg-time">${m.time}</div>` : '';
       const mediaHtml = m.image ?
@@ -1178,8 +1193,15 @@ class HorneroChat extends HoComponent {
         m.video ?
         `<div class="msg-media"><video src="${m.video}" controls></video></div>` : '';
       const textHtml = m.text ? m.text : '';
+      const deleteSvg = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/>';
       return `<div class="msg-row user">
         <div class="msg-bubble">${mediaHtml}${textHtml}${timeHtml}</div>
+        <div class="msg-delete-row">
+          <button class="msg-delete-btn" data-action="delete" data-msg-index="${msgIndex}" title="Borrar mensaje">
+            <svg viewBox="0 0 24 24">${deleteSvg}</svg>
+            Borrar
+          </button>
+        </div>
       </div>`;
     }
 
@@ -1286,7 +1308,8 @@ class HorneroChat extends HoComponent {
       `<div class="msg-tags">${m.tags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
     contentHtml += tagsHtml;
 
-    // Actions: copiar, reenviar, like/dislike
+    // Actions: copiar, reenviar, like/dislike, borrar
+    const deleteSvg = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/>';
     const actionsHtml = `<div class="msg-actions">
       <button class="msg-action-btn" data-action="copy" title="Copiar">
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -1301,6 +1324,10 @@ class HorneroChat extends HoComponent {
       </button>
       <button class="msg-action-btn" data-action="dislike" title="No me gusta">
         <svg class="thumb-down" viewBox="0 0 24 24"><path d="M17 2V13L22 12V2H17Z"/><path d="M17 13L12 22C10.9 22 10 21.1 10 19V16H4C2.9 16 2 15.1 2 14V4C2 2.9 2.9 2 4 2H17"/></svg>
+      </button>
+      <button class="msg-delete-btn" data-action="delete" data-msg-index="${msgIndex}" title="Borrar mensaje">
+        <svg viewBox="0 0 24 24">${deleteSvg}</svg>
+        Borrar
       </button>
     </div>`;
 

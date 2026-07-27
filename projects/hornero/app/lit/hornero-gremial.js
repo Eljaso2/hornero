@@ -225,6 +225,7 @@ class HorneroGremial extends HoComponent {
       role: 'hornero',
       text: '¿Cómo andaste estos últimos días? ¿Hay alguna situación que quieras reportar — condiciones, seguridad, ritmo, algo que te pasó o que viste?',
       tags: ['reporte', 'saludo'],
+      persona: this._activePersona,
       time: this._timeNow(),
     };
   }
@@ -474,15 +475,16 @@ class HorneroGremial extends HoComponent {
   }
 
   _localResponse(userText) {
-    // Generate a simple report card from the user text
+    // Relator investigates — asks follow-up questions, does NOT produce informe yet
     return {
       role: 'hornero',
-      text: 'Leelo con cuidado. ¿Es esto lo que querías decir o hay algo para modificar?',
+      text: 'Entendido. Quiero entender mejor la situación para poder elaborar un informe completo. ¿Podés contarme más detalles?',
       sections: [
-        { title: 'Observación G1', body: userText },
-        { title: 'Situación reportada', body: 'El trabajador reporta: ' + userText.substring(0, 200) },
+        { title: 'Lo que entendí', body: userText },
+        { title: 'Preguntas para profundizar', body: '¿Cuándo ocurrió? ¿Quiénes están involucrados? ¿Hubo testigos? ¿Ya lo reportaste a alguien — delegado, supervisor, ART?' },
       ],
-      tags: ['reporte-generado', 'observacion', 'reporte'],
+      tags: ['reporte', 'investigacion'],
+      persona: this._activePersona,
       time: this._timeNow(),
     };
   }
