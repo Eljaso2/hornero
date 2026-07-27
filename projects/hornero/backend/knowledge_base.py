@@ -14,8 +14,6 @@ CREMONTE — Investigador labour (derecho laboral). Analista de distribución de
 
 VICENTÍN SAIC — Empresa aceitera argentina. En concurso preventivo. Planta aceitera en Reconquista, Santa Fe.
 
-GUAYCURÚ — Desmotadora de algodón (planta aceitera auxiliar). Planta en Guaycurú, Chaco.
-
 === FUENTES DISPONIBLES ===
 
 [FUENTE: CCT 420/05 — Aceiteros, Resolución ST 343/2005]
