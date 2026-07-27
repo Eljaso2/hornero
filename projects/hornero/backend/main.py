@@ -72,11 +72,20 @@ app.add_middleware(
 )
 
 
+# ===== Helpers =====
+def validated_redirect(redirect_persona: str) -> str:
+    """Validate redirect_persona field from LLM response."""
+    allowed = ["abogado", "companero", "periodista", "relator", "ia-sindical", ""]
+    if redirect_persona in allowed:
+        return redirect_persona
+    return ""
+
 # ===== Request/Response models =====
 class GreetingRequest(BaseModel):
     section: str = "consulta"  # consulta|contenido|debate
     grade: str = "A"
     sector: str = "aceitero"
+    requested_persona: str = ""  # companero|abogado|periodista|relator|ia-sindical — override
 
 
 class GreetingResponse(BaseModel):
@@ -125,7 +134,13 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     RAG: greeting uses minimal context (no KB chunks needed — persona knows who it is).
     """
     # Greeting: no RAG retrieval needed (persona + principles are sufficient)
-    effective_persona = PERSONA_MAP.get(req.section, 'abogado')
+    # Use requested_persona if provided, otherwise section-based default
+    if req.requested_persona and req.requested_persona in ["companero", "abogado", "periodista", "relator", "ia-sindical"]:
+        effective_persona = req.requested_persona
+    elif req.requested_persona and req.requested_persona in PERSONA_MAP:
+        effective_persona = PERSONA_MAP.get(req.requested_persona, 'abogado')
+    else:
+        effective_persona = PERSONA_MAP.get(req.section, 'abogado')
     system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping())
     greeting_hint = get_greeting_hint(req.section)
 
@@ -172,6 +187,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
         time=time_str,
         raw=raw_response,
         persona=final_persona,
+        redirect_persona=validated_redirect(parsed.get("redirect_persona", "")),
     )
 
 
