@@ -130,6 +130,10 @@ class HorneroContenido extends HoComponent {
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
+      // Listen for export from toolbar button — add download card message
+      chatEl.addEventListener('chat-export', (e) => {
+        this._handleChatExport(e.detail);
+      });
     }
 
     // Show format suggestions after greeting
@@ -388,6 +392,21 @@ class HorneroContenido extends HoComponent {
         }
       }
     } catch(e) { console.warn('Contenido: chat history save failed', e); }
+  }
+
+  _handleChatExport(detail) {
+    if (!this.messages || this.messages.length === 0) return;
+    if (detail && detail.download) {
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
+        download: detail.download,
+        tags: ['contenido', 'exportado'],
+        time: this._timeNow(),
+      }];
+      this._saveChatHistory();
+      this.render();
+    }
   }
 
   _handlePersonaNavigate(targetPersona, targetScreen) {

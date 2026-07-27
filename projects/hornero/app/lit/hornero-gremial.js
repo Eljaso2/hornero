@@ -137,6 +137,10 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
+      // Listen for export from toolbar button — add download card message
+      chatEl.addEventListener('chat-export', (e) => {
+        this._handleChatExport(e.detail);
+      });
       // Listen for persona navigate from top-bar icons
       chatEl.addEventListener('persona-navigate', (e) => {
         this._handlePersonaNavigate(e.detail.persona, e.detail.screen);
@@ -530,11 +534,29 @@ class HorneroGremial extends HoComponent {
     if (chatEl) {
       const firstUserMsg = this.messages.find(m => m.role === 'user');
       const title = firstUserMsg && firstUserMsg.title ? firstUserMsg.title : 'Reporte Gremial';
+      const filename = title + '.txt';
       chatEl._downloadTxt(this.messages, title, title);
-      // Add confirmation message
+      // Add message with clickable download card
+      const txtContent = chatEl._generateTxtContent(this.messages, title);
       this.messages = [...this.messages, {
         role: 'hornero',
-        text: '📥 Documento exportado. Lo descargaste como archivo TXT — lo puedes abrir en cualquier editor de texto, imprimir, o compartir.',
+        text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
+        download: { content: txtContent, filename: filename, label: 'Click para descargar' },
+        tags: ['reporte', 'exportado'],
+        time: this._timeNow(),
+      }];
+      this._saveChatHistory();
+      this.render();
+    }
+  }
+
+  _handleChatExport(detail) {
+    if (!this.messages || this.messages.length === 0) return;
+    if (detail && detail.download) {
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
+        download: detail.download,
         tags: ['reporte', 'exportado'],
         time: this._timeNow(),
       }];

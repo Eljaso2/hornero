@@ -131,6 +131,10 @@ class HorneroConsulta extends HoComponent {
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
+      // Listen for export from toolbar button — add download card message
+      chatEl.addEventListener('chat-export', (e) => {
+        this._handleChatExport(e.detail);
+      });
     }
 
     // Load history from IndexedDB first, then request greeting if empty
@@ -464,11 +468,31 @@ class HorneroConsulta extends HoComponent {
       // Generate title from first user message or fallback
       const firstUserMsg = this.messages.find(m => m.role === 'user');
       const title = firstUserMsg && firstUserMsg.title ? firstUserMsg.title : 'Consulta IA Sindical';
+      const filename = title + '.txt';
+      // Generate TXT content and trigger download
       chatEl._downloadTxt(this.messages, title, title);
-      // Add confirmation message
+      // Add message with clickable download card
+      const txtContent = chatEl._generateTxtContent(this.messages, title);
       this.messages = [...this.messages, {
         role: 'hornero',
-        text: '📥 Documento exportado. Lo descargaste como archivo TXT — lo puedes abrir en cualquier editor de texto, imprimir, o compartir.',
+        text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
+        download: { content: txtContent, filename: filename, label: 'Click para descargar' },
+        tags: ['consulta', 'exportado'],
+        time: this._timeNow(),
+      }];
+      this._saveChatHistory();
+      this.render();
+    }
+  }
+
+  _handleChatExport(detail) {
+    if (!this.messages || this.messages.length === 0) return;
+    if (detail && detail.download) {
+      const title = detail.title || 'Consulta IA Sindical';
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
+        download: detail.download,
         tags: ['consulta', 'exportado'],
         time: this._timeNow(),
       }];

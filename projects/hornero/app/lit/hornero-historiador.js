@@ -124,6 +124,10 @@ class HorneroHistoriador extends HoComponent {
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
+      // Listen for export from toolbar button — add download card message
+      chatEl.addEventListener('chat-export', (e) => {
+        this._handleChatExport(e.detail);
+      });
     }
     if (!this._historyLoaded) {
       this._loadChatHistory();
@@ -313,6 +317,21 @@ class HorneroHistoriador extends HoComponent {
       }];
       const chatEl = this.shadowRoot.querySelector('hornero-chat');
       if (chatEl) chatEl.resetAudioState();
+      this.render();
+    }
+  }
+
+  _handleChatExport(detail) {
+    if (!this.messages || this.messages.length === 0) return;
+    if (detail && detail.download) {
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
+        download: detail.download,
+        tags: ['historia', 'exportado'],
+        time: this._timeNow(),
+      }];
+      this._saveChatHistory();
       this.render();
     }
   }
