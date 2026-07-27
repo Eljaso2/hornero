@@ -274,9 +274,9 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 2: Consulta -->
+      <!-- ESFERA 2: Chat IA -->
       <div class="esfera-consulta">
-        <div class="esfera-name">Chateá con la IA Sindical</div>
+        <div class="esfera-name">Chat IA Sindical</div>
         <div class="consulta-icons">
           <button class="icon-btn" data-screen="consulta">
             <svg viewBox="0 0 24 24">${debateSvg}</svg>

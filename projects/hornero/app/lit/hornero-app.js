@@ -85,7 +85,7 @@ class HorneroApp extends HoComponent {
     this.navDef = [
       { id: 'home', label: 'Inicio', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
       { id: 'actualidad', label: 'Actualidad', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
-      { id: 'consulta', label: 'Consulta', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
+      { id: 'chat', label: 'Chat', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
       { id: 'is', label: 'Reporte', svg: '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>' },
       { id: 'condicion', label: 'Panorama', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
       { id: 'perfil', label: 'Perfil', svg: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
@@ -98,7 +98,7 @@ class HorneroApp extends HoComponent {
       { id: 'clipping', label: 'Clipping' },
       { id: 'infomate', label: 'InfoMate' },
       { id: 'gremial', label: 'Gremial' },
-      { id: 'consulta', label: 'Consulta IA' },
+      { id: 'chat', label: 'Chat' },
       { id: 'contenido', label: 'Contenido' },
       { id: 'is', label: 'Reporte' },
       { id: 'condicion', label: 'Panorama' },
@@ -113,6 +113,7 @@ class HorneroApp extends HoComponent {
     this.titles = {
       home: 'Inicio',
       actualidad: 'Actualidad',
+      chat: 'Chat IA Sindical',
       consulta: 'Chateá con la IA Sindical',
       formacion: 'Formación',
       is: 'Comunicación interna',
@@ -136,7 +137,8 @@ class HorneroApp extends HoComponent {
     // Parent screen map — back button navigation
     this._parentScreen = {
       actualidad: 'home',
-      consulta: 'home',
+      chat: 'home',
+      consulta: 'chat',
       is: 'home',
       condicion: 'home',
       perfil: 'home',
@@ -310,6 +312,31 @@ class HorneroApp extends HoComponent {
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #6E8345; }
 
+      /* ===== Chat landing — choice buttons ===== */
+      .chat-landing { padding: 24px 20px; }
+      .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+        color: #2B2A26; margin-bottom: 8px; }
+      .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: .92rem;
+        font-weight: 700; color: #2B2A26; margin-bottom: 4px; }
+      .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: #6E6A60; line-height: 1.5; margin-bottom: 24px; }
+      .chat-choice { display: flex; align-items: center; gap: 14px;
+        background: var(--ho-card, #FBFAF6); border: 1px solid rgba(43,42,38,.06);
+        border-radius: 13px; padding: 16px 14px; cursor: pointer;
+        transition: border-color .2s, background .2s; margin-bottom: 12px; }
+      .chat-choice:hover { border-color: rgba(43,42,38,.18);
+        background: var(--ho-green-pale, #E8EDD7); }
+      .chat-choice-icon { width: 46px; height: 46px; flex: none; }
+      .chat-choice-icon svg { width: 46px; height: 46px; stroke: #6E8345;
+        stroke-width: 1.8; fill: none; stroke-linecap: round;
+        stroke-linejoin: round; }
+      .chat-choice-text { flex: 1; }
+      .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
+        font-weight: 700; color: #2B2A26; }
+      .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .76rem;
+        color: #6E6A60; line-height: 1.4; margin-top: 2px; }
+
       /* ===== Update banner ===== */
       .update-banner { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
         padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
@@ -360,6 +387,36 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-gremial>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
+    } else if (this.screen === 'chat') {
+      const debateSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
+      const consultaSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/>';
+      const contenidoSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
+      screenContent = '<div class="chat-landing">' +
+        '<div class="chat-landing-kicker">🤖 Chat IA Sindical</div>' +
+        '<div class="chat-landing-title">Hornero te escucha</div>' +
+        '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Elige cómo quieres conversar:</div>' +
+        '<div class="chat-choice" data-screen="consulta">' +
+          '<div class="chat-choice-icon"><svg viewBox="0 0 24 24">' + debateSvg + '</svg></div>' +
+          '<div class="chat-choice-text">' +
+            '<div class="chat-choice-name">Debate</div>' +
+            '<div class="chat-choice-desc">Discusión argumentada sobre temas sindicales y laborales</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="chat-choice" data-screen="consulta">' +
+          '<div class="chat-choice-icon"><svg viewBox="0 0 24 24">' + consultaSvg + '</svg></div>' +
+          '<div class="chat-choice-text">' +
+            '<div class="chat-choice-name">Consulta</div>' +
+            '<div class="chat-choice-desc">Preguntá sobre derechos, convenios, legislación laboral</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="chat-choice" data-screen="contenido">' +
+          '<div class="chat-choice-icon"><svg viewBox="0 0 24 24">' + contenidoSvg + '</svg></div>' +
+          '<div class="chat-choice-text">' +
+            '<div class="chat-choice-name">Contenido</div>' +
+            '<div class="chat-choice-desc">Generá podcasts, reels, columnas, entrevistas</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
     } else if (this.screen === 'consulta') {
       screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-consulta>';
     } else if (this.screen === 'contenido') {
@@ -427,6 +484,12 @@ class HorneroApp extends HoComponent {
     });
     // Bind bottom nav button clicks
     this.shadowRoot.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this._navigateTo(btn.dataset.screen);
+      });
+    });
+    // Bind chat-choice buttons (Chat landing screen)
+    this.shadowRoot.querySelectorAll('.chat-choice').forEach(btn => {
       btn.addEventListener('click', () => {
         this._navigateTo(btn.dataset.screen);
       });
