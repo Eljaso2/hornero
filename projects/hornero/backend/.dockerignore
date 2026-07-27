@@ -1,0 +1,29 @@
+# Don't include local dev environment — Render sets env vars in dashboard
+.env
+
+# Python runtime junk
+__pycache__
+*.pyc
+*.pyo
+
+# Local virtualenv — Docker installs deps via pip
+venv
+.venv
+
+# Docker metadata
+.docker
+
+# IDE / editor
+.vscode
+.idea
+
+# OS files
+.DS_Store
+
+# Git
+.git
+.gitignore
+
+# Data files that might be large
+*.db
+*.sqlite
