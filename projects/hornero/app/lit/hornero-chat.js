@@ -876,7 +876,7 @@ class HorneroChat extends HoComponent {
       .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
 
       /* Input toolbar buttons */
-      .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; align-self: flex-end; }
+      .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; align-self: center; }
       .chat-toolbar-btn { width: 28px; height: 28px; border-radius: 50%;
         border: none; cursor: pointer; display: flex; align-items: center;
         justify-content: center; flex: none; transition: background .2s, transform .15s; }

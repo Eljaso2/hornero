@@ -349,19 +349,24 @@ class HorneroApp extends HoComponent {
         font-weight: 700; color: #2B2A26; margin-bottom: 4px; }
       .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: #6E6A60; line-height: 1.5; margin-bottom: 24px; }
-      .chat-choice { display: flex; align-items: center; gap: 14px;
+      .chat-choice { display: flex; align-items: center; gap: 10px;
         background: var(--ho-card, #FBFAF6); border: 1px solid rgba(43,42,38,.06);
-        border-radius: 13px; padding: 16px 14px; cursor: pointer;
-        transition: border-color .2s, background .2s; margin-bottom: 12px; }
+        border-radius: 10px; padding: 10px 12px; cursor: pointer;
+        transition: border-color .2s, background .2s; margin-bottom: 8px; }
       .chat-choice:hover { border-color: rgba(43,42,38,.18);
         background: var(--ho-green-pale, #E8EDD7); }
-      .chat-choice-icon { width: 46px; height: 46px; flex: none;
+      .chat-choice-icon { width: 36px; height: 36px; flex: none;
         border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-      .chat-choice-icon img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; }
-      .chat-choice-icon svg { width: 46px; height: 46px; stroke: #6E8345;
+      .chat-choice-icon img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+      .chat-choice-icon svg { width: 36px; height: 36px; stroke: #6E8345;
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
-      .persona-choice-emoji { font-size: 1.2rem; line-height: 1; }
+      .chat-choice-extra .chat-choice-icon { width: 28px; height: 28px; }
+      .chat-choice-extra .chat-choice-icon img { width: 28px; height: 28px; }
+      .chat-choice-extra .chat-choice-icon svg { width: 16px; height: 16px; }
+      .chat-choice-extra .chat-choice-name { font-size: .78rem; }
+      .chat-choice-extra .chat-choice-desc { font-size: .68rem; }
+      .persona-choice-emoji { font-size: 1rem; line-height: 1; }
       .persona-icon-ia-sindical { background: #E8EDD7; }
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
@@ -428,48 +433,51 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'archivo') {
       screenContent = '<hornero-archivo grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-archivo>';
     } else if (this.screen === 'chat') {
-      const debateSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
-      const consultaSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/>';
-      const contenidoSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
+      // Chat landing — personas + grade-based extras (Mis Chats / Mis Reportes / Recibidos)
+      const grade = this.userGrade;
+      const isHigherGrade = grade === 'B.b' || grade === 'B.c' || grade === 'B.d';
+      const isBaseGrade = grade === 'B.a';
+
+      // Helper for choice HTML with PNG icon
+      const choiceHtml = (screen, persona, img, alt, emoji, name, desc, extraClass = '') =>
+        `<div class="chat-choice ${extraClass}" data-screen="${screen}" ${persona ? `data-persona="${persona}"` : ''}>` +
+        `<div class="chat-choice-icon"><img src="${img}" alt="${alt}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="persona-choice-emoji" style="display:none">${emoji}</span></div>` +
+        `<div class="chat-choice-text"><div class="chat-choice-name">${name}</div><div class="chat-choice-desc">${desc}</div></div></div>`;
+
+      // Helper for extra choice with SVG icon (Mis Chats, Mis Reportes, Recibidos)
+      const svgChoiceHtml = (screen, svg, name, desc, extraClass = 'chat-choice-extra') =>
+        `<div class="chat-choice ${extraClass}" data-screen="${screen}">` +
+        `<div class="chat-choice-icon"><svg viewBox="0 0 24 24">${svg}</svg></div>` +
+        `<div class="chat-choice-text"><div class="chat-choice-name">${name}</div><div class="chat-choice-desc">${desc}</div></div></div>`;
+
+      const chatSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
+      const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
+      const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
+
+      // Persona choices (always shown)
+      const personaChoices =
+        choiceHtml('gremial', '', 'assets/personajes/relator.png', 'Relator/a', '🪶', 'Relator/a', 'Te ayudo a elaborar un reporte gremial') +
+        choiceHtml('consulta', 'abogado', 'assets/personajes/abogado.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
+        choiceHtml('contenido', 'periodista', 'assets/personajes/periodista.png', 'Periodista', '🎙️', 'Periodista', 'Podcasts, reels, columnas, entrevistas') +
+        choiceHtml('consulta', 'companero', 'assets/personajes/companera.png', 'Compañera', '✊', 'Compañero/a', 'Experiencia obrera, organización, debate') +
+        choiceHtml('historiador', 'historiador', 'assets/personajes/historiadora.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
+
+      // Grade-based extras
+      let extraChoices = '';
+      if (isBaseGrade || isHigherGrade) {
+        extraChoices += svgChoiceHtml('gremial', chatSvg, 'Mis Conversaciones', 'Historial de chats del relator');
+        extraChoices += svgChoiceHtml('gremial', reportSvg, 'Mis Reportes', 'Informes gremiales que armaste');
+      }
+      if (isHigherGrade) {
+        extraChoices += svgChoiceHtml('recibidos', inboxSvg, 'Reportes Recibidos', 'Informes de trabajadores bajo tu responsabilidad');
+      }
+
       screenContent = '<div class="chat-landing">' +
         '<div class="chat-landing-kicker">🪶 Mesa de trabajo</div>' +
         '<div class="chat-landing-title">Hornero te escucha</div>' +
         '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Diferentes compañeros responden según lo que necesites:</div>' +
-        '<div class="chat-choice" data-screen="gremial">' +
-          '<div class="chat-choice-icon persona-icon-ia-sindical"><img src="assets/personajes/relator.png" alt="Relator/a" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">🪶</span></div>' +
-          '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Relator/a</div>' +
-            '<div class="chat-choice-desc">Te ayudo a elaborar un reporte gremial</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="chat-choice" data-screen="consulta" data-persona="abogado">' +
-          '<div class="chat-choice-icon persona-icon-abogado"><img src="assets/personajes/abogado.png" alt="Abogado/a" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">📖</span></div>' +
-          '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Abogado/a</div>' +
-            '<div class="chat-choice-desc">Derechos, convenios, legislación laboral — asesoría legal</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="chat-choice" data-screen="contenido" data-persona="periodista">' +
-          '<div class="chat-choice-icon persona-icon-periodista"><img src="assets/personajes/periodista.png" alt="Periodista" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">🎙️</span></div>' +
-          '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Periodista</div>' +
-            '<div class="chat-choice-desc">Generá podcasts, reels, columnas, entrevistas, notas</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="chat-choice" data-screen="consulta" data-persona="companero">' +
-          '<div class="chat-choice-icon persona-icon-companero"><img src="assets/personajes/companera.png" alt="Compañera" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">✊</span></div>' +
-          '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Compañero/a</div>' +
-            '<div class="chat-choice-desc">Experiencia obrera, organización, asambleas, debate sindical</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="chat-choice" data-screen="historiador" data-persona="historiador">' +
-          '<div class="chat-choice-icon persona-icon-historiador"><img src="assets/personajes/historiadora.png" alt="Historiadora" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">📜</span></div>' +
-          '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Historiador/a</div>' +
-            '<div class="chat-choice-desc">Historia obrera, formación, cursos, preguntas y archivos sobre historia</div>' +
-          '</div>' +
-        '</div>' +
+        personaChoices +
+        (extraChoices ? '<div class="chat-landing-desc" style="margin-top:12px;margin-bottom:8px;font-size:.72rem;font-weight:600;color:#6E6A60;letter-spacing:.08em;text-transform:uppercase">Tu actividad</div>' + extraChoices : '') +
       '</div>';
     } else if (this.screen === 'consulta') {
       screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'abogado') + '"></hornero-consulta>';
