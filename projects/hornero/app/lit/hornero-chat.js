@@ -794,20 +794,17 @@ class HorneroChat extends HoComponent {
       /* Hidden file input for attachments */
       .chat-file-input { display: none; }
 
-      /* Delete message button — always visible on every message */
-      .msg-delete-btn { background: none; border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 8px; padding: 5px 10px; cursor: pointer;
-        font-family: 'Public Sans', sans-serif; font-size: .72rem;
-        color: var(--ho-text-light, #9C988D); display: flex; align-items: center; gap: 4px;
-        transition: border-color .2s, color .2s, background .2s; }
-      .msg-delete-btn:hover { border-color: #D32F2F; color: #D32F2F;
-        background: rgba(211,47,47,.08); }
-      .msg-delete-btn svg { width: 14px; height: 14px; stroke: currentColor;
+      /* Delete message button — icon only, always below message */
+      .msg-delete-btn { background: none; border: none; cursor: pointer;
+        padding: 2px; color: var(--ho-text-light, #9C988D); opacity: .5;
+        display: flex; align-items: center; transition: opacity .2s, color .2s; }
+      .msg-delete-btn:hover { opacity: 1; color: #D32F2F; }
+      .msg-delete-btn svg { width: 12px; height: 12px; stroke: currentColor;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
       /* Delete button for user bubbles — positioned below bubble */
       .msg-row.user .msg-delete-row { display: flex; justify-content: flex-end;
-        margin-top: 4px; }
+        margin-top: 2px; }
 
       /* Attachment preview in input */
       .chat-attach-preview { max-width: 80px; max-height: 60px; border-radius: 8px;
@@ -1199,7 +1196,6 @@ class HorneroChat extends HoComponent {
         <div class="msg-delete-row">
           <button class="msg-delete-btn" data-action="delete" data-msg-index="${msgIndex}" title="Borrar mensaje">
             <svg viewBox="0 0 24 24">${deleteSvg}</svg>
-            Borrar
           </button>
         </div>
       </div>`;
@@ -1329,7 +1325,6 @@ class HorneroChat extends HoComponent {
       </button>
       <button class="msg-delete-btn" data-action="delete" data-msg-index="${msgIndex}" title="Borrar mensaje">
         <svg viewBox="0 0 24 24">${deleteSvg}</svg>
-        Borrar
       </button>
     </div>`;
 
