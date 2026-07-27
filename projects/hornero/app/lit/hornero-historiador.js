@@ -352,13 +352,17 @@ class HorneroHistoriador extends HoComponent {
 
   async _saveChatHistory() {
     try {
-      if (typeof guardarChatSessionMessages === 'function' && this._sessionId) {
-        await guardarChatSessionMessages(this._sessionId, this.messages, {
-          section: this._chatSection,
-          grade: this.grade,
-          sector: this.sector,
-          username: this._username,
-        });
+      if (typeof guardarChatMsg === 'function') {
+        for (const m of this.messages) {
+          if (!m.id) {
+            m.id = typeof generarUUID === 'function' ? generarUUID() : 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+            m.section = this._chatSection;
+            m.sessionId = this._sessionId;
+            m.timestamp = Date.now();
+            m.username = this._username;
+          }
+          await guardarChatMsg(m);
+        }
       }
     } catch(e) { console.warn('Historiador: chat history save failed', e); }
   }
