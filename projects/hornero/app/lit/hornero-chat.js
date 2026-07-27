@@ -54,6 +54,7 @@ class HorneroChat extends HoComponent {
     this._showInformes = false; // informes drawer state
     this._informesList = [];    // cached informes list
     this._expandedReports = {}; // message index → boolean (expanded/collapsed)
+    this._exportInProgress = false; // debounce guard for export button
   }
 
   _detectAudioMimeType() {
@@ -1407,13 +1408,13 @@ class HorneroChat extends HoComponent {
     const exportBtn = this.shadowRoot.querySelector('#chatExportBtn');
     if (exportBtn) {
       exportBtn.addEventListener('click', () => {
+        if (this._exportInProgress) return; // Debounce guard — prevent triple export
         if (this.messages && this.messages.length > 0) {
+          this._exportInProgress = true;
           const filename = (this.title || 'chat-hornero') + '.txt';
           // Generate TXT content for the download card
           const txtContent = this._generateTxtContent(this.messages, this.title);
-          // Download the file immediately
-          this._downloadTxt(this.messages, this.title, this.title);
-          // Emit event with file content so parent can add download card message
+          // Emit event with file content so parent handles download + message
           this.emit('chat-export', {
             messages: this.messages,
             title: this.title,
@@ -1421,6 +1422,7 @@ class HorneroChat extends HoComponent {
             sessionId: this.sessionId,
             download: { content: txtContent, filename: filename, label: 'Click para descargar' }
           });
+          setTimeout(() => { this._exportInProgress = false; }, 2000);
         }
       });
     }
