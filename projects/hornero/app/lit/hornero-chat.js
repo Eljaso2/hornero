@@ -869,7 +869,7 @@ class HorneroChat extends HoComponent {
 
     // History drawer — section icons mapping
     const sectionConfig = {
-      consulta:  { emoji: '⚖️', label: 'Consulta',  color: '#6E8345' },
+      consulta:  { emoji: '📖', label: 'Consulta',  color: '#6E8345' },
       contenido: { emoji: '🎙️', label: 'Contenido', color: '#B0863F' },
       debate:    { emoji: '✊', label: 'Compañero', color: '#5A7EA8' },
       reporte:   { emoji: '📝', label: 'Reporte',   color: '#586B33' },
