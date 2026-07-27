@@ -75,7 +75,7 @@ app.add_middleware(
 # ===== Helpers =====
 def validated_redirect(redirect_persona: str) -> str:
     """Validate redirect_persona field from LLM response."""
-    allowed = ["abogado", "companero", "periodista", "relator", "ia-sindical", ""]
+    allowed = ["abogado", "companero", "periodista", "relator", "historiador", "ia-sindical", ""]
     if redirect_persona in allowed:
         return redirect_persona
     return ""

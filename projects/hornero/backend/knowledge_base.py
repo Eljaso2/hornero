@@ -106,6 +106,7 @@ Si el trabajador pregunta algo que NO es debate/organización/experiencia, deriv
 - Consultas legales (derechos, convenio, CCT, LCT, reforma laboral, SMVM, jurisprudencia): → incluí "redirect_persona": "abogado" en tu JSON. Texto: "Eso convendría consultarlo con el abogado del gremio."
 - Producción de contenido (podcast, reel, columna, entrevista, comunicación): → incluí "redirect_persona": "periodista" en tu JSON. Texto: "Para producir contenido, mejor habla con el periodista del gremio."
 - Reporte gremial (informar una situación, observación): → incluí "redirect_persona": "relator" en tu JSON. Texto: "Para reportar una situación, hablá con el relator — te ayuda a armar un informe."
+- Historia/memoria/referentes/violencia empresarial histórica: → incluí "redirect_persona": "historiador" en tu JSON. Texto: "Para la historia del movimiento obrero, el historiador del gremio te puede contar."
 
 REGLA: Solo derivá cuando la pregunta es CLARAMENTE de otro dominio. Si la pregunta conecta con debate/organización (ej: "cómo organizamos la huelga"), respondé desde tu rol. Solo derivá si es 100% otro dominio. Cuando derivás, NO respondas sobre el tema — solo derivá con una frase natural.
 
@@ -125,6 +126,7 @@ Si el trabajador pregunta algo que NO es consulta legal, derivá al compañero c
 - Debate sindical, organización, asamblea, experiencia de planta: → incluí "redirect_persona": "companero" en tu JSON. Texto: "Para debatir y organizar, hablá con el compañero del gremio."
 - Producción de contenido (podcast, reel, columna, entrevista): → incluí "redirect_persona": "periodista" en tu JSON. Texto: "Para producir contenido, el periodista del gremio te puede ayudar."
 - Reporte gremial (informar una situación): → incluí "redirect_persona": "relator" en tu JSON. Texto: "Para reportar una situación, hablá con el relator."
+- Historia/memoria/referentes/violencia empresarial histórica: → incluí "redirect_persona": "historiador" en tu JSON. Texto: "Para la historia del movimiento obrero, el historiador del gremio te puede contar."
 
 REGLA: Solo derivá cuando la pregunta es CLARAMENTE de otro dominio. Si la pregunta tiene un aspecto legal (ej: "cómo organizamos la huelga legalmente"), respondé desde tu rol. Solo derivá si es 100% otro dominio. Cuando derivás, NO respondas sobre el tema — solo derivá con una frase natural.
 
@@ -144,6 +146,7 @@ Si el trabajador pregunta algo que NO es comunicación/contenido, derivá al com
 - Consultas legales (derechos, convenio, CCT, LCT, reforma, SMVM): → incluí "redirect_persona": "abogado" en tu JSON. Texto: "Eso convendría consultarlo con el abogado del gremio."
 - Debate sindical, organización, asamblea, experiencia de planta: → incluí "redirect_persona": "companero" en tu JSON. Texto: "Para debatir y organizar, hablá con el compañero del gremio."
 - Reporte gremial (informar una situación): → incluí "redirect_persona": "relator" en tu JSON. Texto: "Para reportar una situación, hablá con el relator."
+- Historia/memoria/referentes/violencia empresarial histórica: → incluí "redirect_persona": "historiador" en tu JSON. Texto: "Para la historia del movimiento obrero, el historiador del gremio te puede contar."
 
 REGLA: Solo derivá cuando la pregunta es CLARAMENTE de otro dominio. Si la pregunta tiene un aspectocomunicacional (ej: "cómo comunicamos la paritaria"), respondé desde tu rol. Solo derivá si es 100% otro dominio. Cuando derivás, NO respondas sobre el tema — solo derivá con una frase natural.
 
@@ -259,10 +262,11 @@ Persona: SIEMPRE incluí el campo "persona" en tu JSON con el valor exacto de qu
 - "abogado" = El Abogado Laboralista (consulta legal)
 - "periodista" = El Periodista (contenido, comunicación)
 - "relator" = El Relator (reporte gremial)
+- "historiador" = El Historiador (historia obrera, memoria, La Forestal, referentes históricos)
 - "ia-sindical" = IA Sindical genérica
 
 3. MODO DERIVACIÓN: Cuando la pregunta pertenece claramente a otro persona.
-   JSON: {"text": "Mensaje de derivación natural...", "redirect_persona": "companero|abogado|periodista|relator", "tags": [..., "derivacion"]}
+   JSON: {"text": "Mensaje de derivación natural...", "redirect_persona": "companero|abogado|periodista|relator|historiador", "tags": [..., "derivacion"]}
    - text: mensaje natural explicando la derivación (ej: "Eso te convendría preguntarle al abogado del gremio")
    - redirect_persona: persona string exacto del destinatario (companero/abogado/periodista/relator)
    - Si no corresponde derivar: "redirect_persona": "" (campo vacío o omitido)
@@ -276,6 +280,7 @@ PERSONA_MAP = {
     'consulta': 'abogado',
     'contenido': 'periodista',
     'reporte': 'relator',
+    'historia': 'historiador',
 }
 
 # Direct persona name → formato mapping (for requested_persona override)
@@ -284,6 +289,7 @@ PERSONA_NAME_MAP = {
     'abogado': 'consulta',
     'periodista': 'contenido',
     'relator': 'reporte',
+    'historiador': 'historia',
 }
 
 
@@ -304,6 +310,7 @@ def get_system_prompt(formato: str, clipping_items: list = None) -> str:
         'consulta': PERSONA_CONSULTA,
         'contenido': PERSONA_CONTENIDO,
         'reporte': PERSONA_REPORTE,
+        'historia': PERSONA_HISTORIADOR,
     }
 
     persona = personas.get(formato, PERSONA_CONSULTA)  # default: abogado
