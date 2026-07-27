@@ -872,16 +872,16 @@ class HorneroChat extends HoComponent {
       .chat-input { background: var(--ho-bg, #F4F3EE);
         border-top: 1px solid var(--ho-border, rgba(43,42,38,.12));
         padding: 6px 12px calc(12px + env(safe-area-inset-bottom, 0px));
-        display: flex; align-items: flex-end; gap: 6px; flex: none; }
+        display: flex; align-items: center; gap: 6px; flex: none; }
 
       .chat-input-field { flex: 1; background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 22px; padding: 6px 14px; font-size: .88rem;
+        border-radius: 22px; padding: 0 14px; font-size: .88rem;
         color: var(--ho-text, #2B2A26); font-family: 'Public Sans', sans-serif;
         outline: none; transition: border-color .2s;
         height: 28px; max-height: 120px;
         resize: none; overflow-y: hidden;
-        line-height: 1.4; }
+        line-height: 28px; vertical-align: middle; }
       .chat-input-field:focus { border-color: var(--ho-green, #6E8345); }
       .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
 
@@ -1705,11 +1705,16 @@ class HorneroChat extends HoComponent {
 
       // === Auto-resize textarea: grow with content, shrink when empty ===
       const autoResize = () => {
-        inputField.style.height = '28px'; // Reset to single line first
+        inputField.style.height = '28px'; // Reset to single line
+        inputField.style.padding = '0 14px';
+        inputField.style.lineHeight = '28px';
         const scrollH = inputField.scrollHeight;
         if (scrollH > 28) {
+          // Multi-line: switch to padded layout for wrapped text
           inputField.style.height = Math.min(scrollH, 120) + 'px';
-          inputField.style.overflowY = 'auto';
+          inputField.style.padding = '6px 14px';
+          inputField.style.lineHeight = '1.4';
+          inputField.style.overflowY = scrollH > 120 ? 'auto' : 'hidden';
         } else {
           inputField.style.overflowY = 'hidden';
         }
@@ -1732,7 +1737,9 @@ class HorneroChat extends HoComponent {
         if (text || detail.image || detail.video) {
           this.emit('chat-send', detail);
           inputField.value = '';
-          inputField.style.height = '';
+          inputField.style.height = '28px';
+          inputField.style.padding = '0 14px';
+          inputField.style.lineHeight = '28px';
           this.suggestions = [];
           this.render();
         }
