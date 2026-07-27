@@ -234,6 +234,14 @@ class HorneroGremial extends HoComponent {
   }
 
   _handleUserMessage(text) {
+    // Detect export keywords — download current chat or last reporte as document
+    const lower = text.toLowerCase().trim();
+    const exportKeywords = ['exportar', 'descargar', 'documento', 'guardar documento', 'bajar', 'download', 'export'];
+    if (exportKeywords.some(kw => lower.includes(kw))) {
+      this._exportCurrentChat();
+      return;
+    }
+
     // Generate title for session from the first user message
     const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
     const title = isFirstUserMsg ? this._generateTitle(text, 'reporte') : undefined;
@@ -387,6 +395,26 @@ class HorneroGremial extends HoComponent {
         }
       }
     } catch(e) { console.warn('Gremial: chat history save failed', e); }
+  }
+
+  // ===== Export current chat as downloadable HTML document =====
+  _exportCurrentChat() {
+    if (!this.messages || this.messages.length === 0) return;
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      const firstUserMsg = this.messages.find(m => m.role === 'user');
+      const title = firstUserMsg && firstUserMsg.title ? firstUserMsg.title : 'Reporte Gremial';
+      chatEl._downloadHtml(this.messages, title, title);
+      // Add confirmation message
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: '📥 Documento exportado. Lo descargaste como archivo HTML — lo puedes abrir en cualquier navegador, imprimir, o compartir.',
+        tags: ['reporte', 'exportado'],
+        time: this._timeNow(),
+      }];
+      this._saveChatHistory();
+      this.render();
+    }
   }
 
   // ===== Helpers =====

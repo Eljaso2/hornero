@@ -40,8 +40,15 @@ class HorneroChat extends HoComponent {
     this.informesTitle = 'Informes';
     this.persona = 'ia-sindical';
     this.personaPills = false;
-    this._isListening = false; // mic state
-    this._recognition = null;  // SpeechRecognition instance
+    this._isRecording = false;  // audio recording state
+    this._mediaRecorder = null; // MediaRecorder instance
+    this._mediaStream = null;   // MediaStream from getUserMedia
+    this._audioChunks = [];     // recorded audio data chunks
+    this._audioMimeType = '';   // detected MIME type for MediaRecorder
+    this._recordingTimer = null; // setInterval for recording duration display
+    this._recordingSeconds = 0;  // seconds elapsed while recording
+    this._audioProcessing = false; // "Transcribiendo..." state
+    this._detectAudioMimeType(); // detect browser-supported audio format
     this._showHistory = false; // history drawer state
     this._historySessions = []; // cached session list
     this._showInformes = false; // informes drawer state
@@ -50,50 +57,199 @@ class HorneroChat extends HoComponent {
     this._initSpeechRecognition();
   }
 
-  _initSpeechRecognition() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      this._recognition = new SpeechRecognition();
-      this._recognition.lang = 'es-AR';
-      this._recognition.continuous = false;
-      this._recognition.interimResults = false;
-      this._recognition.maxAlternatives = 1;
+  _detectAudioMimeType() {
+    // Detect best MIME type supported by browser's MediaRecorder
+    if (typeof MediaRecorder === 'undefined') {
+      this._audioMimeType = '';
+      return;
+    }
+    const candidates = [
+      'audio/webm;codecs=opus',
+      'audio/webm',
+      'audio/ogg;codecs=opus',
+      'audio/ogg',
+      'audio/mp4',
+    ];
+    for (const mime of candidates) {
+      if (MediaRecorder.isTypeSupported(mime)) {
+        this._audioMimeType = mime;
+        return;
+      }
+    }
+    // Fallback: let browser choose default
+    this._audioMimeType = '';
+  }
 
-      this._recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        const inputField = this.shadowRoot.querySelector('.chat-input-field');
-        if (inputField) {
-          inputField.value = transcript;
-          // Trigger input event to update send button
-          inputField.dispatchEvent(new Event('input'));
-        }
-        this._isListening = false;
-        this._updateMicVisual(false);
-      };
+  _audioFileExtension() {
+    // Determine file extension from detected MIME type
+    if (!this._audioMimeType) return 'webm';
+    if (this._audioMimeType.includes('webm')) return 'webm';
+    if (this._audioMimeType.includes('ogg')) return 'ogg';
+    if (this._audioMimeType.includes('mp4')) return 'mp4';
+    return 'webm';
+  }
 
-      this._recognition.onerror = () => {
-        this._isListening = false;
-        this._updateMicVisual(false);
-      };
+  async _startRecording() {
+    // Request mic permission + start MediaRecorder
+    if (this._isRecording) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      // No getUserMedia support — fallback: focus input field
+      const inputField = this.shadowRoot.querySelector('.chat-input-field');
+      if (inputField) inputField.focus();
+      return;
+    }
 
-      this._recognition.onend = () => {
-        this._isListening = false;
-        this._updateMicVisual(false);
-      };
+    try {
+      this._mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (err) {
+      console.warn('Mic permission denied:', err);
+      // Show brief error message in chat
+      this._isRecording = false;
+      this._updateMicVisual('error');
+      return;
+    }
+
+    const options = this._audioMimeType ? { mimeType: this._audioMimeType } : {};
+    this._mediaRecorder = new MediaRecorder(this._mediaStream, options);
+    this._audioChunks = [];
+    this._recordingSeconds = 0;
+
+    this._mediaRecorder.ondataavailable = (event) => {
+      if (event.data && event.data.size > 0) {
+        this._audioChunks.push(event.data);
+      }
+    };
+
+    this._mediaRecorder.onstop = () => {
+      // Stop mic stream tracks
+      if (this._mediaStream) {
+        this._mediaStream.getTracks().forEach(t => t.stop());
+        this._mediaStream = null;
+      }
+      // Build audio blob and emit chat-audio event
+      const mimeType = this._audioMimeType || 'audio/webm';
+      const audioBlob = new Blob(this._audioChunks, { type: mimeType });
+      if (audioBlob.size > 0) {
+        this.emit('chat-audio', {
+          audioBlob,
+          duration: this._recordingSeconds,
+          mimeType,
+          fileName: `recording.${this._audioFileExtension()}`,
+        });
+      }
+      this._audioChunks = [];
+      this._isRecording = false;
+      this._recordingSeconds = 0;
+      // Switch to "processing" visual briefly
+      this._audioProcessing = true;
+      this._updateMicVisual('processing');
+    };
+
+    this._mediaRecorder.onerror = () => {
+      this._isRecording = false;
+      this._recordingSeconds = 0;
+      if (this._mediaStream) {
+        this._mediaStream.getTracks().forEach(t => t.stop());
+        this._mediaStream = null;
+      }
+      this._updateMicVisual('error');
+    };
+
+    this._mediaRecorder.start(1000); // collect data every 1 second
+    this._isRecording = true;
+    this._updateMicVisual('recording');
+
+    // Timer: show elapsed seconds + auto-stop at 60s
+    this._recordingTimer = setInterval(() => {
+      this._recordingSeconds++;
+      this._updateRecordingTimerDisplay();
+      if (this._recordingSeconds >= 60) {
+        this._stopRecording();
+      }
+    }, 1000);
+  }
+
+  _stopRecording() {
+    // Stop recording → triggers onstop → emits chat-audio
+    if (!this._isRecording || !this._mediaRecorder) return;
+    clearInterval(this._recordingTimer);
+    this._recordingTimer = null;
+    if (this._mediaRecorder.state === 'recording') {
+      this._mediaRecorder.stop();
     }
   }
 
-  _updateMicVisual(isActive) {
-    const micBtn = this.shadowRoot.querySelector('.chat-mic-btn');
-    if (micBtn) {
-      if (isActive) {
-        micBtn.classList.add('listening');
-        micBtn.title = 'Escuchando...';
-      } else {
-        micBtn.classList.remove('listening');
-        micBtn.title = 'Mic';
+  _cancelRecording() {
+    // Cancel recording without emitting audio event
+    if (!this._isRecording || !this._mediaRecorder) return;
+    clearInterval(this._recordingTimer);
+    this._recordingTimer = null;
+
+    // Override onstop to NOT emit
+    this._mediaRecorder.onstop = () => {
+      if (this._mediaStream) {
+        this._mediaStream.getTracks().forEach(t => t.stop());
+        this._mediaStream = null;
       }
+      this._audioChunks = [];
+      this._isRecording = false;
+      this._recordingSeconds = 0;
+      this._updateMicVisual('idle');
+    };
+
+    if (this._mediaRecorder.state === 'recording') {
+      this._mediaRecorder.stop();
     }
+  }
+
+  _updateMicVisual(state) {
+    const micBtn = this.shadowRoot.querySelector('.chat-mic-btn');
+    const timerSpan = this.shadowRoot.querySelector('.recording-timer');
+    if (!micBtn) return;
+
+    // Remove all state classes first
+    micBtn.classList.remove('listening', 'recording', 'processing', 'mic-error');
+
+    switch (state) {
+      case 'recording':
+        micBtn.classList.add('recording');
+        micBtn.title = 'Grabando... click para enviar';
+        break;
+      case 'processing':
+        micBtn.classList.add('processing');
+        micBtn.title = 'Transcribiendo...';
+        break;
+      case 'error':
+        micBtn.classList.add('mic-error');
+        micBtn.title = 'Mic no disponible';
+        // Auto-revert after 3 seconds
+        setTimeout(() => {
+          micBtn.classList.remove('mic-error');
+          micBtn.title = 'Mic';
+        }, 3000);
+        break;
+      case 'idle':
+      default:
+        micBtn.title = 'Mic';
+        break;
+    }
+  }
+
+  _updateRecordingTimerDisplay() {
+    const timerSpan = this.shadowRoot.querySelector('.recording-timer');
+    if (timerSpan) {
+      const mins = Math.floor(this._recordingSeconds / 60);
+      const secs = this._recordingSeconds % 60;
+      timerSpan.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+  }
+
+  // Public method: parent components call this when audio processing completes
+  // (transcription done, LLM response received) — resets mic to idle state
+  resetAudioState() {
+    this._audioProcessing = false;
+    this._isRecording = false;
+    this._updateMicVisual('idle');
   }
 
   _styles() {
@@ -113,6 +269,19 @@ class HorneroChat extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-history-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
+
+      /* Export button — top-right corner, left of informes btn */
+      .chat-export-btn { position: absolute; top: 12px; right: 84px; z-index: 20;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .chat-export-btn:hover { background: var(--ho-green-pale, #E8EDD7);
+        border-color: var(--ho-green-light, #94A867); transform: scale(1.08); }
+      .chat-export-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-export-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
 
       /* Informes button — top-right corner, left of history btn */
       .chat-informes-btn { position: absolute; top: 12px; right: 48px; z-index: 20;
@@ -240,6 +409,22 @@ class HorneroChat extends HoComponent {
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .history-item-delete:hover svg { stroke: var(--ho-gold, #B0863F); }
 
+      /* Export button inside history drawer items */
+      .history-item-export { background: none; border: none; cursor: pointer;
+        padding: 4px; align-self: flex-end; display: flex; }
+      .history-item-export svg { width: 14px; height: 14px;
+        stroke: var(--ho-green, #6E8345); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .history-item-export:hover svg { stroke: var(--ho-green-dark, #586B33); transform: scale(1.1); }
+
+      /* Export button inside informes drawer items */
+      .informes-item-export { background: none; border: none; cursor: pointer;
+        padding: 4px; align-self: flex-end; display: flex; margin-top: 4px; }
+      .informes-item-export svg { width: 14px; height: 14px;
+        stroke: var(--ho-green, #6E8345); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .informes-item-export:hover svg { stroke: var(--ho-green-dark, #586B33); transform: scale(1.1); }
+
       /* Section badge colors */
       .section-consulta { color: #6E8345; }
       .section-contenido { color: #B0863F; }
@@ -299,9 +484,14 @@ class HorneroChat extends HoComponent {
         border: 1.5px solid var(--ho-gold, #B0863F);
         color: var(--ho-gold, #B0863F); }
       .reporte-btn-correct:hover { background: #F0E4CC; }
+      .reporte-btn-export { background: none;
+        border: 1.5px solid var(--ho-green-light, #94A867);
+        color: var(--ho-green-dark, #586B33); }
+      .reporte-btn-export:hover { background: var(--ho-green-pale, #E8EDD7); }
       .reporte-card.estado-aceptado { border-color: var(--ho-green-light, #94A867);
         opacity: .85; }
-      .reporte-card.estado-aceptado .reporte-card-actions { display: none; }
+      .reporte-card.estado-aceptado .reporte-btn-approve,
+      .reporte-card.estado-aceptado .reporte-btn-correct { display: none; }
 
       /* Progress bar */
       .chat-progress-wrap { padding: 4px 16px 0; flex: none; }
@@ -534,11 +724,34 @@ class HorneroChat extends HoComponent {
       .chat-attach-btn { background: var(--ho-green-pale, #E8EDD7); }
       .chat-attach-btn svg { stroke: var(--ho-green-dark, #586B33); fill: var(--ho-green-dark, #586B33); }
 
-      .chat-mic-btn { background: var(--ho-green-pale, #E8EDD7); }
+      .chat-mic-btn { background: var(--ho-green-pale, #E8EDD7);
+        position: relative; overflow: visible; }
       .chat-mic-btn svg { stroke: var(--ho-green-dark, #586B33); fill: none; }
       .chat-mic-btn.listening { background: var(--ho-green, #6E8345);
         animation: micpulse 1.2s ease infinite; }
       .chat-mic-btn.listening svg { stroke: var(--ho-text-off, #F2F1EC); }
+
+      /* Recording state: red-orange, pulsing, shows timer */
+      .chat-mic-btn.recording { background: #E85D3A;
+        animation: recordingPulse 1s ease infinite; }
+      .chat-mic-btn.recording svg { stroke: #fff; }
+      @keyframes recordingPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(232,93,58,.35) }
+        50% { box-shadow: 0 0 0 10px rgba(232,93,58,.1) } }
+
+      /* Processing state: muted green, disabled */
+      .chat-mic-btn.processing { background: var(--ho-green, #6E8345);
+        opacity: 0.6; pointer-events: none; }
+      .chat-mic-btn.processing svg { stroke: var(--ho-text-off, #F2F1EC); }
+
+      /* Error state: brief red flash */
+      .chat-mic-btn.mic-error { background: #D32F2F; }
+      .chat-mic-btn.mic-error svg { stroke: #fff; }
+
+      /* Recording timer label */
+      .recording-timer { font-size: .65rem; font-weight: 700;
+        color: #fff; position: absolute; bottom: -14px; left: 50%;
+        transform: translateX(-50%); white-space: nowrap;
+        font-family: 'Public Sans', sans-serif; }
 
       @keyframes micpulse { 0%,100% { box-shadow: 0 0 0 0 rgba(110,131,68,.3) }
         50% { box-shadow: 0 0 0 8px rgba(110,131,68,.1) } }
@@ -626,7 +839,12 @@ class HorneroChat extends HoComponent {
     // SVG icons
     const attachSvg = '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>';
     const micSvg = '<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>';
+    const stopSvg = '<rect x="6" y="6" width="12" height="12" rx="1"/>'; // stop square icon for recording
     const sendSvg = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9" fill="currentColor" stroke="none"/>';
+
+    // Mic button: show mic or stop icon depending on recording state
+    const micIcon = this._isRecording ? stopSvg : micSvg;
+    const micTitle = this._isRecording ? 'Enviar audio' : (this._audioProcessing ? 'Transcribiendo...' : 'Mic');
 
     // Attachment preview (if pending)
     const attachPreview = this._pendingAttachment ?
@@ -665,6 +883,9 @@ class HorneroChat extends HoComponent {
                     <span>${dateStr} ${timeStr}</span>
                     <span class="history-item-count">${s.messageCount} msgs</span>
                   </div>
+                  <button class="history-item-export" data-export-session="${s.sessionId}" title="Exportar chat">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </button>
                   <button class="history-item-delete" data-delete-session="${s.sessionId}" title="Borrar chat">
                     <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
                   </button>
@@ -702,6 +923,9 @@ class HorneroChat extends HoComponent {
                     <span class="informes-item-estado">${inf.estado || 'aceptado'}</span>
                   </div>
                   ${tagsHtml}
+                  <button class="informes-item-export" data-export-informe="${inf.id}" title="Exportar informe">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </button>
                 </div>`;
               }).join('')}
           </div>
@@ -711,7 +935,14 @@ class HorneroChat extends HoComponent {
     // Informes SVG icon (document/clipboard)
     const informeSvg = '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>';
 
+    // Export SVG icon (download arrow)
+    const exportSvg = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
+
     return html`
+      <button class="chat-export-btn" id="chatExportBtn" title="Exportar chat">
+        <svg viewBox="0 0 24 24">${exportSvg}</svg>
+      </button>
+
       <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Informes guardados">
         <svg viewBox="0 0 24 24">${informeSvg}</svg>
       </button>
@@ -739,8 +970,9 @@ class HorneroChat extends HoComponent {
           <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
             <svg viewBox="0 0 24 24">${attachSvg}</svg>
           </button>
-          <button class="chat-toolbar-btn chat-mic-btn" title="Mic">
-            <svg viewBox="0 0 24 24">${micSvg}</svg>
+          <button class="chat-toolbar-btn chat-mic-btn${this._isRecording ? ' recording' : ''}${this._audioProcessing ? ' processing' : ''}" title="${micTitle}">
+            <svg viewBox="0 0 24 24">${micIcon}</svg>
+            ${this._isRecording ? '<span class="recording-timer">0:00</span>' : ''}
           </button>
           <button class="chat-toolbar-btn chat-send-btn hidden" title="Enviar">
             <svg viewBox="0 0 24 24">${sendSvg}</svg>
@@ -939,9 +1171,12 @@ class HorneroChat extends HoComponent {
       const tagsHtml = visibleTags.length > 0 ?
         `<div class="reporte-card-tags">${visibleTags.map(t => `<span class="reporte-card-tag">${t}</span>`).join('')}</div>` : '';
 
-      // Action buttons (only for non-accepted reports)
-      const actionsHtml = isReporteAprobado ? '' :
+      // Action buttons — export always shown; aprobar/corregir only for non-accepted
+      const exportBtn = `<button class="reporte-btn reporte-btn-export" data-reporte-action="exportar" data-msg-index="${msgIndex}">📥 Exportar</button>`;
+      const actionsHtml = isReporteAprobado ?
+        `<div class="reporte-card-actions">${exportBtn}</div>` :
         `<div class="reporte-card-actions">
+          ${exportBtn}
           <button class="reporte-btn reporte-btn-approve" data-reporte-action="aprobar" data-msg-index="${msgIndex}">✅ Aprobar</button>
           <button class="reporte-btn reporte-btn-correct" data-reporte-action="corregir" data-msg-index="${msgIndex}">📝 Corregir</button>
         </div>`;
@@ -1047,6 +1282,19 @@ class HorneroChat extends HoComponent {
       informesBtn.addEventListener('click', () => {
         this._openInformesDrawer();
         this.emit('informes-open', {});
+      });
+    }
+
+    // === Export button (top-right corner) → export current chat ===
+    const exportBtn = this.shadowRoot.querySelector('#chatExportBtn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => {
+        this.emit('chat-export', { messages: this.messages, title: this.title, section: this.section, sessionId: this.sessionId });
+        // Also download directly from the chat component
+        if (this.messages && this.messages.length > 0) {
+          const filename = this.title || 'chat-hornero';
+          this._downloadHtml(this.messages, this.title, filename);
+        }
       });
     }
 
@@ -1189,12 +1437,28 @@ class HorneroChat extends HoComponent {
     // === History drawer: select session ===
     this.shadowRoot.querySelectorAll('.history-item').forEach(item => {
       item.addEventListener('click', (e) => {
-        // Don't trigger if delete button was clicked
-        if (e.target.closest('.history-item-delete')) return;
+        // Don't trigger if delete or export button was clicked
+        if (e.target.closest('.history-item-delete') || e.target.closest('.history-item-export')) return;
         const sid = item.dataset.sessionId;
         if (sid) {
           // Emit event FIRST — parent's re-render will close drawer naturally
           this.emit('chat-session-select', { sessionId: sid, section: this.section });
+        }
+      });
+    });
+
+    // === History drawer: export session ===
+    this.shadowRoot.querySelectorAll('.history-item-export').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const sid = btn.dataset.exportSession;
+        if (sid && typeof obtenerChatSessionMessages === 'function') {
+          obtenerChatSessionMessages(sid).then(msgs => {
+            if (msgs && msgs.length > 0) {
+              const preview = (msgs[0].text || '').substring(0, 30).replace(/[?!.]+$/, '');
+              this._downloadHtml(msgs, preview || 'chat-hornero', preview || 'chat-hornero');
+            }
+          }).catch(err => console.warn('Chat: export session failed', err));
         }
       });
     });
@@ -1237,11 +1501,55 @@ class HorneroChat extends HoComponent {
 
     // === Informes drawer: select informe ===
     this.shadowRoot.querySelectorAll('.informes-item').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        // Don't trigger if export button was clicked
+        if (e.target.closest('.informes-item-export')) return;
         const infId = item.dataset.informeId;
         if (infId) {
           this.emit('informes-select', { informeId: infId });
           this._closeInformesDrawer();
+        }
+      });
+    });
+
+    // === Informes drawer: export informe ===
+    this.shadowRoot.querySelectorAll('.informes-item-export').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const infId = btn.dataset.exportInforme;
+        if (infId && typeof obtenerInforme === 'function') {
+          obtenerInforme(infId).then(inf => {
+            if (inf) {
+              // Convert informe to messages format for export
+              const msgs = [{
+                role: 'hornero',
+                text: inf.contenido || '',
+                sections: inf.sections || [],
+                tags: (inf.etiquetas && inf.etiquetas.temas) ? inf.etiquetas.temas : [],
+                time: '',
+              }];
+              const title = inf.sections && inf.sections.length > 0
+                ? inf.sections[0].title || 'Informe Gremial'
+                : 'Informe Gremial';
+              this._downloadHtml(msgs, title, `informe-${inf.fecha || 'gremial'}`);
+            }
+          }).catch(err => console.warn('Chat: export informe failed', err));
+        } else {
+          // Fallback: search in cached informes list
+          const inf = this._informesList.find(i => i.id === infId);
+          if (inf) {
+            const msgs = [{
+              role: 'hornero',
+              text: inf.contenido || '',
+              sections: inf.sections || [],
+              tags: (inf.etiquetas && inf.etiquetas.temas) ? inf.etiquetas.temas : [],
+              time: '',
+            }];
+            const title = inf.sections && inf.sections.length > 0
+              ? inf.sections[0].title || 'Informe Gremial'
+              : 'Informe Gremial';
+            this._downloadHtml(msgs, title, `informe-${inf.fecha || 'gremial'}`);
+          }
         }
       });
     });
@@ -1329,7 +1637,7 @@ class HorneroChat extends HoComponent {
       });
     });
 
-    // === Reporte card: approve/correct buttons ===
+    // === Reporte card: approve/correct/export buttons ===
     this.shadowRoot.querySelectorAll('.reporte-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.reporteAction;
@@ -1338,6 +1646,14 @@ class HorneroChat extends HoComponent {
           this.emit('reporte-action', { action: 'aprobar', msgIndex });
         } else if (action === 'corregir') {
           this.emit('reporte-action', { action: 'corregir', msgIndex });
+        } else if (action === 'exportar') {
+          // Export the reporte card as HTML document
+          const msg = this.messages[msgIndex];
+          if (msg) {
+            const msgs = [msg];
+            const title = msg.sections && msg.sections[0] ? msg.sections[0].title || 'Informe Gremial' : 'Informe Gremial';
+            this._downloadHtml(msgs, title, `reporte-${new Date().toISOString().slice(0,10)}`);
+          }
         }
       });
     });
@@ -1345,6 +1661,176 @@ class HorneroChat extends HoComponent {
     // Scroll to bottom after render
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll) scroll.scrollTop = scroll.scrollHeight;
+  }
+
+  // ===== Export chat as downloadable text/HTML document =====
+  _buildChatHtml(messages, title) {
+    const msgs = messages || this.messages || [];
+    const chatTitle = title || this.title || 'Chat Hornero';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+    const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+
+    const lines = msgs.map(m => {
+      const role = m.role === 'user' ? '→ Trabajador' : '← IA Sindical';
+      const time = m.time ? ` [${m.time}]` : '';
+      let content = '';
+
+      // Text message
+      if (m.text) content = m.text;
+
+      // Sections (structured content)
+      if (m.sections && m.sections.length > 0) {
+        const sectionLines = m.sections.map(s => {
+          let sec = '';
+          if (s.title) sec += s.title + '\n';
+          if (s.body) sec += s.body;
+          if (s.quote) sec += `\n"${s.quote}"`;
+          if (s.quoteAuthor) sec += ` — ${s.quoteAuthor}`;
+          if (s.quoteSource) sec += ` (${s.quoteSource})`;
+          return sec;
+        });
+        if (content) content += '\n\n' + sectionLines.join('\n---\n');
+        else content = sectionLines.join('\n---\n');
+      }
+
+      // Tags (exclude system tags)
+      const visibleTags = (m.tags || []).filter(t =>
+        !['reporte', 'reporte-generado', 'reporte-aprobado', 'informe-guardado',
+          'consulta', 'greeting', 'saludo', 'correccion-pendiente'].includes(t)
+      );
+      if (visibleTags.length > 0) content += `\n[${visibleTags.join(', ')}]`;
+
+      return `${role}${time}\n${content}`;
+    });
+
+    const body = lines.join('\n\n' + '─'.repeat(40) + '\n\n');
+    return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>${chatTitle}</title>
+<style>
+body { font-family: 'Public Sans', Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; color: #2B2A26; background: #FBFAF6; line-height: 1.6; }
+h1 { font-family: 'Archivo', sans-serif; font-weight: 800; color: #586B33; border-bottom: 2px solid #6E8345; padding-bottom: 8px; margin-bottom: 20px; }
+.meta { font-family: monospace; font-size: .8rem; color: #9C988D; margin-bottom: 30px; }
+.msg { margin-bottom: 24px; }
+.msg-role { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .85rem; color: #6E8345; }
+.msg-role.user { color: #6E8345; }
+.msg-role.hornero { color: #586B33; }
+.msg-time { font-family: monospace; font-size: .7rem; color: #9C988D; }
+.msg-content { margin: 6px 0; font-size: .95rem; }
+.msg-section-title { font-family: 'Archivo', sans-serif; font-weight: 700; color: #586B33; margin-top: 10px; }
+.msg-section-body { margin: 4px 0; }
+.msg-quote { border-left: 3px solid #6E8345; background: #E8EDD7; padding: 10px 14px; margin: 8px 0; font-style: italic; border-radius: 0 8px 8px 0; }
+.msg-quote-author { font-weight: 700; font-style: normal; color: #586B33; }
+.msg-quote-source { font-family: monospace; font-size: .7rem; color: #6E6A60; font-style: normal; }
+.msg-tags { margin-top: 6px; }
+.msg-tag { background: #E8EDD7; color: #586B33; padding: 2px 8px; border-radius: 6px; font-family: monospace; font-size: .75rem; font-weight: 600; display: inline-block; margin-right: 4px; }
+.divider { border: none; border-top: 1px dashed #6E8345; margin: 24px 0; }
+footer { font-family: monospace; font-size: .7rem; color: #9C988D; border-top: 1px solid #6E8345; padding-top: 12px; margin-top: 40px; text-align: center; }
+</style>
+</head>
+<body>
+<h1>${chatTitle}</h1>
+<div class="meta">${dateStr} — ${timeStr}</div>
+${msgs.map(m => {
+  const role = m.role === 'user' ? 'Trabajador' : 'IA Sindical';
+  const roleClass = m.role === 'user' ? 'user' : 'hornero';
+  const time = m.time ? ` <span class="msg-time">[${m.time}]</span>` : '';
+  let contentHtml = '';
+
+  if (m.text) contentHtml += `<div class="msg-content">${m.text.replace(/\n/g, '<br>')}</div>`;
+
+  if (m.sections && m.sections.length > 0) {
+    contentHtml += m.sections.map(s => {
+      let sec = '';
+      if (s.title) sec += `<div class="msg-section-title">${s.title}</div>`;
+      if (s.body) sec += `<div class="msg-section-body">${s.body.replace(/\n/g, '<br>')}</div>`;
+      if (s.quote) {
+        sec += `<div class="msg-quote">"${s.quote}"`;
+        if (s.quoteAuthor) sec += `<div class="msg-quote-author">— ${s.quoteAuthor}</div>`;
+        if (s.quoteSource) sec += `<div class="msg-quote-source">${s.quoteSource}</div>`;
+        sec += '</div>';
+      }
+      return sec;
+    }).join('<hr class="divider">');
+  }
+
+  const visibleTags = (m.tags || []).filter(t =>
+    !['reporte','reporte-generado','reporte-aprobado','informe-guardado','consulta','greeting','saludo','correccion-pendiente'].includes(t)
+  );
+  const tagsHtml = visibleTags.length > 0 ?
+    `<div class="msg-tags">${visibleTags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
+
+  return `<div class="msg">
+    <div class="msg-role ${roleClass}">${role}${time}</div>
+    ${contentHtml}
+    ${tagsHtml}
+  </div>`;
+}).join('<hr class="divider">')}
+<footer>Exportado de Hornero — IA Sindical</footer>
+</body>
+</html>`;
+  }
+
+  // Download as .html file
+  _downloadHtml(messages, title, filename) {
+    const htmlContent = this._buildChatHtml(messages, title);
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (filename || title || 'chat-hornero') + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Download as plain .txt file
+  _downloadTxt(messages, title, filename) {
+    const msgs = messages || this.messages || [];
+    const chatTitle = title || this.title || 'Chat Hornero';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+    const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+
+    const lines = msgs.map(m => {
+      const role = m.role === 'user' ? '→ Trabajador' : '← IA Sindical';
+      const time = m.time ? ` [${m.time}]` : '';
+      let content = '';
+      if (m.text) content = m.text;
+      if (m.sections && m.sections.length > 0) {
+        const sectionLines = m.sections.map(s => {
+          let sec = '';
+          if (s.title) sec += s.title + '\n';
+          if (s.body) sec += s.body;
+          if (s.quote) sec += `\n"${s.quote}"`;
+          if (s.quoteAuthor) sec += ` — ${s.quoteAuthor}`;
+          if (s.quoteSource) sec += ` (${s.quoteSource})`;
+          return sec;
+        });
+        if (content) content += '\n\n' + sectionLines.join('\n---\n');
+        else content = sectionLines.join('\n---\n');
+      }
+      const visibleTags = (m.tags || []).filter(t =>
+        !['reporte','reporte-generado','reporte-aprobado','informe-guardado','consulta','greeting','saludo','correccion-pendiente'].includes(t)
+      );
+      if (visibleTags.length > 0) content += `\n[${visibleTags.join(', ')}]`;
+      return `${role}${time}\n${content}`;
+    });
+
+    const body = `${chatTitle}\n${dateStr} — ${timeStr}\n${'─'.repeat(60)}\n\n${lines.join('\n\n' + '─'.repeat(40) + '\n\n')}\n\n${'─'.repeat(60)}\nExportado de Hornero — IA Sindical`;
+    const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (filename || title || 'chat-hornero') + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   // ===== Public API =====
