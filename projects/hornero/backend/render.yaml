@@ -2,7 +2,7 @@ services:
   - type: web
     name: hornero-ia
     runtime: python
-    rootDir: projects/hornero/backend
+    rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
@@ -14,6 +14,8 @@ services:
         value: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
       - key: DEEPSEEK_MODEL
         value: glm-5.1
+      - key: DASHSCOPE_STT_MODEL
+        value: paraformer-v2
       - key: ALLOWED_ORIGIN
         value: https://eljaso2.github.io
       - key: APP_BACKEND_URL
