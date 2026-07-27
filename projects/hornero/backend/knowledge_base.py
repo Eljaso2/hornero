@@ -37,17 +37,14 @@ Fuente: CCT 420/05, Res. ST 343/2005
 - Empresas ofrecen 8%
 - Paritaria 2025 cerró después de 7 días de huelga nacional — forzó mano de Caputo
 - Básico del convenio debajo del SMVM — violación del piso legal
-Quote: "La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa para no pagar lo que corresponde. Si la planta funciona al 80%, hay producción, hay plata."
+Quote: "La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa para no pagar lo que corresponde."
 — Daniel Yofra, Sec. Gral. F.T.C.I.O.D y A.R.A.
 Fuente: Asamblea paritaria aceitera, junio 2026
 
 [FUENTE: SMVM y básico convenio, Cremonte 2023 / CIFRA 2025]
 - SMVM julio 2026: $2.344.000
-- Básico convenio aceitero: $340.000 (junio 2026)
-- Canasta básica total: $1.800.000
-- Mediana salario registrado: $900.000
-- Inflación obrera: 760% anual
-- El básico del convenio está debajo del SMVM — violación del piso legal
+- El básico del convenio aceitero está debajo del SMVM — violación del piso legal
+- Cremonte: básico del convenio como violación del piso legal, distribución del ingreso como relación de fuerzas
 Quote: "El salario mínimo no es un número abstracto — es el piso de lo que una persona necesita para reproducir su fuerza de trabajo. Si el básico del convenio está por debajo del SMVM, no estás cobrando lo mínimo legal, estás cobrando menos que lo mínimo."
 — Cremonte, investigador labour
 Fuente: "Valor y precio de la fuerza de trabajo", 2023
