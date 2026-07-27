@@ -449,7 +449,7 @@ class HorneroApp extends HoComponent {
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="historiador" data-persona="historiador">' +
-          '<div class="chat-choice-icon persona-icon-historiador"><span class="persona-choice-emoji">📚</span></div>' +
+          '<div class="chat-choice-icon persona-icon-historiador"><span class="persona-choice-emoji">🤓</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Historiador/a</div>' +
             '<div class="chat-choice-desc">Historia obrera, formación, cursos, preguntas y archivos sobre historia</div>' +
