@@ -101,6 +101,10 @@ class HorneroGremial extends HoComponent {
         // Could load informe or open session — for now just log
         console.log('Gremial: informe selected', e.detail.informeId);
       });
+      // After chat self-renders (drawer close/delete), re-sync messages without chat render
+      chatEl.addEventListener('chat-state-changed', () => {
+        this._syncChatMessages(chatEl);
+      });
     }
     if (!this._historyLoaded) {
       this._loadChatHistory();
@@ -138,7 +142,9 @@ class HorneroGremial extends HoComponent {
       chatEl.historyTitle = 'Mis Informes';
       chatEl.informesTitle = 'Informes';
       chatEl.informeBadge = this._informeBadge;
-      chatEl.render();
+      // Do NOT call chatEl.render() here — the chat re-renders itself
+      // when its attributes change (from gremial render) or from drawer open/close.
+      // Double render was causing the blank screen bug.
     }
   }
 
