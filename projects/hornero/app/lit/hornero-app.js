@@ -414,7 +414,7 @@ class HorneroApp extends HoComponent {
         '<div class="chat-landing-kicker">🪶 Mesa de trabajo</div>' +
         '<div class="chat-landing-title">Hornero te escucha</div>' +
         '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Diferentes compañeros responden según lo que necesites:</div>' +
-        '<div class="chat-choice" data-screen="consulta" data-persona="ia-sindical">' +
+        '<div class="chat-choice" data-screen="gremial">' +
           '<div class="chat-choice-icon persona-icon-ia-sindical"><span class="persona-choice-emoji">🪶</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Relator</div>' +
