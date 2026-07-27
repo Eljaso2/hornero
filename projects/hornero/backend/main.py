@@ -20,9 +20,9 @@ import httpx
 from knowledge_base import get_system_prompt, get_system_prompt_rag, get_format_hint, get_greeting_hint, PERSONA_MAP, PERSONA_NAME_MAP
 from llm_providers.deepseek import call_deepseek
 from llm_providers.claude import call_claude
-from clipping_cache import get_clipping
+from clipping_cache import get_clipping, refresh
 from rag_retriever import retrieve_for_query
-from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, refresh as kb_refresh
+from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, KB_TIPOS, refresh as kb_refresh
 
 load_dotenv(override=True)
 
