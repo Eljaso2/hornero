@@ -388,20 +388,6 @@ class HorneroApp extends HoComponent {
       .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .76rem;
         color: #6E6A60; line-height: 1.4; margin-top: 2px; }
 
-      /* ===== Chat landing icon row — 3 small round icon buttons ===== */
-      .chat-landing-icons { display: flex; gap: 8px; margin-bottom: 16px;
-        justify-content: flex-end; padding: 0 4px; }
-      .chat-landing-icon { width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s, transform .15s; }
-      .chat-landing-icon:hover { background: var(--ho-green-pale, #E8EDD7);
-        border-color: var(--ho-green-light, #94A867); transform: scale(1.08); }
-      .chat-landing-icon svg { width: 16px; height: 16px;
-        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .chat-landing-icon:hover svg { stroke: var(--ho-green-dark, #586B33); }
-
       /* ===== List screens (Mis Conversaciones, Mis Reportes, Recibidos) =====
          Same styles as chat drawer items for visual consistency */
       .list-screen { padding: 0; }
@@ -589,20 +575,7 @@ class HorneroApp extends HoComponent {
         extraChoices += svgChoiceHtml('recibidos', inboxSvg, 'Reportes Recibidos', 'Informes de trabajadores bajo tu responsabilidad');
       }
 
-      // Icon row at top — 3 small round icon buttons (same style as chat window icons)
-      const iconRowSvg = (screen, svg, title) =>
-        `<button class="chat-landing-icon" data-screen="${screen}" title="${title}"><svg viewBox="0 0 24 24">${svg}</svg></button>`;
-      let iconRowHtml = '';
-      if (isBaseGrade || isHigherGrade) {
-        iconRowHtml += iconRowSvg('misConversaciones', chatSvg, 'Mis Conversaciones');
-        iconRowHtml += iconRowSvg('misReportes', reportSvg, 'Mis Reportes');
-      }
-      if (isHigherGrade) {
-        iconRowHtml += iconRowSvg('recibidos', inboxSvg, 'Reportes Recibidos');
-      }
-
       screenContent = '<div class="chat-landing">' +
-        (iconRowHtml ? '<div class="chat-landing-icons">' + iconRowHtml + '</div>' : '') +
         '<div class="chat-landing-kicker">🪶 Mesa de trabajo</div>' +
         '<div class="chat-landing-title">Hornero te escucha</div>' +
         '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Diferentes compañeros responden según lo que necesites:</div>' +
