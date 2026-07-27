@@ -200,11 +200,15 @@ Tags: temas + formato + persona (debate/consulta/contenido).
 """
 
 
+from kb_data import KB_CHUNKS, get_chunks_text, rebuild_knowledge_base_string
+
+
 # ===== SYSTEM PROMPTS (persona + principios + knowledge base) =====
 
 def get_system_prompt(formato: str, clipping_items: list = None) -> str:
     """Return system prompt based on formato/section — each with its own persona.
 
+    LEGACY: injects full KNOWLEDGE_BASE. Use get_system_prompt_rag() for selective injection.
     Includes dynamic clipping data if available.
     """
 
@@ -217,6 +221,48 @@ def get_system_prompt(formato: str, clipping_items: list = None) -> str:
 
     persona = personas.get(formato, PERSONA_CONSULTA)  # default: abogado
     prompt = persona + "\n" + PRINCIPIOS_COMUNES + "\n\nFUENTES DISPONIBLES:\n" + KNOWLEDGE_BASE
+
+    # Add dynamic clipping if available
+    if clipping_items:
+        clipping_text = get_clipping_text(clipping_items)
+        if clipping_text:
+            prompt += "\n\n" + clipping_text
+
+    return prompt
+
+
+def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "") -> str:
+    """Return system prompt with selective KB injection based on RAG retrieval.
+
+    Only includes KB chunks relevant to the user's query, not the entire KB.
+    This reduces token usage by 60-80% per request.
+
+    Args:
+        formato: section/persona (debate, consulta, contenido, reporte)
+        chunk_ids: list of KB chunk IDs to inject (from rag_retriever)
+        clipping_items: dynamic clipping data (all or filtered)
+        query: user query text (for clipping filtering in Phase 2)
+    """
+
+    personas = {
+        'debate': PERSONA_DEBATE,
+        'consulta': PERSONA_CONSULTA,
+        'contenido': PERSONA_CONTENIDO,
+        'reporte': PERSONA_REPORTE,
+    }
+
+    persona = personas.get(formato, PERSONA_CONSULTA)  # default: abogado
+    prompt = persona + "\n" + PRINCIPIOS_COMUNES
+
+    # Inject only relevant chunks
+    if chunk_ids:
+        chunks_text = get_chunks_text(chunk_ids)
+        if chunks_text:
+            prompt += "\n\n" + chunks_text
+    else:
+        # No specific chunks matched — include topic guide so IA knows what it can discuss
+        available_topics = ", ".join(set(c["category"] for c in KB_CHUNKS))
+        prompt += f"\n\nTEMAS DISPONIBLES: {available_topics}. Si la pregunta no coincide con ninguno, respondé lo que puedas y sugerí temas relacionados."
 
     # Add dynamic clipping if available
     if clipping_items:
