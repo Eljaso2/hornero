@@ -862,19 +862,21 @@ class HorneroChat extends HoComponent {
       .chat-input { background: var(--ho-bg, #F4F3EE);
         border-top: 1px solid var(--ho-border, rgba(43,42,38,.12));
         padding: 6px 12px calc(12px + env(safe-area-inset-bottom, 0px));
-        display: flex; align-items: center; gap: 6px; flex: none; }
+        display: flex; align-items: flex-end; gap: 6px; flex: none; }
 
       .chat-input-field { flex: 1; background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 22px; padding: 8px 16px; font-size: .88rem;
         color: var(--ho-text, #2B2A26); font-family: 'Public Sans', sans-serif;
-        outline: none; transition: border-color .2s; min-height: 36px;
-        resize: none; }
+        outline: none; transition: border-color .2s;
+        min-height: 36px; max-height: 120px;
+        resize: none; overflow-y: auto;
+        line-height: 1.4; }
       .chat-input-field:focus { border-color: var(--ho-green, #6E8345); }
       .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
 
       /* Input toolbar buttons */
-      .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; }
+      .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; align-self: flex-end; }
       .chat-toolbar-btn { width: 36px; height: 36px; border-radius: 50%;
         border: none; cursor: pointer; display: flex; align-items: center;
         justify-content: center; flex: none; transition: background .2s, transform .15s; }
@@ -1198,18 +1200,18 @@ class HorneroChat extends HoComponent {
 
       <div class="chat-input">
         ${attachPreview}
-        <input class="chat-input-field" type="text" placeholder="${this.inputPlaceholder}" autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore>
+        <textarea class="chat-input-field" rows="1" placeholder="${this.inputPlaceholder}" autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore></textarea>
         <input class="chat-file-input" type="file" accept="image/*,video/*">
         <div class="chat-toolbar">
           <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
             <svg viewBox="0 0 24 24">${attachSvg}</svg>
           </button>
-          <button class="chat-toolbar-btn chat-export-btn" id="chatExportBtn" title="Exportar chat">
-            <svg viewBox="0 0 24 24">${exportSvg}</svg>
-          </button>
           <button class="chat-toolbar-btn chat-mic-btn${this._isRecording ? ' recording' : ''}${this._audioProcessing ? ' processing' : ''}" title="${micTitle}">
             <svg viewBox="0 0 24 24">${micIcon}</svg>
             ${this._isRecording ? '<span class="recording-timer">0:00</span>' : ''}
+          </button>
+          <button class="chat-toolbar-btn chat-export-btn" id="chatExportBtn" title="Exportar chat">
+            <svg viewBox="0 0 24 24">${exportSvg}</svg>
           </button>
           <button class="chat-toolbar-btn chat-send-btn hidden" title="Enviar">
             <svg viewBox="0 0 24 24">${sendSvg}</svg>
@@ -1651,6 +1653,16 @@ class HorneroChat extends HoComponent {
       };
 
       inputField.addEventListener('input', updateToolbar);
+
+      // === Auto-resize textarea: grow with content, shrink when empty ===
+      const autoResize = () => {
+        inputField.style.height = 'auto';
+        const scrollH = inputField.scrollHeight;
+        inputField.style.height = Math.min(scrollH, 120) + 'px';
+      };
+      inputField.addEventListener('input', autoResize);
+      autoResize(); // initial size
+
       updateToolbar();
 
       // === Send button ===
@@ -1666,6 +1678,7 @@ class HorneroChat extends HoComponent {
         if (text || detail.image || detail.video) {
           this.emit('chat-send', detail);
           inputField.value = '';
+          inputField.style.height = '36px';
           this.suggestions = [];
           this.render();
         }
