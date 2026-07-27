@@ -100,7 +100,6 @@ class HorneroApp extends HoComponent {
       { id: 'gremial', label: 'Reporte' },
       { id: 'chat', label: 'Chat' },
       { id: 'contenido', label: 'Contenido' },
-      { id: 'is', label: 'Comunicación' },
       { id: 'condicion', label: 'Panorama' },
       { id: 'smvm', label: 'SMVM' },
       { id: 'felicidad', label: 'Felicidad' },
@@ -116,7 +115,7 @@ class HorneroApp extends HoComponent {
       chat: 'Chat IA Sindical',
       consulta: 'Chateá con la IA Sindical',
       formacion: 'Formación',
-      is: 'Comunicación interna',
+      is: 'Reporte gremial',
       condicion: 'Panorama',
       archivo: 'Archivo',
       perfil: 'Perfil',
@@ -387,6 +386,8 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-gremial>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
+    } else if (this.screen === 'archivo') {
+      screenContent = '<hornero-archivo grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-archivo>';
     } else if (this.screen === 'chat') {
       const debateSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
       const consultaSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/>';

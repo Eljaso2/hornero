@@ -300,10 +300,10 @@ class HorneroHome extends HoComponent {
         <span class="card-tag">cursos · materiales · codiseño</span>
       </div>
 
-      <!-- ESFERA 4: Comunicación interna -->
+      <!-- ESFERA 4: Reporte gremial -->
       <div class="esfera-card${isLocked ? ' locked' : ''}" data-screen="is">
         ${isLocked ? '<span class="lock-icon">' + lockSvg + '</span>' : ''}
-        <div class="card-name">Comunicación interna</div>
+        <div class="card-name">Reporte gremial</div>
         <div class="card-desc">Observaciones, informes, coordinación, circulares</div>
         <span class="card-tag">${this.sector} · observaciones · informes</span>
       </div>
@@ -318,8 +318,8 @@ class HorneroHome extends HoComponent {
       <!-- ESFERA 6: Archivo -->
       <div class="esfera-card" data-screen="archivo">
         <div class="card-name">Archivo</div>
-        <div class="card-desc">Repositorio documental, historia — convenios, estatutos, memoria sindical</div>
-        <span class="card-tag">documentos · historia · memoria</span>
+        <div class="card-desc">Convenios, referentes, fuentes sindicales — la memoria del sindicato</div>
+        <span class="card-tag">documentos · académicos · multimedia</span>
       </div>
     `;
   }
