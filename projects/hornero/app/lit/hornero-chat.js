@@ -869,8 +869,8 @@ class HorneroChat extends HoComponent {
         border-radius: 22px; padding: 6px 14px; font-size: .88rem;
         color: var(--ho-text, #2B2A26); font-family: 'Public Sans', sans-serif;
         outline: none; transition: border-color .2s;
-        min-height: 28px; max-height: 120px;
-        resize: none; overflow-y: auto;
+        height: 28px; max-height: 120px;
+        resize: none; overflow-y: hidden;
         line-height: 1.4; }
       .chat-input-field:focus { border-color: var(--ho-green, #6E8345); }
       .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
@@ -1664,9 +1664,14 @@ class HorneroChat extends HoComponent {
 
       // === Auto-resize textarea: grow with content, shrink when empty ===
       const autoResize = () => {
-        inputField.style.height = 'auto';
+        inputField.style.height = '28px'; // Reset to single line first
         const scrollH = inputField.scrollHeight;
-        inputField.style.height = Math.min(scrollH, 120) + 'px';
+        if (scrollH > 28) {
+          inputField.style.height = Math.min(scrollH, 120) + 'px';
+          inputField.style.overflowY = 'auto';
+        } else {
+          inputField.style.overflowY = 'hidden';
+        }
       };
       inputField.addEventListener('input', autoResize);
       // Start at single-line height — only grow when user types
