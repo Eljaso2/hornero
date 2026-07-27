@@ -36,7 +36,7 @@ DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 ANTHROPIC_BASE_URL = os.getenv("ANTHROPIC_BASE_URL", "https://api.anthropic.com/v1/messages")
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
-DASHSCOPE_STT_URL = os.getenv("DASHSCOPE_STT_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1/audio/transcriptions")
+DASHSCOPE_STT_URL = os.getenv("DASHSCOPE_STT_URL", "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation")
 DASHSCOPE_STT_MODEL = os.getenv("DASHSCOPE_STT_MODEL", "paraformer-v2")
 DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "")  # Separate key for STT — falls back to DEEPSEEK_API_KEY
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "https://eljaso2.github.io")
@@ -381,41 +381,33 @@ async def audio_chat_endpoint(
 
 
 async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
-    """Transcribe audio using DashScope Paraformer-v2 STT.
+    """Transcribe audio using DashScope Paraformer-v2 sync API.
 
-    Converts unsupported formats (WebM) to WAV via ffmpeg before sending.
-    DashScope STT supports: WAV, MP3, OGG/Opus, FLAC, M4A — NOT WebM.
+    DashScope STT does NOT have an OpenAI-compatible /audio/transcriptions endpoint.
+    Instead, Paraformer-v2 uses the multimodal-generation sync endpoint:
+      POST /api/v1/services/aigc/multimodal-generation/generation
+
+    Audio input: base64 encoded in JSON body (data:audio/<format>;base64,<data>)
+    WebM is not supported by Paraformer-v2 → we convert to WAV via ffmpeg first.
 
     Uses DASHSCOPE_API_KEY for auth (falls back to DEEPSEEK_API_KEY).
     Returns transcribed text string. Empty string on failure.
     """
+    import base64
 
-    # Use DASHSCOPE_API_KEY if set, otherwise fall back to DEEPSEEK_API_KEY
     stt_api_key = DASHSCOPE_API_KEY or DEEPSEEK_API_KEY
-    headers = {
-        "Authorization": f"Bearer {stt_api_key}",
-    }
 
-    # Determine content type from filename extension
+    # Determine original format
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "webm"
-    content_type_map = {
-        "webm": "audio/webm",
-        "wav": "audio/wav",
-        "mp3": "audio/mpeg",
-        "ogg": "audio/ogg",
-        "flac": "audio/flac",
-        "mp4": "audio/mp4",
-        "m4a": "audio/mp4",
-    }
-    content_type = content_type_map.get(ext, "audio/webm")
 
-    # Convert WebM → WAV before sending to DashScope (Paraformer-v2 doesn't support WebM)
+    # Convert unsupported formats (WebM, OGG, MP4, M4A) to WAV via ffmpeg
+    # Paraformer-v2 supports: wav, pcm, mp3, flac, ogg (opus), aac, amr
+    # WebM container is NOT supported
     final_bytes = audio_bytes
-    final_filename = filename
-    final_content_type = content_type
+    final_ext = ext
 
-    needs_conversion = ext in ("webm", "ogg", "mp4", "m4a")  # formats Paraformer may not handle well
-    if needs_conversion:
+    unsupported_formats = ("webm", "mp4", "m4a", "avi", "flv", "mkv", "mov", "wmv", "wma")
+    if ext in unsupported_formats:
         try:
             with tempfile.NamedTemporaryFile(suffix=f".{ext}", delete=False) as tmp_in:
                 tmp_in.write(audio_bytes)
@@ -425,23 +417,17 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
 
             result = subprocess.run(
                 ["ffmpeg", "-i", tmp_in_path, "-ar", "16000", "-ac", "1", "-f", "wav", "-y", tmp_out_path],
-                capture_output=True, timeout=10,
+                capture_output=True, timeout=15,
             )
             if result.returncode == 0 and os.path.exists(tmp_out_path):
                 with open(tmp_out_path, "rb") as f:
                     final_bytes = f.read()
-                final_filename = filename.rsplit(".", 1)[0] + ".wav"
-                final_content_type = "audio/wav"
+                final_ext = "wav"
                 print(f"Audio converted: {filename} ({len(audio_bytes)} bytes) → WAV ({len(final_bytes)} bytes)")
             else:
-                print(f"ffmpeg conversion failed (exit {result.returncode}): {result.stderr.decode()[:200]}")
-                # Try sending original format anyway — might work for ogg
-                if ext == "ogg":
-                    final_bytes = audio_bytes
-                    final_filename = filename
-                    final_content_type = content_type
-                else:
-                    return ""  # WebM definitely won't work without conversion
+                stderr = result.stderr.decode()[:300] if result.stderr else ""
+                print(f"ffmpeg conversion failed (exit {result.returncode}): {stderr}")
+                return ""  # Can't transcribe unsupported format without conversion
 
             # Cleanup temp files
             try: os.unlink(tmp_in_path)
@@ -450,17 +436,37 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
             except: pass
         except Exception as e:
             print(f"ffmpeg error: {type(e).__name__}: {str(e)}")
-            # If ffmpeg not available (unlikely on Render), try sending original
-            if ext != "ogg":
-                return ""  # WebM won't work without conversion
+            return ""
 
-    files = {
-        "file": (final_filename, final_bytes, final_content_type),
+    # Build base64 audio string for DashScope API
+    content_type_map = {
+        "wav": "audio/wav",
+        "mp3": "audio/mpeg",
+        "ogg": "audio/ogg",
+        "flac": "audio/flac",
+        "aac": "audio/aac",
+        "amr": "audio/amr",
+        "pcm": "audio/pcm",
     }
-    data = {
+    audio_mime = content_type_map.get(final_ext, "audio/wav")
+    audio_b64 = base64.b64encode(final_bytes).decode("utf-8")
+    audio_data_uri = f"data:{audio_mime};base64,{audio_b64}"
+
+    # DashScope Paraformer-v2 sync API request
+    request_body = {
         "model": DASHSCOPE_STT_MODEL,
-        "language": "es",
-        "response_format": "json",
+        "input": {
+            "audio": audio_data_uri,
+        },
+        "parameters": {
+            "format": final_ext,
+            "sample_rate": 16000,
+        },
+    }
+
+    headers = {
+        "Authorization": f"Bearer {stt_api_key}",
+        "Content-Type": "application/json",
     }
 
     try:
@@ -468,16 +474,24 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
             response = await client.post(
                 DASHSCOPE_STT_URL,
                 headers=headers,
-                files=files,
-                data=data,
+                json=request_body,
             )
             response.raise_for_status()
             result = response.json()
-            text = result.get("text", "")
-            print(f"STT transcript: '{text[:100]}...' (from {final_filename})")
+
+            # Extract text from DashScope response structure
+            # Response format: {"output": {"text": "..."}, "request_id": "..."}
+            output = result.get("output", {})
+            text = output.get("text", "")
+            if not text:
+                # Some responses nest differently
+                text = result.get("text", "")
+
+            print(f"STT transcript: '{text[:100]}...' (from {filename} as {final_ext})")
             return text
     except httpx.HTTPStatusError as e:
-        print(f"STT error: HTTP {e.response.status_code}: {e.response.text[:300]}")
+        error_body = e.response.text[:500] if e.response else ""
+        print(f"STT error: HTTP {e.response.status_code}: {error_body}")
         return ""
     except Exception as e:
         print(f"STT error: {type(e).__name__}: {str(e)}")

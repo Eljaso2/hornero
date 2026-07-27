@@ -19,7 +19,7 @@ services:
       - key: DASHSCOPE_STT_MODEL
         value: paraformer-v2
       - key: DASHSCOPE_STT_URL
-        value: https://dashscope.aliyuncs.com/compatible-mode/v1/audio/transcriptions
+        value: https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation
       - key: ALLOWED_ORIGIN
         value: https://eljaso2.github.io
       - key: APP_BACKEND_URL
