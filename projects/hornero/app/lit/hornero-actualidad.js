@@ -65,11 +65,11 @@ class HorneroActualidad extends HoComponent {
     return months[parseInt(parts[1]) - 1] + ' ' + parts[0];
   }
 
-  _formatFechaShort(fecha) {
+  _formatFecha(fecha) {
     if (!fecha) return '';
     const d = new Date(fecha + 'T00:00:00');
-    const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-    return d.getDate() + ' ' + months[d.getMonth()];
+    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','dicembre'];
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
   }
 
   // ===== Styles =====
@@ -103,19 +103,23 @@ class HorneroActualidad extends HoComponent {
         font-weight: 700; color: var(--ho-text, #2B2A26); }
 
       .product-sublabel {
-        font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: var(--ho-text-mid, #6E6A60); letter-spacing: .06em;
-        margin-top: 1px; }
+        font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-mid, #6E6A60); letter-spacing: .04em;
+        margin-top: 2px; }
 
-      /* Noticia mini-list inside clipping card */
+      /* Tag lines — 3 rows of keyword tags visible before expand */
+      .tag-lines { margin-top: 8px; }
+      .tag-line { display: flex; flex-wrap: wrap; gap: 4px; padding: 1px 0; }
+
+      /* Noticia titles list — shown after expand */
       .noticia-list { margin-top: 8px; }
       .noticia-line { display: flex; align-items: baseline; gap: 4px;
-        padding: 2px 0; }
+        padding: 3px 0; }
       .noticia-line.hidden { display: none; }
       .noticia-emoji { font-size: .78rem; }
-      .noticia-title { font-family: 'Archivo', sans-serif; font-size: .88rem;
-        color: var(--ho-text, #2B2A26); line-height: 1.25;
-        font-weight: 700; flex: 1; }
+      .noticia-title { font-family: 'Public Sans', sans-serif; font-size: .84rem;
+        color: var(--ho-text, #2B2A26); line-height: 1.3;
+        font-weight: 500; flex: 1; }
       .noticia-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
         padding: 2px 6px; border-radius: 4px; font-weight: 600;
@@ -152,36 +156,55 @@ class HorneroActualidad extends HoComponent {
       const ed = this._ediciones[i];
       const data = this._clippingData[ed.numero];
       const label = 'CLIPPING N°' + ed.numero;
-      const sublabel = this._formatFechaShort(ed.fecha) + ' · ' + ed.semana;
+      const sublabel = this._formatFecha(ed.fecha);
 
-      // Build noticia mini-list: first one visible, rest collapsible
-      let noticiaList = '';
+      // Build 3 lines of keyword tags (collapsed view)
+      let tagLinesHtml = '';
       if (data && data.noticias && data.noticias.length > 0) {
-        noticiaList = '<div class="noticia-list">';
-        for (let ni = 0; ni < data.noticias.length; ni++) {
-          const n = data.noticias[ni];
-          const firstTag = (n.tags && n.tags[0]) ? '<span class="noticia-tag">' + n.tags[0] + '</span>' : '';
-          const hiddenClass = (ni > 0) ? ' hidden' : '';
-          noticiaList += '<div class="noticia-line' + hiddenClass + '" data-noticia-idx="' + ni + '">' +
-            (n.emoji ? '<span class="noticia-emoji">' + n.emoji + '</span>' : '') +
-            '<span class="noticia-title">' + (n.titulo || '') + '</span>' +
-            firstTag +
+        // Collect all unique tags from noticias
+        const allTags = [];
+        for (const n of data.noticias) {
+          if (n.tags) {
+            for (const t of n.tags) {
+              if (!allTags.includes(t)) allTags.push(t);
+            }
+          }
+        }
+        // Split into 3 lines (roughly equal)
+        const perLine = Math.ceil(allTags.length / 3);
+        tagLinesHtml = '<div class="tag-lines">';
+        for (let li = 0; li < 3 && li * perLine < allTags.length; li++) {
+          const lineTags = allTags.slice(li * perLine, (li + 1) * perLine);
+          tagLinesHtml += '<div class="tag-line">' +
+            lineTags.map(t => '<span class="noticia-tag">' + t + '</span>').join('') +
           '</div>';
         }
-        // Add toggle if more than 1 noticia
-        if (data.noticias.length > 1) {
-          const restCount = data.noticias.length - 1;
-          noticiaList += '<div class="noticia-toggle" data-expanded="false" data-clip-edicion="' + ed.numero + '">'
-            + '▾ Ver ' + restCount + ' más</div>';
+        tagLinesHtml += '</div>';
+      }
+
+      // Build noticia titles list (expanded view)
+      let noticiaList = '';
+      const totalNoticias = (data && data.noticias) ? data.noticias.length : 0;
+      if (totalNoticias > 0) {
+        noticiaList = '<div class="noticia-list" style="display:none">';
+        for (let ni = 0; ni < data.noticias.length; ni++) {
+          const n = data.noticias[ni];
+          noticiaList += '<div class="noticia-line">' +
+            (n.emoji ? '<span class="noticia-emoji">' + n.emoji + '</span>' : '') +
+            '<span class="noticia-title">' + (n.titulo || '') + '</span>' +
+          '</div>';
         }
         noticiaList += '</div>';
       }
 
+      const toggleText = totalNoticias > 0 ? '▾ Ver ' + totalNoticias + ' títulos' : '';
       cardsHtml += '<div class="product-card product-card-clipping" data-screen="clipping" data-clip-edicion="' + ed.numero + '">' +
         '<div class="product-title-line"><span class="product-emoji">📰</span>' +
         '<span class="product-label">' + label + '</span></div>' +
         '<div class="product-sublabel">' + sublabel + '</div>' +
+        tagLinesHtml +
         noticiaList +
+        (toggleText ? '<div class="noticia-toggle" data-expanded="false" data-clip-edicion="' + ed.numero + '">' + toggleText + '</div>' : '') +
       '</div>';
 
       // Insert InfoMate after the latest clipping (i=0)
@@ -236,21 +259,21 @@ class HorneroActualidad extends HoComponent {
       toggle.addEventListener('click', (e) => {
         e.stopPropagation();
         const expanded = toggle.dataset.expanded === 'true';
-        const clipNum = toggle.dataset.clipEdicion;
-        const list = toggle.closest('.noticia-list');
-        const totalNoticias = list.querySelectorAll('.noticia-line');
-        const restCount = totalNoticias.length - 1;
+        const card = toggle.closest('.product-card');
+        const tagLines = card.querySelector('.tag-lines');
+        const noticiaList = card.querySelector('.noticia-list');
+        const totalNoticias = noticiaList ? noticiaList.querySelectorAll('.noticia-line').length : 0;
 
         if (expanded) {
-          // Collapse: hide all except first
-          totalNoticias.forEach((line, idx) => {
-            if (idx > 0) line.classList.add('hidden');
-          });
+          // Collapse: hide noticia list, show tag lines
+          if (noticiaList) noticiaList.style.display = 'none';
+          if (tagLines) tagLines.style.display = '';
           toggle.dataset.expanded = 'false';
-          toggle.textContent = '▾ Ver ' + restCount + ' más';
+          toggle.textContent = '▾ Ver ' + totalNoticias + ' títulos';
         } else {
-          // Expand: show all
-          totalNoticias.forEach(line => line.classList.remove('hidden'));
+          // Expand: hide tag lines, show noticia list
+          if (tagLines) tagLines.style.display = 'none';
+          if (noticiaList) noticiaList.style.display = '';
           toggle.dataset.expanded = 'true';
           toggle.textContent = '▴ Ver menos';
         }
