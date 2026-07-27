@@ -122,12 +122,12 @@ function initDB() {
 // ===== One-time cleanup: clear chatHistory + informes =====
 // Runs only once (flag in localStorage), then auto-removes itself
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v7') return Promise.resolve(false);
+  if (localStorage.getItem('hornero-chats-cleared') === 'v8') return Promise.resolve(false);
   console.log('DB: one-time cleanup — clearing chatHistory + informes');
   return dbClearStore('chatHistory').then(function() {
     return dbClearStore('informes');
   }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v7');
+    localStorage.setItem('hornero-chats-cleared', 'v8');
     console.log('DB: cleanup complete — chatHistory + informes cleared');
     return true;
   }).catch(function(e) {
