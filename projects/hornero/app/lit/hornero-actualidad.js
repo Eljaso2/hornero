@@ -87,7 +87,7 @@ class HorneroActualidad extends HoComponent {
       .product-card {
         background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        border-radius: 13px; padding: 14px; margin-bottom: 10px;
+        border-radius: 0; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s; position: relative;
       }
       .product-card:hover { border-color: var(--ho-green, #6E8345); }
@@ -158,7 +158,7 @@ class HorneroActualidad extends HoComponent {
       const label = 'CLIPPING N°' + ed.numero;
       const sublabel = this._formatFecha(ed.fecha);
 
-      // Build 3 lines of keyword tags (collapsed view)
+      // Build up to 6 lines of keyword tags (collapsed view) — fixed height for all cards
       let tagLinesHtml = '';
       if (data && data.noticias && data.noticias.length > 0) {
         // Collect all unique tags from noticias
@@ -170,14 +170,21 @@ class HorneroActualidad extends HoComponent {
             }
           }
         }
-        // Split into 3 lines (roughly equal)
-        const perLine = Math.ceil(allTags.length / 3);
+        // Show up to 6 lines, ~3 tags per line = max 18 tags shown
+        const maxLines = 6;
+        const perLine = Math.ceil(Math.min(allTags.length, maxLines * 3) / maxLines);
+        const shownTags = allTags.slice(0, maxLines * 3);
         tagLinesHtml = '<div class="tag-lines">';
-        for (let li = 0; li < 3 && li * perLine < allTags.length; li++) {
-          const lineTags = allTags.slice(li * perLine, (li + 1) * perLine);
+        for (let li = 0; li < maxLines && li * perLine < shownTags.length; li++) {
+          const lineTags = shownTags.slice(li * perLine, (li + 1) * perLine);
           tagLinesHtml += '<div class="tag-line">' +
             lineTags.map(t => '<span class="noticia-tag">' + t + '</span>').join('') +
           '</div>';
+        }
+        // Pad empty lines so all cards have same height
+        const filledLines = Math.ceil(shownTags.length / perLine);
+        for (let li = filledLines; li < maxLines; li++) {
+          tagLinesHtml += '<div class="tag-line"></div>';
         }
         tagLinesHtml += '</div>';
       }
