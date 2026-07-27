@@ -352,6 +352,31 @@ class HorneroChat extends HoComponent {
       .msg-text p:last-child { margin-bottom: 0; }
       .msg-text strong { font-weight: 700; color: var(--ho-green-dark, #586B33); }
 
+      /* Markdown-rendered elements inside .msg-text */
+      .msg-text em { font-style: italic; color: var(--ho-text-mid, #6E6A60); }
+      .msg-text .msg-md-heading { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .96rem; color: var(--ho-text, #2B2A26); margin: 10px 0 6px; }
+      .msg-text .msg-md-ul { margin: 6px 0 10px; padding-left: 18px;
+        list-style: none; }
+      .msg-text .msg-md-ul li { position: relative; margin-bottom: 5px;
+        font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
+      .msg-text .msg-md-ul li::before { content: '•'; position: absolute;
+        left: -14px; color: var(--ho-green, #6E8345); font-weight: 700; }
+      .msg-text .msg-md-ol { margin: 6px 0 10px; padding-left: 22px;
+        list-style: none; counter-reset: md-ol; }
+      .msg-text .msg-md-ol li { position: relative; margin-bottom: 5px;
+        font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        counter-increment: md-ol; }
+      .msg-text .msg-md-ol li::before { content: counter(md-ol) '.';
+        position: absolute; left: -20px;
+        color: var(--ho-green, #6E8345); font-family: 'JetBrains Mono', monospace;
+        font-size: .68rem; font-weight: 600; }
+      .msg-md-code { font-family: 'JetBrains Mono', monospace; font-size: .76rem;
+        background: var(--ho-warm-gray, #E6E3DB); padding: 2px 6px;
+        border-radius: 4px; color: var(--ho-text, #2B2A26); }
+
       .msg-section { margin-bottom: 12px; }
       .msg-section:last-child { margin-bottom: 0; }
       .msg-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -661,6 +686,121 @@ class HorneroChat extends HoComponent {
     `;
   }
 
+  // ===== Markdown → HTML formatter =====
+  // Converts AI markdown responses into styled Hornero HTML
+  _formatMarkdown(text) {
+    if (!text) return '';
+    const lines = text.split('\n');
+    let html = '';
+    let inList = false;
+    let listType = ''; // 'ul' or 'ol'
+    let listItems = [];
+    let inQuote = false;
+    let quoteLines = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const trimmed = line.trim();
+
+      // --- Heading: ## or ### ---
+      const headingMatch = trimmed.match(/^#{1,3}\s+(.+)$/);
+      if (headingMatch) {
+        if (inList) { html += this._closeList(listType, listItems); inList = false; }
+        if (inQuote) { html += this._closeQuote(quoteLines); inQuote = false; }
+        html += `<div class="msg-md-heading">${this._formatInline(headingMatch[1])}</div>`;
+        continue;
+      }
+
+      // --- Horizontal rule: --- or *** ---
+      if (trimmed.match(/^[-*_]{3,}$/)) {
+        if (inList) { html += this._closeList(listType, listItems); inList = false; }
+        if (inQuote) { html += this._closeQuote(quoteLines); inQuote = false; }
+        html += '<div class="msg-divider"></div>';
+        continue;
+      }
+
+      // --- Block quote: > text ---
+      if (trimmed.startsWith('>')) {
+        if (inList) { html += this._closeList(listType, listItems); inList = false; }
+        const quoteText = trimmed.replace(/^>\s?/, '');
+        if (!inQuote) { inQuote = true; quoteLines = []; }
+        quoteLines.push(quoteText);
+        continue;
+      }
+      // Close quote block if line is not a quote continuation
+      if (inQuote && !trimmed.startsWith('>')) {
+        html += this._closeQuote(quoteLines);
+        inQuote = false;
+      }
+
+      // --- Unordered list: - item or * item ---
+      const ulMatch = trimmed.match(/^[-*]\s+(.+)$/);
+      if (ulMatch) {
+        if (!inList || listType !== 'ul') {
+          if (inList) { html += this._closeList(listType, listItems); }
+          inList = true; listType = 'ul'; listItems = [];
+        }
+        listItems.push(this._formatInline(ulMatch[1]));
+        continue;
+      }
+
+      // --- Ordered list: 1. item ---
+      const olMatch = trimmed.match(/^\d+[.)]\s+(.+)$/);
+      if (olMatch) {
+        if (!inList || listType !== 'ol') {
+          if (inList) { html += this._closeList(listType, listItems); }
+          inList = true; listType = 'ol'; listItems = [];
+        }
+        listItems.push(this._formatInline(olMatch[1]));
+        continue;
+      }
+
+      // Close list if we hit a non-list line
+      if (inList) { html += this._closeList(listType, listItems); inList = false; }
+
+      // --- Empty line = paragraph break ---
+      if (trimmed === '') {
+        html += '<br>';
+        continue;
+      }
+
+      // --- Regular paragraph ---
+      html += `<p>${this._formatInline(trimmed)}</p>`;
+    }
+
+    // Close any remaining blocks
+    if (inList) { html += this._closeList(listType, listItems); }
+    if (inQuote) { html += this._closeQuote(quoteLines); }
+
+    // Clean up excess <br> and leading <br>
+    html = html.replace(/(<br>\s*){2,}/g, '<br>');
+    html = html.replace(/^<br>/, '');
+    return html;
+  }
+
+  // Inline formatting: **bold**, *italic*, `code`
+  _formatInline(text) {
+    // Bold: **text** → <strong>text</strong>
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Italic: *text* → <em>text</em> (single asterisk, not inside strong)
+    text = text.replace(/(?<!<strong>.*?)\*(.+?)\*(?!.*<\/strong>)/g, '<em>$1</em>');
+    // Fallback italic for cases where the above regex is too strict
+    text = text.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
+    // Inline code: `text` → <code>text</code>
+    text = text.replace(/`(.+?)`/g, '<code class="msg-md-code">$1</code>');
+    return text;
+  }
+
+  _closeList(type, items) {
+    const tag = type === 'ol' ? 'ol' : 'ul';
+    return `<${tag} class="msg-md-${tag}">${items.map(item => `<li>${item}</li>`).join('')}</${tag}>`;
+  }
+
+  _closeQuote(lines) {
+    const content = lines.map(l => this._formatInline(l)).join('<br>');
+    return `<div class="msg-quote"><span class="msg-quote-icon">❝</span><p>${content}</p></div>`;
+  }
+
   _renderMessage(m, msgIndex) {
     const role = m.role || 'hornero';
 
@@ -705,7 +845,7 @@ class HorneroChat extends HoComponent {
         let content = '';
         if (i > 0 && s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
         else if (i > 0) content += `<div class="reporte-card-section-title">Detalle</div>`;
-        if (s.body) content += `<div class="reporte-card-section-body">${s.body}</div>`;
+        if (s.body) content += `<div class="reporte-card-section-body">${this._formatMarkdown(s.body)}</div>`;
         const divider = (i < m.sections.length - 1) ? '<div class="reporte-card-divider"></div>' : '';
         return `<div class="reporte-card-section">${content}</div>${divider}`;
       }).join('');
@@ -723,7 +863,7 @@ class HorneroChat extends HoComponent {
         </div>`;
 
       // Text before the card (like "Leelo con cuidado...")
-      const textBefore = m.text ? `<div class="msg-text"><p>${m.text}</p></div>` : '';
+      const textBefore = m.text ? `<div class="msg-text">${this._formatMarkdown(m.text)}</div>` : '';
 
       return `<div class="msg-row hornero">
         ${avatarRow}
@@ -749,15 +889,13 @@ class HorneroChat extends HoComponent {
 
     let contentHtml = '';
     if (m.text) {
-      // Split text into paragraphs — double newline = paragraph break
-      const paragraphs = m.text.split(/\n\n+/).filter(p => p.trim());
-      const paragraphsHtml = paragraphs.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
-      contentHtml = `<div class="msg-text">${paragraphsHtml}</div>`;
+      // Render with markdown formatting
+      contentHtml = `<div class="msg-text">${this._formatMarkdown(m.text)}</div>`;
     } else if (m.sections) {
       contentHtml = m.sections.map((s, i, arr) => {
         let content = '';
         if (s.title) content += `<div class="msg-section-title">${s.title}</div>`;
-        if (s.body) content += `<div class="msg-section-body"><p>${s.body}</p></div>`;
+        if (s.body) content += `<div class="msg-section-body">${this._formatMarkdown(s.body)}</div>`;
         if (s.quote) {
           content += `<div class="msg-quote">`;
           content += `<span class="msg-quote-icon">❝</span>`;
