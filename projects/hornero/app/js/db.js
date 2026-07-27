@@ -119,6 +119,33 @@ function initDB() {
   });
 }
 
+// ===== One-time cleanup: clear chatHistory + informes =====
+// Runs only once (flag in localStorage), then auto-removes itself
+function limpiarChatsYReportes() {
+  if (localStorage.getItem('hornero-chats-cleared') === 'v7') return Promise.resolve(false);
+  console.log('DB: one-time cleanup — clearing chatHistory + informes');
+  return dbClearStore('chatHistory').then(function() {
+    return dbClearStore('informes');
+  }).then(function() {
+    localStorage.setItem('hornero-chats-cleared', 'v7');
+    console.log('DB: cleanup complete — chatHistory + informes cleared');
+    return true;
+  }).catch(function(e) {
+    console.warn('DB: cleanup failed', e);
+    return false;
+  });
+}
+
+function dbClearStore(storeName) {
+  return new Promise(function(resolve, reject) {
+    var tx = db.transaction(storeName, 'readwrite');
+    var store = tx.objectStore(storeName);
+    var request = store.clear();
+    request.onsuccess = function() { resolve(); };
+    request.onerror = function() { reject(request.error); };
+  });
+}
+
 // ===== Generic CRUD =====
 function dbPut(storeName, data) {
   return new Promise(function(resolve, reject) {

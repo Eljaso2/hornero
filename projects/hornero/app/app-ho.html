@@ -92,6 +92,7 @@
   <script>
     initDB()
       .then(function() { return cleanOldSimulationData(); })
+      .then(function() { return limpiarChatsYReportes(); })
       .then(function() { return loadAllData(); })
       .then(function(results) {
         var pilotoData = results && results['is-piloto-aceitero.json'];
