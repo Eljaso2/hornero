@@ -1,18 +1,47 @@
 {
   "meta": {
-    "version": "2026-07-27-b",
+    "version": "2026-07-27-c",
     "sector": "aceitero",
     "federacion": "F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)",
-    "nota": "Archivo de estructura sectorial — solo datos verificables. Los informes se generan desde el chat real."
+    "nota": "Archivo de estructura sectorial + G2 pre-seed de Guaycurú para piloto de cadena jerárquica"
   },
   "sector": {
     "federacion": "F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)",
     "convenio": "CCT 420/05",
     "empresas": [
-      { "id": "vicentin-saic", "nombre": "Vicentín SAIC", "planta": "Reconquista", "sectores": ["Prensa", "Refinería", "Envasadora", "Administración", "Logística"] }
+      { "id": "vicentin-saic", "nombre": "Vicentín SAIC", "planta": "Reconquista", "sectores": ["Prensa", "Refinería", "Envasadora", "Administración", "Logística"] },
+      { "id": "desmotadora-guaycuru", "nombre": "Desmotadora Guaycurú", "planta": "Avellaneda", "sectores": ["Desmotadora", "Almacén", "Administración"] }
     ],
     "territorios": [
-      { "id": "vicentin-reconquista", "empresa": "vicentin-saic", "localidad": "Reconquista" }
+      { "id": "vicentin-reconquista", "empresa": "vicentin-saic", "localidad": "Reconquista" },
+      { "id": "guaycuru-avellaneda", "empresa": "desmotadora-guaycuru", "localidad": "Avellaneda" }
     ]
-  }
+  },
+  "informesG2": [
+    {
+      "id": "g2-guaycuru-001",
+      "grado": 2,
+      "numero": 1,
+      "fecha": "2026-07-22",
+      "semana": "2026-W29",
+      "trabajador": { "nombre": "Delegado Guaycurú", "funcion": "Delegado", "seccion": "Desmotadora" },
+      "empresa": "Desmotadora Guaycurú",
+      "localidad": "Avellaneda",
+      "territorio": "norte-santa-fe",
+      "contenido": "Informe G2 — Situación de insalubridad y ritmo de trabajo en la desmotadora",
+      "sections": [
+        { "title": "Informe del delegado — Desmotadora Guaycurú", "body": "Resumen de las observaciones recibidas de los trabajadores de la planta durante la semana 29." },
+        { "title": "Situación reportada", "body": "Los trabajadores reportan condiciones de insalubridad en la sección desmotadora, especialmente acumulación de polvo de algodón que supera los límites permitidos. El ritmo de trabajo se intensificó desde la segunda semana de julio, con aumento de 15% en la velocidad de las líneas sin ajuste en los turnos de descanso." },
+        { "title": "Datos relevantes", "body": "Polvo de algodón: 3.2 mg/m³ (límite CCT 420/05: 1.5 mg/m³). Aumento de velocidad de líneas: +15% sin compensación. Quejas de trabajadores: 7 en los últimos 10 días. Sectores afectados: Desmotadora y Almacén." },
+        { "title": "Recomendación", "body": "Se solicita intervención del secretario general para gestión de las condiciones de higiene y seguridad con la empresa, y reclamo formal por el aumento de ritmo sin consulta al sindicato." }
+      ],
+      "etiquetas": { "temas": ["insalubridad", "ritmo de trabajo", "polvo de algodón", "CCT 420/05"] },
+      "datosDuros": [
+        { "tipo": "medición", "valor": "3.2 mg/m³", "referencia": "polvo algodón — límite CCT 1.5 mg/m³" },
+        { "tipo": "porcentaje", "valor": "+15%", "referencia": "incremento velocidad líneas desmotadora" }
+      ],
+      "estado": "pendiente",
+      "username": "test_guaycuru"
+    }
+  ]
 }

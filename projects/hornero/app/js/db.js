@@ -4,7 +4,7 @@
 
 var HORNERO_DB = {
   name: 'hornero-app',
-  version: 6,
+  version: 7,
   stores: {
     // Cargas: input del trabajador (voz/texto/foto) antes de procesar
     cargas: { keyPath: 'id', indexes: [
@@ -22,8 +22,9 @@ var HORNERO_DB = {
       { name: 'grado', keyPath: 'grado' },
       { name: 'semana', keyPath: 'semana' },
       { name: 'territorio', keyPath: 'territorio' },
-      { name: 'estado', keyPath: 'estado' }, // 'pendiente','visto','corregido','enviado','publicado'
-      { name: 'username', keyPath: 'username' } // per-user isolation
+      { name: 'estado', keyPath: 'estado' }, // 'pendiente','visto','corregido','enviado','publicado','aprobado-delegado','corregido-delegado'
+      { name: 'username', keyPath: 'username' }, // per-user isolation
+      { name: 'empresa', keyPath: 'empresa' } // cross-user visibility: filter by plant
     ]},
     // Correcciones: cada corrección es un registro ADDITIVE con trazabilidad
     correcciones: { keyPath: 'id', indexes: [
@@ -219,6 +220,57 @@ function obtenerInformesPorEstado(estado, username) {
   return dbGetByIndex('informes', 'estado', estado);
 }
 function obtenerInformesPorTerritorio(territorio) { return dbGetByIndex('informes', 'territorio', territorio); }
+
+// Informes: incoming reports for a grade level (cross-user visibility)
+// B.a (base): only own informes → returns empty (use obtenerInformesTodos instead)
+// B.b (delegado): G1 pendientes from workers in same territory + empresa
+// B.c (secretario): G2 pendientes from delegates in same territory (all empresas)
+// B.d (federación): G3 pendientes from all territories
+function obtenerInformesEntrantes(userGrade, territorio, empresa) {
+  return dbGetAll('informes').then(function(all) {
+    if (!all || all.length === 0) return [];
+    var lowerGrade, targetEstado;
+    if (userGrade === 'B.b') {
+      // Delegate sees G1 pendientes from their territory + empresa
+      lowerGrade = 1;
+      targetEstado = 'pendiente';
+      return all.filter(function(inf) {
+        return inf.grado === lowerGrade &&
+               inf.estado === targetEstado &&
+               inf.territorio === territorio &&
+               (inf.empresa === empresa || !empresa) &&
+               inf.username !== ''; // exclude anonymous
+      });
+    }
+    if (userGrade === 'B.c') {
+      // Secretary sees G2 pendientes from their territory (all empresas)
+      lowerGrade = 2;
+      targetEstado = 'pendiente';
+      return all.filter(function(inf) {
+        return inf.grado === lowerGrade &&
+               inf.estado === targetEstado &&
+               inf.territorio === territorio;
+      });
+    }
+    if (userGrade === 'B.d') {
+      // Federation sees G3 pendientes from all territories
+      lowerGrade = 3;
+      targetEstado = 'pendiente';
+      return all.filter(function(inf) {
+        return inf.grado === lowerGrade && inf.estado === targetEstado;
+      });
+    }
+    // B.a (base) — no incoming informes
+    return [];
+  });
+}
+
+// Informes: check if delegate has unrevised G1s (for G2 eligibility)
+function tieneG1Pendientes(username, territorio, empresa) {
+  return obtenerInformesEntrantes('B.b', territorio, empresa).then(function(pendientes) {
+    return pendientes.length > 0;
+  });
+}
 
 // Informes: load all for a user (all estados), sorted by date desc
 function obtenerInformesTodos(username) {

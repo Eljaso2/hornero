@@ -163,6 +163,13 @@ function doSeed(jsonData, dataVersion) {
     });
   }
 
+  // Seed informes G2 (escalated reports from delegates)
+  if (jsonData.informesG2) {
+    jsonData.informesG2.forEach(function(inf) {
+      promises.push(guardarInforme(inf));
+    });
+  }
+
   // Seed correcciones
   if (jsonData.correcciones) {
     jsonData.correcciones.forEach(function(cor) {

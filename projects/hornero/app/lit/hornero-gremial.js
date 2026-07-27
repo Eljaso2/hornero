@@ -383,9 +383,13 @@ class HorneroGremial extends HoComponent {
           }
         } catch(e) {
           console.warn('Gremial: informe save failed', e);
+          // Show specific error message for G1 pendientes vs generic DB error
+          const errorMsg = e.message && e.message.includes('G1 pendientes')
+            ? '⚠️ ' + e.message
+            : '⚠️ Error al guardar el informe. Intentá de nuevo más tarde.';
           this.messages = [...this.messages, {
             role: 'hornero',
-            text: '⚠️ Error al guardar el informe. Intentá de nuevo más tarde.',
+            text: errorMsg,
             tags: ['reporte', 'informe-error'],
             time: this._timeNow(),
           }];
@@ -441,11 +445,24 @@ class HorneroGremial extends HoComponent {
   async _saveInforme(reportMsg) {
     const id = typeof generarUUID === 'function' ? generarUUID() : 'h-' + Date.now();
     const session = this._getSession();
+    const userGrade = session.grade || this.grade || 'A';
+    // Grade-aware: determine grado and prefix based on user's grade
+    const gradoMap = { 'B.a': 1, 'B.b': 2, 'B.c': 3, 'B.d': 4 };
+    const prefixMap = { 'B.a': 'g1-', 'B.b': 'g2-', 'B.c': 'g3-', 'B.d': 'g4-' };
+    const grado = gradoMap[userGrade] || 1;
+    const prefix = prefixMap[userGrade] || 'g1-';
+    // For B.b (delegate): validate that all incoming G1s have been reviewed
+    if (userGrade === 'B.b' && typeof tieneG1Pendientes === 'function') {
+      const hasPending = await tieneG1Pendientes(this._username, session.territorio || '', session.empresa || '');
+      if (hasPending) {
+        throw new Error('Tenés informes G1 pendientes de revisión. Revisa todos antes de elaborar tu informe G2.');
+      }
+    }
     // Get next informe number for title
     const numero = typeof obtenerInformeNumero === 'function' ? await obtenerInformeNumero(this._username || session.username) : 1;
     const informe = {
-      id: 'g1-' + id,
-      grado: 1,
+      id: prefix + id,
+      grado: grado,
       numero: numero,
       fecha: new Date().toISOString().slice(0, 10),
       semana: this._getCurrentWeek(),
@@ -457,7 +474,7 @@ class HorneroGremial extends HoComponent {
       sections: reportMsg.sections || [],
       etiquetas: { temas: (reportMsg.tags || []).filter(t => t !== 'reporte' && t !== 'reporte-generado' && t !== 'reporte-aprobado') },
       datosDuros: [],
-      estado: 'pendiente', // Worker saved it, delegate hasn't seen it yet
+      estado: 'pendiente',
       username: session.username || this._username || '',
     };
     // Propagate error so _handleReporteAction can catch and show error message
@@ -465,7 +482,7 @@ class HorneroGremial extends HoComponent {
       throw new Error('guardarInforme no disponible — base de datos no inicializada');
     }
     const result = await guardarInforme(informe);
-    console.log('Gremial: informe saved', informe.id, 'N°' + numero, 'username:', informe.username);
+    console.log('Gremial: informe saved', informe.id, 'G' + grado, 'N°' + numero, 'username:', informe.username);
     return result;
   }
 

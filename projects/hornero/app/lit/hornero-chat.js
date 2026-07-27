@@ -52,7 +52,8 @@ class HorneroChat extends HoComponent {
     this._showHistory = false; // history drawer state
     this._historySessions = []; // cached session list
     this._showInformes = false; // informes drawer state
-    this._informesList = [];    // cached informes list
+    this._informesList = [];    // cached informes list (own informes)
+    this._informesEntrantes = []; // incoming informes from lower grades (cross-user)
     this._expandedReports = {}; // message index → boolean (expanded/collapsed)
     this._exportInProgress = false; // debounce guard for export button
   }
@@ -324,6 +325,16 @@ class HorneroChat extends HoComponent {
       .informes-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #2B2A26); }
 
+      /* Informes drawer section headers */
+      .informes-section-header { padding: 10px 16px 6px;
+        font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+        color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E8EDD7);
+        border-radius: 8px 8px 0 0; margin-top: 8px; }
+      .informes-section-header.entrantes { color: var(--ho-gold, #B0863F);
+        background: #F0E4CC; }
+
       .informes-list { flex: 1; overflow-y: auto; padding: 8px 0; }
 
       .informes-item { padding: 12px 16px; cursor: pointer;
@@ -362,6 +373,19 @@ class HorneroChat extends HoComponent {
       .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
         padding: 2px 6px; border-radius: 6px; font-weight: 600; }
+
+      /* Informes item review buttons (aprobar/corregir for incoming G1) */
+      .informes-review-actions { display: flex; gap: 6px; margin-top: 6px; }
+      .informes-review-btn { border-radius: 10px; padding: 6px 14px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .76rem;
+        cursor: pointer; display: flex; align-items: center; gap: 4px;
+        transition: background .2s, border-color .2s; }
+      .informes-review-btn.aprobar { background: var(--ho-green, #6E8345);
+        color: var(--ho-text-off, #F2F1EC); border: none; }
+      .informes-review-btn.aprobar:hover { background: var(--ho-green-dark, #586B33); }
+      .informes-review-btn.corregir { background: none;
+        border: 1.5px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
+      .informes-review-btn.corregir:hover { background: #F0E4CC; }
 
       .informes-empty { padding: 40px 20px; text-align: center;
         font-family: 'Archivo', sans-serif; font-size: .82rem;
@@ -1012,13 +1036,15 @@ class HorneroChat extends HoComponent {
         </div>
       </div>` : '';
 
-    // Informes drawer
+    // Informes drawer — estado labels (updated for hierarchical flow)
     const estadoLabelMap = {
-      'pendiente': '⏳ No visto por delegado',
+      'pendiente': '⏳ Pendiente de revisión',
       'aceptado': '✅ Aprobado por trabajador',
       'visto': '👁 Visto por delegado',
       'aprobado': '✅ Aprobado por delegado',
+      'aprobado-delegado': '✅ Aprobado por delegado',
       'corregido': '📝 Modificado',
+      'corregido-delegado': '📝 Corregido por delegado',
       'enviado': '📤 Enviado',
       'publicado': '📢 Publicado',
     };
@@ -1039,10 +1065,11 @@ class HorneroChat extends HoComponent {
             </button>
           </div>
           <div class="informes-list">
+            <!-- Section: Mis informes -->
+            <div class="informes-section-header">Mis informes</div>
             ${this._informesList.length === 0 ?
               '<div class="informes-empty">No hay informes guardados</div>' :
               this._informesList.map(inf => {
-                // Title: "Reporte Gremial N° X" with numero, fallback to section title
                 const numero = inf.numero || '';
                 const titleText = numero ? 'Reporte Gremial N°' + numero :
                   (inf.sections && inf.sections.length > 0 ?
@@ -1052,20 +1079,20 @@ class HorneroChat extends HoComponent {
                 const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
                 const tagsHtml = tags.length > 0 ?
                   `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
-                // Estado badge — show actual estado, no legacy mapping
                 const displayEstado = inf.estado || 'pendiente';
                 const estadoClass = estadoClassMap[displayEstado] || '';
                 const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
-                // Editar button: visible while delegado hasn't seen it (pendiente or aceptado)
+                const gradoBadge = inf.grado ? `<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G${inf.grado}</span>` : '';
                 const editBtnHtml = (displayEstado === 'pendiente' || displayEstado === 'aceptado') ?
                   `<button class="informes-item-edit-btn" data-edit-informe="${inf.id}" title="Editar informe">✏️ Editar</button>` : '';
-                const vistoLabelHtml = (displayEstado === 'visto' || displayEstado === 'aprobado') ?
+                const vistoLabelHtml = (displayEstado === 'visto' || displayEstado === 'aprobado' || displayEstado === 'aprobado-delegado') ?
                   `<span class="informes-item-visto-label">👁 Visto por delegado</span>` : '';
                 return `<div class="informes-item" data-informe-id="${inf.id}">
                   <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
                   <div class="informes-item-meta">
                     <span>${dateStr}</span>
                     ${inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : ''}
+                    ${gradoBadge}
                     <span class="informes-item-estado ${estadoClass}">${estadoLabel}</span>
                   </div>
                   ${tagsHtml}
@@ -1076,6 +1103,42 @@ class HorneroChat extends HoComponent {
                   </button>
                 </div>`;
               }).join('')}
+            <!-- Section: Entrantes (pendientes de revisión) — only for B.b/B.c/B.d -->
+            ${this._informesEntrantes.length > 0 ? `
+              <div class="informes-section-header entrantes">Pendientes de revisión (${this._informesEntrantes.length})</div>
+              ${this._informesEntrantes.map(inf => {
+                const numero = inf.numero || '';
+                const titleText = numero ? 'Reporte Gremial N°' + numero :
+                  (inf.sections && inf.sections.length > 0 ?
+                    (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
+                    (inf.contenido || '').substring(0, 80));
+                const dateStr = inf.fecha || '';
+                const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
+                const tagsHtml = tags.length > 0 ?
+                  `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
+                const gradoBadge = inf.grado ? `<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G${inf.grado}</span>` : '';
+                const empresaLabel = inf.empresa ? `<span class="informes-item-tag">${inf.empresa}</span>` : '';
+                // Review buttons for delegates/secretaries
+                const reviewBtnHtml = `<div class="informes-review-actions">
+                  <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar">✅ Aprobar</button>
+                  <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir">📝 Corregir</button>
+                </div>`;
+                return `<div class="informes-item" data-informe-id="${inf.id}">
+                  <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
+                  <div class="informes-item-meta">
+                    <span>${dateStr}</span>
+                    ${inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : ''}
+                    ${gradoBadge} ${empresaLabel}
+                    <span class="informes-item-estado estado-pendiente">⏳ Pendiente de revisión</span>
+                  </div>
+                  ${tagsHtml}
+                  ${reviewBtnHtml}
+                  <button class="informes-item-export" data-export-informe="${inf.id}" title="Exportar informe">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </button>
+                </div>`;
+              }).join('')}
+            ` : ''}
           </div>
         </div>
       </div>` : '';
@@ -1767,6 +1830,28 @@ class HorneroChat extends HoComponent {
       });
     });
 
+    // === Informes drawer: review buttons (aprobar/corregir incoming G1/G2) ===
+    this.shadowRoot.querySelectorAll('.informes-review-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const infId = btn.dataset.reviewInforme;
+        const action = btn.dataset.reviewAction;
+        if (!infId || !action) return;
+        if (typeof actualizarEstadoInforme !== 'function') return;
+
+        if (action === 'aprobar') {
+          actualizarEstadoInforme(infId, 'aprobado-delegado').then(() => {
+            // Refresh drawer after state change
+            this._openInformesDrawer();
+          });
+        } else if (action === 'corregir') {
+          actualizarEstadoInforme(infId, 'corregido-delegado').then(() => {
+            this._openInformesDrawer();
+          });
+        }
+      });
+    });
+
     // === Informes drawer: export informe ===
     this.shadowRoot.querySelectorAll('.informes-item-export').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -2217,17 +2302,26 @@ ${msgs.map(m => {
   // ===== Informes Drawer =====
   async _openInformesDrawer() {
     try {
+      // Grade-aware loading: show own informes + incoming from lower grades
+      const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+      const userGrade = session.grade || 'A';
+      const userEmpresa = (session.agremiacion && session.agremiacion.empresa) || '';
+      const userTerritory = session.territory || '';
+
+      // Load own informes (all estados)
       if (typeof obtenerInformesTodos === 'function') {
         this._informesList = await obtenerInformesTodos(this.username);
-      } else if (typeof obtenerInformesPorEstado === 'function') {
-        // Fallback: load aceptado (legacy) + pendiente informes
-        const aceptados = await obtenerInformesPorEstado('aceptado', this.username) || [];
-        const pendientes = await obtenerInformesPorEstado('pendiente', this.username) || [];
-        this._informesList = [...pendientes, ...aceptados].sort(function(a, b) { return (b.fecha || '').localeCompare(a.fecha || ''); });
       } else {
         this._informesList = [];
       }
-    } catch(e) { console.warn('Chat: informes load failed', e); this._informesList = []; }
+
+      // Load incoming informes from lower grades (for B.b/B.c/B.d)
+      if (typeof obtenerInformesEntrantes === 'function' && userGrade !== 'B.a' && userGrade !== 'A') {
+        this._informesEntrantes = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa);
+      } else {
+        this._informesEntrantes = [];
+      }
+    } catch(e) { console.warn('Chat: informes load failed', e); this._informesList = []; this._informesEntrantes = []; }
     // Clear badge when user opens the drawer
     this.informeBadge = false;
     this._showInformes = true;
