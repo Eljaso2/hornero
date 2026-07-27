@@ -22,6 +22,7 @@ class HorneroChat extends HoComponent {
       informesTitle: String, // Custom title for informes drawer — default "Informes"
       persona: String,      // Active persona: companero|abogado|periodista|relator|ia-sindical
       personaPills: Boolean, // Show persona switcher pills (mesa de trabajo UI)
+      username: String,      // Login username for per-user data isolation
     };
   }
 
@@ -40,6 +41,7 @@ class HorneroChat extends HoComponent {
     this.informesTitle = 'Informes';
     this.persona = 'ia-sindical';
     this.personaPills = false;
+    this.username = '';
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
     this._mediaStream = null;   // MediaStream from getUserMedia
@@ -102,9 +104,9 @@ class HorneroChat extends HoComponent {
       this._mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (err) {
       console.warn('Mic permission denied:', err);
-      // Show brief error message in chat
+      // Show brief error state then revert
       this._isRecording = false;
-      this._updateMicVisual('error');
+      this.render();
       return;
     }
 
@@ -137,11 +139,10 @@ class HorneroChat extends HoComponent {
         });
       }
       this._audioChunks = [];
-      this._isRecording = false;
       this._recordingSeconds = 0;
-      // Switch to "processing" visual briefly
-      this._audioProcessing = true;
-      this._updateMicVisual('processing');
+      // _isRecording and _audioProcessing already set in _stopRecording()
+      // Just render to update micBtn state
+      this.render();
     };
 
     this._mediaRecorder.onerror = () => {
@@ -151,12 +152,12 @@ class HorneroChat extends HoComponent {
         this._mediaStream.getTracks().forEach(t => t.stop());
         this._mediaStream = null;
       }
-      this._updateMicVisual('error');
+      this.render(); // Re-render micBtn back to idle
     };
 
     this._mediaRecorder.start(1000); // collect data every 1 second
     this._isRecording = true;
-    this._updateMicVisual('recording');
+    this.render(); // Re-render micBtn with recording state + timer span
 
     // Timer: show elapsed seconds + auto-stop at 60s
     this._recordingTimer = setInterval(() => {
@@ -171,8 +172,12 @@ class HorneroChat extends HoComponent {
   _stopRecording() {
     // Stop recording → triggers onstop → emits chat-audio
     if (!this._isRecording || !this._mediaRecorder) return;
+    // Immediately mark as not-recording + processing to prevent double-click issues
+    this._isRecording = false;
+    this._audioProcessing = true;
     clearInterval(this._recordingTimer);
     this._recordingTimer = null;
+    this.render(); // Re-render micBtn to processing state immediately
     if (this._mediaRecorder.state === 'recording') {
       this._mediaRecorder.stop();
     }
@@ -193,7 +198,7 @@ class HorneroChat extends HoComponent {
       this._audioChunks = [];
       this._isRecording = false;
       this._recordingSeconds = 0;
-      this._updateMicVisual('idle');
+      this.render(); // Re-render micBtn back to idle
     };
 
     if (this._mediaRecorder.state === 'recording') {
@@ -248,7 +253,7 @@ class HorneroChat extends HoComponent {
   resetAudioState() {
     this._audioProcessing = false;
     this._isRecording = false;
-    this._updateMicVisual('idle');
+    this.render(); // Re-render micBtn back to idle
   }
 
   _styles() {
@@ -726,9 +731,6 @@ class HorneroChat extends HoComponent {
       .chat-mic-btn { background: var(--ho-green-pale, #E8EDD7);
         position: relative; overflow: visible; }
       .chat-mic-btn svg { stroke: var(--ho-green-dark, #586B33); fill: none; }
-      .chat-mic-btn.listening { background: var(--ho-green, #6E8345);
-        animation: micpulse 1.2s ease infinite; }
-      .chat-mic-btn.listening svg { stroke: var(--ho-text-off, #F2F1EC); }
 
       /* Recording state: red-orange, pulsing, shows timer */
       .chat-mic-btn.recording { background: #E85D3A;
@@ -752,8 +754,6 @@ class HorneroChat extends HoComponent {
         transform: translateX(-50%); white-space: nowrap;
         font-family: 'Public Sans', sans-serif; }
 
-      @keyframes micpulse { 0%,100% { box-shadow: 0 0 0 0 rgba(110,131,68,.3) }
-        50% { box-shadow: 0 0 0 8px rgba(110,131,68,.1) } }
 
       .chat-send-btn { background: var(--ho-green, #6E8345); }
       .chat-send-btn svg { stroke: var(--ho-text-off, #F2F1EC);
@@ -1301,7 +1301,9 @@ class HorneroChat extends HoComponent {
     if (inputField && micBtn && sendBtn) {
       const updateToolbar = () => {
         const hasText = inputField.value.trim().length > 0 || this._pendingAttachment;
-        if (hasText) {
+        // When recording or processing audio, keep mic visible (not hidden by send)
+        const micBusy = this._isRecording || this._audioProcessing;
+        if (hasText && !micBusy) {
           sendBtn.classList.remove('hidden');
           micBtn.classList.add('hidden');
         } else {
@@ -1857,7 +1859,7 @@ ${msgs.map(m => {
   async _openHistoryDrawer() {
     try {
       if (typeof obtenerChatSessions === 'function') {
-        this._historySessions = await obtenerChatSessions();
+        this._historySessions = await obtenerChatSessions(this.username);
       } else {
         this._historySessions = [];
       }
@@ -1882,7 +1884,7 @@ ${msgs.map(m => {
   async _openInformesDrawer() {
     try {
       if (typeof obtenerInformesPorEstado === 'function') {
-        this._informesList = await obtenerInformesPorEstado('aceptado');
+        this._informesList = await obtenerInformesPorEstado('aceptado', this.username);
       } else {
         this._informesList = [];
       }

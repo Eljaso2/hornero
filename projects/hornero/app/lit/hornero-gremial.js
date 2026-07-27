@@ -30,6 +30,14 @@ class HorneroGremial extends HoComponent {
     return 'https://hornero-ia.onrender.com/api/greeting';
   }
 
+  static get AUDIO_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/audio';
+    }
+    return 'https://hornero-ia.onrender.com/api/audio';
+  }
+
   constructor() {
     super();
     this.grade = 'A';
@@ -42,6 +50,7 @@ class HorneroGremial extends HoComponent {
     this._sessionId = '';
     this._informeBadge = false;
     this._activePersona = 'relator'; // Gremial always uses relator persona
+    this._username = ''; // login username for per-user data isolation
   }
 
   connectedCallback() {
@@ -69,6 +78,7 @@ class HorneroGremial extends HoComponent {
           history-title="Mis Informes"
           informes-title="Informes"
           persona="${this._activePersona}"
+          username="${this._username}"
         ></hornero-chat>
       </div>
     `;
@@ -107,6 +117,10 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('chat-state-changed', () => {
         this._syncChatMessages(chatEl);
       });
+      // Listen for audio message from mic recording
+      chatEl.addEventListener('chat-audio', (e) => {
+        this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
+      });
     }
     if (!this._historyLoaded) {
       this._loadChatHistory();
@@ -141,6 +155,7 @@ class HorneroGremial extends HoComponent {
       chatEl.typing = this._typing;
       chatEl.section = this._chatSection;
       chatEl.sessionId = this._sessionId;
+      chatEl.username = this._username;
       chatEl.historyTitle = 'Mis Informes';
       chatEl.informesTitle = 'Informes';
       chatEl.informeBadge = this._informeBadge;
@@ -240,9 +255,11 @@ class HorneroGremial extends HoComponent {
 
   _handleUserMessage(text) {
     // Detect export keywords — download current chat or last reporte as document
+    // Only match explicit export requests, not incidental words in normal conversation
     const lower = text.toLowerCase().trim();
-    const exportKeywords = ['exportar', 'descargar', 'documento', 'guardar documento', 'bajar', 'download', 'export'];
-    if (exportKeywords.some(kw => lower.includes(kw))) {
+    const isExportRequest = lower.match(/^(exportar|descargar|guardar documento|download|export)\b/) ||
+      lower.match(/\b(exportar chat|exportar informe|descargar chat|descargar informe|exportar conversación|descargar conversación)\b/);
+    if (isExportRequest) {
       this._exportCurrentChat();
       return;
     }
@@ -301,7 +318,7 @@ class HorneroGremial extends HoComponent {
   }
 
   // ===== Reporte action handler =====
-  _handleReporteAction(detail) {
+  async _handleReporteAction(detail) {
     if (detail.action === 'aprobar') {
       // Find the last reporte-generado message
       const reportMsg = [...this.messages].reverse().find(m =>
@@ -315,8 +332,20 @@ class HorneroGremial extends HoComponent {
           this.messages[idx] = reportMsg;
         }
 
-        // Save to IndexedDB as informe
-        this._saveInforme(reportMsg);
+        // Save to IndexedDB as informe — AWAIT to catch errors
+        try {
+          await this._saveInforme(reportMsg);
+        } catch(e) {
+          console.warn('Gremial: informe save failed', e);
+          this.messages = [...this.messages, {
+            role: 'hornero',
+            text: '⚠️ Error al guardar el informe. Intentá de nuevo más tarde.',
+            tags: ['reporte', 'informe-error'],
+            time: this._timeNow(),
+          }];
+          this.render();
+          return;
+        }
 
         // Activate informe badge (icon turns green-pale)
         this._informeBadge = true;
@@ -361,6 +390,7 @@ class HorneroGremial extends HoComponent {
       etiquetas: { temas: (reportMsg.tags || []).filter(t => t !== 'reporte' && t !== 'reporte-generado' && t !== 'reporte-aprobado') },
       datosDuros: [],
       estado: 'aceptado',
+      username: session.username || this._username || '',
     };
     try {
       if (typeof guardarInforme === 'function') await guardarInforme(informe);
@@ -368,6 +398,65 @@ class HorneroGremial extends HoComponent {
   }
 
   // ===== Fallback offline =====
+  // ===== Audio message handling =====
+  _handleAudioMessage(audioBlob, duration, fileName) {
+    const durationStr = duration ? `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}` : '0:00';
+    const userMsg = { role: 'user', text: `🎤 Audio (${durationStr})`, audio: true, duration, time: this._timeNow() };
+    const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
+    if (isFirstUserMsg) userMsg.title = 'Audio reporte';
+    this.messages = [...this.messages, userMsg];
+    this._typing = true;
+    this._saveChatHistory();
+    this.render();
+
+    this._callAudioBackend(audioBlob, fileName).catch(() => {
+      this.messages = [...this.messages, this._localResponse('audio reporte')];
+      this._typing = false;
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      this.render();
+    });
+  }
+
+  async _callAudioBackend(audioBlob, fileName) {
+    const history = this.messages.slice(-7, -1).map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const formData = new FormData();
+    formData.append('audio', audioBlob, fileName || 'recording.webm');
+    formData.append('formato', 'reporte');
+    formData.append('grade', this.grade);
+    formData.append('sector', this.sector);
+    formData.append('requested_persona', 'relator');
+    formData.append('history', JSON.stringify(history));
+
+    const response = await fetch(HorneroGremial.AUDIO_URL, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error('Audio backend error: ' + response.status);
+
+    const data = await response.json();
+    this.messages = [...this.messages, {
+      role: 'hornero',
+      text: data.text || '',
+      sections: data.sections || [],
+      tags: data.tags || ['reporte', 'audio'],
+      persona: data.persona || 'relator',
+      time: data.time || this._timeNow(),
+    }];
+    this._activePersona = data.persona || 'relator';
+    this._typing = false;
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) chatEl.resetAudioState();
+    this._saveChatHistory();
+    this.render();
+  }
+
   _localResponse(userText) {
     // Generate a simple report card from the user text
     return {
@@ -397,6 +486,7 @@ class HorneroGremial extends HoComponent {
             m.section = this._chatSection;
             m.sessionId = this._sessionId;
             m.timestamp = Date.now();
+            m.username = this._username;
           }
           await guardarChatMsg(m);
         }
@@ -430,17 +520,20 @@ class HorneroGremial extends HoComponent {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
       if (session) {
         const rolMap = { 'B.d': 'Federación', 'B.c': 'Secretaria', 'B.b': 'Delegada', 'B.a': 'Base' };
+        this._username = session.username || '';
         return {
           nombre: session.nombre || 'Trabajador',
           funcion: rolMap[session.grade] || 'Base',
           territorio: session.territory || '',
           empresa: session.agremiacion ? session.agremiacion.empresa : 'Piloto',
           puesto: session.agremiacion ? session.agremiacion.puesto : '',
+          username: session.username || '',
           trabajador: { nombre: session.nombre || 'Trabajador', funcion: rolMap[session.grade] || 'Base', seccion: '' },
         };
       }
     } catch(e) {}
-    return { nombre: 'Trabajador', funcion: 'Base', territorio: '', empresa: 'Piloto', puesto: '', trabajador: { nombre: 'Trabajador', funcion: 'Base', seccion: '' } };
+    this._username = '';
+    return { nombre: 'Trabajador', funcion: 'Base', territorio: '', empresa: 'Piloto', puesto: '', username: '', trabajador: { nombre: 'Trabajador', funcion: 'Base', seccion: '' } };
   }
 
   _getCurrentWeek() {

@@ -32,6 +32,14 @@ class HorneroConsulta extends HoComponent {
     return 'https://hornero-ia.onrender.com/api/greeting';
   }
 
+  static get AUDIO_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/audio';
+    }
+    return 'https://hornero-ia.onrender.com/api/audio';
+  }
+
   constructor() {
     super();
     this.grade = 'A';
@@ -43,6 +51,7 @@ class HorneroConsulta extends HoComponent {
     this._historyLoaded = false;
     this._sessionId = ''; // Current session ID — new on each visit
     this._activePersona = 'ia-sindical'; // Current persona at mesa de trabajo
+    this._username = ''; // login username for per-user data isolation
   }
 
   connectedCallback() {
@@ -69,6 +78,7 @@ class HorneroConsulta extends HoComponent {
           typing="${this._typing}"
           persona="${this._activePersona}"
           persona-pills="${true}"
+          username="${this._username}"
         ></hornero-chat>
       </div>
     `;
@@ -97,6 +107,10 @@ class HorneroConsulta extends HoComponent {
       chatEl.addEventListener('persona-switch', (e) => {
         this._activePersona = e.detail.persona;
         this.render();
+      });
+      // Listen for audio message from mic recording
+      chatEl.addEventListener('chat-audio', (e) => {
+        this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
     }
 
@@ -136,6 +150,7 @@ class HorneroConsulta extends HoComponent {
       chatEl.typing = this._typing;
       chatEl.section = this._chatSection;
       chatEl.sessionId = this._sessionId;
+      chatEl.username = this._username;
       chatEl.persona = this._activePersona;
       chatEl.personaPills = true;
       chatEl.render();
@@ -252,9 +267,11 @@ class HorneroConsulta extends HoComponent {
 
   _handleUserMessage(text) {
     // Detect export keywords — download current chat as document
+    // Only match explicit export requests, not incidental words in normal conversation
     const lower = text.toLowerCase().trim();
-    const exportKeywords = ['exportar', 'descargar', 'documento', 'guardar documento', 'bajar', 'download', 'export'];
-    if (exportKeywords.some(kw => lower.includes(kw))) {
+    const isExportRequest = lower.match(/^(exportar|descargar|guardar documento|download|export)\b/) ||
+      lower.match(/\b(exportar chat|descargar chat|exportar conversación|descargar conversación)\b/);
+    if (isExportRequest) {
       this._exportCurrentChat();
       return;
     }
@@ -315,6 +332,67 @@ class HorneroConsulta extends HoComponent {
     this.render();
   }
 
+  // ===== Audio message handling =====
+  _handleAudioMessage(audioBlob, duration, fileName) {
+    const durationStr = duration ? `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}` : '0:00';
+    const userMsg = { role: 'user', text: `🎤 Audio (${durationStr})`, audio: true, duration, time: this._timeNow() };
+    const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
+    if (isFirstUserMsg) userMsg.title = 'Audio message';
+    this.messages = [...this.messages, userMsg];
+    this._typing = true;
+    this._saveChatHistory();
+    this.render();
+
+    this._callAudioBackend(audioBlob, fileName).catch(() => {
+      this.messages = [...this.messages, this._localResponse('audio fallback')];
+      this.iaStep++;
+      this._typing = false;
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      this.render();
+    });
+  }
+
+  async _callAudioBackend(audioBlob, fileName) {
+    const history = this.messages.slice(-7, -1).map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const formData = new FormData();
+    formData.append('audio', audioBlob, fileName || 'recording.webm');
+    formData.append('formato', 'consulta');
+    formData.append('grade', this.grade);
+    formData.append('sector', this.sector);
+    formData.append('requested_persona', this._activePersona);
+    formData.append('history', JSON.stringify(history));
+
+    const response = await fetch(HorneroConsulta.AUDIO_URL, {
+      method: 'POST',
+      body: formData, // Browser sets multipart Content-Type automatically
+    });
+
+    if (!response.ok) throw new Error('Audio backend error: ' + response.status);
+
+    const data = await response.json();
+    this.messages = [...this.messages, {
+      role: 'hornero',
+      text: data.text || '',
+      sections: data.sections || [],
+      tags: data.tags || ['consulta', 'audio'],
+      persona: data.persona || this._activePersona,
+      time: data.time || this._timeNow(),
+    }];
+    this._activePersona = data.persona || this._activePersona;
+    this.iaStep++;
+    this._typing = false;
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) chatEl.resetAudioState();
+    this._saveChatHistory();
+    this.render();
+  }
+
   // ===== Fallback offline =====
   _localResponse(userText) {
     const lower = userText.toLowerCase();
@@ -346,6 +424,7 @@ class HorneroConsulta extends HoComponent {
             m.section = this._chatSection;
             m.sessionId = this._sessionId;
             m.timestamp = Date.now();
+            m.username = this._username;
           }
           await guardarChatMsg(m);
         }
