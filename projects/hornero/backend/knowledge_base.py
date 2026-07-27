@@ -185,14 +185,37 @@ Ejemplo de MALA respuesta (NO hacer esto):
    - Terminá con pregunta específica
 
 2. MODO CONTENIDO: Para producción (podcast, reel, columna, entrevista).
-   JSON: {"sections": [...], "tags": [...]}
+   JSON: {"sections": [...], "tags": [...], "persona": "periodista"}
    - Sections con title, body, quote, quoteAuthor, quoteSource
    - Vacíos: quote fields como "" si no hay quote
 
 Ante duda → MODO CHARLA.
 
 Tags: temas + formato + persona (debate/consulta/contenido).
+
+Persona: SIEMPRE incluí el campo "persona" en tu JSON con el valor exacto de quién está respondiendo:
+- "companero" = El Compañero (debate, experiencia vivida)
+- "abogado" = El Abogado Laboralista (consulta legal)
+- "periodista" = El Periodista (contenido, comunicación)
+- "relator" = El Relator (reporte gremial)
+- "ia-sindical" = IA Sindical genérica
 """
+
+# ===== Persona mapping: formato → persona string =====
+PERSONA_MAP = {
+    'debate': 'companero',
+    'consulta': 'abogado',
+    'contenido': 'periodista',
+    'reporte': 'relator',
+}
+
+# Direct persona name → formato mapping (for requested_persona override)
+PERSONA_NAME_MAP = {
+    'companero': 'debate',
+    'abogado': 'consulta',
+    'periodista': 'contenido',
+    'relator': 'reporte',
+}
 
 
 from kb_data import KB_CHUNKS, get_chunks_text, rebuild_knowledge_base_string
@@ -226,7 +249,7 @@ def get_system_prompt(formato: str, clipping_items: list = None) -> str:
     return prompt
 
 
-def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "") -> str:
+def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "", requested_persona: str = "") -> str:
     """Return system prompt with selective KB injection based on RAG retrieval.
 
     Only includes KB chunks relevant to the user's query, not the entire KB.
@@ -237,7 +260,13 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
         chunk_ids: list of KB chunk IDs to inject (from rag_retriever)
         clipping_items: dynamic clipping data (all or filtered)
         query: user query text (for clipping filtering in Phase 2)
+        requested_persona: explicit persona override (companero/abogado/periodista/relator)
     """
+
+    # Determine effective formato based on requested_persona override
+    effective_formato = formato
+    if requested_persona and requested_persona in PERSONA_NAME_MAP:
+        effective_formato = PERSONA_NAME_MAP[requested_persona]
 
     personas = {
         'debate': PERSONA_DEBATE,
@@ -246,7 +275,7 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
         'reporte': PERSONA_REPORTE,
     }
 
-    persona = personas.get(formato, PERSONA_CONSULTA)  # default: abogado
+    persona = personas.get(effective_formato, PERSONA_CONSULTA)  # default: abogado
     prompt = persona + "\n" + PRINCIPIOS_COMUNES
 
     # Inject only relevant chunks

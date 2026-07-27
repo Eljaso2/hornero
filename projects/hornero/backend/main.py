@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import httpx
 
-from knowledge_base import get_system_prompt, get_system_prompt_rag, get_format_hint, get_greeting_hint
+from knowledge_base import get_system_prompt, get_system_prompt_rag, get_format_hint, get_greeting_hint, PERSONA_MAP, PERSONA_NAME_MAP
 from llm_providers.deepseek import call_deepseek
 from llm_providers.claude import call_claude
 from clipping_cache import get_clipping
@@ -81,6 +81,7 @@ class GreetingResponse(BaseModel):
     tags: list
     time: str
     raw: str = ""
+    persona: str = "ia-sindical"
 
 
 class ChatRequest(BaseModel):
@@ -89,6 +90,7 @@ class ChatRequest(BaseModel):
     history: list = []  # [{role, text, sections}]
     grade: str = "A"
     sector: str = "aceitero"
+    requested_persona: str = ""  # companero|abogado|periodista|relator — override
 
 
 class ChatResponse(BaseModel):
@@ -97,6 +99,7 @@ class ChatResponse(BaseModel):
     tags: list
     time: str
     raw: str = ""  # Raw LLM response for debugging
+    persona: str = "ia-sindical"  # Who responded: companero|abogado|periodista|relator|ia-sindical
 
 
 # ===== Endpoints =====
@@ -116,6 +119,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     RAG: greeting uses minimal context (no KB chunks needed — persona knows who it is).
     """
     # Greeting: no RAG retrieval needed (persona + principles are sufficient)
+    effective_persona = PERSONA_MAP.get(req.section, 'abogado')
     system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping())
     greeting_hint = get_greeting_hint(req.section)
 
@@ -173,12 +177,21 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
     chunk_ids = [c["id"] for c in relevant_chunks]
 
     # Build system prompt with ONLY relevant KB chunks
+    # Determine effective persona from requested_persona override or formato
     system_prompt = get_system_prompt_rag(
         formato=req.formato,
         chunk_ids=chunk_ids,
         clipping_items=get_clipping(),
         query=req.message,
+        requested_persona=req.requested_persona,
     )
+    # Determine effective persona string for fallback
+    effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
+    if req.requested_persona:
+        if req.requested_persona in PERSONA_NAME_MAP:
+            effective_persona = req.requested_persona
+        elif req.requested_persona in PERSONA_MAP:
+            effective_persona = req.requested_persona
     format_hint = get_format_hint(req.formato)
 
     # Build the user message with format context
@@ -218,12 +231,17 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
     now = datetime.now()
     time_str = now.strftime("%H:%M")
 
+    # Determine persona from LLM response or fallback
+    llm_persona = parsed.get("persona", "")
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "ia-sindical"] else effective_persona
+
     return ChatResponse(
         text=parsed.get("text", ""),
         sections=parsed.get("sections", []),
         tags=parsed.get("tags", [req.formato]),
         time=time_str,
         raw=raw_response,
+        persona=final_persona,
     )
 
 
