@@ -597,26 +597,26 @@ class HorneroChat extends HoComponent {
         padding: 4px 10px; border-radius: 8px; font-weight: 600; }
       .reporte-card-actions { display: flex; gap: 6px;
         padding: 8px 12px 4px; justify-content: flex-end; }
-      .reporte-btn { border-radius: 8px; padding: 6px 10px;
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 1rem;
+      .reporte-card-prompt { font-family: 'Public Sans', sans-serif; font-size: .76rem;
+        color: var(--ho-text-mid, #6E6A60); padding: 6px 12px 0; line-height: 1.4; }
+      .reporte-card-prompt em { font-style: italic; color: var(--ho-text-light, #9C988D); }
+      .reporte-btn { border-radius: 8px; padding: 6px 8px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
         cursor: pointer; transition: background .2s; display: inline-flex;
-        align-items: center; justify-content: center; min-width: 32px; }
-      .reporte-btn-approve { background: var(--ho-green, #6E8345);
-        color: var(--ho-text-off, #F2F1EC); border: none; }
-      .reporte-btn-approve:hover { background: var(--ho-green-dark, #586B33); }
-      .reporte-btn-correct { background: none;
-        border: 1px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
-      .reporte-btn-correct:hover { background: #F0E4CC; }
-      .reporte-btn-share { background: none;
-        border: 1px solid var(--ho-mid-gray, #ECEAE3); color: var(--ho-text-mid, #6E6A60); }
-      .reporte-btn-share:hover { background: var(--ho-green-pale, #E8EDD7); }
-      .reporte-btn-delete { background: none;
-        border: 1px solid #D32F2F; color: #D32F2F; }
-      .reporte-btn-delete:hover { background: #FDECEA; }
+        align-items: center; justify-content: center; gap: 4px; min-width: 32px;
+        background: none; border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        color: var(--ho-text-light, #9C988D); }
+      .reporte-btn:hover { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-text-mid, #6E6A60); }
+      .reporte-btn svg { width: 14px; height: 14px; stroke: currentColor;
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .reporte-btn-delete { border-color: transparent; }
+      .reporte-btn-delete:hover { color: #D32F2F; border-color: rgba(211,47,47,.2); background: #FDECEA; }
+      .reporte-btn-delete svg { stroke-width: 1.8; }
       .reporte-card.estado-aceptado { border-color: var(--ho-green-light, #94A867);
         opacity: .85; }
-      .reporte-card.estado-aceptado .reporte-btn-approve,
-      .reporte-card.estado-aceptado .reporte-btn-correct { display: none; }
+      .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="aprobar"],
+      .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="corregir"],
+      .reporte-card.estado-aceptado .reporte-card-prompt { display: none; }
 
       /* Progress bar */
       .chat-progress-wrap { padding: 4px 16px 0; flex: none; }
@@ -1463,14 +1463,21 @@ class HorneroChat extends HoComponent {
       const tagsHtml = visibleTags.length > 0 ?
         `<div class="reporte-card-tags">${visibleTags.map(t => `<span class="reporte-card-tag">${t}</span>`).join('')}</div>` : '';
 
-      // Action buttons — icon-only, subtle; aprobado shares same card with different actions
-      const shareBtn = `<button class="reporte-btn reporte-btn-share" data-reporte-action="compartir" data-msg-index="${msgIndex}" title="Compartir">📤</button>`;
-      const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" title="Borrar">🗑️</button>`;
+      // Action buttons — icon-only, subtle SVGs; aprobado shares same card with different actions
+      const trashSvg = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>';
+      const shareSvg = '<path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>';
+      const thumbSvg = '<path d="M18 9V3a1 1 0 00-1-1h-1a1 1 0 00-1 1v5.5M7 13v-2a2 2 0 012-2h3.5V4a1.5 1.5 0 013 0v7M14 13a2 2 0 01-2 2H9a2 2 0 01-2-2v-3a2 2 0 012-2h5a2 2 0 012 2v3z"/>';
+      const editSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
+      const shareBtn = `<button class="reporte-btn reporte-btn-share" data-reporte-action="compartir" data-msg-index="${msgIndex}" title="Compartir"><svg viewBox="0 0 24 24">${shareSvg}</svg></button>`;
+      const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" title="Borrar"><svg viewBox="0 0 24 24">${trashSvg}</svg></button>`;
+      const promptText = isReporteAprobado
+        ? '' // No prompt for already-approved reports
+        : '<div class="reporte-card-prompt">Acá está tu informe. Aceptalo, editalo, reenvialo o borralo. <em>Puedes editar hasta que el delegado lo vea.</em></div>';
       const actionsHtml = isReporteAprobado ?
         `<div class="reporte-card-actions">${shareBtn}${deleteBtn}</div>` :
         `<div class="reporte-card-actions">
-          <button class="reporte-btn reporte-btn-approve" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">✅</button>
-          <button class="reporte-btn reporte-btn-correct" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Editar">✏️</button>
+          <button class="reporte-btn" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar"><svg viewBox="0 0 24 24">${thumbSvg}</svg></button>
+          <button class="reporte-btn" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Editar"><svg viewBox="0 0 24 24">${editSvg}</svg></button>
           ${shareBtn}
           ${deleteBtn}
         </div>`;
@@ -1493,6 +1500,7 @@ class HorneroChat extends HoComponent {
               ${sectionsHtml}
             </div>
             ${tagsHtml}
+            ${promptText}
             ${actionsHtml}
           </div>
           ${timeHtml}
