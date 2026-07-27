@@ -850,7 +850,7 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Persona icons — top-left corner (mesa de trabajo)
-    const personaOptions = ['ia-sindical', 'abogado', 'companero', 'periodista'];
+    const personaOptions = ['abogado', 'companero', 'periodista', 'relator'];
     const personaIconsHtml = this.personaPills ?
       personaOptions.map(p => {
         const cfg = this._getPersonaConfig(p);
@@ -1155,7 +1155,7 @@ class HorneroChat extends HoComponent {
       'abogado':      { emoji: '📖', name: 'Abogado',     bg: '#D4E4F7', color: '#2B5278', img: null },
       'companero':    { emoji: '✊🏾', name: 'Compañero',   bg: '#C89660', color: '#7A3B1E', img: null },
       'periodista':   { emoji: '🎙️', name: 'Periodista',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
-      'relator':      { emoji: '🪶', name: 'Relator',     bg: '#E0E8D7', color: '#4A6A2C', img: null },
+      'relator':      { emoji: '📝', name: 'Reporte Gremial', bg: '#E0E8D7', color: '#4A6A2C', img: null },
     };
     return map[persona] || map['ia-sindical'];
   }

@@ -50,7 +50,7 @@ class HorneroConsulta extends HoComponent {
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
     this._sessionId = ''; // Current session ID — new on each visit
-    this._activePersona = 'ia-sindical'; // Current persona at mesa de trabajo
+    this._activePersona = 'abogado'; // Default persona — mesa de trabajo
     this._username = ''; // login username for per-user data isolation
   }
 
@@ -111,7 +111,13 @@ class HorneroConsulta extends HoComponent {
       // Listen for persona switch from mesa de trabajo icons
       chatEl.addEventListener('persona-switch', (e) => {
         this._activePersona = e.detail.persona;
+        // Reset chat and request new greeting for the new persona
+        this.messages = [];
+        this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+        this._greetingRequested = false;
+        this._typing = true;
         this.render();
+        this._requestGreeting();
       });
       // Listen for persona redirect from derivation button
       chatEl.addEventListener('persona-redirect', (e) => {
