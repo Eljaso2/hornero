@@ -52,6 +52,7 @@ class HorneroGremial extends HoComponent {
     this._informeBadge = false;
     this._activePersona = 'relator'; // Gremial always uses relator persona
     this._username = ''; // login username for per-user data isolation
+    this._viewingInforme = null; // Full-screen informe viewer overlay state
   }
 
   connectedCallback() {
@@ -67,8 +68,67 @@ class HorneroGremial extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #F4F3EE); position: relative; }
       .chat-container { display: flex; flex-direction: column; height: 100%; }
+
+      /* === Full-screen informe viewer overlay === */
+      .inform-view-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--ho-bg, #F4F3EE); z-index: 100; display: flex;
+        flex-direction: column; animation: fadeIn .25s ease; }
+      .inform-view-header { padding: 14px 16px; display: flex; align-items: center;
+        gap: 10px; flex: none; background: var(--ho-green-dark, #586B33); }
+      .inform-view-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: .92rem; color: var(--ho-text-off, #F2F1EC); flex: 1;
+        letter-spacing: .04em; text-transform: uppercase; }
+      .inform-view-header-estado { font-family: 'JetBrains Mono', monospace;
+        font-size: .68rem; padding: 3px 10px; border-radius: 8px; font-weight: 700; }
+      .inform-view-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
+      .inform-view-header-estado.estado-aceptado { background: #E8EDD7; color: #586B33; }
+      .inform-view-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
+      .inform-view-close { background: rgba(255,255,255,.15); border: none; cursor: pointer;
+        border-radius: 8px; padding: 6px 10px; color: var(--ho-text-off, #F2F1EC);
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .78rem;
+        display: flex; align-items: center; gap: 4px; }
+      .inform-view-close:hover { background: rgba(255,255,255,.25); }
+      .inform-view-scroll { flex: 1; overflow-y: auto; padding: 20px 16px; }
+      .inform-view-section { margin-bottom: 16px; }
+      .inform-view-section:last-child { margin-bottom: 0; }
+      .inform-view-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .84rem; color: var(--ho-green-dark, #586B33); margin-bottom: 6px;
+        text-transform: uppercase; letter-spacing: .06em; }
+      .inform-view-section-body { font-family: 'Public Sans', sans-serif;
+        font-size: .85rem; color: var(--ho-text, #2B2A26); line-height: 1.6; }
+      .inform-view-section-divider { height: 1px; background: rgba(43,42,38,.10);
+        margin: 16px 0; }
+      .inform-view-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
+        padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E8EDD7); }
+      .inform-view-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        background: #EDEAE3; color: var(--ho-text, #2B2A26);
+        padding: 4px 10px; border-radius: 8px; font-weight: 600; }
+      .inform-view-actions { padding: 12px 16px; display: flex; gap: 8px;
+        justify-content: flex-end; flex: none;
+        border-top: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        background: var(--ho-card, #FBFAF6); }
+      .inform-view-btn { border-radius: 10px; padding: 8px 14px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .78rem;
+        cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+        transition: background .2s; }
+      .inform-view-btn-editar { background: none; border: 1.5px solid #B0863F;
+        color: #B0863F; }
+      .inform-view-btn-editar:hover { background: #F0E4CC; }
+      .inform-view-btn-descargar { background: none; border: 1.5px solid var(--ho-green, #6E8345);
+        color: var(--ho-green, #6E8345); }
+      .inform-view-btn-descargar:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .inform-view-btn-borrar { background: none; border: 1.5px solid transparent;
+        color: var(--ho-text-light, #9C988D); }
+      .inform-view-btn-borrar:hover { color: #D32F2F; border-color: rgba(211,47,47,.2);
+        background: #FDECEA; }
+      .inform-view-meta { display: flex; align-items: center; gap: 8px;
+        margin-bottom: 16px; font-family: 'JetBrains Mono', monospace;
+        font-size: .62rem; color: var(--ho-text-muted, #8A8A74); }
+      .inform-view-meta-user { color: var(--ho-text-mid, #6E6A60); }
+
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     `;
   }
 
@@ -87,7 +147,98 @@ class HorneroGremial extends HoComponent {
           username="${this._username}"
         ></hornero-chat>
       </div>
+
+      ${this._viewingInforme ? this._renderInformeViewer() : ''}
     `;
+  }
+
+  // === Full-screen informe viewer overlay ===
+  _renderInformeViewer() {
+    const inf = this._viewingInforme;
+    const numero = inf.numero || '';
+    const estado = inf.estado || 'pendiente';
+    const estadoLabelMap = {
+      'pendiente': '⏳ Pendiente',
+      'visto': '👁 Visto',
+      'aceptado': '✅ Aceptado',
+      'aprobado': '✅ Aprobado',
+      'aprobado-delegado': '✅ Aprobado',
+      'corregido-delegado': '📝 Corregido',
+    };
+    const estadoClassMap = {
+      'pendiente': 'estado-pendiente',
+      'visto': 'estado-aceptado',
+      'aceptado': 'estado-aceptado',
+      'aprobado': 'estado-aprobado',
+      'aprobado-delegado': 'estado-aprobado',
+      'corregido-delegado': 'estado-aceptado',
+    };
+    const estadoLabel = estadoLabelMap[estado] || estado;
+    const estadoClass = estadoClassMap[estado] || '';
+    const titleText = numero ? 'Reporte Gremial N°' + numero :
+      (inf.sections && inf.sections.length > 0 ?
+        (inf.sections[0].title || 'Informe Gremial') : 'Informe Gremial');
+
+    // Sections — all expanded, no collapse
+    const sectionsHtml = (inf.sections || []).map((s, i) => {
+      let content = '';
+      if (s.title) content += `<div class="inform-view-section-title">${s.title}</div>`;
+      else if (i > 0) content += `<div class="inform-view-section-title">Detalle</div>`;
+      if (s.body) content += `<div class="inform-view-section-body">${this._formatMarkdown(s.body)}</div>`;
+      const divider = (i < (inf.sections || []).length - 1) ?
+        '<div class="inform-view-section-divider"></div>' : '';
+      return `<div class="inform-view-section">${content}</div>${divider}`;
+    }).join('');
+
+    // Tags
+    const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
+    const tagsHtml = tags.length > 0 ?
+      `<div class="inform-view-tags">${tags.map(t => `<span class="inform-view-tag">${t}</span>`).join('')}</div>` : '';
+
+    // Meta (date + user + grade)
+    const dateStr = inf.fecha || '';
+    const metaHtml = `<div class="inform-view-meta">
+      <span>${dateStr}</span>
+      ${inf.username ? '<span class="inform-view-meta-user">@' + inf.username + '</span>' : ''}
+      ${inf.grado ? '<span>G' + inf.grado + '</span>' : ''}
+    </div>`;
+
+    // Action buttons — Editar only for pendiente/aceptado
+    const canEdit = estado === 'pendiente' || estado === 'aceptado';
+    const editBtn = canEdit ?
+      `<button class="inform-view-btn inform-view-btn-editar" data-inform-view-action="editar">✏️ Editar</button>` : '';
+    const deleteBtn = `<button class="inform-view-btn inform-view-btn-borrar" data-inform-view-action="borrar">🗑 Borrar</button>`;
+    const downloadBtn = `<button class="inform-view-btn inform-view-btn-descargar" data-inform-view-action="descargar">📥 Descargar</button>`;
+
+    return html`
+      <div class="inform-view-overlay">
+        <div class="inform-view-header">
+          <span class="inform-view-header-title">${titleText}</span>
+          <span class="inform-view-header-estado ${estadoClass}">${estadoLabel}</span>
+          <button class="inform-view-close" data-inform-view-action="close">✕ Cerrar</button>
+        </div>
+        <div class="inform-view-scroll">
+          ${metaHtml}
+          ${sectionsHtml}
+          ${tagsHtml}
+        </div>
+        <div class="inform-view-actions">
+          ${editBtn}
+          ${downloadBtn}
+          ${deleteBtn}
+        </div>
+      </div>
+    `;
+  }
+
+  // Simple markdown formatter for informe viewer
+  _formatMarkdown(text) {
+    if (!text) return '';
+    // Bold: **text** → <strong>text</strong>
+    let html = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Line breaks
+    html = html.replace(/\n/g, '<br>');
+    return html;
   }
 
   _afterRender() {
@@ -157,6 +308,26 @@ class HorneroGremial extends HoComponent {
         this._handlePersonaNavigate(e.detail.persona);
       });
     }
+
+    // === Informe viewer overlay action buttons ===
+    this.shadowRoot.querySelectorAll('[data-inform-view-action]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = btn.dataset.informViewAction;
+        const infId = this._viewingInforme ? this._viewingInforme.id : null;
+        if (action === 'close') {
+          this._closeInformeViewer();
+        } else if (action === 'editar' && infId) {
+          this._closeInformeViewer();
+          this._handleInformeEdit(infId);
+        } else if (action === 'borrar' && infId) {
+          this._deleteInformeFromViewer(infId);
+        } else if (action === 'descargar' && this._viewingInforme) {
+          this._downloadInformeFromViewer();
+        }
+      });
+    });
+
     if (!this._historyLoaded) {
       this._loadChatHistory();
     }
@@ -206,6 +377,18 @@ class HorneroGremial extends HoComponent {
     this._typing = true;
     this.render();
 
+    // Calculate days since last chat for greeting context
+    let daysSinceLastChat = 999; // Default: long time ago
+    try {
+      if (typeof obtenerChatSessions === 'function') {
+        const sessions = await obtenerChatSessions(this._username);
+        if (sessions && sessions.length > 0) {
+          const lastTs = sessions[0].timestamp || 0;
+          daysSinceLastChat = Math.floor((Date.now() - lastTs) / 86400000);
+        }
+      }
+    } catch(e) { /* ignore — use default */ }
+
     try {
       const response = await fetch(HorneroGremial.GREETING_URL, {
         method: 'POST',
@@ -215,6 +398,7 @@ class HorneroGremial extends HoComponent {
           grade: this.grade,
           sector: this.sector,
           requested_persona: 'relator',
+          days_since_last_chat: daysSinceLastChat,
         }),
       });
 
@@ -484,34 +668,47 @@ class HorneroGremial extends HoComponent {
     return guardarInforme(informe);
   }
 
-  // View a saved informe — show content in chat as a reporte-generado card
+  // Open full-screen viewer overlay for a saved informe
   async _handleInformeView(informeId) {
     try {
       if (typeof obtenerInforme !== 'function') return;
       const informe = await obtenerInforme(informeId);
       if (!informe) return;
-
-      // Show the informe content as a reporte-generado message in the chat
-      const numero = informe.numero || '';
-      const estado = informe.estado || 'pendiente';
-      // If already accepted/approved, mark as reporte-aprobado to hide action buttons
-      const extraTags = (estado === 'aceptado' || estado === 'aprobado' || estado === 'aprobado-delegado') ? ['reporte-aprobado'] : [];
-      const reportMsg = {
-        role: 'hornero',
-        text: numero ? `Reporte Gremial N°${numero}` : '',
-        sections: informe.sections || [],
-        tags: ['reporte', 'reporte-generado', ...extraTags],
-        persona: 'relator',
-        time: this._timeNow(),
-        informe_id: informeId,
-      };
-
-      this.messages = [...this.messages, reportMsg];
-      this._saveChatHistory();
+      this._viewingInforme = informe;
       this.render();
     } catch(e) {
       console.warn('Gremial: informe view failed', e);
     }
+  }
+
+  _closeInformeViewer() {
+    this._viewingInforme = null;
+    this.render();
+  }
+
+  async _deleteInformeFromViewer(informeId) {
+    if (typeof dbDelete !== 'function') return;
+    await dbDelete('informes', informeId);
+    this._closeInformeViewer();
+  }
+
+  _downloadInformeFromViewer() {
+    const inf = this._viewingInforme;
+    const txtContent = this._generateInformeTxt(inf);
+    const filename = (inf.numero ? 'reporte-gremial-n' + inf.numero : 'reporte-gremial') + '.txt';
+    this._downloadTxt(txtContent, filename);
+  }
+
+  _downloadTxt(content, filename) {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   // Re-inject a saved informe into the chat for editing
