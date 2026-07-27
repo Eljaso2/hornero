@@ -10,7 +10,15 @@ Chunked del string KNOWLEDGE_BASE original, con metadata:
 - vigencia: vigente | derogado | historico
 
 La biblioteca del sindicato: documentos, académicos, multimedia.
+
+Chunks come from two sources:
+1. KB_CHUNKS: manually curated chunks (from original KNOWLEDGE_BASE + Jasinski referentes)
+2. kb_chunks.json: auto-extracted chunks from full PDFs (loaded on startup)
+Both are merged into ALL_CHUNKS for RAG retrieval.
 """
+
+import json
+import os
 
 # ===== Taxonomía =====
 
@@ -363,6 +371,25 @@ Teófilo Lafuente fue el primer secretario general del tanino. Desde Villa Guill
         "grade_access": "open",
         "vigencia": "vigente",
     },
+
+    {
+        "id": "kb-jasinski-referentes-forestal",
+        "tipo": "academico",
+        "category": "referentes",
+        "tags": ["La Forestal", "Teófilo Lafuente", "José Bernabé Vargas", "Rogelio Lamazón", "secretario general", "sindicalismo", "tanino", "Villa Guillermina", "Villa Ana", "comunismo", "anarquismo", "Jasinski", "1918", "1921", "1930s", "obrero comunista", "huelga"],
+        "title": "Referentes obreros de La Forestal — Jasinski, El encanto del tanino (2023)",
+        "text": """REFERENTES OBREROS DE LA FORESTAL
+
+Teófilo Lafuente — Primer secretario general del sindicato del tanino. Protagonista de las luchas de 1918-1921 en Villa Guillermina. En 2020-2021, se erigió un monumento a Lafuente en Villa Guillermina, con presencia de sus nietos y nietas. Se anunció la creación de un parque de la memoria y la identidad.
+
+José Bernabé Vargas — Obrero comunista y actor de las huelgas y refundación sindical de la década de 1930 en Villa Guillermina. Familia de cultura guaraní, llegada a Villa Guillermina desde Bella Vista, Corrientes. Jasinski lo visitó en su casa de Rosario y accedió a su archivo personal: memorias escritas en la década de 1970, fotos, cartas y volantes. Su hija conservaba actas de la organización sindical. Vargas fue secretario general de la experiencia de reorganización sindical de Villa Guillermina.
+
+Rogelio Lamazón — Dirigente yrigoyenista. La Forestal le inculpaba tener parte en la campaña de organización obrera. Participó en negociaciones con la empresa: junto a Vargas y Romero, asistió con una carpeta con petición de mejoras (jornal mínimo, aumentos progresivos, mejoras para obrajeros). Lamazón fue asesinado — su muerte es tratada en el Cap. 9 del libro.""",
+        "sources": ["Jasinski, El encanto del tanino, Prometeo Libros 2023, pp. 22, 27-28, 197-204, 216-220, 251-258"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
 ]
 
 
@@ -447,3 +474,47 @@ KB_CATEGORY_META = {
     "referentes": {"label": "Referentes", "icon": "📰", "desc": "Discursos, posiciones, quotes"},
     "violencia-empresarial": {"label": "Violencia empresarial", "icon": "📚", "desc": "Lockout, represión, masacre, enclave"},
 }
+
+
+# ===== Dynamic loading: merge manual + PDF-extracted chunks =====
+
+def _load_pdf_chunks() -> list:
+    """Load auto-extracted chunks from kb_chunks.json (PDF pipeline output)."""
+    json_path = os.path.join(os.path.dirname(__file__), "kb_chunks.json")
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            pdf_chunks = json.load(f)
+        print(f"Loaded {len(pdf_chunks)} PDF-extracted chunks from {json_path}")
+        return pdf_chunks
+    except FileNotFoundError:
+        print(f"No kb_chunks.json found at {json_path} — using only manual chunks")
+        return []
+    except json.JSONDecodeError as e:
+        print(f"Error parsing kb_chunks.json: {e}")
+        return []
+
+
+def get_all_chunks() -> list:
+    """Return merged list: manual KB_CHUNKS + PDF-extracted chunks from kb_chunks.json.
+
+    This is the canonical source for RAG retrieval and Archivo UI.
+    """
+    pdf_chunks = _load_pdf_chunks()
+    return KB_CHUNKS + pdf_chunks
+
+
+# ===== Lazy-loaded ALL_CHUNKS (populated on startup) =====
+
+ALL_CHUNKS = []  # Populated by refresh() on startup
+
+
+def refresh() -> int:
+    """Reload ALL_CHUNKS from manual + PDF sources. Returns total chunk count."""
+    global ALL_CHUNKS
+    ALL_CHUNKS = get_all_chunks()
+    # Update categories dynamically from all chunks
+    new_categories = set(c["category"] for c in ALL_CHUNKS if c.get("category"))
+    for cat in new_categories:
+        if cat not in KB_CATEGORY_META:
+            KB_CATEGORY_META[cat] = {"label": cat.replace("-", " ").title(), "icon": "📚", "desc": cat}
+    return len(ALL_CHUNKS)

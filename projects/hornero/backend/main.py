@@ -22,7 +22,7 @@ from llm_providers.deepseek import call_deepseek
 from llm_providers.claude import call_claude
 from clipping_cache import get_clipping
 from rag_retriever import retrieve_for_query
-from kb_data import KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, refresh
+from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, refresh as kb_refresh
 
 load_dotenv(override=True)
 
@@ -49,9 +49,11 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize clipping cache on startup."""
-    count = refresh()
-    print(f"Clipping cache initialized: {count} items")
+    """Initialize clipping cache + KB chunks on startup."""
+    clip_count = refresh()
+    kb_count = kb_refresh()
+    print(f"Clipping cache initialized: {clip_count} items")
+    print(f"KB chunks loaded: {kb_count} total (manual + PDF-extracted)")
 
 
 # CORS — allow app origin + localhost for development
@@ -410,7 +412,7 @@ async def health():
         "status": "ok",
         "provider": LLM_PROVIDER,
         "clipping_items": len(get_clipping()),
-        "kb_chunks": len(KB_CHUNKS),
+        "kb_chunks": len(ALL_CHUNKS),
         "rag": "keyword",
         "timestamp": datetime.now().isoformat(),
     }
@@ -420,11 +422,9 @@ async def health():
 async def get_knowledge_base(category: str = None, tipo: str = None):
     """Return knowledge base chunks for Archivo UI. Filterable by category and tipo.
 
-    Args:
-        category: filter by category (organizacion, convenio, paritaria, etc.)
-        tipo: filter by tipo (documento, academico, multimedia)
+    Uses ALL_CHUNKS (manual + PDF-extracted) for full coverage.
     """
-    chunks = KB_CHUNKS
+    chunks = ALL_CHUNKS
     if category:
         chunks = [c for c in chunks if c["category"] == category]
     if tipo:

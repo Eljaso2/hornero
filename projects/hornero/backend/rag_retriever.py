@@ -7,7 +7,7 @@ Migration path: Phase 4 adds semantic search (FAISS + pre-computed embeddings)
 when VPS with persistent disk is available.
 """
 
-from kb_data import KB_CHUNKS
+from kb_data import ALL_CHUNKS, KB_CHUNKS
 
 
 # ===== Grade hierarchy for access filtering =====
@@ -48,7 +48,8 @@ def keyword_search(query: str, max_chunks: int = 3) -> list:
         return []
 
     scored = []
-    for chunk in KB_CHUNKS:
+    # Use ALL_CHUNKS (manual + PDF-extracted) for broader search
+    for chunk in ALL_CHUNKS:
         # Build searchable text from title + text + tags
         searchable = (
             chunk["title"] + " " +

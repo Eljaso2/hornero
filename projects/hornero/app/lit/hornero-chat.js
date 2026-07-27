@@ -885,12 +885,14 @@ class HorneroChat extends HoComponent {
                     ${s.username ? '<span class="history-item-user">@' + s.username + '</span>' : ''}
                     <span class="history-item-count">${s.messageCount} msgs</span>
                   </div>
-                  <button class="history-item-export" data-export-session="${s.sessionId}" title="Exportar chat">
-                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  </button>
-                  <button class="history-item-delete" data-delete-session="${s.sessionId}" title="Borrar chat">
-                    <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-                  </button>
+                  <div class="history-item-actions">
+                    <button class="history-item-export" data-export-session="${s.sessionId}" title="Exportar chat">
+                      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    </button>
+                    <button class="history-item-delete" data-delete-session="${s.sessionId}" title="Borrar chat">
+                      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                    </button>
+                  </div>
                 </div>`;
               }).join('')}
           </div>
@@ -1108,7 +1110,7 @@ class HorneroChat extends HoComponent {
     const map = {
       'ia-sindical':  { emoji: '🪶', name: 'IA Sindical', bg: 'var(--ho-green-pale, #E8EDD7)', color: 'var(--ho-green-dark, #586B33)', img: 'assets/hornero-logo.png' },
       'abogado':      { emoji: '⚖️', name: 'Abogado',     bg: '#D4E4F7', color: '#2B5278', img: null },
-      'companero':    { emoji: '✊', name: 'Compañero',   bg: '#FDE8D0', color: '#A05A2C', img: null },
+      'companero':    { emoji: '✊🏾', name: 'Compañero',   bg: '#C89660', color: '#7A3B1E', img: null },
       'periodista':   { emoji: '🎙️', name: 'Periodista',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
       'relator':      { emoji: '📝', name: 'Relator',     bg: '#E0E8D7', color: '#4A6A2C', img: null },
     };
