@@ -557,13 +557,13 @@ class HorneroChat extends HoComponent {
       .section-reporte { color: #586B33; }
 
       /* Reporte card — formal document frame */
-      .reporte-card { background: var(--ho-card, #FBFAF6);
-        border: 2px solid var(--ho-green, #6E8345);
+      .reporte-card { background: #F5F3EE;
+        border: 1px solid rgba(43,42,38,.12);
         border-radius: 13px; padding: 0; margin-top: 10px;
         animation: msgin .35s ease; overflow: hidden; }
       .reporte-card-header { display: flex; align-items: center; gap: 8px;
         cursor: pointer; padding: 10px 14px;
-        background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC); }
+        background: #EDEAE3; color: var(--ho-text, #2B2A26); }
       .reporte-card-icon { font-size: 1.1rem; flex: none; }
       .reporte-card-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .88rem; color: var(--ho-text-off, #F2F1EC); flex: 1;
@@ -587,20 +587,19 @@ class HorneroChat extends HoComponent {
         text-transform: uppercase; letter-spacing: .06em; }
       .reporte-card-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
-      .reporte-card-divider { height: 1px; background: var(--ho-green-pale, #E8EDD7);
+      .reporte-card-divider { height: 1px; background: rgba(43,42,38,.08);
         margin: 10px 0; }
       .reporte-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
         padding: 10px 14px; border-top: 1px solid var(--ho-green-pale, #E8EDD7);
         background: var(--ho-bg, #F4F3EE); }
       .reporte-card-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        background: #EDEAE3; color: var(--ho-text, #2B2A26);
         padding: 4px 10px; border-radius: 8px; font-weight: 600; }
       .reporte-card-actions { display: flex; gap: 6px;
         padding: 8px 12px 4px; justify-content: flex-end; }
-      .reporte-card-prompt { font-family: 'Public Sans', sans-serif; font-size: .76rem;
-        color: var(--ho-text-mid, #6E6A60); padding: 8px 0 0; line-height: 1.4;
-        margin-top: 4px; }
-      .reporte-card-prompt em { font-style: italic; color: var(--ho-text-light, #9C988D); }
+      .reporte-card-prompt { font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        color: var(--ho-text, #2B2A26); padding: 0; line-height: 1.5; }
+      .reporte-card-prompt em { font-style: italic; color: var(--ho-text-mid, #6E6A60); }
       .reporte-btn { border-radius: 8px; padding: 6px 8px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
         cursor: pointer; transition: background .2s; display: inline-flex;
@@ -613,7 +612,7 @@ class HorneroChat extends HoComponent {
       .reporte-btn-delete { border-color: transparent; }
       .reporte-btn-delete:hover { color: #D32F2F; border-color: rgba(211,47,47,.2); background: #FDECEA; }
       .reporte-btn-delete svg { stroke-width: 1.8; }
-      .reporte-card.estado-aceptado { border-color: var(--ho-green-light, #94A867);
+      .reporte-card.estado-aceptado { border-color: rgba(43,42,38,.2);
         opacity: .85; }
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="aprobar"],
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="corregir"],
@@ -1490,6 +1489,7 @@ class HorneroChat extends HoComponent {
         ${avatarRow}
         <div class="msg-content">
           ${textBefore}
+          ${promptText}
           <div class="reporte-card ${estadoClass}" data-report-key="${expandedKey}">
             <div class="reporte-card-header" data-toggle-report="${expandedKey}">
               <span class="reporte-card-icon">📄</span>
@@ -1503,7 +1503,6 @@ class HorneroChat extends HoComponent {
             ${tagsHtml}
             ${actionsHtml}
           </div>
-          ${promptText}
           ${timeHtml}
         </div>
       </div>`;
