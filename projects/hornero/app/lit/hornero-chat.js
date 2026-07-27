@@ -867,8 +867,15 @@ class HorneroChat extends HoComponent {
         <button class="chat-attach-remove" title="Quitar adjunto">✕</button>
       </div>` : '';
 
-    // History drawer
-    const sectionLabels = { consulta: 'Consulta', contenido: 'Contenido', debate: 'Debate', reporte: 'Reporte' };
+    // History drawer — section icons mapping
+    const sectionConfig = {
+      consulta:  { emoji: '⚖️', label: 'Consulta',  color: '#6E8345' },
+      contenido: { emoji: '🎙️', label: 'Contenido', color: '#B0863F' },
+      debate:    { emoji: '✊', label: 'Compañero', color: '#5A7EA8' },
+      reporte:   { emoji: '📝', label: 'Reporte',   color: '#586B33' },
+    };
+    const defaultSection = { emoji: '🪶', label: 'IA Sindical', color: '#586B33' };
+
     const historyDrawerHtml = this._showHistory ?
       `<div class="history-overlay">
         <div class="history-drawer">
@@ -882,25 +889,31 @@ class HorneroChat extends HoComponent {
             ${this._historySessions.length === 0 ?
               '<div class="history-empty">No hay chats guardados</div>' :
               this._historySessions.map(s => {
-                const sectionLabel = sectionLabels[s.section] || s.section;
+                const sec = sectionConfig[s.section] || defaultSection;
+                const sectionClass = s.section ? `section-${s.section}` : 'section-default';
                 const isActive = s.sessionId === this.sessionId;
                 const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
                 const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
                 return `<div class="history-item${isActive ? ' active' : ''}" data-session-id="${s.sessionId}">
-                  <div class="history-item-section section-${s.section || 'consulta'}">${sectionLabel}</div>
+                  <div class="history-item-section ${sectionClass}">
+                    <span class="history-item-section-emoji">${sec.emoji}</span>
+                    <span class="history-item-section-label">${sec.label}</span>
+                  </div>
                   <div class="history-item-preview">${s.preview || 'Nuevo chat'}</div>
                   <div class="history-item-meta">
-                    <span>${dateStr} ${timeStr}</span>
-                    ${s.username ? '<span class="history-item-user">@' + s.username + '</span>' : ''}
+                    <span>${dateStr} · ${timeStr}</span>
                     <span class="history-item-count">${s.messageCount} msgs</span>
                   </div>
-                  <div class="history-item-actions">
-                    <button class="history-item-export" data-export-session="${s.sessionId}" title="Exportar chat">
-                      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    </button>
-                    <button class="history-item-delete" data-delete-session="${s.sessionId}" title="Borrar chat">
-                      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-                    </button>
+                  <div class="history-item-footer">
+                    ${s.username ? '<span class="history-item-user">@' + s.username + '</span>' : '<span></span>'}
+                    <div class="history-item-actions">
+                      <button class="history-item-export" data-export-session="${s.sessionId}" title="Exportar chat">
+                        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      </button>
+                      <button class="history-item-delete" data-delete-session="${s.sessionId}" title="Borrar chat">
+                        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                      </button>
+                    </div>
                   </div>
                 </div>`;
               }).join('')}
