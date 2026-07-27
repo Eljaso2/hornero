@@ -584,16 +584,19 @@ class HorneroChat extends HoComponent {
 
       /* === Persona icons — top-left corner of chat === */
       .chat-persona-icon { position: absolute; top: 12px; z-index: 20;
-        width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        width: 34px; height: 34px; border-radius: 50%;
+        border: 1.5px solid var(--ho-border, rgba(43,42,38,.12));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s, transform .15s; overflow: hidden; }
-      .chat-persona-icon:hover { transform: scale(1.08);
-        background: var(--ho-green-pale, #E8EDD7); }
+        transition: border-color .2s, transform .15s, opacity .2s; overflow: hidden;
+        opacity: .55; }
+      .chat-persona-icon:hover { transform: scale(1.08); opacity: .85;
+        border-color: var(--ho-green-light, #94A867); }
       .chat-persona-icon.active { transform: scale(1.06);
-        border-width: 1.5px; }
-      .persona-icon-inner { display: flex; align-items: center; justify-content: center; }
-      .persona-icon-inner img { width: 18px; height: 18px; }
+        opacity: 1; border-width: 2px; border-color: var(--ho-green, #6E8345); }
+      .persona-icon-inner { width: 100%; height: 100%;
+        display: flex; align-items: center; justify-content: center; }
+      .persona-icon-inner img { width: 100%; height: 100%;
+        object-fit: cover; border-radius: 50%; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
 
       /* === Redirect derivation button in message === */
@@ -871,9 +874,8 @@ class HorneroChat extends HoComponent {
         }).join('')}
       </div>` : '';
 
-    // Persona icons — top-left corner (always visible, show OTHER personas)
+    // Persona icons — top-left corner (all 5 always visible, active one highlighted)
     const allPersonas = ['historiador', 'abogado', 'relator', 'companero', 'periodista'];
-    const otherPersonas = allPersonas.filter(p => p !== this.persona);
     // Screen mapping for navigation
     const personaScreenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
@@ -882,15 +884,16 @@ class HorneroChat extends HoComponent {
       'relator': { screen: 'gremial' },
       'historiador': { screen: 'historiador' },
     };
-    const personaIconsHtml = otherPersonas.map((p, idx) => {
+    const personaIconsHtml = allPersonas.map((p, idx) => {
       const cfg = this._getPersonaConfig(p);
+      const isActive = p === this.persona;
       const inner = cfg.img
-        ? `<img src="${cfg.img}" alt="H">`
+        ? `<img src="${cfg.img}" alt="${cfg.name}">`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-      const leftPos = 12 + idx * 36;
+      const leftPos = 12 + idx * 38;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
-      return `<button class="chat-persona-icon" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px; background:${cfg.bg}; border-color:${cfg.color}">
-        <span class="persona-icon-inner" style="background:${cfg.bg}">${inner}</span>
+      return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px; border-color:${isActive ? cfg.color : 'var(--ho-border, rgba(43,42,38,.12))'}">
+        <span class="persona-icon-inner">${inner}</span>
       </button>`;
     }).join('');
 
@@ -1751,7 +1754,9 @@ class HorneroChat extends HoComponent {
       btn.addEventListener('click', () => {
         const msgIndex = Number(btn.dataset.msgIndex);
         if (msgIndex >= 0 && msgIndex < this.messages.length) {
-          this.deleteMessage(msgIndex);
+          if (confirm('¿Borrar este mensaje?')) {
+            this.deleteMessage(msgIndex);
+          }
         }
       });
     });
@@ -1822,7 +1827,9 @@ class HorneroChat extends HoComponent {
         } else if (action === 'borrar') {
           // Delete the reporte card message
           if (msgIndex >= 0 && msgIndex < this.messages.length) {
-            this.deleteMessage(msgIndex);
+            if (confirm('¿Borrar este informe?')) {
+              this.deleteMessage(msgIndex);
+            }
           }
         }
       });
