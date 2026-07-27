@@ -350,3 +350,7 @@ function borrarChatSession(sessionId) {
     return Promise.all((messages || []).map(function(m) { return dbDelete('chatHistory', m.id); }));
   });
 }
+
+function borrarChatMsg(msgId) {
+  return dbDelete('chatHistory', msgId);
+}

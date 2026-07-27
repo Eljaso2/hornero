@@ -104,6 +104,17 @@ class HorneroHistoriador extends HoComponent {
           this.render();
         }
       });
+      // Delete individual message — remove from local array + IndexedDB
+      chatEl.addEventListener('chat-message-delete', (e) => {
+        const { msgIndex, msg } = e.detail;
+        if (msgIndex >= 0 && msgIndex < this.messages.length) {
+          this.messages.splice(msgIndex, 1);
+          if (msg && msg.id && typeof borrarChatMsg === 'function') {
+            borrarChatMsg(msg.id);
+          }
+          this.render();
+        }
+      });
       chatEl.addEventListener('persona-navigate', (e) => {
         this._handlePersonaNavigate(e.detail.persona);
       });

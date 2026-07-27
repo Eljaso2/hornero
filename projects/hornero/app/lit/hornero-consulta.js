@@ -107,6 +107,18 @@ class HorneroConsulta extends HoComponent {
           this.render();
         }
       });
+      // Delete individual message — remove from local array + IndexedDB
+      chatEl.addEventListener('chat-message-delete', (e) => {
+        const { msgIndex, msg } = e.detail;
+        if (msgIndex >= 0 && msgIndex < this.messages.length) {
+          this.messages.splice(msgIndex, 1);
+          // Delete from IndexedDB if msg has an id
+          if (msg && msg.id && typeof borrarChatMsg === 'function') {
+            borrarChatMsg(msg.id);
+          }
+          this.render();
+        }
+      });
       // Listen for persona navigate from top-bar icons
       chatEl.addEventListener('persona-navigate', (e) => {
         this._handlePersonaNavigate(e.detail.persona, e.detail.screen);
