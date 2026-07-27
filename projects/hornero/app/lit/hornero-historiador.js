@@ -73,7 +73,7 @@ class HorneroHistoriador extends HoComponent {
     return html`
       <div class="chat-container">
         <hornero-chat
-          title="Historiador"
+          title="Historiador/a"
           input-placeholder="Preguntá sobre huelgas, referentes, masacres, lockouts, historia obrera..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
@@ -192,7 +192,7 @@ class HorneroHistoriador extends HoComponent {
   }
 
   _localGreeting() {
-    return { role: 'hornero', sections: [{ title: '¡Hola! Soy el Historiador', body: 'Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: '¡Hola! Soy el Historiador/a', body: 'Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
   async _handleUserMessage(text) {

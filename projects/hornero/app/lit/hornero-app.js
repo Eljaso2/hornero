@@ -351,7 +351,7 @@ class HorneroApp extends HoComponent {
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
       .persona-icon-companero { background: #C89660; }
-      .persona-icon-historiador { background: #D4C5A0; }
+      .persona-icon-historiador { background: #D7D4E8; }
       .chat-choice-text { flex: 1; }
       .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: #2B2A26; }
