@@ -151,7 +151,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     greeting_section = req.section
     if req.requested_persona and req.requested_persona in PERSONA_NAME_MAP:
         greeting_section = PERSONA_NAME_MAP[req.requested_persona]
-    greeting_hint = get_greeting_hint(greeting_section)
+    greeting_hint = get_greeting_hint(greeting_section, req.grade)
 
     try:
         if LLM_PROVIDER == "deepseek":

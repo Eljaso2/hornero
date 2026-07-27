@@ -431,12 +431,16 @@ def get_format_hint(formato: str) -> str:
     return hints.get(formato, hints['consulta'])
 
 
-def get_greeting_hint(section: str) -> str:
+def get_greeting_hint(section: str, grade: str = 'A') -> str:
     """Prompt for the IA's opening message — BRIEF, persona-specific, one question.
 
     CRITICAL: The greeting must be 2-3 lines max. Persona presents herself,
     asks what the user wants. NO data dumps, NO topic lists, NO quotes.
+
+    For higher grades (B.b, B.c, B.d) in reporte section: also asks about
+    pending incoming reports to review.
     """
+    is_higher_grade = grade in ('B.b', 'B.c', 'B.d')
 
     greetings = {
         'debate': 'Saluda brevemente (2-3 líneas). Di que sos un compañero del gremio aceitero con años de experiencia en planta. Preguntá qué tema quiere debatir. NO cites datos, NO列举 temas, NO expliques todo. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"text": "...", "tags": ["debate", "saludo"]}',
@@ -449,5 +453,9 @@ def get_greeting_hint(section: str) -> str:
 
         'historia': 'Saluda brevemente (2-3 líneas). Di que sos historiador/a del movimiento obrero argentino — conoces La Forestal, las masacres, los lockouts, los referentes que nadie recuerda. Preguntá qué tema histórico quiere explorar. NO cites datos, NO列举 eventos, NO quotes en el saludo. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"text": "...", "tags": ["historia", "saludo"]}',
     }
+
+    # For higher grades in reporte: add question about reviewing pending reports
+    if is_higher_grade and section == 'reporte':
+        greetings['reporte'] = 'Saluda brevemente (2-3 lines). Pregunta como andaron los ultimos dias. Si hay informes pendientes de revisar (reportes de compañeros de grados inferiores), pregunta si ya los reviso o si quiere revisarlos ahora para elaborar su informe. NO expliques el sistema, NO lista temas. Solo saluda + pregunta sobre su situacion + pregunta sobre informes pendientes. MODO CHARLA — {"text": "...", "tags": ["reporte", "saludo", "grado-superior"]}'
 
     return greetings.get(section, greetings['consulta'])
