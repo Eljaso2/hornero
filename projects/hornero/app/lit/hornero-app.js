@@ -422,7 +422,7 @@ class HorneroApp extends HoComponent {
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="consulta" data-persona="abogado">' +
-          '<div class="chat-choice-icon persona-icon-abogado"><span class="persona-choice-emoji">🪶</span></div>' +
+          '<div class="chat-choice-icon persona-icon-abogado"><span class="persona-choice-emoji">📖</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Abogado</div>' +
             '<div class="chat-choice-desc">Derechos, convenios, legislación laboral — asesoría legal</div>' +

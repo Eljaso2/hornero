@@ -382,31 +382,40 @@ class HorneroChat extends HoComponent {
 
       .history-item { padding: 12px 16px; cursor: pointer;
         border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
-        display: flex; flex-direction: column; gap: 4px;
+        display: flex; flex-direction: column; gap: 5px;
         transition: background .2s; }
       .history-item:hover { background: var(--ho-green-pale, #E8EDD7); }
       .history-item.active { background: var(--ho-green-pale, #E8EDD7); }
 
-      .history-item-section { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-        color: var(--ho-green-dark, #586B33); }
+      .history-item-section { display: flex; align-items: center; gap: 5px; }
+      .history-item-section-emoji { font-size: .82rem; line-height: 1; }
+      .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
+        font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+      .section-consulta .history-item-section-label { color: #6E8345; }
+      .section-contenido .history-item-section-label { color: #B0863F; }
+      .section-debate .history-item-section-label { color: #5A7EA8; }
+      .section-reporte .history-item-section-label { color: #586B33; }
+      .section-default .history-item-section-label { color: var(--ho-green-dark, #586B33); }
+
       .history-item-preview { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .history-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; }
+        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; align-items: center; }
       .history-item-count { background: var(--ho-green-pale, #E8EDD7);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #586B33); }
-      .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .54rem;
+      .history-item-footer { display: flex; align-items: center;
+        justify-content: space-between; margin-top: 2px; }
+      .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         color: var(--ho-text-light, #9C988D); letter-spacing: .06em;
-        background: var(--ho-mid-gray, #ECEAE3); padding: 1px 5px; border-radius: 3px; }
+        background: var(--ho-mid-gray, #ECEAE3); padding: 2px 6px; border-radius: 4px; font-weight: 600; }
 
       .history-empty { padding: 40px 20px; text-align: center;
         font-family: 'Archivo', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #9C988D); }
 
-      .history-item-actions { display: flex; gap: 6px; justify-content: flex-end; margin-top: 6px; }
+      .history-item-actions { display: flex; gap: 6px; justify-content: flex-end; }
 
       .history-item-delete { background: none; border: none; cursor: pointer;
         padding: 4px; display: flex; }
@@ -1108,11 +1117,11 @@ class HorneroChat extends HoComponent {
   // ===== Persona config: avatar icon, name, colors per persona =====
   _getPersonaConfig(persona) {
     const map = {
-      'ia-sindical':  { emoji: '🪶', name: 'Relator', bg: 'var(--ho-green-pale, #E8EDD7)', color: 'var(--ho-green-dark, #586B33)', img: 'assets/hornero-logo.png' },
-      'abogado':      { emoji: '🪶', name: 'Abogado',     bg: '#D4E4F7', color: '#2B5278', img: null },
+      'ia-sindical':  { emoji: '🪶', name: 'IA Sindical', bg: 'var(--ho-green-pale, #E8EDD7)', color: 'var(--ho-green-dark, #586B33)', img: 'assets/hornero-logo.png' },
+      'abogado':      { emoji: '📖', name: 'Abogado',     bg: '#D4E4F7', color: '#2B5278', img: null },
       'companero':    { emoji: '✊🏾', name: 'Compañero',   bg: '#C89660', color: '#7A3B1E', img: null },
       'periodista':   { emoji: '🎙️', name: 'Periodista',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
-      'relator':      { emoji: '📝', name: 'Relator',     bg: '#E0E8D7', color: '#4A6A2C', img: null },
+      'relator':      { emoji: '🪶', name: 'Relator',     bg: '#E0E8D7', color: '#4A6A2C', img: null },
     };
     return map[persona] || map['ia-sindical'];
   }
