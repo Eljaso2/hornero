@@ -296,7 +296,7 @@ class HorneroApp extends HoComponent {
       .body-scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Bottom nav — warm light background, no white ===== */
-      .bottom-nav { background: linear-gradient(to bottom, var(--ho-bg, #F4F3EE) 0%, var(--ho-body-bg, #E7E5DF) 100%);
+      .bottom-nav { background: var(--ho-bg, #F4F3EE);
         display: flex; justify-content: space-around;
         padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
         width: 100%; z-index: 100; position: relative;
@@ -564,16 +564,16 @@ class HorneroApp extends HoComponent {
     // Login screen (not logged in) → dark color matching login background
     if (!this.loggedIn) {
       metaTheme.setAttribute('content', '#33312D');
-      document.documentElement.style.background = '#33312D';
-      document.body.style.background = '#33312D';
+      document.documentElement.style.setProperty('background', '#33312D', 'important');
+      document.body.style.setProperty('background', '#33312D', 'important');
       return;
     }
 
     // Main app screens → light color matching app background
     const appBg = '#F4F3EE';  // var(--ho-bg)
     metaTheme.setAttribute('content', appBg);
-    document.documentElement.style.background = appBg;
-    document.body.style.background = appBg;
+    document.documentElement.style.setProperty('background', appBg, 'important');
+    document.body.style.setProperty('background', appBg, 'important');
 
     // iOS: update apple status bar style
     const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
