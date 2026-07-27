@@ -4,7 +4,7 @@
 
 var HORNERO_DB = {
   name: 'hornero-app',
-  version: 4,
+  version: 5,
   stores: {
     // Cargas: input del trabajador (voz/texto/foto) antes de procesar
     cargas: { keyPath: 'id', indexes: [
@@ -66,6 +66,11 @@ var HORNERO_DB = {
       { name: 'section', keyPath: 'section' },
       { name: 'timestamp', keyPath: 'timestamp' },
       { name: 'sessionId', keyPath: 'sessionId' }
+    ]},
+    // Biblioteca: KB chunks cached for Archivo UI (offline fallback)
+    biblioteca: { keyPath: 'id', indexes: [
+      { name: 'category', keyPath: 'category' },
+      { name: 'tipo', keyPath: 'tipo' }
     ]}
   }
 };

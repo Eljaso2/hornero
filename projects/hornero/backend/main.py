@@ -17,10 +17,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import httpx
 
-from knowledge_base import get_system_prompt, get_format_hint, get_greeting_hint
+from knowledge_base import get_system_prompt, get_system_prompt_rag, get_format_hint, get_greeting_hint
 from llm_providers.deepseek import call_deepseek
 from llm_providers.claude import call_claude
-from clipping_cache import get_clipping, refresh
+from clipping_cache import get_clipping
+from rag_retriever import retrieve_for_query
+from kb_data import KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, refresh
 
 load_dotenv(override=True)
 
@@ -110,8 +112,11 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
 
     The IA greets, explains what it is, and tells what the user can consult
     in that specific section.
+
+    RAG: greeting uses minimal context (no KB chunks needed — persona knows who it is).
     """
-    system_prompt = get_system_prompt(req.section, get_clipping())
+    # Greeting: no RAG retrieval needed (persona + principles are sufficient)
+    system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping())
     greeting_hint = get_greeting_hint(req.section)
 
     try:
@@ -157,10 +162,23 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
 
 @app.post("/api/chat")
 async def chat_endpoint(req: ChatRequest) -> ChatResponse:
-    """Main chat endpoint — receives user message, returns structured IA response."""
+    """Main chat endpoint — receives user message, returns structured IA response.
 
-    # Build system prompt
-    system_prompt = get_system_prompt(req.formato, get_clipping())
+    RAG: retrieves relevant KB chunks based on user query, injects only
+    those chunks into the system prompt instead of the full KNOWLEDGE_BASE.
+    """
+
+    # RAG retrieval: find relevant chunks based on user query
+    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade)
+    chunk_ids = [c["id"] for c in relevant_chunks]
+
+    # Build system prompt with ONLY relevant KB chunks
+    system_prompt = get_system_prompt_rag(
+        formato=req.formato,
+        chunk_ids=chunk_ids,
+        clipping_items=get_clipping(),
+        query=req.message,
+    )
     format_hint = get_format_hint(req.formato)
 
     # Build the user message with format context
@@ -216,8 +234,66 @@ async def health():
         "status": "ok",
         "provider": LLM_PROVIDER,
         "clipping_items": len(get_clipping()),
+        "kb_chunks": len(KB_CHUNKS),
+        "rag": "keyword",
         "timestamp": datetime.now().isoformat(),
     }
+
+
+@app.get("/api/kb")
+async def get_knowledge_base(category: str = None, tipo: str = None):
+    """Return knowledge base chunks for Archivo UI. Filterable by category and tipo.
+
+    Args:
+        category: filter by category (organizacion, convenio, paritaria, etc.)
+        tipo: filter by tipo (documento, academico, multimedia)
+    """
+    chunks = KB_CHUNKS
+    if category:
+        chunks = [c for c in chunks if c["category"] == category]
+    if tipo:
+        chunks = [c for c in chunks if c["tipo"] == tipo]
+
+    # Strip full text for list view (return excerpt only)
+    result = []
+    for c in chunks:
+        excerpt = c["text"].strip()[:200] + "..." if len(c["text"].strip()) > 200 else c["text"].strip()
+        result.append({
+            "id": c["id"],
+            "tipo": c["tipo"],
+            "category": c["category"],
+            "tags": c["tags"],
+            "title": c["title"],
+            "excerpt": excerpt,
+            "sources": c["sources"],
+            "quotes_count": len(c.get("quotes", [])),
+            "grade_access": c["grade_access"],
+            "vigencia": c["vigencia"],
+        })
+
+    return {
+        "chunks": result,
+        "categories": KB_CATEGORY_META,
+        "tipos": KB_TIPOS,
+        "total": len(KB_CHUNKS),
+    }
+
+
+@app.get("/api/kb/{chunk_id}")
+async def get_knowledge_base_chunk(chunk_id: str):
+    """Return a single KB chunk with full text."""
+    chunk = next((c for c in KB_CHUNKS if c["id"] == chunk_id), None)
+    if not chunk:
+        raise HTTPException(404, f"Chunk not found: {chunk_id}")
+    return chunk
+
+
+@app.get("/api/kb/search")
+async def search_knowledge_base(q: str):
+    """Keyword search across KB chunks. Phase 1: keyword matching."""
+    from rag_retriever import keyword_search
+    results = keyword_search(q, max_chunks=10)
+    return {"results": results, "query": q, "total": len(results)}
 
 
 @app.post("/api/refresh-clipping")
