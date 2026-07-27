@@ -9,6 +9,7 @@ class HorneroHistoriador extends HoComponent {
     return {
       grade: String,
       sector: String,
+      persona: String,  // Initial persona from Mesa de Trabajo landing
       messages: Array,
     };
   }
@@ -88,6 +89,10 @@ class HorneroHistoriador extends HoComponent {
   }
 
   _afterRender() {
+    // Use persona attribute from Mesa landing if provided
+    if (this.persona && this.persona !== this._activePersona) {
+      this._activePersona = this.persona;
+    }
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) {
       this._syncChatMessages(chatEl);
@@ -395,15 +400,15 @@ class HorneroHistoriador extends HoComponent {
     }
   }
 
-  _handlePersonaNavigate(targetPersona) {
+  _handlePersonaNavigate(targetPersona, targetScreen) {
     const screenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
       'companero': { screen: 'consulta', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'relator': { screen: 'gremial' },
-      'ia-sindical': { screen: 'consulta', persona: 'ia-sindical' },
+      'historiador': { screen: 'historiador', persona: 'historiador' },
     };
-    const target = screenMap[targetPersona];
+    const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
     if (target) {
       this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
     }

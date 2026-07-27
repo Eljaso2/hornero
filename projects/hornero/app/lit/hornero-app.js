@@ -433,9 +433,9 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'infomate') {
       screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-infomate>';
     } else if (this.screen === 'gremial') {
-      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-gremial>';
+      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'relator') + '"></hornero-gremial>';
     } else if (this.screen === 'historiador') {
-      screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-historiador>';
+      screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
     } else if (this.screen === 'archivo') {
@@ -487,7 +487,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'consulta') {
       screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'abogado') + '"></hornero-consulta>';
     } else if (this.screen === 'contenido') {
-      screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-contenido>';
+      screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'periodista') + '"></hornero-contenido>';
     } else if (this.screen === 'condicion') {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
@@ -611,6 +611,23 @@ class HorneroApp extends HoComponent {
       if (detail.persona) {
         this._initialPersona = detail.persona;
       }
+      // Intra-screen persona switch: just update persona, don't destroy component
+      if (detail.screen === this.screen && detail.persona) {
+        const screenSelectors = {
+          'consulta': 'hornero-consulta',
+          'contenido': 'hornero-contenido',
+          'gremial': 'hornero-gremial',
+          'historiador': 'hornero-historiador',
+        };
+        const selector = screenSelectors[detail.screen];
+        const el = selector ? this.shadowRoot.querySelector(selector) : null;
+        if (el) {
+          el._activePersona = detail.persona;
+          el.render();
+          e.stopImmediatePropagation(); // Don't navigate — just re-render with new persona
+          return;
+        }
+      }
       this._navigateTo(detail.screen);
     });
 
@@ -636,15 +653,7 @@ class HorneroApp extends HoComponent {
       }
     });
 
-    // Pass initial persona to chat child components
-    const consultaEl = this.shadowRoot.querySelector('hornero-consulta');
-    if (consultaEl && this._initialPersona) {
-      consultaEl._activePersona = this._initialPersona;
-    }
-    const contenidoEl = this.shadowRoot.querySelector('hornero-contenido');
-    if (contenidoEl && this._initialPersona) {
-      contenidoEl._activePersona = this._initialPersona;
-    }
+    // Persona now flows via HTML attributes — no need for direct-property-set hack
 
   }
 

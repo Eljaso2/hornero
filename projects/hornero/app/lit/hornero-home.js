@@ -299,7 +299,7 @@ class HorneroHome extends HoComponent {
       </div>
 
       <!-- ESFERA 4: Reporte gremial -->
-      <div class="esfera-card${isLocked ? ' locked' : ''}" data-screen="is">
+      <div class="esfera-card${isLocked ? ' locked' : ''}" data-screen="gremial">
         ${isLocked ? '<span class="lock-icon">' + lockSvg + '</span>' : ''}
         <div class="card-name">Reporte gremial</div>
         <div class="card-desc">Observaciones, informes, coordinación, circulares</div>

@@ -9,6 +9,7 @@ class HorneroGremial extends HoComponent {
     return {
       grade: String,
       sector: String,
+      persona: String,  // Initial persona from Mesa de Trabajo landing
       messages: Array,
     };
   }
@@ -90,6 +91,10 @@ class HorneroGremial extends HoComponent {
   }
 
   _afterRender() {
+    // Use persona attribute from Mesa landing if provided
+    if (this.persona && this.persona !== this._activePersona) {
+      this._activePersona = this.persona;
+    }
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) {
       this._syncChatMessages(chatEl);
