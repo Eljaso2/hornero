@@ -12,7 +12,7 @@ import re
 from datetime import datetime
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import httpx
@@ -34,6 +34,8 @@ DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 ANTHROPIC_BASE_URL = os.getenv("ANTHROPIC_BASE_URL", "https://api.anthropic.com/v1/messages")
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
+DASHSCOPE_STT_URL = os.getenv("DASHSCOPE_STT_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1/audio/transcriptions")
+DASHSCOPE_STT_MODEL = os.getenv("DASHSCOPE_STT_MODEL", "paraformer-v2")
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "https://eljaso2.github.io")
 LOCAL_ORIGIN = os.getenv("LOCAL_ORIGIN", "http://localhost:*")
 APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
@@ -248,6 +250,157 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
         raw=raw_response,
         persona=final_persona,
     )
+
+
+@app.post("/api/audio")
+async def audio_chat_endpoint(
+    audio: UploadFile = File(...),
+    formato: str = Form("consulta"),
+    grade: str = Form("A"),
+    sector: str = Form("aceitero"),
+    requested_persona: str = Form(""),
+    history: str = Form("[]"),
+) -> ChatResponse:
+    """Audio chat endpoint — receives audio, transcribes with Paraformer-v2, then calls LLM.
+
+    Flow: audio blob → DashScope STT → transcribed text → RAG + LLM → ChatResponse
+    Uses the same DEEPSEEK_API_KEY for STT (DashScope unified auth).
+    """
+
+    # 1. Transcribe audio
+    audio_bytes = await audio.read()
+    filename = audio.filename or "recording.webm"
+
+    transcript = await transcribe_audio(audio_bytes, filename)
+    if not transcript or not transcript.strip():
+        raise HTTPException(422, "No se pudo transcribir el audio — intentá de nuevo o escribí tu mensaje")
+
+    # 2. Parse history from form string
+    try:
+        parsed_history = json.loads(history)
+    except json.JSONDecodeError:
+        parsed_history = []
+
+    # 3. RAG retrieval with transcript as query
+    relevant_chunks = retrieve_for_query(transcript, formato, grade)
+    chunk_ids = [c["id"] for c in relevant_chunks]
+
+    # 4. Build system prompt + format hint
+    system_prompt = get_system_prompt_rag(
+        formato=formato,
+        chunk_ids=chunk_ids,
+        clipping_items=get_clipping(),
+        query=transcript,
+        requested_persona=requested_persona,
+    )
+    effective_persona = PERSONA_MAP.get(formato, 'abogado')
+    if requested_persona:
+        if requested_persona in PERSONA_NAME_MAP:
+            effective_persona = requested_persona
+        elif requested_persona in PERSONA_MAP:
+            effective_persona = requested_persona
+    format_hint = get_format_hint(formato)
+
+    full_message = f"{format_hint}\n\nPregunta del trabajador (mensaje de audio): {transcript}"
+
+    # 5. Call LLM with transcribed text
+    try:
+        if LLM_PROVIDER == "deepseek":
+            raw_response = await call_deepseek(
+                api_key=DEEPSEEK_API_KEY,
+                system_prompt=system_prompt,
+                user_message=full_message,
+                history=parsed_history,
+                model=DEEPSEEK_MODEL,
+                base_url=DEEPSEEK_BASE_URL,
+            )
+        elif LLM_PROVIDER == "claude":
+            raw_response = await call_claude(
+                api_key=ANTHROPIC_API_KEY,
+                system_prompt=system_prompt,
+                user_message=full_message,
+                history=parsed_history,
+                model=ANTHROPIC_MODEL,
+                base_url=ANTHROPIC_BASE_URL,
+            )
+        else:
+            raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(500, f"LLM HTTP error {e.response.status_code}: {e.response.text}")
+    except Exception as e:
+        raise HTTPException(500, f"LLM call failed: {type(e).__name__}: {str(e)}")
+
+    # 6. Parse response
+    parsed = parse_llm_response(raw_response)
+    now = datetime.now()
+    time_str = now.strftime("%H:%M")
+
+    llm_persona = parsed.get("persona", "")
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "ia-sindical"] else effective_persona
+
+    return ChatResponse(
+        text=parsed.get("text", ""),
+        sections=parsed.get("sections", []),
+        tags=parsed.get("tags", [formato, "audio"]),
+        time=time_str,
+        raw=raw_response,
+        persona=final_persona,
+    )
+
+
+async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
+    """Transcribe audio using DashScope Paraformer-v2 STT.
+
+    Uses the OpenAI-compatible endpoint at DashScope:
+    POST /compatible-mode/v1/audio/transcriptions
+    Same API key as the LLM (DEEPSEEK_API_KEY).
+
+    Returns transcribed text string. Empty string on failure.
+    """
+
+    headers = {
+        "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+    }
+
+    # Determine content type from filename extension
+    ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "webm"
+    content_type_map = {
+        "webm": "audio/webm",
+        "wav": "audio/wav",
+        "mp3": "audio/mpeg",
+        "ogg": "audio/ogg",
+        "flac": "audio/flac",
+        "mp4": "audio/mp4",
+        "m4a": "audio/mp4",
+    }
+    content_type = content_type_map.get(ext, "audio/webm")
+
+    files = {
+        "file": (filename, audio_bytes, content_type),
+    }
+    data = {
+        "model": DASHSCOPE_STT_MODEL,
+        "language": "es",
+        "response_format": "json",
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            response = await client.post(
+                DASHSCOPE_STT_URL,
+                headers=headers,
+                files=files,
+                data=data,
+            )
+            response.raise_for_status()
+            result = response.json()
+            return result.get("text", "")
+    except httpx.HTTPStatusError as e:
+        print(f"STT error: HTTP {e.response.status_code}: {e.response.text}")
+        return ""
+    except Exception as e:
+        print(f"STT error: {type(e).__name__}: {str(e)}")
+        return ""
 
 
 @app.get("/api/health")

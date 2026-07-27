@@ -4,7 +4,7 @@
 
 var HORNERO_DB = {
   name: 'hornero-app',
-  version: 5,
+  version: 6,
   stores: {
     // Cargas: input del trabajador (voz/texto/foto) antes de procesar
     cargas: { keyPath: 'id', indexes: [
@@ -22,7 +22,8 @@ var HORNERO_DB = {
       { name: 'grado', keyPath: 'grado' },
       { name: 'semana', keyPath: 'semana' },
       { name: 'territorio', keyPath: 'territorio' },
-      { name: 'estado', keyPath: 'estado' } // 'pendiente','visto','corregido','enviado','publicado'
+      { name: 'estado', keyPath: 'estado' }, // 'pendiente','visto','corregido','enviado','publicado'
+      { name: 'username', keyPath: 'username' } // per-user isolation
     ]},
     // Correcciones: cada corrección es un registro ADDITIVE con trazabilidad
     correcciones: { keyPath: 'id', indexes: [
@@ -65,7 +66,8 @@ var HORNERO_DB = {
     chatHistory: { keyPath: 'id', indexes: [
       { name: 'section', keyPath: 'section' },
       { name: 'timestamp', keyPath: 'timestamp' },
-      { name: 'sessionId', keyPath: 'sessionId' }
+      { name: 'sessionId', keyPath: 'sessionId' },
+      { name: 'username', keyPath: 'username' } // per-user isolation
     ]},
     // Biblioteca: KB chunks cached for Archivo UI (offline fallback)
     biblioteca: { keyPath: 'id', indexes: [
@@ -208,7 +210,14 @@ function obtenerFuentesPorCarga(cargaId) { return dbGetByIndex('fuentesPrimarias
 function guardarInforme(informe) { return dbPut('informes', informe); }
 function obtenerInforme(id) { return dbGet('informes', id); }
 function obtenerInformesPorGrado(grado) { return dbGetByIndex('informes', 'grado', grado); }
-function obtenerInformesPorEstado(estado) { return dbGetByIndex('informes', 'estado', estado); }
+function obtenerInformesPorEstado(estado, username) {
+  if (username) {
+    return dbGetByIndex('informes', 'username', username).then(function(informes) {
+      return (informes || []).filter(function(inf) { return inf.estado === estado; });
+    });
+  }
+  return dbGetByIndex('informes', 'estado', estado);
+}
 function obtenerInformesPorTerritorio(territorio) { return dbGetByIndex('informes', 'territorio', territorio); }
 function actualizarEstadoInforme(id, estado) {
   return dbGet('informes', id).then(function(informe) {
@@ -280,11 +289,16 @@ function obtenerChatSessionMessages(sessionId) {
   });
 }
 
-function obtenerChatSessions() {
+function obtenerChatSessions(username) {
   // Returns distinct sessions with metadata: sessionId, section, timestamp, preview
   // Preview = first user question (not IA greeting which is always the same)
+  // If username provided, only return sessions belonging to that user
   return dbGetAll('chatHistory').then(function(allMessages) {
     if (!allMessages || allMessages.length === 0) return [];
+    // Filter by username (include legacy messages without username for backward compat)
+    if (username) {
+      allMessages = allMessages.filter(function(m) { return m.username === username || !m.username; });
+    }
     // Group by sessionId
     var sessionsMap = {};
     var sessionFirstUser = {}; // track first user message per session

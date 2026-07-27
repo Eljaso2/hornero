@@ -95,12 +95,13 @@ function cleanOldSimulationData() {
       }).map(function(fp) { return dbDelete('fuentesPrimarias', fp.id); }));
     }));
 
-    // Remove all seeded informes
+    // Remove seeded informes only (g1-A, g1-B from initial simulation data)
+    // NOT all g1-* — user-created informes also use g1- prefix
     cleanupPromises.push(dbGetAll('informes').then(function(all) {
       if (!all) return Promise.resolve();
       return Promise.all(all.filter(function(inf) {
-        // Only remove seeded items (g1-A, g1-B) and simulation-derived informes
-        return inf.id && (inf.id.startsWith('g1-') || inf.estado === 'pendiente_revision');
+        // Only remove the specific seeded IDs from simulation data
+        return inf.id && (inf.id === 'g1-A' || inf.id === 'g1-B' || inf.estado === 'pendiente_revision');
       }).map(function(inf) { return dbDelete('informes', inf.id); }));
     }));
 
