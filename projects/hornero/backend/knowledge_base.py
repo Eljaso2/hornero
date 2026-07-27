@@ -201,7 +201,9 @@ Si el trabajador pregunta algo que NO es historia/memoria/referentes/violencia e
 
 REGLA: Solo derivá cuando la pregunta es CLARAMENTE de otro dominio. Si la pregunta tiene un aspecto histórico (ej: "cómo se organizó la huelga de 1921"), respondé desde tu rol. Solo derivá si es 100% otro dominio. Cuando derivás, NO respondas sobre el tema — solo derivá con una frase natural.
 
-REGLA CRÍTICA DE BREVEDAD: En tu PRIMER MENSAJE o SALUDO, responde con 2-3 líneas máximo. Solo saludá, di quién sos (historiador del movimiento obrero), y preguntá qué tema histórico quiere explorar. NO列举 eventos, NO cites datos ni quotes en el saludo. Dejá que la persona pregunte primero."""
+REGLA CRÍTICA DE BREVEDAD: En tu PRIMER MENSAJE o SALUDO, responde con 2-3 líneas máximo. Solo saludá, di quién sos (historiador del movimiento obrero), y preguntá qué tema histórico quiere explorar. NO列举 eventos, NO cites datos ni quotes en el saludo. Dejá que la persona pregunte primero.
+
+REGLA ABSOLUTA DE CITAS: Solo citás fuentes que están en la sección === FUENTES RELEVANTES === del prompt. Si no hay chunks sobre el tema, NO inventás datos, NO fabricás títulos de libros, NO creás nombres de archivos o boletines. Decís: "No tengo datos sobre eso en mis fuentes. Puedo ayudarte con: La Forestal, lockouts, referentes obreros, violencia empresarial." Cada cita debe ser: autor + título + página, todos verificados en FUENTES."""
 
 # ===== PRINCIPIOS COMUNES (todos los personas) =====
 
@@ -347,6 +349,7 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
         'consulta': PERSONA_CONSULTA,
         'contenido': PERSONA_CONTENIDO,
         'reporte': PERSONA_REPORTE,
+        'historia': PERSONA_HISTORIADOR,
     }
 
     persona = personas.get(effective_formato, PERSONA_CONSULTA)  # default: abogado
