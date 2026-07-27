@@ -54,7 +54,6 @@ class HorneroChat extends HoComponent {
     this._showInformes = false; // informes drawer state
     this._informesList = [];    // cached informes list
     this._expandedReports = {}; // message index → boolean (expanded/collapsed)
-    this._initSpeechRecognition();
   }
 
   _detectAudioMimeType() {
@@ -1340,22 +1339,16 @@ class HorneroChat extends HoComponent {
         }
       });
 
-      // === Mic button — Web Speech API ===
+      // === Mic button — Audio recording (MediaRecorder) ===
       if (micBtn) {
         micBtn.addEventListener('click', () => {
-          if (this._recognition) {
-            if (this._isListening) {
-              this._recognition.stop();
-              this._isListening = false;
-              this._updateMicVisual(false);
-            } else {
-              this._isListening = true;
-              this._updateMicVisual(true);
-              this._recognition.start();
-            }
+          if (this._audioProcessing) return; // Ignore clicks while processing
+          if (this._isRecording) {
+            // Currently recording → stop and send audio
+            this._stopRecording();
           } else {
-            // No SpeechRecognition support — fallback: focus input
-            inputField.focus();
+            // Not recording → start recording
+            this._startRecording();
           }
         });
       }

@@ -41,6 +41,7 @@ class HorneroGremial extends HoComponent {
     this._historyLoaded = false;
     this._sessionId = '';
     this._informeBadge = false;
+    this._activePersona = 'relator'; // Gremial always uses relator persona
   }
 
   connectedCallback() {
@@ -67,6 +68,7 @@ class HorneroGremial extends HoComponent {
           section="reporte"
           history-title="Mis Informes"
           informes-title="Informes"
+          persona="${this._activePersona}"
         ></hornero-chat>
       </div>
     `;
