@@ -431,7 +431,7 @@ def get_format_hint(formato: str) -> str:
     return hints.get(formato, hints['consulta'])
 
 
-def get_greeting_hint(section: str, grade: str = 'A') -> str:
+def get_greeting_hint(section: str, grade: str = 'A', days_since_last_chat: int = 999) -> str:
     """Prompt for the IA's opening message — BRIEF, persona-specific, one question.
 
     CRITICAL: The greeting must be 2-3 lines max. Persona presents herself,
@@ -439,8 +439,24 @@ def get_greeting_hint(section: str, grade: str = 'A') -> str:
 
     For higher grades (B.b, B.c, B.d) in reporte section: also asks about
     pending incoming reports to review.
+
+    days_since_last_chat affects greeting tone:
+    - 0 (same day): acknowledge return, brief "volviste"
+    - 1-7 (same week): casual "como andás esta semana"
+    - 8+ (longer): warmer "hace tiempo, como andás"
     """
     is_higher_grade = grade in ('B.b', 'B.c', 'B.d')
+
+    # Time-aware greeting context
+    time_context = ""
+    if days_since_last_chat == 0:
+        time_context = " CONTEXTO: Volvieron a hablar hoy mismo — saluda como un regreso breve, no como si hace tiempo. Ejemplo: '¡Volviendo! ¿Qué más querés reportar?' — NO digas 'hace un par de días' o 'hace tiempo'."
+    elif days_since_last_chat <= 7:
+        time_context = " CONTEXTO: Charlaste esta semana — saluda casual como si hablan seguido. Ejemplo: '¿Cómo andás esta semana?' — NO digas 'hace tiempo' o 'hace un par de días'."
+    elif days_since_last_chat <= 30:
+        time_context = " CONTEXTO: Hace un par de semanas — saluda reconociendo la ausencia pero brevemente. Ejemplo: '¿Cómo andás? Hace un par de semanas que no charlamos.'"
+    else:
+        time_context = " CONTEXTO: Hace tiempo que no charlan — saluda reconociendo la ausencia. Ejemplo: '¡Qué bueno verte! Hace tiempo que no hablamos.'"
 
     greetings = {
         'debate': 'Saluda brevemente (2-3 líneas). Di que sos un compañero del gremio aceitero con años de experiencia en planta. Preguntá qué tema quiere debatir. NO cites datos, NO列举 temas, NO expliques todo. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"text": "...", "tags": ["debate", "saludo"]}',
@@ -458,4 +474,4 @@ def get_greeting_hint(section: str, grade: str = 'A') -> str:
     if is_higher_grade and section == 'reporte':
         greetings['reporte'] = 'Saluda brevemente (2-3 lines). Pregunta como andaron los ultimos dias. Si hay informes pendientes de revisar (reportes de compañeros de grados inferiores), pregunta si ya los reviso o si quiere revisarlos ahora para elaborar su informe. NO expliques el sistema, NO lista temas. Solo saluda + pregunta sobre su situacion + pregunta sobre informes pendientes. MODO CHARLA — {"text": "...", "tags": ["reporte", "saludo", "grado-superior"]}'
 
-    return greetings.get(section, greetings['consulta'])
+    return greetings.get(section, greetings['consulta']) + time_context

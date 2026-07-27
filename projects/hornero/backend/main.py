@@ -90,6 +90,7 @@ class GreetingRequest(BaseModel):
     sector: str = "aceitero"
     requested_persona: str = ""  # companero|abogado|periodista|relator|historiador|ia-sindical — override
     session_id: str = ""  # Frontend session ID for correlation
+    days_since_last_chat: int = 999  # Days since last chat session — affects greeting tone
 
 
 class GreetingResponse(BaseModel):
@@ -151,7 +152,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     greeting_section = req.section
     if req.requested_persona and req.requested_persona in PERSONA_NAME_MAP:
         greeting_section = PERSONA_NAME_MAP[req.requested_persona]
-    greeting_hint = get_greeting_hint(greeting_section, req.grade)
+    greeting_hint = get_greeting_hint(greeting_section, req.grade, req.days_since_last_chat)
 
     try:
         if LLM_PROVIDER == "deepseek":
