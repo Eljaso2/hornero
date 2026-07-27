@@ -17,7 +17,7 @@ La biblioteca del sindicato: documentos, académicos, multimedia.
 KB_TIPOS = ["documento", "academico", "multimedia"]
 KB_CATEGORIES = [
     "organizacion", "convenio", "paritaria", "smvm",
-    "reforma", "condiciones", "referentes",
+    "reforma", "condiciones", "referentes", "violencia-empresarial",
 ]
 
 # ===== Chunks estructurados =====
@@ -275,6 +275,94 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
         "grade_access": "open",
         "vigencia": "vigente",
     },
+
+    # --- JASINSKI: El encanto del tanino (La Forestal) ---
+    {
+        "id": "kb-jasinski-forestal-fenomeno",
+        "tipo": "academico",
+        "category": "violencia-empresarial",
+        "tags": ["La Forestal", "tanino", "quebracho", "empresa", "monopolio", "enclave", "Chaco santafesino", "Villa Ana", "Villa Guillermina", "Violencia empresarial", "lockout", "historia obrera", "masacre 1921", "Jasinski", "benefactora", "autoritarismo"],
+        "title": "La Forestal: el fenómeno — Jasinski, El encanto del tanino (2023)",
+        "text": """LA FORESTAL: EL FENÓMENO
+
+La Forestal Argentina Ltda. fue una empresa taninera que operó en el Chaco santafesino y formoseño entre 1906 y 1960s, dedicada a la explotación del quebracho para producir tanino (extracto curtiente). Constituyó un monopolio regional — "economía de enclave" — que controlaba la producción, el empleo, la tierra, los pueblos, y las relaciones sociales en una vasta región del norte argentino.
+
+La historiografía tradicional retrató a La Forestal como "obra de civilización y cultura" — la versión de la compañía. Se reconoció la masacre de 1921 como punto de inflexión, pero se obvió la violencia empresarial estructural que operó antes y después. Gastón Gori ya había señalado el lockout como "presión despótica", pero los estudios posteriores lo olvidaron.
+
+Jasinski reinterpretó el fenómeno: las luchas sociales (huelgas, rebeliones, sindicalización) fueron activadores de decisiones empresariales — no solo las variables del mercado global. La rebelión de 1918-1921 provocó que La Forestal iniciara inversiones en África. Las luchas de la década de 1930 — ignoradas por todos los estudios previos — fueron activadores del plan de retirada. La emergencia del peronismo no constituye el "inicio del fin" — acelera una estrategia preconcebida. En 1949, La Forestal anunció el cierre definitivo de su fábrica más importante, Villa Guillermina. Desde entonces, cerró sus fábricas escalonadamente.""",
+        "sources": ["Jasinski, El encanto del tanino, Prometeo Libros 2023, ISBN 978-987-816-561-5, pp. 22-29"],
+        "quotes": [
+            {"text": "Las luchas sociales fueron activadores de decisiones empresariales — no solo las variables del mercado global.", "author": "Alejandro Jasinski", "source": "El encanto del tanino, Prometeo 2023, Introducción"},
+            {"text": "La violencia empresarial que no fue explícita o directa fue obviada, olvidándose las sugerencias de Gori, quien proponía estudiar el lockout como 'presión despótica' para aplacar las protestas.", "author": "Alejandro Jasinski", "source": "El encanto del tanino, Prometeo 2023, p. 25"},
+        ],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    {
+        "id": "kb-jasinski-lockout",
+        "tipo": "academico",
+        "category": "violencia-empresarial",
+        "tags": ["La Forestal", "lockout", "cierre fábricas", "paralización", "Tartagal", "Villa Ana", "Villa Guillermina", "La Gallareta", "migración obrera", "violencia empresarial", "presión despótica", "Jasinski", "Chaco santafesino", "tanino", "1920s"],
+        "title": "La mordaza del lockout — Jasinski, El encanto del tanino, Cap. 6 (2023)",
+        "text": """LA MORDAZA DEL LOCKOUT (La Forestal, 1920s-1930s)
+
+Entre comienzos de 1921 y comienzos de 1931, durante diez años, las fábricas de La Forestal funcionaron aproximadamente durante la mitad del tiempo. El lockout — la paralización deliberada de la producción — fue la herramienta central de la violencia empresarial.
+
+La Forestal usaba el lockout como "presión despótica" para aplacar protestas, negociar condiciones, y controlar la región. Cuando se negociaba la renovación del pool comercial o se discutía proyectos de derechos a exportaciones de tanino, la empresa anunciaba suspensiones — aun cuando el año cerraba con exportaciones que duplicaban las de 1921. La paralización se trasladaba de fábrica en fábrica: cerraban Tartagal, reabrían La Gallareta, cerraban Villa Ana y Villa Guillermina. Inmediatamente se detectaban migraciones de obreros hacia el norte.
+
+El Departamento Provincial del Trabajo solicitaba informes sobre la posibilidad de colocar "mano de obra sobrante" en el Chaco. La empresa aseguraba que la paralización duraría poco y que se ocuparía a "gran parte del personal" en otras tareas — pero los obreros no tenían otros medios de vida que los proporcionados por La Forestal. La dependencia total del enclave convertía el lockout en una herramienta de sometimiento: no era solo cierre de fábrica — era cierre del pueblo.""",
+        "sources": ["Jasinski, El encanto del tanino, Prometeo Libros 2023, Cap. 6 'La violencia empresarial', pp. 157-165"],
+        "quotes": [
+            {"text": "No existen otros medios de vida que los proporcionados por La Forestal.", "author": "Informe contemporáneo citado por Jasinski", "source": "El encanto del tanino, Prometeo 2023, p. 159"},
+        ],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    {
+        "id": "kb-jasinski-destruir-someter",
+        "tipo": "academico",
+        "category": "violencia-empresarial",
+        "tags": ["La Forestal", "violencia empresarial", "Destruir someter depurar", "masacre", "1921", "represión", "Villa Ana", "Villa Guillermina", "pueblos forestales", "Jasinski", "expulsión", "depuración", "listas negras"],
+        "title": "Destruir, someter, depurar — Jasinski, El encanto del tanino, Cap. 6 (2023)",
+        "text": """DESTRUIR, SOMETER, DEPURAR (La Forestal, post-masacre 1921)
+
+Después de la masacre de obreros en territorios de La Forestal (1918-1921), la empresa implementó una estrategia triple: destruir las organizaciones, someter a los trabajadores, y depurar a los disidentes.
+
+La depuración implicaba listas negras, expulsión de pueblos, y prohibición de reingreso. Trabajadores que habían participado en las huelgas fueron echados y impedidos de volver. Se reemplazó personal con obreros sin experiencia sindical — "manos limpias" sin antecedentes de organización.
+
+El sometimiento operaba через el control total del espacio: los pueblos eran propiedad de la empresa, las casas eran de la empresa, la tienda era de la empresa, el médico era de la empresa. La dependencia material era total — y se reforzaba con la expulsión de quienes cuestionaban. "Al fin nuestros hijos comen" — la sumisión se presentaba como gratitud, pero era supervivencia en un enclave sin alternativas.
+
+La "Forestal Benefactora" — la versión hegemónica — se construyó sobre esta depuración. Se obvió que el consentimiento activo de los trabajadores fue obtenido después de expulsar, encarcelar, y matar a quienes se organizaron.""",
+        "sources": ["Jasinski, El encanto del tanino, Prometeo Libros 2023, Cap. 6 'La violencia empresarial', pp. 165-171"],
+        "quotes": [
+            {"text": "Al fin nuestros hijos comen — la sumisión se presentaba como gratitud, pero era supervivencia en un enclave sin alternativas.", "author": "Alejandro Jasinski", "source": "El encanto del tanino, Prometeo 2023, Cap. 6, p. 171"},
+        ],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    {
+        "id": "kb-jasinski-sindicalismo",
+        "tipo": "academico",
+        "category": "organizacion",
+        "tags": ["La Forestal", "sindicalismo", "anarquismo", "comunismo", "huelga", "1918", "1921", "Teófilo Lafuente", "Villa Ana", "Villa Guillermina", "La Gallareta", "organización obrera", "Jasinski", "centro social", "masacre", "rebelión"],
+        "title": "El sindicalismo metió la cola — Jasinski, El encanto del tanino, Cap. 7 (2023)",
+        "text": """EL SINDICALISMO METIÓ LA COLA (La Forestal, 1918-1921)
+
+La sindicalización en los pueblos de La Forestal fue un proceso combativo y heterogéneo. No fue un sindicalismo corporativo — fue una rebelión que combinó anarquismo, sindicalismo revolucionario, y comunismo criollo.
+
+En 1920, no menos de quinientos trabajadores de Villa Ana se dieron cita en su Centro Social y Recreativo para inaugurar un local donado por la gerencia. Escucharon el discurso del gerente René Lawson, saludado con "estruendosa explosión de aplausos". Pero debajo de la deferencia obligada operaba el descontento: el "mascullar de la indignación" — bronca expresada en privado, en los obrajes, en las conversaciones entre trabajadores.
+
+Teófilo Lafuente fue el primer secretario general del tanino. Desde Villa Guillermina y Villa Ana, la organización obrera creció enfrentando el régimen de la empresa: derecho al trabajo, crisis de legitimidad, y pelea ciudadana por el control comunal. La rebelión de 1918-1921 combinó huelgas, ocupaciones, y enfrentamientos con la guardia blanca (policía privada de la empresa). La masacre de enero 1921 terminó con decenas de obreros muertos en los obrajes de La Gallareta y Villa Guillermina.""",
+        "sources": ["Jasinski, El encanto del tanino, Prometeo Libros 2023, Cap. 7 'Resistencia y rebelión', pp. 197-204"],
+        "quotes": [
+            {"text": "El mascullar de la indignación — bronca expresada en privado, en los obrajes, en las conversaciones entre trabajadores.", "author": "Alejandro Jasinski", "source": "El encanto del tanino, Prometeo 2023, Cap. 7, p. 191"},
+        ],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
 ]
 
 
@@ -357,4 +445,5 @@ KB_CATEGORY_META = {
     "reforma": {"label": "Reforma laboral", "icon": "📚", "desc": "LCT, ultraactividad, banco de horas"},
     "condiciones": {"label": "Condiciones", "icon": "📄", "desc": "EPP, accidentes, enfermería, ritmo"},
     "referentes": {"label": "Referentes", "icon": "📰", "desc": "Discursos, posiciones, quotes"},
+    "violencia-empresarial": {"label": "Violencia empresarial", "icon": "📚", "desc": "Lockout, represión, masacre, enclave"},
 }
