@@ -40,6 +40,7 @@ class HorneroGremial extends HoComponent {
     this._greetingRequested = false;
     this._historyLoaded = false;
     this._sessionId = '';
+    this._informeBadge = false;
   }
 
   connectedCallback() {
@@ -65,6 +66,7 @@ class HorneroGremial extends HoComponent {
           typing="${this._typing}"
           section="reporte"
           history-title="Mis Informes"
+          informes-title="Informes"
         ></hornero-chat>
       </div>
     `;
@@ -82,6 +84,14 @@ class HorneroGremial extends HoComponent {
       });
       chatEl.addEventListener('reporte-action', (e) => {
         this._handleReporteAction(e.detail);
+      });
+      chatEl.addEventListener('informes-open', () => {
+        this._informeBadge = false;
+        this._syncChatMessages(chatEl);
+      });
+      chatEl.addEventListener('informes-select', (e) => {
+        // Could load informe or open session — for now just log
+        console.log('Gremial: informe selected', e.detail.informeId);
       });
     }
     if (!this._historyLoaded) {
@@ -118,6 +128,8 @@ class HorneroGremial extends HoComponent {
       chatEl.section = this._chatSection;
       chatEl.sessionId = this._sessionId;
       chatEl.historyTitle = 'Mis Informes';
+      chatEl.informesTitle = 'Informes';
+      chatEl.informeBadge = this._informeBadge;
       chatEl.render();
     }
   }
@@ -234,6 +246,9 @@ class HorneroGremial extends HoComponent {
 
         // Save to IndexedDB as informe
         this._saveInforme(reportMsg);
+
+        // Activate informe badge (icon turns green-pale)
+        this._informeBadge = true;
 
         // Add confirmation message
         this.messages = [...this.messages, {

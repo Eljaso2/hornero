@@ -18,6 +18,8 @@ class HorneroChat extends HoComponent {
       section: String,    // 'consulta', 'contenido', 'debate', 'reporte' — for history tagging
       sessionId: String,  // Current chat session ID
       historyTitle: String, // Custom title for history drawer — default "Historial"
+      informeBadge: Boolean, // True = outline grueso + fondo pálido (informe nuevo)
+      informesTitle: String, // Custom title for informes drawer — default "Informes"
     };
   }
 
@@ -32,10 +34,14 @@ class HorneroChat extends HoComponent {
     this.section = '';
     this.sessionId = '';
     this.historyTitle = 'Historial';
+    this.informeBadge = false;
+    this.informesTitle = 'Informes';
     this._isListening = false; // mic state
     this._recognition = null;  // SpeechRecognition instance
     this._showHistory = false; // history drawer state
     this._historySessions = []; // cached session list
+    this._showInformes = false; // informes drawer state
+    this._informesList = [];    // cached informes list
     this._expandedReports = {}; // message index → boolean (expanded/collapsed)
     this._initSpeechRecognition();
   }
@@ -103,6 +109,66 @@ class HorneroChat extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-history-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
+
+      /* Informes button — top-right corner, left of history btn */
+      .chat-informes-btn { position: absolute; top: 12px; right: 48px; z-index: 20;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .chat-informes-btn:hover { background: var(--ho-green-pale, #E8EDD7);
+        border-color: var(--ho-green-light, #94A867); transform: scale(1.08); }
+      .chat-informes-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-informes-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
+      /* Badge state: outline grueso + fondo pálido verde */
+      .chat-informes-btn.badge { background: var(--ho-green-pale, #E8EDD7);
+        border-color: var(--ho-green, #6E8345); border-width: 1.5px;
+        transform: scale(1.06); }
+      .chat-informes-btn.badge svg { stroke: var(--ho-green-dark, #586B33);
+        stroke-width: 2.6; }
+
+      /* Informes drawer overlay */
+      .informes-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(43,42,38,.35); z-index: 60; display: flex;
+        justify-content: flex-end; transition: opacity .3s; }
+
+      /* Informes drawer panel */
+      .informes-drawer { width: 85%; max-width: 340px; height: 100%;
+        background: var(--ho-bg, #F4F3EE); display: flex; flex-direction: column;
+        box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease; }
+
+      .informes-header { padding: 16px; display: flex; align-items: center;
+        justify-content: space-between; flex: none;
+        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12)); }
+      .informes-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .92rem; color: var(--ho-text, #2B2A26); }
+
+      .informes-list { flex: 1; overflow-y: auto; padding: 8px 0; }
+
+      .informes-item { padding: 12px 16px; cursor: pointer;
+        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
+        display: flex; flex-direction: column; gap: 4px;
+        transition: background .2s; }
+      .informes-item:hover { background: var(--ho-green-pale, #E8EDD7); }
+
+      .informes-item-title { font-family: 'Archivo', sans-serif; font-size: .86rem;
+        font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .informes-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; }
+      .informes-item-estado { background: var(--ho-green-pale, #E8EDD7);
+        padding: 2px 8px; border-radius: 8px; font-weight: 600;
+        color: var(--ho-green-dark, #586B33); }
+      .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+      .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        padding: 2px 6px; border-radius: 6px; font-weight: 600; }
+
+      .informes-empty { padding: 40px 20px; text-align: center;
+        font-family: 'Archivo', sans-serif; font-size: .82rem;
+        color: var(--ho-text-light, #9C988D); }
 
 
       /* History drawer overlay */
@@ -230,7 +296,7 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 44px; /* room for history btn + one line gap */
+        padding-top: 76px; /* room for history btn + informes btn */
         -webkit-overflow-scrolling: touch; }
 
       /* Animations */
@@ -509,7 +575,48 @@ class HorneroChat extends HoComponent {
         </div>
       </div>` : '';
 
+    // Informes drawer
+    const informesDrawerHtml = this._showInformes ?
+      `<div class="informes-overlay">
+        <div class="informes-drawer">
+          <div class="informes-header">
+            <div class="informes-header-title">${this.informesTitle || 'Informes'}</div>
+            <button class="history-close-btn">
+              <svg viewBox="0 0 24 24">${xSvg}</svg>
+            </button>
+          </div>
+          <div class="informes-list">
+            ${this._informesList.length === 0 ?
+              '<div class="informes-empty">No hay informes guardados</div>' :
+              this._informesList.map(inf => {
+                const titleText = inf.sections && inf.sections.length > 0 ?
+                  (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
+                  (inf.contenido || '').substring(0, 80);
+                const dateStr = inf.fecha || '';
+                const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
+                const tagsHtml = tags.length > 0 ?
+                  `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
+                return `<div class="informes-item" data-informe-id="${inf.id}">
+                  <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
+                  <div class="informes-item-meta">
+                    <span>${dateStr}</span>
+                    <span class="informes-item-estado">${inf.estado || 'aceptado'}</span>
+                  </div>
+                  ${tagsHtml}
+                </div>`;
+              }).join('')}
+          </div>
+        </div>
+      </div>` : '';
+
+    // Informes SVG icon (document/clipboard)
+    const informeSvg = '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>';
+
     return html`
+      <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Informes guardados">
+        <svg viewBox="0 0 24 24">${informeSvg}</svg>
+      </button>
+
       <button class="chat-history-btn" id="chatHistoryBtn" title="Historial de chats">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       </button>
@@ -541,6 +648,8 @@ class HorneroChat extends HoComponent {
       </div>
 
       ${historyDrawerHtml}
+
+      ${informesDrawerHtml}
     `;
   }
 
@@ -702,6 +811,15 @@ class HorneroChat extends HoComponent {
       });
     }
 
+    // === Informes button (top-right, left of history) → open drawer ===
+    const informesBtn = this.shadowRoot.querySelector('#chatInformesBtn');
+    if (informesBtn) {
+      informesBtn.addEventListener('click', () => {
+        this._openInformesDrawer();
+        this.emit('informes-open', {});
+      });
+    }
+
     // === Toggle mic/send visibility based on input content ===
     if (inputField && micBtn && sendBtn) {
       const updateToolbar = () => {
@@ -852,6 +970,34 @@ class HorneroChat extends HoComponent {
       });
     });
 
+    // === Informes drawer: close ===
+    const informesOverlay = this.shadowRoot.querySelector('.informes-overlay');
+    if (informesOverlay) {
+      informesOverlay.addEventListener('click', (e) => {
+        if (e.target === informesOverlay) {
+          this._closeInformesDrawer();
+        }
+      });
+    }
+    // Close button inside informes drawer (shares .history-close-btn style)
+    const informesCloseBtn = this.shadowRoot.querySelector('.informes-drawer .history-close-btn');
+    if (informesCloseBtn) {
+      informesCloseBtn.addEventListener('click', () => {
+        this._closeInformesDrawer();
+      });
+    }
+
+    // === Informes drawer: select informe ===
+    this.shadowRoot.querySelectorAll('.informes-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const infId = item.dataset.informeId;
+        if (infId) {
+          this.emit('informes-select', { informeId: infId });
+          this._closeInformesDrawer();
+        }
+      });
+    });
+
     // === Message action buttons (copy, forward, like/dislike) ===
     this.shadowRoot.querySelectorAll('.msg-action-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -995,6 +1141,31 @@ class HorneroChat extends HoComponent {
 
   _closeHistoryDrawer() {
     this._showHistory = false;
+    this.render();
+  }
+
+  // ===== Informes Drawer =====
+  async _openInformesDrawer() {
+    try {
+      if (typeof obtenerInformesPorEstado === 'function') {
+        this._informesList = await obtenerInformesPorEstado('aceptado');
+      } else {
+        this._informesList = [];
+      }
+    } catch(e) { console.warn('Chat: informes load failed', e); this._informesList = []; }
+    // Clear badge when user opens the drawer
+    this.informeBadge = false;
+    this._showInformes = true;
+    this.render();
+  }
+
+  _closeInformesDrawer() {
+    this._showInformes = false;
+    this.render();
+  }
+
+  setInformeBadge(bool) {
+    this.informeBadge = bool;
     this.render();
   }
 }

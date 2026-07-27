@@ -6,12 +6,27 @@
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="assets/hornero-icon-192.png" type="image/png">
-  <meta name="theme-color" content="#F4F3EE">
+  <!-- Initial theme-color = dark (safe default for login flash).
+       Head script below overrides to light for logged-in users BEFORE render -->
+  <meta name="theme-color" content="#33312D">
   <meta name="supported-color-schemes" content="dark light">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hornero">
   <link rel="apple-touch-icon" href="assets/hornero-icon-192.png">
+
+  <!-- Set theme colors IMMEDIATELY based on session — zero flash of wrong color -->
+  <script>
+    (function(){
+      var s=null;
+      try{s=JSON.parse(localStorage.getItem('hornero-session'))}catch(e){}
+      var c=(s&&s.grade)?'#F4F3EE':'#33312D';
+      document.documentElement.style.setProperty('background',c,'important');
+      var m=document.querySelector('meta[name="theme-color"]');
+      if(m)m.setAttribute('content',c);
+      window._hoInitBg=c;
+    })();
+  </script>
 
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Archivo+Narrow:wght@700;800&family=Inter:wght@700;800;900&family=Merriweather:wght@700;800;900&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
@@ -25,11 +40,11 @@
   <script src="js/data-loader.js"></script>
 
   <style>
-    /* App-level: light background — matches Home screen; login overrides to dark via JS */
-    html { background: #F4F3EE !important;
+    /* App-level: dark default (head script overrides to light for logged-in users) */
+    html { background: #33312D !important;
       background-attachment: fixed !important;
       min-height: 100vh; min-height: -webkit-fill-available; }
-    body { background: #F4F3EE !important;
+    body { background: #33312D !important;
       background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
       margin: 0; padding: 0;
@@ -56,7 +71,9 @@
       font-size: .82rem; cursor: pointer; padding: 10px 8px; }
   </style>
 </head>
+<!-- Set body bg immediately — uses color from head script -->
 <body>
+<script>document.body.style.setProperty('background',window._hoInitBg||'#33312D','important');</script>
   <!-- HoComponent app shell — Shadow DOM renders instantly via sync session -->
   <hornero-app></hornero-app>
 
@@ -139,6 +156,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=92"></script>
+  <script type="module" src="lit/hornero-components.js?v=93"></script>
 </body>
 </html>
