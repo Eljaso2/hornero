@@ -1670,7 +1670,7 @@ class HorneroChat extends HoComponent {
         inputField.style.height = Math.min(scrollH, 120) + 'px';
       };
       inputField.addEventListener('input', autoResize);
-      autoResize(); // initial size
+      // Start at single-line height — only grow when user types
 
       updateToolbar();
 
@@ -1687,7 +1687,7 @@ class HorneroChat extends HoComponent {
         if (text || detail.image || detail.video) {
           this.emit('chat-send', detail);
           inputField.value = '';
-          inputField.style.height = '36px';
+          inputField.style.height = '';
           this.suggestions = [];
           this.render();
         }
