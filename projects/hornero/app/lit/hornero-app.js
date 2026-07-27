@@ -106,7 +106,7 @@ class HorneroApp extends HoComponent {
       { id: 'perfil', label: 'Perfil', svg: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
     ];
     this.navDefRecibidos = { id: 'recibidos', label: 'Recibidos', svg: '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>' };
-    // Dynamic nav: grades 2-4 get extra "Recibidos" button
+    // Recibidos only in chat top-right, NOT in nav bottom
     this._recibidosLoaded = false;
     this._recibidosList = [];
 
@@ -117,7 +117,6 @@ class HorneroApp extends HoComponent {
       { id: 'clipping', label: 'Clipping' },
       { id: 'infomate', label: 'InfoMate' },
       { id: 'gremial', label: 'Reporte' },
-      { id: 'recibidos', label: 'Recibidos' },
       { id: 'chat', label: 'Chat' },
       { id: 'contenido', label: 'Contenido' },
       { id: 'historiador', label: 'Historiador' },
@@ -185,15 +184,8 @@ class HorneroApp extends HoComponent {
     this._parentScreen.recibidos = 'home';
   }
 
-  // Dynamic nav: grades 2-4 get extra "Recibidos" button between Reporte and Panorama
+  // Recibidos NOT in nav bottom — only in chat top-right for grades B.b/B.c/B.d
   _getNavDef() {
-    const isHigher = this.userGrade === 'B.b' || this.userGrade === 'B.c' || this.userGrade === 'B.d';
-    if (isHigher) {
-      // Insert recibidos after gremial (index 3)
-      const nav = [...this.navDefBase];
-      nav.splice(4, 0, this.navDefRecibidos);
-      return nav;
-    }
     return this.navDefBase;
   }
 
@@ -347,11 +339,6 @@ class HorneroApp extends HoComponent {
       .nav-btn .label { font-size: .60rem; font-weight: 600; color: #33312D;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #6E8345; }
-      /* Recibidos nav button — gold accent */
-      .nav-btn[data-screen="recibidos"] svg { stroke: #B0863F; }
-      .nav-btn[data-screen="recibidos"].active svg { stroke: #B0863F; }
-      .nav-btn[data-screen="recibidos"] .label { color: #B0863F; }
-      .nav-btn[data-screen="recibidos"].active .label { color: #B0863F; }
 
       /* ===== Chat landing — choice buttons ===== */
       .chat-landing { padding: 24px 20px; }
