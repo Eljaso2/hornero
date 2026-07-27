@@ -244,11 +244,11 @@ class HorneroHistoriador extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['historia', 'greeting'],
-        persona: data.persona || 'historiador',
+        persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
         time: data.time || this._timeNow(),
       }];
-      this._activePersona = data.persona || 'historiador';
+      // Don't update _activePersona from backend — keep original
       this._typing = false; this._greetingRequested = false;
       this.render();
     } catch (e) {
@@ -297,11 +297,11 @@ class HorneroHistoriador extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['historia'],
-        persona: data.persona || 'historiador',
+        persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
         time: data.time || this._timeNow(),
       }];
-      this._activePersona = data.persona || 'historiador';
+      // Don't update _activePersona from backend — keep original
       this._typing = false;
       this._saveChatHistory();
       this.render();
@@ -356,11 +356,11 @@ class HorneroHistoriador extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['historia', 'audio'],
-        persona: data.persona || 'historiador',
+        persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
         time: data.time || this._timeNow(),
       }];
-      this._activePersona = data.persona || 'historiador';
+      // Don't update _activePersona from backend — keep original
       this._typing = false;
       const chatEl = this.shadowRoot.querySelector('hornero-chat');
       if (chatEl) chatEl.resetAudioState();

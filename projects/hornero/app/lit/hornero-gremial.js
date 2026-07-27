@@ -227,7 +227,7 @@ class HorneroGremial extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['reporte', 'greeting'],
-        persona: data.persona || 'relator',
+        persona: 'relator', // Force: gremial screen ALWAYS uses relator — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
         time: data.time || this._timeNow(),
       }];
@@ -347,7 +347,7 @@ class HorneroGremial extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['reporte'],
-      persona: data.persona || 'relator',
+      persona: 'relator', // Force: gremial screen ALWAYS uses relator — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
@@ -581,7 +581,7 @@ class HorneroGremial extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['reporte', 'audio'],
-      persona: data.persona || 'relator',
+      persona: 'relator', // Force: gremial screen ALWAYS uses relator — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];

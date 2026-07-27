@@ -222,7 +222,7 @@ class HorneroConsulta extends HoComponent {
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
     this._historyLoaded = true;
     this._greetingRequested = false;
-    this._activePersona = 'abogado';
+    this._activePersona = this.persona || this._activePersona; // Keep original persona choice, don't reset to abogado
     this._requestGreeting();
   }
 
@@ -252,11 +252,11 @@ class HorneroConsulta extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['consulta', 'greeting'],
-        persona: data.persona || this._activePersona,
+        persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
         time: data.time || this._timeNow(),
       }];
-      this._activePersona = data.persona || this._activePersona;
+      // Don't update _activePersona from backend response — keep the original choice
       this._typing = false; this._greetingRequested = false;
       // Don't save to IndexedDB yet — session only created when user sends a message
       this.render();
@@ -405,11 +405,11 @@ class HorneroConsulta extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['consulta'],
-      persona: data.persona || this._activePersona,
+      persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
-    this._activePersona = data.persona || this._activePersona;
+    // Don't update _activePersona from backend response — keep the original choice
     this.iaStep++;
     this._typing = false; this._greetingRequested = false;
     this._saveChatHistory();
@@ -476,11 +476,11 @@ class HorneroConsulta extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['consulta', 'audio'],
-      persona: data.persona || this._activePersona,
+      persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
-    this._activePersona = data.persona || this._activePersona;
+    // Don't update _activePersona from backend response — keep the original choice
     this.iaStep++;
     this._typing = false;
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
