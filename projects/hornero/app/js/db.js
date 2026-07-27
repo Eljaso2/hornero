@@ -250,22 +250,41 @@ function obtenerInformesPorTerritorio(territorio) { return dbGetByIndex('informe
 
 // Informes: incoming reports for a grade level (cross-user visibility)
 // B.a (base): only own informes → returns empty (use obtenerInformesTodos instead)
-// B.b (delegado): G1 pendientes from workers in same territory + empresa
-// B.c (secretario): G2 pendientes from delegates in same territory (all empresas)
-// B.d (federación): G3 pendientes from all territories
+// B.b (delegado): G1 from workers in same territory + empresa (pendiente + visto, flexible matching)
+// B.c (secretario): G2 from delegates in same territory (all empresas, pendiente + visto)
+// B.d (federación): G3 from all territories (pendiente + visto)
 function obtenerInformesEntrantes(userGrade, territorio, empresa) {
   return dbGetAll('informes').then(function(all) {
     if (!all || all.length === 0) return [];
+    // Helper: normalize territorio for flexible comparison (handle key vs display formats)
+    // e.g., 'norte-santa-fe' matches 'Norte de Santa Fe'
+    function terrMatch(infTerr, userTerr) {
+      if (!infTerr || !userTerr) return true;
+      if (infTerr === userTerr) return true;
+      var normInf = infTerr.toLowerCase().replace(/[\s\-_]/g, '');
+      var normUser = userTerr.toLowerCase().replace(/[\s\-_]/g, '');
+      return normInf === normUser;
+    }
+    // Helper: normalize empresa for flexible comparison
+    function empMatch(infEmp, userEmp) {
+      if (!userEmp) return true; // Delegate with no empresa → show all from territory
+      if (!infEmp) return false;
+      return infEmp === userEmp || infEmp.toLowerCase().trim() === userEmp.toLowerCase().trim();
+    }
+    // Show informes that are not yet fully resolved (pendiente, visto, aceptado)
+    // Exclude aprobado-delegado, corregido-delegado (already resolved)
+    var unresolvedEstados = ['pendiente', 'visto', 'aceptado'];
     var lowerGrade;
     if (userGrade === 'B.b') {
-      // Delegate sees G1 from their territory + empresa (all estados, not just pendientes)
+      // Delegate sees G1 unresolved from their territory + empresa (flexible matching)
       lowerGrade = 1;
       return all.filter(function(inf) {
         return inf.grado === lowerGrade &&
-               inf.territorio === territorio &&
-               (inf.empresa === empresa || !empresa) &&
-               inf.username !== ''; // exclude anonymous
-      }).sort(function(a, b) { // newest first, pendientes before revisados
+               unresolvedEstados.indexOf(inf.estado) >= 0 &&
+               terrMatch(inf.territorio, territorio) &&
+               empMatch(inf.empresa, empresa) &&
+               inf.username !== '';
+      }).sort(function(a, b) {
         var aPend = a.estado === 'pendiente' ? 0 : 1;
         var bPend = b.estado === 'pendiente' ? 0 : 1;
         if (aPend !== bPend) return aPend - bPend;
@@ -273,11 +292,12 @@ function obtenerInformesEntrantes(userGrade, territorio, empresa) {
       });
     }
     if (userGrade === 'B.c') {
-      // Secretary sees G2 from their territory (all empresas, all estados)
+      // Secretary sees G2 unresolved from their territory (all empresas, flexible matching)
       lowerGrade = 2;
       return all.filter(function(inf) {
         return inf.grado === lowerGrade &&
-               inf.territorio === territorio;
+               unresolvedEstados.indexOf(inf.estado) >= 0 &&
+               terrMatch(inf.territorio, territorio);
       }).sort(function(a, b) {
         var aPend = a.estado === 'pendiente' ? 0 : 1;
         var bPend = b.estado === 'pendiente' ? 0 : 1;
@@ -286,10 +306,11 @@ function obtenerInformesEntrantes(userGrade, territorio, empresa) {
       });
     }
     if (userGrade === 'B.d') {
-      // Federation sees G3 from all territories (all estados)
+      // Federation sees G3 unresolved from all territories
       lowerGrade = 3;
       return all.filter(function(inf) {
-        return inf.grado === lowerGrade;
+        return inf.grado === lowerGrade &&
+               unresolvedEstados.indexOf(inf.estado) >= 0;
       }).sort(function(a, b) {
         var aPend = a.estado === 'pendiente' ? 0 : 1;
         var bPend = b.estado === 'pendiente' ? 0 : 1;
@@ -303,8 +324,28 @@ function obtenerInformesEntrantes(userGrade, territorio, empresa) {
 }
 
 // Informes: check if delegate has unrevised G1s (for G2 eligibility)
+// Only checks pendiente estado (not visto — visto means delegate already started reviewing)
 function tieneG1Pendientes(username, territorio, empresa) {
-  return obtenerInformesEntrantes('B.b', territorio, empresa).then(function(pendientes) {
+  return dbGetAll('informes').then(function(all) {
+    if (!all || all.length === 0) return false;
+    // Helper: normalize territorio for flexible comparison
+    function terrMatch(infTerr, userTerr) {
+      if (!infTerr || !userTerr) return true;
+      if (infTerr === userTerr) return true;
+      return infTerr.toLowerCase().replace(/[\s\-_]/g, '') === userTerr.toLowerCase().replace(/[\s\-_]/g, '');
+    }
+    function empMatch(infEmp, userEmp) {
+      if (!userEmp) return true;
+      if (!infEmp) return false;
+      return infEmp === userEmp || infEmp.toLowerCase().trim() === userEmp.toLowerCase().trim();
+    }
+    var pendientes = all.filter(function(inf) {
+      return inf.grado === 1 &&
+             inf.estado === 'pendiente' &&
+             terrMatch(inf.territorio, territorio) &&
+             empMatch(inf.empresa, empresa) &&
+             inf.username !== '';
+    });
     return pendientes.length > 0;
   });
 }

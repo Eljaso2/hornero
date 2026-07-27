@@ -16,6 +16,8 @@ class HorneroApp extends HoComponent {
       loggedIn: Boolean,
       updateAvailable: Boolean,
       recibidosList: Array,
+      misConversacionesList: Array,
+      misReportesList: Array,
     };
   }
 
@@ -24,6 +26,8 @@ class HorneroApp extends HoComponent {
     this.screen = 'home';
     this.updateAvailable = false;
     this.recibidosList = [];
+    this.misConversacionesList = [];
+    this.misReportesList = [];
     this._initialPersona = 'ia-sindical'; // Persona selected from landing page
 
     // Synchronous session restore from localStorage (avoids login flash)
@@ -109,6 +113,8 @@ class HorneroApp extends HoComponent {
     // Recibidos only in chat top-right, NOT in nav bottom
     this._recibidosLoaded = false;
     this._recibidosList = [];
+    this._misConvLoaded = false;
+    this._misRepLoaded = false;
 
     // Sections bar — ALL screens (scrollable horizontal tabs below header)
     this.sectionsDef = [
@@ -152,6 +158,8 @@ class HorneroApp extends HoComponent {
       infomate: 'InfoMate',
       gremial: 'Reporte Gremial · IA Sindical',
       historiador: 'Historiador',
+      misConversaciones: 'Mis Conversaciones',
+      misReportes: 'Mis Reportes',
     };
 
     // Parent screen map — back button navigation
@@ -178,10 +186,12 @@ class HorneroApp extends HoComponent {
       comunicador: 'home',
       archivo: 'home',
       historiador: 'home',
+      misConversaciones: 'chat',
+      misReportes: 'chat',
     };
 
     this.titles.recibidos = 'Reportes Recibidos';
-    this._parentScreen.recibidos = 'home';
+    this._parentScreen.recibidos = 'chat';
   }
 
   // Recibidos NOT in nav bottom — only in chat top-right for grades B.b/B.c/B.d
@@ -378,6 +388,58 @@ class HorneroApp extends HoComponent {
       .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .76rem;
         color: #6E6A60; line-height: 1.4; margin-top: 2px; }
 
+      /* ===== Chat landing icon row — 3 small round icon buttons ===== */
+      .chat-landing-icons { display: flex; gap: 8px; margin-bottom: 16px;
+        justify-content: flex-end; padding: 0 4px; }
+      .chat-landing-icon { width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .chat-landing-icon:hover { background: var(--ho-green-pale, #E8EDD7);
+        border-color: var(--ho-green-light, #94A867); transform: scale(1.08); }
+      .chat-landing-icon svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-landing-icon:hover svg { stroke: var(--ho-green-dark, #586B33); }
+
+      /* ===== Mis Conversaciones / Mis Reportes list screens ===== */
+      .list-screen { padding: 16px; }
+      .list-screen-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+        color: var(--ho-green-dark, #586B33); margin-bottom: 12px; }
+      .list-screen-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-mid, #6E6A60); margin-bottom: 16px; line-height: 1.4; }
+      .list-item { background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.06);
+        border-radius: 13px; padding: 14px; margin-bottom: 10px; cursor: pointer;
+        transition: border-color .2s, background .2s; }
+      .list-item:hover { border-color: rgba(43,42,38,.18);
+        background: var(--ho-green-pale, #E8EDD7); }
+      .list-item-title { font-family: 'Archivo', sans-serif; font-size: .86rem;
+        font-weight: 700; color: var(--ho-text); margin-bottom: 4px; }
+      .list-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      .list-item-section { font-family: 'Archivo', sans-serif; font-size: .72rem;
+        font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+      .list-item-preview { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.4; margin-top: 6px; }
+      .list-empty { padding: 40px 20px; text-align: center; color: #9C988D;
+        font-family: 'Archivo', sans-serif; font-size: .82rem; }
+      .list-item-estado { padding: 2px 8px; border-radius: 8px; font-weight: 600; }
+      .estado-pendiente { background: #F0E4CC; color: #856404; }
+      .estado-visto { background: #D7E8F3; color: #2C5A8A; }
+      .estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
+      .estado-corregido { background: #D7E8F3; color: #2C5A8A; }
+      .estado-aceptado { background: #E8EDD7; color: #586B33; }
+      /* Recibidos review buttons — subtle icon-only (match chat drawer) */
+      .recibidos-review-btn { background: none; border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        color: var(--ho-text-light, #9C988D); border-radius: 8px; padding: 6px 8px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
+        cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+        transition: background .2s, border-color .2s; }
+      .recibidos-review-btn:hover { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-text-mid, #6E6A60); }
+      .recibidos-review-btn svg { width: 14px; height: 14px; stroke: currentColor;
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
       /* ===== Update banner ===== */
       .update-banner { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
         padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
@@ -462,23 +524,40 @@ class HorneroApp extends HoComponent {
         choiceHtml('consulta', 'companero', 'assets/personajes/companera.png', 'Compañera', '✊', 'Compañero/a', 'Experiencia obrera, organización, debate') +
         choiceHtml('historiador', 'historiador', 'assets/personajes/historiadora.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
 
-      // Grade-based extras
+      // Grade-based extras — navigate to full list screens
       let extraChoices = '';
       if (isBaseGrade || isHigherGrade) {
-        extraChoices += svgChoiceHtml('gremial', chatSvg, 'Mis Conversaciones', 'Historial de chats del relator');
-        extraChoices += svgChoiceHtml('gremial', reportSvg, 'Mis Reportes', 'Informes gremiales que armaste');
+        extraChoices += svgChoiceHtml('misConversaciones', chatSvg, 'Mis Conversaciones', 'Historial de chats de toda la página');
+        extraChoices += svgChoiceHtml('misReportes', reportSvg, 'Mis Reportes', 'Informes gremiales que armaste');
       }
       if (isHigherGrade) {
         extraChoices += svgChoiceHtml('recibidos', inboxSvg, 'Reportes Recibidos', 'Informes de trabajadores bajo tu responsabilidad');
       }
 
+      // Icon row at top — 3 small round icon buttons (same style as chat window icons)
+      const iconRowSvg = (screen, svg, title) =>
+        `<button class="chat-landing-icon" data-screen="${screen}" title="${title}"><svg viewBox="0 0 24 24">${svg}</svg></button>`;
+      let iconRowHtml = '';
+      if (isBaseGrade || isHigherGrade) {
+        iconRowHtml += iconRowSvg('misConversaciones', chatSvg, 'Mis Conversaciones');
+        iconRowHtml += iconRowSvg('misReportes', reportSvg, 'Mis Reportes');
+      }
+      if (isHigherGrade) {
+        iconRowHtml += iconRowSvg('recibidos', inboxSvg, 'Reportes Recibidos');
+      }
+
       screenContent = '<div class="chat-landing">' +
+        (iconRowHtml ? '<div class="chat-landing-icons">' + iconRowHtml + '</div>' : '') +
         '<div class="chat-landing-kicker">🪶 Mesa de trabajo</div>' +
         '<div class="chat-landing-title">Hornero te escucha</div>' +
         '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Diferentes compañeros responden según lo que necesites:</div>' +
         personaChoices +
         (extraChoices ? '<div class="chat-landing-desc" style="margin-top:12px;margin-bottom:8px;font-size:.72rem;font-weight:600;color:#6E6A60;letter-spacing:.08em;text-transform:uppercase">Tu actividad</div>' + extraChoices : '') +
       '</div>';
+    } else if (this.screen === 'misConversaciones') {
+      screenContent = this._renderMisConversaciones();
+    } else if (this.screen === 'misReportes') {
+      screenContent = this._renderMisReportes();
     } else if (this.screen === 'consulta') {
       screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'abogado') + '"></hornero-consulta>';
     } else if (this.screen === 'contenido') {
@@ -556,9 +635,18 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'recibidos' && !this._recibidosLoaded) {
       this._loadRecibidos().then(() => { this._recibidosLoaded = true; this.render(); });
     }
-    // Bind recibidos review buttons (aprobar/corregir)
+    // Load misConversaciones data when screen is active
+    if (this.screen === 'misConversaciones' && !this._misConvLoaded) {
+      this._loadMisConversaciones().then(() => { this._misConvLoaded = true; this.render(); });
+    }
+    // Load misReportes data when screen is active
+    if (this.screen === 'misReportes' && !this._misRepLoaded) {
+      this._loadMisReportes().then(() => { this._misRepLoaded = true; this.render(); });
+    }
+    // Bind recibidos review buttons (aprobar/corregir) — subtle icon-only
     this.shadowRoot.querySelectorAll('.recibidos-review-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Don't trigger parent list-item click
         const infId = btn.dataset.reviewInforme;
         const action = btn.dataset.reviewAction;
         if (!infId || !action) return;
@@ -568,6 +656,33 @@ class HorneroApp extends HoComponent {
           this._recibidosLoaded = false;
           this._loadRecibidos().then(() => { this.render(); });
         });
+      });
+    });
+    // Bind expandable informe items (click to show/hide content)
+    this.shadowRoot.querySelectorAll('[data-expand-informe]').forEach(item => {
+      item.addEventListener('click', () => {
+        const contentEl = item.querySelector('.informes-expand-content');
+        if (contentEl) {
+          contentEl.style.display = contentEl.style.display === 'none' ? 'block' : 'none';
+        }
+      });
+    });
+    // Bind misConversaciones session items (click to navigate to that chat)
+    this.shadowRoot.querySelectorAll('[data-navigate-screen]').forEach(item => {
+      item.addEventListener('click', () => {
+        const screen = item.dataset.navigateScreen;
+        const persona = item.dataset.navigatePersona;
+        const sessionId = item.dataset.navigateSession;
+        if (screen) {
+          this._initialPersona = persona || 'ia-sindical';
+          this._navigateTo(screen);
+        }
+      });
+    });
+    // Bind chat-landing-icon buttons (icon row at top of Chat landing)
+    this.shadowRoot.querySelectorAll('.chat-landing-icon').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this._navigateTo(btn.dataset.screen);
       });
     });
     // Bind chat-choice buttons (Chat landing screen)
@@ -654,10 +769,10 @@ class HorneroApp extends HoComponent {
 
   // ===== Navigation with History API =====
   _navigateTo(screen) {
-    // Reset recibidos cache when navigating away
-    if (this.screen === 'recibidos' && screen !== 'recibidos') {
-      this._recibidosLoaded = false;
-    }
+    // Reset caches when navigating away from data screens
+    if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
+    if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') this._misConvLoaded = false;
+    if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
     // Only push state if screen actually changes (avoid duplicate history entries)
     if (this.screen !== screen) {
       history.pushState({ screen: screen }, '', '#' + screen);
@@ -699,11 +814,11 @@ class HorneroApp extends HoComponent {
     }
   }
 
-  // ===== Recibidos screen: incoming reports from lower grades =====
+  // ===== Recibidos screen: incoming reports from lower grades — expandable content =====
   _renderRecibidos() {
     const list = this.recibidosList || [];
     if (list.length === 0) {
-      return '<div style="padding:40px 20px;text-align:center;color:#9C988D;font-family:Archivo,sans-serif">' +
+      return '<div class="list-empty">' +
         '<div style="font-size:1.1rem;margin-bottom:6px">📥</div>' +
         '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">Reportes Recibidos</div>' +
         '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">No hay reportes pendientes de revisión</div>' +
@@ -715,40 +830,50 @@ class HorneroApp extends HoComponent {
       'aprobado-delegado': '✅ Aprobado',
       'corregido-delegado': '📝 Corregido',
     };
-    const estadoColorMap = {
-      'pendiente': '#B0863F',
-      'visto': '#2C5A8A',
-      'aprobado-delegado': '#586B33',
-      'corregido-delegado': '#2C5A8A',
-    };
+    const approveSvg = '<polyline points="20 6 9 17 4 12"/>';
+    const editSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
     const items = list.map(inf => {
       const title = inf.numero ? 'Reporte Gremial N°' + inf.numero :
         (inf.sections && inf.sections[0] ? (inf.sections[0].title || '').substring(0, 60) : (inf.contenido || '').substring(0, 60));
       const dateStr = inf.fecha || '';
       const estado = inf.estado || 'pendiente';
       const estadoLabel = estadoLabelMap[estado] || estado;
-      const estadoColor = estadoColorMap[estado] || '#9C988D';
+      const estadoClass = estado === 'pendiente' ? 'estado-pendiente' : estado === 'visto' ? 'estado-visto' : estado === 'aprobado-delegado' ? 'estado-aprobado' : 'estado-corregido';
       const usernameTag = inf.username ? '@' + inf.username : '';
       const empresaTag = inf.empresa || '';
       const gradoTag = inf.grado ? 'G' + inf.grado : '';
-      return '<div class="informes-item" style="background:var(--ho-card);border:1px solid var(--ho-border);border-radius:13px;padding:14px;margin-bottom:10px;cursor:pointer" data-review-informe="' + inf.id + '">' +
-        '<div style="font-family:Archivo,sans-serif;font-size:.86rem;font-weight:700;color:var(--ho-text);margin-bottom:6px">' + (title || 'Informe gremial') + '</div>' +
-        '<div style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace;font-size:.62rem;color:var(--ho-text-light);flex-wrap:wrap">' +
+      // Expandable content: sections preview
+      let contentHtml = '';
+      if (inf.sections && inf.sections.length > 0) {
+        contentHtml = inf.sections.map(s => {
+          let sec = '';
+          if (s.title) sec += '<div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.84rem;color:var(--ho-green-dark);margin-bottom:4px">' + s.title + '</div>';
+          if (s.body) sec += '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);line-height:1.4">' + s.body.substring(0, 300) + (s.body.length > 300 ? '...' : '') + '</div>';
+          return '<div style="margin-bottom:8px">' + sec + '</div>';
+        }).join('');
+      } else if (inf.contenido) {
+        contentHtml = '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);line-height:1.4">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
+      }
+      return '<div class="list-item" data-expand-informe="' + inf.id + '">' +
+        '<div class="list-item-title">' + (title || 'Informe gremial') + '</div>' +
+        '<div class="list-item-meta">' +
           '<span>' + dateStr + '</span>' +
           '<span style="background:var(--ho-mid-gray);padding:2px 6px;border-radius:4px;font-weight:600">' + usernameTag + '</span>' +
           (gradoTag ? '<span style="background:#D4E4F7;color:#2B5278;padding:2px 8px;border-radius:6px;font-weight:600">' + gradoTag + '</span>' : '') +
           (empresaTag ? '<span style="background:var(--ho-green-pale);color:var(--ho-green-dark);padding:2px 8px;border-radius:6px;font-weight:600">' + empresaTag + '</span>' : '') +
-          '<span style="background:' + (estado === 'pendiente' ? '#F0E4CC' : 'var(--ho-green-pale)') + ';color:' + estadoColor + ';padding:2px 8px;border-radius:8px;font-weight:600">' + estadoLabel + '</span>' +
+          '<span class="list-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
         '</div>' +
-        (estado === 'pendiente' ? '<div style="display:flex;gap:6px;margin-top:8px">' +
-          '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="aprobar" style="background:var(--ho-green);color:var(--ho-text-off);border:none;border-radius:10px;padding:6px 14px;font-family:Archivo,sans-serif;font-weight:700;font-size:.76rem;cursor:pointer">✅ Aprobar</button>' +
-          '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="corregir" style="background:none;border:1.5px solid var(--ho-gold);color:var(--ho-gold);border-radius:10px;padding:6px 14px;font-family:Archivo,sans-serif;font-weight:700;font-size:.76rem;cursor:pointer">📝 Corregir</button>' +
+        // Expandable content section (hidden by default)
+        '<div class="informes-expand-content" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--ho-border,rgba(43,42,38,.08))">' + contentHtml + '</div>' +
+        (estado === 'pendiente' || estado === 'visto' ? '<div style="display:flex;gap:6px;margin-top:8px">' +
+          '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24">' + approveSvg + '</svg></button>' +
+          '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24">' + editSvg + '</svg></button>' +
         '</div>' : '') +
       '</div>';
     }).join('');
-    return '<div style="padding:16px">' +
-      '<div style="font-family:JetBrains Mono,monospace;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#B0863F;margin-bottom:12px">📥 REPORTES RECIBIDOS</div>' +
-      '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);margin-bottom:16px;line-height:1.4">Informes de trabajadores bajo tu responsabilidad que necesitan revisión.</div>' +
+    return '<div class="list-screen">' +
+      '<div class="list-screen-kicker" style="color:#B0863F">📥 REPORTES RECIBIDOS</div>' +
+      '<div class="list-screen-desc">Informes de trabajadores bajo tu responsabilidad que necesitan revisión. Toca un informe para leerlo.</div>' +
       items +
     '</div>';
   }
@@ -767,6 +892,148 @@ class HorneroApp extends HoComponent {
     } catch(e) {
       console.warn('App: recibidos load failed', e);
       this.recibidosList = [];
+    }
+  }
+
+  // ===== Mis Conversaciones screen: full list of all chat sessions =====
+  _renderMisConversaciones() {
+    const list = this.misConversacionesList || [];
+    const sectionConfig = {
+      consulta:  { emoji: '📖', label: 'Consulta',  color: '#2B5278' },
+      contenido: { emoji: '🎙️', label: 'Contenido', color: '#5A4A3A' },
+      debate:    { emoji: '✊', label: 'Compañero', color: '#7A3B1E' },
+      reporte:   { emoji: '🪶', label: 'Reporte',   color: '#586B33' },
+      historia:  { emoji: '📜', label: 'Historia',   color: '#4A3A5A' },
+    };
+    const defaultSection = { emoji: '🪶', label: 'IA Sindical', color: '#586B33' };
+    if (list.length === 0) {
+      return '<div class="list-empty">' +
+        '<div style="font-size:1.1rem;margin-bottom:6px">💬</div>' +
+        '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">Mis Conversaciones</div>' +
+        '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">No hay chats guardados</div>' +
+        '</div>';
+    }
+    const items = list.map(s => {
+      const sec = sectionConfig[s.section] || defaultSection;
+      const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
+      const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
+      // Navigate to the relevant chat screen when clicking a session
+      const navScreen = s.section === 'reporte' ? 'gremial' : s.section === 'contenido' ? 'contenido' : s.section === 'historia' ? 'historiador' : 'consulta';
+      const navPersona = s.section === 'reporte' ? 'relator' : s.section === 'historia' ? 'historiador' : s.section === 'contenido' ? 'periodista' : s.section === 'debate' ? 'companero' : 'abogado';
+      return '<div class="list-item" data-navigate-screen="' + navScreen + '" data-navigate-persona="' + navPersona + '" data-navigate-session="' + s.sessionId + '">' +
+        '<div style="display:flex;align-items:center;gap:5px">' +
+          '<span style="font-size:.82rem;line-height:1">' + sec.emoji + '</span>' +
+          '<span class="list-item-section" style="color:' + sec.color + '">' + sec.label + '</span>' +
+        '</div>' +
+        '<div class="list-item-title">' + (s.preview || 'Nuevo chat') + '</div>' +
+        '<div class="list-item-meta">' +
+          '<span>' + dateStr + ' · ' + timeStr + '</span>' +
+          '<span style="background:var(--ho-green-pale);padding:2px 8px;border-radius:8px;font-weight:600;color:var(--ho-green-dark)">' + s.messageCount + ' msgs</span>' +
+          (s.username ? '<span style="background:var(--ho-mid-gray);padding:2px 6px;border-radius:4px;font-weight:600">@' + s.username + '</span>' : '') +
+        '</div>' +
+      '</div>';
+    }).join('');
+    return '<div class="list-screen">' +
+      '<div class="list-screen-kicker">💬 MIS CONVERSACIONES</div>' +
+      '<div class="list-screen-desc">Historial de chats de toda la página. Toca una conversación para continuar.</div>' +
+      items +
+    '</div>';
+  }
+
+  async _loadMisConversaciones() {
+    const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+    const username = session.username || '';
+    try {
+      if (typeof obtenerChatSessions === 'function') {
+        this.misConversacionesList = await obtenerChatSessions(username);
+      } else {
+        this.misConversacionesList = [];
+      }
+    } catch(e) {
+      console.warn('App: misConversaciones load failed', e);
+      this.misConversacionesList = [];
+    }
+  }
+
+  // ===== Mis Reportes screen: full list of all user's informes =====
+  _renderMisReportes() {
+    const list = this.misReportesList || [];
+    const estadoLabelMap = {
+      'pendiente': '⏳ Pendiente de revisión',
+      'aceptado': '✅ Aprobado por trabajador',
+      'visto': '👁 Visto por delegado',
+      'aprobado': '✅ Aprobado por delegado',
+      'aprobado-delegado': '✅ Aprobado por delegado',
+      'corregido': '📝 Modificado',
+      'corregido-delegado': '📝 Corregido por delegado',
+    };
+    const estadoClassMap = {
+      'pendiente': 'estado-pendiente',
+      'aceptado': 'estado-aceptado',
+      'visto': 'estado-visto',
+      'aprobado': 'estado-aprobado',
+      'corregido': 'estado-corregido',
+    };
+    if (list.length === 0) {
+      return '<div class="list-empty">' +
+        '<div style="font-size:1.1rem;margin-bottom:6px">📄</div>' +
+        '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">Mis Reportes</div>' +
+        '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">No hay informes guardados</div>' +
+        '</div>';
+    }
+    const items = list.map(inf => {
+      const numero = inf.numero || '';
+      const titleText = numero ? 'Reporte Gremial N°' + numero :
+        (inf.sections && inf.sections.length > 0 ?
+          (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
+          (inf.contenido || '').substring(0, 80));
+      const dateStr = inf.fecha || '';
+      const displayEstado = inf.estado || 'pendiente';
+      const estadoClass = estadoClassMap[displayEstado] || '';
+      const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
+      const gradoBadge = inf.grado ? '<span style="background:#D4E4F7;color:#2B5278;padding:2px 8px;border-radius:6px;font-weight:600;font-family:JetBrains Mono,monospace;font-size:.62rem">G' + inf.grado + '</span>' : '';
+      // Expandable content
+      let contentHtml = '';
+      if (inf.sections && inf.sections.length > 0) {
+        contentHtml = inf.sections.map(s => {
+          let sec = '';
+          if (s.title) sec += '<div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.84rem;color:var(--ho-green-dark);margin-bottom:4px">' + s.title + '</div>';
+          if (s.body) sec += '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);line-height:1.4">' + s.body.substring(0, 300) + (s.body.length > 300 ? '...' : '') + '</div>';
+          return '<div style="margin-bottom:8px">' + sec + '</div>';
+        }).join('');
+      } else if (inf.contenido) {
+        contentHtml = '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);line-height:1.4">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
+      }
+      return '<div class="list-item" data-expand-informe="' + inf.id + '">' +
+        '<div class="list-item-title">' + (titleText || 'Informe gremial') + '</div>' +
+        '<div class="list-item-meta">' +
+          '<span>' + dateStr + '</span>' +
+          (inf.username ? '<span style="background:var(--ho-mid-gray);padding:2px 6px;border-radius:4px;font-weight:600">@' + inf.username + '</span>' : '') +
+          gradoBadge +
+          '<span class="list-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
+        '</div>' +
+        '<div class="informes-expand-content" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--ho-border,rgba(43,42,38,.08))">' + contentHtml + '</div>' +
+      '</div>';
+    }).join('');
+    return '<div class="list-screen">' +
+      '<div class="list-screen-kicker">📄 MIS REPORTES</div>' +
+      '<div class="list-screen-desc">Informes gremiales que armaste. Toca un informe para leerlo.</div>' +
+      items +
+    '</div>';
+  }
+
+  async _loadMisReportes() {
+    const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+    const username = session.username || '';
+    try {
+      if (typeof obtenerInformesTodos === 'function') {
+        this.misReportesList = await obtenerInformesTodos(username);
+      } else {
+        this.misReportesList = [];
+      }
+    } catch(e) {
+      console.warn('App: misReportes load failed', e);
+      this.misReportesList = [];
     }
   }
 
