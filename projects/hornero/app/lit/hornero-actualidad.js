@@ -72,6 +72,19 @@ class HorneroActualidad extends HoComponent {
     return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
   }
 
+  // Normalize tag: lowercase unless it's a known acronym or proper noun
+  _normalizeTag(tag) {
+    // Known acronyms (all uppercase)
+    const acronyms = ['CGT','CTA','OIT','CONICET','INTI','INTA','INDEC','SMVM','CLATE','CAREM','UEJN','IPYPP',
+      'UTEP','FAdeA','GNL','RIGI','ILVA','Sitrarepa','CABA','CLATE','IA'];
+    // Known proper nouns (keep original capitalization)
+    const properNouns = ['Córdoba','Neuquén','Patagonia','Cutral-Co','Chapadmalal','Embalse','Daer','Vidal','Fate','YPF'];
+    if (acronyms.includes(tag)) return tag;
+    if (properNouns.includes(tag)) return tag;
+    // Everything else: lowercase
+    return tag.toLowerCase();
+  }
+
   // ===== Styles =====
 
   _styles() {
@@ -135,15 +148,11 @@ class HorneroActualidad extends HoComponent {
       .noticia-toggle:hover { color: var(--ho-green-dark, #586B33); }
 
       /* InfoMate section */
-      .mate-desc {
-        font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.4;
-        margin-top: 5px; }
-
-      .data-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
-      .data-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: rgba(176,134,63,.35); color: #3D3B35;
-        padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+      .mate-tags { margin-top: 8px; }
+      .mate-sections { margin-top: 8px; }
+      .mate-section-line { font-family: 'Public Sans', sans-serif; font-size: .84rem;
+        color: var(--ho-text, #2B2A26); line-height: 1.3;
+        font-weight: 500; padding: 3px 0; }
     `;
   }
 
@@ -166,7 +175,7 @@ class HorneroActualidad extends HoComponent {
         for (const n of data.noticias) {
           if (n.tags) {
             for (const t of n.tags) {
-              if (!allTags.includes(t)) allTags.push(t);
+              if (!allTags.includes(t)) allTags.push(this._normalizeTag(t));
             }
           }
         }
@@ -220,19 +229,75 @@ class HorneroActualidad extends HoComponent {
         const mateSublabel = this._mateRaw && this._mateRaw.meta
           ? this._formatMes(this._mateRaw.meta.mes)
           : '';
-        const mateDesc = this._mateRaw && this._mateRaw.secciones
-          ? (this._mateRaw.secciones.length + ' secciones: ' + this._mateRaw.secciones.map(s => s.titulo.toLowerCase()).join(', '))
-          : 'Panorama económico-laboral mensual';
-        const mateTags = this._mateRaw && this._mateRaw.datosMacro
-          ? ['SMVM', 'Inflación', 'Canasta básica', 'Empleo'].map(t => '<span class="data-tag">' + t + '</span>').join('')
-          : '';
 
+        // Build mate tags from secciones + datosMacro keys
+        let mateTagLinesHtml = '';
+        if (this._mateRaw) {
+          const mateTags = [];
+          // Tags from section titles
+          if (this._mateRaw.secciones) {
+            for (const s of this._mateRaw.secciones) {
+              mateTags.push(s.titulo.toLowerCase());
+            }
+          }
+          // Tags from macro data keys (readable labels)
+          const macroLabels = {
+            inflacionOficial: 'inflación oficial',
+            inflacionObrera: 'inflación obrera',
+            smvm: 'SMVM',
+            salarioMedioRegistrado: 'salario medio',
+            canastaBasicaTotal: 'canasta básica',
+            empleoTotal: 'empleo',
+            ejercitoActivo: 'ejército activo',
+            reservaFlotante: 'reserva flotante',
+            reservaLatente: 'reserva latente',
+            pauperizacion: 'pauperización'
+          };
+          if (this._mateRaw.datosMacro) {
+            for (const k of Object.keys(this._mateRaw.datosMacro)) {
+              mateTags.push(macroLabels[k] || this._normalizeTag(k));
+            }
+          }
+          // Extra context tags
+          mateTags.push('paritaria', 'despidos', 'ajuste', 'canasta básica', 'salario', 'poder de compra');
+
+          // Build 6 tag lines same as clipping
+          const maxLines = 6;
+          const perLine = Math.ceil(Math.min(mateTags.length, maxLines * 3) / maxLines);
+          const shownTags = mateTags.slice(0, maxLines * 3);
+          mateTagLinesHtml = '<div class="mate-tags tag-lines">';
+          for (let li = 0; li < maxLines && li * perLine < shownTags.length; li++) {
+            const lineTags = shownTags.slice(li * perLine, (li + 1) * perLine);
+            mateTagLinesHtml += '<div class="tag-line">' +
+              lineTags.map(t => '<span class="noticia-tag">' + t + '</span>').join('') +
+            '</div>';
+          }
+          const filledLines = Math.ceil(shownTags.length / perLine);
+          for (let li = filledLines; li < maxLines; li++) {
+            mateTagLinesHtml += '<div class="tag-line"></div>';
+          }
+          mateTagLinesHtml += '</div>';
+        }
+
+        // Build secciones list (expanded view)
+        let mateSectionsHtml = '';
+        const totalSections = this._mateRaw && this._mateRaw.secciones ? this._mateRaw.secciones.length : 0;
+        if (totalSections > 0) {
+          mateSectionsHtml = '<div class="mate-sections" style="display:none">';
+          for (const s of this._mateRaw.secciones) {
+            mateSectionsHtml += '<div class="mate-section-line">' + s.titulo + '</div>';
+          }
+          mateSectionsHtml += '</div>';
+        }
+
+        const mateToggleText = totalSections > 0 ? '▾ Ver ' + totalSections + ' secciones' : '';
         cardsHtml += '<div class="product-card product-card-infomate" data-screen="infomate">' +
           '<div class="product-title-line"><span class="product-emoji">🧮</span>' +
           '<span class="product-label">' + mateLabel + '</span></div>' +
           '<div class="product-sublabel">' + mateSublabel + '</div>' +
-          '<div class="mate-desc">' + mateDesc + '</div>' +
-          (mateTags ? '<div class="data-tags">' + mateTags + '</div>' : '') +
+          mateTagLinesHtml +
+          mateSectionsHtml +
+          (mateToggleText ? '<div class="noticia-toggle" data-expanded="false" data-clip-edicion="mate">' + mateToggleText + '</div>' : '') +
         '</div>';
       }
     }
@@ -261,26 +326,28 @@ class HorneroActualidad extends HoComponent {
       });
     });
 
-    // Toggle expand/collapse for noticia lists
+    // Toggle expand/collapse for noticia lists and mate sections
     this.shadowRoot.querySelectorAll('.noticia-toggle').forEach(toggle => {
       toggle.addEventListener('click', (e) => {
         e.stopPropagation();
         const expanded = toggle.dataset.expanded === 'true';
         const card = toggle.closest('.product-card');
-        const tagLines = card.querySelector('.tag-lines');
-        const noticiaList = card.querySelector('.noticia-list');
-        const totalNoticias = noticiaList ? noticiaList.querySelectorAll('.noticia-line').length : 0;
+        const tagLines = card.querySelector('.tag-lines, .mate-tags');
+        const expandList = card.querySelector('.noticia-list, .mate-sections');
+        const totalItems = expandList ? expandList.children.length : 0;
+        const isMate = toggle.dataset.clipEdicion === 'mate';
+        const itemLabel = isMate ? ' secciones' : ' títulos';
 
         if (expanded) {
-          // Collapse: hide noticia list, show tag lines
-          if (noticiaList) noticiaList.style.display = 'none';
+          // Collapse: hide expand list, show tag lines
+          if (expandList) expandList.style.display = 'none';
           if (tagLines) tagLines.style.display = '';
           toggle.dataset.expanded = 'false';
-          toggle.textContent = '▾ Ver ' + totalNoticias + ' títulos';
+          toggle.textContent = '▾ Ver ' + totalItems + itemLabel;
         } else {
-          // Expand: hide tag lines, show noticia list
+          // Expand: hide tag lines, show expand list
           if (tagLines) tagLines.style.display = 'none';
-          if (noticiaList) noticiaList.style.display = '';
+          if (expandList) expandList.style.display = '';
           toggle.dataset.expanded = 'true';
           toggle.textContent = '▴ Ver menos';
         }
