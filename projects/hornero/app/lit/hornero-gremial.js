@@ -131,8 +131,7 @@ class HorneroGremial extends HoComponent {
         this._syncChatMessages(chatEl);
       });
       chatEl.addEventListener('informes-select', (e) => {
-        // Could load informe or open session — for now just log
-        console.log('Gremial: informe selected', e.detail.informeId);
+        this._handleInformeView(e.detail.informeId);
       });
       chatEl.addEventListener('informes-edit', (e) => {
         this._handleInformeEdit(e.detail.informeId);
@@ -483,6 +482,36 @@ class HorneroGremial extends HoComponent {
     informe.estado = 'pendiente';
     informe.fecha = new Date().toISOString().slice(0, 10); // update date to reflect correction
     return guardarInforme(informe);
+  }
+
+  // View a saved informe — show content in chat as a reporte-generado card
+  async _handleInformeView(informeId) {
+    try {
+      if (typeof obtenerInforme !== 'function') return;
+      const informe = await obtenerInforme(informeId);
+      if (!informe) return;
+
+      // Show the informe content as a reporte-generado message in the chat
+      const numero = informe.numero || '';
+      const estado = informe.estado || 'pendiente';
+      // If already accepted/approved, mark as reporte-aprobado to hide action buttons
+      const extraTags = (estado === 'aceptado' || estado === 'aprobado' || estado === 'aprobado-delegado') ? ['reporte-aprobado'] : [];
+      const reportMsg = {
+        role: 'hornero',
+        text: numero ? `Reporte Gremial N°${numero}` : '',
+        sections: informe.sections || [],
+        tags: ['reporte', 'reporte-generado', ...extraTags],
+        persona: 'relator',
+        time: this._timeNow(),
+        informe_id: informeId,
+      };
+
+      this.messages = [...this.messages, reportMsg];
+      this._saveChatHistory();
+      this.render();
+    } catch(e) {
+      console.warn('Gremial: informe view failed', e);
+    }
   }
 
   // Re-inject a saved informe into the chat for editing

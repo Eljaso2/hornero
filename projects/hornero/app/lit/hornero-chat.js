@@ -427,18 +427,18 @@ class HorneroChat extends HoComponent {
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
         padding: 2px 6px; border-radius: 6px; font-weight: 600; }
 
-      /* Informes item review buttons (aprobar/corregir for incoming G1) */
+      /* Informes item review buttons (aprobar/corregir for incoming G1) — subtle, icon-only */
       .informes-review-actions { display: flex; gap: 6px; margin-top: 6px; }
-      .informes-review-btn { border-radius: 10px; padding: 6px 14px;
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .76rem;
-        cursor: pointer; display: flex; align-items: center; gap: 4px;
-        transition: background .2s, border-color .2s; }
-      .informes-review-btn.aprobar { background: var(--ho-green, #6E8345);
-        color: var(--ho-text-off, #F2F1EC); border: none; }
-      .informes-review-btn.aprobar:hover { background: var(--ho-green-dark, #586B33); }
-      .informes-review-btn.corregir { background: none;
-        border: 1.5px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
-      .informes-review-btn.corregir:hover { background: #F0E4CC; }
+      .informes-review-btn { border-radius: 8px; padding: 6px 8px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
+        cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+        transition: background .2s, border-color .2s;
+        background: none; border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        color: var(--ho-text-light, #9C988D); }
+      .informes-review-btn svg { width: 14px; height: 14px; stroke: currentColor;
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .informes-review-btn:hover { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-text-mid, #6E6A60); }
+      .informes-review-btn.corregir:hover { background: #F0E4CC; color: #B0863F; }
 
       .informes-empty { padding: 40px 20px; text-align: center;
         font-family: 'Archivo', sans-serif; font-size: .82rem;
@@ -566,11 +566,11 @@ class HorneroChat extends HoComponent {
         background: #EDEAE3; color: var(--ho-text, #2B2A26); }
       .reporte-card-icon { font-size: 1.1rem; flex: none; }
       .reporte-card-title { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .88rem; color: var(--ho-text-off, #F2F1EC); flex: 1;
+        font-size: .88rem; color: var(--ho-green-dark, #586B33); flex: 1;
         letter-spacing: .04em; text-transform: uppercase; }
       .reporte-card-toggle { font-family: 'JetBrains Mono', monospace;
-        font-size: .66rem; color: var(--ho-text-off, #F2F1EC);
-        background: rgba(255,255,255,.15); border-radius: 6px; border: none;
+        font-size: .66rem; color: var(--ho-text-mid, #6E6A60);
+        background: rgba(255,255,255,.25); border-radius: 6px; border: none;
         cursor: pointer; flex: none; padding: 3px 8px; }
       .reporte-card-body { max-height: 60px; overflow: hidden;
         position: relative; transition: max-height .4s ease;
@@ -612,6 +612,8 @@ class HorneroChat extends HoComponent {
       .reporte-btn-delete { border-color: transparent; }
       .reporte-btn-delete:hover { color: #D32F2F; border-color: rgba(211,47,47,.2); background: #FDECEA; }
       .reporte-btn-delete svg { stroke-width: 1.8; }
+      .reporte-btn-corregir { border: 1.5px solid #B0863F; color: #B0863F; }
+      .reporte-btn-corregir:hover { background: #F0E4CC; }
       .reporte-card.estado-aceptado { border-color: rgba(43,42,38,.2);
         opacity: .85; }
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="aprobar"],
@@ -643,9 +645,11 @@ class HorneroChat extends HoComponent {
       .msg-row.user .msg-bubble {
         max-width: 82%; background: var(--ho-green, #6E8345);
         color: var(--ho-text-off, #F2F1EC);
-        border-radius: 18px 18px 4px 18px; padding: 12px 16px;
-        font-family: 'Public Sans', sans-serif; font-size: .90rem;
-        line-height: 1.5; position: relative; }
+        border-radius: 18px 18px 4px 18px; padding: 8px 14px;
+        font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        line-height: 1.35; position: relative;
+        min-height: 36px; display: inline-block;
+        vertical-align: middle; }
 
       .msg-row.user .msg-time {
         font-family: 'JetBrains Mono', monospace; font-size: .58rem;
@@ -1248,8 +1252,8 @@ class HorneroChat extends HoComponent {
                   const gradoBadge = inf.grado ? `<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G${inf.grado}</span>` : '';
                   const empresaLabel = inf.empresa ? `<span class="informes-item-tag">${inf.empresa}</span>` : '';
                   const reviewBtnHtml = `<div class="informes-review-actions">
-                    <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar">✅ Aprobar</button>
-                    <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir">📝 Corregir</button>
+                    <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><polyline points="20 6 9 17 4 12"/></svg></button>
+                    <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
                   </div>`;
                   return `<div class="informes-item" data-informe-id="${inf.id}">
                     <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
@@ -1477,7 +1481,7 @@ class HorneroChat extends HoComponent {
         `<div class="reporte-card-actions">${shareBtn}${deleteBtn}</div>` :
         `<div class="reporte-card-actions">
           <button class="reporte-btn" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar"><svg viewBox="0 0 24 24">${approveSvg}</svg></button>
-          <button class="reporte-btn" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Editar"><svg viewBox="0 0 24 24">${editSvg}</svg></button>
+          <button class="reporte-btn reporte-btn-corregir" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Editar">✏️ Editar</button>
           ${shareBtn}
           ${deleteBtn}
         </div>`;
