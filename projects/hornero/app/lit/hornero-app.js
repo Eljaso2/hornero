@@ -15,6 +15,7 @@ class HorneroApp extends HoComponent {
       userName: String,
       loggedIn: Boolean,
       updateAvailable: Boolean,
+      recibidosList: Array,
     };
   }
 
@@ -22,6 +23,7 @@ class HorneroApp extends HoComponent {
     super();
     this.screen = 'home';
     this.updateAvailable = false;
+    this.recibidosList = [];
     this._initialPersona = 'ia-sindical'; // Persona selected from landing page
 
     // Synchronous session restore from localStorage (avoids login flash)
@@ -95,7 +97,7 @@ class HorneroApp extends HoComponent {
 
     // 6 nav buttons: Inicio + 4 esferas implementadas + Perfil
     // (Formación y Archivo accesibles desde Home cards, no en bottom nav)
-    this.navDef = [
+    this.navDefBase = [
       { id: 'home', label: 'Inicio', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
       { id: 'actualidad', label: 'Actualidad', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
       { id: 'chat', label: 'Chat', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
@@ -103,6 +105,10 @@ class HorneroApp extends HoComponent {
       { id: 'condicion', label: 'Panorama', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
       { id: 'perfil', label: 'Perfil', svg: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
     ];
+    this.navDefRecibidos = { id: 'recibidos', label: 'Recibidos', svg: '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>' };
+    // Dynamic nav: grades 2-4 get extra "Recibidos" button
+    this._recibidosLoaded = false;
+    this._recibidosList = [];
 
     // Sections bar — ALL screens (scrollable horizontal tabs below header)
     this.sectionsDef = [
@@ -111,6 +117,7 @@ class HorneroApp extends HoComponent {
       { id: 'clipping', label: 'Clipping' },
       { id: 'infomate', label: 'InfoMate' },
       { id: 'gremial', label: 'Reporte' },
+      { id: 'recibidos', label: 'Recibidos' },
       { id: 'chat', label: 'Chat' },
       { id: 'contenido', label: 'Contenido' },
       { id: 'historiador', label: 'Historiador' },
@@ -173,6 +180,21 @@ class HorneroApp extends HoComponent {
       archivo: 'home',
       historiador: 'home',
     };
+
+    this.titles.recibidos = 'Reportes Recibidos';
+    this._parentScreen.recibidos = 'home';
+  }
+
+  // Dynamic nav: grades 2-4 get extra "Recibidos" button between Reporte and Panorama
+  _getNavDef() {
+    const isHigher = this.userGrade === 'B.b' || this.userGrade === 'B.c' || this.userGrade === 'B.d';
+    if (isHigher) {
+      // Insert recibidos after gremial (index 3)
+      const nav = [...this.navDefBase];
+      nav.splice(4, 0, this.navDefRecibidos);
+      return nav;
+    }
+    return this.navDefBase;
   }
 
   async connectedCallback() {
@@ -325,6 +347,11 @@ class HorneroApp extends HoComponent {
       .nav-btn .label { font-size: .60rem; font-weight: 600; color: #33312D;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #6E8345; }
+      /* Recibidos nav button — gold accent */
+      .nav-btn[data-screen="recibidos"] svg { stroke: #B0863F; }
+      .nav-btn[data-screen="recibidos"].active svg { stroke: #B0863F; }
+      .nav-btn[data-screen="recibidos"] .label { color: #B0863F; }
+      .nav-btn[data-screen="recibidos"].active .label { color: #B0863F; }
 
       /* ===== Chat landing — choice buttons ===== */
       .chat-landing { padding: 24px 20px; }
@@ -464,6 +491,8 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
       screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-perfil>';
+    } else if (this.screen === 'recibidos') {
+      screenContent = this._renderRecibidos();
     } else {
       // Placeholder for screens not yet implemented
       screenContent = '<div style="padding:40px 20px;text-align:center;color:#9C988D;font-family:Archivo,sans-serif">' +
@@ -502,7 +531,7 @@ class HorneroApp extends HoComponent {
             </div>
 
             ${showBottomNav ? '<div class="bottom-nav">' +
-              this.navDef.map(n => '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
+              this._getNavDef().map(n => '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
                 '<svg viewBox="0 0 24 24">' + n.svg + '</svg>' +
                 '<span class="label">' + n.label + '</span>' +
                 '</button>').join('') +
@@ -525,6 +554,24 @@ class HorneroApp extends HoComponent {
     this.shadowRoot.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         this._navigateTo(btn.dataset.screen);
+      });
+    });
+    // Load recibidos data when screen is active
+    if (this.screen === 'recibidos' && !this._recibidosLoaded) {
+      this._loadRecibidos().then(() => { this._recibidosLoaded = true; this.render(); });
+    }
+    // Bind recibidos review buttons (aprobar/corregir)
+    this.shadowRoot.querySelectorAll('.recibidos-review-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const infId = btn.dataset.reviewInforme;
+        const action = btn.dataset.reviewAction;
+        if (!infId || !action) return;
+        if (typeof actualizarEstadoInforme !== 'function') return;
+        const newState = action === 'aprobar' ? 'aprobado-delegado' : 'corregido-delegado';
+        actualizarEstadoInforme(infId, newState).then(() => {
+          this._recibidosLoaded = false;
+          this._loadRecibidos().then(() => { this.render(); });
+        });
       });
     });
     // Bind chat-choice buttons (Chat landing screen)
@@ -602,6 +649,10 @@ class HorneroApp extends HoComponent {
 
   // ===== Navigation with History API =====
   _navigateTo(screen) {
+    // Reset recibidos cache when navigating away
+    if (this.screen === 'recibidos' && screen !== 'recibidos') {
+      this._recibidosLoaded = false;
+    }
     // Only push state if screen actually changes (avoid duplicate history entries)
     if (this.screen !== screen) {
       history.pushState({ screen: screen }, '', '#' + screen);
@@ -640,6 +691,77 @@ class HorneroApp extends HoComponent {
     super.attributeChangedCallback(name, oldVal, newVal);
     if (name === 'screen' || name === 'loggedIn') {
       this._updateThemeColor();
+    }
+  }
+
+  // ===== Recibidos screen: incoming reports from lower grades =====
+  _renderRecibidos() {
+    const list = this.recibidosList || [];
+    if (list.length === 0) {
+      return '<div style="padding:40px 20px;text-align:center;color:#9C988D;font-family:Archivo,sans-serif">' +
+        '<div style="font-size:1.1rem;margin-bottom:6px">📥</div>' +
+        '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">Reportes Recibidos</div>' +
+        '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">No hay reportes pendientes de revisión</div>' +
+        '</div>';
+    }
+    const estadoLabelMap = {
+      'pendiente': '⏳ Pendiente',
+      'visto': '👁 Visto',
+      'aprobado-delegado': '✅ Aprobado',
+      'corregido-delegado': '📝 Corregido',
+    };
+    const estadoColorMap = {
+      'pendiente': '#B0863F',
+      'visto': '#2C5A8A',
+      'aprobado-delegado': '#586B33',
+      'corregido-delegado': '#2C5A8A',
+    };
+    const items = list.map(inf => {
+      const title = inf.numero ? 'Reporte Gremial N°' + inf.numero :
+        (inf.sections && inf.sections[0] ? (inf.sections[0].title || '').substring(0, 60) : (inf.contenido || '').substring(0, 60));
+      const dateStr = inf.fecha || '';
+      const estado = inf.estado || 'pendiente';
+      const estadoLabel = estadoLabelMap[estado] || estado;
+      const estadoColor = estadoColorMap[estado] || '#9C988D';
+      const usernameTag = inf.username ? '@' + inf.username : '';
+      const empresaTag = inf.empresa || '';
+      const gradoTag = inf.grado ? 'G' + inf.grado : '';
+      return '<div class="informes-item" style="background:var(--ho-card);border:1px solid var(--ho-border);border-radius:13px;padding:14px;margin-bottom:10px;cursor:pointer" data-review-informe="' + inf.id + '">' +
+        '<div style="font-family:Archivo,sans-serif;font-size:.86rem;font-weight:700;color:var(--ho-text);margin-bottom:6px">' + (title || 'Informe gremial') + '</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace;font-size:.62rem;color:var(--ho-text-light);flex-wrap:wrap">' +
+          '<span>' + dateStr + '</span>' +
+          '<span style="background:var(--ho-mid-gray);padding:2px 6px;border-radius:4px;font-weight:600">' + usernameTag + '</span>' +
+          (gradoTag ? '<span style="background:#D4E4F7;color:#2B5278;padding:2px 8px;border-radius:6px;font-weight:600">' + gradoTag + '</span>' : '') +
+          (empresaTag ? '<span style="background:var(--ho-green-pale);color:var(--ho-green-dark);padding:2px 8px;border-radius:6px;font-weight:600">' + empresaTag + '</span>' : '') +
+          '<span style="background:' + (estado === 'pendiente' ? '#F0E4CC' : 'var(--ho-green-pale)') + ';color:' + estadoColor + ';padding:2px 8px;border-radius:8px;font-weight:600">' + estadoLabel + '</span>' +
+        '</div>' +
+        (estado === 'pendiente' ? '<div style="display:flex;gap:6px;margin-top:8px">' +
+          '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="aprobar" style="background:var(--ho-green);color:var(--ho-text-off);border:none;border-radius:10px;padding:6px 14px;font-family:Archivo,sans-serif;font-weight:700;font-size:.76rem;cursor:pointer">✅ Aprobar</button>' +
+          '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="corregir" style="background:none;border:1.5px solid var(--ho-gold);color:var(--ho-gold);border-radius:10px;padding:6px 14px;font-family:Archivo,sans-serif;font-weight:700;font-size:.76rem;cursor:pointer">📝 Corregir</button>' +
+        '</div>' : '') +
+      '</div>';
+    }).join('');
+    return '<div style="padding:16px">' +
+      '<div style="font-family:JetBrains Mono,monospace;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#B0863F;margin-bottom:12px">📥 REPORTES RECIBIDOS</div>' +
+      '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);margin-bottom:16px;line-height:1.4">Informes de trabajadores bajo tu responsabilidad que necesitan revisión.</div>' +
+      items +
+    '</div>';
+  }
+
+  async _loadRecibidos() {
+    if (typeof obtenerInformesEntrantes !== 'function') {
+      this.recibidosList = [];
+      return;
+    }
+    const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+    const userGrade = session.grade || 'A';
+    const userEmpresa = (session.agremiacion && session.agremiacion.empresa) || '';
+    const userTerritory = session.territory || '';
+    try {
+      this.recibidosList = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa);
+    } catch(e) {
+      console.warn('App: recibidos load failed', e);
+      this.recibidosList = [];
     }
   }
 

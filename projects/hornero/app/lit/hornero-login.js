@@ -23,6 +23,8 @@ const PILOT_USERS = {
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC', puesto: 'Operario de planta' } },
   'test1b':   { password: 'adm2026',     grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 (administración)',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC', puesto: 'Administración' } },
+  'test1c':   { password: 'obrero2026',    grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1C — Obrero Guaycurú',
+    agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Desmotadora Guaycurú', puesto: 'Operario de desmotadora' } },
 };
 
 class HorneroLogin extends HoComponent {

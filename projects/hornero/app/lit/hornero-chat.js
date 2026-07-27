@@ -22,6 +22,7 @@ class HorneroChat extends HoComponent {
       informesTitle: String, // Custom title for informes drawer — default "Informes"
       persona: String,      // Active persona: companero|abogado|periodista|relator|historiador
       username: String,      // Login username for per-user data isolation
+      grade: String,         // User grade (B.a, B.b, B.c, B.d) — controls Reportes Recibidos icon
     };
   }
 
@@ -37,9 +38,10 @@ class HorneroChat extends HoComponent {
     this.sessionId = '';
     this.historyTitle = 'Historial';
     this.informeBadge = false;
-    this.informesTitle = 'Mis Informes';
+    this.informesTitle = 'Mis Reportes';
     this.persona = 'abogado';
     this.username = '';
+    this.grade = 'A';
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
     this._mediaStream = null;   // MediaStream from getUserMedia
@@ -56,6 +58,8 @@ class HorneroChat extends HoComponent {
     this._informesEntrantes = []; // incoming informes from lower grades (cross-user)
     this._expandedReports = {}; // message index → boolean (expanded/collapsed)
     this._exportInProgress = false; // debounce guard for export button
+    this._showRecibidos = false; // recibidos drawer state
+    this._recibidosBadge = false; // badge on recibidos icon
   }
 
   _detectAudioMimeType() {
@@ -325,6 +329,35 @@ class HorneroChat extends HoComponent {
         transform: scale(1.06); }
       .chat-informes-btn.badge svg { stroke: var(--ho-green-dark, #586B33);
         stroke-width: 2.6; }
+
+      /* Reportes Recibidos button — top-right, only for grades B.b/B.c/B.d */
+      .chat-recibidos-btn { position: absolute; top: 12px; right: 84px; z-index: 20;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; overflow: hidden; }
+      .chat-recibidos-btn:hover { background: #F0E4CC;
+        border-color: var(--ho-gold, #B0863F); transform: scale(1.08); }
+      .chat-recibidos-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-recibidos-btn:hover svg { stroke: var(--ho-gold, #B0863F); }
+      .chat-recibidos-btn.badge { background: #F0E4CC;
+        border-color: var(--ho-gold, #B0863F); border-width: 1.5px;
+        transform: scale(1.06); }
+      .chat-recibidos-btn.badge svg { stroke: var(--ho-gold, #B0863F);
+        stroke-width: 2.6; }
+
+      /* Recibidos drawer overlay */
+      .recibidos-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(43,42,38,.35); z-index: 70; display: flex;
+        justify-content: flex-end; transition: opacity .3s; }
+
+      /* Recibidos drawer panel */
+      .recibidos-drawer { width: 85%; max-width: 340px; height: 100%;
+        background: var(--ho-bg, #F4F3EE); display: flex; flex-direction: column;
+        box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease;
+        touch-action: pan-y; }
 
       /* Informes drawer overlay */
       .informes-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -1079,14 +1112,12 @@ class HorneroChat extends HoComponent {
       `<div class="informes-overlay">
         <div class="informes-drawer">
           <div class="informes-header">
-            <div class="informes-header-title">${this.informesTitle || 'Mis Informes'}</div>
+            <div class="informes-header-title">${this.informesTitle || 'Mis Reportes'}</div>
             <button class="informes-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
             </button>
           </div>
           <div class="informes-list">
-            <!-- Section: Mis informes -->
-            <div class="informes-section-header">Mis informes</div>
             ${this._informesList.length === 0 ?
               '<div class="informes-empty">No hay informes guardados</div>' :
               this._informesList.map(inf => {
@@ -1123,42 +1154,6 @@ class HorneroChat extends HoComponent {
                   </button>
                 </div>`;
               }).join('')}
-            <!-- Section: Entrantes (pendientes de revisión) — only for B.b/B.c/B.d -->
-            ${this._informesEntrantes.length > 0 ? `
-              <div class="informes-section-header entrantes">Pendientes de revisión (${this._informesEntrantes.length})</div>
-              ${this._informesEntrantes.map(inf => {
-                const numero = inf.numero || '';
-                const titleText = numero ? 'Reporte Gremial N°' + numero :
-                  (inf.sections && inf.sections.length > 0 ?
-                    (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
-                    (inf.contenido || '').substring(0, 80));
-                const dateStr = inf.fecha || '';
-                const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
-                const tagsHtml = tags.length > 0 ?
-                  `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
-                const gradoBadge = inf.grado ? `<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G${inf.grado}</span>` : '';
-                const empresaLabel = inf.empresa ? `<span class="informes-item-tag">${inf.empresa}</span>` : '';
-                // Review buttons for delegates/secretaries
-                const reviewBtnHtml = `<div class="informes-review-actions">
-                  <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar">✅ Aprobar</button>
-                  <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir">📝 Corregir</button>
-                </div>`;
-                return `<div class="informes-item" data-informe-id="${inf.id}">
-                  <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
-                  <div class="informes-item-meta">
-                    <span>${dateStr}</span>
-                    ${inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : ''}
-                    ${gradoBadge} ${empresaLabel}
-                    <span class="informes-item-estado estado-pendiente">⏳ Pendiente de revisión</span>
-                  </div>
-                  ${tagsHtml}
-                  ${reviewBtnHtml}
-                  <button class="informes-item-export" data-export-informe="${inf.id}" title="Exportar informe">
-                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  </button>
-                </div>`;
-              }).join('')}
-            ` : ''}
           </div>
         </div>
       </div>` : '';
@@ -1169,14 +1164,26 @@ class HorneroChat extends HoComponent {
     // Export SVG icon (download arrow)
     const exportSvg = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
 
+    // Recibidos SVG icon (inbox — arrow down into tray)
+    const recibidosSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
+
+    // Show recibidos icon only for grades B.b, B.c, B.d (not B.a or A)
+    const isHigherGrade = this.grade === 'B.b' || this.grade === 'B.c' || this.grade === 'B.d';
+    const recibidosBtnHtml = isHigherGrade ?
+      `<button class="chat-recibidos-btn${this._recibidosBadge ? ' badge' : ''}" id="chatRecibidosBtn" title="Reportes recibidos">
+        <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
+      </button>` : '';
+
     return html`
       ${personaIconsHtml}
 
-      <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Informes guardados">
+      ${recibidosBtnHtml}
+
+      <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Mis Reportes">
         <svg viewBox="0 0 24 24">${informeSvg}</svg>
       </button>
 
-      <button class="chat-history-btn" id="chatHistoryBtn" title="Historial de chats">
+      <button class="chat-history-btn" id="chatHistoryBtn" title="Mis Conversaciones">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       </button>
 
@@ -1213,6 +1220,50 @@ class HorneroChat extends HoComponent {
       ${historyDrawerHtml}
 
       ${informesDrawerHtml}
+
+      ${isHigherGrade ? (this._showRecibidos ?
+        `<div class="recibidos-overlay">
+          <div class="recibidos-drawer">
+            <div class="informes-header">
+              <div class="informes-header-title">Reportes Recibidos</div>
+              <button class="informes-close-btn" id="recibidosCloseBtn">
+                <svg viewBox="0 0 24 24">${xSvg}</svg>
+              </button>
+            </div>
+            <div class="informes-list">
+              ${this._informesEntrantes.length === 0 ?
+                '<div class="informes-empty">No hay reportes pendientes de revisión</div>' :
+                this._informesEntrantes.map(inf => {
+                  const numero = inf.numero || '';
+                  const titleText = numero ? 'Reporte Gremial N°' + numero :
+                    (inf.sections && inf.sections.length > 0 ?
+                      (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
+                      (inf.contenido || '').substring(0, 80));
+                  const dateStr = inf.fecha || '';
+                  const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
+                  const tagsHtml = tags.length > 0 ?
+                    `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
+                  const gradoBadge = inf.grado ? `<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G${inf.grado}</span>` : '';
+                  const empresaLabel = inf.empresa ? `<span class="informes-item-tag">${inf.empresa}</span>` : '';
+                  const reviewBtnHtml = `<div class="informes-review-actions">
+                    <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar">✅ Aprobar</button>
+                    <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir">📝 Corregir</button>
+                  </div>`;
+                  return `<div class="informes-item" data-informe-id="${inf.id}">
+                    <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
+                    <div class="informes-item-meta">
+                      <span>${dateStr}</span>
+                      ${inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : ''}
+                      ${gradoBadge} ${empresaLabel}
+                      <span class="informes-item-estado estado-pendiente">⏳ Pendiente</span>
+                    </div>
+                    ${tagsHtml}
+                    ${reviewBtnHtml}
+                  </div>`;
+                }).join('')}
+            </div>
+          </div>
+        </div>` : '') : ''}
 
       <div class="download-toast" id="downloadToast">📥 Descargado como TXT</div>
     `;
