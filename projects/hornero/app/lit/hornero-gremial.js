@@ -428,11 +428,12 @@ class HorneroGremial extends HoComponent {
           funcion: rolMap[session.grade] || 'Base',
           territorio: session.territory || '',
           empresa: session.agremiacion ? session.agremiacion.empresa : 'Piloto',
+          puesto: session.agremiacion ? session.agremiacion.puesto : '',
           trabajador: { nombre: session.nombre || 'Trabajador', funcion: rolMap[session.grade] || 'Base', seccion: '' },
         };
       }
     } catch(e) {}
-    return { nombre: 'Trabajador', funcion: 'Base', territorio: '', empresa: 'Piloto', trabajador: { nombre: 'Trabajador', funcion: 'Base', seccion: '' } };
+    return { nombre: 'Trabajador', funcion: 'Base', territorio: '', empresa: 'Piloto', puesto: '', trabajador: { nombre: 'Trabajador', funcion: 'Base', seccion: '' } };
   }
 
   _getCurrentWeek() {

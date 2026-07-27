@@ -50,6 +50,18 @@ class HorneroApp extends HoComponent {
             a.empresa = 'Dreyfus';
             a.rol = 'Secretario General de la Federación';
           }
+          // Migration: split empresa/puesto if empresa has " — " separator (old format)
+          if (a.empresa && a.empresa.includes(' — ') && !a.puesto) {
+            const parts = a.empresa.split(' — ');
+            a.empresa = parts[0].trim();
+            a.puesto = parts[1].trim();
+          }
+          // Migration: add puesto field based on username if missing
+          if (!a.puesto) {
+            const puestoMap = { 'test1b': 'Administración' };
+            if (puestoMap[session.username]) a.puesto = puestoMap[session.username];
+            else if (session.sector === 'aceitero' && session.grade === 'B.a') a.puesto = 'Operario de planta';
+          }
           localStorage.setItem('hornero-session', JSON.stringify(session));
         }
         if (session && session.grade) {

@@ -83,6 +83,7 @@ class HorneroPerfil extends HoComponent {
       sectorName: agrem.sectorName || '',
       territorio: agrem.territorio || '',
       empresa: agrem.empresa || '',
+      puesto: agrem.puesto || '',
     };
   }
 
@@ -195,6 +196,7 @@ class HorneroPerfil extends HoComponent {
     agremFields.push({ label: 'Convenio', value: convenioLine });
     if (agrem.territorio) agremFields.push({ label: 'Territorio', value: agrem.territorio });
     agremFields.push({ label: 'Empresa', value: agrem.empresa || '' });
+    agremFields.push({ label: 'Puesto', value: agrem.puesto || '' });
 
     // If no agremiación data at all, show a minimal card
     const hasAgremiacion = agremFields.length > 0;
