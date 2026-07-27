@@ -553,6 +553,18 @@ class HorneroChat extends HoComponent {
       .msg-media img { width: 100%; display: block; border-radius: 12px; }
       .msg-media video { width: 100%; display: block; border-radius: 12px; }
 
+      /* AI file download card — clickable file attachment in chat */
+      .msg-download-card {
+        display: flex; align-items: center; padding: 12px 16px;
+        background: var(--ho-green-pale, #E8EDD7); border-radius: 12px;
+        cursor: pointer; transition: background .2s; margin-bottom: 8px; max-width: 280px;
+      }
+      .msg-download-card:hover { background: var(--ho-green-light, #D4DCC0); }
+      .msg-download-icon { font-size: 1.5rem; margin-right: 12px; flex: none; }
+      .msg-download-info { flex: 1; min-width: 0; }
+      .msg-download-filename { font-weight: 600; font-size: .85rem; color: var(--ho-green-dark, #586B33); display: block; }
+      .msg-download-label { font-size: .70rem; color: var(--ho-text-muted, #8A8A74); }
+
       /* === HORNERO message: NO bubble — plain text block === */
       .msg-row.hornero { display: flex; flex-direction: column; align-items: flex-start; }
 
@@ -860,7 +872,7 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Persona icons — top-left corner (always visible, show OTHER personas)
-    const allPersonas = ['abogado', 'companero', 'periodista', 'relator', 'historiador'];
+    const allPersonas = ['historiador', 'abogado', 'relator', 'companero', 'periodista'];
     const otherPersonas = allPersonas.filter(p => p !== this.persona);
     // Screen mapping for navigation
     const personaScreenMap = {
@@ -1170,11 +1182,11 @@ class HorneroChat extends HoComponent {
   _getPersonaConfig(persona) {
     const map = {
       'ia-sindical':  { emoji: '🪶', name: 'IA Sindical', bg: 'var(--ho-green-pale, #E8EDD7)', color: 'var(--ho-green-dark, #586B33)', img: 'assets/hornero-logo.png' },
-      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: null },
-      'companero':    { emoji: '✊🏾', name: 'Compañero/a',   bg: '#C89660', color: '#7A3B1E', img: null },
-      'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: null },
-      'relator':      { emoji: '📝', name: 'Relator/a', bg: '#E0E8D7', color: '#4A6A2C', img: null },
-      'historiador':  { emoji: '🤓', name: 'Historiador/a',  bg: '#D7D4E8', color: '#4A3A5A', img: null },
+      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: 'assets/personajes/abogado.png' },
+      'companero':    { emoji: '✊', name: 'Compañera',      bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/companera.png' },
+      'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/periodista.png' },
+      'relator':      { emoji: '📝', name: 'Relator/a', bg: '#E0E8D7', color: '#4A6A2C', img: 'assets/personajes/relator.png' },
+      'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/historiadora.png' },
     };
     return map[persona] || map['ia-sindical'];
   }
@@ -1306,6 +1318,16 @@ class HorneroChat extends HoComponent {
       `<div class="msg-tags">${m.tags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
     contentHtml += tagsHtml;
 
+    // Download card — clickable file attachment for exported chats
+    const downloadHtml = m.download ?
+      `<div class="msg-download-card" data-action="download-file" data-msg-index="${msgIndex}">
+        <span class="msg-download-icon">📄</span>
+        <div class="msg-download-info">
+          <span class="msg-download-filename">${m.download.filename}</span>
+          <span class="msg-download-label">Click para descargar</span>
+        </div>
+      </div>` : '';
+
     // Actions: copiar, reenviar, like/dislike, borrar
     const deleteSvg = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/>';
     const actionsHtml = `<div class="msg-actions">
@@ -1344,6 +1366,7 @@ class HorneroChat extends HoComponent {
     return `<div class="msg-row hornero">
       ${avatarRow}
       <div class="msg-content">
+        ${downloadHtml}
         ${contentHtml}
         ${redirectBtnHtml}
         ${timeHtml}
@@ -1381,11 +1404,20 @@ class HorneroChat extends HoComponent {
     const exportBtn = this.shadowRoot.querySelector('#chatExportBtn');
     if (exportBtn) {
       exportBtn.addEventListener('click', () => {
-        this.emit('chat-export', { messages: this.messages, title: this.title, section: this.section, sessionId: this.sessionId });
-        // Also download directly from the chat component
         if (this.messages && this.messages.length > 0) {
-          const filename = this.title || 'chat-hornero';
-          this._downloadTxt(this.messages, this.title, filename);
+          const filename = (this.title || 'chat-hornero') + '.txt';
+          // Generate TXT content for the download card
+          const txtContent = this._generateTxtContent(this.messages, this.title);
+          // Download the file immediately
+          this._downloadTxt(this.messages, this.title, this.title);
+          // Emit event with file content so parent can add download card message
+          this.emit('chat-export', {
+            messages: this.messages,
+            title: this.title,
+            section: this.section,
+            sessionId: this.sessionId,
+            download: { content: txtContent, filename: filename, label: 'Click para descargar' }
+          });
         }
       });
     }
@@ -1724,6 +1756,26 @@ class HorneroChat extends HoComponent {
       });
     });
 
+    // === Download file cards (clickable file attachment in chat) ===
+    this.shadowRoot.querySelectorAll('.msg-download-card[data-action="download-file"]').forEach(card => {
+      card.addEventListener('click', () => {
+        const msgIndex = Number(card.dataset.msgIndex);
+        const msg = this.messages[msgIndex];
+        if (msg && msg.download && msg.download.content) {
+          const blob = new Blob([msg.download.content], { type: 'text/plain;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = msg.download.filename || 'chat-hornero.txt';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          this._showDownloadToast(msg.download.filename || 'chat-hornero');
+        }
+      });
+    });
+
     // === Reporte card: expand/collapse toggle ===
     this.shadowRoot.querySelectorAll('[data-toggle-report]').forEach(header => {
       header.addEventListener('click', () => {
@@ -1906,8 +1958,8 @@ ${msgs.map(m => {
     URL.revokeObjectURL(url);
   }
 
-  // Download as plain .txt file
-  _downloadTxt(messages, title, filename) {
+  // Generate TXT content string (for use in download cards or export)
+  _generateTxtContent(messages, title) {
     const msgs = messages || this.messages || [];
     const chatTitle = title || this.title || 'Chat Hornero';
     const now = new Date();
@@ -1939,7 +1991,12 @@ ${msgs.map(m => {
       return `${role}${time}\n${content}`;
     });
 
-    const body = `${chatTitle}\n${dateStr} — ${timeStr}\n${'─'.repeat(60)}\n\n${lines.join('\n\n' + '─'.repeat(40) + '\n\n')}\n\n${'─'.repeat(60)}\nExportado de Hornero — IA Sindical`;
+    return `${chatTitle}\n${dateStr} — ${timeStr}\n${'─'.repeat(60)}\n\n${lines.join('\n\n' + '─'.repeat(40) + '\n\n')}\n\n${'─'.repeat(60)}\nExportado de Hornero — IA Sindical`;
+  }
+
+  // Download as plain .txt file
+  _downloadTxt(messages, title, filename) {
+    const body = this._generateTxtContent(messages, title);
     const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
