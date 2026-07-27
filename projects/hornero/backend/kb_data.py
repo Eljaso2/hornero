@@ -509,9 +509,15 @@ ALL_CHUNKS = []  # Populated by refresh() on startup
 
 
 def refresh() -> int:
-    """Reload ALL_CHUNKS from manual + PDF sources. Returns total chunk count."""
+    """Reload ALL_CHUNKS from manual + PDF sources. Returns total chunk count.
+
+    Uses in-place mutation (ALL_CHUNKS[:] = ...) instead of reassignment
+    so that any module that imported ALL_CHUNKS directly still sees the
+    updated contents — avoids stale-reference bug with Python imports.
+    """
     global ALL_CHUNKS
-    ALL_CHUNKS = get_all_chunks()
+    new_chunks = get_all_chunks()
+    ALL_CHUNKS[:] = new_chunks  # in-place mutation, not reassignment
     # Update categories dynamically from all chunks
     new_categories = set(c["category"] for c in ALL_CHUNKS if c.get("category"))
     for cat in new_categories:
