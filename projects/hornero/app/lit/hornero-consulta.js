@@ -72,7 +72,7 @@ class HorneroConsulta extends HoComponent {
     return html`
       <div class="chat-container">
         <hornero-chat
-          title="Chateá con la IA Sindical"
+          title="Chateá con el Relator"
           input-placeholder="Escribí tu consulta, pregunta, o tema..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
