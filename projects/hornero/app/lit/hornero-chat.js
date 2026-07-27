@@ -563,21 +563,32 @@ class HorneroChat extends HoComponent {
       /* === Typing avatar: persona-aware === */
       .typing-avatar-emoji { font-size: .72rem; line-height: 1; }
 
-      /* === Persona pills — mesa de trabajo === */
-      .chat-persona-pills { display: flex; gap: 8px; padding: 6px 10px;
-        background: var(--ho-card, #FBFAF6); border-top: 1px solid var(--ho-border, rgba(43,42,38,.10));
-        flex-wrap: wrap; justify-content: center; }
-      .persona-pill { display: flex; align-items: center; gap: 5px;
-        padding: 4px 10px 4px 4px; border-radius: 20px; cursor: pointer;
-        border: 1.5px solid var(--ho-border, rgba(43,42,38,.15));
-        background: transparent; transition: all .2s ease; font-family: 'Archivo', sans-serif; }
-      .persona-pill:hover { transform: scale(1.05); }
-      .persona-pill.active { font-weight: 700; }
-      .persona-pill-icon { width: 22px; height: 22px; border-radius: 50%;
+      /* === Persona icons — top-left corner of chat === */
+      .chat-persona-icon { position: absolute; top: 12px; z-index: 20;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; overflow: hidden; }
+      .chat-persona-icon:hover { transform: scale(1.08);
+        background: var(--ho-green-pale, #E8EDD7); }
+      .chat-persona-icon.active { transform: scale(1.06);
+        border-width: 1.5px; }
+      .persona-icon-inner { display: flex; align-items: center; justify-content: center; }
+      .persona-icon-inner img { width: 18px; height: 18px; }
+      .persona-icon-inner .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
+
+      /* === Redirect derivation button in message === */
+      .msg-redirect-btn { display: inline-flex; align-items: center; gap: 6px;
+        padding: 6px 14px 6px 6px; border-radius: 20px; cursor: pointer;
+        border: 1.5px solid; font-family: 'Archivo', sans-serif;
+        font-weight: 700; font-size: .78rem; margin-top: 10px;
+        transition: transform .15s, box-shadow .2s; }
+      .msg-redirect-btn:hover { transform: scale(1.05);
+        box-shadow: 0 2px 8px rgba(43,42,38,.15); }
+      .msg-redirect-icon-circle { width: 22px; height: 22px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none; }
-      .persona-pill-icon img { width: 14px; height: 14px; }
-      .persona-pill-emoji { font-size: .68rem; line-height: 1; }
-      .persona-pill-label { font-size: .72rem; }
+      .msg-redirect-icon-circle img { width: 14px; height: 14px; }
+      .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
 
       .msg-text { font-family: 'Public Sans', sans-serif; font-size: .90rem;
         color: var(--ho-text, #2B2A26); line-height: 1.55;
@@ -829,22 +840,21 @@ class HorneroChat extends HoComponent {
         }).join('')}
       </div>` : '';
 
-    // Persona pills — mesa de trabajo (who's at the table)
+    // Persona icons — top-left corner (mesa de trabajo)
     const personaOptions = ['ia-sindical', 'abogado', 'companero', 'periodista'];
-    const personaPillsHtml = this.personaPills ?
-      `<div class="chat-persona-pills">
-        ${personaOptions.map(p => {
-          const cfg = this._getPersonaConfig(p);
-          const isActive = this.persona === p;
-          const inner = cfg.img
-            ? `<img src="${cfg.img}" alt="H">`
-            : `<span class="persona-pill-emoji">${cfg.emoji}</span>`;
-          return `<button class="persona-pill${isActive ? ' active' : ''}" data-persona="${p}" style="background:${isActive ? cfg.bg : 'transparent'}; border-color:${isActive ? cfg.color : 'var(--ho-border, rgba(43,42,38,.15))'}">
-            <span class="persona-pill-icon" style="background:${cfg.bg}">${inner}</span>
-            <span class="persona-pill-label" style="color:${isActive ? cfg.color : 'var(--ho-text-mid, #6E6A60)'}">${cfg.name}</span>
-          </button>`;
-        }).join('')}
-      </div>` : '';
+    const personaIconsHtml = this.personaPills ?
+      personaOptions.map(p => {
+        const cfg = this._getPersonaConfig(p);
+        const isActive = this.persona === p;
+        const inner = cfg.img
+          ? `<img src="${cfg.img}" alt="H">`
+          : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
+        const idx = personaOptions.indexOf(p);
+        const leftPos = 12 + idx * 36;
+        return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" style="left:${leftPos}px; background:${isActive ? cfg.bg : 'var(--ho-card, #FBFAF6)'}; border-color:${isActive ? cfg.color : 'var(--ho-border, rgba(43,42,38,.12))'}">
+          <span class="persona-icon-inner" style="background:${isActive ? cfg.bg : 'transparent'}">${inner}</span>
+        </button>`;
+      }).join('') : '';
 
     // SVG icons
     const attachSvg = '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>';
@@ -966,6 +976,8 @@ class HorneroChat extends HoComponent {
     const exportSvg = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
 
     return html`
+      ${personaIconsHtml}
+
       <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Informes guardados">
         <svg viewBox="0 0 24 24">${informeSvg}</svg>
       </button>
@@ -982,8 +994,6 @@ class HorneroChat extends HoComponent {
       </div>
 
       ${suggestionsHtml}
-
-      ${personaPillsHtml}
 
       <div class="chat-input">
         ${attachPreview}
@@ -1427,14 +1437,24 @@ class HorneroChat extends HoComponent {
       });
     });
 
-    // === Persona pills → switch persona ===
-    this.shadowRoot.querySelectorAll('.persona-pill').forEach(btn => {
+    // === Persona icon buttons → switch persona ===
+    this.shadowRoot.querySelectorAll('.chat-persona-icon').forEach(btn => {
       btn.addEventListener('click', () => {
         const p = btn.dataset.persona;
         if (p && p !== this.persona) {
           this.persona = p;
           this.emit('persona-switch', { persona: p });
           this.render();
+        }
+      });
+    });
+
+    // === Redirect derivation buttons → switch persona / navigate ===
+    this.shadowRoot.querySelectorAll('.msg-redirect-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetPersona = btn.dataset.redirectPersona;
+        if (targetPersona) {
+          this.emit('persona-redirect', { persona: targetPersona });
         }
       });
     });

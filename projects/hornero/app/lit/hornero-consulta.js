@@ -192,7 +192,7 @@ class HorneroConsulta extends HoComponent {
       }];
       this._activePersona = data.persona || this._activePersona;
       this._typing = false; this._greetingRequested = false;
-      this._saveChatHistory();
+      // Don't save to IndexedDB yet — session only created when user sends a message
       this.render();
     } catch (e) {
       // Fallback: local greeting

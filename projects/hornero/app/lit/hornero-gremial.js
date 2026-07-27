@@ -196,7 +196,7 @@ class HorneroGremial extends HoComponent {
       }];
       this._typing = false;
       this._greetingRequested = false;
-      this._saveChatHistory();
+      // Don't save to IndexedDB yet — session only created when user sends a message
       this.render();
     } catch (e) {
       this._typing = false;
