@@ -370,6 +370,7 @@ class HorneroApp extends HoComponent {
         background: var(--ho-green-pale, #E8EDD7); }
       .chat-choice-icon { width: 46px; height: 46px; flex: none;
         border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+      .chat-choice-icon img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; }
       .chat-choice-icon svg { width: 46px; height: 46px; stroke: #6E8345;
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
@@ -448,35 +449,35 @@ class HorneroApp extends HoComponent {
         '<div class="chat-landing-title">Hornero te escucha</div>' +
         '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Diferentes compañeros responden según lo que necesites:</div>' +
         '<div class="chat-choice" data-screen="gremial">' +
-          '<div class="chat-choice-icon persona-icon-ia-sindical"><span class="persona-choice-emoji">🪶</span></div>' +
+          '<div class="chat-choice-icon persona-icon-ia-sindical"><img src="assets/personajes/relator.png" alt="Relator/a" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">🪶</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Relator/a</div>' +
             '<div class="chat-choice-desc">Te ayudo a elaborar un reporte gremial</div>' +
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="consulta" data-persona="abogado">' +
-          '<div class="chat-choice-icon persona-icon-abogado"><span class="persona-choice-emoji">📖</span></div>' +
+          '<div class="chat-choice-icon persona-icon-abogado"><img src="assets/personajes/abogado.png" alt="Abogado/a" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">📖</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Abogado/a</div>' +
             '<div class="chat-choice-desc">Derechos, convenios, legislación laboral — asesoría legal</div>' +
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="contenido" data-persona="periodista">' +
-          '<div class="chat-choice-icon persona-icon-periodista"><span class="persona-choice-emoji">🎙️</span></div>' +
+          '<div class="chat-choice-icon persona-icon-periodista"><img src="assets/personajes/periodista.png" alt="Periodista" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">🎙️</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Periodista</div>' +
             '<div class="chat-choice-desc">Generá podcasts, reels, columnas, entrevistas, notas</div>' +
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="consulta" data-persona="companero">' +
-          '<div class="chat-choice-icon persona-icon-companero"><span class="persona-choice-emoji">✊🏾</span></div>' +
+          '<div class="chat-choice-icon persona-icon-companero"><img src="assets/personajes/companera.png" alt="Compañera" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">✊</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Compañero/a</div>' +
             '<div class="chat-choice-desc">Experiencia obrera, organización, asambleas, debate sindical</div>' +
           '</div>' +
         '</div>' +
         '<div class="chat-choice" data-screen="historiador" data-persona="historiador">' +
-          '<div class="chat-choice-icon persona-icon-historiador"><span class="persona-choice-emoji">🤓</span></div>' +
+          '<div class="chat-choice-icon persona-icon-historiador"><img src="assets/personajes/historiadora.png" alt="Historiadora" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><span class="persona-choice-emoji" style="display:none">📜</span></div>' +
           '<div class="chat-choice-text">' +
             '<div class="chat-choice-name">Historiador/a</div>' +
             '<div class="chat-choice-desc">Historia obrera, formación, cursos, preguntas y archivos sobre historia</div>' +
