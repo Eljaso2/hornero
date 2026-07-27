@@ -37,7 +37,7 @@ class HorneroChat extends HoComponent {
     this.sessionId = '';
     this.historyTitle = 'Historial';
     this.informeBadge = false;
-    this.informesTitle = 'Informes';
+    this.informesTitle = 'Mis Informes';
     this.persona = 'abogado';
     this.username = '';
     this._isRecording = false;  // audio recording state
@@ -341,7 +341,9 @@ class HorneroChat extends HoComponent {
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #586B33); }
       .informes-item-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
-      .informes-item-estado.estado-visto { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33); }
+      .informes-item-estado.estado-aceptado { background: #E8EDD7; color: #586B33; }
+      .informes-item-estado.estado-visto { background: #D7E8F3; color: #2C5A8A; }
+      .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
 
       .informes-item-edit-btn { background: none;
@@ -1013,23 +1015,25 @@ class HorneroChat extends HoComponent {
     // Informes drawer
     const estadoLabelMap = {
       'pendiente': '⏳ No visto por delegado',
-      'visto': '✅ Visto por delegado',
-      'aceptado': '✅ Visto por delegado', // legacy compatibility
+      'aceptado': '✅ Aprobado por trabajador',
+      'visto': '👁 Visto por delegado',
+      'aprobado': '✅ Aprobado por delegado',
       'corregido': '📝 Modificado',
       'enviado': '📤 Enviado',
       'publicado': '📢 Publicado',
     };
     const estadoClassMap = {
       'pendiente': 'estado-pendiente',
+      'aceptado': 'estado-aceptado',
       'visto': 'estado-visto',
-      'aceptado': 'estado-visto', // legacy → same as visto
+      'aprobado': 'estado-aprobado',
       'corregido': 'estado-corregido',
     };
     const informesDrawerHtml = this._showInformes ?
       `<div class="informes-overlay">
         <div class="informes-drawer">
           <div class="informes-header">
-            <div class="informes-header-title">${this.informesTitle || 'Informes'}</div>
+            <div class="informes-header-title">${this.informesTitle || 'Mis Informes'}</div>
             <button class="informes-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
             </button>
@@ -1048,15 +1052,15 @@ class HorneroChat extends HoComponent {
                 const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
                 const tagsHtml = tags.length > 0 ?
                   `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
-                // Estado badge — map legacy 'aceptado' to display as 'visto'
-                const displayEstado = (inf.estado === 'aceptado') ? 'visto' : (inf.estado || 'pendiente');
+                // Estado badge — show actual estado, no legacy mapping
+                const displayEstado = inf.estado || 'pendiente';
                 const estadoClass = estadoClassMap[displayEstado] || '';
                 const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
-                // Editar button only for pendiente estado
-                const editBtnHtml = displayEstado === 'pendiente' ?
+                // Editar button: visible while delegado hasn't seen it (pendiente or aceptado)
+                const editBtnHtml = (displayEstado === 'pendiente' || displayEstado === 'aceptado') ?
                   `<button class="informes-item-edit-btn" data-edit-informe="${inf.id}" title="Editar informe">✏️ Editar</button>` : '';
-                const vistoLabelHtml = displayEstado === 'visto' ?
-                  `<span class="informes-item-visto-label">✅ Visto por delegado</span>` : '';
+                const vistoLabelHtml = (displayEstado === 'visto' || displayEstado === 'aprobado') ?
+                  `<span class="informes-item-visto-label">👁 Visto por delegado</span>` : '';
                 return `<div class="informes-item" data-informe-id="${inf.id}">
                   <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
                   <div class="informes-item-meta">
