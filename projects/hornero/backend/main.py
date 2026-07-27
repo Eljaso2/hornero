@@ -155,12 +155,17 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     now = datetime.now()
     time_str = now.strftime("%H:%M")
 
+    # Determine persona from LLM response or fallback
+    llm_persona = parsed.get("persona", "")
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "ia-sindical"] else effective_persona
+
     return GreetingResponse(
         text=parsed.get("text", ""),
         sections=parsed.get("sections", []),
         tags=parsed.get("tags", [req.section, "greeting"]),
         time=time_str,
         raw=raw_response,
+        persona=final_persona,
     )
 
 
