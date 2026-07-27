@@ -305,7 +305,10 @@ class HorneroChat extends HoComponent {
       /* Informes drawer panel */
       .informes-drawer { width: 85%; max-width: 340px; height: 100%;
         background: var(--ho-bg, #F4F3EE); display: flex; flex-direction: column;
-        box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease; }
+        box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease;
+        touch-action: pan-y; }
+      .informes-drawer.swiping { animation: none; transition: none; }
+      .informes-drawer.swipe-closing { animation: none; transition: transform .25s ease-out; }
 
       .informes-header { padding: 16px; display: flex; align-items: center;
         justify-content: space-between; flex: none;
@@ -356,7 +359,10 @@ class HorneroChat extends HoComponent {
       /* History drawer panel */
       .history-drawer { width: 85%; max-width: 340px; height: 100%;
         background: var(--ho-bg, #F4F3EE); display: flex; flex-direction: column;
-        box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease; }
+        box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease;
+        touch-action: pan-y; /* allow vertical scroll inside, but capture horizontal swipe */ }
+      .history-drawer.swiping { animation: none; transition: none; }
+      .history-drawer.swipe-closing { animation: none; transition: transform .25s ease-out; }
       @keyframes slideIn { from { transform: translateX(100%); } to { transform: none; } }
 
       .history-header { padding: 16px; display: flex; align-items: center;
@@ -400,8 +406,10 @@ class HorneroChat extends HoComponent {
         font-family: 'Archivo', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #9C988D); }
 
+      .history-item-actions { display: flex; gap: 6px; justify-content: flex-end; margin-top: 6px; }
+
       .history-item-delete { background: none; border: none; cursor: pointer;
-        padding: 4px; align-self: flex-end; display: flex; }
+        padding: 4px; display: flex; }
       .history-item-delete svg { width: 14px; height: 14px;
         stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
@@ -409,7 +417,7 @@ class HorneroChat extends HoComponent {
 
       /* Export button inside history drawer items */
       .history-item-export { background: none; border: none; cursor: pointer;
-        padding: 4px; align-self: flex-end; display: flex; }
+        padding: 4px; display: flex; }
       .history-item-export svg { width: 14px; height: 14px;
         stroke: var(--ho-green, #6E8345); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
@@ -1407,11 +1415,11 @@ class HorneroChat extends HoComponent {
       });
     });
 
-    // === History drawer: close ===
+    // === History drawer: close + swipe ===
     const historyOverlay = this.shadowRoot.querySelector('.history-overlay');
+    const historyDrawerEl = this.shadowRoot.querySelector('.history-drawer');
     const historyCloseBtn = this.shadowRoot.querySelector('.history-close-btn');
     if (historyOverlay) {
-      // Close on overlay click (outside drawer)
       historyOverlay.addEventListener('click', (e) => {
         if (e.target === historyOverlay) {
           this._closeHistoryDrawer();
@@ -1422,6 +1430,9 @@ class HorneroChat extends HoComponent {
       historyCloseBtn.addEventListener('click', () => {
         this._closeHistoryDrawer();
       });
+    }
+    if (historyDrawerEl) {
+      this._setupDrawerSwipe(historyDrawerEl, () => this._closeHistoryDrawer());
     }
 
     // === History drawer: select session ===
@@ -1472,8 +1483,9 @@ class HorneroChat extends HoComponent {
       });
     });
 
-    // === Informes drawer: close ===
+    // === Informes drawer: close + swipe ===
     const informesOverlay = this.shadowRoot.querySelector('.informes-overlay');
+    const informesDrawerEl = this.shadowRoot.querySelector('.informes-drawer');
     if (informesOverlay) {
       informesOverlay.addEventListener('click', (e) => {
         if (e.target === informesOverlay) {
@@ -1481,12 +1493,14 @@ class HorneroChat extends HoComponent {
         }
       });
     }
-    // Close button inside informes drawer (own class, no conflict with history)
     const informesCloseBtn = this.shadowRoot.querySelector('.informes-close-btn');
     if (informesCloseBtn) {
       informesCloseBtn.addEventListener('click', () => {
         this._closeInformesDrawer();
       });
+    }
+    if (informesDrawerEl) {
+      this._setupDrawerSwipe(informesDrawerEl, () => this._closeInformesDrawer());
     }
 
     // === Informes drawer: select informe ===
@@ -1905,6 +1919,62 @@ ${msgs.map(m => {
   setInformeBadge(bool) {
     this.informeBadge = bool;
     this.render();
+  }
+
+  // ===== Swipe-to-dismiss for drawer panels =====
+  // Tracks touch on the drawer panel: horizontal swipe right → close
+  // Vertical scrolling inside the list is preserved (only horizontal gesture triggers close)
+  _setupDrawerSwipe(drawerEl, closeFn) {
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let swiping = false;
+    const THRESHOLD = 80; // px to trigger close
+
+    drawerEl.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      currentX = 0;
+      swiping = false;
+    }, { passive: true });
+
+    drawerEl.addEventListener('touchmove', (e) => {
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
+      // Only start swiping if horizontal movement dominates (>2x vertical)
+      if (!swiping && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 2) {
+        swiping = true;
+        drawerEl.classList.add('swiping');
+      }
+      if (!swiping) return;
+      // Only allow swipe to the right (dx > 0), clamp
+      currentX = Math.max(0, dx);
+      drawerEl.style.transform = `translateX(${currentX}px)`;
+    }, { passive: true });
+
+    drawerEl.addEventListener('touchend', () => {
+      if (!swiping) return;
+      drawerEl.classList.remove('swiping');
+      if (currentX >= THRESHOLD) {
+        // Swipe past threshold → close with animation
+        drawerEl.classList.add('swipe-closing');
+        drawerEl.style.transform = `translateX(100%)`;
+        // Wait for animation then close
+        setTimeout(() => {
+          drawerEl.classList.remove('swipe-closing');
+          drawerEl.style.transform = '';
+          closeFn();
+        }, 250);
+      } else {
+        // Didn't reach threshold → snap back
+        drawerEl.style.transition = 'transform .2s ease-out';
+        drawerEl.style.transform = '';
+        // Remove transition after snap-back completes
+        setTimeout(() => { drawerEl.style.transition = ''; }, 200);
+      }
+      swiping = false;
+      currentX = 0;
+    });
   }
 }
 
