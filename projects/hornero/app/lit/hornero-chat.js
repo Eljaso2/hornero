@@ -378,6 +378,13 @@ class HorneroChat extends HoComponent {
         border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12)); }
       .history-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #2B2A26); }
+      .history-new-btn { background: var(--ho-green, #6E8345); border: none;
+        border-radius: 8px; padding: 4px 10px; cursor: pointer; display: flex;
+        align-items: center; justify-content: center; transition: background .2s;
+        margin-left: 8px; }
+      .history-new-btn svg { width: 14px; height: 14px; stroke: var(--ho-text-off, #F2F1EC);
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .history-new-btn:hover { background: var(--ho-green-dark, #586B33); }
       .history-close-btn { background: none; border: none; cursor: pointer;
         width: 28px; height: 28px; border-radius: 50%; display: flex;
         align-items: center; justify-content: center;
@@ -612,6 +619,16 @@ class HorneroChat extends HoComponent {
         display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none; }
       .msg-redirect-icon-circle img { width: 14px; height: 14px; }
       .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
+
+      /* "Ver mis informes" button in message — opens informes drawer */
+      .msg-informes-btn { display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 18px; border-radius: 14px; cursor: pointer;
+        border: 1.5px solid var(--ho-green, #6E8345); background: var(--ho-green-pale, #E8EDD7);
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
+        color: var(--ho-green-dark, #586B33); margin-top: 12px;
+        transition: background .2s, transform .15s, box-shadow .2s; }
+      .msg-informes-btn:hover { background: var(--ho-green-light, #D4DCC0);
+        transform: scale(1.04); box-shadow: 0 2px 8px rgba(43,42,38,.15); }
 
       .msg-text { font-family: 'Public Sans', sans-serif; font-size: .90rem;
         color: var(--ho-text, #2B2A26); line-height: 1.55;
@@ -934,6 +951,9 @@ class HorneroChat extends HoComponent {
         <div class="history-drawer">
           <div class="history-header">
             <div class="history-header-title">${this.historyTitle || 'Historial'}</div>
+            <button class="history-new-btn" title="Nuevo chat">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
             <button class="history-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
             </button>
@@ -1555,11 +1575,18 @@ class HorneroChat extends HoComponent {
     const historyOverlay = this.shadowRoot.querySelector('.history-overlay');
     const historyDrawerEl = this.shadowRoot.querySelector('.history-drawer');
     const historyCloseBtn = this.shadowRoot.querySelector('.history-close-btn');
+    const historyNewBtn = this.shadowRoot.querySelector('.history-new-btn');
     if (historyOverlay) {
       historyOverlay.addEventListener('click', (e) => {
         if (e.target === historyOverlay) {
           this._closeHistoryDrawer();
         }
+      });
+    }
+    if (historyNewBtn) {
+      historyNewBtn.addEventListener('click', () => {
+        this.emit('chat-new-session', {});
+        this._closeHistoryDrawer();
       });
     }
     if (historyCloseBtn) {
