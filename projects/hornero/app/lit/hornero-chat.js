@@ -170,6 +170,14 @@ class HorneroChat extends HoComponent {
         font-family: 'Archivo', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #9C988D); }
 
+      .informes-close-btn { background: none; border: none; cursor: pointer;
+        width: 28px; height: 28px; border-radius: 50%; display: flex;
+        align-items: center; justify-content: center;
+        transition: background .2s; }
+      .informes-close-btn:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .informes-close-btn svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60);
+        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
 
       /* History drawer overlay */
       .history-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -581,7 +589,7 @@ class HorneroChat extends HoComponent {
         <div class="informes-drawer">
           <div class="informes-header">
             <div class="informes-header-title">${this.informesTitle || 'Informes'}</div>
-            <button class="history-close-btn">
+            <button class="informes-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
             </button>
           </div>
@@ -983,8 +991,8 @@ class HorneroChat extends HoComponent {
         }
       });
     }
-    // Close button inside informes drawer (shares .history-close-btn style)
-    const informesCloseBtn = this.shadowRoot.querySelector('.informes-drawer .history-close-btn');
+    // Close button inside informes drawer (own class, no conflict with history)
+    const informesCloseBtn = this.shadowRoot.querySelector('.informes-close-btn');
     if (informesCloseBtn) {
       informesCloseBtn.addEventListener('click', () => {
         this._closeInformesDrawer();
@@ -1146,6 +1154,11 @@ class HorneroChat extends HoComponent {
   _closeHistoryDrawer() {
     this._showHistory = false;
     this.render();
+    // Scroll to bottom after drawer close (delay ensures layout is complete)
+    setTimeout(() => {
+      const scroll = this.shadowRoot.querySelector('.chat-scroll');
+      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+    }, 50);
   }
 
   // ===== Informes Drawer =====
@@ -1166,6 +1179,11 @@ class HorneroChat extends HoComponent {
   _closeInformesDrawer() {
     this._showInformes = false;
     this.render();
+    // Scroll to bottom after drawer close (delay ensures layout is complete)
+    setTimeout(() => {
+      const scroll = this.shadowRoot.querySelector('.chat-scroll');
+      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+    }, 50);
   }
 
   setInformeBadge(bool) {
