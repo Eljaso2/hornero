@@ -219,6 +219,27 @@ function obtenerInformesPorEstado(estado, username) {
   return dbGetByIndex('informes', 'estado', estado);
 }
 function obtenerInformesPorTerritorio(territorio) { return dbGetByIndex('informes', 'territorio', territorio); }
+
+// Informes: load all for a user (all estados), sorted by date desc
+function obtenerInformesTodos(username) {
+  if (username) {
+    return dbGetByIndex('informes', 'username', username).then(function(informes) {
+      return (informes || []).sort(function(a, b) { return (b.fecha || '').localeCompare(a.fecha || ''); });
+    });
+  }
+  return dbGetAll('informes');
+}
+
+// Informes: get next number for a user (count existing + 1)
+function obtenerInformeNumero(username) {
+  if (username) {
+    return dbGetByIndex('informes', 'username', username).then(function(informes) {
+      return (informes || []).length + 1;
+    });
+  }
+  return dbGetAll('informes').then(function(all) { return (all || []).length + 1; });
+}
+
 function actualizarEstadoInforme(id, estado) {
   return dbGet('informes', id).then(function(informe) {
     if (informe) { informe.estado = estado; return dbPut('informes', informe); }

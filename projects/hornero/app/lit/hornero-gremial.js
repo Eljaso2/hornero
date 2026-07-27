@@ -129,6 +129,9 @@ class HorneroGremial extends HoComponent {
         // Could load informe or open session — for now just log
         console.log('Gremial: informe selected', e.detail.informeId);
       });
+      chatEl.addEventListener('informes-edit', (e) => {
+        this._handleInformeEdit(e.detail.informeId);
+      });
       // After chat self-renders (drawer close/delete), re-sync messages without chat render
       chatEl.addEventListener('chat-state-changed', () => {
         this._syncChatMessages(chatEl);
@@ -348,7 +351,6 @@ class HorneroGremial extends HoComponent {
     this.render();
   }
 
-  // ===== Reporte action handler =====
   async _handleReporteAction(detail) {
     if (detail.action === 'aprobar') {
       // Find the last reporte-generado message
@@ -363,9 +365,22 @@ class HorneroGremial extends HoComponent {
           this.messages[idx] = reportMsg;
         }
 
-        // Save to IndexedDB as informe — AWAIT to catch errors
+        // Check if this is a re-edit of an existing informe
+        const isReEdit = reportMsg.informe_id;
+        let savedInformeId;
+        let numero;
+
+        // Save or update the informe — AWAIT to catch errors
         try {
-          await this._saveInforme(reportMsg);
+          if (isReEdit) {
+            const result = await this._updateInforme(reportMsg.informe_id, reportMsg);
+            savedInformeId = reportMsg.informe_id;
+            numero = result ? result.numero : 1;
+          } else {
+            const result = await this._saveInforme(reportMsg);
+            savedInformeId = result ? result.id : '';
+            numero = result ? result.numero : 1;
+          }
         } catch(e) {
           console.warn('Gremial: informe save failed', e);
           this.messages = [...this.messages, {
@@ -381,15 +396,25 @@ class HorneroGremial extends HoComponent {
         // Activate informe badge (icon turns green-pale)
         this._informeBadge = true;
 
-        // Add confirmation message with editability reminder + clickable button
+        // Generate TXT content for the download card (clickeable preview)
+        const informeTxt = this._generateInformeTxt(reportMsg);
+        const informeTitle = 'Reporte Gremial N°' + numero;
+
+        // Add confirmation message with txt preview + download card + reminder
         this.messages = [...this.messages, {
           role: 'hornero',
-          text: '✅ Informe aprobado y guardado.',
+          text: '✅ Informe guardado como ' + informeTitle + '.',
           sections: [
-            { title: '📝 Podés editar el informe', body: 'Mientras el delegado no lo vea, todavía puedes corregirlo. Toca el botón de abajo para ver tus informes.' },
+            { title: '📝 Podés editar este informe', body: 'Mientras el delegado no lo vea, todavía puedes corregirlo. Toca "Ver mis informes" para editarlo.' },
           ],
+          download: {
+            content: informeTxt,
+            filename: informeTitle + '.txt',
+            label: 'Click para ver y descargar',
+          },
           tags: ['reporte', 'informe-guardado'],
           open_informes: true,
+          informe_id: savedInformeId,
           time: this._timeNow(),
         }, {
           role: 'hornero',
@@ -416,9 +441,12 @@ class HorneroGremial extends HoComponent {
   async _saveInforme(reportMsg) {
     const id = typeof generarUUID === 'function' ? generarUUID() : 'h-' + Date.now();
     const session = this._getSession();
+    // Get next informe number for title
+    const numero = typeof obtenerInformeNumero === 'function' ? await obtenerInformeNumero(this._username || session.username) : 1;
     const informe = {
       id: 'g1-' + id,
       grado: 1,
+      numero: numero,
       fecha: new Date().toISOString().slice(0, 10),
       semana: this._getCurrentWeek(),
       trabajador: session.trabajador,
@@ -429,7 +457,7 @@ class HorneroGremial extends HoComponent {
       sections: reportMsg.sections || [],
       etiquetas: { temas: (reportMsg.tags || []).filter(t => t !== 'reporte' && t !== 'reporte-generado' && t !== 'reporte-aprobado') },
       datosDuros: [],
-      estado: 'aceptado',
+      estado: 'pendiente', // Worker saved it, delegate hasn't seen it yet
       username: session.username || this._username || '',
     };
     // Propagate error so _handleReporteAction can catch and show error message
@@ -437,8 +465,73 @@ class HorneroGremial extends HoComponent {
       throw new Error('guardarInforme no disponible — base de datos no inicializada');
     }
     const result = await guardarInforme(informe);
-    console.log('Gremial: informe saved', informe.id, 'username:', informe.username);
+    console.log('Gremial: informe saved', informe.id, 'N°' + numero, 'username:', informe.username);
     return result;
+  }
+
+  // Update an existing informe (after editing) — keeps same ID, resets estado
+  async _updateInforme(informeId, reportMsg) {
+    if (typeof obtenerInforme !== 'function') {
+      throw new Error('obtenerInforme no disponible — base de datos no inicializada');
+    }
+    const informe = await obtenerInforme(informeId);
+    if (!informe) {
+      throw new Error('Informe no encontrado: ' + informeId);
+    }
+    // Update content, keep estado as 'pendiente' (delegate needs to see the correction)
+    informe.contenido = reportMsg.text || '';
+    informe.sections = reportMsg.sections || [];
+    informe.etiquetas = { temas: (reportMsg.tags || []).filter(t => t !== 'reporte' && t !== 'reporte-generado' && t !== 'reporte-aprobado') };
+    informe.estado = 'pendiente';
+    informe.fecha = new Date().toISOString().slice(0, 10); // update date to reflect correction
+    return guardarInforme(informe);
+  }
+
+  // Re-inject a saved informe into the chat for editing
+  async _handleInformeEdit(informeId) {
+    try {
+      if (typeof obtenerInforme !== 'function') return;
+      const informe = await obtenerInforme(informeId);
+      if (!informe) return;
+
+      // Re-inject the informe content as a new reporte-generado message
+      const reportMsg = {
+        role: 'hornero',
+        text: 'Abrimos tu informe para que lo puedas corregir. Lee el contenido y decime qué querés cambiar.',
+        sections: informe.sections || [],
+        tags: ['reporte', 'reporte-generado'],
+        persona: 'relator',
+        time: this._timeNow(),
+        informe_id: informeId,  // link back to the saved informe
+      };
+
+      this.messages = [...this.messages, reportMsg, {
+        role: 'hornero',
+        text: '¿Qué querés corregir? Decime qué cambiar y lo ajusto.',
+        tags: ['reporte', 'correccion-pendiente'],
+        persona: 'relator',
+        time: this._timeNow(),
+      }];
+
+      this._saveChatHistory();
+      this.render();
+    } catch(e) {
+      console.warn('Gremial: informe edit load failed', e);
+    }
+  }
+
+  // Generate TXT content for a single informe (for download card)
+  _generateInformeTxt(reportMsg) {
+    const lines = [];
+    if (reportMsg.sections && reportMsg.sections.length > 0) {
+      reportMsg.sections.forEach(s => {
+        if (s.title) lines.push(s.title);
+        if (s.body) lines.push(s.body);
+      });
+    } else {
+      lines.push(reportMsg.text || '');
+    }
+    return lines.join('\n\n---\n\n');
   }
 
   // ===== Fallback offline =====

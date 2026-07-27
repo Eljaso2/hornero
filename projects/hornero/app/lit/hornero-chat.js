@@ -340,6 +340,22 @@ class HorneroChat extends HoComponent {
       .informes-item-estado { background: var(--ho-green-pale, #E8EDD7);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #586B33); }
+      .informes-item-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
+      .informes-item-estado.estado-visto { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33); }
+      .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
+
+      .informes-item-edit-btn { background: none;
+        border: 1.5px solid #B0863F; color: #B0863F;
+        border-radius: 10px; padding: 5px 12px; cursor: pointer;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
+        display: inline-flex; align-items: center; gap: 4px;
+        transition: background .2s, border-color .2s; margin-top: 4px; }
+      .informes-item-edit-btn:hover { background: #F0E4CC; }
+
+      .informes-item-visto-label { font-family: 'Archivo', sans-serif;
+        font-size: .72rem; font-weight: 700; color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E8EDD7); border-radius: 8px;
+        padding: 3px 10px; margin-top: 4px; display: inline-block; }
       .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
       .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
@@ -906,7 +922,7 @@ class HorneroChat extends HoComponent {
       const cfg = this._getPersonaConfig(p);
       const isActive = p === this.persona;
       const inner = cfg.img
-        ? `<img src="${cfg.img}" alt="${cfg.name}">`
+        ? `<img src="${cfg.img}" alt="${cfg.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
       const leftPos = 12 + idx * 38;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
@@ -995,6 +1011,20 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Informes drawer
+    const estadoLabelMap = {
+      'pendiente': '⏳ No visto por delegado',
+      'visto': '✅ Visto por delegado',
+      'aceptado': '✅ Visto por delegado', // legacy compatibility
+      'corregido': '📝 Modificado',
+      'enviado': '📤 Enviado',
+      'publicado': '📢 Publicado',
+    };
+    const estadoClassMap = {
+      'pendiente': 'estado-pendiente',
+      'visto': 'estado-visto',
+      'aceptado': 'estado-visto', // legacy → same as visto
+      'corregido': 'estado-corregido',
+    };
     const informesDrawerHtml = this._showInformes ?
       `<div class="informes-overlay">
         <div class="informes-drawer">
@@ -1008,21 +1038,35 @@ class HorneroChat extends HoComponent {
             ${this._informesList.length === 0 ?
               '<div class="informes-empty">No hay informes guardados</div>' :
               this._informesList.map(inf => {
-                const titleText = inf.sections && inf.sections.length > 0 ?
-                  (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
-                  (inf.contenido || '').substring(0, 80);
+                // Title: "Reporte Gremial N° X" with numero, fallback to section title
+                const numero = inf.numero || '';
+                const titleText = numero ? 'Reporte Gremial N°' + numero :
+                  (inf.sections && inf.sections.length > 0 ?
+                    (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
+                    (inf.contenido || '').substring(0, 80));
                 const dateStr = inf.fecha || '';
                 const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
                 const tagsHtml = tags.length > 0 ?
                   `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
+                // Estado badge — map legacy 'aceptado' to display as 'visto'
+                const displayEstado = (inf.estado === 'aceptado') ? 'visto' : (inf.estado || 'pendiente');
+                const estadoClass = estadoClassMap[displayEstado] || '';
+                const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
+                // Editar button only for pendiente estado
+                const editBtnHtml = displayEstado === 'pendiente' ?
+                  `<button class="informes-item-edit-btn" data-edit-informe="${inf.id}" title="Editar informe">✏️ Editar</button>` : '';
+                const vistoLabelHtml = displayEstado === 'visto' ?
+                  `<span class="informes-item-visto-label">✅ Visto por delegado</span>` : '';
                 return `<div class="informes-item" data-informe-id="${inf.id}">
                   <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
                   <div class="informes-item-meta">
                     <span>${dateStr}</span>
                     ${inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : ''}
-                    <span class="informes-item-estado">${inf.estado || 'aceptado'}</span>
+                    <span class="informes-item-estado ${estadoClass}">${estadoLabel}</span>
                   </div>
                   ${tagsHtml}
+                  ${editBtnHtml}
+                  ${vistoLabelHtml}
                   <button class="informes-item-export" data-export-informe="${inf.id}" title="Exportar informe">
                     <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                   </button>
@@ -1243,7 +1287,7 @@ class HorneroChat extends HoComponent {
     // Avatar + name row — persona-aware
     const personaCfg = this._getPersonaConfig(m.persona || this.persona);
     const avatarInner = personaCfg.img
-      ? `<img src="${personaCfg.img}" alt="H">`
+      ? `<img src="${personaCfg.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
       : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
     const avatarRow = `<div class="msg-avatar-row persona-${m.persona || this.persona}">
       <div class="msg-avatar" style="background:${personaCfg.bg}">${avatarInner}</div>
@@ -1253,7 +1297,7 @@ class HorneroChat extends HoComponent {
     // === REPORTE DESPLEGABLE: if tags include 'reporte-generado' ===
     const tags = m.tags || [];
     const isReporteGenerado = tags.includes('reporte-generado');
-    const isReporteAprobado = tags.includes('reporte-aprobado') || tags.includes('informe-guardado');
+    const isReporteAprobado = tags.includes('reporte-aprobado');
 
     if (isReporteGenerado && m.sections && m.sections.length > 0) {
       // Render as expandable report card
@@ -1679,14 +1723,41 @@ class HorneroChat extends HoComponent {
       this._setupDrawerSwipe(informesDrawerEl, () => this._closeInformesDrawer());
     }
 
-    // === Informes drawer: select informe ===
+    // === Informes drawer: select informe (delegate viewing transition) ===
     this.shadowRoot.querySelectorAll('.informes-item').forEach(item => {
       item.addEventListener('click', (e) => {
-        // Don't trigger if export button was clicked
-        if (e.target.closest('.informes-item-export')) return;
+        // Don't trigger if export or edit button was clicked
+        if (e.target.closest('.informes-item-export') || e.target.closest('.informes-item-edit-btn')) return;
         const infId = item.dataset.informeId;
         if (infId) {
+          // Delegate viewing: if grade is B.b/B.c/B.d and informe is pendiente → transition to 'visto'
+          try {
+            const session = JSON.parse(localStorage.getItem('hornero-session'));
+            const delegateGrades = ['B.b', 'B.c', 'B.d'];
+            const inf = this._informesList.find(i => i.id === infId);
+            if (session && delegateGrades.includes(session.grade) && inf && inf.estado === 'pendiente') {
+              if (typeof actualizarEstadoInforme === 'function') {
+                actualizarEstadoInforme(infId, 'visto').then(() => {
+                  this.emit('informes-select', { informeId: infId });
+                  this._closeInformesDrawer();
+                });
+                return; // Don't emit yet — wait for state update
+              }
+            }
+          } catch(e) {}
           this.emit('informes-select', { informeId: infId });
+          this._closeInformesDrawer();
+        }
+      });
+    });
+
+    // === Informes drawer: edit informe button ===
+    this.shadowRoot.querySelectorAll('.informes-item-edit-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const infId = btn.dataset.editInforme;
+        if (infId) {
+          this.emit('informes-edit', { informeId: infId });
           this._closeInformesDrawer();
         }
       });
@@ -1804,20 +1875,25 @@ class HorneroChat extends HoComponent {
     });
 
     // === Download file cards (clickable file attachment in chat) ===
+    // Open preview in new tab + trigger download for phone notification
     this.shadowRoot.querySelectorAll('.msg-download-card[data-action="download-file"]').forEach(card => {
       card.addEventListener('click', () => {
         const msgIndex = Number(card.dataset.msgIndex);
         const msg = this.messages[msgIndex];
         if (msg && msg.download && msg.download.content) {
           const blob = new Blob([msg.download.content], { type: 'text/plain;charset=utf-8' });
-          const url = URL.createObjectURL(blob);
+          // Open preview in new tab so user can see the txt without searching filesystem
+          const blobUrl = URL.createObjectURL(blob);
+          window.open(blobUrl, '_blank');
+          // Also trigger download for phone notification
           const a = document.createElement('a');
-          a.href = url;
+          a.href = blobUrl;
           a.download = msg.download.filename || 'chat-hornero.txt';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          URL.revokeObjectURL(url);
+          // Don't revoke immediately — the new tab needs the URL
+          setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 10000);
           this._showDownloadToast(msg.download.filename || 'chat-hornero');
         }
       });
@@ -2137,8 +2213,13 @@ ${msgs.map(m => {
   // ===== Informes Drawer =====
   async _openInformesDrawer() {
     try {
-      if (typeof obtenerInformesPorEstado === 'function') {
-        this._informesList = await obtenerInformesPorEstado('aceptado', this.username);
+      if (typeof obtenerInformesTodos === 'function') {
+        this._informesList = await obtenerInformesTodos(this.username);
+      } else if (typeof obtenerInformesPorEstado === 'function') {
+        // Fallback: load aceptado (legacy) + pendiente informes
+        const aceptados = await obtenerInformesPorEstado('aceptado', this.username) || [];
+        const pendientes = await obtenerInformesPorEstado('pendiente', this.username) || [];
+        this._informesList = [...pendientes, ...aceptados].sort(function(a, b) { return (b.fecha || '').localeCompare(a.fecha || ''); });
       } else {
         this._informesList = [];
       }
