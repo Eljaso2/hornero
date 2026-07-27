@@ -366,6 +366,7 @@ async def audio_chat_endpoint(
         time=time_str,
         raw=raw_response,
         persona=final_persona,
+        redirect_persona=validated_redirect(parsed.get("redirect_persona", "")),
     )
 
 
