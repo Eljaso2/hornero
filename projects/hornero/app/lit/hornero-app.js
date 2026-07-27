@@ -22,6 +22,7 @@ class HorneroApp extends HoComponent {
     super();
     this.screen = 'home';
     this.updateAvailable = false;
+    this._initialPersona = 'ia-sindical'; // Persona selected from landing page
 
     // Synchronous session restore from localStorage (avoids login flash)
     const stored = localStorage.getItem('hornero-session');
@@ -337,10 +338,16 @@ class HorneroApp extends HoComponent {
         transition: border-color .2s, background .2s; margin-bottom: 12px; }
       .chat-choice:hover { border-color: rgba(43,42,38,.18);
         background: var(--ho-green-pale, #E8EDD7); }
-      .chat-choice-icon { width: 46px; height: 46px; flex: none; }
+      .chat-choice-icon { width: 46px; height: 46px; flex: none;
+        border-radius: 50%; display: flex; align-items: center; justify-content: center; }
       .chat-choice-icon svg { width: 46px; height: 46px; stroke: #6E8345;
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
+      .persona-choice-emoji { font-size: 1.2rem; line-height: 1; }
+      .persona-icon-ia-sindical { background: #E8EDD7; }
+      .persona-icon-abogado { background: #D4E4F7; }
+      .persona-icon-periodista { background: #E8E0D7; }
+      .persona-icon-companero { background: #FDE8D0; }
       .chat-choice-text { flex: 1; }
       .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: #2B2A26; }
@@ -404,28 +411,35 @@ class HorneroApp extends HoComponent {
       const consultaSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/>';
       const contenidoSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
       screenContent = '<div class="chat-landing">' +
-        '<div class="chat-landing-kicker">🤖 Chat IA Sindical</div>' +
+        '<div class="chat-landing-kicker">🪶 Mesa de trabajo</div>' +
         '<div class="chat-landing-title">Hornero te escucha</div>' +
-        '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Elige cómo quieres conversar:</div>' +
-        '<div class="chat-choice" data-screen="consulta">' +
-          '<div class="chat-choice-icon"><svg viewBox="0 0 24 24">' + debateSvg + '</svg></div>' +
+        '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Diferentes compañeros responden según lo que necesites:</div>' +
+        '<div class="chat-choice" data-screen="consulta" data-persona="ia-sindical">' +
+          '<div class="chat-choice-icon persona-icon-ia-sindical"><span class="persona-choice-emoji">🪶</span></div>' +
           '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Debate</div>' +
-            '<div class="chat-choice-desc">Discusión argumentada sobre temas sindicales y laborales</div>' +
+            '<div class="chat-choice-name">IA Sindical</div>' +
+            '<div class="chat-choice-desc">Consulta general — cualquier tema sindical o laboral</div>' +
           '</div>' +
         '</div>' +
-        '<div class="chat-choice" data-screen="consulta">' +
-          '<div class="chat-choice-icon"><svg viewBox="0 0 24 24">' + consultaSvg + '</svg></div>' +
+        '<div class="chat-choice" data-screen="consulta" data-persona="abogado">' +
+          '<div class="chat-choice-icon persona-icon-abogado"><span class="persona-choice-emoji">⚖️</span></div>' +
           '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Consulta</div>' +
-            '<div class="chat-choice-desc">Preguntá sobre derechos, convenios, legislación laboral</div>' +
+            '<div class="chat-choice-name">Abogado</div>' +
+            '<div class="chat-choice-desc">Derechos, convenios, legislación laboral — asesoría legal</div>' +
           '</div>' +
         '</div>' +
-        '<div class="chat-choice" data-screen="contenido">' +
-          '<div class="chat-choice-icon"><svg viewBox="0 0 24 24">' + contenidoSvg + '</svg></div>' +
+        '<div class="chat-choice" data-screen="contenido" data-persona="periodista">' +
+          '<div class="chat-choice-icon persona-icon-periodista"><span class="persona-choice-emoji">🎙️</span></div>' +
           '<div class="chat-choice-text">' +
-            '<div class="chat-choice-name">Contenido</div>' +
-            '<div class="chat-choice-desc">Generá podcasts, reels, columnas, entrevistas</div>' +
+            '<div class="chat-choice-name">Periodista</div>' +
+            '<div class="chat-choice-desc">Generá podcasts, reels, columnas, entrevistas, notas</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="chat-choice" data-screen="consulta" data-persona="companero">' +
+          '<div class="chat-choice-icon persona-icon-companero"><span class="persona-choice-emoji">✊</span></div>' +
+          '<div class="chat-choice-text">' +
+            '<div class="chat-choice-name">Compañero</div>' +
+            '<div class="chat-choice-desc">Experiencia obrera, organización, asambleas, debate sindical</div>' +
           '</div>' +
         '</div>' +
       '</div>';
@@ -503,6 +517,7 @@ class HorneroApp extends HoComponent {
     // Bind chat-choice buttons (Chat landing screen)
     this.shadowRoot.querySelectorAll('.chat-choice').forEach(btn => {
       btn.addEventListener('click', () => {
+        this._initialPersona = btn.dataset.persona || 'ia-sindical';
         this._navigateTo(btn.dataset.screen);
       });
     });
@@ -556,6 +571,16 @@ class HorneroApp extends HoComponent {
         this.set('userName', e.detail.nombre);
       }
     });
+
+    // Pass initial persona to chat child components
+    const consultaEl = this.shadowRoot.querySelector('hornero-consulta');
+    if (consultaEl && this._initialPersona) {
+      consultaEl._activePersona = this._initialPersona;
+    }
+    const contenidoEl = this.shadowRoot.querySelector('hornero-contenido');
+    if (contenidoEl && this._initialPersona) {
+      contenidoEl._activePersona = this._initialPersona;
+    }
 
   }
 
