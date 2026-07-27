@@ -547,6 +547,9 @@ class HorneroApp extends HoComponent {
       const detail = e.detail || {};
       this._clipEdicion = detail.clipEdicion || null;
       this._clipExpandId = detail.clipExpandId || null;
+      if (detail.persona) {
+        this._initialPersona = detail.persona;
+      }
       this._navigateTo(detail.screen);
     });
 

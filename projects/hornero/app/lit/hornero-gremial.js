@@ -121,6 +121,10 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
+      // Listen for persona redirect from derivation button
+      chatEl.addEventListener('persona-redirect', (e) => {
+        this._handlePersonaRedirect(e.detail.persona);
+      });
     }
     if (!this._historyLoaded) {
       this._loadChatHistory();
@@ -192,6 +196,7 @@ class HorneroGremial extends HoComponent {
         sections: data.sections || [],
         tags: data.tags || ['reporte', 'greeting'],
         persona: data.persona || 'relator',
+        redirect_persona: data.redirect_persona || '',
         time: data.time || this._timeNow(),
       }];
       this._typing = false;
@@ -310,6 +315,7 @@ class HorneroGremial extends HoComponent {
       sections: data.sections || [],
       tags: data.tags || ['reporte'],
       persona: data.persona || 'relator',
+      redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
     this._typing = false;
@@ -447,6 +453,7 @@ class HorneroGremial extends HoComponent {
       sections: data.sections || [],
       tags: data.tags || ['reporte', 'audio'],
       persona: data.persona || 'relator',
+      redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
     this._activePersona = data.persona || 'relator';
@@ -543,6 +550,20 @@ class HorneroGremial extends HoComponent {
     const oneWeek = 604800000;
     const weekNum = Math.ceil((diff / oneWeek) + 1);
     return now.getFullYear() + '-W' + (weekNum < 10 ? '0' : '') + weekNum;
+  }
+
+  _handlePersonaRedirect(targetPersona) {
+    // Gremial only has relator — all redirects navigate to other screens
+    const screenMap = {
+      'abogado': { screen: 'consulta', persona: 'abogado' },
+      'companero': { screen: 'consulta', persona: 'companero' },
+      'periodista': { screen: 'contenido', persona: 'periodista' },
+      'ia-sindical': { screen: 'consulta', persona: 'ia-sindical' },
+    };
+    const target = screenMap[targetPersona];
+    if (target) {
+      this.emit('screen-change', { screen: target.screen, persona: target.persona });
+    }
   }
 }
 
