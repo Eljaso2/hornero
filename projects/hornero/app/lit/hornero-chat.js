@@ -990,7 +990,7 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Persona icons — top-left corner (all 5 always visible, active one highlighted)
-    const allPersonas = ['historiador', 'abogado', 'relator', 'companero', 'periodista'];
+    const allPersonas = ['relator', 'abogado', 'periodista', 'companero', 'historiador'];
     // Screen mapping for navigation
     const personaScreenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
@@ -1033,13 +1033,13 @@ class HorneroChat extends HoComponent {
         <button class="chat-attach-remove" title="Quitar adjunto">✕</button>
       </div>` : '';
 
-    // History drawer — section icons mapping
+    // History drawer — section icons mapping (matches _getPersonaConfig emojis)
     const sectionConfig = {
-      consulta:  { emoji: '📖', label: 'Consulta',  color: '#6E8345' },
-      contenido: { emoji: '🎙️', label: 'Contenido', color: '#B0863F' },
-      debate:    { emoji: '✊🏾', label: 'Compañero', color: '#5A7EA8' },
+      consulta:  { emoji: '📖', label: 'Consulta',  color: '#2B5278' },
+      contenido: { emoji: '🎙️', label: 'Contenido', color: '#5A4A3A' },
+      debate:    { emoji: '✊', label: 'Compañero', color: '#7A3B1E' },
       reporte:   { emoji: '🪶', label: 'Reporte',   color: '#586B33' },
-      historia:  { emoji: '🤓', label: 'Historia',   color: '#4A3A5A' },
+      historia:  { emoji: '📜', label: 'Historia',   color: '#4A3A5A' },
     };
     const defaultSection = { emoji: '🪶', label: 'IA Sindical', color: '#586B33' };
 

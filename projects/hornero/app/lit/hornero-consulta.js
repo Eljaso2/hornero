@@ -10,6 +10,7 @@ class HorneroConsulta extends HoComponent {
     return {
       grade: String,
       sector: String,
+      persona: String,  // Initial persona from Mesa de Trabajo landing
       messages: Array,
       iaStep: Number,
     };
@@ -50,7 +51,7 @@ class HorneroConsulta extends HoComponent {
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
     this._sessionId = ''; // Current session ID — new on each visit
-    this._activePersona = 'abogado'; // Default persona — mesa de trabajo
+    this._activePersona = 'abogado'; // Default — overridden by persona attribute from Mesa landing
     this._username = ''; // login username for per-user data isolation
   }
 
@@ -87,6 +88,10 @@ class HorneroConsulta extends HoComponent {
   }
 
   _afterRender() {
+    // Use persona attribute from Mesa landing if provided
+    if (this.persona && this.persona !== this._activePersona) {
+      this._activePersona = this.persona;
+    }
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) {
       this._syncChatMessages(chatEl);

@@ -485,7 +485,7 @@ class HorneroApp extends HoComponent {
         '</div>' +
       '</div>';
     } else if (this.screen === 'consulta') {
-      screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-consulta>';
+      screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'abogado') + '"></hornero-consulta>';
     } else if (this.screen === 'contenido') {
       screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-contenido>';
     } else if (this.screen === 'condicion') {
