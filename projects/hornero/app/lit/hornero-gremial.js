@@ -381,11 +381,20 @@ class HorneroGremial extends HoComponent {
         // Activate informe badge (icon turns green-pale)
         this._informeBadge = true;
 
-        // Add confirmation message
+        // Add confirmation message with editability reminder + clickable button
         this.messages = [...this.messages, {
           role: 'hornero',
-          text: '✅ Informe aprobado y guardado en tu archivo. ¿Querés reportar otra situación?',
+          text: '✅ Informe aprobado y guardado.',
+          sections: [
+            { title: '📝 Podés editar el informe', body: 'Mientras el delegado no lo vea, todavía puedes corregirlo. Toca el botón de abajo para ver tus informes.' },
+          ],
           tags: ['reporte', 'informe-guardado'],
+          open_informes: true,
+          time: this._timeNow(),
+        }, {
+          role: 'hornero',
+          text: '¿Querés reportar otra situación?',
+          tags: ['reporte', 'pregunta-nuevo'],
           time: this._timeNow(),
         }];
         this._saveChatHistory();
@@ -423,9 +432,13 @@ class HorneroGremial extends HoComponent {
       estado: 'aceptado',
       username: session.username || this._username || '',
     };
-    try {
-      if (typeof guardarInforme === 'function') await guardarInforme(informe);
-    } catch(e) { console.warn('Gremial: informe save failed', e); }
+    // Propagate error so _handleReporteAction can catch and show error message
+    if (typeof guardarInforme !== 'function') {
+      throw new Error('guardarInforme no disponible — base de datos no inicializada');
+    }
+    const result = await guardarInforme(informe);
+    console.log('Gremial: informe saved', informe.id, 'username:', informe.username);
+    return result;
   }
 
   // ===== Fallback offline =====

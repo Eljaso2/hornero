@@ -1387,12 +1387,18 @@ class HorneroChat extends HoComponent {
       </button>`;
     })() : '';
 
+    // "Ver mis informes" button — opens informes drawer
+    const openInformes = m.open_informes || false;
+    const informesBtnHtml = openInformes ?
+      `<button class="msg-informes-btn" data-action="open-informes">📄 Ver mis informes</button>` : '';
+
     return `<div class="msg-row hornero">
       ${avatarRow}
       <div class="msg-content">
         ${downloadHtml}
         ${contentHtml}
         ${redirectBtnHtml}
+        ${informesBtnHtml}
         ${timeHtml}
         ${actionsHtml}
       </div>
@@ -1568,6 +1574,13 @@ class HorneroChat extends HoComponent {
         if (targetPersona) {
           this.emit('persona-redirect', { persona: targetPersona });
         }
+      });
+    });
+
+    // === "Ver mis informes" button → open informes drawer ===
+    this.shadowRoot.querySelectorAll('.msg-informes-btn[data-action="open-informes"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this._openInformesDrawer();
       });
     });
 
