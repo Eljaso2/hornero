@@ -437,7 +437,7 @@ class HorneroApp extends HoComponent {
     return html`
       <div class="app-wrap">
         <div class="phone">
-          <div class="screen">
+          <div class="screen" style="background:var(--ho-bg,#F4F3EE)">
 
             <div class="status-bar">
               <span>9:41</span>
