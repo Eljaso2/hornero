@@ -82,10 +82,11 @@ def validated_redirect(redirect_persona: str) -> str:
 
 # ===== Request/Response models =====
 class GreetingRequest(BaseModel):
-    section: str = "consulta"  # consulta|contenido|debate
+    section: str = "consulta"  # consulta|contenido|debate|historia
     grade: str = "A"
     sector: str = "aceitero"
     requested_persona: str = ""  # companero|abogado|periodista|relator|historiador|ia-sindical — override
+    session_id: str = ""  # Frontend session ID for correlation
 
 
 class GreetingResponse(BaseModel):
@@ -100,11 +101,12 @@ class GreetingResponse(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str
-    formato: str = "consulta"  # podcast|reel|columna|entrevista|consulta|contenido|debate
+    formato: str = "consulta"  # podcast|reel|columna|entrevista|consulta|contenido|debate|historia
     history: list = []  # [{role, text, sections}]
     grade: str = "A"
     sector: str = "aceitero"
     requested_persona: str = ""  # companero|abogado|periodista|relator|historiador — override
+    session_id: str = ""  # Frontend session ID for correlation
 
 
 class ChatResponse(BaseModel):
@@ -284,6 +286,7 @@ async def audio_chat_endpoint(
     grade: str = Form("A"),
     sector: str = Form("aceitero"),
     requested_persona: str = Form(""),
+    session_id: str = Form(""),
     history: str = Form("[]"),
 ) -> ChatResponse:
     """Audio chat endpoint — receives audio, transcribes with Paraformer-v2, then calls LLM.

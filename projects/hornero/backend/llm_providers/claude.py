@@ -18,8 +18,8 @@ async def call_claude(
     # Build messages array (Anthropic format: no system in messages, separate field)
     messages = []
 
-    # Add conversation history (last 12 messages for better context)
-    for msg in history[-12:]:
+    # Add conversation history (last 30 messages for full session context)
+    for msg in history[-30:]:
         role = "user" if msg.get("role") == "user" else "assistant"
         # For assistant messages, prefer text over sections for conversational context
         if role == "assistant":

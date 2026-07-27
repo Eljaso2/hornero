@@ -56,9 +56,7 @@ class HorneroConsulta extends HoComponent {
 
   connectedCallback() {
     super.connectedCallback();
-    // Generate new sessionId on each visit — start fresh
-    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-    // Get username from login session for per-user data isolation
+    // Don't generate sessionId yet — _loadChatHistory will restore or create
     try {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
       if (session && session.username) this._username = session.username;
@@ -135,6 +133,10 @@ class HorneroConsulta extends HoComponent {
       chatEl.addEventListener('chat-export', (e) => {
         this._handleChatExport(e.detail);
       });
+      // Listen for "Nuevo chat" button from history drawer
+      chatEl.addEventListener('chat-new-session', () => {
+        this._startNewSession();
+      });
     }
 
     // Load history from IndexedDB first, then request greeting if empty
@@ -144,9 +146,24 @@ class HorneroConsulta extends HoComponent {
   }
 
   async _loadChatHistory() {
+    if (this._historyLoaded) return;
     this._historyLoaded = true;
-    // On each visit: start fresh with new sessionId
-    // No need to load previous session — the user can access via history drawer
+
+    // Try to restore the most recent session for this section + username
+    if (typeof obtenerChatSessions === 'function' && this._username) {
+      try {
+        const sessions = await obtenerChatSessions(this._username);
+        const mySessions = sessions.filter(s => s.section === this._chatSection);
+        if (mySessions.length > 0) {
+          const latestSession = mySessions[0]; // sorted by timestamp desc
+          await this._loadSession(latestSession.sessionId);
+          return; // Session restored, no greeting needed
+        }
+      } catch(e) { console.warn('Consulta: session restore failed', e); }
+    }
+
+    // No previous session found — start fresh
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
@@ -179,13 +196,38 @@ class HorneroConsulta extends HoComponent {
     }
   }
 
+  // ===== Fetch with timeout — prevents hanging on Render cold start =====
+  _fetchWithTimeout(url, options, timeoutMs = 30000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .then(response => { clearTimeout(timeoutId); return response; })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+          throw new Error('FETCH_TIMEOUT');
+        }
+        throw err;
+      });
+  }
+
+  // ===== Start a new chat session =====
+  _startNewSession() {
+    this.messages = [];
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._historyLoaded = true;
+    this._greetingRequested = false;
+    this._activePersona = 'abogado';
+    this._requestGreeting();
+  }
+
   async _requestGreeting() {
     this._greetingRequested = true;
     this._typing = true;
     this.render();
 
     try {
-      const response = await fetch(HorneroConsulta.GREETING_URL, {
+      const response = await this._fetchWithTimeout(HorneroConsulta.GREETING_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -193,6 +235,7 @@ class HorneroConsulta extends HoComponent {
           grade: this.grade,
           sector: this.sector,
           requested_persona: this._activePersona,
+          session_id: this._sessionId,
         }),
       });
 
@@ -310,8 +353,18 @@ class HorneroConsulta extends HoComponent {
     this._saveChatHistory();
     this.render();
 
-    this._callBackend(text).catch(() => {
-      this.messages = [...this.messages, this._localResponse(text)];
+    this._callBackend(text).catch((err) => {
+      if (err.message === 'FETCH_TIMEOUT') {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.',
+          tags: ['consulta', 'timeout'],
+          persona: this._activePersona,
+          time: this._timeNow(),
+        }];
+      } else {
+        this.messages = [...this.messages, this._localResponse(text)];
+      }
       this.iaStep++;
       this._typing = false; this._greetingRequested = false;
       this.render();
@@ -319,13 +372,13 @@ class HorneroConsulta extends HoComponent {
   }
 
   async _callBackend(text) {
-    const history = this.messages.slice(-7, -1).map(m => ({
+    const history = this.messages.map(m => ({
       role: m.role,
       text: m.text || '',
       sections: m.sections || [],
     }));
 
-    const response = await fetch(HorneroConsulta.API_URL, {
+    const response = await this._fetchWithTimeout(HorneroConsulta.API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -335,6 +388,7 @@ class HorneroConsulta extends HoComponent {
         grade: this.grade,
         sector: this.sector,
         requested_persona: this._activePersona,
+        session_id: this._sessionId,
       }),
     });
 
@@ -368,8 +422,18 @@ class HorneroConsulta extends HoComponent {
     this._saveChatHistory();
     this.render();
 
-    this._callAudioBackend(audioBlob, fileName).catch(() => {
-      this.messages = [...this.messages, this._localResponse('audio fallback')];
+    this._callAudioBackend(audioBlob, fileName).catch((err) => {
+      if (err.message === 'FETCH_TIMEOUT') {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: 'No puedo procesar el audio ahora — el servidor está lento. Intentá de nuevo.',
+          tags: ['consulta', 'audio', 'timeout'],
+          persona: this._activePersona,
+          time: this._timeNow(),
+        }];
+      } else {
+        this.messages = [...this.messages, this._localResponse('audio fallback')];
+      }
       this.iaStep++;
       this._typing = false;
       const chatEl = this.shadowRoot.querySelector('hornero-chat');
@@ -379,7 +443,7 @@ class HorneroConsulta extends HoComponent {
   }
 
   async _callAudioBackend(audioBlob, fileName) {
-    const history = this.messages.slice(-7, -1).map(m => ({
+    const history = this.messages.map(m => ({
       role: m.role,
       text: m.text || '',
       sections: m.sections || [],
@@ -391,12 +455,13 @@ class HorneroConsulta extends HoComponent {
     formData.append('grade', this.grade);
     formData.append('sector', this.sector);
     formData.append('requested_persona', this._activePersona);
+    formData.append('session_id', this._sessionId);
     formData.append('history', JSON.stringify(history));
 
-    const response = await fetch(HorneroConsulta.AUDIO_URL, {
+    const response = await this._fetchWithTimeout(HorneroConsulta.AUDIO_URL, {
       method: 'POST',
       body: formData, // Browser sets multipart Content-Type automatically
-    });
+    }, 45000);
 
     if (!response.ok) throw new Error('Audio backend error: ' + response.status);
 
