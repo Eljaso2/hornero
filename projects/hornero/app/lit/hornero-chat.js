@@ -270,6 +270,26 @@ class HorneroChat extends HoComponent {
         box-shadow: 0 4px 20px rgba(43,42,38,.3); }
       .download-toast.show { opacity: 1; }
 
+      /* Share menu overlay — for reporte card share button */
+      .share-menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 900; background: rgba(43,42,38,.5); display: flex;
+        align-items: center; justify-content: center; }
+      .share-menu { background: var(--ho-card, #FBFAF6); border-radius: 16px;
+        padding: 20px; width: 260px; box-shadow: 0 8px 32px rgba(43,42,38,.2); }
+      .share-menu-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .92rem; color: var(--ho-text, #2B2A26); margin-bottom: 12px; }
+      .share-menu-item { display: flex; align-items: center; gap: 10px;
+        padding: 10px 14px; border: none; background: none; cursor: pointer;
+        border-radius: 10px; font-family: 'Archivo', sans-serif; font-weight: 600;
+        font-size: .86rem; color: var(--ho-text, #2B2A26); width: 100%;
+        transition: background .2s; }
+      .share-menu-item:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .share-menu-icon { font-size: 1.1rem; }
+      .share-menu-cancel { display: block; margin-top: 8px; padding: 8px;
+        border: none; background: none; cursor: pointer;
+        font-family: 'Archivo', sans-serif; font-size: .82rem;
+        color: var(--ho-text-light, #9C988D); width: 100%; text-align: center; }
+
       /* History button — top-right corner of chat */
       .chat-history-btn { position: absolute; top: 12px; right: 12px; z-index: 20;
         width: 32px; height: 32px; border-radius: 50%;
@@ -542,24 +562,24 @@ class HorneroChat extends HoComponent {
       .reporte-card-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
         padding: 4px 10px; border-radius: 8px; font-weight: 600; }
-      .reporte-card-actions { display: flex; gap: 8px;
-        padding: 12px 14px; background: var(--ho-bg, #F4F3EE);
-        border-top: 1px solid var(--ho-green-pale, #E8EDD7); }
-      .reporte-btn { border-radius: 12px; padding: 10px 18px;
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .86rem;
-        cursor: pointer; display: flex; align-items: center; gap: 6px;
-        transition: background .2s, border-color .2s; flex: 1; justify-content: center; }
+      .reporte-card-actions { display: flex; gap: 6px;
+        padding: 8px 12px 4px; justify-content: flex-end; }
+      .reporte-btn { border-radius: 8px; padding: 6px 10px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 1rem;
+        cursor: pointer; transition: background .2s; display: inline-flex;
+        align-items: center; justify-content: center; min-width: 32px; }
       .reporte-btn-approve { background: var(--ho-green, #6E8345);
         color: var(--ho-text-off, #F2F1EC); border: none; }
       .reporte-btn-approve:hover { background: var(--ho-green-dark, #586B33); }
       .reporte-btn-correct { background: none;
-        border: 1.5px solid var(--ho-gold, #B0863F);
-        color: var(--ho-gold, #B0863F); }
+        border: 1px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
       .reporte-btn-correct:hover { background: #F0E4CC; }
-      .reporte-btn-export { background: none;
-        border: 1.5px solid var(--ho-green-light, #94A867);
-        color: var(--ho-green-dark, #586B33); }
-      .reporte-btn-export:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .reporte-btn-share { background: none;
+        border: 1px solid var(--ho-mid-gray, #ECEAE3); color: var(--ho-text-mid, #6E6A60); }
+      .reporte-btn-share:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .reporte-btn-delete { background: none;
+        border: 1px solid #D32F2F; color: #D32F2F; }
+      .reporte-btn-delete:hover { background: #FDECEA; }
       .reporte-card.estado-aceptado { border-color: var(--ho-green-light, #94A867);
         opacity: .85; }
       .reporte-card.estado-aceptado .reporte-btn-approve,
@@ -1390,15 +1410,15 @@ class HorneroChat extends HoComponent {
       const tagsHtml = visibleTags.length > 0 ?
         `<div class="reporte-card-tags">${visibleTags.map(t => `<span class="reporte-card-tag">${t}</span>`).join('')}</div>` : '';
 
-      // Action buttons — export always shown; aprobar/corregir only for non-accepted; delete always shown
-      const exportBtn = `<button class="reporte-btn reporte-btn-export" data-reporte-action="exportar" data-msg-index="${msgIndex}">📥 Exportar</button>`;
-      const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" style="background:none; border:1.5px solid #D32F2F; color:#D32F2F;">🗑️ Borrar</button>`;
+      // Action buttons — icon-only, subtle; aprobado shares same card with different actions
+      const shareBtn = `<button class="reporte-btn reporte-btn-share" data-reporte-action="compartir" data-msg-index="${msgIndex}" title="Compartir">📤</button>`;
+      const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" title="Borrar">🗑️</button>`;
       const actionsHtml = isReporteAprobado ?
-        `<div class="reporte-card-actions">${exportBtn}${deleteBtn}</div>` :
+        `<div class="reporte-card-actions">${shareBtn}${deleteBtn}</div>` :
         `<div class="reporte-card-actions">
-          ${exportBtn}
-          <button class="reporte-btn reporte-btn-approve" data-reporte-action="aprobar" data-msg-index="${msgIndex}">✅ Aprobar</button>
-          <button class="reporte-btn reporte-btn-correct" data-reporte-action="corregir" data-msg-index="${msgIndex}">📝 Corregir</button>
+          <button class="reporte-btn reporte-btn-approve" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">✅</button>
+          <button class="reporte-btn reporte-btn-correct" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Editar">✏️</button>
+          ${shareBtn}
           ${deleteBtn}
         </div>`;
 
@@ -2023,16 +2043,10 @@ class HorneroChat extends HoComponent {
           this.emit('reporte-action', { action: 'aprobar', msgIndex });
         } else if (action === 'corregir') {
           this.emit('reporte-action', { action: 'corregir', msgIndex });
-        } else if (action === 'exportar') {
-          // Export the reporte card as TXT document
-          const msg = this.messages[msgIndex];
-          if (msg) {
-            const msgs = [msg];
-            const title = msg.sections && msg.sections[0] ? msg.sections[0].title || 'Informe Gremial' : 'Informe Gremial';
-            this._downloadTxt(msgs, title, `reporte-${new Date().toISOString().slice(0,10)}`);
-          }
+        } else if (action === 'compartir') {
+          // Show share menu (WhatsApp, Email, Download TXT)
+          this._showShareMenu(msgIndex);
         } else if (action === 'borrar') {
-          // Delete the reporte card message
           if (msgIndex >= 0 && msgIndex < this.messages.length) {
             if (confirm('¿Borrar este informe?')) {
               this.deleteMessage(msgIndex);
@@ -2343,6 +2357,78 @@ ${msgs.map(m => {
   setInformeBadge(bool) {
     this.informeBadge = bool;
     this.render();
+  }
+
+  // ===== Share menu for reporte cards (WhatsApp, Email, Download TXT) =====
+  _showShareMenu(msgIndex) {
+    const msg = this.messages[msgIndex];
+    if (!msg) return;
+
+    // Generate TXT content from the reporte message
+    const txtContent = this._generateTxtContent([msg], msg.sections && msg.sections[0] ? msg.sections[0].title || 'Informe Gremial' : 'Informe Gremial');
+    const title = msg.sections && msg.sections[0] ? msg.sections[0].title || 'Informe Gremial' : 'Informe Gremial';
+
+    // Create share menu overlay inside shadow DOM
+    const existingMenu = this.shadowRoot.querySelector('.share-menu-overlay');
+    if (existingMenu) existingMenu.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'share-menu-overlay';
+    overlay.innerHTML = `
+      <div class="share-menu">
+        <div class="share-menu-title">Compartir informe</div>
+        <button class="share-menu-item" data-share-action="whatsapp">
+          <span class="share-menu-icon">💬</span> WhatsApp
+        </button>
+        <button class="share-menu-item" data-share-action="email">
+          <span class="share-menu-icon">📧</span> Email
+        </button>
+        <button class="share-menu-item" data-share-action="download">
+          <span class="share-menu-icon">📥</span> Descargar TXT
+        </button>
+        <button class="share-menu-cancel">Cancelar</button>
+      </div>
+    `;
+    this.shadowRoot.appendChild(overlay);
+
+    // Handle share actions
+    overlay.querySelectorAll('.share-menu-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const shareAction = btn.dataset.shareAction;
+        if (shareAction === 'whatsapp') {
+          // WhatsApp share: open wa.me with text
+          const whatsappText = encodeURIComponent(txtContent.substring(0, 1000)); // WhatsApp limit
+          window.open(`https://wa.me/?text=${whatsappText}`, '_blank');
+        } else if (shareAction === 'email') {
+          // Email share: open mailto with subject + body
+          const subject = encodeURIComponent(title);
+          const body = encodeURIComponent(txtContent);
+          window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+        } else if (shareAction === 'download') {
+          // Download TXT: generate blob and trigger download + open preview
+          const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+          const blobUrl = URL.createObjectURL(blob);
+          window.open(blobUrl, '_blank');
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = title + '.txt';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 10000);
+          this._showDownloadToast(title);
+        }
+        overlay.remove();
+      });
+    });
+
+    overlay.querySelector('.share-menu-cancel').addEventListener('click', () => {
+      overlay.remove();
+    });
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
   }
 
   // ===== Swipe-to-dismiss for drawer panels =====

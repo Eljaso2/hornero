@@ -400,32 +400,8 @@ class HorneroGremial extends HoComponent {
         // Activate informe badge (icon turns green-pale)
         this._informeBadge = true;
 
-        // Generate TXT content for the download card (clickeable preview)
-        const informeTxt = this._generateInformeTxt(reportMsg);
-        const informeTitle = 'Reporte Gremial N°' + numero;
-
-        // Add confirmation message with txt preview + download card + reminder
-        this.messages = [...this.messages, {
-          role: 'hornero',
-          text: '✅ Informe guardado como ' + informeTitle + '.',
-          sections: [
-            { title: '📝 Podés editar este informe', body: 'Mientras el delegado no lo vea, todavía puedes corregirlo. Toca "Ver mis informes" para editarlo.' },
-          ],
-          download: {
-            content: informeTxt,
-            filename: informeTitle + '.txt',
-            label: 'Click para ver y descargar',
-          },
-          tags: ['reporte', 'informe-guardado'],
-          open_informes: true,
-          informe_id: savedInformeId,
-          time: this._timeNow(),
-        }, {
-          role: 'hornero',
-          text: '¿Querés reportar otra situación?',
-          tags: ['reporte', 'pregunta-nuevo'],
-          time: this._timeNow(),
-        }];
+        // No extra confirmation messages — the card itself changes visual state
+        // The reporte card gets estado-aceptado class which hides approve/correct buttons
         this._saveChatHistory();
         this.render();
       }
