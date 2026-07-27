@@ -881,7 +881,7 @@ class HorneroChat extends HoComponent {
 
     const typingPersona = this._getPersonaConfig(this.persona);
     const typingAvatarInner = typingPersona.img
-      ? `<img src="${typingPersona.img}" alt="H">`
+      ? `<img src="${typingPersona.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
       : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
     const typingHtml = this.typing ?
       `<div class="typing-row persona-${this.persona}">
@@ -1423,7 +1423,7 @@ class HorneroChat extends HoComponent {
     const redirectBtnHtml = redirectPersona ? (() => {
       const targetCfg = this._getPersonaConfig(redirectPersona);
       const targetInner = targetCfg.img
-        ? `<img src="${targetCfg.img}" alt="H">`
+        ? `<img src="${targetCfg.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-redirect-emoji" style="display:none">${targetCfg.emoji}</span>`
         : `<span class="msg-redirect-emoji">${targetCfg.emoji}</span>`;
       return `<button class="msg-redirect-btn" data-redirect-persona="${redirectPersona}" style="background:${targetCfg.bg}; border-color:${targetCfg.color}; color:${targetCfg.color}">
         <span class="msg-redirect-icon-circle" style="background:${targetCfg.bg}">${targetInner}</span>
