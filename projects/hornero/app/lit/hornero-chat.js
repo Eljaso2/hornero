@@ -1,6 +1,6 @@
 // ===== <hornero-chat> — Motor de chat reutilizable =====
 // User: bubble verde. App: sin bubble, texto plano + acciones (copiar, reenviar, like/dislike)
-// Input bar: fondo claro, attach image/video, mic funcional (Web Speech API)
+// Input bar: fondo claro, attach image/video, export, mic funcional (Web Speech API)
 // Native Web Component — zero dependencies
 // Usado por: IS, Derecho, Argumento, Comunicador, CE, SMVM, Contenido
 
@@ -274,18 +274,9 @@ class HorneroChat extends HoComponent {
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-history-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
 
-      /* Export button — top-right corner, left of informes btn */
-      .chat-export-btn { position: absolute; top: 12px; right: 84px; z-index: 20;
-        width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s, transform .15s; }
-      .chat-export-btn:hover { background: var(--ho-green-pale, #E8EDD7);
-        border-color: var(--ho-green-light, #94A867); transform: scale(1.08); }
-      .chat-export-btn svg { width: 16px; height: 16px;
-        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .chat-export-btn:hover svg { stroke: var(--ho-green-dark, #586B33); }
+      /* Export button — input toolbar */
+      .chat-export-btn { background: var(--ho-green-pale, #E8EDD7); }
+      .chat-export-btn svg { stroke: var(--ho-green-dark, #586B33); fill: none; }
 
       /* Informes button — top-right corner, left of history btn */
       .chat-informes-btn { position: absolute; top: 12px; right: 48px; z-index: 20;
@@ -943,10 +934,6 @@ class HorneroChat extends HoComponent {
     const exportSvg = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
 
     return html`
-      <button class="chat-export-btn" id="chatExportBtn" title="Exportar chat">
-        <svg viewBox="0 0 24 24">${exportSvg}</svg>
-      </button>
-
       <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Informes guardados">
         <svg viewBox="0 0 24 24">${informeSvg}</svg>
       </button>
@@ -973,6 +960,9 @@ class HorneroChat extends HoComponent {
         <div class="chat-toolbar">
           <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
             <svg viewBox="0 0 24 24">${attachSvg}</svg>
+          </button>
+          <button class="chat-toolbar-btn chat-export-btn" id="chatExportBtn" title="Exportar chat">
+            <svg viewBox="0 0 24 24">${exportSvg}</svg>
           </button>
           <button class="chat-toolbar-btn chat-mic-btn${this._isRecording ? ' recording' : ''}${this._audioProcessing ? ' processing' : ''}" title="${micTitle}">
             <svg viewBox="0 0 24 24">${micIcon}</svg>
