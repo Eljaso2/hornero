@@ -141,8 +141,12 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
         effective_persona = PERSONA_MAP.get(req.requested_persona, 'abogado')
     else:
         effective_persona = PERSONA_MAP.get(req.section, 'abogado')
-    system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping())
-    greeting_hint = get_greeting_hint(req.section)
+    system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping(), requested_persona=req.requested_persona)
+    # Resolve effective section for greeting hint (requested_persona may override)
+    greeting_section = req.section
+    if req.requested_persona and req.requested_persona in PERSONA_NAME_MAP:
+        greeting_section = PERSONA_NAME_MAP[req.requested_persona]
+    greeting_hint = get_greeting_hint(greeting_section)
 
     try:
         if LLM_PROVIDER == "deepseek":

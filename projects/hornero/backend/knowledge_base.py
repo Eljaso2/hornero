@@ -420,6 +420,7 @@ def get_format_hint(formato: str) -> str:
         'contenido': 'El usuario quiere producir contenido sindical. Como periodista, ayudá a elegir formato y angle.',
         'debate': 'Debate sindical. Como companero del gremio, comparti experiencia, argumenta desde la vivencia, conecta con lo que pasa en planta.',
         'reporte': 'Reporte gremial. Como relator, ayuda al trabajador a generar un informe estructurado de su situacion. Genera MODO CONTENIDO con sections + tags. Despues de generar, pregunta si es lo que quiso decir. Si confirma, pregunta si aprueba para guardar.',
+        'historia': 'Consulta histórica. Como historiador/a, respondé con datos, fuentes, contexto. Conectá pasado con presente. Citá autor + página cuando puedas.',
     }
     return hints.get(formato, hints['consulta'])
 

@@ -1247,14 +1247,16 @@ class HorneroChat extends HoComponent {
       const tagsHtml = visibleTags.length > 0 ?
         `<div class="reporte-card-tags">${visibleTags.map(t => `<span class="reporte-card-tag">${t}</span>`).join('')}</div>` : '';
 
-      // Action buttons — export always shown; aprobar/corregir only for non-accepted
+      // Action buttons — export always shown; aprobar/corregir only for non-accepted; delete always shown
       const exportBtn = `<button class="reporte-btn reporte-btn-export" data-reporte-action="exportar" data-msg-index="${msgIndex}">📥 Exportar</button>`;
+      const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" style="background:none; border:1.5px solid #D32F2F; color:#D32F2F;">🗑️ Borrar</button>`;
       const actionsHtml = isReporteAprobado ?
-        `<div class="reporte-card-actions">${exportBtn}</div>` :
+        `<div class="reporte-card-actions">${exportBtn}${deleteBtn}</div>` :
         `<div class="reporte-card-actions">
           ${exportBtn}
           <button class="reporte-btn reporte-btn-approve" data-reporte-action="aprobar" data-msg-index="${msgIndex}">✅ Aprobar</button>
           <button class="reporte-btn reporte-btn-correct" data-reporte-action="corregir" data-msg-index="${msgIndex}">📝 Corregir</button>
+          ${deleteBtn}
         </div>`;
 
       // Text before the card (like "Leelo con cuidado...")
@@ -1717,6 +1719,16 @@ class HorneroChat extends HoComponent {
       });
     });
 
+    // === Message delete buttons (user + hornero messages) ===
+    this.shadowRoot.querySelectorAll('.msg-delete-btn[data-action="delete"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const msgIndex = Number(btn.dataset.msgIndex);
+        if (msgIndex >= 0 && msgIndex < this.messages.length) {
+          this.deleteMessage(msgIndex);
+        }
+      });
+    });
+
     // === Reporte card: expand/collapse toggle ===
     this.shadowRoot.querySelectorAll('[data-toggle-report]').forEach(header => {
       header.addEventListener('click', () => {
@@ -1759,6 +1771,11 @@ class HorneroChat extends HoComponent {
             const msgs = [msg];
             const title = msg.sections && msg.sections[0] ? msg.sections[0].title || 'Informe Gremial' : 'Informe Gremial';
             this._downloadTxt(msgs, title, `reporte-${new Date().toISOString().slice(0,10)}`);
+          }
+        } else if (action === 'borrar') {
+          // Delete the reporte card message
+          if (msgIndex >= 0 && msgIndex < this.messages.length) {
+            this.deleteMessage(msgIndex);
           }
         }
       });
@@ -1958,6 +1975,21 @@ ${msgs.map(m => {
     this.render();
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll) scroll.scrollTop = scroll.scrollHeight;
+  }
+
+  deleteMessage(msgIndex) {
+    const current = this.messages || [];
+    if (msgIndex >= 0 && msgIndex < current.length) {
+      const deletedMsg = current[msgIndex];
+      current.splice(msgIndex, 1);
+      this.messages = current;
+      // Emit event so parent component can persist deletion to IndexedDB
+      this.emit('chat-message-delete', { msgIndex, msg: deletedMsg });
+      this.render();
+      // Scroll to bottom after deletion
+      const scroll = this.shadowRoot.querySelector('.chat-scroll');
+      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+    }
   }
 
   showTyping() { this.typing = true; this.render(); }
