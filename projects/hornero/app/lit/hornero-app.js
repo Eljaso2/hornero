@@ -402,35 +402,90 @@ class HorneroApp extends HoComponent {
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-landing-icon:hover svg { stroke: var(--ho-green-dark, #586B33); }
 
-      /* ===== Mis Conversaciones / Mis Reportes list screens ===== */
-      .list-screen { padding: 16px; }
-      .list-screen-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: var(--ho-green-dark, #586B33); margin-bottom: 12px; }
+      /* ===== List screens (Mis Conversaciones, Mis Reportes, Recibidos) =====
+         Same styles as chat drawer items for visual consistency */
+      .list-screen { padding: 0; }
+      .list-screen-header { padding: 16px; border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        display: flex; align-items: center; justify-content: space-between; flex: none; }
+      .list-screen-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .92rem; color: var(--ho-text, #2B2A26); }
       .list-screen-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text-mid, #6E6A60); margin-bottom: 16px; line-height: 1.4; }
-      .list-item { background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.06);
-        border-radius: 13px; padding: 14px; margin-bottom: 10px; cursor: pointer;
-        transition: border-color .2s, background .2s; }
-      .list-item:hover { border-color: rgba(43,42,38,.18);
-        background: var(--ho-green-pale, #E8EDD7); }
-      .list-item-title { font-family: 'Archivo', sans-serif; font-size: .86rem;
-        font-weight: 700; color: var(--ho-text); margin-bottom: 4px; }
-      .list-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-      .list-item-section { font-family: 'Archivo', sans-serif; font-size: .72rem;
+        color: var(--ho-text-mid, #6E6A60); padding: 12px 16px 0; line-height: 1.4; }
+      .list-scroll { overflow-y: auto; padding: 8px 0; }
+
+      /* History items (Mis Conversaciones) — same as chat drawer */
+      .history-item { padding: 12px 16px; cursor: pointer;
+        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
+        display: flex; flex-direction: column; gap: 5px;
+        transition: background .2s; }
+      .history-item:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .history-item-section { display: flex; align-items: center; gap: 5px; }
+      .history-item-section-emoji { font-size: .82rem; line-height: 1; }
+      .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
-      .list-item-preview { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.4; margin-top: 6px; }
-      .list-empty { padding: 40px 20px; text-align: center; color: #9C988D;
-        font-family: 'Archivo', sans-serif; font-size: .82rem; }
-      .list-item-estado { padding: 2px 8px; border-radius: 8px; font-weight: 600; }
-      .estado-pendiente { background: #F0E4CC; color: #856404; }
-      .estado-visto { background: #D7E8F3; color: #2C5A8A; }
-      .estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
-      .estado-corregido { background: #D7E8F3; color: #2C5A8A; }
-      .estado-aceptado { background: #E8EDD7; color: #586B33; }
-      /* Recibidos review buttons — subtle icon-only (match chat drawer) */
+      .section-consulta .history-item-section-label { color: #6E8345; }
+      .section-contenido .history-item-section-label { color: #B0863F; }
+      .section-debate .history-item-section-label { color: #5A7EA8; }
+      .section-reporte .history-item-section-label { color: #586B33; }
+      .section-default .history-item-section-label { color: var(--ho-green-dark, #586B33); }
+      .history-item-preview { font-family: 'Archivo', sans-serif; font-size: .86rem;
+        font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .history-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; align-items: center; }
+      .history-item-count { background: var(--ho-green-pale, #E8EDD7);
+        padding: 2px 8px; border-radius: 8px; font-weight: 600;
+        color: var(--ho-green-dark, #586B33); }
+      .history-item-footer { display: flex; align-items: center;
+        justify-content: space-between; margin-top: 2px; }
+      .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        color: var(--ho-text-light, #9C988D); letter-spacing: .06em;
+        background: var(--ho-mid-gray, #ECEAE3); padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+
+      /* Informes items (Mis Reportes, Recibidos) — same as chat drawer */
+      .informes-item { padding: 12px 16px; cursor: pointer;
+        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
+        display: flex; flex-direction: column; gap: 4px;
+        transition: background .2s; }
+      .informes-item:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .informes-item-title { font-family: 'Archivo', sans-serif; font-size: .86rem;
+        font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .informes-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; }
+      .informes-item-estado { background: var(--ho-green-pale, #E8EDD7);
+        padding: 2px 8px; border-radius: 8px; font-weight: 600;
+        color: var(--ho-green-dark, #586B33); }
+      .informes-item-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
+      .informes-item-estado.estado-aceptado { background: #E8EDD7; color: #586B33; }
+      .informes-item-estado.estado-visto { background: #D7E8F3; color: #2C5A8A; }
+      .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
+      .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
+      .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+      .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        padding: 2px 6px; border-radius: 6px; font-weight: 600; }
+      .informes-item-visto-label { font-family: 'Archivo', sans-serif;
+        font-size: .72rem; font-weight: 700; color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E8EDD7); border-radius: 8px;
+        padding: 3px 10px; margin-top: 4px; display: inline-block; }
+
+      /* Expandable content inside informe items */
+      .informes-expand-content { margin-top: 10px; padding-top: 10px;
+        border-top: 1px solid var(--ho-border, rgba(43,42,38,.08)); }
+      .informes-expand-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .84rem; color: var(--ho-green-dark, #586B33); margin-bottom: 4px;
+        text-transform: uppercase; letter-spacing: .06em; }
+      .informes-expand-section-body { font-family: 'Public Sans', sans-serif;
+        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        margin-bottom: 8px; }
+      .informes-expand-divider { height: 1px; background: rgba(43,42,38,.08); margin: 8px 0; }
+
+      .list-empty { padding: 40px 20px; text-align: center;
+        font-family: 'Archivo', sans-serif; font-size: .82rem;
+        color: var(--ho-text-light, #9C988D); }
+
+      /* Recibidos review buttons — subtle icon-only */
       .recibidos-review-btn { background: none; border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         color: var(--ho-text-light, #9C988D); border-radius: 8px; padding: 6px 8px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
@@ -814,71 +869,68 @@ class HorneroApp extends HoComponent {
     }
   }
 
-  // ===== Recibidos screen: incoming reports from lower grades — expandable content =====
+  // ===== Recibidos screen: incoming reports from lower grades =====
   _renderRecibidos() {
     const list = this.recibidosList || [];
-    if (list.length === 0) {
-      return '<div class="list-empty">' +
-        '<div style="font-size:1.1rem;margin-bottom:6px">📥</div>' +
-        '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">Reportes Recibidos</div>' +
-        '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">No hay reportes pendientes de revisión</div>' +
-        '</div>';
-    }
     const estadoLabelMap = {
-      'pendiente': '⏳ Pendiente',
-      'visto': '👁 Visto',
-      'aprobado-delegado': '✅ Aprobado',
-      'corregido-delegado': '📝 Corregido',
+      'pendiente': 'Pendiente',
+      'visto': 'Visto',
+      'aceptado': 'Aprobado por trabajador',
     };
     const approveSvg = '<polyline points="20 6 9 17 4 12"/>';
     const editSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
+    if (list.length === 0) {
+      return '<div class="list-screen">' +
+        '<div class="list-screen-header"><div class="list-screen-title">Reportes Recibidos</div></div>' +
+        '<div class="list-empty">No hay reportes pendientes de revision</div>' +
+      '</div>';
+    }
     const items = list.map(inf => {
       const title = inf.numero ? 'Reporte Gremial N°' + inf.numero :
         (inf.sections && inf.sections[0] ? (inf.sections[0].title || '').substring(0, 60) : (inf.contenido || '').substring(0, 60));
       const dateStr = inf.fecha || '';
       const estado = inf.estado || 'pendiente';
       const estadoLabel = estadoLabelMap[estado] || estado;
-      const estadoClass = estado === 'pendiente' ? 'estado-pendiente' : estado === 'visto' ? 'estado-visto' : estado === 'aprobado-delegado' ? 'estado-aprobado' : 'estado-corregido';
+      const estadoClass = estado === 'pendiente' ? 'estado-pendiente' : estado === 'visto' ? 'estado-visto' : estado === 'aceptado' ? 'estado-aceptado' : '';
       const usernameTag = inf.username ? '@' + inf.username : '';
       const empresaTag = inf.empresa || '';
       const gradoTag = inf.grado ? 'G' + inf.grado : '';
-      // Expandable content: sections preview
       let contentHtml = '';
       if (inf.sections && inf.sections.length > 0) {
-        contentHtml = inf.sections.map(s => {
+        contentHtml = inf.sections.map((s, i) => {
           let sec = '';
-          if (s.title) sec += '<div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.84rem;color:var(--ho-green-dark);margin-bottom:4px">' + s.title + '</div>';
-          if (s.body) sec += '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);line-height:1.4">' + s.body.substring(0, 300) + (s.body.length > 300 ? '...' : '') + '</div>';
-          return '<div style="margin-bottom:8px">' + sec + '</div>';
+          if (s.title) sec += '<div class="informes-expand-section-title">' + s.title + '</div>';
+          if (s.body) sec += '<div class="informes-expand-section-body">' + s.body.substring(0, 300) + (s.body.length > 300 ? '...' : '') + '</div>';
+          const divider = (i < inf.sections.length - 1) ? '<div class="informes-expand-divider"></div>' : '';
+          return sec + divider;
         }).join('');
       } else if (inf.contenido) {
-        contentHtml = '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);line-height:1.4">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
+        contentHtml = '<div class="informes-expand-section-body">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
       }
-      return '<div class="list-item" data-expand-informe="' + inf.id + '">' +
-        '<div class="list-item-title">' + (title || 'Informe gremial') + '</div>' +
-        '<div class="list-item-meta">' +
+      return '<div class="informes-item" data-expand-informe="' + inf.id + '">' +
+        '<div class="informes-item-title">' + (title || 'Informe gremial') + '</div>' +
+        '<div class="informes-item-meta">' +
           '<span>' + dateStr + '</span>' +
-          '<span style="background:var(--ho-mid-gray);padding:2px 6px;border-radius:4px;font-weight:600">' + usernameTag + '</span>' +
-          (gradoTag ? '<span style="background:#D4E4F7;color:#2B5278;padding:2px 8px;border-radius:6px;font-weight:600">' + gradoTag + '</span>' : '') +
-          (empresaTag ? '<span style="background:var(--ho-green-pale);color:var(--ho-green-dark);padding:2px 8px;border-radius:6px;font-weight:600">' + empresaTag + '</span>' : '') +
-          '<span class="list-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
+          '<span class="history-item-user">' + usernameTag + '</span>' +
+          (gradoTag ? '<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">' + gradoTag + '</span>' : '') +
+          (empresaTag ? '<span class="informes-item-tag">' + empresaTag + '</span>' : '') +
+          '<span class="informes-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
         '</div>' +
-        // Expandable content section (hidden by default)
-        '<div class="informes-expand-content" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--ho-border,rgba(43,42,38,.08))">' + contentHtml + '</div>' +
-        (estado === 'pendiente' || estado === 'visto' ? '<div style="display:flex;gap:6px;margin-top:8px">' +
+        '<div class="informes-expand-content" style="display:none">' + contentHtml + '</div>' +
+        (estado === 'pendiente' || estado === 'visto' ? '<div style="display:flex;gap:6px;margin-top:6px">' +
           '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24">' + approveSvg + '</svg></button>' +
           '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24">' + editSvg + '</svg></button>' +
         '</div>' : '') +
       '</div>';
     }).join('');
     return '<div class="list-screen">' +
-      '<div class="list-screen-kicker" style="color:#B0863F">📥 REPORTES RECIBIDOS</div>' +
-      '<div class="list-screen-desc">Informes de trabajadores bajo tu responsabilidad que necesitan revisión. Toca un informe para leerlo.</div>' +
-      items +
+      '<div class="list-screen-header"><div class="list-screen-title">Reportes Recibidos</div></div>' +
+      '<div class="list-screen-desc">Informes de trabajadores bajo tu responsabilidad que necesitan revision. Toca un informe para leerlo.</div>' +
+      '<div class="list-scroll">' + items + '</div>' +
     '</div>';
   }
 
-  async _loadRecibidos() {
+    async _loadRecibidos() {
     if (typeof obtenerInformesEntrantes !== 'function') {
       this.recibidosList = [];
       return;
@@ -899,48 +951,49 @@ class HorneroApp extends HoComponent {
   _renderMisConversaciones() {
     const list = this.misConversacionesList || [];
     const sectionConfig = {
-      consulta:  { emoji: '📖', label: 'Consulta',  color: '#2B5278' },
-      contenido: { emoji: '🎙️', label: 'Contenido', color: '#5A4A3A' },
-      debate:    { emoji: '✊', label: 'Compañero', color: '#7A3B1E' },
-      reporte:   { emoji: '🪶', label: 'Reporte',   color: '#586B33' },
-      historia:  { emoji: '📜', label: 'Historia',   color: '#4A3A5A' },
+      consulta:  { emoji: '♣', label: 'Consulta',  color: '#2B5278' },
+      contenido: { emoji: '♪', label: 'Contenido', color: '#5A4A3A' },
+      debate:    { emoji: '♠', label: 'Companero', color: '#7A3B1E' },
+      reporte:   { emoji: '♢', label: 'Reporte',   color: '#586B33' },
+      historia:  { emoji: '♤', label: 'Historia',   color: '#4A3A5A' },
     };
-    const defaultSection = { emoji: '🪶', label: 'IA Sindical', color: '#586B33' };
+    const defaultSection = { emoji: '♢', label: 'IA Sindical', color: '#586B33' };
     if (list.length === 0) {
-      return '<div class="list-empty">' +
-        '<div style="font-size:1.1rem;margin-bottom:6px">💬</div>' +
-        '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">Mis Conversaciones</div>' +
-        '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">No hay chats guardados</div>' +
-        '</div>';
+      return '<div class="list-screen">' +
+        '<div class="list-screen-header"><div class="list-screen-title">Mis Conversaciones</div></div>' +
+        '<div class="list-empty">No hay chats guardados</div>' +
+      '</div>';
     }
     const items = list.map(s => {
       const sec = sectionConfig[s.section] || defaultSection;
+      const sectionClass = s.section ? 'section-' + s.section : 'section-default';
       const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
       const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
-      // Navigate to the relevant chat screen when clicking a session
       const navScreen = s.section === 'reporte' ? 'gremial' : s.section === 'contenido' ? 'contenido' : s.section === 'historia' ? 'historiador' : 'consulta';
       const navPersona = s.section === 'reporte' ? 'relator' : s.section === 'historia' ? 'historiador' : s.section === 'contenido' ? 'periodista' : s.section === 'debate' ? 'companero' : 'abogado';
-      return '<div class="list-item" data-navigate-screen="' + navScreen + '" data-navigate-persona="' + navPersona + '" data-navigate-session="' + s.sessionId + '">' +
-        '<div style="display:flex;align-items:center;gap:5px">' +
-          '<span style="font-size:.82rem;line-height:1">' + sec.emoji + '</span>' +
-          '<span class="list-item-section" style="color:' + sec.color + '">' + sec.label + '</span>' +
+      return '<div class="history-item" data-navigate-screen="' + navScreen + '" data-navigate-persona="' + navPersona + '" data-navigate-session="' + s.sessionId + '">' +
+        '<div class="history-item-section ' + sectionClass + '">' +
+          '<span class="history-item-section-emoji">' + sec.emoji + '</span>' +
+          '<span class="history-item-section-label">' + sec.label + '</span>' +
         '</div>' +
-        '<div class="list-item-title">' + (s.preview || 'Nuevo chat') + '</div>' +
-        '<div class="list-item-meta">' +
+        '<div class="history-item-preview">' + (s.preview || 'Nuevo chat') + '</div>' +
+        '<div class="history-item-meta">' +
           '<span>' + dateStr + ' · ' + timeStr + '</span>' +
-          '<span style="background:var(--ho-green-pale);padding:2px 8px;border-radius:8px;font-weight:600;color:var(--ho-green-dark)">' + s.messageCount + ' msgs</span>' +
-          (s.username ? '<span style="background:var(--ho-mid-gray);padding:2px 6px;border-radius:4px;font-weight:600">@' + s.username + '</span>' : '') +
+          '<span class="history-item-count">' + s.messageCount + ' msgs</span>' +
+        '</div>' +
+        '<div class="history-item-footer">' +
+          (s.username ? '<span class="history-item-user">@' + s.username + '</span>' : '<span></span>') +
         '</div>' +
       '</div>';
     }).join('');
     return '<div class="list-screen">' +
-      '<div class="list-screen-kicker">💬 MIS CONVERSACIONES</div>' +
-      '<div class="list-screen-desc">Historial de chats de toda la página. Toca una conversación para continuar.</div>' +
-      items +
+      '<div class="list-screen-header"><div class="list-screen-title">Mis Conversaciones</div></div>' +
+      '<div class="list-screen-desc">Historial de chats de toda la pagina. Toca una conversacion para continuar.</div>' +
+      '<div class="list-scroll">' + items + '</div>' +
     '</div>';
   }
 
-  async _loadMisConversaciones() {
+    async _loadMisConversaciones() {
     const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
     const username = session.username || '';
     try {
@@ -955,17 +1008,17 @@ class HorneroApp extends HoComponent {
     }
   }
 
-  // ===== Mis Reportes screen: full list of all user's informes =====
+  // ===== Mis Reportes screen =====
   _renderMisReportes() {
     const list = this.misReportesList || [];
     const estadoLabelMap = {
-      'pendiente': '⏳ Pendiente de revisión',
-      'aceptado': '✅ Aprobado por trabajador',
-      'visto': '👁 Visto por delegado',
-      'aprobado': '✅ Aprobado por delegado',
-      'aprobado-delegado': '✅ Aprobado por delegado',
-      'corregido': '📝 Modificado',
-      'corregido-delegado': '📝 Corregido por delegado',
+      'pendiente': 'Pendiente de revision',
+      'aceptado': 'Aprobado por trabajador',
+      'visto': 'Visto por delegado',
+      'aprobado': 'Aprobado por delegado',
+      'aprobado-delegado': 'Aprobado por delegado',
+      'corregido': 'Modificado',
+      'corregido-delegado': 'Corregido por delegado',
     };
     const estadoClassMap = {
       'pendiente': 'estado-pendiente',
@@ -975,11 +1028,10 @@ class HorneroApp extends HoComponent {
       'corregido': 'estado-corregido',
     };
     if (list.length === 0) {
-      return '<div class="list-empty">' +
-        '<div style="font-size:1.1rem;margin-bottom:6px">📄</div>' +
-        '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">Mis Reportes</div>' +
-        '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">No hay informes guardados</div>' +
-        '</div>';
+      return '<div class="list-screen">' +
+        '<div class="list-screen-header"><div class="list-screen-title">Mis Reportes</div></div>' +
+        '<div class="list-empty">No hay informes guardados</div>' +
+      '</div>';
     }
     const items = list.map(inf => {
       const numero = inf.numero || '';
@@ -991,38 +1043,38 @@ class HorneroApp extends HoComponent {
       const displayEstado = inf.estado || 'pendiente';
       const estadoClass = estadoClassMap[displayEstado] || '';
       const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
-      const gradoBadge = inf.grado ? '<span style="background:#D4E4F7;color:#2B5278;padding:2px 8px;border-radius:6px;font-weight:600;font-family:JetBrains Mono,monospace;font-size:.62rem">G' + inf.grado + '</span>' : '';
-      // Expandable content
+      const gradoBadge = inf.grado ? '<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G' + inf.grado + '</span>' : '';
       let contentHtml = '';
       if (inf.sections && inf.sections.length > 0) {
-        contentHtml = inf.sections.map(s => {
+        contentHtml = inf.sections.map((s, i) => {
           let sec = '';
-          if (s.title) sec += '<div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.84rem;color:var(--ho-green-dark);margin-bottom:4px">' + s.title + '</div>';
-          if (s.body) sec += '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);line-height:1.4">' + s.body.substring(0, 300) + (s.body.length > 300 ? '...' : '') + '</div>';
-          return '<div style="margin-bottom:8px">' + sec + '</div>';
+          if (s.title) sec += '<div class="informes-expand-section-title">' + s.title + '</div>';
+          if (s.body) sec += '<div class="informes-expand-section-body">' + s.body.substring(0, 300) + (s.body.length > 300 ? '...' : '') + '</div>';
+          const divider = (i < inf.sections.length - 1) ? '<div class="informes-expand-divider"></div>' : '';
+          return sec + divider;
         }).join('');
       } else if (inf.contenido) {
-        contentHtml = '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid);line-height:1.4">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
+        contentHtml = '<div class="informes-expand-section-body">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
       }
-      return '<div class="list-item" data-expand-informe="' + inf.id + '">' +
-        '<div class="list-item-title">' + (titleText || 'Informe gremial') + '</div>' +
-        '<div class="list-item-meta">' +
+      return '<div class="informes-item" data-expand-informe="' + inf.id + '">' +
+        '<div class="informes-item-title">' + (titleText || 'Informe gremial') + '</div>' +
+        '<div class="informes-item-meta">' +
           '<span>' + dateStr + '</span>' +
-          (inf.username ? '<span style="background:var(--ho-mid-gray);padding:2px 6px;border-radius:4px;font-weight:600">@' + inf.username + '</span>' : '') +
+          (inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : '') +
           gradoBadge +
-          '<span class="list-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
+          '<span class="informes-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
         '</div>' +
-        '<div class="informes-expand-content" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--ho-border,rgba(43,42,38,.08))">' + contentHtml + '</div>' +
+        '<div class="informes-expand-content" style="display:none">' + contentHtml + '</div>' +
       '</div>';
     }).join('');
     return '<div class="list-screen">' +
-      '<div class="list-screen-kicker">📄 MIS REPORTES</div>' +
+      '<div class="list-screen-header"><div class="list-screen-title">Mis Reportes</div></div>' +
       '<div class="list-screen-desc">Informes gremiales que armaste. Toca un informe para leerlo.</div>' +
-      items +
+      '<div class="list-scroll">' + items + '</div>' +
     '</div>';
   }
 
-  async _loadMisReportes() {
+    async _loadMisReportes() {
     const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
     const username = session.username || '';
     try {
