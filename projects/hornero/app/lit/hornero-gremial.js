@@ -80,8 +80,8 @@ class HorneroGremial extends HoComponent {
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           section="reporte"
-          history-title="Mis Informes"
-          informes-title="Mis Informes"
+          history-title="Mis Conversaciones"
+          informes-title="Mis Reportes"
           persona="${this._activePersona}"
           username="${this._username}"
         ></hornero-chat>
@@ -187,8 +187,8 @@ class HorneroGremial extends HoComponent {
       chatEl.section = this._chatSection;
       chatEl.sessionId = this._sessionId;
       chatEl.username = this._username;
-      chatEl.historyTitle = 'Mis Informes';
-      chatEl.informesTitle = 'Mis Informes';
+      chatEl.historyTitle = 'Mis Conversaciones';
+      chatEl.informesTitle = 'Mis Reportes';
       chatEl.informeBadge = this._informeBadge;
       chatEl.persona = this._activePersona;
       // Do NOT call chatEl.render() here — the chat re-renders itself
