@@ -6,7 +6,7 @@
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="assets/hornero-icon-192.png" type="image/png">
-  <meta name="theme-color" content="#33312D">
+  <meta name="theme-color" content="#F4F3EE">
   <meta name="supported-color-schemes" content="dark light">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -25,11 +25,11 @@
   <script src="js/data-loader.js"></script>
 
   <style>
-    /* App-level: dark background — login and safe-area bottom */
-    html { background: #33312D !important;
+    /* App-level: light background — matches Home screen; login overrides to dark via JS */
+    html { background: #F4F3EE !important;
       background-attachment: fixed !important;
       min-height: 100vh; min-height: -webkit-fill-available; }
-    body { background: #33312D !important;
+    body { background: #F4F3EE !important;
       background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
       margin: 0; padding: 0;
@@ -139,6 +139,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=91"></script>
+  <script type="module" src="lit/hornero-components.js?v=92"></script>
 </body>
 </html>

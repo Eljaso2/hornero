@@ -236,9 +236,9 @@ class HorneroApp extends HoComponent {
           border-color: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC); }
         .top-bar-back:hover { background: var(--ho-dark-mid, #5A574F);
           border-color: var(--ho-green-light, #94A867); }
-        /* Mobile: sections-bar dark to match header */
+        /* Mobile: sections-bar dark to match header — no border (seamless merge) */
         .sections-bar { background: var(--ho-dark-surface, #45433E);
-          border-bottom-color: rgba(242,241,236,.08); }
+          border-bottom: none; }
         .sections-btn { color: #9C988D; }
         .sections-btn.active { color: var(--ho-green-light, #94A867);
           border-bottom-color: var(--ho-green-light, #94A867); }
@@ -298,8 +298,7 @@ class HorneroApp extends HoComponent {
       .bottom-nav { background: var(--ho-bg, #F4F3EE);
         display: flex; justify-content: space-around;
         padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
-        width: 100%; z-index: 100; position: relative;
-        border-top: 1px solid rgba(43,42,38,.08); }
+        width: 100%; z-index: 100; position: relative; }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;
