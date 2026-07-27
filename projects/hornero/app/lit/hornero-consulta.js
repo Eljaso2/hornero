@@ -42,6 +42,7 @@ class HorneroConsulta extends HoComponent {
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
     this._sessionId = ''; // Current session ID — new on each visit
+    this._activePersona = 'ia-sindical'; // Current persona at mesa de trabajo
   }
 
   connectedCallback() {
@@ -66,6 +67,8 @@ class HorneroConsulta extends HoComponent {
           input-placeholder="Escribí tu consulta, pregunta, o tema..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
+          persona="${this._activePersona}"
+          persona-pills="${true}"
         ></hornero-chat>
       </div>
     `;
@@ -89,6 +92,11 @@ class HorneroConsulta extends HoComponent {
           this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
           this.render();
         }
+      });
+      // Listen for persona switch from mesa de trabajo pills
+      chatEl.addEventListener('persona-switch', (e) => {
+        this._activePersona = e.detail.persona;
+        this.render();
       });
     }
 
@@ -128,6 +136,8 @@ class HorneroConsulta extends HoComponent {
       chatEl.typing = this._typing;
       chatEl.section = this._chatSection;
       chatEl.sessionId = this._sessionId;
+      chatEl.persona = this._activePersona;
+      chatEl.personaPills = true;
       chatEl.render();
     }
   }
@@ -145,6 +155,7 @@ class HorneroConsulta extends HoComponent {
           section: 'consulta',
           grade: this.grade,
           sector: this.sector,
+          requested_persona: this._activePersona,
         }),
       });
 
@@ -156,8 +167,10 @@ class HorneroConsulta extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['consulta', 'greeting'],
+        persona: data.persona || 'ia-sindical',
         time: data.time || this._timeNow(),
       }];
+      this._activePersona = data.persona || 'ia-sindical';
       this._typing = false; this._greetingRequested = false;
       this._saveChatHistory();
       this.render();
@@ -272,6 +285,7 @@ class HorneroConsulta extends HoComponent {
         history: history,
         grade: this.grade,
         sector: this.sector,
+        requested_persona: this._activePersona,
       }),
     });
 
@@ -283,8 +297,10 @@ class HorneroConsulta extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['consulta'],
+      persona: data.persona || this._activePersona,
       time: data.time || this._timeNow(),
     }];
+    this._activePersona = data.persona || this._activePersona;
     this.iaStep++;
     this._typing = false; this._greetingRequested = false;
     this._saveChatHistory();
