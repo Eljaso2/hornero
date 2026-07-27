@@ -964,7 +964,11 @@ class HorneroChat extends HoComponent {
         const sid = btn.dataset.deleteSession;
         if (sid && typeof borrarChatSession === 'function') {
           borrarChatSession(sid).then(() => {
+            // Notify parent that a session was deleted
+            this.emit('chat-session-delete', { sessionId: sid, section: this.section });
             this._openHistoryDrawer(); // Refresh drawer
+          }).catch((err) => {
+            console.warn('Chat: delete session failed', err);
           });
         }
       });

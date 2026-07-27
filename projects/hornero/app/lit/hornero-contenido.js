@@ -82,6 +82,14 @@ class HorneroContenido extends HoComponent {
       chatEl.addEventListener('chat-session-select', (e) => {
         this._loadSession(e.detail.sessionId);
       });
+      // Listen for session deletion from history drawer
+      chatEl.addEventListener('chat-session-delete', (e) => {
+        if (e.detail.sessionId === this._sessionId) {
+          this.messages = [];
+          this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
+          this.render();
+        }
+      });
     }
 
     // Show format suggestions after greeting

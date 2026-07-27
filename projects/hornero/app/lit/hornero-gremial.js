@@ -82,6 +82,14 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('chat-session-select', (e) => {
         this._loadSession(e.detail.sessionId);
       });
+      chatEl.addEventListener('chat-session-delete', (e) => {
+        // If current session was deleted, start fresh
+        if (e.detail.sessionId === this._sessionId) {
+          this.messages = [];
+          this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
+          this.render();
+        }
+      });
       chatEl.addEventListener('reporte-action', (e) => {
         this._handleReporteAction(e.detail);
       });
