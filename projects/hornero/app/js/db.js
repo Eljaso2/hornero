@@ -310,7 +310,8 @@ function obtenerChatSessions(username) {
           section: m.section,
           timestamp: m.timestamp,
           preview: '',
-          messageCount: 0
+          messageCount: 0,
+          username: m.username || ''
         };
       }
       sessionsMap[m.sessionId].messageCount++;

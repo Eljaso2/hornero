@@ -75,9 +75,8 @@ class HorneroHome extends HoComponent {
       :host { display: block; padding: 0 16px 16px; background: #F4F3EE; }
 
       /* ===== Section name — kicker style, dark on light bg ===== */
-      .esfera-name { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: #2B2A26; margin-bottom: 10px; }
+      .esfera-name { font-family: 'Archivo', sans-serif; font-size: .92rem;
+        font-weight: 700; color: #2B2A26; margin-bottom: 10px; }
 
       /* ===== Section badge — overlay on carousel photo, right corner ===== */
       .section-badge { position: absolute; top: 10px; right: 12px; z-index: 3;
@@ -115,7 +114,7 @@ class HorneroHome extends HoComponent {
         padding: 36px 14px 12px;
         background: linear-gradient(transparent, rgba(33,31,29,.85));
         color: #F2F1EC; }
-      .news-title { font-family: 'Archivo Narrow', sans-serif; font-weight: 800;
+      .news-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.32rem; line-height: 1.18; letter-spacing: .02em; text-transform: uppercase; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
       .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
@@ -176,9 +175,8 @@ class HorneroHome extends HoComponent {
         transition: border-color .2s; position: relative; }
       .esfera-card:hover { border-color: rgba(43,42,38,.18); }
       .esfera-card.locked { cursor: default; }
-      .esfera-card .card-name { font-family: 'JetBrains Mono', monospace;
-        font-weight: 600; font-size: .68rem; letter-spacing: .14em;
-        text-transform: uppercase; color: #2B2A26; }
+      .esfera-card .card-name { font-family: 'Archivo', sans-serif;
+        font-weight: 700; font-size: .92rem; color: #2B2A26; }
       .esfera-card .card-desc { font-size: .82rem; color: #6E6A60;
         line-height: 1.4; margin-top: 4px; }
       .esfera-card .card-tag { font-family: 'JetBrains Mono', monospace;

@@ -401,6 +401,9 @@ class HorneroChat extends HoComponent {
       .history-item-count { background: var(--ho-green-pale, #E8EDD7);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #586B33); }
+      .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .54rem;
+        color: var(--ho-text-light, #9C988D); letter-spacing: .06em;
+        background: var(--ho-mid-gray, #ECEAE3); padding: 1px 5px; border-radius: 3px; }
 
       .history-empty { padding: 40px 20px; text-align: center;
         font-family: 'Archivo', sans-serif; font-size: .82rem;
@@ -880,6 +883,7 @@ class HorneroChat extends HoComponent {
                   <div class="history-item-preview">${s.preview || 'Nuevo chat'}</div>
                   <div class="history-item-meta">
                     <span>${dateStr} ${timeStr}</span>
+                    ${s.username ? '<span class="history-item-user">@' + s.username + '</span>' : ''}
                     <span class="history-item-count">${s.messageCount} msgs</span>
                   </div>
                   <button class="history-item-export" data-export-session="${s.sessionId}" title="Exportar chat">
@@ -919,6 +923,7 @@ class HorneroChat extends HoComponent {
                   <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
                   <div class="informes-item-meta">
                     <span>${dateStr}</span>
+                    ${inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : ''}
                     <span class="informes-item-estado">${inf.estado || 'aceptado'}</span>
                   </div>
                   ${tagsHtml}

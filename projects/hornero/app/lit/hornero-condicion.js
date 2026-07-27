@@ -38,9 +38,10 @@ class HorneroCondicion extends HoComponent {
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s; }
       .card:hover { border-color: var(--ho-green, #6E8345); }
-      .card-icon { font-size: 1.2rem; margin-bottom: 4px; }
+      .card-title-line { display: flex; align-items: baseline; gap: 6px; }
+      .card-icon { font-size: 1rem; }
       .card-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); }
+        font-size: .92rem; color: var(--ho-text, #2B2A26); }
       .card-desc { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 4px; }
       .card-conn { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -66,8 +67,8 @@ class HorneroCondicion extends HoComponent {
 
         <div class="ce">
           <div class="card" data-subscreen="ve">
-            <div class="card-icon">🏭</div>
-            <div class="card-title">Comportamiento Empresarial</div>
+            <div class="card-title-line"><span class="card-icon">🏭</span>
+            <span class="card-title">Comportamiento Empresarial</span></div>
             <div class="card-desc">Identificar cómo piensa y actúa el empresario. Índice ICE: 4 dimensiones con violencia y buenas prácticas.</div>
             <div class="card-conn">ICE × SMVM → lo que daña × lo que sostiene</div>
           </div>
@@ -75,8 +76,8 @@ class HorneroCondicion extends HoComponent {
 
         <div class="ift">
           <div class="card" data-subscreen="felicidad">
-            <div class="card-icon">🌿</div>
-            <div class="card-title">Felicidad del Trabajador</div>
+            <div class="card-title-line"><span class="card-icon">🌿</span>
+            <span class="card-title">Felicidad del Trabajador</span></div>
             <div class="card-desc">Índice IFT — 6 dimensiones de bienestar laboral con categorías del campo: condiciones materiales, tiempo propio, salud, capacidad organizativa, pertenencia, futuro.</div>
             <div class="card-conn">IFT × CE × SMVM → lo que importa × lo que daña × lo que sostiene</div>
           </div>
@@ -84,8 +85,8 @@ class HorneroCondicion extends HoComponent {
 
         <div class="comos">
           <div class="card" data-subscreen="como-somos">
-            <div class="card-icon">👥</div>
-            <div class="card-title">Cómo Somos</div>
+            <div class="card-title-line"><span class="card-icon">👥</span>
+            <span class="card-title">Cómo Somos</span></div>
             <div class="card-desc">Foto presente y película dinámica de la clase trabajadora — cuántos somos, cómo estamos, con categorías del campo obrero.</div>
             <div class="card-conn">Cómo Somos × CE → qué fracciones sufren qué dimensión</div>
           </div>
@@ -93,8 +94,8 @@ class HorneroCondicion extends HoComponent {
 
         <div class="smvm">
           <div class="card" data-subscreen="smvm">
-            <div class="card-icon">💰</div>
-            <div class="card-title">Salario Mínimo Vital y Móvil</div>
+            <div class="card-title-line"><span class="card-icon">💰</span>
+            <span class="card-title">Salario Mínimo Vital y Móvil</span></div>
             <div class="card-desc">El SMVM en contexto — el piso legal vs. el piso de vida. Canasta básica, inflación obrera, distribución del ingreso.</div>
             <div class="card-conn">SMVM × CE × IFT → lo que sostiene × lo que daña × lo que importa</div>
           </div>

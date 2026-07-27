@@ -199,9 +199,10 @@ class HorneroArchivo extends HoComponent {
         border-radius: 13px; padding: 12px; cursor: pointer;
         transition: border-color .2s; }
       .cat-card:hover { border-color: var(--ho-green, #6E8345); }
-      .cat-icon { font-size: 1rem; margin-bottom: 4px; }
+      .cat-title-line { display: flex; align-items: baseline; gap: 6px; }
+      .cat-icon { font-size: 1rem; }
       .cat-label { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .82rem; color: var(--ho-text, #2B2A26); }
+        font-size: .92rem; color: var(--ho-text, #2B2A26); }
       .cat-desc { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.3; margin-top: 2px; }
 
@@ -339,8 +340,8 @@ class HorneroArchivo extends HoComponent {
     var catCards = catKeys.map(function(k) {
       var meta = this.categories[k];
       return html`<div class="cat-card" data-category="${k}">
-        <div class="cat-icon">${meta.icon || '📄'}</div>
-        <div class="cat-label">${meta.label || k}</div>
+        <div class="cat-title-line"><span class="cat-icon">${meta.icon || '📄'}</span>
+        <span class="cat-label">${meta.label || k}</span></div>
         <div class="cat-desc">${meta.desc || ''}</div>
       </div>`;
     }).join('');

@@ -96,12 +96,11 @@ class HorneroActualidad extends HoComponent {
       .product-card-clipping { border-left: 3px solid var(--ho-green, #6E8345); }
       .product-card-infomate { border-left: 3px solid var(--ho-gold, #B0863F); }
 
-      .product-emoji { font-size: 1.2rem; margin-bottom: 4px; }
-
+      .product-title-line { display: flex; align-items: baseline; gap: 6px; }
+      .product-emoji { font-size: 1rem; }
       .product-label {
-        font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: var(--ho-text, #2B2A26); }
+        font-family: 'Archivo', sans-serif; font-size: .92rem;
+        font-weight: 700; color: var(--ho-text, #2B2A26); }
 
       .product-sublabel {
         font-family: 'JetBrains Mono', monospace; font-size: .58rem;
@@ -114,9 +113,9 @@ class HorneroActualidad extends HoComponent {
         padding: 2px 0; }
       .noticia-line.hidden { display: none; }
       .noticia-emoji { font-size: .78rem; }
-      .noticia-title { font-family: 'Public Sans', sans-serif; font-size: .76rem;
-        color: var(--ho-text, #2B2A26); line-height: 1.3;
-        font-weight: 500; flex: 1; }
+      .noticia-title { font-family: 'Archivo', sans-serif; font-size: .88rem;
+        color: var(--ho-text, #2B2A26); line-height: 1.25;
+        font-weight: 700; flex: 1; }
       .noticia-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
         padding: 2px 6px; border-radius: 4px; font-weight: 600;
@@ -179,8 +178,8 @@ class HorneroActualidad extends HoComponent {
       }
 
       cardsHtml += '<div class="product-card product-card-clipping" data-screen="clipping" data-clip-edicion="' + ed.numero + '">' +
-        '<div class="product-emoji">📰</div>' +
-        '<div class="product-label">' + label + '</div>' +
+        '<div class="product-title-line"><span class="product-emoji">📰</span>' +
+        '<span class="product-label">' + label + '</span></div>' +
         '<div class="product-sublabel">' + sublabel + '</div>' +
         noticiaList +
       '</div>';
@@ -199,8 +198,8 @@ class HorneroActualidad extends HoComponent {
           : '';
 
         cardsHtml += '<div class="product-card product-card-infomate" data-screen="infomate">' +
-          '<div class="product-emoji">🧮</div>' +
-          '<div class="product-label">' + mateLabel + '</div>' +
+          '<div class="product-title-line"><span class="product-emoji">🧮</span>' +
+          '<span class="product-label">' + mateLabel + '</span></div>' +
           '<div class="product-sublabel">' + mateSublabel + '</div>' +
           '<div class="mate-desc">' + mateDesc + '</div>' +
           (mateTags ? '<div class="data-tags">' + mateTags + '</div>' : '') +

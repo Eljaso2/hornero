@@ -261,7 +261,7 @@ class HorneroClipping extends HoComponent {
       .feed-card-emoji { font-size: 1rem; margin-left: 4px; }
 
       .feed-card-titulo { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); margin-top: 4px;
+        font-size: .92rem; color: var(--ho-text, #2B2A26); margin-top: 4px;
         line-height: 1.25; }
 
       .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: .82rem;
@@ -292,10 +292,11 @@ class HorneroClipping extends HoComponent {
 
       .popup-img { width: 100%; height: 180px; object-fit: cover; display: block; }
       .popup-body { padding: 14px 16px 20px; }
-      .popup-emoji { font-size: 1.2rem; }
+      .popup-title-line { display: flex; align-items: baseline; gap: 6px; }
+      .popup-emoji { font-size: 1rem; }
       .popup-titulo { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.02rem; color: var(--ho-text, #2B2A26);
-        margin-top: 4px; line-height: 1.2; }
+        line-height: 1.2; }
       .popup-desarrollo { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.6; margin-top: 10px; }
       .popup-fuente { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -371,8 +372,9 @@ class HorneroClipping extends HoComponent {
         '<button class="popup-close" id="popupClose">✕</button>' +
         (item.foto ? '<img class="popup-img" src="' + item.foto + '" alt="" loading="lazy">' : '') +
         '<div class="popup-body">' +
-          (item.emoji ? '<div class="popup-emoji">' + item.emoji + '</div>' : '') +
-          '<div class="popup-titulo">' + (item.titulo || '') + '</div>' +
+          '<div class="popup-title-line">' +
+          (item.emoji ? '<span class="popup-emoji">' + item.emoji + '</span>' : '') +
+          '<span class="popup-titulo">' + (item.titulo || '') + '</span></div>' +
           '<div class="popup-desarrollo">' + (item.desarrollo || '') + '</div>' +
           (item.fuente ? '<div class="popup-fuente">Fuente: ' + item.fuente + '</div>' : '') +
           (tagsHtml ? '<div class="popup-tags">' + tagsHtml + '</div>' : '') +
