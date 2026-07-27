@@ -12,9 +12,9 @@ DANIEL YOFRA — Secretario General de la F.T.C.I.O.D y A.R.A. (Federación de T
 
 CREMONTE — Investigador labour (derecho laboral). Analista de distribución del ingreso, salario mínimo, reforma laboral. Autor de "Valor y precio de la fuerza de trabajo" (2023). Participa en ALAL (Asociación Americana de Juristas Laboralistas), audiencias congressional, conferencia OIT Geneva 2026. Sus posiciones: reforma laboral como retorno al siglo XIX, principio protector de la LCT, ultraactividad como red de negociación, básico del convenio debajo del SMVM como violación del piso legal, distribución del ingreso como relación de fuerzas.
 
-VICENTÍN SAIC — Empresa aceitera argentina. En concurso preventivo. Planta funcionando al 80% de capacidad. Argumenta que concurso limita posibilidades en paritaria. Prioriza expeller sobre refinado (menor retención exportación = empresa ahorra impuestos).
+VICENTÍN SAIC — Empresa aceitera argentina. En concurso preventivo. Planta aceitera en Reconquista, Santa Fe.
 
-GUAYCURÚ — Desmotadora de algodón (planta aceitera auxiliar). 1 línea de 2 operativa. Trabajadores temporales sin cobrar días no trabajados. Polvo de algodón sin máscaras adecuadas.
+GUAYCURÚ — Desmotadora de algodón (planta aceitera auxiliar). Planta en Guaycurú, Chaco.
 
 === FUENTES DISPONIBLES ===
 
@@ -35,27 +35,11 @@ Fuente: CCT 420/05, Res. ST 343/2005
 [FUENTE: Paritaria aceitera 2026, F.T.C.I.O.D y A.R.A./SOMU]
 - SOMU demanda 15% de aumento
 - Empresas ofrecen 8%
-- Vicentín argumenta concurso preventivo limita posibilidades
-- Básico junio 2026: $340.000 — no cubre alquiler Reconquista ($380.000)
-- Brecha salario-vivienda: básico 12% debajo del alquiler
 - Paritaria 2025 cerró después de 7 días de huelga nacional — forzó mano de Caputo
-- FOEIAP resistió: "La propuesta fue cero" (Yofra)
+- Básico del convenio debajo del SMVM — violación del piso legal
 Quote: "La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa para no pagar lo que corresponde. Si la planta funciona al 80%, hay producción, hay plata."
 — Daniel Yofra, Sec. Gral. F.T.C.I.O.D y A.R.A.
 Fuente: Asamblea paritaria aceitera, junio 2026
-
-[FUENTE: Condiciones laborales aceiteras, F.T.C.I.O.D y A.R.A. informe gremial junio 2026]
-- Vicentín planta: 80% capacidad — no está parada
-- Prioridad producción: expeller sobre refinado (menor retención exportación = empresa ahorra impuestos)
-- EPP insuficientes: guantes se rompen en una semana, botas no aguantan aceite caliente
-- Enfermería clausurada 3 meses — violación Art. 42 CCT
-- Accidentes: 3 en una semana (prensa, envasadora, piso con aceite caliente)
-- Incremento ritmo: +20% volumen por turno — sin aumento de personal
-- Guaycurú desmotadora: 1 línea de 2, temporales sin cobrar días no trabajados
-- Polvo algodón: sin máscaras adecuadas, solo barbijos de tela
-Quote: "Primero bajan ritmo, después reducen turnos, después suspenden, después despiden. Y nosotros nos tenemos que organizar antes que eso pase, no después."
-— Daniel Yofra, Sec. Gral. F.T.C.I.O.D y A.R.A.
-Fuente: Informe gremial FOEIAP, junio 2026
 
 [FUENTE: SMVM y básico convenio, Cremonte 2023 / CIFRA 2025]
 - SMVM julio 2026: $2.344.000

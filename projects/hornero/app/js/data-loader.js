@@ -73,6 +73,56 @@ function loadAllData() {
   });
 }
 
+// ===== Clean old seeded simulation data =====
+// Removes fuentesPrimarias, informes, and correcciones that were seeded
+// from old simulation versions (before 2026-07-27)
+function cleanOldSimulationData() {
+  if (!db) return Promise.resolve();
+
+  return dbGet('uiState', 'seeded-version-2026-07-22').then(function(oldSeed) {
+    if (!oldSeed) return Promise.resolve(); // No old seed — nothing to clean
+
+    console.log('Cleaning old simulation data (version 2026-07-22)...');
+
+    var cleanupPromises = [];
+
+    // Remove all seeded fuentesPrimarias
+    cleanupPromises.push(dbGetAll('fuentesPrimarias').then(function(all) {
+      if (!all) return Promise.resolve();
+      return Promise.all(all.filter(function(fp) {
+        // Only remove seeded items (fp-A, fp-B, fp-C, fp-D from simulation)
+        return fp.id && fp.id.startsWith('fp-');
+      }).map(function(fp) { return dbDelete('fuentesPrimarias', fp.id); }));
+    }));
+
+    // Remove all seeded informes
+    cleanupPromises.push(dbGetAll('informes').then(function(all) {
+      if (!all) return Promise.resolve();
+      return Promise.all(all.filter(function(inf) {
+        // Only remove seeded items (g1-A, g1-B) and simulation-derived informes
+        return inf.id && (inf.id.startsWith('g1-') || inf.estado === 'pendiente_revision');
+      }).map(function(inf) { return dbDelete('informes', inf.id); }));
+    }));
+
+    // Remove all seeded correcciones
+    cleanupPromises.push(dbGetAll('correcciones').then(function(all) {
+      if (!all) return Promise.resolve();
+      return Promise.all(all.filter(function(cor) {
+        return cor.id && cor.id.startsWith('corr-');
+      }).map(function(cor) { return dbDelete('correcciones', cor.id); }));
+    }));
+
+    // Remove the old seed version marker
+    cleanupPromises.push(dbDelete('uiState', 'seeded-version-2026-07-22'));
+
+    return Promise.all(cleanupPromises).then(function() {
+      console.log('Old simulation data cleaned');
+    });
+  }).catch(function(e) {
+    console.warn('Simulation data cleanup failed:', e);
+  });
+}
+
 // ===== Seed IndexedDB with JSON data (for initial setup) =====
 function seedData(jsonData) {
   if (!jsonData || !db) return Promise.resolve();

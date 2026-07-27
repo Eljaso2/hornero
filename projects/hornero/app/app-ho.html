@@ -74,6 +74,7 @@
   <!-- Init: IndexedDB → seed data → register SW → PWA install -->
   <script>
     initDB()
+      .then(function() { return cleanOldSimulationData(); })
       .then(function() { return loadAllData(); })
       .then(function(results) {
         var pilotoData = results && results['is-piloto-aceitero.json'];

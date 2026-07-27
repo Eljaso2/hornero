@@ -17,9 +17,9 @@ const PILOT_USERS = {
     agremiacion: { rol: 'Secretario General del Sindicato', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
   'test2':    { password: 'del2026',     grade: 'B.b', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N2 — Delegada',
     agremiacion: { rol: 'Delegado', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
-  'test1a':   { password: 'base2026',    grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 — Raúl (base)',
+  'test1a':   { password: 'base2026',    grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 (base)',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC' } },
-  'test1b':   { password: 'adm2026',     grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 — Damián (admin)',
+  'test1b':   { password: 'adm2026',     grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 (administración)',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC — Administración' } },
 };
 
