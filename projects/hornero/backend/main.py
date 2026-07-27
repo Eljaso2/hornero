@@ -86,6 +86,7 @@ class GreetingResponse(BaseModel):
     time: str
     raw: str = ""
     persona: str = "ia-sindical"
+    redirect_persona: str = ""  # Derivation: persona to redirect to (empty = no redirect)
 
 
 class ChatRequest(BaseModel):
@@ -104,6 +105,7 @@ class ChatResponse(BaseModel):
     time: str
     raw: str = ""  # Raw LLM response for debugging
     persona: str = "ia-sindical"  # Who responded: companero|abogado|periodista|relator|ia-sindical
+    redirect_persona: str = ""  # Derivation: persona to redirect to (empty = no redirect)
 
 
 # ===== Endpoints =====
@@ -251,6 +253,7 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
         time=time_str,
         raw=raw_response,
         persona=final_persona,
+        redirect_persona=validated_redirect(parsed.get("redirect_persona", "")),
     )
 
 

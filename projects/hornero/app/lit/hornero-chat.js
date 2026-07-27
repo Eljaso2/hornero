@@ -1319,7 +1319,7 @@ class HorneroChat extends HoComponent {
         // Also download directly from the chat component
         if (this.messages && this.messages.length > 0) {
           const filename = this.title || 'chat-hornero';
-          this._downloadHtml(this.messages, this.title, filename);
+          this._downloadTxt(this.messages, this.title, filename);
         }
       });
     }
@@ -1481,7 +1481,7 @@ class HorneroChat extends HoComponent {
           obtenerChatSessionMessages(sid).then(msgs => {
             if (msgs && msgs.length > 0) {
               const preview = (msgs[0].text || '').substring(0, 30).replace(/[?!.]+$/, '');
-              this._downloadHtml(msgs, preview || 'chat-hornero', preview || 'chat-hornero');
+              this._downloadTxt(msgs, preview || 'chat-hornero', preview || 'chat-hornero');
             }
           }).catch(err => console.warn('Chat: export session failed', err));
         }
@@ -1559,7 +1559,7 @@ class HorneroChat extends HoComponent {
               const title = inf.sections && inf.sections.length > 0
                 ? inf.sections[0].title || 'Informe Gremial'
                 : 'Informe Gremial';
-              this._downloadHtml(msgs, title, `informe-${inf.fecha || 'gremial'}`);
+              this._downloadTxt(msgs, title, `informe-${inf.fecha || 'gremial'}`);
             }
           }).catch(err => console.warn('Chat: export informe failed', err));
         } else {
@@ -1576,7 +1576,7 @@ class HorneroChat extends HoComponent {
             const title = inf.sections && inf.sections.length > 0
               ? inf.sections[0].title || 'Informe Gremial'
               : 'Informe Gremial';
-            this._downloadHtml(msgs, title, `informe-${inf.fecha || 'gremial'}`);
+            this._downloadTxt(msgs, title, `informe-${inf.fecha || 'gremial'}`);
           }
         }
       });
@@ -1675,12 +1675,12 @@ class HorneroChat extends HoComponent {
         } else if (action === 'corregir') {
           this.emit('reporte-action', { action: 'corregir', msgIndex });
         } else if (action === 'exportar') {
-          // Export the reporte card as HTML document
+          // Export the reporte card as TXT document
           const msg = this.messages[msgIndex];
           if (msg) {
             const msgs = [msg];
             const title = msg.sections && msg.sections[0] ? msg.sections[0].title || 'Informe Gremial' : 'Informe Gremial';
-            this._downloadHtml(msgs, title, `reporte-${new Date().toISOString().slice(0,10)}`);
+            this._downloadTxt(msgs, title, `reporte-${new Date().toISOString().slice(0,10)}`);
           }
         }
       });

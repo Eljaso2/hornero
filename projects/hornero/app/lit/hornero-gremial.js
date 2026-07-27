@@ -494,18 +494,18 @@ class HorneroGremial extends HoComponent {
     } catch(e) { console.warn('Gremial: chat history save failed', e); }
   }
 
-  // ===== Export current chat as downloadable HTML document =====
+  // ===== Export current chat as downloadable TXT document =====
   _exportCurrentChat() {
     if (!this.messages || this.messages.length === 0) return;
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) {
       const firstUserMsg = this.messages.find(m => m.role === 'user');
       const title = firstUserMsg && firstUserMsg.title ? firstUserMsg.title : 'Reporte Gremial';
-      chatEl._downloadHtml(this.messages, title, title);
+      chatEl._downloadTxt(this.messages, title, title);
       // Add confirmation message
       this.messages = [...this.messages, {
         role: 'hornero',
-        text: '📥 Documento exportado. Lo descargaste como archivo HTML — lo puedes abrir en cualquier navegador, imprimir, o compartir.',
+        text: '📥 Documento exportado. Lo descargaste como archivo TXT — lo puedes abrir en cualquier editor de texto, imprimir, o compartir.',
         tags: ['reporte', 'exportado'],
         time: this._timeNow(),
       }];

@@ -182,10 +182,10 @@ class HorneroConsulta extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['consulta', 'greeting'],
-        persona: data.persona || 'ia-sindical',
+        persona: data.persona || this._activePersona,
         time: data.time || this._timeNow(),
       }];
-      this._activePersona = data.persona || 'ia-sindical';
+      this._activePersona = data.persona || this._activePersona;
       this._typing = false; this._greetingRequested = false;
       this._saveChatHistory();
       this.render();
@@ -206,6 +206,7 @@ class HorneroConsulta extends HoComponent {
         { title: '', body: '', quote: 'Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Ciclo "Por las hendijas del Quebracho", enero 2021' },
       ],
       tags: ['consulta', 'greeting'],
+      persona: this._activePersona,
       time: this._timeNow(),
     };
   }
@@ -432,7 +433,7 @@ class HorneroConsulta extends HoComponent {
     } catch(e) { console.warn('Consulta: chat history save failed', e); }
   }
 
-  // ===== Export current chat as downloadable HTML document =====
+  // ===== Export current chat as downloadable TXT document =====
   _exportCurrentChat() {
     if (!this.messages || this.messages.length === 0) return;
     // Use the chat component's export method
@@ -441,11 +442,11 @@ class HorneroConsulta extends HoComponent {
       // Generate title from first user message or fallback
       const firstUserMsg = this.messages.find(m => m.role === 'user');
       const title = firstUserMsg && firstUserMsg.title ? firstUserMsg.title : 'Consulta IA Sindical';
-      chatEl._downloadHtml(this.messages, title, title);
+      chatEl._downloadTxt(this.messages, title, title);
       // Add confirmation message
       this.messages = [...this.messages, {
         role: 'hornero',
-        text: '📥 Documento exportado. Lo descargaste como archivo HTML — lo puedes abrir en cualquier navegador, imprimir, o compartir.',
+        text: '📥 Documento exportado. Lo descargaste como archivo TXT — lo puedes abrir en cualquier editor de texto, imprimir, o compartir.',
         tags: ['consulta', 'exportado'],
         time: this._timeNow(),
       }];
