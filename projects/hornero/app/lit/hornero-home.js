@@ -168,7 +168,26 @@ class HorneroHome extends HoComponent {
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
         color: #2B2A26; }
 
-      /* ===== ESFERA 3: Formación — hero card ===== */
+      /* ===== ESFERA 3: Panorama — hero card ===== */
+      .panorama-card { position: relative; border-radius: 13px; margin-bottom: 10px;
+        overflow: hidden; cursor: pointer; min-height: 140px; }
+      .panorama-card img.hero { width: 100%; height: 180px; object-fit: cover;
+        display: block; }
+      .panorama-overlay { position: absolute; bottom: 0; left: 0; right: 0;
+        padding: 36px 14px 12px;
+        background: linear-gradient(transparent, rgba(33,31,29,.85));
+        color: #F2F1EC; }
+      .panorama-overlay .card-name { font-family: 'Archivo', sans-serif;
+        font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
+        text-transform: uppercase; }
+      .panorama-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
+        line-height: 1.4; margin-top: 3px; }
+      .panorama-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
+        font-size: .60rem; background: rgba(110,131,69,.6); color: #F2F1EC;
+        padding: 2px 7px; border-radius: 5px; font-weight: 600;
+        display: inline-block; margin-top: 5px; }
+
+      /* ===== ESFERA 4: Formación — hero card ===== */
       .formacion-card { position: relative; border-radius: 13px; margin-bottom: 10px;
         overflow: hidden; cursor: pointer; min-height: 140px; }
       .formacion-card img.hero { width: 100%; height: 180px; object-fit: cover;
@@ -319,11 +338,14 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 3: Panorama -->
-      <div class="esfera-card" data-screen="condicion">
-        <div class="card-name">Panorama</div>
-        <div class="card-desc">CE · IFT · Cómo Somos · SMVM — diagnóstico de la clase trabajadora</div>
-        <span class="card-tag">índices · diagnóstico</span>
+      <!-- ESFERA 3: Panorama — hero card -->
+      <div class="panorama-card" data-screen="condicion">
+        <img src="assets/panorama-bg.png" alt="Panorama" class="hero">
+        <div class="panorama-overlay">
+          <div class="card-name">Panorama</div>
+          <div class="card-desc">CE · IFT · Cómo Somos · SMVM</div>
+          <span class="card-tag">índices · diagnóstico · clase trabajadora</span>
+        </div>
       </div>
 
       <!-- ESFERA 4: Historia Obrera — hero card -->
@@ -389,8 +411,8 @@ class HorneroHome extends HoComponent {
       });
     }
 
-    // Esfera cards + formacion card — navigation
-    this.shadowRoot.querySelectorAll('.esfera-card, .formacion-card').forEach(card => {
+    // Esfera cards + hero cards — navigation
+    this.shadowRoot.querySelectorAll('.esfera-card, .formacion-card, .panorama-card').forEach(card => {
       card.addEventListener('click', () => {
         if (card.classList.contains('locked')) return;
         this.goScreen(card.dataset.screen);
