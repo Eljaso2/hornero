@@ -8,8 +8,8 @@
   <link rel="icon" href="assets/hornero-icon-192.png" type="image/png">
   <!-- Initial theme-color = dark (safe default for login flash).
        Head script below overrides to light for logged-in users BEFORE render -->
-  <meta name="theme-color" content="#323D39">
-  <meta name="supported-color-schemes" content="dark light">
+  <meta name="theme-color" content="#1E2321">
+  <meta name="supported-color-schemes" content="dark">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hornero">
@@ -20,7 +20,7 @@
     (function(){
       var s=null;
       try{s=JSON.parse(localStorage.getItem('hornero-session'))}catch(e){}
-      var c=(s&&s.grade)?'#F4F3EE':'#323D39';
+      var c='#1E2321';
       document.documentElement.style.setProperty('background',c,'important');
       var m=document.querySelector('meta[name="theme-color"]');
       if(m)m.setAttribute('content',c);
@@ -40,11 +40,11 @@
   <script src="js/data-loader.js"></script>
 
   <style>
-    /* App-level: dark default (head script overrides to light for logged-in users) */
-    html { background: #323D39 !important;
+    /* App-level: dark mode */
+    html { background: #1E2321 !important;
       background-attachment: fixed !important;
       min-height: 100vh; min-height: -webkit-fill-available; }
-    body { background: #323D39 !important;
+    body { background: #1E2321 !important;
       background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
       margin: 0; padding: 0;
@@ -53,7 +53,7 @@
       min-height: -webkit-fill-available; }
     /* Splash screen — shows logo while web components load */
     #splash { position: fixed; inset: 0; z-index: 9999;
-      background: #323D39; display: flex; flex-direction: column;
+      background: #1E2321; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       transition: opacity .3s ease; }
     #splash.fade-out { opacity: 0; pointer-events: none; }
@@ -61,7 +61,7 @@
     #splash .splash-brand { height: 32px; width: auto; margin-top: 16px; object-fit: contain; }
     /* PWA install banner */
     .pwa-install-banner { position: fixed; bottom: 0; left: 0; right: 0;
-      background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
+      background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);
       padding: 14px 16px 20px; display: flex; align-items: center; gap: 12px;
       z-index: 200; font-family: 'Archivo', sans-serif;
       box-shadow: 0 -4px 16px rgba(0,0,0,.15); transition: transform .3s; }
@@ -81,7 +81,7 @@
 </head>
 <!-- Set body bg immediately — uses color from head script -->
 <body>
-<script>document.body.style.setProperty('background',window._hoInitBg||'#323D39','important');</script>
+<script>document.body.style.setProperty('background',window._hoInitBg||'#1E2321','important');</script>
   <!-- Splash screen — shows logo while web components load (~1s) -->
   <div id="splash">
     <img src="assets/hornero-logo-nobg.png" alt="Hornero" />
@@ -170,7 +170,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=172"></script>
+  <script type="module" src="lit/hornero-components.js?v=173"></script>
   <!-- Hide splash once web components are defined -->
   <script>
     (function(){

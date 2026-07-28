@@ -244,19 +244,19 @@ class HorneroApp extends HoComponent {
   _styles() {
     return css`
       /* ===== Phone mockup frame (desktop only) ===== */
-      .app-wrap { background: var(--ho-body-bg, #E7E5DF); }
+      .app-wrap { background: var(--ho-body-bg, #141816); }
       @media(min-width:500px){
         .app-wrap { min-height: 100vh; display: flex; justify-content: center;
           align-items: flex-start; padding: 40px 20px; }
-        .phone { width: 412px; background: var(--ho-dark, #33312D);
+        .phone { width: 412px; background: var(--ho-dark, #1E2321);
           border-radius: 46px; padding: 12px;
           box-shadow: 0 40px 80px -30px rgba(43,42,38,.6);
           position: sticky; top: 40px; }
-        .screen { background: var(--ho-bg, #F4F3EE); border-radius: 35px;
+        .screen { background: var(--ho-bg, #1E2321); border-radius: 35px;
           overflow: hidden; height: 824px; display: flex;
           flex-direction: column; position: relative; }
         /* Desktop: show simulated status bar */
-        .status-bar { background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
+        .status-bar { background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);
           display: flex; align-items: center; justify-content: space-between;
           padding: 10px 22px 5px; font-size: .74rem; flex: none;
           font-family: 'JetBrains Mono', monospace; }
@@ -264,13 +264,13 @@ class HorneroApp extends HoComponent {
       @media(max-width:499px){
         .app-wrap { min-height: 100vh; }
         .phone { width: 100%; min-height: 100vh; }
-        .screen { background: var(--ho-dark, #33312D); display: flex;
+        .screen { background: var(--ho-dark, #1E2321); display: flex;
           flex-direction: column; position: relative;
           height: 100dvh; overflow: hidden; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
         /* Mobile: top-bar dark background merges with system status bar */
-        .top-bar { background: var(--ho-dark, #33312D);
+        .top-bar { background: var(--ho-dark, #1E2321);
           color: var(--ho-text-off, #F2F1EC); }
         .top-bar-back { background: var(--ho-dark-surface, #3F4E4A);
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
@@ -279,7 +279,7 @@ class HorneroApp extends HoComponent {
         /* Mobile: sections-bar dark to match header — no border (seamless merge) */
         .sections-bar { background: var(--ho-dark-surface, #3F4E4A);
           border-bottom: none; }
-        .sections-btn { color: #9C988D; }
+        .sections-btn { color: #7A766C; }
         .sections-btn.active { color: var(--ho-green-light, #80CCA0);
           border-bottom-color: var(--ho-green-light, #80CCA0); }
         .header-text .app-brand-img { height: 32px; }
@@ -289,8 +289,8 @@ class HorneroApp extends HoComponent {
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
       /* ===== Top bar — back button + title centered ===== */
-      .top-bar { background: var(--ho-bg, #F4F3EE);
-        color: var(--ho-text, #2B2A26);
+      .top-bar { background: var(--ho-bg, #1E2321);
+        color: var(--ho-text, #E8E6E0);
         padding: 0 16px; display: flex; align-items: center;
         justify-content: center; position: relative; flex: none;
         min-height: 56px;
@@ -298,14 +298,14 @@ class HorneroApp extends HoComponent {
       .top-bar-back { position: absolute; left: 16px;
         top: calc(50% + env(safe-area-inset-top, 0px) / 2);
         transform: translateY(-50%); width: 30px; height: 30px;
-        border-radius: 50%; border: 1px solid var(--ho-border, rgba(43,42,38,.15));
-        background: var(--ho-card, #FBFAF6); cursor: pointer;
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        background: var(--ho-card, #2A3230); cursor: pointer;
         display: flex; align-items: center; justify-content: center;
         transition: background .2s, border-color .2s; flex: none; }
       .top-bar-back:hover { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .top-bar-back svg { width: 14px; height: 14px;
-        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        stroke: var(--ho-text-mid, #7A766C); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .top-bar-back:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
@@ -314,13 +314,13 @@ class HorneroApp extends HoComponent {
         display: block; margin: 0 auto; }
 
       /* ===== Sections bar — horizontal scrollable ===== */
-      .sections-bar { background: var(--ho-bg, #F4F3EE);
+      .sections-bar { background: var(--ho-bg, #1E2321);
         flex: none; display: flex; overflow-x: auto;
         padding: 6px 12px 8px; gap: 0;
-        scrollbar-width: none; border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12)); }
+        scrollbar-width: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .sections-bar::-webkit-scrollbar { width: 0; }
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
-        font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+        font-weight: 600; color: var(--ho-text-mid, #7A766C);
         background: none; border: none; cursor: pointer;
         padding: 6px 12px; white-space: nowrap;
         border-bottom: 2px solid transparent;
@@ -330,11 +330,11 @@ class HorneroApp extends HoComponent {
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; background: var(--ho-bg, #F4F3EE); }
+        scrollbar-width: none; background: var(--ho-bg, #1E2321); }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Bottom nav — warm light background, no white ===== */
-      .bottom-nav { background: var(--ho-bg, #F4F3EE);
+      .bottom-nav { background: var(--ho-bg, #1E2321);
         display: flex; justify-content: space-around;
         padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
         width: 100%; z-index: 100; position: relative; }
@@ -342,10 +342,10 @@ class HorneroApp extends HoComponent {
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; flex: 1; min-width: 0; }
-      .nav-btn svg { width: 24px; height: 24px; stroke: #33312D;
+      .nav-btn svg { width: 24px; height: 24px; stroke: #1E2321;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .nav-btn.active svg { stroke: #4E9978; stroke-width: 2.6; }
-      .nav-btn .label { font-size: .60rem; font-weight: 600; color: #33312D;
+      .nav-btn .label { font-size: .60rem; font-weight: 600; color: #1E2321;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #4E9978; }
 
@@ -353,13 +353,13 @@ class HorneroApp extends HoComponent {
       .chat-landing { padding: 24px 20px; }
       .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: #2B2A26; margin-bottom: 8px; }
+        color: #E8E6E0; margin-bottom: 8px; }
       .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: .92rem;
-        font-weight: 700; color: #2B2A26; margin-bottom: 4px; }
+        font-weight: 700; color: #E8E6E0; margin-bottom: 4px; }
       .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: #6E6A60; line-height: 1.5; margin-bottom: 24px; }
+        color: #7A766C; line-height: 1.5; margin-bottom: 24px; }
       .chat-choice { display: flex; align-items: center; gap: 10px;
-        background: var(--ho-card, #FBFAF6); border: 1px solid rgba(43,42,38,.06);
+        background: var(--ho-card, #2A3230); border: 1px solid rgba(43,42,38,.06);
         border-radius: 10px; padding: 10px 12px; cursor: pointer;
         transition: border-color .2s, background .2s; margin-bottom: 8px; }
       .chat-choice:hover { border-color: rgba(43,42,38,.18);
@@ -383,24 +383,24 @@ class HorneroApp extends HoComponent {
       .persona-icon-historiador { background: #D7D4E8; }
       .chat-choice-text { flex: 1; }
       .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
-        font-weight: 700; color: #2B2A26; }
+        font-weight: 700; color: #E8E6E0; }
       .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .76rem;
-        color: #6E6A60; line-height: 1.4; margin-top: 2px; }
+        color: #7A766C; line-height: 1.4; margin-top: 2px; }
 
       /* ===== List screens (Mis Conversaciones, Mis Reportes, Recibidos) =====
          Same styles as chat drawer items for visual consistency */
       .list-screen { padding: 0; }
-      .list-screen-header { padding: 16px; border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .list-screen-header { padding: 16px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         display: flex; align-items: center; justify-content: space-between; flex: none; }
       .list-screen-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
       .list-screen-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text-mid, #6E6A60); padding: 12px 16px 0; line-height: 1.4; }
+        color: var(--ho-text-mid, #7A766C); padding: 12px 16px 0; line-height: 1.4; }
       .list-scroll { overflow-y: auto; padding: 8px 0; }
 
       /* History items (Mis Conversaciones) — same as chat drawer */
       .history-item { padding: 12px 16px; cursor: pointer;
-        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
+        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.06));
         display: flex; flex-direction: column; gap: 5px;
         transition: background .2s; }
       .history-item:hover { background: var(--ho-green-pale, #E0F0EB); }
@@ -414,30 +414,30 @@ class HorneroApp extends HoComponent {
       .section-reporte .history-item-section-label { color: #3D6B56; }
       .section-default .history-item-section-label { color: var(--ho-green-dark, #3D6B56); }
       .history-item-preview { font-family: 'Archivo', sans-serif; font-size: .86rem;
-        font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
+        font-weight: 700; color: var(--ho-text, #E8E6E0); line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .history-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; align-items: center; }
+        color: var(--ho-text-light, #7A766C); display: flex; gap: 8px; align-items: center; }
       .history-item-count { background: var(--ho-green-pale, #E0F0EB);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #3D6B56); }
       .history-item-footer { display: flex; align-items: center;
         justify-content: space-between; margin-top: 2px; }
       .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: var(--ho-text-light, #9C988D); letter-spacing: .06em;
+        color: var(--ho-text-light, #7A766C); letter-spacing: .06em;
         background: var(--ho-mid-gray, #ECEAE3); padding: 2px 6px; border-radius: 4px; font-weight: 600; }
 
       /* Informes items (Mis Reportes, Recibidos) — same as chat drawer */
       .informes-item { padding: 12px 16px; cursor: pointer;
-        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
+        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.06));
         display: flex; flex-direction: column; gap: 4px;
         transition: background .2s; }
       .informes-item:hover { background: var(--ho-green-pale, #E0F0EB); }
       .informes-item-title { font-family: 'Archivo', sans-serif; font-size: .86rem;
-        font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
+        font-weight: 700; color: var(--ho-text, #E8E6E0); line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .informes-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; }
+        color: var(--ho-text-light, #7A766C); display: flex; gap: 8px; }
       .informes-item-estado { background: var(--ho-green-pale, #E0F0EB);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #3D6B56); }
@@ -457,26 +457,26 @@ class HorneroApp extends HoComponent {
 
       /* Expandable content inside informe items */
       .informes-expand-content { margin-top: 10px; padding-top: 10px;
-        border-top: 1px solid var(--ho-border, rgba(43,42,38,.08)); }
+        border-top: 1px solid var(--ho-border, rgba(255,255,255,.06)); }
       .informes-expand-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 4px;
         text-transform: uppercase; letter-spacing: .06em; }
       .informes-expand-section-body { font-family: 'Public Sans', sans-serif;
-        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        font-size: .82rem; color: var(--ho-text-mid, #7A766C); line-height: 1.5;
         margin-bottom: 8px; }
-      .informes-expand-divider { height: 1px; background: rgba(43,42,38,.08); margin: 8px 0; }
+      .informes-expand-divider { height: 1px; background: rgba(255,255,255,.06); margin: 8px 0; }
 
       .list-empty { padding: 40px 20px; text-align: center;
         font-family: 'Archivo', sans-serif; font-size: .82rem;
-        color: var(--ho-text-light, #9C988D); }
+        color: var(--ho-text-light, #7A766C); }
 
       /* Recibidos review buttons — subtle icon-only */
-      .recibidos-review-btn { background: none; border: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        color: var(--ho-text-light, #9C988D); border-radius: 8px; padding: 6px 8px;
+      .recibidos-review-btn { background: none; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        color: var(--ho-text-light, #7A766C); border-radius: 8px; padding: 6px 8px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
         cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
         transition: background .2s, border-color .2s; }
-      .recibidos-review-btn:hover { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-text-mid, #6E6A60); }
+      .recibidos-review-btn:hover { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-text-mid, #7A766C); }
       .recibidos-review-btn svg { width: 14px; height: 14px; stroke: currentColor;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -497,8 +497,8 @@ class HorneroApp extends HoComponent {
     if (!this.loggedIn) {
       return html`
         <div class="app-wrap">
-          <div class="phone" style="background:#323D39">
-            <div class="screen" style="background:#323D39;display:flex;flex-direction:column;overflow:hidden">
+          <div class="phone" style="background:#1E2321">
+            <div class="screen" style="background:#1E2321;display:flex;flex-direction:column;overflow:hidden">
               <hornero-login></hornero-login>
             </div>
           </div>
@@ -581,7 +581,7 @@ class HorneroApp extends HoComponent {
         '<div class="chat-landing-title">Hornero te escucha</div>' +
         '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Diferentes compañeros responden según lo que necesites:</div>' +
         personaChoices +
-        (extraChoices ? '<div class="chat-landing-desc" style="margin-top:12px;margin-bottom:8px;font-size:.72rem;font-weight:600;color:#6E6A60;letter-spacing:.08em;text-transform:uppercase">Tu actividad</div>' + extraChoices : '') +
+        (extraChoices ? '<div class="chat-landing-desc" style="margin-top:12px;margin-bottom:8px;font-size:.72rem;font-weight:600;color:#7A766C;letter-spacing:.08em;text-transform:uppercase">Tu actividad</div>' + extraChoices : '') +
       '</div>';
     } else if (this.screen === 'misConversaciones') {
       screenContent = this._renderMisConversaciones();
@@ -599,17 +599,17 @@ class HorneroApp extends HoComponent {
       screenContent = this._renderRecibidos();
     } else {
       // Placeholder for screens not yet implemented
-      screenContent = '<div style="padding:40px 20px;text-align:center;color:#9C988D;font-family:Archivo,sans-serif">' +
+      screenContent = '<div style="padding:40px 20px;text-align:center;color:#7A766C;font-family:Archivo,sans-serif">' +
         '<div style="font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px">🏗️ EN CONSTRUCCIÓN</div>' +
-        '<div style="font-size:.92rem;font-weight:700;color:#2B2A26;margin-bottom:4px">' + currentTitle + '</div>' +
-        '<div style="font-size:.82rem;color:#6E6A60;line-height:1.4">Esta esfera se está desarrollando. Próximamente estará disponible.</div>' +
+        '<div style="font-size:.92rem;font-weight:700;color:#E8E6E0;margin-bottom:4px">' + currentTitle + '</div>' +
+        '<div style="font-size:.82rem;color:#7A766C;line-height:1.4">Esta esfera se está desarrollando. Próximamente estará disponible.</div>' +
         '</div>';
     }
 
     return html`
       <div class="app-wrap">
         <div class="phone">
-          <div class="screen" style="background:var(--ho-bg,#F4F3EE)">
+          <div class="screen" style="background:var(--ho-bg,#1E2321)">
 
             <div class="status-bar">
               <span>9:41</span>
@@ -816,14 +816,14 @@ class HorneroApp extends HoComponent {
 
     // Login screen (not logged in) → dark color matching login background
     if (!this.loggedIn) {
-      metaTheme.setAttribute('content', '#33312D');
-      document.documentElement.style.setProperty('background', '#33312D', 'important');
-      document.body.style.setProperty('background', '#33312D', 'important');
+      metaTheme.setAttribute('content', '#1E2321');
+      document.documentElement.style.setProperty('background', '#1E2321', 'important');
+      document.body.style.setProperty('background', '#1E2321', 'important');
       return;
     }
 
     // Main app screens → light color matching app background
-    const appBg = '#F4F3EE';  // var(--ho-bg)
+    const appBg = '#1E2321';  // var(--ho-bg)
     metaTheme.setAttribute('content', appBg);
     document.documentElement.style.setProperty('background', appBg, 'important');
     document.body.style.setProperty('background', appBg, 'important');

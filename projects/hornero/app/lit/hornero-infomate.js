@@ -44,7 +44,7 @@ class HorneroInfomate extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
 
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
         padding: 12px 16px 16px; scrollbar-width: none; }
@@ -53,36 +53,36 @@ class HorneroInfomate extends HoComponent {
       /* Kicker */
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-        color: #3D3B35; background: rgba(176,134,63,.35);
+        color: #E8E6E0; background: rgba(176,134,63,.35);
         border-radius: 6px; padding: 6px 10px; margin-bottom: 12px; }
 
       /* datosMacro grid — resumen arriba */
       .macro-block { margin-bottom: 14px; }
       .macro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-      .macro-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .macro-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 10px; padding: 10px 12px; }
       .macro-key { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-gold, #B0863F); font-weight: 600;
         text-transform: uppercase; letter-spacing: .08em; }
       .macro-val { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text, #2B2A26); font-weight: 700; margin-top: 2px; }
+        color: var(--ho-text, #E8E6E0); font-weight: 700; margin-top: 2px; }
 
       /* Section cards */
-      .section-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .section-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-left: 3px solid var(--ho-gold, #B0863F);
         border-radius: 13px; padding: 14px; margin-bottom: 10px; }
 
       .section-titulo { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
 
       .section-bajada { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.4; margin-top: 4px; }
 
       .section-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
       .data-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: rgba(176,134,63,.35); color: #3D3B35;
+        background: rgba(176,134,63,.35); color: #E8E6E0;
         padding: 3px 8px; border-radius: 6px; font-weight: 600; }
 
       /* Empty state */

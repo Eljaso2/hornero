@@ -59,11 +59,11 @@ class HorneroIs extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
 
       .role-select { padding: 16px; }
       .role-btn { display: flex; align-items: center; gap: 10px;
-        background: var(--ho-card, #FBFAF6); border: 1.5px solid;
+        background: var(--ho-card, #2A3230); border: 1.5px solid;
         border-radius: 12px; padding: 9px 13px; cursor: pointer;
         margin-bottom: 8px; font-family: 'Archivo', sans-serif;
         font-weight: 600; font-size: .88rem; }
@@ -76,23 +76,23 @@ class HorneroIs extends HoComponent {
       .role-1 .role-dot { background: var(--ho-green-pale, #E0F0EB); border-color: var(--ho-green, #4E9978); }
       .role-2 { border-color: var(--ho-gold, #B0863F); color: #7A5E2C; }
       .role-2 .role-dot { background: #F0E4CC; border-color: var(--ho-gold, #B0863F); }
-      .role-3 { border-color: var(--ho-dark-mid, #536260); color: var(--ho-text, #2B2A26); }
+      .role-3 { border-color: var(--ho-dark-mid, #536260); color: var(--ho-text, #E8E6E0); }
       .role-3 .role-dot { background: var(--ho-mid-gray, #ECEAE3); border-color: var(--ho-dark-mid, #536260); }
-      .role-4 { border-color: var(--ho-dark, #33312D); color: var(--ho-text, #2B2A26); }
-      .role-4 .role-dot { background: var(--ho-warm-gray, #E6E3DB); border-color: var(--ho-dark, #33312D); }
+      .role-4 { border-color: var(--ho-dark, #1E2321); color: var(--ho-text, #E8E6E0); }
+      .role-4 .role-dot { background: var(--ho-warm-gray, #E6E3DB); border-color: var(--ho-dark, #1E2321); }
 
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); margin-bottom: 8px; padding: 16px 16px 0; }
       .section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); padding: 4px 16px 8px; }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); padding: 4px 16px 8px; }
 
       /* Observation input */
       .obs-input { padding: 16px; }
-      .obs-textarea { width: 100%; background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .obs-textarea { width: 100%; background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 12px; padding: 12px; font-size: .82rem;
-        font-family: 'Public Sans', sans-serif; color: var(--ho-text, #2B2A26);
+        font-family: 'Public Sans', sans-serif; color: var(--ho-text, #E8E6E0);
         resize: vertical; min-height: 80px; }
       .obs-textarea::placeholder { color: var(--ho-text-light, #9C988D); }
       .obs-submit { background: var(--ho-green, #4E9978); color: var(--ho-text-off, #F2F1EC);
@@ -106,11 +106,11 @@ class HorneroIs extends HoComponent {
 
       /* Informe cards */
       .informes-scroll { flex: 1; overflow-y: auto; padding: 16px; }
-      .info-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .info-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 10px; }
       .info-card-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px; }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
       .info-card-body { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; }
       .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;

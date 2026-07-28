@@ -92,15 +92,15 @@ class HorneroPerfil extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
 
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
         padding: 16px; scrollbar-width: none; }
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* Info cards */
-      .info-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .info-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 16px; margin-bottom: 12px; }
       .info-card-title { font-family: 'JetBrains Mono', monospace; font-size: .66rem;
         font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
@@ -110,7 +110,7 @@ class HorneroPerfil extends HoComponent {
       .info-field-label { font-family: 'Public Sans', sans-serif; font-size: .78rem;
         color: #9C988D; min-width: 60px; }
       .info-field-value { font-family: 'Public Sans', sans-serif; font-size: .86rem;
-        color: var(--ho-text, #2B2A26); font-weight: 600; }
+        color: var(--ho-text, #E8E6E0); font-weight: 600; }
       .info-field-value.muted { font-weight: 400; color: #6E6A60; }
 
       /* Nivel badge */
@@ -121,13 +121,13 @@ class HorneroPerfil extends HoComponent {
       .nivel-badge.green { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
       .nivel-badge.gold { background: #F0E4CC; color: #7A5E2C; }
       .nivel-badge.mid { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-dark-mid, #536260); }
-      .nivel-badge.dark { background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-dark, #33312D); border: 1px solid var(--ho-dark, #33312D); }
+      .nivel-badge.dark { background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-dark, #1E2321); border: 1px solid var(--ho-dark, #1E2321); }
 
       /* Edit mode */
-      .edit-input { width: 100%; background: var(--ho-card, #FBFAF6);
-        border: 1.5px solid var(--ho-border, rgba(43,42,38,.12));
+      .edit-input { width: 100%; background: var(--ho-card, #2A3230);
+        border: 1.5px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 10px; padding: 10px 12px; font-size: .86rem;
-        font-family: 'Public Sans', sans-serif; color: var(--ho-text, #2B2A26);
+        font-family: 'Public Sans', sans-serif; color: var(--ho-text, #E8E6E0);
         outline: none; transition: border-color .2s; }
       .edit-input:focus { border-color: var(--ho-green, #4E9978); }
       .edit-input::placeholder { color: var(--ho-text-light, #9C988D); }
@@ -136,10 +136,10 @@ class HorneroPerfil extends HoComponent {
         border: none; border-radius: 10px; padding: 10px 20px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .82rem;
         cursor: pointer; margin-top: 4px; }
-      .edit-btn.secondary { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text, #2B2A26); }
+      .edit-btn.secondary { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text, #E8E6E0); }
 
       /* Agremiación card (dark) */
-      .agremiacion-card { background: var(--ho-dark, #33312D);
+      .agremiacion-card { background: var(--ho-dark, #1E2321);
         border-radius: 13px; padding: 16px; margin-bottom: 12px; }
       .agremiacion-badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;

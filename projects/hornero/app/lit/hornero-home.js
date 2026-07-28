@@ -72,11 +72,11 @@ class HorneroHome extends HoComponent {
   _styles() {
     return css`
       /* ===== Home container — no top padding → photo fuses with header ===== */
-      :host { display: block; padding: 0 16px 16px; background: #F4F3EE; }
+      :host { display: block; padding: 0 16px 16px; background: #1E2321; }
 
       /* ===== Section name — kicker style, dark on light bg ===== */
       .esfera-name { font-family: 'Archivo', sans-serif; font-size: .92rem;
-        font-weight: 700; color: #2B2A26; margin-bottom: 10px; }
+        font-weight: 700; color: #E8E6E0; margin-bottom: 10px; }
 
       /* ===== Section badge — overlay on carousel photo, right corner ===== */
       .section-badge { position: absolute; top: 10px; right: 12px; z-index: 3;
@@ -86,7 +86,7 @@ class HorneroHome extends HoComponent {
         padding: 3px 7px 2px; border-radius: 5px; }
 
       /* ===== Invisible card — same bg as page, padding, no visible border ===== */
-      .ghost-card { background: var(--ho-card, #FBFAF6);
+      .ghost-card { background: var(--ho-card, #2A3230);
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         border: 1px solid rgba(43,42,38,.06); }
 
@@ -107,7 +107,7 @@ class HorneroHome extends HoComponent {
       .carousel-track::-webkit-scrollbar { width: 0; }
       .news-slide { scroll-snap-align: start; width: 100%; flex-shrink: 0;
         position: relative; min-height: 260px;
-        background: var(--ho-dark, #33312D); }
+        background: var(--ho-dark, #1E2321); }
       .news-slide img { width: 100%; height: 260px; object-fit: cover;
         display: block; }
       .news-overlay { position: absolute; bottom: 0; left: 0; right: 0;
@@ -153,7 +153,7 @@ class HorneroHome extends HoComponent {
 
       /* ===== ESFERA 2: Consulta — 3 íconos ===== */
       .esfera-consulta { margin-bottom: 20px;
-        background: var(--ho-card, #FBFAF6);
+        background: var(--ho-card, #2A3230);
         border-radius: 13px; padding: 16px 14px 18px;
         border: 1px solid rgba(43,42,38,.06); }
       .consulta-icons { display: flex; justify-content: space-around; gap: 4px; }
@@ -166,7 +166,7 @@ class HorneroHome extends HoComponent {
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
-        color: #2B2A26; }
+        color: #E8E6E0; }
 
       /* ===== ESFERA 3: Panorama — hero card ===== */
       .panorama-card { position: relative; border-radius: 13px; margin-bottom: 10px;
@@ -207,7 +207,7 @@ class HorneroHome extends HoComponent {
         display: inline-block; margin-top: 5px; }
       .formacion-badge { position: absolute; top: 10px; left: 10px; z-index: 2;
         width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
-        border: 2px solid rgba(242,241,236,.6); background: var(--ho-card, #FBFAF6); }
+        border: 2px solid rgba(242,241,236,.6); background: var(--ho-card, #2A3230); }
       .formacion-badge img { width: 100%; height: 100%; object-fit: cover; }
 
       /* ===== Historiador badge on Archivo card ===== */
@@ -216,14 +216,14 @@ class HorneroHome extends HoComponent {
         border: 2px solid var(--ho-green-pale, #E0F0EB); }
       .card-historiador-badge img { width: 100%; height: 100%; object-fit: cover; }
 
-      .esfera-card { background: var(--ho-card, #FBFAF6);
+      .esfera-card { background: var(--ho-card, #2A3230);
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         border: 1px solid rgba(43,42,38,.06); cursor: pointer;
         transition: border-color .2s; position: relative; }
       .esfera-card:hover { border-color: rgba(43,42,38,.18); }
       .esfera-card.locked { cursor: default; }
       .esfera-card .card-name { font-family: 'Archivo', sans-serif;
-        font-weight: 700; font-size: .92rem; color: #2B2A26; }
+        font-weight: 700; font-size: .92rem; color: #E8E6E0; }
       .esfera-card .card-desc { font-size: .82rem; color: #6E6A60;
         line-height: 1.4; margin-top: 4px; }
       .esfera-card .card-tag { font-family: 'JetBrains Mono', monospace;

@@ -21,14 +21,14 @@ class HorneroEcosistema extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
       .scroll { flex: 1; overflow-y: auto; padding: 20px 16px;
         -webkit-overflow-scrolling: touch; }
-      .block { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .block { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 12px; }
       .block-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); margin-bottom: 8px; }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); margin-bottom: 8px; }
       .block-body { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.5; }
       .block-body p { margin-bottom: 8px; }
@@ -42,7 +42,7 @@ class HorneroEcosistema extends HoComponent {
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         font-family: 'JetBrains Mono', monospace; font-size: .72rem; font-weight: 600;
         display: flex; align-items: center; justify-content: center; }
-      .eslabon-text { font-size: .82rem; color: var(--ho-text, #2B2A26); }
+      .eslabon-text { font-size: .82rem; color: var(--ho-text, #E8E6E0); }
       .eslabon-desc { font-size: .72rem; color: var(--ho-text-light, #9C988D); }
       .distinction { display: grid; gap: 4px; font-size: .82rem; }
       .no { color: var(--ho-text-light, #9C988D); font-style: italic; }

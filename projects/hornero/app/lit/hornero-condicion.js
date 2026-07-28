@@ -28,20 +28,20 @@ class HorneroCondicion extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
       .scroll { flex: 1; overflow-y: auto; padding: 20px 16px;
         -webkit-overflow-scrolling: touch; }
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); margin-bottom: 8px; }
       .section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px; }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
       .intro { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-bottom: 12px; }
 
       /* ===== Tab bar ===== */
       .tab-bar { display: flex; gap: 0; margin-bottom: 16px;
-        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         overflow-x: auto; scrollbar-width: none; }
       .tab-bar::-webkit-scrollbar { width: 0; }
       .tab-btn { font-family: 'Archivo', sans-serif; font-size: .76rem;
@@ -62,20 +62,20 @@ class HorneroCondicion extends HoComponent {
       /* ===== 2x2 grid ===== */
       .grid-2x2 { display: grid; grid-template-columns: repeat(2, 1fr);
         gap: 10px; margin-bottom: 16px; }
-      .grid-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .grid-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; cursor: pointer;
         transition: border-color .2s; }
       .grid-card:hover { border-color: var(--ho-green, #4E9978); }
       .grid-card .gc-emoji { font-size: 1.4rem; }
       .grid-card .gc-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); margin-top: 4px; }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); margin-top: 4px; }
       .grid-card .gc-sub { font-size: .74rem; color: var(--ho-text-mid, #6E6A60);
         margin-top: 2px; line-height: 1.3; }
 
       /* ===== Accent stripe cards ===== */
-      .stripe-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .stripe-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s; }
       .stripe-card:hover { border-color: var(--ho-green, #4E9978); }
@@ -86,21 +86,21 @@ class HorneroCondicion extends HoComponent {
       .stripe-card.smvm { border-left: 3px solid #B0863F; }
       .stripe-card .sc-emoji { font-size: 1rem; }
       .stripe-card .sc-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); }
       .stripe-card .sc-desc { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 4px; }
       .stripe-card .sc-conn { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-green-dark, #3D6B56); margin-top: 6px; }
 
       /* ===== Data cards ===== */
-      .data-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .data-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 10px; }
       .data-label { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); }
       .data-value { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.6rem; color: var(--ho-text, #2B2A26); }
+        font-size: 1.6rem; color: var(--ho-text, #E8E6E0); }
       .data-sub { font-size: .78rem; color: var(--ho-text-mid, #6E6A60);
         margin-top: 2px; }
       .data-row { display: flex; gap: 10px; margin-bottom: 10px; }
@@ -125,22 +125,22 @@ class HorneroCondicion extends HoComponent {
         padding: 6px 0; border-bottom: 1px solid rgba(43,42,38,.06); }
       .breakdown-item:last-child { border-bottom: none; }
       .bd-label { font-family: 'Archivo', sans-serif; font-size: .82rem;
-        font-weight: 600; color: var(--ho-text, #2B2A26); flex: 1; }
+        font-weight: 600; color: var(--ho-text, #E8E6E0); flex: 1; }
       .bd-value { font-family: 'JetBrains Mono', monospace; font-size: .82rem;
-        font-weight: 700; color: var(--ho-text, #2B2A26); }
+        font-weight: 700; color: var(--ho-text, #E8E6E0); }
       .bd-desc { font-size: .72rem; color: var(--ho-text-mid, #6E6A60); }
 
       /* ===== ICE dimension grid ===== */
       .ice-grid { display: grid; grid-template-columns: repeat(2, 1fr);
         gap: 10px; margin-bottom: 12px; }
-      .ice-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .ice-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 12px; cursor: pointer;
         transition: border-color .2s; }
       .ice-card:hover { border-color: var(--ho-green, #4E9978); }
       .ice-card .ice-emoji { font-size: 1.2rem; }
       .ice-card .ice-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .82rem; color: var(--ho-text, #2B2A26); margin-top: 3px; }
+        font-size: .82rem; color: var(--ho-text, #E8E6E0); margin-top: 3px; }
       .ice-card .ice-tag { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         font-weight: 600; color: var(--ho-green-dark, #3D6B56);
         background: var(--ho-green-pale, #E0F0EB); border-radius: 5px;
@@ -153,7 +153,7 @@ class HorneroCondicion extends HoComponent {
         padding: 8px 0; border-bottom: 1px solid rgba(43,42,38,.06); }
       .ranking-item:last-child { border-bottom: none; }
       .rank-name { font-family: 'Archivo', sans-serif; font-size: .82rem;
-        font-weight: 600; color: var(--ho-text, #2B2A26); flex: 1; }
+        font-weight: 600; color: var(--ho-text, #E8E6E0); flex: 1; }
       .rank-score { font-family: 'JetBrains Mono', monospace; font-size: .82rem;
         font-weight: 700; }
       .rank-bar { width: 60px; height: 8px; border-radius: 4px; background: #E0F0EB;
@@ -161,13 +161,13 @@ class HorneroCondicion extends HoComponent {
       .rank-bar-fill { height: 100%; border-radius: 4px; }
 
       /* ===== SMVM levels ===== */
-      .level-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .level-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 10px; }
       .level-card .level-label { font-family: 'Archivo', sans-serif; font-size: .82rem;
-        font-weight: 700; color: var(--ho-text, #2B2A26); }
+        font-weight: 700; color: var(--ho-text, #E8E6E0); }
       .level-card .level-amount { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.3rem; color: var(--ho-text, #2B2A26); margin-top: 2px; }
+        font-size: 1.3rem; color: var(--ho-text, #E8E6E0); margin-top: 2px; }
       .level-card .level-desc { font-size: .78rem; color: var(--ho-text-mid, #6E6A60);
         margin-top: 2px; }
       .level-card .level-pct { font-family: 'JetBrains Mono', monospace; font-size: .72rem;
@@ -179,30 +179,30 @@ class HorneroCondicion extends HoComponent {
       /* ===== Needs grid ===== */
       .needs-grid { display: grid; grid-template-columns: repeat(3, 1fr);
         gap: 8px; margin-bottom: 12px; }
-      .need-item { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .need-item { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 10px; padding: 10px 8px; text-align: center; }
       .need-item .need-emoji { font-size: 1.1rem; }
       .need-item .need-name { font-family: 'Archivo', sans-serif; font-size: .72rem;
-        font-weight: 600; color: var(--ho-text, #2B2A26); margin-top: 3px; }
+        font-weight: 600; color: var(--ho-text, #E8E6E0); margin-top: 3px; }
 
       /* ===== Sector list ===== */
       .sector-item { display: flex; align-items: center; gap: 10px;
         padding: 8px 0; border-bottom: 1px solid rgba(43,42,38,.06); }
       .sector-item:last-child { border-bottom: none; }
       .sector-name { font-family: 'Archivo', sans-serif; font-size: .82rem;
-        font-weight: 600; color: var(--ho-text, #2B2A26); flex: 1; }
+        font-weight: 600; color: var(--ho-text, #E8E6E0); flex: 1; }
       .sector-amount { font-family: 'JetBrains Mono', monospace; font-size: .78rem;
-        font-weight: 700; color: var(--ho-text, #2B2A26); }
+        font-weight: 700; color: var(--ho-text, #E8E6E0); }
       .sector-pct { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; }
 
       /* ===== Connection cards ===== */
-      .conn-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .conn-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 10px; }
       .conn-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); }
       .conn-desc { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 4px; }
 
@@ -214,13 +214,13 @@ class HorneroCondicion extends HoComponent {
       /* ===== Chat prompt bar ===== */
       .chat-bar { display: flex; align-items: center; gap: 8px;
         margin-top: 14px; padding: 10px 12px;
-        background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 10px; cursor: pointer; transition: border-color .2s; }
       .chat-bar:hover { border-color: var(--ho-green, #4E9978); }
       .chat-bar-icon { font-size: 1.1rem; }
       .chat-bar-text { flex: 1; font-family: 'Archivo', sans-serif; font-size: .82rem;
-        font-weight: 600; color: var(--ho-text, #2B2A26); }
+        font-weight: 600; color: var(--ho-text, #E8E6E0); }
       .chat-bar-arrow { font-size: .82rem; color: var(--ho-green, #4E9978); }
     `;
   }

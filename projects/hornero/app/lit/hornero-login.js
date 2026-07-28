@@ -48,7 +48,7 @@ class HorneroLogin extends HoComponent {
       :host {
         display: block;
         /* Override global vars to match logo colors (teal/mint green) */
-        --ho-dark: #323D39;
+        --ho-dark: #1E2321;
         --ho-dark-surface: #3F4E4A;
         --ho-dark-mid: #536260;
         --ho-green: #4E9978;
@@ -59,7 +59,7 @@ class HorneroLogin extends HoComponent {
 
       .login-wrap {
         height: 100%; width: 100%;
-        background: var(--ho-dark, #33312D);
+        background: var(--ho-dark, #1E2321);
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
         padding: 40px 24px;
@@ -186,8 +186,7 @@ class HorneroLogin extends HoComponent {
     return html`
       <div class="login-wrap">
         <div class="logo-area">
-          <img src="assets/hornero-logo-nobg.png?v=21" alt="Hornero" style="width:170px;height:auto;margin-bottom:18px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))" />
-          <img class="logo-brand-img" src="assets/hornero-brand-creative.png?v=21" alt="HORNERO" />
+          <img src="assets/hornero-logo-nobg.png?v=22" alt="Hornero" style="width:340px;height:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))" />
         </div>
 
         <div class="form-area">

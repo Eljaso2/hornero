@@ -90,7 +90,7 @@ class HorneroActualidad extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
 
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
         padding: 12px 16px 16px; scrollbar-width: none; }
@@ -98,8 +98,8 @@ class HorneroActualidad extends HoComponent {
 
       /* Product card base */
       .product-card {
-        background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 0; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s; position: relative;
       }
@@ -113,7 +113,7 @@ class HorneroActualidad extends HoComponent {
       .product-emoji { font-size: 1rem; }
       .product-label {
         font-family: 'Archivo', sans-serif; font-size: .92rem;
-        font-weight: 700; color: var(--ho-text, #2B2A26); }
+        font-weight: 700; color: var(--ho-text, #E8E6E0); }
 
       .product-sublabel {
         font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -131,7 +131,7 @@ class HorneroActualidad extends HoComponent {
       .noticia-line.hidden { display: none; }
       .noticia-emoji { font-size: .78rem; }
       .noticia-title { font-family: 'Public Sans', sans-serif; font-size: .84rem;
-        color: var(--ho-text, #2B2A26); line-height: 1.3;
+        color: var(--ho-text, #E8E6E0); line-height: 1.3;
         font-weight: 500; flex: 1; }
       .noticia-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
@@ -151,7 +151,7 @@ class HorneroActualidad extends HoComponent {
       .mate-tags { margin-top: 8px; }
       .mate-sections { margin-top: 8px; }
       .mate-section-line { font-family: 'Public Sans', sans-serif; font-size: .84rem;
-        color: var(--ho-text, #2B2A26); line-height: 1.3;
+        color: var(--ho-text, #E8E6E0); line-height: 1.3;
         font-weight: 500; padding: 3px 0; }
     `;
   }

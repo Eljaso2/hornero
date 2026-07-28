@@ -173,7 +173,7 @@ class HorneroFormacion extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
       .scroll { flex: 1; overflow-y: auto; padding: 16px 16px;
         -webkit-overflow-scrolling: touch; }
 
@@ -181,20 +181,20 @@ class HorneroFormacion extends HoComponent {
       .form-header { display: flex; align-items: center; gap: 12px;
         margin-bottom: 12px; }
       .form-logo { width: 56px; height: 56px; border-radius: 10px;
-        overflow: hidden; flex: none; border: 1px solid rgba(43,42,38,.08); }
+        overflow: hidden; flex: none; border: 1px solid rgba(255,255,255,.06); }
       .form-logo img { width: 100%; height: 100%; object-fit: cover; }
       .form-header-text { flex: 1; }
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); }
       .section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
       .intro { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-bottom: 16px; }
 
       /* ===== Tab bar ===== */
       .tab-bar { display: flex; gap: 0; margin-bottom: 16px;
-        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12)); }
+        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .tab-btn { font-family: 'Archivo', sans-serif; font-size: .76rem;
         font-weight: 600; color: var(--ho-text-mid, #6E6A60);
         background: none; border: none; cursor: pointer;
@@ -204,8 +204,8 @@ class HorneroFormacion extends HoComponent {
         border-bottom-color: var(--ho-green, #4E9978); }
 
       /* ===== Efemérides cards ===== */
-      .efe-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .efe-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s; }
       .efe-card:hover { border-color: var(--ho-green, #4E9978); }
@@ -217,14 +217,14 @@ class HorneroFormacion extends HoComponent {
         background: var(--ho-green-pale, #E0F0EB); border-radius: 5px;
         padding: 2px 6px; flex: none; }
       .efe-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); flex: 1; }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); flex: 1; }
       .efe-author { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); margin-top: 4px; }
       .efe-bajada { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 6px; }
 
       /* ===== Expanded efeméride ===== */
-      .efe-narrative { font-size: .84rem; color: var(--ho-text, #2B2A26);
+      .efe-narrative { font-size: .84rem; color: var(--ho-text, #E8E6E0);
         line-height: 1.55; margin-top: 12px; white-space: pre-wrap; }
       .efe-resources { margin-top: 10px; }
       .efe-resource { font-family: 'Archivo', sans-serif; font-size: .78rem;
@@ -241,25 +241,25 @@ class HorneroFormacion extends HoComponent {
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600; }
       .action-ia:hover { background: var(--ho-green-dark, #3D6B56); }
       .action-collapse { background: none; color: var(--ho-text-mid, #6E6A60);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.15));
+        border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         border-radius: 8px; padding: 8px 14px; cursor: pointer;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600; }
 
       /* ===== Mitín cards ===== */
-      .mitin-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .mitin-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s; }
       .mitin-card:hover { border-color: var(--ho-green, #4E9978); }
       .mitin-card.expanded { cursor: default; }
       .mitin-emoji { font-size: 1.1rem; flex: none; }
       .mitin-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); }
       .mitin-author { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); margin-top: 3px; }
       .mitin-bajada { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 6px; }
-      .mitin-text { font-size: .84rem; color: var(--ho-text, #2B2A26);
+      .mitin-text { font-size: .84rem; color: var(--ho-text, #E8E6E0);
         line-height: 1.55; margin-top: 12px; }
       .mitin-link { display: inline-block; margin-top: 10px;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
@@ -268,8 +268,8 @@ class HorneroFormacion extends HoComponent {
       /* ===== Colección grid ===== */
       .col-grid { display: grid; grid-template-columns: repeat(2, 1fr);
         gap: 10px; }
-      .col-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .col-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 12px; }
       .col-num { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         font-weight: 700; color: var(--ho-green-dark, #3D6B56);
@@ -277,7 +277,7 @@ class HorneroFormacion extends HoComponent {
         padding: 2px 6px; display: inline-block; margin-bottom: 4px; }
       .col-emoji { font-size: .92rem; }
       .col-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .82rem; color: var(--ho-text, #2B2A26); }
+        font-size: .82rem; color: var(--ho-text, #E8E6E0); }
       .col-author { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
         margin-top: 2px; }
       .col-tema { font-family: 'JetBrains Mono', monospace; font-size: .60rem;
@@ -288,14 +288,14 @@ class HorneroFormacion extends HoComponent {
       /* ===== Retazos cards ===== */
       .retazo-grid { display: grid; grid-template-columns: repeat(2, 1fr);
         gap: 10px; }
-      .retazo-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .retazo-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 12px; cursor: pointer;
         transition: border-color .2s; }
       .retazo-card:hover { border-color: var(--ho-green, #4E9978); }
       .retazo-emoji { font-size: 1.4rem; }
       .retazo-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .82rem; color: var(--ho-text, #2B2A26); }
+        font-size: .82rem; color: var(--ho-text, #E8E6E0); }
       .retazo-desc { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.3; margin-top: 3px; }
 

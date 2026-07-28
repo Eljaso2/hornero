@@ -68,12 +68,12 @@ class HorneroGremial extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); position: relative; }
+        background: var(--ho-bg, #1E2321); position: relative; }
       .chat-container { display: flex; flex-direction: column; height: 100%; }
 
       /* === Full-screen informe viewer overlay === */
       .inform-view-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-        background: var(--ho-bg, #F4F3EE); z-index: 100; display: flex;
+        background: var(--ho-bg, #1E2321); z-index: 100; display: flex;
         flex-direction: column; animation: fadeIn .25s ease; }
       .inform-view-header { padding: 14px 16px; display: flex; align-items: center;
         gap: 10px; flex: none; background: var(--ho-green-dark, #3D6B56); }
@@ -97,18 +97,18 @@ class HorneroGremial extends HoComponent {
         font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 6px;
         text-transform: uppercase; letter-spacing: .06em; }
       .inform-view-section-body { font-family: 'Public Sans', sans-serif;
-        font-size: .85rem; color: var(--ho-text, #2B2A26); line-height: 1.6; }
+        font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .inform-view-section-divider { height: 1px; background: rgba(43,42,38,.10);
         margin: 16px 0; }
       .inform-view-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
         padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
       .inform-view-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        background: #EDEAE3; color: var(--ho-text, #2B2A26);
+        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
         padding: 4px 10px; border-radius: 8px; font-weight: 600; }
       .inform-view-actions { padding: 12px 16px; display: flex; gap: 8px;
         justify-content: flex-end; flex: none;
-        border-top: 1px solid var(--ho-border, rgba(43,42,38,.12));
-        background: var(--ho-card, #FBFAF6); }
+        border-top: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        background: var(--ho-card, #2A3230); }
       .inform-view-btn { border-radius: 10px; padding: 8px 14px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .78rem;
         cursor: pointer; display: inline-flex; align-items: center; gap: 4px;

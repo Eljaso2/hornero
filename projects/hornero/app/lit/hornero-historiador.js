@@ -65,7 +65,7 @@ class HorneroHistoriador extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
       .chat-container { display: flex; flex-direction: column; height: 100%; }
     `;
   }

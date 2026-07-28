@@ -144,20 +144,20 @@ class HorneroArchivo extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #F4F3EE); }
+        background: var(--ho-bg, #1E2321); }
       .scroll { flex: 1; overflow-y: auto; padding: 20px 16px;
         -webkit-overflow-scrolling: touch; }
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); margin-bottom: 8px; }
       .section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px; }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
       .intro { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-bottom: 16px; }
 
       /* ===== Tab bar ===== */
       .tab-bar { display: flex; gap: 0; margin-bottom: 16px;
-        border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.12)); }
+        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .tab-btn { font-family: 'Archivo', sans-serif; font-size: .76rem;
         font-weight: 600; color: var(--ho-text-mid, #6E6A60);
         background: none; border: none; cursor: pointer;
@@ -170,8 +170,8 @@ class HorneroArchivo extends HoComponent {
       .search-wrap { display: flex; gap: 8px; margin-bottom: 16px; }
       .search-input { flex: 1; font-family: 'Public Sans', sans-serif;
         font-size: .84rem; padding: 10px 12px; border-radius: 10px;
-        border: 1px solid var(--ho-border, rgba(43,42,38,.15));
-        background: var(--ho-card, #FBFAF6); color: var(--ho-text, #2B2A26);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        background: var(--ho-card, #2A3230); color: var(--ho-text, #E8E6E0);
         outline: none; transition: border-color .2s; }
       .search-input:focus { border-color: var(--ho-green, #4E9978); }
       .search-input::placeholder { color: var(--ho-text-light, #9C988D); }
@@ -185,7 +185,7 @@ class HorneroArchivo extends HoComponent {
       .tipo-bar { display: flex; gap: 8px; margin-bottom: 14px; }
       .tipo-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 8px; padding: 6px 10px; cursor: pointer;
         transition: background .2s, color .2s, border-color .2s; }
       .tipo-btn.active { background: var(--ho-green, #4E9978); color: #fff;
@@ -194,21 +194,21 @@ class HorneroArchivo extends HoComponent {
       /* ===== Category cards ===== */
       .cat-grid { display: grid; grid-template-columns: repeat(2, 1fr);
         gap: 10px; margin-bottom: 16px; }
-      .cat-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .cat-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 12px; cursor: pointer;
         transition: border-color .2s; }
       .cat-card:hover { border-color: var(--ho-green, #4E9978); }
       .cat-title-line { display: flex; align-items: baseline; gap: 6px; }
       .cat-icon { font-size: 1rem; }
       .cat-label { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #2B2A26); }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
       .cat-desc { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.3; margin-top: 2px; }
 
       /* ===== Chunk cards ===== */
-      .chunk-card { background: var(--ho-card, #FBFAF6);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.12));
+      .chunk-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s, background .2s; }
       .chunk-card:hover { border-color: var(--ho-green, #4E9978);
@@ -218,7 +218,7 @@ class HorneroArchivo extends HoComponent {
       .chunk-header { display: flex; align-items: center; gap: 10px; }
       .chunk-badge { font-size: .86rem; flex: none; }
       .chunk-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #2B2A26); flex: 1; }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); flex: 1; }
       .chunk-score { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-green-dark, #3D6B56); flex: none; }
 
@@ -234,7 +234,7 @@ class HorneroArchivo extends HoComponent {
 
       /* ===== Expanded chunk ===== */
       .chunk-full { margin-top: 12px; font-size: .82rem;
-        color: var(--ho-text, #2B2A26); line-height: 1.5;
+        color: var(--ho-text, #E8E6E0); line-height: 1.5;
         white-space: pre-wrap; padding: 10px;
         background: rgba(110,131,68,.04); border-radius: 8px; }
       .chunk-full-quote { background: var(--ho-green-pale, #E0F0EB);
@@ -253,9 +253,9 @@ class HorneroArchivo extends HoComponent {
         border: none; }
       .action-ia:hover { background: var(--ho-green-dark, #3D6B56); }
       .action-collapse { background: none; color: var(--ho-text-mid, #6E6A60);
-        border: 1px solid var(--ho-border, rgba(43,42,38,.15)); }
-      .action-collapse:hover { border-color: var(--ho-text, #2B2A26);
-        color: var(--ho-text, #2B2A26); }
+        border: 1px solid var(--ho-border, rgba(255,255,255,.1)); }
+      .action-collapse:hover { border-color: var(--ho-text, #E8E6E0);
+        color: var(--ho-text, #E8E6E0); }
 
       /* ===== Empty state ===== */
       .empty { text-align: center; padding: 30px 20px; color: var(--ho-text-light, #9C988D);
@@ -302,7 +302,7 @@ class HorneroArchivo extends HoComponent {
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:var(--ho-green-pale,#E0F0EB);border-radius:10px;cursor:pointer" id="historiadorLink">
           <img src="assets/personajes/historiadora.png" alt="Historiador/a" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--ho-green,#4E9978)">
           <div style="flex:1">
-            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;color:#2B2A26">📜 Historiador/a te guía</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;color:#E8E6E0">📜 Historiador/a te guía</div>
             <div style="font-size:.72rem;color:#3D6B56;line-height:1.3">Chateá con la Historiador/a para recorrer los archivos, buscar fuentes, entender la historia obrera.</div>
           </div>
           <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#4E9978;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
