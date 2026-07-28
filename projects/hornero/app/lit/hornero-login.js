@@ -68,8 +68,8 @@ class HorneroLogin extends HoComponent {
 
       .logo-area {
         display: flex; flex-direction: column; align-items: center;
-        margin-bottom: 40px;
-        margin-top: 10px;
+        margin-bottom: 32px;
+        margin-top: 0;
       }
 
       .logo-icon {
@@ -80,10 +80,6 @@ class HorneroLogin extends HoComponent {
       }
 
       .logo-icon svg { width: 36px; height: 36px; fill: #F2F1EC; }
-
-      .logo-brand-img {
-        height: 48px; width: auto; object-fit: contain; display: block;
-      }
 
       .form-area {
         width: 100%; max-width: 320px;
