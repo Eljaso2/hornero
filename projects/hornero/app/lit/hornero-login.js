@@ -68,13 +68,13 @@ class HorneroLogin extends HoComponent {
 
       .logo-area {
         display: flex; flex-direction: column; align-items: center;
-        margin-bottom: 80px;
-        margin-top: 40px;
+        margin-bottom: 60px;
+        margin-top: 30px;
       }
 
       .logo-icon {
         width: 64px; height: 64px; border-radius: 16px;
-        background: var(--ho-green, #6E8345);
+        background: var(--ho-green, #4E9978);
         display: flex; align-items: center; justify-content: center;
         margin-bottom: 16px;
       }
@@ -85,12 +85,6 @@ class HorneroLogin extends HoComponent {
         height: 36px; width: auto; object-fit: contain; display: block;
         margin-bottom: 4px;
       }
-
-      .logo-sub {
-        font-family: 'Public Sans', sans-serif; font-weight: 500;
-        font-size: .88rem; color: var(--ho-green-light, #94A867);
-        margin-top: 8px; letter-spacing: .04em;
-        white-space: nowrap; }
 
       .form-area {
         width: 100%; max-width: 320px;
@@ -193,9 +187,8 @@ class HorneroLogin extends HoComponent {
     return html`
       <div class="login-wrap">
         <div class="logo-area">
-          <img src="assets/hornero-login-logo.png?v=19" alt="Hornero" style="width:120px;height:auto;margin-bottom:14px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))" />
+          <img src="assets/hornero-logo-nobg.png?v=20" alt="Hornero" style="width:140px;height:auto;margin-bottom:14px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))" />
           <img class="logo-brand-img" src="assets/hornero-brand-typo-dark.png" alt="HORNERO" />
-          <div class="logo-sub">«El futuro, algo por lo que hay que luchar»</div>
         </div>
 
         <div class="form-area">
