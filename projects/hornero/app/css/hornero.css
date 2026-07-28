@@ -1,13 +1,13 @@
 /* ===== Hornero Design Tokens ===== */
 :root {
   color-scheme: light;
-  --ho-green: #6E8345;
-  --ho-green-light: #94A867;
-  --ho-green-pale: #E8EDD7;
-  --ho-green-dark: #586B33;
+  --ho-green: #4E9978;
+  --ho-green-light: #80CCA0;
+  --ho-green-pale: #E0F0EB;
+  --ho-green-dark: #3D6B56;
   --ho-dark: #323D39;
-  --ho-dark-surface: #45433E;
-  --ho-dark-mid: #5A574F;
+  --ho-dark-surface: #3F4E4A;
+  --ho-dark-mid: #536260;
   --ho-bg: #F4F3EE;
   --ho-card: #FBFAF6;
   --ho-warm-gray: #E6E3DB;
@@ -56,8 +56,8 @@ body{background:#323D39;background-attachment:fixed;font-family:'Public Sans',sy
 .top-bar .avatar{width:26px;height:26px;border-radius:50%;background:var(--ho-green-light);display:flex;align-items:center;justify-content:center;flex:none}
 .top-bar .avatar-dot{width:11px;height:11px;border-radius:50% 50% 50% 2px;background:var(--ho-dark-surface)}
 .menu-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:600;font-size:.88rem;color:var(--ho-text-off);text-decoration:none;margin-bottom:3px;transition:background .2s}
-.menu-link:hover{background:rgba(148,168,103,.2)}
-.menu-link.active{background:rgba(148,168,103,.3);color:var(--ho-green-light)}
+.menu-link:hover{background:rgba(128,204,160,.2)}
+.menu-link.active{background:rgba(128,204,160,.3);color:var(--ho-green-light)}
 .bottom-nav{background:linear-gradient(to bottom,#F4F3EE,#E7E5DF);display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative;border-top:1px solid rgba(43,42,38,.08)}
 .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:3px 9px;font-family:'Archivo',sans-serif}
 .nav-btn .icon{font-size:1.15rem}
