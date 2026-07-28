@@ -14,6 +14,9 @@ class HorneroPerfil extends HoComponent {
       userTerritory: String,
       editing: Boolean,
       savedMsg: String,
+      theme: String,
+      pushEnabled: Boolean,
+      pushPermission: String,
     };
   }
 
@@ -25,6 +28,9 @@ class HorneroPerfil extends HoComponent {
     this.userTerritory = '';
     this.editing = false;
     this.savedMsg = '';
+    this.theme = 'dark';
+    this.pushEnabled = false;
+    this.pushPermission = 'default';
     this._editName = '';
     this._editEmail = '';
     this._sessionData = {};
@@ -56,6 +62,16 @@ class HorneroPerfil extends HoComponent {
       this.userTerritory = session.territory || '';
       this.sector = session.sector || 'aceitero';
     }
+    // Check push state
+    this.pushPermission = ('Notification' in window) ? Notification.permission : 'unsupported';
+    this.pushEnabled = (typeof isPushSubscribed === 'function') ? isPushSubscribed() : false;
+    // Listen for push subscription changes
+    this._pushChangeHandler = (e) => {
+      this.pushPermission = e.detail.permission || 'default';
+      this.pushEnabled = e.detail.subscribed || false;
+      this.render();
+    };
+    document.addEventListener('push-subscription-change', this._pushChangeHandler);
     this.render();
   }
 
@@ -159,12 +175,59 @@ class HorneroPerfil extends HoComponent {
         padding: 8px 14px; border-radius: 8px; font-size: .82rem;
         font-weight: 600; margin-bottom: 12px; animation: apfade .3s ease; }
 
+      /* Theme toggle */
+      .theme-row { display: flex; align-items: center; justify-content: space-between;
+        padding: 14px 16px; margin-top: 16px; background: var(--ho-card, #2A3230);
+        border-radius: 12px; border: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .theme-label { font-family: 'Archivo', sans-serif; font-weight: 600;
+        font-size: .82rem; color: var(--ho-text, #E8E6E0); }
+      .theme-toggle { width: 48px; height: 26px; border-radius: 13px;
+        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
+        position: relative; transition: background .3s; flex: none; }
+      .theme-toggle.active { background: var(--ho-green, #4E9978); }
+      .theme-toggle-knob { position: absolute; top: 3px; left: 3px;
+        width: 20px; height: 20px; border-radius: 50%;
+        background: var(--ho-text-off, #F2F1EC); transition: transform .3s; }
+      .theme-toggle.active .theme-toggle-knob { transform: translateX(22px); }
+
       /* Logout */
       .logout-btn { background: #A6553E; color: #F2F1EC; border: none;
         border-radius: 10px; padding: 12px 24px;
         font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .82rem; cursor: pointer; width: 100%;
         margin-top: 16px; }
+
+      /* Notification toggle */
+      .notif-card { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        border-radius: 13px; padding: 16px; margin-bottom: 12px; }
+      .notif-row { display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; }
+      .notif-info { flex: 1; }
+      .notif-title { font-family: 'Archivo', sans-serif; font-size: .86rem;
+        font-weight: 700; color: var(--ho-text, #E8E6E0); }
+      .notif-desc { font-family: 'Public Sans', sans-serif; font-size:.72rem;
+        color: #7A766C; line-height: 1.4; margin-top: 3px; }
+      .notif-privacy { font-family: 'Public Sans', sans-serif; font-size:.66rem;
+        color: #6E6A60; line-height: 1.4; margin-top: 6px;
+        padding-top: 6px; border-top: 1px solid var(--ho-border, rgba(255,255,255,.06)); }
+      .notif-status { font-family: 'JetBrains Mono', monospace; font-size:.62rem;
+        font-weight: 600; letter-spacing:.06em; text-transform: uppercase;
+        padding: 3px 8px; border-radius: 6px; }
+      .notif-status.granted { background: #1E3A2E; color: #80CCA0; }
+      .notif-status.denied { background: #3A1E1E; color: #CC8080; }
+      .notif-status.default { background: #3A341E; color: #CCA880; }
+      .notif-status.unsupported { background: var(--ho-warm-gray, #3A4340); color: #7A766C; }
+
+      /* Toggle switch */
+      .toggle-switch { position: relative; width: 44px; height: 24px;
+        background: var(--ho-warm-gray, #3A4340); border-radius: 12px;
+        cursor: pointer; transition: background .2s; flex: none; }
+      .toggle-switch.active { background: var(--ho-green, #4E9978); }
+      .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px;
+        width: 20px; height: 20px; border-radius: 50%; background: #F2F1EC;
+        transition: transform .2s; }
+      .toggle-switch.active::after { transform: translateX(20px); }
 
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
     `;
@@ -220,6 +283,28 @@ class HorneroPerfil extends HoComponent {
             '<span class="agremiacion-value' + (f.value ? '' : ' muted') + '">' + (f.value || '—') + '</span>' +
             '</div>'
           ).join('') : ''}
+        </div>
+
+        <!-- Notificaciones push -->
+        <div class="notif-card">
+          <div class="info-card-title">🔔 NOTIFICACIONES</div>
+          <div class="notif-row">
+            <div class="notif-info">
+              <div class="notif-title">Notificaciones de clipping</div>
+              <div class="notif-desc">Recibí una alerta cuando hay un nuevo clipping disponible</div>
+            </div>
+            <div class="toggle-switch${this.pushEnabled ? ' active' : ''}" id="push-toggle"></div>
+          </div>
+          <div class="notif-privacy">⚠️ Al activar notificaciones, tu dispositivo se registra en nuestro servidor. No almacenamos datos personales, solo un identificador técnico necesario para enviar la notificación.</div>
+          ${this.pushPermission !== 'unsupported' ? '<div style="margin-top:8px"><span class="notif-status ' + this.pushPermission + '">' + this.pushPermission + '</span></div>' : ''}
+        </div>
+
+        <!-- Theme toggle -->
+        <div class="theme-row">
+          <span class="theme-label">☀️ Modo de día</span>
+          <button class="theme-toggle${this.theme === 'light' ? ' active' : ''}" id="themeToggle">
+            <span class="theme-toggle-knob"></span>
+          </button>
         </div>
 
         <!-- Logout -->
@@ -299,6 +384,12 @@ class HorneroPerfil extends HoComponent {
         this.emit('logout-request');
       });
     }
+
+    // Push notification toggle
+    const pushToggle = this.shadowRoot.querySelector('#push-toggle');
+    if (pushToggle) {
+      pushToggle.addEventListener('click', () => this._togglePush());
+    }
   }
 
   async _saveProfile() {
@@ -349,6 +440,40 @@ class HorneroPerfil extends HoComponent {
 
     // Emit event so hornero-app updates its userName display
     this.emit('profile-updated', { nombre: newName, email: newEmail });
+  }
+
+  async _togglePush() {
+    if (this.pushEnabled) {
+      // Desactivar
+      if (typeof unsubscribeUser === 'function') {
+        await unsubscribeUser();
+      }
+      this.pushEnabled = false;
+      this.pushPermission = ('Notification' in window) ? Notification.permission : 'unsupported';
+      this.render();
+    } else {
+      // Activar: primero pedir permiso, luego suscribir
+      if (typeof requestNotificationPermission === 'function') {
+        const permission = await requestNotificationPermission();
+        this.pushPermission = permission;
+        if (permission === 'granted') {
+          if (typeof subscribeUser === 'function') {
+            try {
+              await subscribeUser();
+              this.pushEnabled = true;
+              this.savedMsg = '🔔 Notificaciones activadas';
+            } catch(e) {
+              this.savedMsg = '⚠️ No se pudo activar notificaciones';
+              this.pushEnabled = false;
+            }
+          }
+        } else {
+          this.savedMsg = '⚠️ Permiso de notificaciones denegado';
+          this.pushEnabled = false;
+        }
+        this.render();
+      }
+    }
   }
 }
 

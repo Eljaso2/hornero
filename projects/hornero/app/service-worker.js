@@ -4,18 +4,21 @@
 // This means: push changes → open app → see changes immediately, no cache clearing
 // Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v214';
+var CACHE_NAME = 'hornero-v215';
 var ASSETS = [
   './css/hornero.css',
   './js/db.js',
   './js/data-loader.js',
   './js/navigation.js',
   './js/state.js',
+  './js/push-subscription.js',
+  './js/clipping-notifier.js',
   './data/is-piloto-aceitero.json',
   './data/mate-index.json',
   './data/mate-2026-06.json',
   './data/mate-2026-05.json',
   './data/clipping-index.json',
+  './data/clipping-2026-07-28.json',
   './data/clipping-2026-07-02.json',
   './data/clipping-2026-06-26.json',
   './data/clipping-2026-06-24.json',
@@ -159,6 +162,44 @@ self.addEventListener('fetch', function(event) {
         }
         return response;
       });
+    })
+  );
+});
+
+// ===== Push notification handler =====
+self.addEventListener('push', function(event) {
+  var data = {};
+  if (event.data) {
+    try { data = event.data.json(); } catch(e) {}
+  }
+  var title = data.title || '📰 Nuevo clipping disponible';
+  var body = data.body || 'Edición N°' + (data.numero || '');
+  var options = {
+    body: body,
+    icon: './assets/hornero-logo-192.png',
+    badge: './assets/hornero-logo-192.png',
+    data: { screen: 'clipping', edicion: data.numero || 0 },
+    vibrate: [100, 50, 100],
+    tag: 'clipping-new-edition'  // Reemplaza notificaciones previas del mismo tipo
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// ===== Notification click handler =====
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  var edicion = event.notification.data && event.notification.data.edicion;
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(windowClients) {
+      // Si hay una ventana abierta, enfocarla y navegar a clipping
+      for (var i = 0; i < windowClients.length; i++) {
+        if (windowClients[i].visibilityState === 'visible' || windowClients[i].focused) {
+          windowClients[i].postMessage({ type: 'NAVIGATE_CLIPPING', edicion: edicion });
+          return windowClients[i].focus();
+        }
+      }
+      // Si no hay ventana abierta, abrir nueva
+      return clients.openWindow('./app-ho.html#clipping');
     })
   );
 });

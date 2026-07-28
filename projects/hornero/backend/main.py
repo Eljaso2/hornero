@@ -25,6 +25,7 @@ from llm_providers.claude import call_claude
 from clipping_cache import get_clipping, refresh
 from rag_retriever import retrieve_for_query
 from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, KB_TIPOS, refresh as kb_refresh
+from push_manager import subscribe as push_subscribe, unsubscribe as push_unsubscribe, notify_all, get_vapid_public_key, get_subscription_count
 
 load_dotenv(override=True)
 
@@ -121,6 +122,22 @@ class ChatResponse(BaseModel):
     raw: str = ""  # Raw LLM response for debugging
     persona: str = "ia-sindical"  # Who responded: companero|abogado|periodista|relator|historiador|ia-sindical
     redirect_persona: str = ""  # Derivation: persona to redirect to (empty = no redirect)
+
+
+class PushSubscriptionRequest(BaseModel):
+    endpoint: str
+    keys: dict  # { auth: str, p256dh: str }
+
+
+class PushUnsubscribeRequest(BaseModel):
+    endpoint: str
+
+
+class PushNotifyRequest(BaseModel):
+    title: str = "📰 Nuevo clipping disponible"
+    body: str = ""
+    numero: int = 0
+    fecha: str = ""
 
 
 # ===== Endpoints =====
@@ -571,6 +588,66 @@ async def refresh_clipping():
     """Force refresh of clipping cache from GitHub Pages."""
     count = refresh()
     return {"status": "ok", "clipping_items": count, "timestamp": datetime.now().isoformat()}
+
+
+# ===== Push Notification endpoints =====
+@app.get("/api/push/vapid-key")
+async def get_push_vapid_key():
+    """Return VAPID public key for frontend subscription."""
+    return {"publicKey": get_vapid_public_key()}
+
+
+@app.post("/api/push/subscribe")
+async def push_subscribe_endpoint(req: PushSubscriptionRequest):
+    """Register a push subscription from a user device."""
+    subscription = {
+        "endpoint": req.endpoint,
+        "keys": req.keys,
+    }
+    success = push_subscribe(subscription)
+    if success:
+        return {"status": "ok", "message": "Suscripción registrada"}
+    raise HTTPException(400, "Datos de suscripción inválidos")
+
+
+@app.post("/api/push/unsubscribe")
+async def push_unsubscribe_endpoint(req: PushUnsubscribeRequest):
+    """Remove a push subscription (user turned off notifications)."""
+    success = push_unsubscribe(req.endpoint)
+    if success:
+        return {"status": "ok", "message": "Suscripción eliminada"}
+    raise HTTPException(400, "Endpoint inválido")
+
+
+@app.post("/api/push/notify")
+async def push_notify_endpoint(req: PushNotifyRequest):
+    """Send a push notification to all subscribed devices.
+
+    Called manually when a new clipping is published.
+    Future: could be triggered by GitHub webhook on push to main.
+    """
+    result = notify_all(
+        title=req.title,
+        body=req.body or f"Edición N°{req.numero}",
+        data={"numero": req.numero, "fecha": req.fecha},
+    )
+    return {
+        "status": "ok",
+        "sent": result["sent"],
+        "failed": result["failed"],
+        "expired": result["expired"],
+        "subscriptions": get_subscription_count(),
+        "timestamp": datetime.now().isoformat(),
+    }
+
+
+@app.get("/api/push/stats")
+async def push_stats():
+    """Return push subscription statistics."""
+    return {
+        "subscriptions": get_subscription_count(),
+        "vapid_key_set": bool(get_vapid_public_key()),
+    }
 
 
 # ===== Response parser =====

@@ -39,6 +39,10 @@
   <script src="js/db.js"></script>
   <!-- Data loader (seeds IndexedDB from JSON) -->
   <script src="js/data-loader.js"></script>
+  <!-- Push subscription (Web Push notifications) -->
+  <script src="js/push-subscription.js"></script>
+  <!-- Clipping notifier (in-app detection + badge) -->
+  <script src="js/clipping-notifier.js"></script>
 
   <style>
     /* App-level: dark mode */
@@ -120,6 +124,15 @@
         var pilotoData = results && results['is-piloto-aceitero.json'];
         if (pilotoData) return seedData(pilotoData);
       })
+      .then(function() {
+        // Start clipping notification polling + push subscription
+        if (typeof initClippingNotifier === 'function') {
+          initClippingNotifier();
+        }
+        if (typeof initPushSubscription === 'function') {
+          initPushSubscription();
+        }
+      })
       .catch(function(err) {
         console.warn('Init error (app still works):', err);
       });
@@ -179,7 +192,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=207"></script>
+  <script type="module" src="lit/hornero-components.js?v=208"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){

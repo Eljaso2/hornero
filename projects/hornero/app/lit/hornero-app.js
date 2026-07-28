@@ -15,6 +15,8 @@ class HorneroApp extends HoComponent {
       userName: String,
       loggedIn: Boolean,
       updateAvailable: Boolean,
+      theme: String,
+      newClippingAvailable: Boolean,
       recibidosList: Array,
       misConversacionesList: Array,
       misReportesList: Array,
@@ -24,7 +26,13 @@ class HorneroApp extends HoComponent {
   constructor() {
     super();
     this.screen = 'home';
+    this.theme = localStorage.getItem('hornero-theme') || 'dark';
     this.updateAvailable = false;
+    this.newClippingAvailable = false;
+    this._clipBannerVisible = false;
+    this._newClipNumero = 0;
+    this._newClipFecha = '';
+    this._newClipVersion = '';
     this.recibidosList = [];
     this.misConversacionesList = [];
     this.misReportesList = [];
@@ -513,6 +521,28 @@ class HorneroApp extends HoComponent {
       .update-banner .update-dismiss { background: none; border: none;
         color: var(--ho-text-off, #F2F1EC); cursor: pointer; font-size: 1rem;
         padding: 4px 8px; }
+
+      /* ===== Clipping notification banner ===== */
+      .clipping-banner { background: #2A6B4F; color: var(--ho-text-off, #F2F1EC);
+        padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+        font-family: 'Archivo', sans-serif; font-size: .82rem; font-weight: 600;
+        flex: none; cursor: pointer; }
+      .clipping-banner:hover { background: #3D6B56; }
+      .clipping-banner .clip-banner-text { flex: 1; display: flex; align-items: center; gap: 8px; }
+      .clipping-banner .clip-dismiss { background: none; border: none;
+        color: var(--ho-text-off, #F2F1EC); cursor: pointer; font-size: 1rem;
+        padding: 4px 8px; }
+
+      /* ===== Nav badge (new clipping indicator) ===== */
+      .nav-btn { position: relative; }
+      .nav-badge { position: absolute; top: 2px; right: calc(50% - 18px);
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--ho-green-light, #80CCA0);
+        border: 1.5px solid var(--ho-bg, #1E2321); }
+      .sections-btn { position: relative; }
+      .sections-badge { position: absolute; top: 4px; right: 4px;
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--ho-green-light, #80CCA0); }
     `;
   }
 
@@ -622,7 +652,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'condicion') {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
-      screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-perfil>';
+      screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-perfil>';
     } else if (this.screen === 'recibidos') {
       screenContent = this._renderRecibidos();
     } else {
@@ -646,6 +676,7 @@ class HorneroApp extends HoComponent {
 
             ${this.updateAvailable ? '<div class="update-banner" id="updateBanner">⟳ Actualización disponible — toca para recargar<button class="update-dismiss" id="updateDismiss">✕</button></div>' : ''}
 
+            ${this._clipBannerVisible && this.newClippingAvailable ? '<div class="clipping-banner" id="clippingBanner"><span class="clip-banner-text">📰 Nuevo clipping — Edición N°' + this._newClipNumero + '</span><button class="clip-dismiss" id="clipDismiss">✕</button></div>' : ''}
             ${showHeader ? '<div class="top-bar">' +
               '<div class="header-text">' +
                 '<img class="app-brand-img" src="assets/hornero-brand-typo-transparent.png" alt="HORNERO" />' +
@@ -653,7 +684,10 @@ class HorneroApp extends HoComponent {
             '</div>' : ''}
 
             ${showSectionsBar ? '<div class="sections-bar">' +
-              this.sectionsDef.map(s => '<button class="sections-btn' + (s.id === this.screen ? ' active' : '') + '" data-screen="' + s.id + '">' + s.label + '</button>').join('') +
+              this.sectionsDef.map(s => {
+                const badgeHtml = (this.newClippingAvailable && s.id === 'clipping') ? '<span class="sections-badge"></span>' : '';
+                return '<button class="sections-btn' + (s.id === this.screen ? ' active' : '') + '" data-screen="' + s.id + '">' + s.label + badgeHtml + '</button>';
+              }).join('') +
               '</div>' : ''}
 
             <div class="body-scroll">
@@ -667,8 +701,9 @@ class HorneroApp extends HoComponent {
                 const iconHtml = n.img
                   ? '<img src="' + n.img + '" alt="' + n.label + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><svg viewBox="0 0 24 24" style="display:none">' + n.svg + '</svg>'
                   : '<svg viewBox="0 0 24 24">' + n.svg + '</svg>';
+                const badgeHtml = (this.newClippingAvailable && n.id === 'actualidad') ? '<span class="nav-badge"></span>' : '';
                 return '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
-                  iconHtml +
+                  iconHtml + badgeHtml +
                   '<span class="label">' + n.label + '</span>' +
                   '</button>';
               }).join('') +
@@ -773,6 +808,28 @@ class HorneroApp extends HoComponent {
       e.stopPropagation();
       this.set('updateAvailable', false);
     });
+    // Bind clipping notification banner
+    const clippingBanner = this.shadowRoot.querySelector('#clippingBanner');
+    if (clippingBanner) clippingBanner.addEventListener('click', () => {
+      if (typeof acknowledgeClipping === 'function') {
+        acknowledgeClipping(this._newClipVersion);
+      }
+      this._clipEdicion = this._newClipNumero || null;
+      this._navigateTo('clipping');
+    });
+    const clipDismiss = this.shadowRoot.querySelector('#clipDismiss');
+    if (clipDismiss) clipDismiss.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof dismissClippingNotification === 'function') {
+        dismissClippingNotification(this._newClipVersion);
+      }
+      this._clipBannerVisible = false;
+      this.render();
+    });
+    // Acknowledge clipping when navigating to clipping screen
+    if (this.screen === 'clipping' && this.newClippingAvailable && typeof acknowledgeClipping === 'function') {
+      acknowledgeClipping(this._newClipVersion);
+    }
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
       const detail = e.detail || {};
@@ -817,12 +874,34 @@ class HorneroApp extends HoComponent {
       this._handleLogout();
     });
 
+    // Listen for theme-change from <hornero-perfil> (dark/light toggle)
+    this.shadowRoot.addEventListener('theme-change', (e) => {
+      const newTheme = e.detail.theme;
+      if (newTheme === 'dark' || newTheme === 'light') {
+        localStorage.setItem('hornero-theme', newTheme);
+        this.set('theme', newTheme);
+        this._updateThemeColor();
+      }
+    });
+
     // Listen for profile-updated from <hornero-perfil> (name/email changes)
     this.shadowRoot.addEventListener('profile-updated', (e) => {
       if (e.detail && e.detail.nombre) {
         this.set('userName', e.detail.nombre);
       }
     });
+
+    // Listen for push notification click messages from service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.removeEventListener('message', this._swMessageHandler);
+      this._swMessageHandler = (e) => {
+        if (e.data && e.data.type === 'NAVIGATE_CLIPPING') {
+          this._clipEdicion = e.data.edicion || null;
+          this._navigateTo('clipping');
+        }
+      };
+      navigator.serviceWorker.addEventListener('message', this._swMessageHandler);
+    }
 
     // Persona now flows via HTML attributes — no need for direct-property-set hack
 
@@ -841,30 +920,60 @@ class HorneroApp extends HoComponent {
     this.set('screen', screen);
   }
 
+  // ===== Theme switching — CSS variables cascade through Shadow DOM =====
+  _applyTheme() {
+    const lightVars = {
+      '--ho-bg': '#F8F6F0',
+      '--ho-card': '#FFFFFF',
+      '--ho-dark': '#F0EDE5',
+      '--ho-dark-surface': '#E8E4DB',
+      '--ho-dark-mid': '#D5D0C8',
+      '--ho-text': '#1E2321',
+      '--ho-text-mid': '#5A5650',
+      '--ho-text-light': '#7A766C',
+      '--ho-text-off': '#1E2321',
+      '--ho-green': '#3D7A5E',
+      '--ho-green-light': '#4E9978',
+      '--ho-green-pale': '#E0F0EB',
+      '--ho-green-dark': '#3D6B56',
+      '--ho-body-bg': '#E8E4DB',
+      '--ho-border': 'rgba(0,0,0,.08)',
+      '--ho-input-border': 'rgba(0,0,0,.1)',
+      '--ho-shadow': 'rgba(0,0,0,.15)',
+      '--ho-warm-gray': '#D5D0C8',
+      '--ho-mid-gray': '#E8E4DB',
+    };
+    if (this.theme === 'light') {
+      Object.entries(lightVars).forEach(([k, v]) => this.style.setProperty(k, v));
+    } else {
+      // Reset to dark defaults — remove overrides so :root values take effect
+      Object.keys(lightVars).forEach(k => this.style.removeProperty(k));
+    }
+  }
+
   // ===== Theme color — status bar + bottom bar match app color =====
   _updateThemeColor() {
     const metaTheme = document.querySelector('meta[name="theme-color"]');
     if (!metaTheme) return;
 
-    // Login screen (not logged in) → dark color matching login background
-    if (!this.loggedIn) {
-      metaTheme.setAttribute('content', '#1E2321');
-      document.documentElement.style.setProperty('background', '#1E2321', 'important');
-      document.body.style.setProperty('background', '#1E2321', 'important');
-      return;
-    }
+    const isLight = this.theme === 'light';
+    const appBg = isLight ? '#F8F6F0' : '#1E2321';
+    const loginBg = isLight ? '#F8F6F0' : '#1E2321';
 
-    // Main app screens → light color matching app background
-    const appBg = '#1E2321';  // var(--ho-bg)
-    metaTheme.setAttribute('content', appBg);
-    document.documentElement.style.setProperty('background', appBg, 'important');
-    document.body.style.setProperty('background', appBg, 'important');
+    // Login screen or main app → same bg
+    const bg = this.loggedIn ? appBg : loginBg;
+    metaTheme.setAttribute('content', bg);
+    document.documentElement.style.setProperty('background', bg, 'important');
+    document.body.style.setProperty('background', bg, 'important');
 
     // iOS: update apple status bar style
     const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
     if (appleMeta) {
-      appleMeta.setAttribute('content', 'default'); // white status bar on iOS
+      appleMeta.setAttribute('content', isLight ? 'default' : 'black-translucent');
     }
+
+    // Apply CSS variable overrides on host element (cascades into Shadow DOM)
+    this._applyTheme();
   }
 
   // Override attributeChangedCallback to update theme when screen/login changes
