@@ -168,24 +168,36 @@ class HorneroHome extends HoComponent {
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
         color: #2B2A26; }
 
-      /* ===== ESFERA 3: Panorama — hero card ===== */
+      /* ===== ESFERA 3: Panorama — blended card ===== */
       .panorama-card { position: relative; border-radius: 13px; margin-bottom: 10px;
-        overflow: hidden; cursor: pointer; min-height: 140px; }
-      .panorama-card img.hero { width: 100%; height: 180px; object-fit: cover;
-        display: block; }
-      .panorama-overlay { position: absolute; bottom: 0; left: 0; right: 0;
-        padding: 36px 14px 12px;
-        background: linear-gradient(transparent, rgba(33,31,29,.85));
-        color: #F2F1EC; }
-      .panorama-overlay .card-name { font-family: 'Archivo', sans-serif;
-        font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
-        text-transform: uppercase; }
-      .panorama-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
-        line-height: 1.4; margin-top: 3px; }
-      .panorama-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .60rem; background: rgba(110,131,69,.6); color: #F2F1EC;
-        padding: 2px 7px; border-radius: 5px; font-weight: 600;
-        display: inline-block; margin-top: 5px; }
+        overflow: hidden; cursor: pointer; min-height: 200px;
+        background: var(--ho-card, #FBFAF6);
+        border: 1px solid rgba(43,42,38,.06);
+        padding: 0; }
+      .panorama-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: url('assets/panorama-bg.png') center 30% / cover no-repeat;
+        opacity: .18; mix-blend-mode: multiply;
+        mask-image: radial-gradient(ellipse 70% 80% at 50% 40%, rgba(0,0,0,.9) 0%, rgba(0,0,0,0) 100%);
+        -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 40%, rgba(0,0,0,.9) 0%, rgba(0,0,0,0) 100%); }
+      .panorama-content { position: relative; z-index: 1; padding: 18px 16px; }
+      .panorama-content .card-name { font-family: 'Archivo', sans-serif;
+        font-weight: 800; font-size: 1.32rem; letter-spacing: .02em;
+        text-transform: uppercase; color: #2B2A26; }
+      .panorama-content .card-desc { font-size: .88rem; color: #6E6A60;
+        line-height: 1.4; margin-top: 4px; }
+      .panorama-content .card-tag { font-family: 'JetBrains Mono', monospace;
+        font-size: .62rem; background: #E8EDD7; color: #586B33;
+        padding: 3px 8px; border-radius: 6px; font-weight: 600;
+        display: inline-block; margin-top: 8px; }
+      .panorama-content .card-indices { display: flex; gap: 6px; margin-top: 10px;
+        flex-wrap: wrap; }
+      .panorama-content .idx { font-family: 'JetBrains Mono', monospace;
+        font-size: .68rem; font-weight: 700; padding: 4px 10px;
+        border-radius: 6px; }
+      .panorama-content .idx-ce { background: rgba(110,131,69,.12); color: #586B33; }
+      .panorama-content .idx-ift { background: rgba(148,168,103,.12); color: #6E8345; }
+      .panorama-content .idx-como { background: rgba(88,107,51,.12); color: #586B33; }
+      .panorama-content .idx-smvm { background: rgba(176,134,63,.12); color: #8B6914; }
 
       /* ===== ESFERA 4: Formación — hero card ===== */
       .formacion-card { position: relative; border-radius: 13px; margin-bottom: 10px;
@@ -338,13 +350,18 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 3: Panorama — hero card -->
+      <!-- ESFERA 3: Panorama — blended card -->
       <div class="panorama-card" data-screen="condicion">
-        <img src="assets/panorama-bg.png" alt="Panorama" class="hero">
-        <div class="panorama-overlay">
+        <div class="panorama-content">
           <div class="card-name">Panorama</div>
-          <div class="card-desc">CE · IFT · Cómo Somos · SMVM</div>
+          <div class="card-desc">Condición obrera — diagnóstico de la clase trabajadora</div>
           <span class="card-tag">índices · diagnóstico · clase trabajadora</span>
+          <div class="card-indices">
+            <span class="idx idx-ce">🏭 CE</span>
+            <span class="idx idx-ift">🌿 IFT</span>
+            <span class="idx idx-como">👥 Cómo Somos</span>
+            <span class="idx idx-smvm">💰 SMVM</span>
+          </div>
         </div>
       </div>
 
