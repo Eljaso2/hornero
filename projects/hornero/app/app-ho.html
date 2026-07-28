@@ -51,14 +51,18 @@
       padding-bottom: env(safe-area-inset-bottom, 0px); }
     hornero-app { display: block; width: 100%; min-height: 100vh;
       min-height: -webkit-fill-available; }
-    /* Splash screen — shows logo while web components load */
+    /* Splash screen — mirrors login layout (logo + version, no form) */
     #splash { position: fixed; inset: 0; z-index: 9999;
       background: #1E2321; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
+      padding: 40px 24px; box-sizing: border-box;
       transition: opacity .3s ease; }
     #splash.fade-out { opacity: 0; pointer-events: none; }
-    #splash img { width: 120px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
-    #splash .splash-brand { height: 32px; width: auto; margin-top: 16px; object-fit: contain; }
+    #splash img { width: 340px; height: auto;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
+    #splash .splash-version {
+      font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+      color: #7A7568; margin-top: 48px; text-align: center; }
     /* PWA install banner */
     .pwa-install-banner { position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);
@@ -82,10 +86,10 @@
 <!-- Set body bg immediately — uses color from head script -->
 <body>
 <script>document.body.style.setProperty('background',window._hoInitBg||'#1E2321','important');</script>
-  <!-- Splash screen — shows logo while web components load (~1s) -->
+  <!-- Splash screen — mirrors login layout (logo + version, no form) -->
   <div id="splash">
     <img src="assets/hornero-logo-nobg.png" alt="Hornero" />
-    <img class="splash-brand" src="assets/hornero-brand-creative.png" alt="HORNERO" />
+    <div class="splash-version">Piloto aceitero · v2026-07</div>
   </div>
   <!-- HoComponent app shell — Shadow DOM renders instantly via sync session -->
   <hornero-app></hornero-app>
@@ -170,7 +174,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=175"></script>
+  <script type="module" src="lit/hornero-components.js?v=176"></script>
   <!-- Hide splash once web components are defined -->
   <script>
     (function(){
