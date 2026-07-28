@@ -47,8 +47,7 @@
     body { background: #1E2321 !important;
       background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
-      margin: 0; padding: 0;
-      padding-bottom: env(safe-area-inset-bottom, 0px); }
+      margin: 0; padding: 0; }
     hornero-app { display: block; width: 100%; min-height: 100vh;
       min-height: -webkit-fill-available; }
     /* Splash screen — mirrors login layout (logo + spacer + version = same logo height as login) */
@@ -177,7 +176,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=197"></script>
+  <script type="module" src="lit/hornero-components.js?v=198"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){
