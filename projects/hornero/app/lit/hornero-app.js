@@ -282,7 +282,10 @@ class HorneroApp extends HoComponent {
         .sections-btn { color: #9C988D; }
         .sections-btn.active { color: var(--ho-green-light, #94A867);
           border-bottom-color: var(--ho-green-light, #94A867); }
-        .header-text .app-brand-img { height: 22px; }
+        .header-text .app-brand-img { height: 32px; }
+        /* Mobile: dark header → show white text image (screen blend) */
+        .brand-for-dark { display: block; }
+        .brand-for-light { display: none; }
       }
 
       /* ===== Animations ===== */
@@ -310,8 +313,12 @@ class HorneroApp extends HoComponent {
       .top-bar-back:hover svg { stroke: var(--ho-green-dark, #586B33); }
 
       .header-text { display: flex; align-items: center; justify-content: center; }
-      .header-text .app-brand-img { height: 22px; width: auto; object-fit: contain;
+      .header-text .app-brand-img { height: 32px; width: auto; object-fit: contain;
         display: block; margin: 0 auto; }
+      /* Dark bg = white text image with screen blend (background disappears, text stays) */
+      .brand-for-dark { mix-blend-mode: screen; display: none; }
+      /* Light bg = dark text image with multiply blend (background disappears, text stays) */
+      .brand-for-light { mix-blend-mode: multiply; }
 
       /* ===== Sections bar — horizontal scrollable ===== */
       .sections-bar { background: var(--ho-bg, #F4F3EE);
@@ -498,7 +505,7 @@ class HorneroApp extends HoComponent {
       return html`
         <div class="app-wrap">
           <div class="phone">
-            <div class="screen" style="background:var(--ho-dark,#33312D);display:flex;flex-direction:column;overflow:hidden">
+            <div class="screen" style="background:#323D39;display:flex;flex-direction:column;overflow:hidden">
               <hornero-login></hornero-login>
             </div>
           </div>
@@ -622,7 +629,8 @@ class HorneroApp extends HoComponent {
               ${this.screen !== 'home' ?
                 '<button class="top-bar-back" id="backBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
               <div class="header-text">
-                <img class="app-brand-img" src="assets/hornero-brand-typo-white.png" alt="HORNERO" />
+                <img class="app-brand-img brand-for-dark" src="assets/hornero-brand-typo-white.png" alt="HORNERO" />
+                <img class="app-brand-img brand-for-light" src="assets/hornero-brand-typo-dark.png" alt="HORNERO" />
               </div>
             </div>
 
