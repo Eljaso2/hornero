@@ -298,15 +298,7 @@ class HorneroHome extends HoComponent {
         <span class="card-tag">cursos · materiales · codiseño</span>
       </div>
 
-      <!-- ESFERA 4: Reporte gremial -->
-      <div class="esfera-card${isLocked ? ' locked' : ''}" data-screen="gremial">
-        ${isLocked ? '<span class="lock-icon">' + lockSvg + '</span>' : ''}
-        <div class="card-name">Reporte gremial</div>
-        <div class="card-desc">Observaciones, informes, coordinación, circulares</div>
-        <span class="card-tag">${this.sector} · observaciones · informes</span>
-      </div>
-
-      <!-- ESFERA 5: Panorama -->
+<!-- ESFERA 5: Panorama -->
       <div class="esfera-card" data-screen="condicion">
         <div class="card-name">Panorama</div>
         <div class="card-desc">CE · IFT · Cómo Somos · SMVM — diagnóstico de la clase trabajadora</div>
