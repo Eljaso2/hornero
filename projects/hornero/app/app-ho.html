@@ -56,7 +56,7 @@
       background: #1E2321; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 28px 24px; box-sizing: border-box;
-      transition: opacity .3s ease; }
+      transition: opacity .15s ease; }
     #splash.fade-out { opacity: 0; pointer-events: none; }
     #splash img { width: 340px; height: auto;
       filter: drop-shadow(0 4px 12px rgba(0,0,0,.4));
@@ -185,9 +185,9 @@
       if (!splash) return;
       function hideSplash() {
         splash.classList.add('fade-out');
-        setTimeout(function() { splash.remove(); }, 400);
+        setTimeout(function() { splash.remove(); }, 150);
       }
-      setTimeout(hideSplash, 4000);
+      setTimeout(hideSplash, 1500);
     })();
   </script>
 </body>
