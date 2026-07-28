@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "version": "2026-07-28-v1",
+    "tipo": "clipping-diario",
+    "fecha": "2026-07-28",
+    "frecuencia": "diario",
+    "numero": 5,
+    "fuentes": ["InfoGremiales", "Página/12", "Sonido Gremial", "Ámbito Financiero", "La Nación", "Infobae", "Urgente24"]
+  },
+  "noticias": [
+    {
+      "id": "cd-2026-07-28-1",
+      "fecha": "2026-07-28",
+      "violencia": "VD+VC",
+      "tags": ["ATE", "paro-nacional", "estatales", "salarios"],
+      "emoji": "⚡",
+      "titulo": "ATE convoca paro nacional y movilización para el 3 de agosto",
+      "bajada": "Aguiar: \"Los salarios de los estatales tendrían que ser más del doble.\" Poder adquisitivo cayó 45% desde Milei. Servicios públicos +919%.",
+      "desarrollo": "ATE convocó a un paro nacional con movilización al Ministerio de Economía para el lunes 3 de agosto, en reclamo de aumento salarial de emergencia y contra el vaciamiento del Estado. Rodolfo Aguiar: \"Los salarios de los estatales tendrían que ser más del doble de lo que son ahora.\" Los salarios del sector público subieron 12,9% hasta junio contra una inflación de 16,9%; el poder adquisitivo cayó 45% desde que asumió Milei. Los servicios públicos aumentaron 919% en el mismo período. ATE evalúa marchar junto a CTERA, que también convocó paro para la misma fecha. Aguiar denunció que los trabajadores estatales ya recurren a prestamistas de barrio: \"Hasta pone en riesgo la integridad de quienes toman esos créditos.\" También denunció la complicidad de UPCN: \"El poder adquisitivo ha sido destruido con el aval de UPCN.\" La convocatoria se suma al Día Nacional de Lucha del 7 de agosto. La desaprobación del gobierno supera el 58,2%.",
+      "fuente": "InfoGremiales — 27/07/2026 | Página/12 — 28/07/2026",
+      "foto": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-2",
+      "fecha": "2026-07-28",
+      "violencia": "VD+VC",
+      "tags": ["empleo", "destrucción", "aportantes", "sistema-contributivo"],
+      "emoji": "📊",
+      "titulo": "La era Milei destruyó 329.600 empleos registrados: aportantes cayeron casi 6%",
+      "bajada": "Récord de exportaciones mientras se pierde empleo. La economía a dos velocidades: riqueza se concentra, trabajo se precariza.",
+      "desarrollo": "Desde que asumió Milei, se destruyeron 329.600 empleos registrados en la Argentina. Los aportantes al sistema contributivo cayeron casi un 6%. La destrucción no se limita al sector público: el sector privado también registra pérdida neta, incluyendo en sectores supuestamente \"ganadores\" como el agroexportador. Ámbito Financiero documentó la paradoja: Argentina bate récords de exportación mientras simultáneamente pierde empleo registrado privado. La caída de aportantes impacta directamente la sostenibilidad del sistema previsional y de la obra social: menos trabajadores en blanco significa menos aportes para jubilaciones, menos cobertura de obra social, menos capacidad del sistema de salud. El dato se articula con la industria en rojo (-2,2% OJF, -0,7% FIEL), la venta de combustible que cayó 2,9% interanual por quinto mes consecutivo, y la indumentaria que registra una caída del 6,9% interanual.",
+      "fuente": "Sonido Gremial — 28/07/2026 | Ámbito Financiero — 28/07/2026",
+      "foto": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-3",
+      "fecha": "2026-07-28",
+      "violencia": "VD+VC",
+      "tags": ["CNEA", "energía-atómica", "despidos", "privatización"],
+      "emoji": "☢️",
+      "titulo": "CNEA: ajuste del 58% de cargos jerárquicos — \"El objetivo es destruirnos\"",
+      "bajada": "Tras los despidos, el Gobierno avanza con la destrucción del organismo nuclear. Reactor CAREM en riesgo.",
+      "desarrollo": "El Gobierno avanza con la reestructuración de la CNEA tras los despidos de la semana pasada. El ajuste alcanza un 58% de los cargos jerárquicos del organismo. Trabajadores denuncian: \"El objetivo es destruirnos.\" El reactor CAREM —el primer reactor modular pequeño diseñado íntegramente en Argentina— queda en riesgo directo. La medida se inscribe en el patrón de desguace militarizado documentado en el clipping anterior: Gendarmería en INTI, director de CNEA escoltado por Gendarmería, 897 expulsados del INTA. La CNEA construyó y opera los reactores Atucha I, Atucha II y Embalse, y desarrolló la tecnología de enriquecimiento de uranio. La eliminación de la estructura directiva facilita la transferencia de activos nucleares al capital privado.",
+      "fuente": "Página/12 — 27/07/2026 | InfoGremiales — 01/07/2026",
+      "foto": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-4",
+      "fecha": "2026-07-28",
+      "violencia": "VD",
+      "tags": ["hospital", "despidos", "salud", "Posadas"],
+      "emoji": "🏥",
+      "titulo": "Hospital Posadas: 64 trabajadores despedidos — Fesprosa exige reincorporación",
+      "bajada": "Vaciamiento del sistema de salud público. Desregulación de medicamentos y cancelación del Plan Remediar.",
+      "desarrollo": "La Federación de Sindicatos de Profesionales de la Salud (Fesprosa) exigió la reincorporación inmediata de 64 trabajadores despedidos del Hospital Nacional Profesor Alejandro Posadas de Haedo. Los despidos se suman al patrón de vaciamiento del sistema de salud público que incluye la cancelación del Plan Remediar, la desregulación de medicamentos impulsada por Sturzenegger y la caída de la capacidad operativa de centros de salud en todo el país. Roberto Peretta, de FENAMMF/FAECYS, denunció la desregulación farmacéutica: \"El medicamento no es una mercancía\" y advirtió que Sturzenegger \"va a terminar preso.\" Los 64 despidos del Posadas se suman a los 70.000 puestos públicos eliminados documentados por CEPA.",
+      "fuente": "InfoGremiales — 27/07/2026",
+      "foto": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-5",
+      "fecha": "2026-07-28",
+      "violencia": "VD+VC",
+      "tags": ["SIPREBA", "Clarín", "prensa", "vaciamiento"],
+      "emoji": "🖨️",
+      "titulo": "SIPREBA en alerta: denuncian vaciamiento de planta de impresión de Clarín",
+      "bajada": "Asamblea permanente. El grupo que promueve la \"modernización\" la aplica a sus propios trabajadores sin contemplaciones.",
+      "desarrollo": "El Sindicato de Prensa de Buenos Aires (SIPREBA) declaró el estado de alerta y asamblea permanente ante el vaciamiento de la planta de impresión del Grupo Clarín. La reconversión digital que el grupo avanza elimina puestos de trabajo gráficos sin plan de reconversión laboral para los trabajadores afectados. El caso es emblemático: el mismo grupo que lidera la narrativa de \"modernización\" y \"eficiencia\" en la cobertura mediática aplica esa lógica a sus propios trabajadores sin contemplaciones. El vaciamiento se produce mientras el Estatuto del Periodista Profesional —la norma que protege a los trabajadores de prensa desde 1944— está bajo ataque por parte de los propietarios de medios que buscan su derogación. SIPREBA también representa a trabajadores de Télam, cuyo vaciamiento ya fue documentado en clippings anteriores.",
+      "fuente": "InfoGremiales — 28/07/2026",
+      "foto": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-6",
+      "fecha": "2026-07-28",
+      "violencia": "VD",
+      "tags": ["Flybondi", "aviación", "suspensiones", "despidos"],
+      "emoji": "✈️",
+      "titulo": "Flybondi: suspensiones, despidos y cientos de vuelos cancelados",
+      "bajada": "La \"libertad de los cielos\" se traduce en precarización laboral. Aerolíneas Argentinas perdió 1.993 trabajadores bajo Milei.",
+      "desarrollo": "Flybondi enfrenta una crisis laboral y operativa: suspensiones entre los tripulantes de cabina, despidos, y la cancelación de cientos de vuelos que afectan a miles de pasajeros. La crisis condensa la paradoja del modelo: el gobierno achica Aerolíneas Argentinas para favorecer a operadores privados, pero esos operadores no generan empleo estable ni sostenible. Aerolíneas Argentinas ya perdió 1.993 trabajadores bajo Milei, documentados por CEPA. La crisis de Flybondi se articula con la destrucción de 329.600 empleos registrados y la caída de la actividad económica: la venta de combustible cayó 2,9% interanual en junio por quinto mes consecutivo. El turismo registró un rojo de más de US$750 millones en el segundo trimestre.",
+      "fuente": "InfoGremiales — 28/07/2026",
+      "foto": "https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-7",
+      "fecha": "2026-07-28",
+      "violencia": "VC",
+      "tags": ["FMI", "Georgieva", "CTA", "ajuste", "reforma-previsional"],
+      "emoji": "🌍",
+      "titulo": "CTA y organizaciones movilizan contra el FMI: \"Fuera FMI de Argentina\"",
+      "bajada": "Trabajadores de Economía recibieron a Georgieva con carta: \"No esperen alfombra roja ni pétalos de rosas.\" FMI exige reforma previsional.",
+      "desarrollo": "Organizaciones sindicales, sociales y políticas se movilizaron al Ministerio de Economía para rechazar la visita de Kristalina Georgieva, directora gerente del FMI. La CTA Autónoma convocó la movilización con la consigna \"Fuera ingleses de Malvinas, fuera FMI de Argentina.\" Trabajadores del Ministerio de Economía recibieron a Georgieva con una carta pública: \"No esperen alfombra roja ni pétalos de rosas.\" Las reformas que el FMI exige —reforma previsional, suba de la edad jubilatoria, ajuste del gasto público— impactan directamente en trabajadores y jubilados. El FMI le pide al gobierno que haga la reforma previsional y suba la edad jubilatoria en año electoral. La movilización se articula con el paro de ATE del 3 de agosto y el Día Nacional de Lucha del 7 de agosto.",
+      "fuente": "InfoGremiales — 28/07/2026 | Sonido Gremial — 27/07/2026",
+      "foto": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-8",
+      "fecha": "2026-07-28",
+      "violencia": "VD+VC",
+      "tags": ["jubilados", "moratoria", "previsional", "FMI"],
+      "emoji": "👴",
+      "titulo": "233.000 adultos mayores pierden la jubilación por eliminación de la moratoria",
+      "bajada": "FMI exige además subir la edad jubilatoria. La circularidad perversa: destruir empleo → caen aportes → \"déficit\" previsional → subir edad.",
+      "desarrollo": "La eliminación de la moratoria previsional dejará a 233.000 adultos mayores sin jubilación, al no poder reunir los aportes necesarios. La moratoria —instituida durante los gobiernos de Néstor y Cristina Kirchner— permitió que millones de personas, especialmente mujeres que trabajaron en la economía informal, accedieran a una jubilación. Su eliminación afecta desproporcionadamente a las mujeres, a los trabajadores informales y a las poblaciones más vulnerables. La crisis se profundiza con la caída de casi 6% en los aportantes al sistema contributivo —consecuencia de los 329.600 empleos registrados destruidos—. La circularidad es perversa: el gobierno destruye empleo registrado, caen los aportes, se genera un \"déficit\" previsional, y el FMI exige subir la edad jubilatoria como \"solución\" —cuando la causa del déficit es la propia destrucción de empleo—. La jubilación mínima no alcanza para la canasta básica.",
+      "fuente": "Urgente24 — 28/07/2026 | InfoGremiales — 27/07/2026",
+      "foto": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-9",
+      "fecha": "2026-07-28",
+      "violencia": "VD",
+      "tags": ["industria", "caída", "UIA", "morosidad"],
+      "emoji": "🏭",
+      "titulo": "Industria: primer semestre en rojo — caída del 2,2% según OJF",
+      "bajada": "FIEL marca -0,7%. UIA confirma caída en junio. Morosidad empresarial crece y bancos endurecen crédito.",
+      "desarrollo": "La industria argentina cerró el primer semestre de 2026 en terreno negativo: la consultora OJF registró una caída del 2,2% y FIEL del 0,7%. La UIA confirmó que la actividad industrial siguió cayendo en junio. La caída industrial se articula con otros indicadores de contracción: la venta de combustible cayó 2,9% interanual en junio por quinto mes consecutivo; la indumentaria registra una caída del 6,9% interanual con solo 1 de cada 6 empresas esperando recuperación; el consumo supermerquilista se contrae. La morosidad empresarial crece —las empresas buscan refinanciar deudas, pero los bancos endurecen la selección de préstamos—. La combinación de industria en rojo, morosidad creciente y crédito restringido configura un círculo vicioso que se traduce en destrucción de empleo. La industria en rojo contrasta con las \"exportaciones récord\" que el gobierno celebra: la economía a dos velocidades.",
+      "fuente": "Sonido Gremial — 27/07/2026 | La Nación — 28/07/2026 | Ámbito Financiero — 28/07/2026",
+      "foto": "https://images.unsplash.com/photo-1565514020179-41d8341c7b40?w=600&h=400&fit=crop"
+    },
+    {
+      "id": "cd-2026-07-28-10",
+      "fecha": "2026-07-28",
+      "violencia": "VC",
+      "tags": ["SUTEP", "paritaria", "cine", "fragmentación"],
+      "emoji": "🎬",
+      "titulo": "SUTEP en alerta: paritaria del cine sin acuerdo — fragmentación laboral como estrategia",
+      "bajada": "Desmotadores de algodón cerraron con +44,5%. Bancarios con acuerdo. Donde hay organización, se negocia; donde no, la patronal impone demora.",
+      "desarrollo": "El Sindicato Único de Trabajadores del Espectáculo Público (SUTEP) declaró el estado de alerta tras una nueva audiencia de negociación salarial con las cámaras empresarias sin llegar a acuerdo. La situación reproduce el patrón de la paritaria aceitera: las cámaras arrancan con ofertas que no cubren la inflación, prolongan la negociación, y obligan a los gremios a escalar medidas de fuerza. La disparidad entre sectores es reveladora: los desmotadores de algodón cerraron su paritaria con un incremento del 44,5% y salarios que superan los $2,1 millones, y los bancarios definieron cuánto cobrarán en junio tras el último acuerdo. En ambos casos, la organización sindical y la fuerza de negociación fueron decisivas. En el cine, donde la organización es más fragmentada, la demora se impone. La fragmentación del mercado laboral es la estrategia patronal: donde hay organización, se negocia; donde no, se impone la precarización.",
+      "fuente": "InfoGremiales — 28/07/2026 | Sonido Gremial — 28/07/2026 | Ámbito Financiero — 28/07/2026",
+      "foto": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&h=400&fit=crop"
+    }
+  ]
+}

@@ -1,6 +1,13 @@
 {
-  "version": "2026-07-02-v1",
+  "version": "2026-07-28-v1",
   "ediciones": [
+    {
+      "numero": 5,
+      "fecha": "2026-07-28",
+      "archivo": "data/clipping-2026-07-28.json",
+      "semana": "27–28 julio 2026",
+      "noticias": 10
+    },
     {
       "numero": 4,
       "fecha": "2026-07-02",
