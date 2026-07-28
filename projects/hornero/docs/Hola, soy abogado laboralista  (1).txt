@@ -1,0 +1,85 @@
+Hola, soy abogado laboralista 
+27 de julio de 2026 — 01:34 p. m.
+────────────────────────────────────────────────────────────
+
+← IA Sindical [14:29]
+Hola, soy abogado laboralista del gremio aceitero. ¿En qué consulta legal puedo ayudarte?
+
+────────────────────────────────────────
+
+→ Trabajador [11:29]
+soy empleado administrativo de vicentín El convenio me cubre?
+
+────────────────────────────────────────
+
+← IA Sindical [14:29]
+Sí, el CCT 420/05 te cubre. Ese convenio incluye 4 categorías administrativas (E a H), además de las obreras.
+
+Vicentín está en concurso preventivo, pero eso no suspende la aplicación del convenio ni tus derechos laborales. El concurso no es excusa para no pagar lo que corresponde.
+
+¿Querés que te detalle qué derechos específicos tenés como administrativo bajo el CCT 420/05?
+[respuesta-libre]
+
+────────────────────────────────────────
+
+→ Trabajador [11:32]
+no quisiera ahora que sé eso hacer un reporte gremial para mi delegado
+
+────────────────────────────────────────
+
+← IA Sindical [14:32]
+Entendido. No te preocupes, no tenés ninguna obligación legal de hacer un reporte gremial si no querés.
+
+El reporte gremial es una herramienta del sindicato para relevar condiciones de trabajo, pero es voluntaria. No está en el CCT 420/05 ni en la LCT como una obligación tuya como trabajador.
+
+Si el delegado te lo pide, podés decirle que no te sentís cómodo o que preferís no hacerlo. No te pueden sancionar ni perjudicar por eso.
+
+¿Querés saber cuáles son tus derechos si el delegado o la empresa te presionan por no querer participar?
+[respuesta-libre]
+
+────────────────────────────────────────
+
+→ Trabajador [11:33]
+estoy contento por hacer el reporte quiero hacerlo
+
+────────────────────────────────────────
+
+← IA Sindical [14:33]
+Buenísimo. Esa es una decisión importante y valiosa para la organización sindical.
+
+Hacer el reporte gremial es una herramienta de construcción colectiva. Como dice Yofra: "Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate."
+
+Legalmente, estás en todo tu derecho de hacerlo. El **artículo 47 de la LCT** garantiza la libertad de acción sindical, y el **CCT 420/05** reconoce la actividad gremial como parte de la relación laboral.
+
+**Lo que sí tenés que saber para protegerte:**
+
+- El reporte es para el sindicato, no para la empresa. No se lo mostrés a supervisores ni a RRHH.
+- Si hacés el reporte dentro de tu jornada laboral, coordinalo con el delegado para que no te descuenten el tiempo como "ausencia injustificada".
+- No firmes nada que la empresa te ponga delante sin consultarlo antes con el delegado o con el gremio.
+
+¿Querés que te cuente qué datos específicos conviene incluir en el reporte para que sea más efectivo?
+[respuesta-libre]
+
+────────────────────────────────────────
+
+→ Trabajador [11:34]
+hagamos directamente al reporte, Tengo que entrar a otro chat o lo podemos hacer acá?
+
+────────────────────────────────────────
+
+← IA Sindical [14:34]
+Podemos hacerlo acá mismo sin problema. No necesitás entrar a otro chat.
+
+El reporte gremial es una herramienta del sindicato, no un documento legal formal. Lo importante es que la información llegue al delegado o a la comisión interna.
+
+**Para arrancar, decime:**
+
+1. ¿Cuál es tu categoría administrativa según el recibo de sueldo? (E, F, G o H)
+2. ¿Cuánto tiempo llevás en Vicentín?
+3. ¿Qué querés reportar específicamente? (condiciones de trabajo, incumplimientos, problemas con el básico, etc.)
+
+Con eso armamos un texto claro y preciso que después podés pasarle al delegado.
+[respuesta-libre]
+
+────────────────────────────────────────────────────────────
+Exportado de Hornero — IA Sindical

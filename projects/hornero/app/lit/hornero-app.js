@@ -294,7 +294,7 @@ class HorneroApp extends HoComponent {
         padding: 0 16px; display: flex; align-items: center;
         justify-content: center; position: relative; flex: none;
         min-height: 72px;
-        padding-top: calc(8px + env(safe-area-inset-top, 0px));
+        padding-top: calc(4px + env(safe-area-inset-top, 0px));
         padding-bottom: 0; }
       .top-bar-back { position: absolute; left: 16px;
         top: calc(50% + env(safe-area-inset-top, 0px) / 2);
