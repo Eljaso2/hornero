@@ -29,6 +29,9 @@ class HorneroApp extends HoComponent {
     this.misConversacionesList = [];
     this.misReportesList = [];
     this._initialPersona = 'ia-sindical'; // Persona selected from landing page
+    this._clipEdicion = null;
+    this._clipExpandId = null;
+    this._mateMes = null;
 
     // Synchronous session restore from localStorage (avoids login flash)
     const stored = localStorage.getItem('hornero-session');
