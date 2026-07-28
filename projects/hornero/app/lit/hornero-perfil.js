@@ -124,10 +124,10 @@ class HorneroPerfil extends HoComponent {
       .info-field { display: flex; align-items: baseline; gap: 8px;
         margin-bottom: 10px; }
       .info-field-label { font-family: 'Public Sans', sans-serif; font-size: .78rem;
-        color: #9C988D; min-width: 60px; }
+        color: var(--ho-text-mid, #9C988D); min-width: 60px; }
       .info-field-value { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text, #E8E6E0); font-weight: 600; }
-      .info-field-value.muted { font-weight: 400; color: #6E6A60; }
+      .info-field-value.muted { font-weight: 400; color: var(--ho-text-light, #6E6A60); }
 
       /* Nivel badge */
       .nivel-badge { display: inline-flex; align-items: center; gap: 5px;
@@ -165,10 +165,10 @@ class HorneroPerfil extends HoComponent {
       .agremiacion-field { display: flex; align-items: baseline; gap: 8px;
         margin-bottom: 8px; }
       .agremiacion-label { font-family: 'Public Sans', sans-serif; font-size: .78rem;
-        color: #9C988D; min-width: 80px; }
+        color: var(--ho-text-mid, #9C988D); min-width: 80px; }
       .agremiacion-value { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-off, #F2F1EC); font-weight: 600; line-height: 1.3; }
-      .agremiacion-value.muted { color: #7A766D; font-weight: 400; }
+      .agremiacion-value.muted { color: var(--ho-text-light, #7A766D); font-weight: 400; }
 
       /* Saved message */
       .saved-msg { background: #D7E8D7; color: #3D6B3D;
@@ -382,6 +382,16 @@ class HorneroPerfil extends HoComponent {
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
         this.emit('logout-request');
+      });
+    }
+
+    // Theme toggle
+    const themeToggle = this.shadowRoot.querySelector('#themeToggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const newTheme = this.theme === 'light' ? 'dark' : 'light';
+        this.set('theme', newTheme);
+        this.emit('theme-change', { theme: newTheme });
       });
     }
 

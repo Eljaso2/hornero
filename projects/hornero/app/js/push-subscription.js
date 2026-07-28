@@ -2,8 +2,9 @@
 // Gestiona suscripción Web Push: permisos, VAPID, registro en backend
 // Depende de: service-worker.js registrado, db.js
 
-// VAPID public key — se obtiene del backend en init
+// VAPID public key — se obtiene del backend en init, pero tenemos fallback hardcoded
 var _vapidPublicKey = '';
+var _vapidPublicKeyFallback = '-VxkGMqre712s9bEP1OSLMc8nihD1lLEiMOCAgGAmixC2g7LWIhXSwrgeDaia923LpSQs5IzpBHCojVDBd_OVA';
 var _pushBackendUrl = '';
 var _isSubscribed = false;
 
@@ -46,17 +47,23 @@ function _detectBackendUrl() {
 }
 
 function _fetchVapidKey() {
-  if (!_pushBackendUrl) return;
+  if (!_pushBackendUrl) {
+    _vapidPublicKey = _vapidPublicKeyFallback;
+    return;
+  }
   fetch(_pushBackendUrl + '/api/push/vapid-key')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.publicKey) {
         _vapidPublicKey = data.publicKey;
-        console.log('Push: VAPID key recibida');
+        console.log('Push: VAPID key recibida del backend');
+      } else {
+        _vapidPublicKey = _vapidPublicKeyFallback;
       }
     })
     .catch(function(e) {
-      console.warn('Push: no se pudo obtener VAPID key del backend', e);
+      console.warn('Push: no se pudo obtener VAPID key del backend — usando fallback');
+      _vapidPublicKey = _vapidPublicKeyFallback;
     });
 }
 

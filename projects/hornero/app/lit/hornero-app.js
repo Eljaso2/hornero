@@ -290,7 +290,7 @@ class HorneroApp extends HoComponent {
         /* Mobile: sections-bar dark to match header — no border (seamless merge) */
         .sections-bar { background: var(--ho-dark-surface, #3F4E4A);
           border-bottom: none; }
-        .sections-btn { color: #7A766C; }
+        .sections-btn { color: var(--ho-text-light, #7A766C); }
         .sections-btn.active { color: var(--ho-green-light, #80CCA0);
           border-bottom-color: var(--ho-green-light, #80CCA0); }
         .header-text .app-brand-img { height: 44px; }
@@ -372,24 +372,24 @@ class HorneroApp extends HoComponent {
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; flex: 1; min-width: 0; }
-      .nav-btn svg { width: 24px; height: 24px; stroke: #9C988D;
+      .nav-btn svg { width: 24px; height: 24px; stroke: var(--ho-text-mid, #9C988D);
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .nav-btn.active svg { stroke: #4E9978; stroke-width: 2.6; }
+      .nav-btn.active svg { stroke: var(--ho-green, #4E9978); stroke-width: 2.6; }
       .nav-btn img { width: 24px; height: 24px; object-fit: contain; opacity: .55; transition: opacity .2s; transform: scale(1.8); }
       .nav-btn.active img { opacity: 1; }
-      .nav-btn .label { font-size: .60rem; font-weight: 600; color: #9C988D;
+      .nav-btn .label { font-size: .60rem; font-weight: 600; color: var(--ho-text-mid, #9C988D);
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-      .nav-btn.active .label { color: #4E9978; }
+      .nav-btn.active .label { color: var(--ho-green, #4E9978); }
 
       /* ===== Chat landing — choice buttons ===== */
       .chat-landing { padding: 24px 20px; }
       .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: #E8E6E0; margin-bottom: 8px; }
+        color: var(--ho-text, #E8E6E0); margin-bottom: 8px; }
       .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: .92rem;
-        font-weight: 700; color: #E8E6E0; margin-bottom: 4px; }
+        font-weight: 700; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
       .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: #7A766C; line-height: 1.5; margin-bottom: 24px; }
+        color: var(--ho-text-light, #7A766C); line-height: 1.5; margin-bottom: 24px; }
       .chat-choice { display: flex; align-items: center; gap: 10px;
         background: var(--ho-card, #2A3230); border: 1px solid rgba(43,42,38,.06);
         border-radius: 10px; padding: 10px 12px; cursor: pointer;
@@ -399,7 +399,7 @@ class HorneroApp extends HoComponent {
       .chat-choice-icon { width: 36px; height: 36px; flex: none;
         border-radius: 50%; display: flex; align-items: center; justify-content: center; }
       .chat-choice-icon img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
-      .chat-choice-icon svg { width: 36px; height: 36px; stroke: #4E9978;
+      .chat-choice-icon svg { width: 36px; height: 36px; stroke: var(--ho-green, #4E9978);
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
       .chat-choice-extra .chat-choice-icon { width: 28px; height: 28px; }
@@ -415,9 +415,9 @@ class HorneroApp extends HoComponent {
       .persona-icon-historiador { background: #D7D4E8; }
       .chat-choice-text { flex: 1; }
       .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
-        font-weight: 700; color: #E8E6E0; }
+        font-weight: 700; color: var(--ho-text, #E8E6E0); }
       .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .76rem;
-        color: #7A766C; line-height: 1.4; margin-top: 2px; }
+        color: var(--ho-text-light, #7A766C); line-height: 1.4; margin-top: 2px; }
 
       /* ===== List screens (Mis Conversaciones, Mis Reportes, Recibidos) =====
          Same styles as chat drawer items for visual consistency */
@@ -440,7 +440,7 @@ class HorneroApp extends HoComponent {
       .history-item-section-emoji { font-size: .82rem; line-height: 1; }
       .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
-      .section-consulta .history-item-section-label { color: #4E9978; }
+      .section-consulta .history-item-section-label { color: var(--ho-green, #4E9978); }
       .section-contenido .history-item-section-label { color: #B0863F; }
       .section-debate .history-item-section-label { color: #5A7EA8; }
       .section-reporte .history-item-section-label { color: #3D6B56; }
@@ -523,7 +523,7 @@ class HorneroApp extends HoComponent {
         padding: 4px 8px; }
 
       /* ===== Clipping notification banner ===== */
-      .clipping-banner { background: #2A6B4F; color: var(--ho-text-off, #F2F1EC);
+      .clipping-banner { background: var(--ho-green, #4E9978); color: var(--ho-text-off, #F2F1EC);
         padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
         font-family: 'Archivo', sans-serif; font-size: .82rem; font-weight: 600;
         flex: none; cursor: pointer; }
