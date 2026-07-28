@@ -749,12 +749,10 @@ class HorneroApp extends HoComponent {
         this._navigateTo(btn.dataset.screen);
       });
     });
-    // Bind back button in header — just go back in history, popstate handles screen change
-    const backBtn = this.shadowRoot.querySelector('#backBtn');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
-        // Navigate to parent screen (defined in _parentScreen map)
-        // Don't rely on history.back() which goes to previous history entry, not necessarily the parent
+    // Bind floating back button on chat screens (no header, no bottom nav)
+    const floatingBackBtn = this.shadowRoot.querySelector('#floatingBackBtn');
+    if (floatingBackBtn) {
+      floatingBackBtn.addEventListener('click', () => {
         const parent = this._parentScreen[this.screen] || 'home';
         this._navigateTo(parent);
       });
