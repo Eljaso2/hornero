@@ -1,5 +1,5 @@
-// ===== <hornero-home> — Pantalla inicio (v2 fix) =====
-// Esfera 1: Actualidad — carrusel noticias + agenda nube
+// ===== <hornero-home> — Pantalla inicio (v3 dynamic) =====
+// Esfera 1: Actualidad — latest content (clipping carousel OR infomate summary)
 // Esfera 2: Consulta — 3 íconos inline
 // Esferas 3-6: cards con marco invisible (padding + same bg)
 
@@ -21,6 +21,10 @@ class HorneroHome extends HoComponent {
     this.carouselIndex = 0;
     this._clipping = [];
     this._agenda = [];
+    this._latestType = 'clipping';  // 'clipping' or 'infomate'
+    this._clipNumero = 0;
+    this._mateData = null;
+    this._mateMes = '';
 
     this.accessMap = {
       actualidad: 'open',
@@ -38,6 +42,10 @@ class HorneroHome extends HoComponent {
   }
 
   async _loadData() {
+    // Determine which content type is newest
+    let clipFecha = null;
+    let mateFecha = null;
+
     // Clipping — load latest edition from index
     try {
       const idxRes = await fetch('data/clipping-index.json');
@@ -47,11 +55,34 @@ class HorneroHome extends HoComponent {
         : 'data/clipping-2026-07-02.json';
       this._clipNumero = (idx.ediciones && idx.ediciones[0])
         ? idx.ediciones[0].numero : 4;
+      clipFecha = (idx.ediciones && idx.ediciones[0])
+        ? idx.ediciones[0].fecha : '2026-07-02';
       const clipRes = await fetch(latest);
       const clipData = await clipRes.json();
       this._clipping = clipData.noticias || [];
     } catch(e) { console.warn('Home: clipping load failed', e); }
 
+    // InfoMate — load latest edition from index
+    try {
+      const mateIdxRes = await fetch('data/mate-index.json');
+      const mateIdx = await mateIdxRes.json();
+      const latestMate = (mateIdx.ediciones && mateIdx.ediciones[0]);
+      if (latestMate) {
+        mateFecha = latestMate.fecha;
+        this._mateMes = latestMate.mes;
+        const mateRes = await fetch(latestMate.archivo);
+        this._mateData = await mateRes.json();
+      }
+    } catch(e) { console.warn('Home: mate load failed', e); }
+
+    // Compare dates: whichever is newest gets shown in Esfera 1
+    if (mateFecha && (!clipFecha || mateFecha > clipFecha)) {
+      this._latestType = 'infomate';
+    } else {
+      this._latestType = 'clipping';
+    }
+
+    // Agenda
     try {
       const agendaRes = await fetch('data/agenda-2026-07.json');
       const agendaData = await agendaRes.json();
@@ -67,6 +98,13 @@ class HorneroHome extends HoComponent {
     if (access === 'grade') return this.grade !== 'A';
     if (access === 'auth') return false;
     return true;
+  }
+
+  _formatMes(mesStr) {
+    if (!mesStr) return '';
+    const parts = mesStr.split('-');
+    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    return months[parseInt(parts[1]) - 1] + ' ' + parts[0];
   }
 
   _styles() {
@@ -125,6 +163,29 @@ class HorneroHome extends HoComponent {
       .dot { width: 6px; height: 6px; border-radius: 50%;
         background: #9C988D; transition: background .2s; }
       .dot.active { background: #4E9978; }
+
+      /* --- InfoMate home card --- */
+      .infomate-home { position: relative; margin-bottom: 16px;
+        margin-left: -16px; margin-right: -16px; min-height: 260px;
+        background: var(--ho-dark, #1E2321); cursor: pointer; overflow: hidden; }
+      .infomate-home-bg { position: absolute; inset: 0;
+        background: linear-gradient(135deg, #1E2321 0%, #2A3230 40%, #1E2321 100%); }
+      .infomate-home-content { position: relative; z-index: 2;
+        padding: 28px 16px 16px; }
+      .infomate-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+        color: #E8E6E0; background: rgba(176,134,63,.35);
+        border-radius: 6px; padding: 6px 10px; display: inline-block;
+        margin-bottom: 14px; }
+      .infomate-macro-row { display: flex; flex-wrap: wrap; gap: 6px;
+        margin-bottom: 12px; }
+      .infomate-macro-chip { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: rgba(176,134,63,.35); color: #E8E6E0;
+        padding: 4px 8px; border-radius: 6px; font-weight: 600; }
+      .infomate-sections { display: flex; flex-direction: column; gap: 6px; }
+      .infomate-section-line { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.3; }
+      .infomate-section-line strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
 
       /* --- Agenda cloud --- */
       .agenda-wrap { margin-top: 4px; }
@@ -239,26 +300,70 @@ class HorneroHome extends HoComponent {
   }
 
   _render() {
-    const lockSvg = '<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
+    const lockSvg = '<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 0 0110 0v4"/></svg>';
 
-    // --- Carousel slides (clickable → Actualidad clipping) ---
-    const newsSlides = this._clipping.map((n, i) =>
-      '<div class="news-slide" data-index="' + i + '" data-clip-id="' + (n.id || '') + '">' +
-        (n.foto ? '<img src="' + n.foto + '" alt="" loading="lazy">' : '') +
-        '<div class="news-overlay">' +
-          '<div class="news-title">' + (n.emoji || '') + ' ' + (n.titulo || '') + '</div>' +
-          '<div class="news-tags">' +
-            (n.tags || []).map(t => '<span class="news-tag">' + t + '</span>').join('') +
-          '</div>' +
+    // --- Esfera 1: Actualidad — dynamic content ---
+    let esfera1Content = '';
+
+    if (this._latestType === 'infomate' && this._mateData) {
+      // InfoMate is newest → show InfoMate summary card
+      const meta = this._mateData.meta || {};
+      const macro = this._mateData.datosMacro || {};
+      const secciones = this._mateData.secciones || [];
+
+      // Macro chips: show first 4 key indicators
+      const macroKeys = Object.keys(macro).slice(0, 4);
+      const macroChips = macroKeys.map(k => {
+        const labels = {
+          inflacionOficial: 'Inflación', inflacionAcumulada: 'Acumulado', inflacionObrera: 'Inflación obrera',
+          smvm: 'SMVM', canastaBasicaTotal: 'Canasta', empleoTotal: 'Empleo',
+          salarioMedioRegistrado: 'Salario', salarioEstatal: 'Estatal', salarioPrivado: 'Privado',
+          transferenciaIngresos: 'Transferencia', empleosFormalesPerdidos: 'Despidos',
+          desocupadosUrbanos: 'Desocupación', informalidad: 'Informalidad', recortesAcumulados: 'Recortes',
+        };
+        return '<span class="infomate-macro-chip">' + (labels[k] || k) + ': ' + macro[k] + '</span>';
+      }).join('');
+
+      // Section titles (first 3)
+      const sectionLines = secciones.slice(0, 3).map(s =>
+        '<div class="infomate-section-line"><strong>' + s.titulo + '</strong> — ' + (s.bajada || '').substring(0, 60) + '…</div>'
+      ).join('');
+
+      esfera1Content = '<div class="infomate-home" id="infomateHome">' +
+        '<div class="infomate-home-bg"></div>' +
+        '<div class="section-badge">Actualidad</div>' +
+        '<div class="infomate-home-content">' +
+          '<div class="infomate-kicker">🧮 INFOMATE · ' + this._formatMes(meta.mes) + '</div>' +
+          '<div class="infomate-macro-row">' + macroChips + '</div>' +
+          '<div class="infomate-sections">' + sectionLines + '</div>' +
         '</div>' +
-      '</div>'
-    ).join('');
+      '</div>';
+    } else {
+      // Clipping is newest → show carousel as before
+      const newsSlides = this._clipping.map((n, i) =>
+        '<div class="news-slide" data-index="' + i + '" data-clip-id="' + (n.id || '') + '">' +
+          (n.foto ? '<img src="' + n.foto + '" alt="" loading="lazy">' : '') +
+          '<div class="news-overlay">' +
+            '<div class="news-title">' + (n.emoji || '') + ' ' + (n.titulo || '') + '</div>' +
+            '<div class="news-tags">' +
+              (n.tags || []).map(t => '<span class="news-tag">' + t + '</span>').join('') +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      ).join('');
 
-    const dots = this._clipping.map((_, i) =>
-      '<span class="dot' + (i === this.carouselIndex ? ' active' : '') + '" data-index="' + i + '"></span>'
-    ).join('');
+      const dots = this._clipping.map((_, i) =>
+        '<span class="dot' + (i === this.carouselIndex ? ' active' : '') + '" data-index="' + i + '"></span>'
+      ).join('');
 
-    // --- Agenda cloud: HOY center, MAÑANA around, PRÓX edges ---
+      esfera1Content = '<div class="carousel-wrap">' +
+          '<div class="section-badge">Actualidad</div>' +
+          '<div class="carousel-track" id="carouselTrack">' + newsSlides + '</div>' +
+        '</div>' +
+        '<div class="carousel-dots" id="carouselDots">' + dots + '</div>';
+    }
+
+    // --- Agenda cloud ---
     const today = new Date(); today.setHours(0,0,0,0);
     const sorted = this._agenda.map(ev => {
       const evDate = new Date(ev.fecha + 'T00:00:00');
@@ -271,18 +376,13 @@ class HorneroHome extends HoComponent {
       const monthNum = evDate.getMonth() + 1;
       const dateStr = dayNum + '/' + monthNum;
       return { ...ev, cls, label, dateStr, diffDays };
-    }).sort((a, b) => a.diffDays - b.diffDays); // most urgent first
+    }).sort((a, b) => a.diffDays - b.diffDays);
 
-    // Cloud layout: urgent center → edges less urgent
-    // Split: hoy[], manana[], prox[] → arrange: proxEdges, manana, hoyCenter, manana, proxEdges
     const hoy = sorted.filter(e => e.cls === 'agenda-hoy');
     const manana = sorted.filter(e => e.cls === 'agenda-manana');
     const prox = sorted.filter(e => e.cls === 'agenda-prox');
-
-    // Split prox into two halves for left/right edges
     const proxLeft = prox.slice(0, Math.ceil(prox.length / 2));
     const proxRight = prox.slice(Math.ceil(prox.length / 2));
-
     const cloudOrder = [...proxLeft, ...manana, ...hoy, ...manana.length ? [] : [], ...proxRight];
 
     const agendaBubbles = cloudOrder.map(ev =>
@@ -300,18 +400,9 @@ class HorneroHome extends HoComponent {
     const isLocked = this.accessMap['is'] !== 'open' && !this._hasAccess('is');
 
     return html`
-      <!-- ESFERA 1: Actualidad -->
+      <!-- ESFERA 1: Actualidad — dynamic: latest clipping or infomate -->
       <div class="esfera-actualidad">
-        <div class="carousel-wrap">
-          <div class="section-badge">Actualidad</div>
-          <div class="carousel-track" id="carouselTrack">
-            ${newsSlides}
-          </div>
-        </div>
-        <div class="carousel-dots" id="carouselDots">
-          ${dots}
-        </div>
-
+        ${esfera1Content}
         <div class="agenda-wrap">
           <div class="agenda-cloud">
             ${agendaBubbles}
@@ -370,11 +461,18 @@ class HorneroHome extends HoComponent {
   }
 
   _afterRender() {
+    // InfoMate home card → navigate to infomate sub-screen
+    const infomateHome = this.shadowRoot.querySelector('#infomateHome');
+    if (infomateHome) {
+      infomateHome.addEventListener('click', () => {
+        this.emit('screen-change', { screen: 'infomate', mateMes: this._mateMes });
+      });
+    }
+
     // Carousel slides — click → go directly to clipping sub-screen
     this.shadowRoot.querySelectorAll('.news-slide').forEach(slide => {
       slide.addEventListener('click', () => {
         const clipId = slide.dataset.clipId;
-        // Navigate directly to clipping (not actualidad hub)
         if (typeof state !== 'undefined') {
           state.screen = 'clipping';
           state.clipExpandId = clipId;

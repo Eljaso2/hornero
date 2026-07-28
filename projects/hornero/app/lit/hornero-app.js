@@ -532,7 +532,8 @@ class HorneroApp extends HoComponent {
     const showHeader = this.screen === 'home';
     // Chat screens: hide bottom-nav
     const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido' || this.screen === 'gremial' || this.screen === 'historiador';
-    const showSectionsBar = showHeader;
+    // Sections bar always visible (active section highlighted)
+    const showSectionsBar = true;
     const showBottomNav = !isChatScreen;
 
     // Build screen content
@@ -548,7 +549,8 @@ class HorneroApp extends HoComponent {
       const expandAttr = this._clipExpandId ? ' expand-id="' + this._clipExpandId + '"' : '';
       screenContent = '<hornero-clipping grade="' + this.userGrade + '" sector="' + this.userSector + '"' + edicionAttr + expandAttr + '></hornero-clipping>';
     } else if (this.screen === 'infomate') {
-      screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-infomate>';
+      const mateMesAttr = this._mateMes ? ' mate-mes="' + this._mateMes + '"' : '';
+      screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"' + mateMesAttr + '></hornero-infomate>';
     } else if (this.screen === 'gremial') {
       screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'relator') + '"></hornero-gremial>';
     } else if (this.screen === 'historiador') {
