@@ -298,7 +298,7 @@ class HorneroApp extends HoComponent {
       /* ===== Top bar — back button + title centered ===== */
       .top-bar { background: var(--ho-bg, #1E2321);
         color: var(--ho-text, #E8E6E0);
-        padding: 0 16px; display: flex; align-items: center;
+        padding: 0 16px; display: flex; align-items: flex-end;
         justify-content: center; position: relative; flex: none;
         min-height: 0;
         padding-top: calc(2px + env(safe-area-inset-top, 0px));
