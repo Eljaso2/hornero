@@ -14,6 +14,19 @@ class HorneroHome extends HoComponent {
     };
   }
 
+  // Static cache — survives component destroy/recreate cycles
+  static _cache = {
+    clipping: [],
+    clipNumero: 0,
+    clipFecha: null,
+    mateData: null,
+    mateMes: '',
+    mateFecha: null,
+    latestType: 'clipping',
+    agenda: [],
+    loaded: false,
+  };
+
   constructor() {
     super();
     this.grade = 'A';
@@ -38,6 +51,18 @@ class HorneroHome extends HoComponent {
 
   async connectedCallback() {
     super.connectedCallback();
+    // If we have cached data, render immediately for instant display
+    const c = HorneroHome._cache;
+    if (c.loaded) {
+      this._clipping = c.clipping;
+      this._clipNumero = c.clipNumero;
+      this._mateData = c.mateData;
+      this._mateMes = c.mateMes;
+      this._latestType = c.latestType;
+      this._agenda = c.agenda;
+      this.render();
+    }
+    // Always fetch fresh data in background
     await this._loadData();
   }
 
@@ -88,6 +113,18 @@ class HorneroHome extends HoComponent {
       const agendaData = await agendaRes.json();
       this._agenda = agendaData.eventos || [];
     } catch(e) { console.warn('Home: agenda load failed', e); }
+
+    // Update static cache so next navigation renders instantly
+    const c = HorneroHome._cache;
+    c.clipping = this._clipping;
+    c.clipNumero = this._clipNumero;
+    c.clipFecha = clipFecha;
+    c.mateData = this._mateData;
+    c.mateMes = this._mateMes;
+    c.mateFecha = mateFecha;
+    c.latestType = this._latestType;
+    c.agenda = this._agenda;
+    c.loaded = true;
 
     this.render();
   }
@@ -342,7 +379,7 @@ class HorneroHome extends HoComponent {
       // Clipping is newest → show carousel as before
       const newsSlides = this._clipping.map((n, i) =>
         '<div class="news-slide" data-index="' + i + '" data-clip-id="' + (n.id || '') + '">' +
-          (n.foto ? '<img src="' + n.foto + '" alt="" loading="lazy">' : '') +
+          (n.foto ? '<img src="' + n.foto + '" alt="" loading="' + (i === 0 ? 'eager' : 'lazy') + '">' : '') +
           '<div class="news-overlay">' +
             '<div class="news-title">' + (n.emoji || '') + ' ' + (n.titulo || '') + '</div>' +
             '<div class="news-tags">' +
