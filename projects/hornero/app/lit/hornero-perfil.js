@@ -118,9 +118,9 @@ class HorneroPerfil extends HoComponent {
         font-family: 'JetBrains Mono', monospace; font-size: .66rem;
         font-weight: 600; letter-spacing: .10em; text-transform: uppercase;
         padding: 4px 9px; border-radius: 6px; }
-      .nivel-badge.green { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33); }
+      .nivel-badge.green { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
       .nivel-badge.gold { background: #F0E4CC; color: #7A5E2C; }
-      .nivel-badge.mid { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-dark-mid, #5A574F); }
+      .nivel-badge.mid { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-dark-mid, #536260); }
       .nivel-badge.dark { background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-dark, #33312D); border: 1px solid var(--ho-dark, #33312D); }
 
       /* Edit mode */
@@ -129,10 +129,10 @@ class HorneroPerfil extends HoComponent {
         border-radius: 10px; padding: 10px 12px; font-size: .86rem;
         font-family: 'Public Sans', sans-serif; color: var(--ho-text, #2B2A26);
         outline: none; transition: border-color .2s; }
-      .edit-input:focus { border-color: var(--ho-green, #6E8345); }
+      .edit-input:focus { border-color: var(--ho-green, #4E9978); }
       .edit-input::placeholder { color: var(--ho-text-light, #9C988D); }
 
-      .edit-btn { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
+      .edit-btn { background: var(--ho-green, #4E9978); color: var(--ho-text-off, #F2F1EC);
         border: none; border-radius: 10px; padding: 10px 20px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .82rem;
         cursor: pointer; margin-top: 4px; }
@@ -143,7 +143,7 @@ class HorneroPerfil extends HoComponent {
         border-radius: 13px; padding: 16px; margin-bottom: 12px; }
       .agremiacion-badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
+        background: var(--ho-dark-surface, #3F4E4A); color: var(--ho-text-off, #F2F1EC);
         padding: 5px 10px; border-radius: 6px; display: inline-block;
         margin-bottom: 10px; }
       .agremiacion-field { display: flex; align-items: baseline; gap: 8px;

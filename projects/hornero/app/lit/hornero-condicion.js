@@ -49,14 +49,14 @@ class HorneroCondicion extends HoComponent {
         background: none; border: none; cursor: pointer;
         padding: 8px 10px; border-bottom: 2px solid transparent;
         transition: color .2s, border-color .2s; white-space: nowrap; }
-      .tab-btn.active { color: var(--ho-green, #6E8345);
-        border-bottom-color: var(--ho-green, #6E8345); }
+      .tab-btn.active { color: var(--ho-green, #4E9978);
+        border-bottom-color: var(--ho-green, #4E9978); }
 
       /* ===== Formula banner ===== */
-      .formula { background: var(--ho-green-pale, #E8EDD7); border-radius: 10px;
+      .formula { background: var(--ho-green-pale, #E0F0EB); border-radius: 10px;
         padding: 10px 14px; margin-bottom: 16px; text-align: center; }
       .formula-text { font-family: 'JetBrains Mono', monospace; font-size: .78rem;
-        font-weight: 700; color: var(--ho-green-dark, #586B33);
+        font-weight: 700; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; }
 
       /* ===== 2x2 grid ===== */
@@ -66,7 +66,7 @@ class HorneroCondicion extends HoComponent {
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 13px; padding: 14px; cursor: pointer;
         transition: border-color .2s; }
-      .grid-card:hover { border-color: var(--ho-green, #6E8345); }
+      .grid-card:hover { border-color: var(--ho-green, #4E9978); }
       .grid-card .gc-emoji { font-size: 1.4rem; }
       .grid-card .gc-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .88rem; color: var(--ho-text, #2B2A26); margin-top: 4px; }
@@ -78,11 +78,11 @@ class HorneroCondicion extends HoComponent {
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s; }
-      .stripe-card:hover { border-color: var(--ho-green, #6E8345); }
+      .stripe-card:hover { border-color: var(--ho-green, #4E9978); }
       .stripe-card.expanded { cursor: default; }
-      .stripe-card.ce { border-left: 3px solid #6E8345; }
-      .stripe-card.ift { border-left: 3px solid #94A867; }
-      .stripe-card.comos { border-left: 3px solid #586B33; }
+      .stripe-card.ce { border-left: 3px solid #4E9978; }
+      .stripe-card.ift { border-left: 3px solid #80CCA0; }
+      .stripe-card.comos { border-left: 3px solid #3D6B56; }
       .stripe-card.smvm { border-left: 3px solid #B0863F; }
       .stripe-card .sc-emoji { font-size: 1rem; }
       .stripe-card .sc-title { font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -90,7 +90,7 @@ class HorneroCondicion extends HoComponent {
       .stripe-card .sc-desc { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 4px; }
       .stripe-card .sc-conn { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-green-dark, #586B33); margin-top: 6px; }
+        color: var(--ho-green-dark, #3D6B56); margin-top: 6px; }
 
       /* ===== Data cards ===== */
       .data-card { background: var(--ho-card, #FBFAF6);
@@ -112,7 +112,7 @@ class HorneroCondicion extends HoComponent {
       .stacked-bar .seg { display: flex; align-items: center; justify-content: center;
         font-family: 'JetBrains Mono', monospace; font-size: .62rem; font-weight: 700;
         color: #fff; }
-      .stacked-bar .seg-activo { background: #6E8345; }
+      .stacked-bar .seg-activo { background: #4E9978; }
       .stacked-bar .seg-reserva { background: #C0392B; }
       .bar-legend { display: flex; gap: 12px; margin-bottom: 12px; }
       .bar-legend-item { display: flex; align-items: center; gap: 4px;
@@ -137,13 +137,13 @@ class HorneroCondicion extends HoComponent {
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 13px; padding: 12px; cursor: pointer;
         transition: border-color .2s; }
-      .ice-card:hover { border-color: var(--ho-green, #6E8345); }
+      .ice-card:hover { border-color: var(--ho-green, #4E9978); }
       .ice-card .ice-emoji { font-size: 1.2rem; }
       .ice-card .ice-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .82rem; color: var(--ho-text, #2B2A26); margin-top: 3px; }
       .ice-card .ice-tag { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        font-weight: 600; color: var(--ho-green-dark, #586B33);
-        background: var(--ho-green-pale, #E8EDD7); border-radius: 5px;
+        font-weight: 600; color: var(--ho-green-dark, #3D6B56);
+        background: var(--ho-green-pale, #E0F0EB); border-radius: 5px;
         padding: 2px 6px; display: inline-block; margin-top: 3px; }
       .ice-card .ice-desc { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.3; margin-top: 3px; }
@@ -156,7 +156,7 @@ class HorneroCondicion extends HoComponent {
         font-weight: 600; color: var(--ho-text, #2B2A26); flex: 1; }
       .rank-score { font-family: 'JetBrains Mono', monospace; font-size: .82rem;
         font-weight: 700; }
-      .rank-bar { width: 60px; height: 8px; border-radius: 4px; background: #E8EDD7;
+      .rank-bar { width: 60px; height: 8px; border-radius: 4px; background: #E0F0EB;
         overflow: hidden; }
       .rank-bar-fill { height: 100%; border-radius: 4px; }
 
@@ -174,7 +174,7 @@ class HorneroCondicion extends HoComponent {
         font-weight: 700; margin-top: 4px; }
       .level-card .pct-red { color: #C0392B; }
       .level-card .pct-gold { color: #B0863F; }
-      .level-card .pct-green { color: #6E8345; }
+      .level-card .pct-green { color: #4E9978; }
 
       /* ===== Needs grid ===== */
       .needs-grid { display: grid; grid-template-columns: repeat(3, 1fr);
@@ -207,8 +207,8 @@ class HorneroCondicion extends HoComponent {
         line-height: 1.4; margin-top: 4px; }
 
       /* ===== Disclaimer ===== */
-      .disclaimer { background: var(--ho-green-pale, #E8EDD7); border-radius: 8px;
-        padding: 7px 11px; font-size: .72rem; color: var(--ho-green-dark, #586B33);
+      .disclaimer { background: var(--ho-green-pale, #E0F0EB); border-radius: 8px;
+        padding: 7px 11px; font-size: .72rem; color: var(--ho-green-dark, #3D6B56);
         margin-top: 12px; line-height: 1.4; }
 
       /* ===== Chat prompt bar ===== */
@@ -217,11 +217,11 @@ class HorneroCondicion extends HoComponent {
         background: var(--ho-card, #FBFAF6);
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 10px; cursor: pointer; transition: border-color .2s; }
-      .chat-bar:hover { border-color: var(--ho-green, #6E8345); }
+      .chat-bar:hover { border-color: var(--ho-green, #4E9978); }
       .chat-bar-icon { font-size: 1.1rem; }
       .chat-bar-text { flex: 1; font-family: 'Archivo', sans-serif; font-size: .82rem;
         font-weight: 600; color: var(--ho-text, #2B2A26); }
-      .chat-bar-arrow { font-size: .82rem; color: var(--ho-green, #6E8345); }
+      .chat-bar-arrow { font-size: .82rem; color: var(--ho-green, #4E9978); }
     `;
   }
 
@@ -327,7 +327,7 @@ class HorneroCondicion extends HoComponent {
           <div class="seg seg-reserva" style="width:28.6%">28,6%</div>
         </div>
         <div class="bar-legend">
-          <div class="bar-legend-item"><span class="bar-legend-dot" style="background:#6E8345"></span>Activo 13,2M</div>
+          <div class="bar-legend-item"><span class="bar-legend-dot" style="background:#4E9978"></span>Activo 13,2M</div>
           <div class="bar-legend-item"><span class="bar-legend-dot" style="background:#C0392B"></span>Reserva 5,3M</div>
         </div>
         <div class="breakdown">
@@ -382,7 +382,7 @@ class HorneroCondicion extends HoComponent {
         </div>
         <div class="data-card">
           <div class="data-label">Nuevo empleo</div>
-          <div class="data-value" style="font-size:1.2rem;color:#6E8345">380</div>
+          <div class="data-value" style="font-size:1.2rem;color:#4E9978">380</div>
           <div class="data-sub">-8% vs. semana anterior</div>
         </div>
       </div>
@@ -396,11 +396,11 @@ class HorneroCondicion extends HoComponent {
           </div>
           <div class="breakdown-item">
             <span class="bd-label">🛎️ Servicios</span>
-            <span class="bd-value" style="color:#6E8345">crece ↑</span>
+            <span class="bd-value" style="color:#4E9978">crece ↑</span>
           </div>
           <div class="breakdown-item">
             <span class="bd-label">🏗️ Construcción</span>
-            <span class="bd-value" style="color:#6E8345">crece ↑</span>
+            <span class="bd-value" style="color:#4E9978">crece ↑</span>
           </div>
           <div class="breakdown-item">
             <span class="bd-label">🏛️ Estado</span>
@@ -408,7 +408,7 @@ class HorneroCondicion extends HoComponent {
           </div>
           <div class="breakdown-item">
             <span class="bd-label">🌾 Agro</span>
-            <span class="bd-value" style="color:#94A867">estabiliza →</span>
+            <span class="bd-value" style="color:#80CCA0">estabiliza →</span>
           </div>
         </div>
       </div>
@@ -459,7 +459,7 @@ class HorneroCondicion extends HoComponent {
         <div class="data-label">Comportamiento detectado</div>
         <div class="breakdown">
           <div class="breakdown-item">
-            <span class="bd-label" style="color:#6E8345">✅ Buenas Prácticas</span>
+            <span class="bd-label" style="color:#4E9978">✅ Buenas Prácticas</span>
             <span class="bd-desc">Comportamiento correcto que compensa VE</span>
           </div>
           <div class="breakdown-item">
@@ -493,8 +493,8 @@ class HorneroCondicion extends HoComponent {
         </div>
         <div class="ranking-item">
           <span class="rank-name">Cargill</span>
-          <span class="rank-score" style="color:#6E8345">4.2</span>
-          <div class="rank-bar"><div class="rank-bar-fill" style="width:42%;background:#6E8345"></div></div>
+          <span class="rank-score" style="color:#4E9978">4.2</span>
+          <div class="rank-bar"><div class="rank-bar-fill" style="width:42%;background:#4E9978"></div></div>
         </div>
       </div>
 
@@ -557,22 +557,22 @@ class HorneroCondicion extends HoComponent {
           <div class="breakdown-item">
             <span class="bd-label">⛽ Petrolera CCT 1/75</span>
             <span class="bd-value">$520K</span>
-            <span class="sector-pct" style="color:#6E8345">19%</span>
+            <span class="sector-pct" style="color:#4E9978">19%</span>
           </div>
           <div class="breakdown-item">
             <span class="bd-label">🫘 Aceitera CCT 420/05</span>
             <span class="bd-value">$490K</span>
-            <span class="sector-pct" style="color:#6E8345">18%</span>
+            <span class="sector-pct" style="color:#4E9978">18%</span>
           </div>
           <div class="breakdown-item">
             <span class="bd-label">🏦 Bancaria CCT 18/75</span>
             <span class="bd-value">$450K</span>
-            <span class="sector-pct" style="color:#6E8345">16%</span>
+            <span class="sector-pct" style="color:#4E9978">16%</span>
           </div>
           <div class="breakdown-item">
             <span class="bd-label">🚛 Camioneros</span>
             <span class="bd-value">$420K</span>
-            <span class="sector-pct" style="color:#94A867">15%</span>
+            <span class="sector-pct" style="color:#80CCA0">15%</span>
           </div>
           <div class="breakdown-item">
             <span class="bd-label">🔧 Metalúrgica</span>

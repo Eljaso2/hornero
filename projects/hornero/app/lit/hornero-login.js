@@ -103,8 +103,8 @@ class HorneroLogin extends HoComponent {
 
       .field input {
         width: 100%; box-sizing: border-box;
-        background: var(--ho-dark-mid, #5A574F);
-        border: 1.5px solid var(--ho-dark-mid, #5A574F);
+        background: var(--ho-dark-mid, #536260);
+        border: 1.5px solid var(--ho-dark-mid, #536260);
         border-radius: 10px; padding: 12px 14px;
         font-family: 'Public Sans', sans-serif; font-size: .92rem;
         font-weight: 500; color: var(--ho-text-off, #F2F1EC);
@@ -112,7 +112,7 @@ class HorneroLogin extends HoComponent {
       }
 
       .field input:focus {
-        border-color: var(--ho-green, #6E8345);
+        border-color: var(--ho-green, #4E9978);
       }
 
       .field input::placeholder {
@@ -135,7 +135,7 @@ class HorneroLogin extends HoComponent {
         transition: color .2s;
       }
 
-      .toggle-password:hover { color: var(--ho-green, #6E8345); }
+      .toggle-password:hover { color: var(--ho-green, #4E9978); }
 
       .toggle-password svg { width: 20px; height: 20px; }
 
@@ -145,7 +145,7 @@ class HorneroLogin extends HoComponent {
       }
 
       .remember-row input[type="checkbox"] {
-        accent-color: var(--ho-green, #6E8345);
+        accent-color: var(--ho-green, #4E9978);
         width: 18px; height: 18px; cursor: pointer;
       }
 
@@ -155,7 +155,7 @@ class HorneroLogin extends HoComponent {
       }
 
       .login-btn {
-        width: 100%; background: var(--ho-green, #6E8345);
+        width: 100%; background: var(--ho-green, #4E9978);
         color: var(--ho-text-off, #F2F1EC); border: none;
         border-radius: 10px; padding: 14px;
         font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -163,7 +163,7 @@ class HorneroLogin extends HoComponent {
         transition: background .2s;
       }
 
-      .login-btn:hover { background: var(--ho-green-dark, #586B33); }
+      .login-btn:hover { background: var(--ho-green-dark, #3D6B56); }
       .login-btn:disabled { opacity: .5; cursor: not-allowed; }
 
       .error-msg {

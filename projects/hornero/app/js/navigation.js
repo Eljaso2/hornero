@@ -143,7 +143,7 @@ function renderNav() {
   var html = '';
   navDef.forEach(function(l) {
     var active = l.id === state.screen;
-    var labelStyle = active ? 'color:#94A867;font-weight:700' : 'color:#9C988D';
+    var labelStyle = active ? 'color:#80CCA0;font-weight:700' : 'color:#9C988D';
     html += '<button class="nav-btn" onclick="goScreen(\'' + l.id + '\')">';
     html += '<span class="icon" style="' + (active ? '' : 'opacity:.5') + '">' + l.icon + '</span>';
     html += '<span class="label" style="' + labelStyle + '">' + l.label + '</span>';
@@ -166,9 +166,9 @@ function filterCoyuntura(type) {
     if (btns[k]) { btns[k].style.background = '#E6E3DB'; btns[k].style.color = '#6E6A60'; }
   });
   // Active button
-  if (type === 'todos' && btns.todos) { btns.todos.style.background = '#45433E'; btns.todos.style.color = '#F2F1EC'; }
-  else if (type === 'clipping' && btns.clipping) { btns.clipping.style.background = '#6E8345'; btns.clipping.style.color = '#F2F1EC'; }
-  else if (type === 'reporte' && btns.reporte) { btns.reporte.style.background = '#45433E'; btns.reporte.style.color = '#F2F1EC'; }
+  if (type === 'todos' && btns.todos) { btns.todos.style.background = '#3F4E4A'; btns.todos.style.color = '#F2F1EC'; }
+  else if (type === 'clipping' && btns.clipping) { btns.clipping.style.background = '#4E9978'; btns.clipping.style.color = '#F2F1EC'; }
+  else if (type === 'reporte' && btns.reporte) { btns.reporte.style.background = '#3F4E4A'; btns.reporte.style.color = '#F2F1EC'; }
   else if (type === 'mate' && btns.mate) { btns.mate.style.background = '#B0863F'; btns.mate.style.color = '#F2F1EC'; }
   // Show/hide cards
   cards.forEach(function(el) {

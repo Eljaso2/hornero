@@ -118,13 +118,13 @@ class HorneroHome extends HoComponent {
         font-size: 1.32rem; line-height: 1.18; letter-spacing: .02em; text-transform: uppercase; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
       .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
-        background: rgba(110,131,69,.6); color: #F2F1EC;
+        background: rgba(78,153,120,.6); color: #F2F1EC;
         padding: 2px 6px; border-radius: 4px; font-weight: 600; }
       .carousel-dots { display: flex; justify-content: center; gap: 5px;
         padding: 8px 0; }
       .dot { width: 6px; height: 6px; border-radius: 50%;
         background: #9C988D; transition: background .2s; }
-      .dot.active { background: #6E8345; }
+      .dot.active { background: #4E9978; }
 
       /* --- Agenda cloud --- */
       .agenda-wrap { margin-top: 4px; }
@@ -140,7 +140,7 @@ class HorneroHome extends HoComponent {
       .agenda-hoy { background: #C0392B; color: #FFF; font-size: .92rem;
         padding: 7px 14px; }
       .agenda-hoy .agenda-label { font-size: .58rem; color: #FFD5D5; }
-      .agenda-manana { background: #6E8345; color: #F2F1EC; font-size: .86rem;
+      .agenda-manana { background: #4E9978; color: #F2F1EC; font-size: .86rem;
         padding: 6px 13px; }
       .agenda-manana .agenda-label { font-size: .54rem; color: #C8D9A4; }
       .agenda-prox { background: #7FB5D5; color: #FFF; font-size: .70rem;
@@ -162,7 +162,7 @@ class HorneroHome extends HoComponent {
         padding: 14px 6px; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; }
       .icon-btn:hover { opacity: .8; }
-      .icon-btn svg { width: 46px; height: 46px; stroke: #6E8345;
+      .icon-btn svg { width: 46px; height: 46px; stroke: #4E9978;
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
@@ -183,7 +183,7 @@ class HorneroHome extends HoComponent {
       .panorama-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .panorama-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .60rem; background: rgba(110,131,69,.6); color: #F2F1EC;
+        font-size: .60rem; background: rgba(78,153,120,.6); color: #F2F1EC;
         padding: 2px 7px; border-radius: 5px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
 
@@ -202,7 +202,7 @@ class HorneroHome extends HoComponent {
       .formacion-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .formacion-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .60rem; background: rgba(110,131,69,.6); color: #F2F1EC;
+        font-size: .60rem; background: rgba(78,153,120,.6); color: #F2F1EC;
         padding: 2px 7px; border-radius: 5px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
       .formacion-badge { position: absolute; top: 10px; left: 10px; z-index: 2;
@@ -213,7 +213,7 @@ class HorneroHome extends HoComponent {
       /* ===== Historiador badge on Archivo card ===== */
       .card-historiador-badge { position: absolute; top: 10px; right: 12px;
         width: 30px; height: 30px; border-radius: 50%; overflow: hidden;
-        border: 2px solid var(--ho-green-pale, #E8EDD7); }
+        border: 2px solid var(--ho-green-pale, #E0F0EB); }
       .card-historiador-badge img { width: 100%; height: 100%; object-fit: cover; }
 
       .esfera-card { background: var(--ho-card, #FBFAF6);
@@ -227,7 +227,7 @@ class HorneroHome extends HoComponent {
       .esfera-card .card-desc { font-size: .82rem; color: #6E6A60;
         line-height: 1.4; margin-top: 4px; }
       .esfera-card .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; background: #E8EDD7; color: #586B33;
+        font-size: .62rem; background: #E0F0EB; color: #3D6B56;
         padding: 3px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 6px; }
       .esfera-card .lock-icon { position: absolute; top: 10px; right: 12px;

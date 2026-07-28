@@ -32,24 +32,24 @@ class HorneroEcosistema extends HoComponent {
       .block-body { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.5; }
       .block-body p { margin-bottom: 8px; }
-      .emphasis { color: var(--ho-green, #6E8345); font-weight: 700; }
+      .emphasis { color: var(--ho-green, #4E9978); font-weight: 700; }
       .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); margin-bottom: 8px; }
       .eslabon { display: flex; align-items: center; gap: 10px;
         padding: 6px 0; }
       .eslabon-num { width: 26px; height: 26px; border-radius: 50%;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         font-family: 'JetBrains Mono', monospace; font-size: .72rem; font-weight: 600;
         display: flex; align-items: center; justify-content: center; }
       .eslabon-text { font-size: .82rem; color: var(--ho-text, #2B2A26); }
       .eslabon-desc { font-size: .72rem; color: var(--ho-text-light, #9C988D); }
       .distinction { display: grid; gap: 4px; font-size: .82rem; }
       .no { color: var(--ho-text-light, #9C988D); font-style: italic; }
-      .yes { color: var(--ho-green, #6E8345); font-weight: 600; }
+      .yes { color: var(--ho-green, #4E9978); font-weight: 600; }
       .arrow { color: var(--ho-text-mid, #6E6A60); font-size: .72rem; }
       .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 3px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 6px; }
       .bird { font-size: 1.2rem; }

@@ -103,10 +103,10 @@ class HorneroActualidad extends HoComponent {
         border-radius: 0; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s; position: relative;
       }
-      .product-card:hover { border-color: var(--ho-green, #6E8345); }
+      .product-card:hover { border-color: var(--ho-green, #4E9978); }
 
       /* Accent stripe per type */
-      .product-card-clipping { border-left: 3px solid var(--ho-green, #6E8345); }
+      .product-card-clipping { border-left: 3px solid var(--ho-green, #4E9978); }
       .product-card-infomate { border-left: 3px solid var(--ho-gold, #B0863F); }
 
       .product-title-line { display: flex; align-items: baseline; gap: 6px; }
@@ -134,18 +134,18 @@ class HorneroActualidad extends HoComponent {
         color: var(--ho-text, #2B2A26); line-height: 1.3;
         font-weight: 500; flex: 1; }
       .noticia-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 6px; border-radius: 4px; font-weight: 600;
         white-space: nowrap; }
 
       /* Expand/collapse toggle */
       .noticia-toggle {
         font-family: 'JetBrains Mono', monospace; font-size: .64rem;
-        color: var(--ho-green, #6E8345); cursor: pointer;
+        color: var(--ho-green, #4E9978); cursor: pointer;
         padding: 4px 0 2px; letter-spacing: .06em;
         font-weight: 600; user-select: none;
         transition: color .2s; }
-      .noticia-toggle:hover { color: var(--ho-green-dark, #586B33); }
+      .noticia-toggle:hover { color: var(--ho-green-dark, #3D6B56); }
 
       /* InfoMate section */
       .mate-tags { margin-top: 8px; }

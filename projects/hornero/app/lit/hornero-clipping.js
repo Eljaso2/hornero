@@ -179,7 +179,7 @@ class HorneroClipping extends HoComponent {
       /* Edition header — centrality: label in center, arrows on sides */
       .edicion-header { margin-bottom: 12px; }
       .edicion-row { display: flex; align-items: center; gap: 8px; }
-      .edicion-btn { background: var(--ho-green, #6E8345); color: #F2F1EC;
+      .edicion-btn { background: var(--ho-green, #4E9978); color: #F2F1EC;
         border: none; border-radius: 4px; cursor: pointer;
         font-family: 'JetBrains Mono', monospace; font-size: .72rem;
         padding: 5px 10px; font-weight: 600; letter-spacing: .06em;
@@ -188,12 +188,12 @@ class HorneroClipping extends HoComponent {
       .edicion-btn:disabled { opacity: .3; cursor: default; }
       .edicion-center { flex: 1; text-align: center; }
       .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .88rem; color: var(--ho-green-dark, #586B33);
+        font-size: .88rem; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; }
       .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
         margin-top: 2px; cursor: pointer; transition: color .2s; }
-      .edicion-fecha:hover { color: var(--ho-green-dark, #586B33); }
+      .edicion-fecha:hover { color: var(--ho-green-dark, #3D6B56); }
 
       /* ===== Calendar overlay ===== */
       .cal-overlay { position: fixed; inset: 0;
@@ -207,11 +207,11 @@ class HorneroClipping extends HoComponent {
 
       .cal-header { display: flex; align-items: center; justify-content: space-between;
         margin-bottom: 10px; }
-      .cal-nav-btn { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+      .cal-nav-btn { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         border: none; border-radius: 4px; width: 28px; height: 28px;
         cursor: pointer; font-size: .9rem; font-weight: 700;
         display: flex; align-items: center; justify-content: center; }
-      .cal-nav-btn:hover { background: var(--ho-green, #6E8345); color: #F2F1EC; }
+      .cal-nav-btn:hover { background: var(--ho-green, #4E9978); color: #F2F1EC; }
       .cal-month-label { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #2B2A26); }
 
@@ -227,25 +227,25 @@ class HorneroClipping extends HoComponent {
         color: var(--ho-text-mid, #6E6A60); font-weight: 500; }
       .cal-empty { color: transparent; }
 
-      .cal-marked { background: var(--ho-green-pale, #E8EDD7);
-        color: var(--ho-green-dark, #586B33); font-weight: 700;
+      .cal-marked { background: var(--ho-green-pale, #E0F0EB);
+        color: var(--ho-green-dark, #3D6B56); font-weight: 700;
         cursor: pointer; transition: background .2s; }
-      .cal-marked:hover { background: var(--ho-green, #6E8345); color: #F2F1EC; }
+      .cal-marked:hover { background: var(--ho-green, #4E9978); color: #F2F1EC; }
 
-      .cal-current { background: var(--ho-green, #6E8345); color: #F2F1EC;
-        font-weight: 800; box-shadow: 0 0 0 2px var(--ho-green-dark, #586B33); }
+      .cal-current { background: var(--ho-green, #4E9978); color: #F2F1EC;
+        font-weight: 800; box-shadow: 0 0 0 2px var(--ho-green-dark, #3D6B56); }
 
       .cal-legend { display: flex; align-items: center; gap: 6px;
         margin-top: 10px; font-family: 'JetBrains Mono', monospace;
         font-size: .58rem; color: var(--ho-text-mid, #6E6A60); }
-      .cal-legend-marked { color: var(--ho-green, #6E8345); font-size: .72rem; }
+      .cal-legend-marked { color: var(--ho-green, #4E9978); font-size: .72rem; }
 
       /* Feed card — noticia */
       .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         background: var(--ho-card, #FBFAF6); cursor: pointer;
         transition: border-color .2s; }
-      .feed-card:hover { border-color: var(--ho-green, #6E8345); }
+      .feed-card:hover { border-color: var(--ho-green, #4E9978); }
 
       .feed-card-img { width: 100%; height: 140px; object-fit: cover; display: block; }
       .feed-card-body { padding: 12px 14px; }
@@ -256,7 +256,7 @@ class HorneroClipping extends HoComponent {
 
       .source-badge { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-left: 4px;
-        background: var(--ho-green, #6E8345); color: #F2F1EC; }
+        background: var(--ho-green, #4E9978); color: #F2F1EC; }
 
       .feed-card-emoji { font-size: 1rem; margin-left: 4px; }
 
@@ -270,7 +270,7 @@ class HorneroClipping extends HoComponent {
 
       .feed-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
       .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 3px 8px; border-radius: 6px; font-weight: 600; }
 
       /* ===== Popup overlay (noticia) ===== */
@@ -285,7 +285,7 @@ class HorneroClipping extends HoComponent {
         overflow: hidden; }
 
       .popup-close { position: absolute; top: 10px; right: 12px;
-        background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC);
+        background: var(--ho-dark-surface, #3F4E4A); color: var(--ho-text-off, #F2F1EC);
         width: 28px; height: 28px; border-radius: 50%; border: none;
         cursor: pointer; font-size: .85rem; z-index: 10;
         display: flex; align-items: center; justify-content: center; }

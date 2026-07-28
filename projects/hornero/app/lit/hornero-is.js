@@ -67,17 +67,17 @@ class HorneroIs extends HoComponent {
         border-radius: 12px; padding: 9px 13px; cursor: pointer;
         margin-bottom: 8px; font-family: 'Archivo', sans-serif;
         font-weight: 600; font-size: .88rem; }
-      .role-btn:hover { border-color: var(--ho-green, #6E8345); }
+      .role-btn:hover { border-color: var(--ho-green, #4E9978); }
       .role-dot { width: 26px; height: 26px; border-radius: 50%;
         font-family: 'JetBrains Mono', monospace; font-size: .72rem;
         display: flex; align-items: center; justify-content: center;
         border: 1.5px solid; }
-      .role-1 { border-color: var(--ho-green, #6E8345); color: var(--ho-green-dark, #586B33); }
-      .role-1 .role-dot { background: var(--ho-green-pale, #E8EDD7); border-color: var(--ho-green, #6E8345); }
+      .role-1 { border-color: var(--ho-green, #4E9978); color: var(--ho-green-dark, #3D6B56); }
+      .role-1 .role-dot { background: var(--ho-green-pale, #E0F0EB); border-color: var(--ho-green, #4E9978); }
       .role-2 { border-color: var(--ho-gold, #B0863F); color: #7A5E2C; }
       .role-2 .role-dot { background: #F0E4CC; border-color: var(--ho-gold, #B0863F); }
-      .role-3 { border-color: var(--ho-dark-mid, #5A574F); color: var(--ho-text, #2B2A26); }
-      .role-3 .role-dot { background: var(--ho-mid-gray, #ECEAE3); border-color: var(--ho-dark-mid, #5A574F); }
+      .role-3 { border-color: var(--ho-dark-mid, #536260); color: var(--ho-text, #2B2A26); }
+      .role-3 .role-dot { background: var(--ho-mid-gray, #ECEAE3); border-color: var(--ho-dark-mid, #536260); }
       .role-4 { border-color: var(--ho-dark, #33312D); color: var(--ho-text, #2B2A26); }
       .role-4 .role-dot { background: var(--ho-warm-gray, #E6E3DB); border-color: var(--ho-dark, #33312D); }
 
@@ -95,13 +95,13 @@ class HorneroIs extends HoComponent {
         font-family: 'Public Sans', sans-serif; color: var(--ho-text, #2B2A26);
         resize: vertical; min-height: 80px; }
       .obs-textarea::placeholder { color: var(--ho-text-light, #9C988D); }
-      .obs-submit { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
+      .obs-submit { background: var(--ho-green, #4E9978); color: var(--ho-text-off, #F2F1EC);
         border: none; border-radius: 12px; padding: 12px 24px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .92rem;
         cursor: pointer; margin-top: 10px; width: 100%; }
       .obs-submit:disabled { opacity: .5; cursor: not-allowed; }
-      .obs-disclaimer { background: var(--ho-green-pale, #E8EDD7); border-radius: 8px;
-        padding: 7px 11px; font-size: .72rem; color: var(--ho-green-dark, #586B33);
+      .obs-disclaimer { background: var(--ho-green-pale, #E0F0EB); border-radius: 8px;
+        padding: 7px 11px; font-size: .72rem; color: var(--ho-green-dark, #3D6B56);
         margin-top: 8px; line-height: 1.4; }
 
       /* Informe cards */
@@ -114,13 +114,13 @@ class HorneroIs extends HoComponent {
       .info-card-body { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; }
       .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 3px 8px; border-radius: 6px; font-weight: 600; display: inline-block;
         margin: 1px 0; }
       .tags-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
 
       /* Bottom tabs */
-      .is-tabs { background: var(--ho-dark-surface, #45433E);
+      .is-tabs { background: var(--ho-dark-surface, #3F4E4A);
         display: flex; justify-content: space-around; padding: 9px 0 13px; flex: none; }
       .is-tab { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
@@ -157,7 +157,7 @@ class HorneroIs extends HoComponent {
         </div>
         <div class="is-tabs">
           <button class="is-tab" style="opacity:.5"><span class="icon">🪶</span><span class="label">Inicio</span></button>
-          <button class="is-tab" style="color:#94A867"><span class="icon">✍️</span><span class="label">IS</span></button>
+          <button class="is-tab" style="color:#80CCA0"><span class="icon">✍️</span><span class="label">IS</span></button>
         </div>
       `;
     }

@@ -272,16 +272,16 @@ class HorneroApp extends HoComponent {
         /* Mobile: top-bar dark background merges with system status bar */
         .top-bar { background: var(--ho-dark, #33312D);
           color: var(--ho-text-off, #F2F1EC); }
-        .top-bar-back { background: var(--ho-dark-surface, #45433E);
-          border-color: var(--ho-dark-mid, #5A574F); color: var(--ho-text-off, #F2F1EC); }
-        .top-bar-back:hover { background: var(--ho-dark-mid, #5A574F);
-          border-color: var(--ho-green-light, #94A867); }
+        .top-bar-back { background: var(--ho-dark-surface, #3F4E4A);
+          border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
+        .top-bar-back:hover { background: var(--ho-dark-mid, #536260);
+          border-color: var(--ho-green-light, #80CCA0); }
         /* Mobile: sections-bar dark to match header — no border (seamless merge) */
-        .sections-bar { background: var(--ho-dark-surface, #45433E);
+        .sections-bar { background: var(--ho-dark-surface, #3F4E4A);
           border-bottom: none; }
         .sections-btn { color: #9C988D; }
-        .sections-btn.active { color: var(--ho-green-light, #94A867);
-          border-bottom-color: var(--ho-green-light, #94A867); }
+        .sections-btn.active { color: var(--ho-green-light, #80CCA0);
+          border-bottom-color: var(--ho-green-light, #80CCA0); }
         .header-text .app-brand-img { height: 32px; }
       }
 
@@ -302,12 +302,12 @@ class HorneroApp extends HoComponent {
         background: var(--ho-card, #FBFAF6); cursor: pointer;
         display: flex; align-items: center; justify-content: center;
         transition: background .2s, border-color .2s; flex: none; }
-      .top-bar-back:hover { background: var(--ho-green-pale, #E8EDD7);
-        border-color: var(--ho-green-light, #94A867); }
+      .top-bar-back:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
       .top-bar-back svg { width: 14px; height: 14px;
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .top-bar-back:hover svg { stroke: var(--ho-green-dark, #586B33); }
+      .top-bar-back:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
       .header-text { display: flex; align-items: center; justify-content: center; }
       .header-text .app-brand-img { height: 32px; width: auto; object-fit: contain;
@@ -325,8 +325,8 @@ class HorneroApp extends HoComponent {
         padding: 6px 12px; white-space: nowrap;
         border-bottom: 2px solid transparent;
         transition: color .2s, border-color .2s; }
-      .sections-btn.active { color: var(--ho-green, #6E8345);
-        border-bottom-color: var(--ho-green, #6E8345); }
+      .sections-btn.active { color: var(--ho-green, #4E9978);
+        border-bottom-color: var(--ho-green, #4E9978); }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -344,10 +344,10 @@ class HorneroApp extends HoComponent {
         transition: opacity .2s; flex: 1; min-width: 0; }
       .nav-btn svg { width: 24px; height: 24px; stroke: #33312D;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .nav-btn.active svg { stroke: #6E8345; stroke-width: 2.6; }
+      .nav-btn.active svg { stroke: #4E9978; stroke-width: 2.6; }
       .nav-btn .label { font-size: .60rem; font-weight: 600; color: #33312D;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-      .nav-btn.active .label { color: #6E8345; }
+      .nav-btn.active .label { color: #4E9978; }
 
       /* ===== Chat landing — choice buttons ===== */
       .chat-landing { padding: 24px 20px; }
@@ -363,11 +363,11 @@ class HorneroApp extends HoComponent {
         border-radius: 10px; padding: 10px 12px; cursor: pointer;
         transition: border-color .2s, background .2s; margin-bottom: 8px; }
       .chat-choice:hover { border-color: rgba(43,42,38,.18);
-        background: var(--ho-green-pale, #E8EDD7); }
+        background: var(--ho-green-pale, #E0F0EB); }
       .chat-choice-icon { width: 36px; height: 36px; flex: none;
         border-radius: 50%; display: flex; align-items: center; justify-content: center; }
       .chat-choice-icon img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
-      .chat-choice-icon svg { width: 36px; height: 36px; stroke: #6E8345;
+      .chat-choice-icon svg { width: 36px; height: 36px; stroke: #4E9978;
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
       .chat-choice-extra .chat-choice-icon { width: 28px; height: 28px; }
@@ -376,7 +376,7 @@ class HorneroApp extends HoComponent {
       .chat-choice-extra .chat-choice-name { font-size: .78rem; }
       .chat-choice-extra .chat-choice-desc { font-size: .68rem; }
       .persona-choice-emoji { font-size: 1rem; line-height: 1; }
-      .persona-icon-ia-sindical { background: #E8EDD7; }
+      .persona-icon-ia-sindical { background: #E0F0EB; }
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
       .persona-icon-companero { background: #C89660; }
@@ -403,24 +403,24 @@ class HorneroApp extends HoComponent {
         border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
         display: flex; flex-direction: column; gap: 5px;
         transition: background .2s; }
-      .history-item:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .history-item:hover { background: var(--ho-green-pale, #E0F0EB); }
       .history-item-section { display: flex; align-items: center; gap: 5px; }
       .history-item-section-emoji { font-size: .82rem; line-height: 1; }
       .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
-      .section-consulta .history-item-section-label { color: #6E8345; }
+      .section-consulta .history-item-section-label { color: #4E9978; }
       .section-contenido .history-item-section-label { color: #B0863F; }
       .section-debate .history-item-section-label { color: #5A7EA8; }
-      .section-reporte .history-item-section-label { color: #586B33; }
-      .section-default .history-item-section-label { color: var(--ho-green-dark, #586B33); }
+      .section-reporte .history-item-section-label { color: #3D6B56; }
+      .section-default .history-item-section-label { color: var(--ho-green-dark, #3D6B56); }
       .history-item-preview { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .history-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; align-items: center; }
-      .history-item-count { background: var(--ho-green-pale, #E8EDD7);
+      .history-item-count { background: var(--ho-green-pale, #E0F0EB);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
-        color: var(--ho-green-dark, #586B33); }
+        color: var(--ho-green-dark, #3D6B56); }
       .history-item-footer { display: flex; align-items: center;
         justify-content: space-between; margin-top: 2px; }
       .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
@@ -432,34 +432,34 @@ class HorneroApp extends HoComponent {
         border-bottom: 1px solid var(--ho-border, rgba(43,42,38,.08));
         display: flex; flex-direction: column; gap: 4px;
         transition: background .2s; }
-      .informes-item:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .informes-item:hover { background: var(--ho-green-pale, #E0F0EB); }
       .informes-item-title { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: var(--ho-text, #2B2A26); line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .informes-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; }
-      .informes-item-estado { background: var(--ho-green-pale, #E8EDD7);
+      .informes-item-estado { background: var(--ho-green-pale, #E0F0EB);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
-        color: var(--ho-green-dark, #586B33); }
+        color: var(--ho-green-dark, #3D6B56); }
       .informes-item-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
-      .informes-item-estado.estado-aceptado { background: #E8EDD7; color: #586B33; }
+      .informes-item-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .informes-item-estado.estado-visto { background: #D7E8F3; color: #2C5A8A; }
       .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
       .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
       .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 6px; border-radius: 6px; font-weight: 600; }
       .informes-item-visto-label { font-family: 'Archivo', sans-serif;
-        font-size: .72rem; font-weight: 700; color: var(--ho-green-dark, #586B33);
-        background: var(--ho-green-pale, #E8EDD7); border-radius: 8px;
+        font-size: .72rem; font-weight: 700; color: var(--ho-green-dark, #3D6B56);
+        background: var(--ho-green-pale, #E0F0EB); border-radius: 8px;
         padding: 3px 10px; margin-top: 4px; display: inline-block; }
 
       /* Expandable content inside informe items */
       .informes-expand-content { margin-top: 10px; padding-top: 10px;
         border-top: 1px solid var(--ho-border, rgba(43,42,38,.08)); }
       .informes-expand-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .84rem; color: var(--ho-green-dark, #586B33); margin-bottom: 4px;
+        font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 4px;
         text-transform: uppercase; letter-spacing: .06em; }
       .informes-expand-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
@@ -476,16 +476,16 @@ class HorneroApp extends HoComponent {
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
         cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
         transition: background .2s, border-color .2s; }
-      .recibidos-review-btn:hover { background: var(--ho-green-pale, #E8EDD7); color: var(--ho-text-mid, #6E6A60); }
+      .recibidos-review-btn:hover { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-text-mid, #6E6A60); }
       .recibidos-review-btn svg { width: 14px; height: 14px; stroke: currentColor;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
       /* ===== Update banner ===== */
-      .update-banner { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC);
+      .update-banner { background: var(--ho-green, #4E9978); color: var(--ho-text-off, #F2F1EC);
         padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
         font-family: 'Archivo', sans-serif; font-size: .82rem; font-weight: 600;
         flex: none; cursor: pointer; }
-      .update-banner:hover { background: var(--ho-green-dark, #586B33); }
+      .update-banner:hover { background: var(--ho-green-dark, #3D6B56); }
       .update-banner .update-dismiss { background: none; border: none;
         color: var(--ho-text-off, #F2F1EC); cursor: pointer; font-size: 1rem;
         padding: 4px 8px; }
@@ -928,10 +928,10 @@ class HorneroApp extends HoComponent {
       consulta:  { emoji: '♣', label: 'Consulta',  color: '#2B5278' },
       contenido: { emoji: '♪', label: 'Contenido', color: '#5A4A3A' },
       debate:    { emoji: '♠', label: 'Companero', color: '#7A3B1E' },
-      reporte:   { emoji: '♢', label: 'Reporte',   color: '#586B33' },
+      reporte:   { emoji: '♢', label: 'Reporte',   color: '#3D6B56' },
       historia:  { emoji: '♤', label: 'Historia',   color: '#4A3A5A' },
     };
-    const defaultSection = { emoji: '♢', label: 'IA Sindical', color: '#586B33' };
+    const defaultSection = { emoji: '♢', label: 'IA Sindical', color: '#3D6B56' };
     if (list.length === 0) {
       return '<div class="list-screen">' +
         '<div class="list-screen-header"><div class="list-screen-title">Mis Conversaciones</div></div>' +

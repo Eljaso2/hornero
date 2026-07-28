@@ -76,14 +76,14 @@ class HorneroGremial extends HoComponent {
         background: var(--ho-bg, #F4F3EE); z-index: 100; display: flex;
         flex-direction: column; animation: fadeIn .25s ease; }
       .inform-view-header { padding: 14px 16px; display: flex; align-items: center;
-        gap: 10px; flex: none; background: var(--ho-green-dark, #586B33); }
+        gap: 10px; flex: none; background: var(--ho-green-dark, #3D6B56); }
       .inform-view-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .92rem; color: var(--ho-text-off, #F2F1EC); flex: 1;
         letter-spacing: .04em; text-transform: uppercase; }
       .inform-view-header-estado { font-family: 'JetBrains Mono', monospace;
         font-size: .68rem; padding: 3px 10px; border-radius: 8px; font-weight: 700; }
       .inform-view-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
-      .inform-view-header-estado.estado-aceptado { background: #E8EDD7; color: #586B33; }
+      .inform-view-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .inform-view-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .inform-view-close { background: rgba(255,255,255,.15); border: none; cursor: pointer;
         border-radius: 8px; padding: 6px 10px; color: var(--ho-text-off, #F2F1EC);
@@ -94,14 +94,14 @@ class HorneroGremial extends HoComponent {
       .inform-view-section { margin-bottom: 16px; }
       .inform-view-section:last-child { margin-bottom: 0; }
       .inform-view-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .84rem; color: var(--ho-green-dark, #586B33); margin-bottom: 6px;
+        font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 6px;
         text-transform: uppercase; letter-spacing: .06em; }
       .inform-view-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #2B2A26); line-height: 1.6; }
       .inform-view-section-divider { height: 1px; background: rgba(43,42,38,.10);
         margin: 16px 0; }
       .inform-view-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
-        padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E8EDD7); }
+        padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
       .inform-view-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         background: #EDEAE3; color: var(--ho-text, #2B2A26);
         padding: 4px 10px; border-radius: 8px; font-weight: 600; }
@@ -116,9 +116,9 @@ class HorneroGremial extends HoComponent {
       .inform-view-btn-editar { background: none; border: 1.5px solid #B0863F;
         color: #B0863F; }
       .inform-view-btn-editar:hover { background: #F0E4CC; }
-      .inform-view-btn-descargar { background: none; border: 1.5px solid var(--ho-green, #6E8345);
-        color: var(--ho-green, #6E8345); }
-      .inform-view-btn-descargar:hover { background: var(--ho-green-pale, #E8EDD7); }
+      .inform-view-btn-descargar { background: none; border: 1.5px solid var(--ho-green, #4E9978);
+        color: var(--ho-green, #4E9978); }
+      .inform-view-btn-descargar:hover { background: var(--ho-green-pale, #E0F0EB); }
       .inform-view-btn-borrar { background: none; border: 1.5px solid transparent;
         color: var(--ho-text-light, #9C988D); }
       .inform-view-btn-borrar:hover { color: #D32F2F; border-color: rgba(211,47,47,.2);

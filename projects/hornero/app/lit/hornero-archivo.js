@@ -163,8 +163,8 @@ class HorneroArchivo extends HoComponent {
         background: none; border: none; cursor: pointer;
         padding: 8px 14px; border-bottom: 2px solid transparent;
         transition: color .2s, border-color .2s; }
-      .tab-btn.active { color: var(--ho-green, #6E8345);
-        border-bottom-color: var(--ho-green, #6E8345); }
+      .tab-btn.active { color: var(--ho-green, #4E9978);
+        border-bottom-color: var(--ho-green, #4E9978); }
 
       /* ===== Search ===== */
       .search-wrap { display: flex; gap: 8px; margin-bottom: 16px; }
@@ -173,13 +173,13 @@ class HorneroArchivo extends HoComponent {
         border: 1px solid var(--ho-border, rgba(43,42,38,.15));
         background: var(--ho-card, #FBFAF6); color: var(--ho-text, #2B2A26);
         outline: none; transition: border-color .2s; }
-      .search-input:focus { border-color: var(--ho-green, #6E8345); }
+      .search-input:focus { border-color: var(--ho-green, #4E9978); }
       .search-input::placeholder { color: var(--ho-text-light, #9C988D); }
-      .search-btn { background: var(--ho-green, #6E8345); color: #fff;
+      .search-btn { background: var(--ho-green, #4E9978); color: #fff;
         border: none; border-radius: 10px; padding: 10px 14px; cursor: pointer;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         transition: background .2s; }
-      .search-btn:hover { background: var(--ho-green-dark, #586B33); }
+      .search-btn:hover { background: var(--ho-green-dark, #3D6B56); }
 
       /* ===== Tipo filter ===== */
       .tipo-bar { display: flex; gap: 8px; margin-bottom: 14px; }
@@ -188,8 +188,8 @@ class HorneroArchivo extends HoComponent {
         background: var(--ho-card, #FBFAF6); border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 8px; padding: 6px 10px; cursor: pointer;
         transition: background .2s, color .2s, border-color .2s; }
-      .tipo-btn.active { background: var(--ho-green, #6E8345); color: #fff;
-        border-color: var(--ho-green, #6E8345); }
+      .tipo-btn.active { background: var(--ho-green, #4E9978); color: #fff;
+        border-color: var(--ho-green, #4E9978); }
 
       /* ===== Category cards ===== */
       .cat-grid { display: grid; grid-template-columns: repeat(2, 1fr);
@@ -198,7 +198,7 @@ class HorneroArchivo extends HoComponent {
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 13px; padding: 12px; cursor: pointer;
         transition: border-color .2s; }
-      .cat-card:hover { border-color: var(--ho-green, #6E8345); }
+      .cat-card:hover { border-color: var(--ho-green, #4E9978); }
       .cat-title-line { display: flex; align-items: baseline; gap: 6px; }
       .cat-icon { font-size: 1rem; }
       .cat-label { font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -211,8 +211,8 @@ class HorneroArchivo extends HoComponent {
         border: 1px solid var(--ho-border, rgba(43,42,38,.12));
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         cursor: pointer; transition: border-color .2s, background .2s; }
-      .chunk-card:hover { border-color: var(--ho-green, #6E8345);
-        background: var(--ho-green-pale, #E8EDD7); }
+      .chunk-card:hover { border-color: var(--ho-green, #4E9978);
+        background: var(--ho-green-pale, #E0F0EB); }
       .chunk-card.expanded { cursor: default; }
 
       .chunk-header { display: flex; align-items: center; gap: 10px; }
@@ -220,14 +220,14 @@ class HorneroArchivo extends HoComponent {
       .chunk-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .88rem; color: var(--ho-text, #2B2A26); flex: 1; }
       .chunk-score { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-green-dark, #586B33); flex: none; }
+        color: var(--ho-green-dark, #3D6B56); flex: none; }
 
       .chunk-excerpt { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 6px; }
       .chunk-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
       .chunk-tag { font-family: 'JetBrains Mono', monospace; font-size: .60rem;
-        font-weight: 600; color: var(--ho-green-dark, #586B33);
-        background: var(--ho-green-pale, #E8EDD7); border-radius: 6px;
+        font-weight: 600; color: var(--ho-green-dark, #3D6B56);
+        background: var(--ho-green-pale, #E0F0EB); border-radius: 6px;
         padding: 2px 6px; }
       .chunk-source { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); margin-top: 6px; }
@@ -237,9 +237,9 @@ class HorneroArchivo extends HoComponent {
         color: var(--ho-text, #2B2A26); line-height: 1.5;
         white-space: pre-wrap; padding: 10px;
         background: rgba(110,131,68,.04); border-radius: 8px; }
-      .chunk-full-quote { background: var(--ho-green-pale, #E8EDD7);
+      .chunk-full-quote { background: var(--ho-green-pale, #E0F0EB);
         border-radius: 8px; padding: 10px 12px; margin-top: 10px;
-        font-size: .82rem; color: var(--ho-green-dark, #586B33);
+        font-size: .82rem; color: var(--ho-green-dark, #3D6B56);
         line-height: 1.5; font-style: italic; }
       .chunk-full-quote-author { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
         margin-top: 4px; font-style: normal; font-weight: 600; }
@@ -249,9 +249,9 @@ class HorneroArchivo extends HoComponent {
       .action-btn { font-family: 'Archivo', sans-serif; font-size: .76rem;
         font-weight: 600; border-radius: 8px; padding: 8px 14px; cursor: pointer;
         transition: background .2s, color .2s; }
-      .action-ia { background: var(--ho-green, #6E8345); color: #fff;
+      .action-ia { background: var(--ho-green, #4E9978); color: #fff;
         border: none; }
-      .action-ia:hover { background: var(--ho-green-dark, #586B33); }
+      .action-ia:hover { background: var(--ho-green-dark, #3D6B56); }
       .action-collapse { background: none; color: var(--ho-text-mid, #6E6A60);
         border: 1px solid var(--ho-border, rgba(43,42,38,.15)); }
       .action-collapse:hover { border-color: var(--ho-text, #2B2A26);
@@ -267,9 +267,9 @@ class HorneroArchivo extends HoComponent {
         font-size: .78rem; }
 
       /* ===== Tipo colors ===== */
-      .tipo-doc { color: #6E8345; }
-      .tipo-acad { color: #586B33; }
-      .tipo-mult { color: #94A867; }
+      .tipo-doc { color: #4E9978; }
+      .tipo-acad { color: #3D6B56; }
+      .tipo-mult { color: #80CCA0; }
     `;
   }
 
@@ -299,13 +299,13 @@ class HorneroArchivo extends HoComponent {
         <div class="kicker">📚 ARCHIVO DEL SINDICATO</div>
         <div class="section-title">La memoria del sindicato</div>
         <div class="intro">Convenios, referentes, fuentes sindicales. Explorá, buscá, consultá con la IA.</div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:var(--ho-green-pale,#E8EDD7);border-radius:10px;cursor:pointer" id="historiadorLink">
-          <img src="assets/personajes/historiadora.png" alt="Historiador/a" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--ho-green,#6E8345)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:var(--ho-green-pale,#E0F0EB);border-radius:10px;cursor:pointer" id="historiadorLink">
+          <img src="assets/personajes/historiadora.png" alt="Historiador/a" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--ho-green,#4E9978)">
           <div style="flex:1">
             <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;color:#2B2A26">📜 Historiador/a te guía</div>
-            <div style="font-size:.72rem;color:#586B33;line-height:1.3">Chateá con la Historiador/a para recorrer los archivos, buscar fuentes, entender la historia obrera.</div>
+            <div style="font-size:.72rem;color:#3D6B56;line-height:1.3">Chateá con la Historiador/a para recorrer los archivos, buscar fuentes, entender la historia obrera.</div>
           </div>
-          <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#6E8345;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#4E9978;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </div>
         <div class="intro">Convenios, referentes, fuentes sindicales. Explorá, buscá, consultá con la IA.</div>
 

@@ -66,9 +66,9 @@ class HorneroCoyuntura extends HoComponent {
       .filter-btn { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; padding: 6px 12px; border-radius: 8px; border: none;
         cursor: pointer; transition: background .2s; }
-      .filter-btn.todos { background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC); }
-      .filter-btn.clipping { background: var(--ho-green, #6E8345); color: var(--ho-text-off, #F2F1EC); }
-      .filter-btn.reporte { background: var(--ho-dark-surface, #45433E); color: var(--ho-text-off, #F2F1EC); }
+      .filter-btn.todos { background: var(--ho-dark-surface, #3F4E4A); color: var(--ho-text-off, #F2F1EC); }
+      .filter-btn.clipping { background: var(--ho-green, #4E9978); color: var(--ho-text-off, #F2F1EC); }
+      .filter-btn.reporte { background: var(--ho-dark-surface, #3F4E4A); color: var(--ho-text-off, #F2F1EC); }
       .filter-btn.mate { background: var(--ho-gold, #B0863F); color: var(--ho-text-off, #F2F1EC); }
       .filter-btn.inactive { background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-text-mid, #6E6A60); }
 
@@ -79,7 +79,7 @@ class HorneroCoyuntura extends HoComponent {
       .card-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .88rem; color: var(--ho-text, #2B2A26); margin-bottom: 4px;
         cursor: pointer; }
-      .card-title:hover { color: var(--ho-green, #6E8345); }
+      .card-title:hover { color: var(--ho-green, #4E9978); }
       .bajada { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; max-height: 66px; overflow: hidden;
         position: relative; transition: max-height .35s; }
@@ -88,11 +88,11 @@ class HorneroCoyuntura extends HoComponent {
         height: 30px; background: linear-gradient(transparent, var(--ho-card, #FBFAF6)); }
       .bajada.expanded .bajada-fade { display: none; }
       .expand-btn { font-family: 'Archivo', sans-serif; font-size: .74rem;
-        color: var(--ho-green, #6E8345); font-weight: 600; cursor: pointer;
+        color: var(--ho-green, #4E9978); font-weight: 600; cursor: pointer;
         background: none; border: none; padding: 2px 0; }
       .tags-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
       .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E8EDD7); color: var(--ho-green-dark, #586B33);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 3px 8px; border-radius: 6px; font-weight: 600; }
       .kw-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-text-mid, #6E6A60);
