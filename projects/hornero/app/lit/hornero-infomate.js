@@ -26,7 +26,7 @@ class HorneroInfomate extends HoComponent {
 
   async _loadMate() {
     try {
-      const response = await fetch('data/mate-2026-05.json');
+      const response = await fetch('data/mate-2026-06.json');
       this._mateData = await response.json();
       this.render();
     } catch(e) { console.warn('InfoMate: load failed', e); }

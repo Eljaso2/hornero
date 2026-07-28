@@ -53,7 +53,7 @@ class HorneroActualidad extends HoComponent {
 
     // InfoMate
     try {
-      const response = await fetch('data/mate-2026-05.json');
+      const response = await fetch('data/mate-2026-06.json');
       this._mateRaw = await response.json();
     } catch(e) { console.warn('Actualidad: mate load failed', e); }
   }

@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "version": "2026-06-v1",
+    "tipo": "mate",
+    "mes": "2026-06",
+    "fuente": "MATE — Mirador de la Actualidad del Trabajo y la Economía",
+    "urlInforme": "https://mateconomia.com.ar/infomate"
+  },
+  "datosMacro": {
+    "inflacionOficial": "2.1% mensual (mayo)",
+    "inflacionAcumulada": "33.2% anual (mayo 2025-mayo 2026)",
+    "salarioEstatal": "-22% real vs asunción Milei",
+    "salarioPrivado": "-8% real vs asunción Milei",
+    "transferenciaIngresos": "93.5 billones de pesos",
+    "empleosFormalesPerdidos": "-319.444",
+    "desocupadosUrbanos": "1.145.000",
+    "informalidad": "44.2%",
+    "recortesAcumulados": "149 billones de pesos"
+  },
+  "secciones": [
+    {
+      "titulo": "Inflación",
+      "bajada": "Un año de inflación elevada. 2.1% mensual en mayo, 33.2% acumulado en el año. La inflación obrera real duplica la oficial.",
+      "datos": ["INDEC: 2.1% mensual (mayo)", "Acumulado anual: 33.2%", "Mayo 2025 era 1.5%"]
+    },
+    {
+      "titulo": "Salario",
+      "bajada": "Salario estatal -22% real, pérdida de $14.1M por trabajador. Privado -8%, pérdida de $2.5M. Jubilaciones -24%, mínima -30%.",
+      "datos": ["Estatal: -22% real, -$14.115.381", "Privado: -8% real, -$2.512.694", "Jubilación media: -24%, -$6.951.926", "Mínima: -30% poder de compra"]
+    },
+    {
+      "titulo": "Transferencia y ganancias",
+      "bajada": "93.5 billones de transferencia de ingresos por caída del costo salarial. Morosidad histórica: crédito personal 14.2%, tarjetas 11.7%, fintech 58.4%.",
+      "datos": ["Bolsillo asalariados: -67.1 billones", "Recaudación seguridad social: -17.4 billones", "Obras sociales/sindicatos: -7.3 billones", "Mora fintech: 58.4%", "Mora tarjetas no bancarias: 44.3%"]
+    },
+    {
+      "titulo": "Empleo",
+      "bajada": "350 empleos formales perdidos por día. Sector privado -216.643, público -82.752. Informalidad 44.2%. 1.145.000 desocupados urbanos.",
+      "datos": ["Privado: -216.643", "Público: -82.752", "Casas particulares: -20.049", "Total: -319.444", "Informalidad: 44.2%", "Desocupados: 1.145.000"]
+    },
+    {
+      "titulo": "Ajuste",
+      "bajada": "El Estado se achica cada vez más. Recaudación -18%, pérdida acumulada 44.2 billones. Recortes totalizan 149 billones: obra pública, jubilaciones, salarios, educación.",
+      "datos": ["Obra pública: -37.2 billones", "Jubilaciones: -26.0 billones", "Subsidios energía: -22.5 billones", "Salarios: -17.5 billones", "Programas sociales: -15.5 billones", "Educación: -9.8 billones"]
+    },
+    {
+      "titulo": "Fuga de capitales",
+      "bajada": "Giros de utilidades al exterior: 2.022M USD en 6 meses. Petróleo lidera con 734M. El modelo solo cierra por la deuda: 40.984M USD de nueva deuda.",
+      "datos": ["Giros 6 meses: 2.022M USD", "Petróleo: 734M", "Metales: 279M", "Oleaginosos: 176M", "Nueva deuda acumulada: 40.984M USD", "Economía real: 52.223M USD vs 81.215M USD financiera"]
+    }
+  ],
+  "routing": { "n9": true, "n6": true, "n11": true }
+}
