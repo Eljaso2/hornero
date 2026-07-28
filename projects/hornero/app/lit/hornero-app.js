@@ -285,7 +285,7 @@ class HorneroApp extends HoComponent {
         .sections-btn { color: #7A766C; }
         .sections-btn.active { color: var(--ho-green-light, #80CCA0);
           border-bottom-color: var(--ho-green-light, #80CCA0); }
-        .header-text .app-brand-img { height: 32px; }
+        .header-text .app-brand-img { height: 44px; }
         .floating-back-btn { background: var(--ho-dark-surface, #3F4E4A);
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
         .floating-back-btn:hover { background: var(--ho-dark-mid, #536260);
@@ -300,7 +300,7 @@ class HorneroApp extends HoComponent {
         color: var(--ho-text, #E8E6E0);
         padding: 0 16px; display: flex; align-items: center;
         justify-content: center; position: relative; flex: none;
-        min-height: 72px;
+        min-height: 56px;
         padding-top: calc(4px + env(safe-area-inset-top, 0px));
         padding-bottom: 0; }
       .top-bar-back { position: absolute; left: 16px;
@@ -318,7 +318,7 @@ class HorneroApp extends HoComponent {
       .top-bar-back:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
       .header-text { display: flex; align-items: center; justify-content: center; }
-      .header-text .app-brand-img { height: 32px; width: auto; object-fit: contain;
+      .header-text .app-brand-img { height: 44px; width: auto; object-fit: contain;
         display: block; margin: 0 auto; }
 
       /* ===== Floating back button — chat screens (no header, no bottom nav) ===== */
