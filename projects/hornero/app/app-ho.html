@@ -174,8 +174,8 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=176"></script>
-  <!-- Hide splash once web components are defined -->
+  <script type="module" src="lit/hornero-components.js?v=177"></script>
+  <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){
       var splash = document.getElementById('splash');
@@ -184,9 +184,7 @@
         splash.classList.add('fade-out');
         setTimeout(function() { splash.remove(); }, 400);
       }
-      if (customElements.get('hornero-login')) return hideSplash();
-      customElements.whenDefined('hornero-login').then(hideSplash);
-      setTimeout(hideSplash, 3000);
+      setTimeout(hideSplash, 2000);
     })();
   </script>
 </body>
