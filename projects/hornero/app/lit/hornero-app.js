@@ -131,7 +131,7 @@ class HorneroApp extends HoComponent {
       { id: 'felicidad', label: 'Felicidad' },
       { id: 've', label: 'Comportamiento' },
       { id: 'ecosistema', label: 'Ecosistema' },
-      { id: 'formacion', label: 'Formación' },
+      { id: 'formacion', label: 'H. Obrera' },
       { id: 'perfil', label: 'Perfil' },
     ];
 
@@ -140,7 +140,7 @@ class HorneroApp extends HoComponent {
       actualidad: 'Actualidad',
       chat: 'Chat IA Sindical',
       consulta: 'Chateá con la IA Sindical',
-      formacion: 'Formación',
+      formacion: 'Historia Obrera · Formación',
       is: 'Reporte gremial',
       condicion: 'Panorama',
       archivo: 'Archivo',
@@ -533,6 +533,8 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
+    } else if (this.screen === 'formacion') {
+      screenContent = '<hornero-formacion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-formacion>';
     } else if (this.screen === 'archivo') {
       screenContent = '<hornero-archivo grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-archivo>';
     } else if (this.screen === 'chat') {

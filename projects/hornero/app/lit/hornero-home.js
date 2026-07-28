@@ -168,7 +168,28 @@ class HorneroHome extends HoComponent {
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
         color: #2B2A26; }
 
-      /* ===== Esferas 3-6: ghost cards ===== */
+      /* ===== ESFERA 3: Formación — hero card ===== */
+      .formacion-card { position: relative; border-radius: 13px; margin-bottom: 10px;
+        overflow: hidden; cursor: pointer; min-height: 140px; }
+      .formacion-card img.hero { width: 100%; height: 180px; object-fit: cover;
+        display: block; }
+      .formacion-overlay { position: absolute; bottom: 0; left: 0; right: 0;
+        padding: 36px 14px 12px;
+        background: linear-gradient(transparent, rgba(33,31,29,.85));
+        color: #F2F1EC; }
+      .formacion-overlay .card-name { font-family: 'Archivo', sans-serif;
+        font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
+        text-transform: uppercase; }
+      .formacion-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
+        line-height: 1.4; margin-top: 3px; }
+      .formacion-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
+        font-size: .60rem; background: rgba(110,131,69,.6); color: #F2F1EC;
+        padding: 2px 7px; border-radius: 5px; font-weight: 600;
+        display: inline-block; margin-top: 5px; }
+      .formacion-badge { position: absolute; top: 10px; left: 10px; z-index: 2;
+        width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
+        border: 2px solid rgba(242,241,236,.6); background: var(--ho-card, #FBFAF6); }
+      .formacion-badge img { width: 100%; height: 100%; object-fit: cover; }
       .esfera-card { background: var(--ho-card, #FBFAF6);
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         border: 1px solid rgba(43,42,38,.06); cursor: pointer;
@@ -291,11 +312,15 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 3: Formación -->
-      <div class="esfera-card" data-screen="formacion">
-        <div class="card-name">Formación</div>
-        <div class="card-desc">Educación, cursos, materiales — formación vivida, no declarada</div>
-        <span class="card-tag">cursos · materiales · codiseño</span>
+      <!-- ESFERA 3: Formación — hero card -->
+      <div class="formacion-card" data-screen="formacion">
+        <img src="assets/personajes/ho.jpg" alt="Historia Obrera" class="hero">
+        <div class="formacion-badge"><img src="assets/personajes/historiadora.png" alt="Historiador/a"></div>
+        <div class="formacion-overlay">
+          <div class="card-name">Historia Obrera</div>
+          <div class="card-desc">Efemérides, libros, mitín — historia de la clase trabajadora</div>
+          <span class="card-tag">historia obrera · formación · archivos</span>
+        </div>
       </div>
 
 <!-- ESFERA 5: Panorama -->
@@ -356,8 +381,8 @@ class HorneroHome extends HoComponent {
       });
     }
 
-    // Esfera cards — navigation
-    this.shadowRoot.querySelectorAll('.esfera-card').forEach(card => {
+    // Esfera cards + formacion card — navigation
+    this.shadowRoot.querySelectorAll('.esfera-card, .formacion-card').forEach(card => {
       card.addEventListener('click', () => {
         if (card.classList.contains('locked')) return;
         this.goScreen(card.dataset.screen);
