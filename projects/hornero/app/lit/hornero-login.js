@@ -62,13 +62,13 @@ class HorneroLogin extends HoComponent {
         background: var(--ho-dark, #1E2321);
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
-        padding: 40px 24px;
+        padding: 28px 24px;
         box-sizing: border-box;
       }
 
       .logo-area {
         display: flex; flex-direction: column; align-items: center;
-        margin-bottom: 48px;
+        margin-bottom: 32px;
         margin-top: 0;
       }
 
