@@ -51,6 +51,14 @@
       padding-bottom: env(safe-area-inset-bottom, 0px); }
     hornero-app { display: block; width: 100%; min-height: 100vh;
       min-height: -webkit-fill-available; }
+    /* Splash screen — shows logo while web components load */
+    #splash { position: fixed; inset: 0; z-index: 9999;
+      background: #323D39; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity .3s ease; }
+    #splash.fade-out { opacity: 0; pointer-events: none; }
+    #splash img { width: 120px; height: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
+    #splash .splash-brand { height: 28px; width: auto; margin-top: 14px; object-fit: contain; }
     /* PWA install banner */
     .pwa-install-banner { position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--ho-dark, #33312D); color: var(--ho-text-off, #F2F1EC);
@@ -74,6 +82,11 @@
 <!-- Set body bg immediately — uses color from head script -->
 <body>
 <script>document.body.style.setProperty('background',window._hoInitBg||'#323D39','important');</script>
+  <!-- Splash screen — shows logo while web components load (~1s) -->
+  <div id="splash">
+    <img src="assets/hornero-logo-nobg.png" alt="Hornero" />
+    <img class="splash-brand" src="assets/hornero-brand-typo-dark.png" alt="HORNERO" />
+  </div>
   <!-- HoComponent app shell — Shadow DOM renders instantly via sync session -->
   <hornero-app></hornero-app>
 
@@ -157,6 +170,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=169"></script>
+  <script type="module" src="lit/hornero-components.js?v=170"></script>
 </body>
 </html>
