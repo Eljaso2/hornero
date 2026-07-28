@@ -102,7 +102,7 @@ class HorneroApp extends HoComponent {
     // 6 nav buttons: Inicio + 4 esferas implementadas + Perfil
     // (Formación y Archivo accesibles desde Home cards, no en bottom nav)
     this.navDefBase = [
-      { id: 'home', label: 'Inicio', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
+      { id: 'home', label: 'Inicio', img: 'assets/hornero-logo-nobg.png', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
       { id: 'actualidad', label: 'Actualidad', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
       { id: 'chat', label: 'Chat', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
       { id: 'gremial', label: 'Reporte', svg: '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>' },
@@ -283,6 +283,10 @@ class HorneroApp extends HoComponent {
         .sections-btn.active { color: var(--ho-green-light, #80CCA0);
           border-bottom-color: var(--ho-green-light, #80CCA0); }
         .header-text .app-brand-img { height: 32px; }
+        .floating-back-btn { background: var(--ho-dark-surface, #3F4E4A);
+          border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
+        .floating-back-btn:hover { background: var(--ho-dark-mid, #536260);
+          border-color: var(--ho-green-light, #80CCA0); }
       }
 
       /* ===== Animations ===== */
@@ -313,6 +317,20 @@ class HorneroApp extends HoComponent {
       .header-text { display: flex; align-items: center; justify-content: center; }
       .header-text .app-brand-img { height: 32px; width: auto; object-fit: contain;
         display: block; margin: 0 auto; }
+
+      /* ===== Floating back button — chat screens (no header, no bottom nav) ===== */
+      .floating-back-btn { position: absolute; top: calc(8px + env(safe-area-inset-top, 0px)); left: 12px;
+        width: 30px; height: 30px; border-radius: 50%;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        background: var(--ho-card, #2A3230); cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s; z-index: 50; }
+      .floating-back-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .floating-back-btn svg { width: 14px; height: 14px;
+        stroke: var(--ho-text-mid, #7A766C); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .floating-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
       /* ===== Sections bar — horizontal scrollable ===== */
       .sections-bar { background: var(--ho-bg, #1E2321);
@@ -346,6 +364,8 @@ class HorneroApp extends HoComponent {
       .nav-btn svg { width: 24px; height: 24px; stroke: #9C988D;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .nav-btn.active svg { stroke: #4E9978; stroke-width: 2.6; }
+      .nav-btn img { width: 24px; height: 24px; object-fit: contain; opacity: .55; transition: opacity .2s; }
+      .nav-btn.active img { opacity: 1; }
       .nav-btn .label { font-size: .60rem; font-weight: 600; color: #9C988D;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: #4E9978; }
@@ -508,9 +528,11 @@ class HorneroApp extends HoComponent {
     }
 
     const currentTitle = this.titles[this.screen] || 'Hornero';
-    // Chat screens: show sections-bar, hide bottom-nav
+    // Header only visible on Home screen
+    const showHeader = this.screen === 'home';
+    // Chat screens: hide bottom-nav
     const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido' || this.screen === 'gremial' || this.screen === 'historiador';
-    const showSectionsBar = true;
+    const showSectionsBar = showHeader;
     const showBottomNav = !isChatScreen;
 
     // Build screen content
@@ -619,13 +641,11 @@ class HorneroApp extends HoComponent {
 
             ${this.updateAvailable ? '<div class="update-banner" id="updateBanner">⟳ Actualización disponible — toca para recargar<button class="update-dismiss" id="updateDismiss">✕</button></div>' : ''}
 
-            <div class="top-bar">
-              ${this.screen !== 'home' ?
-                '<button class="top-bar-back" id="backBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
-              <div class="header-text">
-                <img class="app-brand-img" src="assets/hornero-brand-typo-transparent.png" alt="HORNERO" />
-              </div>
-            </div>
+            ${showHeader ? '<div class="top-bar">' +
+              '<div class="header-text">' +
+                '<img class="app-brand-img" src="assets/hornero-brand-typo-transparent.png" alt="HORNERO" />' +
+              '</div>' +
+            '</div>' : ''}
 
             ${showSectionsBar ? '<div class="sections-bar">' +
               this.sectionsDef.map(s => '<button class="sections-btn' + (s.id === this.screen ? ' active' : '') + '" data-screen="' + s.id + '">' + s.label + '</button>').join('') +
@@ -635,11 +655,18 @@ class HorneroApp extends HoComponent {
               ${screenContent}
             </div>
 
+            ${(!showHeader && !showBottomNav) ? '<button class="floating-back-btn" id="floatingBackBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
+
             ${showBottomNav ? '<div class="bottom-nav">' +
-              this._getNavDef().map(n => '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
-                '<svg viewBox="0 0 24 24">' + n.svg + '</svg>' +
-                '<span class="label">' + n.label + '</span>' +
-                '</button>').join('') +
+              this._getNavDef().map(n => {
+                const iconHtml = n.img
+                  ? '<img src="' + n.img + '" alt="' + n.label + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><svg viewBox="0 0 24 24" style="display:none">' + n.svg + '</svg>'
+                  : '<svg viewBox="0 0 24 24">' + n.svg + '</svg>';
+                return '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
+                  iconHtml +
+                  '<span class="label">' + n.label + '</span>' +
+                  '</button>';
+              }).join('') +
               '</div>' : ''}
 
           </div>
