@@ -265,11 +265,11 @@ class HorneroApp extends HoComponent {
           font-family: 'JetBrains Mono', monospace; }
       }
       @media(max-width:499px){
-        .app-wrap { min-height: 100vh; }
-        .phone { width: 100%; min-height: 100vh; }
+        .app-wrap { height: 100dvh; overflow: hidden; }
+        .phone { width: 100%; height: 100dvh; overflow: hidden; }
         .screen { background: var(--ho-dark, #1E2321); display: flex;
           flex-direction: column; position: relative;
-          height: 100dvh; overflow: hidden; }
+          height: 100%; overflow: hidden; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
         /* Mobile: top-bar dark background merges with system status bar */
@@ -301,8 +301,8 @@ class HorneroApp extends HoComponent {
         padding: 0 16px; display: flex; align-items: flex-end;
         justify-content: center; position: relative; flex: none;
         min-height: 0;
-        padding-top: calc(2px + env(safe-area-inset-top, 0px));
-        padding-bottom: 2px; }
+        padding-top: calc(10px + env(safe-area-inset-top, 0px));
+        padding-bottom: 0; }
       .top-bar-back { position: absolute; left: 16px;
         top: calc(50% + env(safe-area-inset-top, 0px) / 2);
         transform: translateY(-50%); width: 30px; height: 30px;
@@ -338,7 +338,7 @@ class HorneroApp extends HoComponent {
       /* ===== Sections bar — horizontal scrollable ===== */
       .sections-bar { background: var(--ho-bg, #1E2321);
         flex: none; display: flex; overflow-x: auto;
-        padding: 8px 12px 0px; gap: 0;
+        padding: 0px 12px 0px; gap: 0;
         scrollbar-width: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .sections-bar::-webkit-scrollbar { width: 0; }
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
