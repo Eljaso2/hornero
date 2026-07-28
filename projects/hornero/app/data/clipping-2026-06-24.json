@@ -5,128 +5,195 @@
     "fecha": "2026-06-24",
     "frecuencia": "diario",
     "numero": 2,
-    "fuentes": ["InfoGremiales", "Infobae", "La Izquierda Diario", "Página/12", "La Nación"]
+    "fuentes": [
+      "InfoGremiales",
+      "Infobae",
+      "La Izquierda Diario",
+      "Página/12",
+      "La Nación"
+    ]
   },
   "noticias": [
     {
       "id": "cd-2026-06-24-1",
       "fecha": "2026-06-24",
       "violencia": "VD",
-      "tags": ["CGT", "paro", "reforma-laboral", "estrategia-sindical"],
+      "tags": [
+        "CGT",
+        "paro",
+        "reforma-laboral",
+        "estrategia-sindical"
+      ],
       "emoji": "📢",
       "titulo": "CGT: pulseada interna — paro de 36 horas vs. plan \"a la francesa\"",
       "bajada": "Bloque duro exige paro 36h; conducción apuesta a plan escalonado. Moyano se reúne con Jerónimo.",
       "desarrollo": "La CGT atraviesa una pulseada interna que define no solo su estrategia sino el rumbo de la resistencia sindical contra la reforma laboral de Milei. El bloque duro —Gerónimo Barrionuevo (Gastronómicos), José Maturano (Judiciales) y Omar Fernández (La Fraternidad)— exige un paro nacional de 36 horas, argumentando que solo una paralización total puede frenar el embate sobre 400 convenios colectivos de trabajo. Maturano incluso planteó una huelga indefinida, pero no logró consenso. La conducción, articulada por el triunvirato y el sector dialoguista, impulsa un plan \"a la francesa\": paros sectoriales, asambleas en los lugares de trabajo y movilizaciones progresivas que culminen en una medida nacional. El argumento es pragmático: \"no hay condiciones para otro paro general.\" La cúpula exige que los secretarios generales asistan personalmente al Consejo Directivo del jueves y coordina con ambas CTA una marcha federal y eventual paro tras el Mundial. La tensión se agravó cuando Pablo Moyano —secretario general adjunto de Camioneros— criticó públicamente la estrategia cegetista y renunció a la conducción, pero el martes se reunió con Cristian Jerónimo para \"intercambiar miradas sobre la realidad social, económica y sindical.\" El encuentro \"rompió el hielo\" y reincorporó a Moyano a las decisiones, con un acuerdo sobre la \"necesidad de construir una estrategia común frente al ajuste\" y defender derechos laborales, reclamos jubilados y obras sociales. La pulseada no es solo táctica: define si la central obrera opta por la confrontación frontal o la resistencia escalonada, y revela la fractura entre gremios que presionan por radicalidad y una conducción que prioriza acumulación gradual. También se debatirá la crisis de las obras sociales sindicales, \"desfinanciadas y sostenidas con plata de los sindicatos,\" y la propuesta de que el Estado se haga cargo de la salud gremial —una salida que algunos ven como solución y otros como pérdida de autonomía. El Consejo Directivo del jueves será decisivo.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1511898634545-c01af8a54dd5?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1511898634545-c01af8a54dd5?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-24-2",
       "fecha": "2026-06-24",
       "violencia": "VD",
-      "tags": ["UTEP", "piqueteros", "cortes-de-ruta", "cooperativistas"],
+      "tags": [
+        "UTEP",
+        "piqueteros",
+        "cortes-de-ruta",
+        "cooperativistas"
+      ],
       "emoji": "🔥",
       "titulo": "UTEP y movimientos piqueteros: plan de cortes de ruta y marcha federal",
       "bajada": "UTEP y piqueteros: plan de cortes de ruta y marcha federal 7/8. Si no pagan 926.000 cooperativistas, cortes indefinidos.",
       "desarrollo": "La Unión de Trabajadores y Trabajadoras de la Economía Popular (UTEP), junto al Bloque Piquetero y Territorios en Lucha, aprobaron en asambleas nacionales un plan de acciones escalonadas contra las políticas de Milei. La organización tiene dos planos de acción simultáneos. El primero es el programa \"Volver al Trabajo,\" sostenido por una medida cautelar del Juzgado Federal de Campana que obliga al Gobierno a mantener pagos a más de 926.000 beneficiarios de cooperativas ($78.000 mensuales, congelados). Si el Ejecutivo incumple, la UTEP activará cortes de ruta por tiempo indeterminado. También reclaman un aumento atado al salario mínimo vital y móvil. El segundo plano es la coordinación sindical: la UTEP se reunió con la CGT y la CTA el 18 de junio. El diagnóstico compartido es que las políticas económicas generan pérdida de empleo y deterioro salarial. La CGT optó por un esquema gradual, aunque sectores como los de Yasky, Godoy y Catalano presionan por acelerar protestas. El cronograma comienza el 26 de junio con un acto en Puente Pueyrredón por los asesinatos de Kosteki y Santillán (2002), y culmina el 7 de agosto con una marcha federal multisectorial por San Cayetano —10 años de la primera marcha— convocando gremios, estudiantes, feminismos y organismos de derechos humanos. La proyección es una marcha federal por provincias que culmine en un paro general antes de fin de año. El contexto social es alarmante: un relevamiento de Libres del Sur indica que el 86% de hogares en barrios populares de Buenos Aires sufren estrés económico; el 66% suprime comidas. Esteban Castro diagnosticó que \"los salarios siempre van abajo de la inflación\" y que la gente necesita múltiples trabajos para subsistir. La articulación entre UTEP, CGT y CTA configura un escenario de convergencia social que puede escalar significativamente si el Gobierno incumple la cautelar.",
       "fuente": "Infobae",
-      "foto": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop",
+      "fuente_url": ""
     },
     {
       "id": "cd-2026-06-24-3",
       "fecha": "2026-06-24",
       "violencia": "VD+VC",
-      "tags": ["violencia-cultural", "huelga", "servicios-mínimos", "CABA"],
+      "tags": [
+        "violencia-cultural",
+        "huelga",
+        "servicios-mínimos",
+        "CABA"
+      ],
       "emoji": "🛑",
       "titulo": "Macri impide huelgas por decreto en CABA: servicios mínimos obligatorios",
       "bajada": "Decreto 230/26 obliga servicios mínimos 50-75% en paros. Sindicatos = \"minoría organizada\" que usa \"rehenes.\"",
       "desarrollo": "El jefe de Gobierno porteño Jorge Macri firmó el Decreto 230/26, que obliga a los gremios de subtes, colectivos y recolección de residuos a mantener servicios mínimos —50% en transporte, 75% en recolección— durante cualquier medida de fuerza. La normativa clasifica la recolección como \"servicio esencial\" y el transporte como actividad de \"importancia trascendental,\" categorías que la Ley de Modernización Laboral (N° 27.802) impulsada por Milei introdujo al modificar el artículo 24 de la Ley 25.877 sobre servicios esenciales. Macri declaró que buscaba evitar que \"una minoría organizada pueda paralizar toda una Ciudad,\" y señaló que los sindicalistas \"usan a millones de porteños como rehenes\" —un lenguaje que reproduce la narrativa de la violencia cultural empresarial: el sindicato como captor, la ciudad como víctima, el empresario como defensor del \"bien común.\" Esta configuración discursiva oculta que el paro es una herramienta legal de trabajadores que enfrentan despidos, deterioro salarial y renegociación forzada de convenios. La adhesión porteña a la reforma laboral nacional no es un acto administrativo: es la aplicación local de una norma que desregula el derecho de huelga, restringe la negociación colectiva y obliga a los gremios a funcionar aun cuando protestan. El decreto transforma la protesta laboral en un \"inconveniente\" que el Estado debe minimizar, invirtiendo la lógica: el conflicto no existe porque hay injusticia, sino porque hay \"minoría organizada.\" La violencia cultural empresarial se manifiesta aquí como legalización de la restricción sindical: un decreto que no combate las causas del conflicto —despidos, caída salarial, reforma laboral— sino que silencia su expresión. La categorización de residuos como \"servicio esencial\" es particularmente reveladora: la higiene urbana como argumento para limitar el derecho de huelga de quienes la ejecutan. Etiquetado: Violencia Cultural Empresarial — deslegitimación del sindicato como \"minoría organizada\" que secuestra ciudadanos; criminalización del paro como \"uso de rehenes\"; legalización de la restricción gremial mediante decreto.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-24-4",
       "fecha": "2026-06-24",
       "violencia": "VD",
-      "tags": ["INTI", "despidos", "judicial", "ajuste"],
+      "tags": [
+        "INTI",
+        "despidos",
+        "judicial",
+        "ajuste"
+      ],
       "emoji": "🔬",
       "titulo": "INTI: el Gobierno no acata el freno judicial a los despidos de 700 trabajadores",
       "bajada": "Gobierno no acata freno judicial a despidos de 700 técnicos. Banderazo respondido con cierre del edificio.",
       "desarrollo": "El Instituto Nacional de Tecnología Industrial (INTI) se convirtió esta semana en un escenario donde el conflicto entre la Justicia y el Gobierno se materializa en la incertidumbre de 700 trabajadores. La orden judicial que suspendió los despidos y el cierre de 900 funciones fue dictada como medida cautelar, pero el Gobierno no la acató: los despidos continuaron y los trabajadores enfrentan la parálisis de no saber si este martes —24 de junio— tendrán empleo o no. La respuesta institucional fue el cierre del acceso a la sede central del INTI, una decisión que impidió físicamente la protesta dentro del edificio y simboliza la discrecionalidad del poder ejecutivo frente a la resolución judicial. Especialistas, profesionales, investigadores y administrativos realizaron un banderazo de protesta con una consigna que conecta el conflicto local con la crisis política general: \"para que gaine Argentina hay que sacar a Adorni.\" La referencia al secretario de Capital Humano no es casual: Adorni es el funcionario que impulsa la renegociación de convenios, la reforma laboral y los despidos en el Estado, y su nombre condensa la articulación entre ajuste y desregulación. El caso del INTI es emblemático porque muestra cómo el Gobierno opera frente a la Justicia: no la desconoce públicamente, pero la ignora en la práctica. La desvinculación de 700 técnicos no solo elimina puestos: destruye capacidades científicas e industriales acumuladas durante décadas en un organismo que debería fortalecer la producción nacional. El cierre del acceso al edificio es un gesto que revela la lógica del poder: si los trabajadores no pueden entrar, no pueden protestar; si no pueden protestar, el conflicto no existe. La incertidumbre —\"no sabemos qué va a pasar este martes con nuestros empleos\"— es una forma de violencia laboral: no es el despido declarado, sino la suspensión indefinida de la certeza, una tortura psicológica que el Estado ejecuta con burocracia.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-24-5",
       "fecha": "2026-06-24",
       "violencia": "VD+VC",
-      "tags": ["Fate", "lockout", "desalojo", "persecución-judicial"],
+      "tags": [
+        "Fate",
+        "lockout",
+        "desalojo",
+        "persecución-judicial"
+      ],
       "emoji": "🏭",
       "titulo": "Fate: lock out patronal, persecución judicial y riesgo de desalojo tras 4 meses de ocupación",
       "bajada": "Ocupación 4+ meses. Cámara anuló rechazo de desalojo; empresa apeló. 24 obreros citados judicialmente. Indio Solari apoya.",
       "desarrollo": "La fábrica de neumáticos Fate, en San Fernando, es uno de los conflictos laborales más prolongados y intensos del presente. Los trabajadores mantienen una ocupación de más de cuatro meses en defensa de sus puestos ante un lock out patronal —la empresa cerró la planta y despidió trabajadores sin negociación— y un intento de cierre definitivo. La resistencia gremial enfrentó esta semana un giro judicial adverso: la Cámara de Apelaciones anuló una resolución que había rechazado el pedido de desalojo patronal y devolvió el caso al juzgado de primera instancia. El juzgado rechazó nuevamente el desalojo, pero la empresa apeló este lunes, y los trabajadores temen que la Cámara restituya la orden en los próximos días. La presión judicial no se limita al desalojo: 24 obreros, incluidos activistas y representantes gremiales, fueron citados a declarar en una causa impulsada por el fiscal Marcelo Fuenzalida. Los trabajadores consideran que las citaciones y el intento de desalojo son parte de una misma estrategia patronal para desgastar la lucha: si no pueden expulsarlos del edificio, los criminalizan judicialmente. La persecución complementaria —citaciones, causas penales, fingerprinting de delegados— es una modalidad de violencia cultural empresarial que se articula con el aparato judicial: la empresa no solo quiere desalojar, quiere intimidar, estigmatizar y fragmentar la organización sindical. Los trabajadores convocaron a redoblar la solidaridad: enviar videos y fotos de apoyo, estar atentos a próximas acciones. El respaldo llegó de sindicatos, comisiones internas, centros de estudiantes, organismos de derechos humanos y figuras culturales, con la adhesión destacada de Carlos \"Indio\" Solari. La declaración central —\"Fate no se cierra\"— es un acto de resistencia que conecta la lucha local con la crisis general del empleo industrial bajo Milei: la destrucción de fábricas, la desregulación laboral y la criminalización de la protesta obrera.",
       "fuente": "La Izquierda Diario",
-      "foto": "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?w=600&h=400&fit=crop",
+      "fuente_url": ""
     },
     {
       "id": "cd-2026-06-24-6",
       "fecha": "2026-06-24",
       "violencia": "VD",
-      "tags": ["FAdeA", "industria-aeronáutica", "vaciamiento", "Córdoba"],
+      "tags": [
+        "FAdeA",
+        "industria-aeronáutica",
+        "vaciamiento",
+        "Córdoba"
+      ],
       "emoji": "✈️",
       "titulo": "FAdeA: gremios entraron a la fábrica y pidieron renuncia del directorio",
       "bajada": "Gremios entraron a FAdeA y exigieron renuncia del directorio. 650 trabajadores en crisis sin contratos ni definiciones.",
       "desarrollo": "La Fábrica Argentina de Aviones (FAdeA), la histórica planta cordobesa que fabricó el Pucará y fue emblemática de la industria aeronáutica nacional, vive una crisis institucional y productiva que esta semana escaló a un acto de resistencia gremial inusual: representantes del Sindicato de Trabajadores de FAdeA (STA) y la Asociación de Personal Aeronáutico (APA) ingresaron al Pabellón 1 —el edificio principal de la planta— y exigieron la renuncia del directorio. Los gremios recorrieron el edificio hasta las oficinas de conducción buscando hablar con el vicepresidente Emilio Magnaghi, máxima autoridad presente ese día; el presidente Julio Manco no estaba en la planta. El ingreso físico a las oficinas no es una protesta convencional: es una toma simbólica que expresa la profundidad de la crisis. FAdeA tiene aproximadamente 650 trabajadores en una situación de parálisis productiva: no hay contratos estratégicos firmados, no hay definiciones sobre la continuidad de la producción, y el directorio no ofrece respuestas. La planta —que en su momento álgido fue referente de la industria militar y civil argentina— opera hoy bajo la amenaza de vaciamiento y posible cierre, en un contexto donde el gobierno de Milei avanzó sobre despidos y recortes en el sector estatal industrial. La exigencia de renuncia del directorio no es solo una demanda administrativa: es una declaración de que la conducción actual es incapaz de garantizar la supervivencia de la fábrica. Los gremios reclaman contratos que aseguren trabajo, inversión que sostenga la producción y un directorio que tenga plan y voluntad. FAdeA no es una empresa privada en crisis: es una fábrica del Estado que representa capacidades industriales estratégicas —fabricación, mantenimiento, diseño aeronáutico— que, si se pierden, no se recuperan. La intervención gremial en el Pabellón 1 es un acto que trasciende la demanda sectorial: plantea la pregunta sobre qué industria nacional queda, qué producción estatal sobrevive, y qué trabajadores logran defender sus fábricas cuando el Estado se retira.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-24-7",
       "fecha": "2026-06-24",
       "violencia": "VD+VC",
-      "tags": ["violencia-cultural", "privatización", "turismo-social", "Embalse"],
+      "tags": [
+        "violencia-cultural",
+        "privatización",
+        "turismo-social",
+        "Embalse"
+      ],
       "emoji": "🏖️",
       "titulo": "Hoteles de Embalse: decreto autoriza venta, trabajadores resisten privatización",
       "bajada": "Cierre y despidos en hoteles Embalse. Decreto 322/26 autoriza venta u$s 40M. ATE logró 19 reincorporaciones.",
       "desarrollo": "Los hoteles estatales de Embalse, en la provincia de Córdoba, representan una de las piezas más visibles del desguace del turismo social —un patrimonio donde trabajadores y familias accedían a descanso y recreación como derecho, no como mercancía—. El Gobierno nacional cerró los complejos hoteleros y despidió a 44 trabajadores, dejando las 300 hectáreas del predio sin personal de mantenimiento ni atención. La respuesta gremial fue inmediata: ATE movilizó y logró la reincorporación de 19 empleados —16 para mantenimiento, 3 reubicados—, pero la situación es precaria: los hoteles permanecen cerrados, la infraestructura se deteriora y el futuro es incierto. La Agencia de Administración de Bienes del Estado (AABE), ahora responsable del predio, tiene un objetivo explícito: privatizar. El Decreto 322/2026 autoriza la venta del complejo con una expectativa de recaudar al menos 40 millones de dólares. El intendente local denuncia que la intención es \"vender y solo vender, a cualquier costo,\" sin considerar propuestas de gestión pública alternativa presentadas por el municipio y la Provincia. La venta de Embalse no es un acto administrativo: es la privatización de un derecho adquirido. Los hoteles fueron construidos para trabajadores, gestionados con recursos sindicales y estatales, y utilizados por miles de familias durante décadas. Su venta convierte un patrimonio social en un commodity: 300 hectáreas con infraestructura hotelera que pasarán de servicio público a negocio privado, de descanso obrero a renta empresaria. La resistencia de ATE y la reincorporación parcial de trabajadores son victorias tácticas en una batalla estratégica perdida si la venta se concreta. La asimetría es evidente: se exige eficiencia en la gestión pública, pero no se cuestiona la opacidad de la transacción privada; se denuncia el \"deterioro\" de los hoteles, pero se silencia que el deterioro fue producido por la decisión de cerrarlos y despedir a quienes los mantenían. Etiquetado: Violencia Cultural Empresarial — privatización de patrimonio social obrero por decreto; discurso de \"eficiencia\" que oculta negocio privado; destrucción deliberada de infraestructura para justificar venta.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-24-8",
       "fecha": "2026-06-24",
       "violencia": "VD",
-      "tags": ["quiebra", "avícola", "empleo", "crisis-empresaria"],
+      "tags": [
+        "quiebra",
+        "avícola",
+        "empleo",
+        "crisis-empresaria"
+      ],
       "emoji": "🍗",
       "titulo": "Granja Tres Arroyos: ola de pedidos de quiebra y temor en 7.000 empleados",
       "bajada": "Ola de pedidos de quiebra. Deuda u$s 350M, quitas 75%. ART impaga. 7.000 empleados con sueldos fraccionados.",
       "desarrollo": "Granja Tres Arroyos, la mayor productora avícola de Argentina —con plantas en Buenos Aires, Entre Ríos y Santa Fe— enfrenta una crisis financiera que amenaza directamente a sus casi 7.000 empleados. La empresa intenta reestructurar una deuda estimada en 350 millones de dólares antes del 30 de junio, fecha límite para evitar la quiebra. La propuesta de reestructuración, elaborada con la consultora Valo Columbus, contempla \"quitas de hasta el 75% del capital adeudado y plazos de cancelación de hasta siete años\" —condiciones que los acreedores consideran insuficientes y que revelan la magnitud del deterioro financiero. Prevención ART, una de las principales acreedores, promueve la quiebra por más de 4.200 millones de pesos en cuotas impagas de ART, un dato que conecta la crisis empresaria con la seguridad laboral: si la empresa no paga la ART, los trabajadores quedan sin cobertura ante accidentes y enfermedades profesionales. La empresa acumula más de 3.200 cheques rechazados por encima de 54.300 millones de pesos, una cifra que indica la profundidad de la insolvencia. Para los trabajadores, la crisis se traduce en parálisis productiva —plantas operativas con producción intermitente—, sueldos fraccionados —pagos parciales que no cubren el salario completo— y el cierre de la planta La China en Concepción del Uruguay. La situación de Granja Tres Arroyos no es un caso aislado: es la expresión de una crisis sectorial que combina desregulación, caída del consumo, aumento de costos y falta de crédito productivo —tasas \"por arriba del 20%\" que hacen inviable la refinanciación—. Los 7.000 empleados están en el centro de una disputa donde los acreedores buscan recuperar capital, la empresa busca supervivencia, y los trabajadores buscan salario y empleo. Si la quiebra se declara, los trabajadores enfrentan despidos, pérdida de cobertura de ART y la destrucción de la principal fuente laboral avícola del país. La empresa es, simultáneamente, empleador y deudor: y en esa dualidad, los trabajadores son los más vulnerables.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-24-9",
       "fecha": "2026-06-24",
       "violencia": "VD",
-      "tags": ["GNL", "Neuquén", "regalías", "RIGI", "extractivismo"],
+      "tags": [
+        "GNL",
+        "Neuquén",
+        "regalías",
+        "RIGI",
+        "extractivismo"
+      ],
       "emoji": "🛢️",
       "titulo": "Neuquén: paro y movilización contra el \"pacto de saqueo\" del GNL",
       "bajada": "Paro y marcha contra pacto GNL: regalías 7,5%, RIGI 30 años, arbitraje en París. Petroleros respalda; FI denuncia saqueo.",
       "desarrollo": "La Legislatura de Neuquén debate un proyecto que ratifica el acuerdo entre la provincia e YPF para el desarrollo de Gas Natural Licuado (GNL), impulsado por el gobernador Rolando Figueroa. El pacto combina condiciones que los gremios estatales y movimientos sociales califican como \"saqueo extractivista\": regalías reducidas al 7,5% —una disminución de hasta 37,5% respecto al 12% vigente—, beneficios del RIGI (retenciones cero, libre disponibilidad de divisas, exenciones de IVA y ganancias, estabilidad fiscal por 30 años), exención de Ingresos Brutos para las concesiones vinculadas, y una cláusula de arbitraje internacional con sede en París, criticada como renuncia a soberanía jurisdiccional. A cambio, la provincia recibe un bono de obras de 5,8 millones de dólares anuales —una cifra marginal frente al valor de los recursos extraídos y los beneficios cedidos. La respuesta sindical fue inmediata: ATE, ATEN (docentes neuquinos), ADUNC (universitarios) y SEJUN (judiciales) convocaron un paro de 24 horas y marcha a la Legislatura. Seccionales opositoras y trabajadores de salud autoconvocados repudian el pacto como \"nuevo pacto de saqueo\" y critican que las conducciones sindicales solo adoptan medidas simbólicas sin un plan de lucha real. La fractura sindical es significativa: dirigentes del gremio de Petroleros y la CGT regional respaldan el proyecto, calificándolo como \"oportunidad histórica\" —sin mencionar la reducción de regalías ni el impacto sobre recursos públicos—. Petroleros fue uno de los pocos gremios que no paró contra la reforma laboral de Milei, una posición que reproduce la dicotomía entre sindicatos que negocian dentro del modelo extractivo y aquellos que resisten desde fuera. El diputado del Frente de Izquierda Andrés Blanco denuncia que \"bajan regalías a las petroleras y suben las tarifas al pueblo,\" y cuestiona que el gas de exportación queda eximido del fondo fiduciario de Zona Fría, lo que podría generar un tarifazo de hasta 100% para familias neuquinas. El pacto se inscribe en la misma orientación del gobierno de Milei: ajuste, entrega de recursos y endeudamiento, articulando poder provincial, empresarial y nacional contra trabajadores y comunidades.",
       "fuente": "La Izquierda Diario",
-      "foto": "https://images.unsplash.com/photo-1516937941344-00b4e0337589?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1516937941344-00b4e0337589?w=600&h=400&fit=crop",
+      "fuente_url": ""
     },
     {
       "id": "cd-2026-06-24-10",
       "fecha": "2026-06-24",
       "violencia": "VD",
-      "tags": ["pymes", "aguinaldo", "morosidad", "crisis-económica"],
+      "tags": [
+        "pymes",
+        "aguinaldo",
+        "morosidad",
+        "crisis-económica"
+      ],
       "emoji": "💰",
       "titulo": "Pymes: peligra el pago de salarios y aguinaldo por morosidad y caída de ventas",
       "bajada": "Peligra pago de salarios y aguinaldo. 26.500 empresas cerradas, morosidad 3,3%. 83% baja de actividad.",
       "desarrollo": "Las cámaras que representan al sector pymes —la mayoría de las empresas argentinas y la principal fuente de empleo privado— emitieron una alerta que conecta la crisis macro con el bolsillo del trabajador: el pago de los salarios de junio y el medio aguinaldo corren riesgo serio por la morosidad creciente y la caída de ventas. El 83% de las pymes señala la baja de actividad como su principal problema, un dato que no es subjetivo: la destrucción de 26.500 empresas desde la asunción de Milei —según datos de cámaras y registros públicos— confirma que la contracción es sistémica, no sectorial. La morosidad en créditos empresarios saltó del 0,9% al 3,3% en un año, y un 70% de las firmas denuncia extensión unilateral de plazos de pago por clientes —una práctica que convierte al empresario en deudor involuntario y al trabajador en víctima silenciosa: si la empresa no recibe pago, no puede pagar salarios. El acceso a crédito productivo es inviable con tasas \"por arriba del 20%,\" un costo que hace imposible la refinanciación de operaciones y que empuja a las pymes hacia el cierre o la quiebra —como ya ocurre con Granja Tres Arroyos—. La frase de un referente empresario sintetiza la cascada: \"Va a ser un mes muy difícil para el sector, y el impacto se va a sentir en los bolsillos de los trabajadores.\" La afirmación es reveladora porque reconoce que la crisis empresaria no termina en la empresa: se transmite al salario. Si 7.000 empleados de Granja Tres Arroyos ya sufren sueldos fraccionados, y si las pymes alertan que el aguinaldo peligra, el problema no es \"rentabilidad empresaria\" sino \"subsistencia obrera.\" La combinación de desregulación, caída del consumo, morosidad y tasas inviables configura un escenario donde el trabajador no solo enfrenta despidos y reforma laboral: enfrenta la posibilidad que su empleador —la pymes de la que depende— no pueda pagarle. El aguinaldo, una conquista histórica del movimiento obrero, se convierte en este contexto en un derecho bajo amenaza: no porque el empresario no quiera pagar, sino porque el sistema económico hace que no pueda. La pregunta sindical es si la defensa del aguinaldo se articula con la defensa del empleo pymes, o si los gremios solo reclaman al empleador sin cuestionar las condiciones macro que determinan su capacidad de pago.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     }
   ]
 }

@@ -280,7 +280,8 @@ class HorneroClipping extends HoComponent {
         padding: 16px; overflow-y: auto; -webkit-overflow-scrolling: touch;
         animation: popfade .25s ease; }
 
-      .popup-content { background: var(--ho-card, #2A3230); border-radius: 13px;
+      .popup-content { background: var(--ho-card, #2A3230); border-radius: 16px;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.12));
         max-width: 100%; width: 380px; position: relative;
         overflow: hidden; }
 
@@ -301,6 +302,10 @@ class HorneroClipping extends HoComponent {
         color: var(--ho-text-mid, #6E6A60); line-height: 1.6; margin-top: 10px; }
       .popup-fuente { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); margin-top: 8px; font-style: italic; }
+      .popup-fuente a { color: var(--ho-green, #4E9978); text-decoration: none;
+        transition: color .2s; }
+      .popup-fuente a:hover { color: var(--ho-green-light, #80CCA0);
+        text-decoration: underline; }
       .popup-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
 
       @keyframes popfade { from { opacity: 0 } to { opacity: 1 } }
@@ -376,7 +381,7 @@ class HorneroClipping extends HoComponent {
           (item.emoji ? '<span class="popup-emoji">' + item.emoji + '</span>' : '') +
           '<span class="popup-titulo">' + (item.titulo || '') + '</span></div>' +
           '<div class="popup-desarrollo">' + (item.desarrollo || '') + '</div>' +
-          (item.fuente ? '<div class="popup-fuente">Fuente: ' + item.fuente + '</div>' : '') +
+          (item.fuente ? '<div class="popup-fuente">Fuente: ' + (item.fuente_url ? '<a href="' + item.fuente_url + '" target="_blank" rel="noopener">' + item.fuente + '</a>' : item.fuente) + '</div>' : '') +
           (tagsHtml ? '<div class="popup-tags">' + tagsHtml + '</div>' : '') +
         '</div>' +
       '</div>' +

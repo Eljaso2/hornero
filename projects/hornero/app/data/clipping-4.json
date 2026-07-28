@@ -5,7 +5,11 @@
     "semana": "27 junio - 2 julio 2026",
     "numero": 4,
     "frecuencia": "semanal",
-    "fuentes": ["Sonido Gremial", "InfoGremiales", "La Izquierda Diario"]
+    "fuentes": [
+      "Sonido Gremial",
+      "InfoGremiales",
+      "La Izquierda Diario"
+    ]
   },
   "clipping": [
     {
@@ -14,11 +18,24 @@
       "fecha": "2026-07-02",
       "posicion": 1,
       "tipo": "clipping",
-      "tags": ["VD", "VC", "paritaria", "aceitera"],
+      "tags": [
+        "VD",
+        "VC",
+        "paritaria",
+        "aceitera"
+      ],
       "titulo": "Paritaria aceitera: cierre con básico $2,7M después de patronal presionando con 0% y $15.000",
       "bajada": "La Federación Aceitera cerró la paritaria: básico sube de $2.344.000 a $2.719.040 desde septiembre. Las cámaras arrancaron con 0%, luego $15.000 — Yofra: \"cada vez quieren conflicto, el ofrecimiento es cero.\"",
-      "keywords": ["paritaria", "aceitera", "Yofra", "básico", "CIARA", "CIAVEC"],
-      "fuente": "Sonido Gremial 30/06, InfoGremiales 19/06"
+      "keywords": [
+        "paritaria",
+        "aceitera",
+        "Yofra",
+        "básico",
+        "CIARA",
+        "CIAVEC"
+      ],
+      "fuente": "Sonido Gremial 30/06, InfoGremiales 19/06",
+      "fuente_url": ""
     },
     {
       "id": "cl-4-2",
@@ -26,11 +43,24 @@
       "fecha": "2026-07-02",
       "posicion": 2,
       "tipo": "clipping",
-      "tags": ["VD", "VC", "CONICET", "despidos", "ciencia"],
+      "tags": [
+        "VD",
+        "VC",
+        "CONICET",
+        "despidos",
+        "ciencia"
+      ],
       "titulo": "CONICET: 379 becarios posdoctorales en riesgo de desvinculación, ATE movilizó al Polo Científico",
       "bajada": "379 becarios posdoctorales del CONICET en riesgo de perder su puesto. ATE-Conicet movilizó el 1/7 frente al Polo Científico. Obra social cancelada sin aviso. Victoria García: \"Están preparando todo para poner el cartel de venta.\"",
-      "keywords": ["CONICET", "despidos", "ATE", "ciencia", "becarios"],
-      "fuente": "InfoGremiales 01/07, 25/06"
+      "keywords": [
+        "CONICET",
+        "despidos",
+        "ATE",
+        "ciencia",
+        "becarios"
+      ],
+      "fuente": "InfoGremiales 01/07, 25/06",
+      "fuente_url": ""
     },
     {
       "id": "cl-4-3",
@@ -38,11 +68,26 @@
       "fecha": "2026-07-02",
       "posicion": 3,
       "tipo": "clipping",
-      "tags": ["VD", "VC", "militarización", "INTI", "CNEA", "INTA"],
+      "tags": [
+        "VD",
+        "VC",
+        "militarización",
+        "INTI",
+        "CNEA",
+        "INTA"
+      ],
       "titulo": "Desguace militarizado del sistema científico-nuclear-agropecuario: Gendarmería en INTI, director CNEA escoltado, INTA con 897 expulsados",
       "bajada": "Gendarmería en INTI, CNEA reducida 57%, INTA con 897 expulsados. Localidades sin nadie para abrir puertas. Autoridades INTA declararon el proceso \"todo un éxito.\"",
-      "keywords": ["militarización", "INTI", "CNEA", "INTA", "Gendarmería", "despidos"],
-      "fuente": "La Izquierda Diario, InfoGremiales"
+      "keywords": [
+        "militarización",
+        "INTI",
+        "CNEA",
+        "INTA",
+        "Gendarmería",
+        "despidos"
+      ],
+      "fuente": "La Izquierda Diario, InfoGremiales",
+      "fuente_url": ""
     },
     {
       "id": "cl-4-4",
@@ -50,11 +95,25 @@
       "fecha": "2026-07-02",
       "posicion": 4,
       "tipo": "clipping",
-      "tags": ["VD", "VC", "lácteos", "Verónica", "lockout", "vaciamiento"],
+      "tags": [
+        "VD",
+        "VC",
+        "lácteos",
+        "Verónica",
+        "lockout",
+        "vaciamiento"
+      ],
       "titulo": "Lácteos Verónica: vaciamiento, Lockout y 700 trabajadores sin salario — la familia Espiñeira creó tres empresas nuevas mientras dejaba de pagar",
       "bajada": "Lácteos Verónica acumula cinco meses de parálisis, adeuda tres salarios. 3.886 cheques rechazados. La familia Espiñeira creó tres empresas nuevas mientras dejaba de pagar. Strada: \"¿Eso no es vaciamiento deliberado?\"",
-      "keywords": ["lácteos", "Verónica", "lockout", "vaciamiento", "ATILRA"],
-      "fuente": "InfoGremiales"
+      "keywords": [
+        "lácteos",
+        "Verónica",
+        "lockout",
+        "vaciamiento",
+        "ATILRA"
+      ],
+      "fuente": "InfoGremiales",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cl-4-5",
@@ -62,11 +121,23 @@
       "fecha": "2026-07-02",
       "posicion": 5,
       "tipo": "clipping",
-      "tags": ["VC", "Yofra", "aceitera", "violencia cultural", "paritaria"],
+      "tags": [
+        "VC",
+        "Yofra",
+        "aceitera",
+        "violencia cultural",
+        "paritaria"
+      ],
       "titulo": "Daniel Yofra y los aceiteros: \"La propuesta fue cero\" — la violencia cultural patronal en la negociación paritaria",
       "bajada": "Yofra denuncia la estrategia patronal: ofrecer 0% para forzar conflicto y negociar desde debilidad obrera. Articulación entre presión patronal y reforma laboral que limita la huelga.",
-      "keywords": ["Yofra", "violencia cultural", "paritaria", "reforma laboral"],
-      "fuente": "Sonido Gremial"
+      "keywords": [
+        "Yofra",
+        "violencia cultural",
+        "paritaria",
+        "reforma laboral"
+      ],
+      "fuente": "Sonido Gremial",
+      "fuente_url": "https://www.sondogremial.com.ar"
     }
   ]
 }

@@ -5,128 +5,197 @@
     "fecha": "2026-06-22",
     "frecuencia": "diario",
     "numero": 1,
-    "fuentes": ["InfoGremiales", "Página/12", "CLATE", "Argentina.gob.ar"]
+    "fuentes": [
+      "InfoGremiales",
+      "Página/12",
+      "CLATE",
+      "Argentina.gob.ar"
+    ]
   },
   "noticias": [
     {
       "id": "cd-2026-06-22-1",
       "fecha": "2026-06-22",
       "violencia": "VD+VC",
-      "tags": ["CGT", "CTA", "marcha", "paro-general", "reforma-laboral", "estatales", "paritaria"],
+      "tags": [
+        "CGT",
+        "CTA",
+        "marcha",
+        "paro-general",
+        "reforma-laboral",
+        "estatales",
+        "paritaria"
+      ],
       "emoji": "📢",
       "titulo": "CGT y CTA preparan marcha federal y paro general; UPCN firma paritaria del 6,6%; ATE denuncia \"chantaje y extorsión\"",
       "bajada": "CGT y CTA preparan marcha federal y paro general. UPCN aceptó 6,6% que ATE rechazó como chantaje.",
       "desarrollo": "La CGT y las dos CTA —de los Trabajadores (CTA-T) y Autónoma (CTA-A)— celebraron una reunión descrita como \"poco habitual\", donde los máximos referentes de las tres centrales decidieron dejar de lado sus históricas diferencias para coordinar acciones contra las políticas del gobierno de Milei. Del cónclave participaron los integrantes del triunvirato de la CGT: Jorge Sola (Seguro), Cristian Jerónimo (Vidrio) y Octavio Argüello (Camioneros), junto a Hugo Yasky (CTA-T) y Hugo Godoy (CTA-A). La decisión se tomó tras el fracaso de la estrategia judicial para frenar la reforma laboral y luego de las denuncias presentadas en la conferencia de la OIT en Ginebra. Las centrales acordaron esperar a que finalice el Mundial antes de concretar las acciones: primero una marcha federal con presencia de gremios de todo el país, luego un paro general. En paralelo, UPCN aceptó la oferta salarial del gobierno para estatales nacionales: un incremento acumulado del 6,64% (2,4% en junio, 2,2% en julio, 1,9% en agosto) más un bono remunerativo de $50.000. ATE rechazó la propuesta como \"insuficiente\" y señaló que los salarios estatales están 43% por debajo de la inflación desde 2023. Pero la fractura no se limita a los números: cuando el Ministerio de Capital Humano comenzó a enviar cédulas convocando a gremios y empresarios a \"discutir\" los convenios colectivos, ATE calificó la medida como \"chantaje y extorsión\". La reforma laboral habilita la renegociación de todas las condiciones de convenios —cláusulas, beneficios, escalafones— y ATE interpreta la convocatoria como una presión para imponer condiciones bajo threat: si los sindicatos no aceptan, la reforma se impone de facto. El gobierno es simultáneamente empleador y legislador, configurando una negociación donde una de las partes define las reglas. UPCN —que aceptó la paritaria— adopta una posición conciliatoria; ATE convocará asambleas para definir medidas de acción. La tensión reproduce la dicotomía que atraviesa al movimiento obrero: negociar dentro del marco impuesto, o resistir fuera de él.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1511898634545-c01af8a54dd5?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1511898634545-c01af8a54dd5?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-22-2",
       "fecha": "2026-06-22",
       "violencia": "VC",
-      "tags": ["CLATE", "OIT", "reforma-laboral", "denuncia-internacional"],
+      "tags": [
+        "CLATE",
+        "OIT",
+        "reforma-laboral",
+        "denuncia-internacional"
+      ],
       "emoji": "🌐",
       "titulo": "Voces de la CLATE en la OIT: Matías Cremonte y delegación argentina en Ginebra",
       "bajada": "Delegación CLATE en OIT Ginebra. Cremonte y argentinos denunciaron reforma laboral.",
       "desarrollo": "La Confederación Latinoamericana de Trabajadores del Estado (CLATE) envió una numerosa delegación a la Conferencia Internacional del Trabajo de la OIT en Ginebra, liderada por su presidente Julio Fuentes. La delegación incluyó representantes de Brasil (CSPB), Colombia (UTRADEC-CGT), Chile (ANEF), República Dominicana (FENAMUTRA y CONATE-CASC) y Argentina. Matías Cremonte, presidente de la Asociación Latinoamericana de Abogados y Abogadas Laboralistas (ALAL), acompañó a la CLATE y encabezó su propia delegación, siendo uno de los oradores de la jornada del 9 de junio. La presencia argentina fue particularmente activa: Rodolfo Aguiar, secretario general de ATE, se refirió a la crítica situación de los trabajadores argentinos tras la aprobación de la Reforma Laboral; Matías Fachal, secretario general de la Federación Judicial Argentina (FJA), llevó el reclamo de los trabajadores judiciales por negociación colectiva, presentando la queja ante el Comité de Libertad Sindical; y Marco Calarco, del Sindicato de Trabajadores Judiciales de Río Negro, agradeció el acompañamiento de CLATE ante la queja presentada a la OIT. Los temas debatidos incluyeron el Convenio 151 de la OIT sobre negociación colectiva en el servicio público, la inteligencia artificial en el mundo del trabajo, el trabajo en plataformas, género y trabajo decente, y la presión de Estados Unidos en las comisiones. La participación de CLATE y ALAL en Ginebra se inscribe en una estrategia de denuncia internacional que complementa la acción doméstica: si la Justicia argentina no frenó la reforma laboral, la arena internacional ofrece un espacio adicional para visibilizar las violaciones a los convenios ratificados por Argentina.",
       "fuente": "CLATE",
-      "foto": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=600&h=400&fit=crop",
+      "fuente_url": ""
     },
     {
       "id": "cd-2026-06-22-3",
       "fecha": "2026-06-22",
       "violencia": "VD+VC",
-      "tags": ["despidos", "INTA", "ILVA", "ajuste", "empleo"],
+      "tags": [
+        "despidos",
+        "INTA",
+        "ILVA",
+        "ajuste",
+        "empleo"
+      ],
       "emoji": "🔪",
       "titulo": "Despidos y recortes: INTA, ILVA, taxistas de Rosario y la destrucción del empleo",
       "bajada": "Casi 800 despidos en INTA, 300 en ILVA, obra social de taxistas eliminada. Ajuste sistémico.",
       "desarrollo": "La semana cerró con un panorama de despidos y recortes que se extiende por todo el territorio y atraviesa sectores públicos y privados. El INTA publicó una segunda lista de despidos, alcanzando casi 800 técnicos desvinculados, en una institución clave para la investigación agropecuaria y la soberanía alimentaria. Los despidos no solo eliminan puestos: destruyen capacidades científicas acumuladas durante décadas. En la industria, los trabajadores de cerámicos ILVA sostienen un acampe desde hace 10 meses tras el cierre de la planta y los 300 despidos, una resistencia que visibiliza el impacto de la crisis del consumo sobre la producción manufacturera. En Rosario, el Estado inició un procedimiento de baja de la obra social del gremio de taxistas, una medida que elimina la cobertura de salud de los trabajadores del sector y se inscribe en la tendencia de intervención sobre obras sindicales. Los datos macro confirman la magnitud: Santa Fe destruyó más de 3 mil empresas y 22 mil empleos registrados desde que asumió Milei, y el empleo formal cayó en términos nacionales mientras el salario mínimo perdió casi 40% de poder de compra. La combinación de despidos estatales (INTA), cierres industriales (ILVA), recortes de derechos adquiridos (obra social taxistas) y destrucción masiva de empleo registrado (Santa Fe) configura un mapa del ajuste que no es puntual sino sistémico: cada caso es una pieza de una política que reduce el Estado, debilita los derechos laborales y precariza el empleo en todos los sectores simultáneamente.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-22-4",
       "fecha": "2026-06-22",
       "violencia": "VC",
-      "tags": ["memoria", "piquete", "Cutral-Co", "neoliberalismo"],
+      "tags": [
+        "memoria",
+        "piquete",
+        "Cutral-Co",
+        "neoliberalismo"
+      ],
       "emoji": "🔥",
       "titulo": "A 30 años del primer piquete de Cutral Co y Plaza Huincul",
       "bajada": "Neuquén 1996: el primer piquete. A 30 años, la memoria se reactiva frente a un nuevo ciclo de ajuste.",
       "desarrollo": "En junio de 1996, las ciudades neuquinas de Cutral Co y Plaza Huincul se convirtieron en el epicentro de una forma de protesta que cambiaría la historia del movimiento social argentino: el piquete. La privatización de YPF —principal empleadora de la zona— había dejado miles de familias sin ingresos, y la respuesta del gobierno provincial fue insuficiente. Trabajadores petroleros, estatales, docentes y vecinos cortaron la Ruta 22 durante días, encendiendo fogatas y organizando asambleas en las rutas. Aquel primer corte no fue solo una protesta local: inauguró una metodología de resistencia que se expandió por todo el país, desde Salta hasta Buenos Aires, y dio nombre a un movimiento —el piquetero— que articuló desocupados, trabajadores y comunidades en una lucha por visibilidad y recursos. Hoy, a 30 años, la conmemoración adquiere resonancia particular: el gobierno impulsa un nuevo ciclo de despidos estatales, cierre de paritarias y desregulación laboral que reproduce lógicas similares a las que provocaron aquel estallido. La CGT y las CTA preparan marchas federales y paros generales; ATE denuncia \"chantaje\" en la renegociación de convenios; los trabajadores de ILVA sostienen acampes. La memoria del piquete se reactiva como herramienta política y simbólica, y la pregunta central de la conmemoración es si la experiencia de 1996 contiene lecciones para los movimientos que hoy enfrentan el ajuste: organización territorial, articulación entre gremios y comunidades, y capacidad de visibilizar localmente un conflicto que es nacional.",
       "fuente": "Página/12",
-      "foto": "https://images.unsplash.com/photo-1516937941344-00b4e0337589?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1516937941344-00b4e0337589?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.pagina12.com.ar"
     },
     {
       "id": "cd-2026-06-22-5",
       "fecha": "2026-06-22",
       "violencia": "VD+VC",
-      "tags": ["turismo-social", "Chapadmalal", "desguace", "derechos-adquiridos"],
+      "tags": [
+        "turismo-social",
+        "Chapadmalal",
+        "desguace",
+        "derechos-adquiridos"
+      ],
       "emoji": "🏖️",
       "titulo": "Tiro de gracia al turismo social: el desguace de Chapadmalal",
       "bajada": "Chapadmalal enfrenta desmantelamiento. La pérdida revela cómo el ajuste destruye derechos adquiridos.",
       "desarrollo": "El complejo turístico de Chapadmalal, ubicado en la costa atlántica bonaerense, fue concebido en la década de 1940 como parte del proyecto de turismo social impulsado por el Estado y las obras sindicales: bungalows, colonias de vacaciones, playas accesibles para miles de trabajadores y sus familias. Por décadas, Chapadmalal representó una concepción donde vacaciones eran derecho, no mercancía. Hoy, ese patrimonio está siendo desmantelado. El gobierno avanzó con transferencia de terrenos, reducción del presupuesto de mantenimiento y clausura progresiva de instalaciones. Para los sindicatos que gestionaban el complejo —y para los trabajadores que lo utilizaban— se trata de la eliminación de un derecho adquirido, no de una \"optimización\" administrativa. El turismo social fue una conquista del movimiento obrero: la idea que los trabajadores merecían descanso y recreación como parte del contrato social, no como opción de mercado. Su desguace forma parte de una lógica más amplia que incluye la privatización de espacios públicos, la eliminación de servicios sociales y la conversión de derechos en opciones comerciales. Chapadmalal no es solo un complejo vacacional: es un símbolo del modelo donde el bienestar obrero era parte del pacto social. Su pérdida no afecta solo a quienes veraneaban allí: simboliza la erosión de una concepción del trabajo donde derechos y descanso eran inseparables del salario. La columna de Gabriela Figueroa en Página/12 lo describe con precisión: no es deterioration, es tiro de gracia.",
       "fuente": "Página/12",
-      "foto": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.pagina12.com.ar"
     },
     {
       "id": "cd-2026-06-22-6",
       "fecha": "2026-06-22",
       "violencia": "VD+VC",
-      "tags": ["salud-mental", "precarización", "crisis-económica"],
+      "tags": [
+        "salud-mental",
+        "precarización",
+        "crisis-económica"
+      ],
       "emoji": "🧠",
       "titulo": "Radiografía de una epidemia de salud mental: crisis económica y angustia laboral",
       "bajada": "Ansiedad, depresión y angustia laboral crecen. La salud mental es dimensión del conflicto obrero.",
       "desarrollo": "Argentina enfrenta una crisis de salud mental que no es solo clínica sino social. Los datos disponibles muestran un crecimiento sostenido de consultas por ansiedad, depresión y trastornos vinculados al estrés laboral y la incertidumbre económica. Trabajadores que enfrentan despidos, suspensiones, caída salarial y precarización contractual reportan síntomas que no se reducen a factores individuales: son la expresión colectiva de un modelo económico que deteriora las condiciones de vida. La relación entre crisis económica y salud mental fue documentada en otros contextos de ajuste —Grecia, España tras 2008— pero en Argentina adquiere particularidades: la inflación como factor de angustia permanente, la devaluación del salario real como vivencia cotidiana, y la desregulación laboral como amenaza constante. Dolores Curia, en Página/12, traza una radiografía donde \"la crisis económica se expresa en ansiedad y depresión\", conectando el deterioro macro con la experiencia micro de cada trabajador. Los sindicatos empiezan a incorporar la salud mental como dimensión del conflicto: no solo se reclama por salario y empleo, sino por condiciones de trabajo que no destruyan la salud psíquica. Cuando la precarización laboral se traduce en síntomas clínicos masivos, el conflicto trasciende la negociación salarial y se convierte en una cuestión de dignidad y derechos fundamentales. La epidemia de salud mental es un indicador de la profundidad del deterioro: no se mide en porcentajes de inflación, sino en angustia, insomnio y depresión de quienes trabajan —o perdieron el trabajo— bajo un modelo que desregula, ajusta y precariza simultáneamente.",
       "fuente": "Página/12",
-      "foto": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.pagina12.com.ar"
     },
     {
       "id": "cd-2026-06-22-7",
       "fecha": "2026-06-22",
       "violencia": "VD+VC",
-      "tags": ["IA", "megadatacenters", "Patagonia", "extractivismo", "zona-de-sacrificio"],
+      "tags": [
+        "IA",
+        "megadatacenters",
+        "Patagonia",
+        "extractivismo",
+        "zona-de-sacrificio"
+      ],
       "emoji": "💻",
       "titulo": "IA, megadatacenters y la Patagonia como zona de sacrificio",
       "bajada": "Megadatacenters en la Patagonia sin consulta. Comunidades resisten un nuevo extractivismo digital.",
       "desarrollo": "La Patagonia argentina enfrenta una nueva forma de extractivismo: no se trata ya de petróleo o gas, sino de datos. Empresas internacionales de tecnología buscan instalar megadatacenters en la región, aprovechando el clima frío para reducir costos de refrigeración y la disponibilidad de energía. El argumento es eficiencia; la consecuencia es transformación territorial sin consulta. Las comunidades locales —trabajadores rurales, pobladores de small towns, organizaciones ambientalistas— denunciaron que estos proyectos se impulsan sin participación de quienes vivirán sus consecuencias: consumo de agua, modificación del paisaje, presión sobre infraestructura local y llegada de trabajadores externos configuran impactos que no se distribuyen igualitariamente. Alejandra Dandan, en Página/12, recoge la voz de quienes resisten: \"La industria y los gobiernos buscan condenar a gente suelta\", describen un modelo donde la comunidad es vista como obstáculo, no como sujeto. El conflicto reproduce lógicas conocidas en la historia de la Patagonia: la imposición de proyectos extractivos desde centros de decisión distantes, la conversión de territorio común en zona de sacrificio, y la resistencia de quienes defienden su derecho a decidir. Lo nuevo es el objeto de extracción —datos, no hidrocarburos— pero la estructura del conflicto es vieja: capital externo, territorio local, desigualdad de poder. La pregunta que la columna plantea es si la Patagonia puede ser simultáneamente zona de sacrificio digital y territorio de resistencia, o si el extractivismo de datos reproduce —con nueva tecnología— las mismas desigualdades que el extractivismo de recursos naturales.",
       "fuente": "Página/12",
-      "foto": "https://images.unsplash.com/photo-1549637642-90187f64f420?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1549637642-90187f64f420?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.pagina12.com.ar"
     },
     {
       "id": "cd-2026-06-22-8",
       "fecha": "2026-06-22",
       "violencia": "VD+VC",
-      "tags": ["Cencosud", "banco-de-horas", "reforma-laboral", "flexibilización"],
+      "tags": [
+        "Cencosud",
+        "banco-de-horas",
+        "reforma-laboral",
+        "flexibilización"
+      ],
       "emoji": "🏭",
       "titulo": "Cencosud-Makro presiona por banco de horas: reforma laboral se filtra al sector privado",
       "bajada": "Cencosud-Makro presiona por banco de horas. La reforma laboral ya se filtra al sector privado.",
       "desarrollo": "Cencosud-Makro fue acusada de presionar al personal jerárquico para aceptar el banco de horas, un mecanismo de flexibilización laboral incorporado en la reforma laboral aprobada por el gobierno de Milei. El banco de horas permite a las empresas compensar horas extras con tiempo libre en lugar de pago adicional, una herramienta que reduce costos laborales y flexibiliza la jornada del trabajador. La presión sobre el personal jerárquico —que tiene menor protección sindical— es una señal de cómo las empresas privadas adoptan las nuevas normas antes incluso de su implementación completa: la reforma laboral no solo cambia la ley, cambia las prácticas. El caso de Cencosud-Makro es emblemático porque muestra la cadena de transmisión: el gobierno legisla la flexibilización, las empresas grandes la adoptan como practice, y los trabajadores la padecen como pérdida de derechos. El banco de horas no es un mecanismo neutral: en contextos de crisis, donde el trabajo escasea, la \"flexibilidad\" se convierte en una herramienta unilateral del empleador. El trabajador que antes cobraba horas extras ahora \"compensa\" con descanso que puede no necesitar ni elegir. La denuncia sobre Cencosud-Makro anticipa lo que puede generalizarse: si las grandes empresas ya están presionando para implementar la reforma, las medianas y pequeñas lo harán con mayor facilidad y menor visibilidad. El banco de horas es la primera pieza; la renegociación de convenios, la modificación de indemnizaciones y la reducción de protections sindicales son las siguientes.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-22-9",
       "fecha": "2026-06-22",
       "violencia": "VD",
-      "tags": ["empleo", "salario-mínimo", "poder-de-compra", "ajuste"],
+      "tags": [
+        "empleo",
+        "salario-mínimo",
+        "poder-de-compra",
+        "ajuste"
+      ],
       "emoji": "📉",
       "titulo": "Empleo formal cayó y salario mínimo perdió 40% de poder de compra",
       "bajada": "Empleo registrado cayó y salario mínimo perdió 40% de poder de compra. Trabajar no garantiza subsistencia.",
       "desarrollo": "Los datos macroeconómicos de esta semana confirman lo que los conflictos sectoriales ya visibilizaban: el ajuste no solo despidió trabajadores, también erosionó la capacidad de subsistencia de quienes siguen trabajando. El empleo formal registró una nueva caída, en un contexto donde ya se habían destruido más de 22 mil empleos registrados en Santa Fe y donde el INTA, ILVA y otras empresas redujeron personal significativamente. La caída del empleo formal no es un dato aislado: es la expresión agregada de los cierres, las quiebras (como la constructora contratista de Acindar), los retiros voluntarios (Flybondi, Stellantis) y los despidos directos que recorren todos los sectores. Simultáneamente, el salario mínimo perdió casi 40% de poder de compra desde diciembre de 2023, lo que significa que un trabajador que percibe el salario mínimo en 2026 puede comprar 40% menos que el mismo trabajador en 2023. El INDEC había informado que criar a un hijo superó los $600.000 en mayo, una cifra que contrasta brutalmente con los salarios de inicio en muchos sectores —incluidos los estatales, donde ATE reclama un mínimo superior a $2.200.000 conforme al artículo 14 bis. La combinación de caída del empleo formal y deterioro salarial configura un escenario donde trabajar ya no garantiza subsistencia: el empleo precario crece, el empleo registrado cae, y los salarios —incluso los negociados en paritarias— no compensan la pérdida acumulada. El título de InfoGremiales lo sintetiza: \"Todo para abajo\". La pregunta es cuánto más puede caer antes que la conflictividad laboral —que ya escaló a paro general y marcha federal— se traduzca en una crisis política de mayor dimensión.",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     },
     {
       "id": "cd-2026-06-22-10",
       "fecha": "2026-06-22",
       "violencia": "VD+VC",
-      "tags": ["uberización", "plataformas", "precarización", "Sitrarepa"],
+      "tags": [
+        "uberización",
+        "plataformas",
+        "precarización",
+        "Sitrarepa"
+      ],
       "emoji": "📱",
       "titulo": "La \"uberización\" del empleo acelera: un millón de trabajadores en plataformas con signos de saturación",
       "bajada": "Un millón de trabajadores en plataformas. Exceso de oferta, ganancia en caída, pago opaco.",
       "desarrollo": "La economía de plataformas cuenta con aproximadamente un millón de trabajadores en Argentina, según estimaciones del Sindicato de Base de Trabajadores por Aplicación (Sitrarepa): 700.000 en traslado de personas y 300.000 en delivery. Los números de las empresas confirman la magnitud: DiDi supera el medio millón de personas con ganancias en la plataforma con crecimiento del 48% interanual; Uber reportó más de 350.000 personas con ganancias solo en CABA; Cabify tiene 40.000 conductores inscriptos con crecimiento del 25%; PedidosYa tuvo 64.000 repartidores activos en mayo; Rappi registró 151.874 personas que completaron al menos un pedido. El crecimiento se intensificó durante el gobierno de Milei: muchos se incorporaron para complementar ingresos ante la caída salarial o buscar empleo rápido cuando el empleo formal se destruía. Pero la recesión genera un cuello de botella: más trabajadores en la calle con consumo retraído. Belén D'Ambrosio, secretaria general de Sitrarepa, alertó que \"la recesión genera que seamos más trabajadores en la street y el consumo está retraído, lo que genera una especie de cuello de botella.\" La ganancia por pedido disminuyó por el exceso de oferta con demanda insuficiente, y el cálculo de pago de las apps es \"arbitrario y opaco.\" También se denunció la práctica de alquiler de cuentas —generada por bloqueos, falta de documentación de inmigrantes o jóvenes menores que trabajan con cuentas prestadas—, una irregularidad que las plataformas toleran porque mantiene la oferta de trabajadores. Los datos de la Fundación Mediterránea muestran un indicio de desgaste: el patentamiento de motos, que había alcanzado crecimiento récord, registró en mayo un descenso del 16,9% mensual, lo que podría indicar un límite para incorporar nuevos trabajadores. La uberización no es un fenómeno neutral: en un contexto de desregulación laboral, las plataformas funcionan como amortiguador de la crisis —absorben a quienes pierden empleo formal— pero sin protección, sin derechos y con remuneración en caída. El exministro Dante Sica sostuvo que esto \"recién es un inicio\" y que Argentina aún tiene nivel bajo de e-commerce, pero la pregunta sindical es otra: si el empleo de plataforma crece con saturación y ganancia decreciente, ¿está creando trabajo o precariedad disfrazada?",
       "fuente": "InfoGremiales",
-      "foto": "https://images.unsplash.com/photo-1549637642-90187f64f420?w=600&h=400&fit=crop"
+      "foto": "https://images.unsplash.com/photo-1549637642-90187f64f420?w=600&h=400&fit=crop",
+      "fuente_url": "https://www.infogremiales.com.ar"
     }
   ]
 }
