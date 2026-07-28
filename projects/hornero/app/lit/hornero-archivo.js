@@ -299,6 +299,15 @@ class HorneroArchivo extends HoComponent {
         <div class="kicker">📚 ARCHIVO DEL SINDICATO</div>
         <div class="section-title">La memoria del sindicato</div>
         <div class="intro">Convenios, referentes, fuentes sindicales. Explorá, buscá, consultá con la IA.</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:var(--ho-green-pale,#E8EDD7);border-radius:10px;cursor:pointer" id="historiadorLink">
+          <img src="assets/personajes/historiadora.png" alt="Historiador/a" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--ho-green,#6E8345)">
+          <div style="flex:1">
+            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;color:#2B2A26">📜 Historiador/a te guía</div>
+            <div style="font-size:.72rem;color:#586B33;line-height:1.3">Chateá con la Historiador/a para recorrer los archivos, buscar fuentes, entender la historia obrera.</div>
+          </div>
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#6E8345;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+        <div class="intro">Convenios, referentes, fuentes sindicales. Explorá, buscá, consultá con la IA.</div>
 
         <div class="tab-bar">
           <button class="tab-btn${this.tab === 'buscar' ? ' active' : ''}" data-tab="buscar">🔍 Buscar</button>
@@ -440,6 +449,14 @@ class HorneroArchivo extends HoComponent {
   }
 
   async _afterRender() {
+    // Historiador link — navigate to historiador screen
+    var historiadorLink = this.shadowRoot.querySelector('#historiadorLink');
+    if (historiadorLink) {
+      historiadorLink.addEventListener('click', function() {
+        this.emit('screen-change', { screen: 'historiador', persona: 'historiador', preQuery: 'Quiero explorar los archivos sindicales' });
+      }.bind(this));
+    }
+
     // Tab buttons
     this.shadowRoot.querySelectorAll('.tab-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {

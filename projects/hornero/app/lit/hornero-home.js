@@ -190,6 +190,13 @@ class HorneroHome extends HoComponent {
         width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
         border: 2px solid rgba(242,241,236,.6); background: var(--ho-card, #FBFAF6); }
       .formacion-badge img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* ===== Historiador badge on Archivo card ===== */
+      .card-historiador-badge { position: absolute; top: 10px; right: 12px;
+        width: 30px; height: 30px; border-radius: 50%; overflow: hidden;
+        border: 2px solid var(--ho-green-pale, #E8EDD7); }
+      .card-historiador-badge img { width: 100%; height: 100%; object-fit: cover; }
+
       .esfera-card { background: var(--ho-card, #FBFAF6);
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
         border: 1px solid rgba(43,42,38,.06); cursor: pointer;
@@ -312,29 +319,30 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 3: Formación — hero card -->
-      <div class="formacion-card" data-screen="formacion">
-        <img src="assets/personajes/ho.jpg" alt="Historia Obrera" class="hero">
-        <div class="formacion-badge"><img src="assets/personajes/historiadora.png" alt="Historiador/a"></div>
-        <div class="formacion-overlay">
-          <div class="card-name">Historia Obrera</div>
-          <div class="card-desc">Efemérides, libros, mitín — historia de la clase trabajadora</div>
-          <span class="card-tag">historia obrera · formación · archivos</span>
-        </div>
-      </div>
-
-<!-- ESFERA 5: Panorama -->
+      <!-- ESFERA 3: Panorama -->
       <div class="esfera-card" data-screen="condicion">
         <div class="card-name">Panorama</div>
         <div class="card-desc">CE · IFT · Cómo Somos · SMVM — diagnóstico de la clase trabajadora</div>
         <span class="card-tag">índices · diagnóstico</span>
       </div>
 
-      <!-- ESFERA 6: Archivo -->
+      <!-- ESFERA 4: Historia Obrera — hero card -->
+      <div class="formacion-card" data-screen="formacion">
+        <img src="assets/personajes/ho.jpg" alt="Historia Obrera" class="hero">
+        <div class="formacion-badge"><img src="assets/personajes/historiadora.png" alt="Historiador/a"></div>
+        <div class="formacion-overlay">
+          <div class="card-name">Historia Obrera</div>
+          <div class="card-desc">Formación, cursos, efemérides, libros, mitín</div>
+          <span class="card-tag">historia obrera · formación · archivos</span>
+        </div>
+      </div>
+
+      <!-- ESFERA 5: Archivo — la memoria del sindicato -->
       <div class="esfera-card" data-screen="archivo">
         <div class="card-name">Archivo</div>
         <div class="card-desc">Convenios, referentes, fuentes sindicales — la memoria del sindicato</div>
         <span class="card-tag">documentos · académicos · multimedia</span>
+        <div class="card-historiador-badge"><img src="assets/personajes/historiadora.png" alt="Historiador/a"></div>
       </div>
     `;
   }
