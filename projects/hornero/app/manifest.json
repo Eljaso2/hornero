@@ -5,8 +5,8 @@
   "start_url": "./app-ho.html",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#33312D",
-  "theme_color": "#33312D",
+  "background_color": "#323D39",
+  "theme_color": "#323D39",
   "lang": "es",
   "icons": [
     {
