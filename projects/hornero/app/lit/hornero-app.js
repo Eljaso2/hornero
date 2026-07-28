@@ -282,7 +282,7 @@ class HorneroApp extends HoComponent {
         .sections-btn { color: #9C988D; }
         .sections-btn.active { color: var(--ho-green-light, #94A867);
           border-bottom-color: var(--ho-green-light, #94A867); }
-        .header-text .app-name { color: var(--ho-green-light, #94A867); }
+        .header-text .app-brand-img { height: 22px; }
       }
 
       /* ===== Animations ===== */
@@ -309,10 +309,9 @@ class HorneroApp extends HoComponent {
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .top-bar-back:hover svg { stroke: var(--ho-green-dark, #586B33); }
 
-      .header-text { display: flex; align-items: center; }
-      .header-text .app-name { font-family: 'Inter', sans-serif; font-weight: 900;
-        font-size: 1.1rem; letter-spacing: .12em; text-transform: uppercase;
-        color: var(--ho-green, #6E8345); }
+      .header-text { display: flex; align-items: center; justify-content: center; }
+      .header-text .app-brand-img { height: 22px; width: auto; object-fit: contain;
+        display: block; margin: 0 auto; }
 
       /* ===== Sections bar — horizontal scrollable ===== */
       .sections-bar { background: var(--ho-bg, #F4F3EE);
@@ -623,7 +622,7 @@ class HorneroApp extends HoComponent {
               ${this.screen !== 'home' ?
                 '<button class="top-bar-back" id="backBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
               <div class="header-text">
-                <span class="app-name">HORNERO</span>
+                <img class="app-brand-img" src="assets/hornero-brand-typo-white.png" alt="HORNERO" />
               </div>
             </div>
 
