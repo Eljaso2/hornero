@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">  <title>Hornero</title>
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="assets/hornero-icon-192.png" type="image/png">
+  <link rel="icon" href="assets/hornero-logo-192.png" type="image/png">
   <!-- Initial theme-color = dark (safe default for login flash).
        Head script below overrides to light for logged-in users BEFORE render -->
   <meta name="theme-color" content="#1E2321">
@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hornero">
-  <link rel="apple-touch-icon" href="assets/hornero-icon-192.png">
+  <link rel="apple-touch-icon" href="assets/hornero-logo-192.png">
 
   <!-- Set theme colors IMMEDIATELY based on session — zero flash of wrong color -->
   <script>
@@ -59,10 +59,11 @@
       transition: opacity .3s ease; }
     #splash.fade-out { opacity: 0; pointer-events: none; }
     #splash img { width: 340px; height: auto;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.4));
+      margin-bottom: 48px; }
     #splash .splash-version {
       font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-      color: #7A7568; margin-top: 48px; text-align: center; }
+      color: #7A7568; text-align: center; }
     /* PWA install banner */
     .pwa-install-banner { position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);
@@ -96,7 +97,7 @@
 
   <!-- PWA install banner (shown when browser supports install) -->
   <div class="pwa-install-banner hidden" id="pwaBanner">
-    <div class="banner-icon"><img src="assets/hornero-icon-192.png" width="36" height="36" alt="Hornero" style="border-radius:50%;object-fit:cover"></div>
+    <div class="banner-icon"><img src="assets/hornero-logo-192.png" width="36" height="36" alt="Hornero" style="border-radius:50%;object-fit:cover"></div>
     <div class="banner-text">
       <div class="banner-title">Instalar Hornero</div>
       <div class="banner-desc">Abrir como app — sin barra de navegador</div>
@@ -174,7 +175,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=179"></script>
+  <script type="module" src="lit/hornero-components.js?v=180"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){
