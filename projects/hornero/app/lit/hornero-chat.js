@@ -1015,7 +1015,7 @@ class HorneroChat extends HoComponent {
       const inner = cfg.img
         ? `<img src="${cfg.img}" alt="${cfg.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-      const leftPos = 12 + idx * 38;
+      const leftPos = 50 + idx * 38;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px; border-color:${isActive ? cfg.color : 'var(--ho-border, rgba(255,255,255,.08))'}">
         <span class="persona-icon-inner">${inner}</span>

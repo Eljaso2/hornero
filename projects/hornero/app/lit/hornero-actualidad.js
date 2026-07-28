@@ -1,5 +1,5 @@
 // ===== <hornero-actualidad> — Esfera Actualidad =====
-// Portada: ediciones clipping (títulos + tags) + InfoMate intercalados
+// Portada: ediciones clipping + InfoMate intercalados por fecha
 // Cada card navega a sub-screen con edición específica
 // Native Web Component — zero dependencies
 
@@ -17,9 +17,11 @@ class HorneroActualidad extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
-    this._ediciones = [];    // all clipping editions from index
-    this._clippingData = {}; // loaded clipping data per edition (keyed by numero)
-    this._mateRaw = null;
+    this._ediciones = [];      // all clipping editions from index
+    this._clippingData = {};   // loaded clipping data per edition (keyed by numero)
+    this._mateEdiciones = [];  // all mate editions from index
+    this._mateData = {};       // loaded mate data per edition (keyed by mes)
+    this._allItems = [];       // merged + sorted by date: [{type, fecha, ...}]
   }
 
   async connectedCallback() {
@@ -51,11 +53,41 @@ class HorneroActualidad extends HoComponent {
       }
     } catch(e) { console.warn('Actualidad: clipping index load failed', e); }
 
-    // InfoMate
+    // InfoMate — load all editions from index
     try {
-      const response = await fetch('data/mate-2026-06.json');
-      this._mateRaw = await response.json();
-    } catch(e) { console.warn('Actualidad: mate load failed', e); }
+      const mateIdxRes = await fetch('data/mate-index.json');
+      const mateIdx = await mateIdxRes.json();
+      this._mateEdiciones = mateIdx.ediciones || [];
+
+      for (const ed of this._mateEdiciones) {
+        try {
+          const res = await fetch(ed.archivo);
+          const data = await res.json();
+          this._mateData[ed.mes] = data;
+        } catch(e) { console.warn('Actualidad: mate edition ' + ed.mes + ' load failed', e); }
+      }
+    } catch(e) { console.warn('Actualidad: mate index load failed', e); }
+
+    // Build merged timeline sorted by date (newest first)
+    this._buildTimeline();
+  }
+
+  _buildTimeline() {
+    const items = [];
+
+    // Clipping items
+    for (const ed of this._ediciones) {
+      items.push({ type: 'clipping', fecha: ed.fecha, ed: ed });
+    }
+
+    // InfoMate items
+    for (const ed of this._mateEdiciones) {
+      items.push({ type: 'infomate', fecha: ed.fecha, ed: ed });
+    }
+
+    // Sort newest first
+    items.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    this._allItems = items;
   }
 
   _formatMes(mesStr) {
@@ -74,14 +106,11 @@ class HorneroActualidad extends HoComponent {
 
   // Normalize tag: lowercase unless it's a known acronym or proper noun
   _normalizeTag(tag) {
-    // Known acronyms (all uppercase)
     const acronyms = ['CGT','CTA','OIT','CONICET','INTI','INTA','INDEC','SMVM','CLATE','CAREM','UEJN','IPYPP',
       'UTEP','FAdeA','GNL','RIGI','ILVA','Sitrarepa','CABA','CLATE','IA'];
-    // Known proper nouns (keep original capitalization)
     const properNouns = ['Córdoba','Neuquén','Patagonia','Cutral-Co','Chapadmalal','Embalse','Daer','Vidal','Fate','YPF'];
     if (acronyms.includes(tag)) return tag;
     if (properNouns.includes(tag)) return tag;
-    // Everything else: lowercase
     return tag.toLowerCase();
   }
 
@@ -158,147 +187,152 @@ class HorneroActualidad extends HoComponent {
 
   // ===== Render =====
 
-  _render() {
-    let cardsHtml = '';
+  _renderClippingCard(ed) {
+    const data = this._clippingData[ed.numero];
+    const label = 'CLIPPING N°' + ed.numero;
+    const sublabel = this._formatFecha(ed.fecha);
 
-    for (let i = 0; i < this._ediciones.length; i++) {
-      const ed = this._ediciones[i];
-      const data = this._clippingData[ed.numero];
-      const label = 'CLIPPING N°' + ed.numero;
-      const sublabel = this._formatFecha(ed.fecha);
-
-      // Build up to 6 lines of keyword tags (collapsed view) — fixed height for all cards
-      let tagLinesHtml = '';
-      if (data && data.noticias && data.noticias.length > 0) {
-        // Collect all unique tags from noticias
-        const allTags = [];
-        for (const n of data.noticias) {
-          if (n.tags) {
-            for (const t of n.tags) {
-              if (!allTags.includes(t)) allTags.push(this._normalizeTag(t));
-            }
+    // Build up to 6 lines of keyword tags
+    let tagLinesHtml = '';
+    if (data && data.noticias && data.noticias.length > 0) {
+      const allTags = [];
+      for (const n of data.noticias) {
+        if (n.tags) {
+          for (const t of n.tags) {
+            if (!allTags.includes(t)) allTags.push(this._normalizeTag(t));
           }
         }
-        // Show up to 6 lines, ~3 tags per line = max 18 tags shown
-        const maxLines = 6;
-        const perLine = Math.ceil(Math.min(allTags.length, maxLines * 3) / maxLines);
-        const shownTags = allTags.slice(0, maxLines * 3);
-        tagLinesHtml = '<div class="tag-lines">';
-        for (let li = 0; li < maxLines && li * perLine < shownTags.length; li++) {
-          const lineTags = shownTags.slice(li * perLine, (li + 1) * perLine);
-          tagLinesHtml += '<div class="tag-line">' +
-            lineTags.map(t => '<span class="noticia-tag">' + t + '</span>').join('') +
-          '</div>';
-        }
-        // Pad empty lines so all cards have same height
-        const filledLines = Math.ceil(shownTags.length / perLine);
-        for (let li = filledLines; li < maxLines; li++) {
-          tagLinesHtml += '<div class="tag-line"></div>';
-        }
-        tagLinesHtml += '</div>';
       }
-
-      // Build noticia titles list (expanded view)
-      let noticiaList = '';
-      const totalNoticias = (data && data.noticias) ? data.noticias.length : 0;
-      if (totalNoticias > 0) {
-        noticiaList = '<div class="noticia-list" style="display:none">';
-        for (let ni = 0; ni < data.noticias.length; ni++) {
-          const n = data.noticias[ni];
-          noticiaList += '<div class="noticia-line">' +
-            (n.emoji ? '<span class="noticia-emoji">' + n.emoji + '</span>' : '') +
-            '<span class="noticia-title">' + (n.titulo || '') + '</span>' +
-          '</div>';
-        }
-        noticiaList += '</div>';
-      }
-
-      const toggleText = totalNoticias > 0 ? '▾ Ver ' + totalNoticias + ' títulos' : '';
-      cardsHtml += '<div class="product-card product-card-clipping" data-screen="clipping" data-clip-edicion="' + ed.numero + '">' +
-        '<div class="product-title-line"><span class="product-emoji">📰</span>' +
-        '<span class="product-label">' + label + '</span></div>' +
-        '<div class="product-sublabel">' + sublabel + '</div>' +
-        tagLinesHtml +
-        noticiaList +
-        (toggleText ? '<div class="noticia-toggle" data-expanded="false" data-clip-edicion="' + ed.numero + '">' + toggleText + '</div>' : '') +
-      '</div>';
-
-      // Insert InfoMate after the latest clipping (i=0)
-      if (i === 0) {
-        const mateLabel = 'INFOMATE';
-        const mateSublabel = this._mateRaw && this._mateRaw.meta
-          ? this._formatMes(this._mateRaw.meta.mes)
-          : '';
-
-        // Build mate tags from secciones + datosMacro keys
-        let mateTagLinesHtml = '';
-        if (this._mateRaw) {
-          const mateTags = [];
-          // Tags from section titles
-          if (this._mateRaw.secciones) {
-            for (const s of this._mateRaw.secciones) {
-              mateTags.push(s.titulo.toLowerCase());
-            }
-          }
-          // Tags from macro data keys (readable labels)
-          const macroLabels = {
-            inflacionOficial: 'inflación oficial',
-            inflacionObrera: 'inflación obrera',
-            smvm: 'SMVM',
-            salarioMedioRegistrado: 'salario medio',
-            canastaBasicaTotal: 'canasta básica',
-            empleoTotal: 'empleo',
-            ejercitoActivo: 'ejército activo',
-            reservaFlotante: 'reserva flotante',
-            reservaLatente: 'reserva latente',
-            pauperizacion: 'pauperización'
-          };
-          if (this._mateRaw.datosMacro) {
-            for (const k of Object.keys(this._mateRaw.datosMacro)) {
-              mateTags.push(macroLabels[k] || this._normalizeTag(k));
-            }
-          }
-          // Extra context tags
-          mateTags.push('paritaria', 'despidos', 'ajuste', 'canasta básica', 'salario', 'poder de compra');
-
-          // Build 6 tag lines same as clipping
-          const maxLines = 6;
-          const perLine = Math.ceil(Math.min(mateTags.length, maxLines * 3) / maxLines);
-          const shownTags = mateTags.slice(0, maxLines * 3);
-          mateTagLinesHtml = '<div class="mate-tags tag-lines">';
-          for (let li = 0; li < maxLines && li * perLine < shownTags.length; li++) {
-            const lineTags = shownTags.slice(li * perLine, (li + 1) * perLine);
-            mateTagLinesHtml += '<div class="tag-line">' +
-              lineTags.map(t => '<span class="noticia-tag">' + t + '</span>').join('') +
-            '</div>';
-          }
-          const filledLines = Math.ceil(shownTags.length / perLine);
-          for (let li = filledLines; li < maxLines; li++) {
-            mateTagLinesHtml += '<div class="tag-line"></div>';
-          }
-          mateTagLinesHtml += '</div>';
-        }
-
-        // Build secciones list (expanded view)
-        let mateSectionsHtml = '';
-        const totalSections = this._mateRaw && this._mateRaw.secciones ? this._mateRaw.secciones.length : 0;
-        if (totalSections > 0) {
-          mateSectionsHtml = '<div class="mate-sections" style="display:none">';
-          for (const s of this._mateRaw.secciones) {
-            mateSectionsHtml += '<div class="mate-section-line">' + s.titulo + '</div>';
-          }
-          mateSectionsHtml += '</div>';
-        }
-
-        const mateToggleText = totalSections > 0 ? '▾ Ver ' + totalSections + ' secciones' : '';
-        cardsHtml += '<div class="product-card product-card-infomate" data-screen="infomate">' +
-          '<div class="product-title-line"><span class="product-emoji">🧮</span>' +
-          '<span class="product-label">' + mateLabel + '</span></div>' +
-          '<div class="product-sublabel">' + mateSublabel + '</div>' +
-          mateTagLinesHtml +
-          mateSectionsHtml +
-          (mateToggleText ? '<div class="noticia-toggle" data-expanded="false" data-clip-edicion="mate">' + mateToggleText + '</div>' : '') +
+      const maxLines = 6;
+      const perLine = Math.ceil(Math.min(allTags.length, maxLines * 3) / maxLines);
+      const shownTags = allTags.slice(0, maxLines * 3);
+      tagLinesHtml = '<div class="tag-lines">';
+      for (let li = 0; li < maxLines && li * perLine < shownTags.length; li++) {
+        const lineTags = shownTags.slice(li * perLine, (li + 1) * perLine);
+        tagLinesHtml += '<div class="tag-line">' +
+          lineTags.map(t => '<span class="noticia-tag">' + t + '</span>').join('') +
         '</div>';
+      }
+      const filledLines = Math.ceil(shownTags.length / perLine);
+      for (let li = filledLines; li < maxLines; li++) {
+        tagLinesHtml += '<div class="tag-line"></div>';
+      }
+      tagLinesHtml += '</div>';
+    }
+
+    // Build noticia titles list (expanded view)
+    let noticiaList = '';
+    const totalNoticias = (data && data.noticias) ? data.noticias.length : 0;
+    if (totalNoticias > 0) {
+      noticiaList = '<div class="noticia-list" style="display:none">';
+      for (const n of data.noticias) {
+        noticiaList += '<div class="noticia-line">' +
+          (n.emoji ? '<span class="noticia-emoji">' + n.emoji + '</span>' : '') +
+          '<span class="noticia-title">' + (n.titulo || '') + '</span>' +
+        '</div>';
+      }
+      noticiaList += '</div>';
+    }
+
+    const toggleText = totalNoticias > 0 ? '▾ Ver ' + totalNoticias + ' títulos' : '';
+    return '<div class="product-card product-card-clipping" data-screen="clipping" data-clip-edicion="' + ed.numero + '">' +
+      '<div class="product-title-line"><span class="product-emoji">📰</span>' +
+      '<span class="product-label">' + label + '</span></div>' +
+      '<div class="product-sublabel">' + sublabel + '</div>' +
+      tagLinesHtml +
+      noticiaList +
+      (toggleText ? '<div class="noticia-toggle" data-expanded="false" data-card-type="clipping" data-clip-edicion="' + ed.numero + '">' + toggleText + '</div>' : '') +
+    '</div>';
+  }
+
+  _renderInfomateCard(ed) {
+    const mateRaw = this._mateData[ed.mes];
+    const mateLabel = 'INFOMATE';
+    const mateSublabel = this._formatMes(ed.mes);
+
+    // Build mate tags from secciones + datosMacro keys
+    let mateTagLinesHtml = '';
+    if (mateRaw) {
+      const mateTags = [];
+      if (mateRaw.secciones) {
+        for (const s of mateRaw.secciones) {
+          mateTags.push(s.titulo.toLowerCase());
+        }
+      }
+      const macroLabels = {
+        inflacionOficial: 'inflación oficial',
+        inflacionAcumulada: 'inflación acumulada',
+        inflacionObrera: 'inflación obrera',
+        smvm: 'SMVM',
+        salarioMedioRegistrado: 'salario medio',
+        canastaBasicaTotal: 'canasta básica',
+        empleoTotal: 'empleo',
+        salarioEstatal: 'salario estatal',
+        salarioPrivado: 'salario privado',
+        transferenciaIngresos: 'transferencia',
+        empleosFormalesPerdidos: 'empleos perdidos',
+        desocupadosUrbanos: 'desocupados',
+        informalidad: 'informalidad',
+        recortesAcumulados: 'recortes',
+        ejercitoActivo: 'ejército activo',
+        reservaFlotante: 'reserva flotante',
+        reservaLatente: 'reserva latente',
+        pauperizacion: 'pauperización',
+      };
+      if (mateRaw.datosMacro) {
+        for (const k of Object.keys(mateRaw.datosMacro)) {
+          mateTags.push(macroLabels[k] || this._normalizeTag(k));
+        }
+      }
+      mateTags.push('paritaria', 'despidos', 'ajuste', 'canasta básica', 'salario', 'poder de compra');
+
+      const maxLines = 6;
+      const perLine = Math.ceil(Math.min(mateTags.length, maxLines * 3) / maxLines);
+      const shownTags = mateTags.slice(0, maxLines * 3);
+      mateTagLinesHtml = '<div class="mate-tags tag-lines">';
+      for (let li = 0; li < maxLines && li * perLine < shownTags.length; li++) {
+        const lineTags = shownTags.slice(li * perLine, (li + 1) * perLine);
+        mateTagLinesHtml += '<div class="tag-line">' +
+          lineTags.map(t => '<span class="noticia-tag">' + t + '</span>').join('') +
+        '</div>';
+      }
+      const filledLines = Math.ceil(shownTags.length / perLine);
+      for (let li = filledLines; li < maxLines; li++) {
+        mateTagLinesHtml += '<div class="tag-line"></div>';
+      }
+      mateTagLinesHtml += '</div>';
+    }
+
+    // Build secciones list (expanded view)
+    let mateSectionsHtml = '';
+    const totalSections = mateRaw && mateRaw.secciones ? mateRaw.secciones.length : 0;
+    if (totalSections > 0) {
+      mateSectionsHtml = '<div class="mate-sections" style="display:none">';
+      for (const s of mateRaw.secciones) {
+        mateSectionsHtml += '<div class="mate-section-line">' + s.titulo + '</div>';
+      }
+      mateSectionsHtml += '</div>';
+    }
+
+    const mateToggleText = totalSections > 0 ? '▾ Ver ' + totalSections + ' secciones' : '';
+    return '<div class="product-card product-card-infomate" data-screen="infomate" data-mate-mes="' + ed.mes + '">' +
+      '<div class="product-title-line"><span class="product-emoji">🧮</span>' +
+      '<span class="product-label">' + mateLabel + '</span></div>' +
+      '<div class="product-sublabel">' + mateSublabel + '</div>' +
+      mateTagLinesHtml +
+      mateSectionsHtml +
+      (mateToggleText ? '<div class="noticia-toggle" data-expanded="false" data-card-type="infomate" data-mate-mes="' + ed.mes + '">' + mateToggleText + '</div>' : '') +
+    '</div>';
+  }
+
+  _render() {
+    // Render all items (clipping + infomate) interleaved by date
+    let cardsHtml = '';
+    for (const item of this._allItems) {
+      if (item.type === 'clipping') {
+        cardsHtml += this._renderClippingCard(item.ed);
+      } else if (item.type === 'infomate') {
+        cardsHtml += this._renderInfomateCard(item.ed);
       }
     }
 
@@ -318,8 +352,11 @@ class HorneroActualidad extends HoComponent {
         if (e.target.closest('.noticia-toggle')) return;
         const screen = card.dataset.screen;
         const clipEdicion = card.dataset.clipEdicion;
+        const mateMes = card.dataset.mateMes;
         if (screen === 'clipping' && clipEdicion) {
           this.emit('screen-change', { screen: 'clipping', clipEdicion: parseInt(clipEdicion) });
+        } else if (screen === 'infomate' && mateMes) {
+          this.emit('screen-change', { screen: 'infomate', mateMes: mateMes });
         } else {
           this.goScreen(screen);
         }
@@ -335,7 +372,7 @@ class HorneroActualidad extends HoComponent {
         const tagLines = card.querySelector('.tag-lines, .mate-tags');
         const expandList = card.querySelector('.noticia-list, .mate-sections');
         const totalItems = expandList ? expandList.children.length : 0;
-        const isMate = toggle.dataset.clipEdicion === 'mate';
+        const isMate = toggle.dataset.cardType === 'infomate';
         const itemLabel = isMate ? ' secciones' : ' títulos';
 
         if (expanded) {
