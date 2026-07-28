@@ -364,7 +364,7 @@ class HorneroApp extends HoComponent {
       .nav-btn svg { width: 24px; height: 24px; stroke: #9C988D;
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .nav-btn.active svg { stroke: #4E9978; stroke-width: 2.6; }
-      .nav-btn img { width: 24px; height: 24px; object-fit: contain; opacity: .55; transition: opacity .2s; }
+      .nav-btn img { width: 28px; height: 28px; object-fit: contain; opacity: .55; transition: opacity .2s; }
       .nav-btn.active img { opacity: 1; }
       .nav-btn .label { font-size: .60rem; font-weight: 600; color: #9C988D;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
@@ -775,6 +775,7 @@ class HorneroApp extends HoComponent {
       const detail = e.detail || {};
       this._clipEdicion = detail.clipEdicion || null;
       this._clipExpandId = detail.clipExpandId || null;
+      this._mateMes = detail.mateMes || null;
       if (detail.persona) {
         this._initialPersona = detail.persona;
       }
