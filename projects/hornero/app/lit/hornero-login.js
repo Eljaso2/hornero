@@ -45,7 +45,17 @@ class HorneroLogin extends HoComponent {
 
   _styles() {
     return css`
-      :host { display: block; }
+      :host {
+        display: block;
+        /* Override global vars to match logo colors (teal/mint green) */
+        --ho-dark: #323D39;
+        --ho-dark-surface: #3F4E4A;
+        --ho-dark-mid: #536260;
+        --ho-green: #4E9978;
+        --ho-green-light: #80CCA0;
+        --ho-green-dark: #3D6B56;
+        --ho-green-pale: #E0F0EB;
+      }
 
       .login-wrap {
         height: 100%; width: 100%;

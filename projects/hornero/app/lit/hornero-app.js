@@ -504,7 +504,7 @@ class HorneroApp extends HoComponent {
     if (!this.loggedIn) {
       return html`
         <div class="app-wrap">
-          <div class="phone">
+          <div class="phone" style="background:#323D39">
             <div class="screen" style="background:#323D39;display:flex;flex-direction:column;overflow:hidden">
               <hornero-login></hornero-login>
             </div>
