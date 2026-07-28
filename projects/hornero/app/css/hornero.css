@@ -24,8 +24,8 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-html{background:#1E2321;background-attachment:fixed;min-height:100vh;min-height:-webkit-fill-available}
-body{background:#1E2321;background-attachment:fixed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased;overscroll-behavior:none;overflow:hidden}
+html{background:#1E2321;background-attachment:fixed;height:100%;height:-webkit-fill-available}
+body{background:#1E2321;background-attachment:fixed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ho-text);-webkit-font-smoothing:antialiased;overscroll-behavior:none;overflow:hidden;height:100%}
 
 /* App-native feel: text can't be selected/copied, only clicked/tapped */
 .screen{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
