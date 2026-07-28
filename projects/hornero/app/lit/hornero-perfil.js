@@ -191,7 +191,7 @@ class HorneroPerfil extends HoComponent {
       .theme-toggle.active .theme-toggle-knob { transform: translateX(22px); }
 
       /* Logout */
-      .logout-btn { background: #A6553E; color: #F2F1EC; border: none;
+      .logout-btn { background: #A6553E; color: var(--ho-text-off, #F2F1EC); border: none;
         border-radius: 10px; padding: 12px 24px;
         font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .82rem; cursor: pointer; width: 100%;
