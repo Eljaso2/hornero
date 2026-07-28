@@ -300,9 +300,9 @@ class HorneroApp extends HoComponent {
         color: var(--ho-text, #E8E6E0);
         padding: 0 16px; display: flex; align-items: center;
         justify-content: center; position: relative; flex: none;
-        min-height: 48px;
-        padding-top: calc(4px + env(safe-area-inset-top, 0px));
-        padding-bottom: 0; }
+        min-height: 0;
+        padding-top: calc(2px + env(safe-area-inset-top, 0px));
+        padding-bottom: 2px; }
       .top-bar-back { position: absolute; left: 16px;
         top: calc(50% + env(safe-area-inset-top, 0px) / 2);
         transform: translateY(-50%); width: 30px; height: 30px;
