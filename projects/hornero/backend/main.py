@@ -17,7 +17,7 @@ from collections import defaultdict
 from datetime import datetime
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
@@ -332,12 +332,18 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
 
 
 @app.post("/api/chat")
-async def chat_endpoint(req: ChatRequest) -> ChatResponse:
+async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatResponse:
     """Main chat endpoint — receives user message, returns structured IA response.
 
     RAG: retrieves relevant KB chunks based on user query, injects only
     those chunks into the system prompt instead of the full KNOWLEDGE_BASE.
     """
+    start_time = time.time()
+
+    # Rate limiting
+    client_ip = request.client.host if request else "unknown"
+    if not _check_rate_limit(client_ip):
+        raise HTTPException(429, "Demasiadas solicitudes. Esperá un momento e intentá de nuevo.")
 
     # RAG retrieval: find relevant chunks based on user query + conversation context
     relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade,
@@ -389,6 +395,13 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
     llm_persona = parsed.get("persona", "")
     final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
 
+    # Log structured chat interaction
+    elapsed = round(time.time() - start_time, 2)
+    logger.info(f"CHAT session={req.session_id[:8]}... formato={req.formato} "
+                f"persona={final_persona} chunks={len(chunk_ids)} "
+                f"tags={parsed.get('tags', [])} latency={elapsed}s "
+                f"ip={client_ip}")
+
     return ChatResponse(
         text=parsed.get("text", ""),
         sections=parsed.get("sections", []),
@@ -401,7 +414,7 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
 
 
 @app.post("/api/chat/stream")
-async def chat_stream_endpoint(req: ChatRequest):
+async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
     """Streaming chat endpoint — returns SSE events with tokens as they arrive.
 
     Events emitted:

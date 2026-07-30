@@ -118,8 +118,8 @@ class HorneroPerfil extends HoComponent {
       .info-card { background: var(--ho-card, #2A3230);
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         border-radius: 13px; padding: 16px; margin-bottom: 12px; }
-      .info-card-title { font-family: 'JetBrains Mono', monospace; font-size: .66rem;
-        font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      .info-card-title { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text-light, #9C988D); margin-bottom: 12px; }
       .info-field { display: flex; align-items: baseline; gap: 8px;
         margin-bottom: 10px; }

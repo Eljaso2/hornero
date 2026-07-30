@@ -111,7 +111,7 @@ class HorneroIs extends HoComponent {
         border-radius: 13px; padding: 14px; margin-bottom: 10px; }
       .info-card-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .88rem; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
-      .info-card-body { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
+      .info-card-body { font-family: 'Public Sans', sans-serif; font-size: .86rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; }
       .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
