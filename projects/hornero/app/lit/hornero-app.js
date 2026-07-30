@@ -953,8 +953,8 @@ class HorneroApp extends HoComponent {
       '--ho-shadow': 'rgba(0,0,0,.15)',
       '--ho-warm-gray': '#D5D0C8',
       '--ho-mid-gray': '#E8E4DB',
-      '--ho-header-bg': '#1B4332',
-      '--ho-header-text': '#F2F1EC',
+      '--ho-header-bg': '#F0EDE5',
+      '--ho-header-text': '#1E2321',
     };
     if (this.theme === 'light') {
       Object.entries(lightVars).forEach(([k, v]) => this.style.setProperty(k, v));

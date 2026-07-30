@@ -249,12 +249,10 @@ class HorneroPerfil extends HoComponent {
     const gradeInfo = this._getGradeLabel();
     const agrem = this._getAgremiacionInfo();
 
-    // Build agremiación fields — Rol first, then Federación, Sindicato, etc
+    // Build fields — skip Rol (already shown in Nivel)
     const agremFields = [];
-    if (agrem.rol) agremFields.push({ label: 'Rol', value: agrem.rol });
     if (agrem.federacion) agremFields.push({ label: 'Federación', value: agrem.federacion });
     if (agrem.sindicato) agremFields.push({ label: 'Sindicato', value: agrem.sindicato });
-    // Convenio y Empresa siempre se muestran (vacíos si no hay dato)
     const convenioLine = agrem.convenio ? (agrem.sectorName ? agrem.convenio + ' · ' + agrem.sectorName : agrem.convenio) : '';
     agremFields.push({ label: 'Convenio', value: convenioLine });
     if (agrem.territorio) agremFields.push({ label: 'Territorio', value: agrem.territorio });
@@ -268,21 +266,10 @@ class HorneroPerfil extends HoComponent {
       <div class="scroll">
         ${this.savedMsg ? '<div class="saved-msg">' + this.savedMsg + '</div>' : ''}
 
-        <!-- Datos Personales -->
+        <!-- Perfil completo -->
         <div class="info-card">
           <div class="info-card-title">👤 DATOS PERSONALES</div>
-          ${this.editing ? this._renderEditFields() : this._renderInfoFields(gradeInfo)}
-        </div>
-
-        <!-- Agremiación -->
-        <div class="agremiacion-card">
-          <div class="info-card-title" style="color:#9C988D">✊ AGREMIACIÓN</div>
-          ${hasAgremiacion ? agremFields.map(f =>
-            '<div class="agremiacion-field">' +
-            '<span class="agremiacion-label">' + f.label + '</span>' +
-            '<span class="agremiacion-value' + (f.value ? '' : ' muted') + '">' + (f.value || '—') + '</span>' +
-            '</div>'
-          ).join('') : ''}
+          ${this.editing ? this._renderEditFields() : this._renderInfoFields(gradeInfo, agremFields)}
         </div>
 
         <!-- Notificaciones + Theme -->
@@ -306,7 +293,7 @@ class HorneroPerfil extends HoComponent {
     `;
   }
 
-  _renderInfoFields(gradeInfo) {
+  _renderInfoFields(gradeInfo, agremFields) {
     const email = this._sessionData.email || '';
     return html`
       <div class="info-field">
@@ -321,7 +308,13 @@ class HorneroPerfil extends HoComponent {
         <span class="info-field-label">Nivel</span>
         <span class="nivel-badge ${gradeInfo.color}">N${gradeInfo.num} · ${gradeInfo.role}</span>
       </div>
-      <button class="edit-btn" id="edit-btn">✏️ Editar</button>
+      ${agremFields.map(f =>
+        '<div class="info-field">' +
+        '<span class="info-field-label">' + f.label + '</span>' +
+        '<span class="info-field-value' + (f.value ? '' : ' muted') + '">' + (f.value || '—') + '</span>' +
+        '</div>'
+      ).join('')}
+      <button class="edit-icon-btn" id="edit-btn" title="Editar">✏️</button>
     `;
   }
 
