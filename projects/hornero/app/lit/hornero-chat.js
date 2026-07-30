@@ -438,7 +438,7 @@ class HorneroChat extends HoComponent {
       .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
       .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
-        padding: 2px 6px; border-radius: 6px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
 
       /* Informes item review buttons (aprobar/corregir for incoming G1) — subtle, icon-only */
       .informes-review-actions { display: flex; gap: 6px; margin-top: 6px; }
@@ -535,9 +535,9 @@ class HorneroChat extends HoComponent {
         color: var(--ho-green-dark, #3D6B56); }
       .history-item-footer { display: flex; align-items: center;
         justify-content: space-between; margin-top: 2px; }
-      .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+      .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); letter-spacing: .06em;
-        background: var(--ho-mid-gray, #ECEAE3); padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+        background: var(--ho-mid-gray, #ECEAE3); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
 
       .history-empty { padding: 40px 20px; text-align: center;
         font-family: 'Archivo', sans-serif; font-size: .82rem;
@@ -587,9 +587,9 @@ class HorneroChat extends HoComponent {
         font-size: .88rem; color: var(--ho-green-dark, #3D6B56); flex: 1;
         letter-spacing: .04em; text-transform: uppercase; }
       .reporte-card-toggle { font-family: 'JetBrains Mono', monospace;
-        font-size: .66rem; color: var(--ho-text-mid, #6E6A60);
+        font-size: .62rem; color: var(--ho-text-mid, #6E6A60);
         background: rgba(255,255,255,.25); border-radius: 6px; border: none;
-        cursor: pointer; flex: none; padding: 3px 8px; }
+        cursor: pointer; flex: none; padding: 2px 8px; }
       .reporte-card-body { max-height: 60px; overflow: hidden;
         position: relative; transition: max-height .4s ease;
         padding: 14px; }

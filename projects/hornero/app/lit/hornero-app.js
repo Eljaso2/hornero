@@ -393,17 +393,17 @@ class HorneroApp extends HoComponent {
         font-weight: 700; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
       .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #7A766C); line-height: 1.5; margin-bottom: 12px; }
-      .chat-choice { display: flex; align-items: center; gap: 10px;
+      .chat-choice { display: flex; align-items: center; gap: 8px;
         background: var(--ho-card, #2A3230); border: 1px solid rgba(43,42,38,.06);
-        border-radius: 10px; padding: 8px 12px; cursor: pointer;
-        transition: border-color .2s, background .2s; margin-bottom: 6px; }
+        border-radius: 8px; padding: 6px 10px; cursor: pointer;
+        transition: border-color .2s, background .2s; margin-bottom: 4px; }
       .chat-choice:hover { border-color: rgba(43,42,38,.18);
         background: var(--ho-green-pale, #E0F0EB); }
-      .chat-choice-icon { width: 28px; height: 28px; flex: none;
+      .chat-choice-icon { width: 24px; height: 24px; flex: none;
         display: flex; align-items: center; justify-content: center; }
-      .chat-choice-icon img { width: 28px; height: 28px; object-fit: contain;
+      .chat-choice-icon img { width: 24px; height: 24px; object-fit: contain;
         filter: var(--ho-persona-filter, none); }
-      .chat-choice-icon svg { width: 18px; height: 18px; stroke: var(--ho-green, #4E9978);
+      .chat-choice-icon svg { width: 16px; height: 16px; stroke: var(--ho-green, #4E9978);
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
       .chat-choice-extra .chat-choice-icon { width: 28px; height: 28px; }
@@ -411,17 +411,18 @@ class HorneroApp extends HoComponent {
       .chat-choice-extra .chat-choice-icon svg { width: 18px; height: 18px; }
       .chat-choice-extra .chat-choice-name { font-size: .86rem; }
       .chat-choice-extra .chat-choice-desc { font-size: .76rem; }
-      .persona-choice-emoji { font-size: 1rem; line-height: 1; }
+      .chat-choice-extra { gap: 10px; padding: 8px 12px; border-radius: 10px; margin-bottom: 6px; }
+      .persona-choice-emoji { font-size: .9rem; line-height: 1; }
       .persona-icon-companero { background: #C89660; }
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
       .persona-icon-companero { background: #C89660; }
       .persona-icon-historiador { background: #D7D4E8; }
       .chat-choice-text { flex: 1; }
-      .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .86rem;
+      .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .8rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); }
-      .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .76rem;
-        color: var(--ho-text-light, #7A766C); line-height: 1.4; margin-top: 2px; }
+      .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .7rem;
+        color: var(--ho-text-light, #7A766C); line-height: 1.3; margin-top: 1px; }
 
       /* ===== List screens (Mis Conversaciones, Mis Reportes, Recibidos) =====
          Same styles as chat drawer items for visual consistency */
@@ -464,9 +465,9 @@ class HorneroApp extends HoComponent {
         color: var(--ho-green-dark, #3D6B56); }
       .history-item-footer { display: flex; align-items: center;
         justify-content: space-between; margin-top: 2px; }
-      .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+      .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #7A766C); letter-spacing: .06em;
-        background: var(--ho-mid-gray, #ECEAE3); padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+        background: var(--ho-mid-gray, #ECEAE3); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
 
       /* Informes items (Mis Reportes, Recibidos) — same as chat drawer */
       .informes-item { padding: 12px 16px; cursor: pointer;
@@ -490,7 +491,7 @@ class HorneroApp extends HoComponent {
       .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
       .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
-        padding: 2px 6px; border-radius: 6px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .informes-item-visto-label { font-family: 'Archivo', sans-serif;
         font-size: .72rem; font-weight: 700; color: var(--ho-green-dark, #3D6B56);
         background: var(--ho-green-pale, #E0F0EB); border-radius: 8px;
@@ -647,7 +648,7 @@ class HorneroApp extends HoComponent {
         '<div class="chat-landing-kicker">Mesa de trabajo</div>' +
         '<div class="chat-landing-desc">Chateá con los compañeros del gremio. Cada uno te ayuda según lo que necesites:</div>' +
         personaChoices +
-        (extraChoices ? '<div class="chat-landing-kicker" style="margin-top:12px;margin-bottom:8px">Tu actividad</div>' +
+        (extraChoices ? '<div class="chat-landing-kicker" style="margin-top:16px;margin-bottom:8px">Tu actividad</div>' +
           '<div class="chat-landing-desc" style="margin-bottom:12px">Historial de tus charlas con los compañeros y de los reportes que elaboraste y recibiste.</div>' + extraChoices : '') +
       '</div>';
     } else if (this.screen === 'misConversaciones') {

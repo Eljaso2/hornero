@@ -134,7 +134,7 @@ class HorneroInfomate extends HoComponent {
       .section-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
       .data-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: rgba(176,134,63,.35); color: #E8E6E0;
-        padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
 
       /* Empty state */
       .empty { text-align: center; color: var(--ho-text-light, #9C988D);
