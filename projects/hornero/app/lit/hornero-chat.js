@@ -753,7 +753,7 @@ class HorneroChat extends HoComponent {
       .msg-text { font-family: 'Public Sans', sans-serif; font-size: .90rem;
         color: var(--ho-text, #E8E6E0); line-height: 1.55;
         margin-bottom: 8px; }
-      .msg-text p { margin-bottom: 10px; }
+      .msg-text p { margin-bottom: 4px; }
       .msg-text p:last-child { margin-bottom: 0; }
       .msg-text strong { font-weight: 700; color: var(--ho-green-dark, #3D6B56); }
 

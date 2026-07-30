@@ -386,7 +386,7 @@ class HorneroApp extends HoComponent {
 
       /* ===== Chat landing — choice buttons ===== */
       .chat-landing { padding: 24px 20px; }
-      .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .82rem;
+      .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text, #E8E6E0); margin-bottom: 8px; }
       .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: 1.02rem;
