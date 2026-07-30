@@ -698,19 +698,17 @@ class HorneroChat extends HoComponent {
 
       /* === Persona icons — top-left corner of chat === */
       .chat-persona-icon { position: absolute; top: 12px; z-index: 20;
-        width: 40px; height: 40px; border-radius: 50%;
-        border: 2.5px solid var(--ho-border, rgba(255,255,255,.12));
+        width: 40px; height: 40px;
         cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: border-color .2s, transform .15s, opacity .2s; overflow: hidden;
-        opacity: .55; }
-      .chat-persona-icon:hover { transform: scale(1.08); opacity: .85;
-        border-color: var(--ho-green-light, #80CCA0); }
+        transition: transform .15s, opacity .2s; overflow: visible;
+        opacity: .5; }
+      .chat-persona-icon:hover { transform: scale(1.08); opacity: .85; }
       .chat-persona-icon.active { transform: scale(1.06);
-        opacity: 1; border-width: 3px; border-color: var(--ho-green, #4E9978); }
+        opacity: 1; }
       .persona-icon-inner { width: 100%; height: 100%;
         display: flex; align-items: center; justify-content: center; }
       .persona-icon-inner img { width: 100%; height: 100%;
-        object-fit: cover; border-radius: 50%; }
+        object-fit: contain; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
 
       /* === Redirect derivation button in message === */
