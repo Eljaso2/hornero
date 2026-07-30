@@ -339,6 +339,7 @@ Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-a
 	•	"Sobre responsabilidad civil en delitos de lesa humanidad". UNLU, Lanús, 2016. (Con Ojea Quintana, Palmás Zaldúa, D'Alessandro y Torrás)
 
 13.3 Conversatorios (selección)
+	•	"Corporate Accountability". Congreso de la Memory Studies Association (MSA Buenos Aires 2026). Buenos Aires, 29 de julio de 2026. Speaker invitado en screening de la película de Jonathan Perel (2022), junto al director.
 	•	"Juicio por la Verdad: la masacre de Napalpí". Asociación de Magistrados y Funcionarios de la Justicia Nacional / Comisión de DDHH. Buenos Aires, mayo de 2022.
 	•	"Noticias del trabajo indecente: de La Forestal a los talleres clandestinos de la indumentaria". Observatorio de Trabajo y DDHH, FCS-UBA. Buenos Aires, agosto de 2020.
 	•	"A un siglo de las grandes luchas populares y masacres". Revista La Marea, ciclo 'La otra Argentina'. Virtual, diciembre de 2021.

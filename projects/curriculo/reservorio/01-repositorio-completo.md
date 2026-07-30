@@ -530,6 +530,9 @@ Conversatorios, conferencias y paneles
 Coordinación de mesa
 "La violencia empresarial y las masacres populares", dentro del ciclo "El estudio de las masacres y la violencia extrema en América Latina", Red de Estudios sobre Masacres en América Latina. Participaron: Ricardo Rezende Figueira (Universidad Federal de Río de Janeiro), Sergio Grez Toso (Universidad de Chile) y Catherine LeGrand (Universidad McGill). 30 de junio de 2026.
 
+Conversatorio
+"Corporate Accountability". Congreso de la Memory Studies Association (MSA Buenos Aires 2026). Buenos Aires, 29 de julio de 2026. Speaker invitado en screening de la película de Jonathan Perel (2022), junto al director.
+
 Conferencia 
 “La historia y la justicia en el siglo de los genocidios. Experiencias de un trabajo colaborativo en Argentina”. Organiza: Programa de Historia Reciente de Córdoba, CEA, Facultad de Ciencias Sociales, Universidad Nacional de Córdoba. Modalidad Presencial, Córdoba, 29 de octubre de 2022
 
