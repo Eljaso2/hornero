@@ -283,7 +283,7 @@ class HorneroPerfil extends HoComponent {
           ${this.pushPermission === 'denied' ? '<div style="margin-top:8px"><span class="notif-status denied">Bloqueado</span></div>' : ''}
           <div class="theme-row" style="margin-top:12px">
             <span class="theme-label">☀️ Claro / Oscuro</span>
-            <button class="theme-toggle${this.theme === 'light' ? ' active' : ''}" id="themeToggle">
+            <button class="theme-toggle${this.theme === 'dark' ? ' active' : ''}" id="themeToggle">
               <span class="theme-toggle-knob"></span>
             </button>
           </div>
