@@ -325,9 +325,10 @@ class HorneroApp extends HoComponent {
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .top-bar-back:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
-      .header-text { display: flex; align-items: center; justify-content: center; }
+      .header-text { display: flex; align-items: center; justify-content: center; gap: 8px; }
+      .header-text .header-bird { height: 32px; width: auto; object-fit: contain; display: block; }
       .header-text .app-brand-img { height: 44px; width: auto; object-fit: contain;
-        display: block; margin: 0 auto; }
+        display: block; }
 
       /* ===== Floating back button — chat screens (no header, no bottom nav) ===== */
       .floating-back-btn { position: absolute; top: 8px; left: 12px;
@@ -678,7 +679,10 @@ class HorneroApp extends HoComponent {
             ${this._clipBannerVisible && this.newClippingAvailable ? '<div class="clipping-banner" id="clippingBanner"><span class="clip-banner-text">📰 Nuevo clipping — Edición N°' + this._newClipNumero + '</span><button class="clip-dismiss" id="clipDismiss">✕</button></div>' : ''}
             ${showHeader ? '<div class="top-bar">' +
               '<div class="header-text">' +
-                '<img class="app-brand-img" src="assets/hornero-brand-typo-white.png" alt="HORNERO" />' +
+                (this.theme === 'light'
+                  ? '<img class="header-bird" src="assets/dreamina-2026-07-30-7667-Extract only the line art of the bird an....png" alt="Hornero" />' +
+                    '<img class="app-brand-img" src="assets/hornero-brand-typo-dark.png" alt="HORNERO" />'
+                  : '<img class="app-brand-img" src="assets/hornero-brand-typo-transparent.png" alt="HORNERO" />') +
               '</div>' +
             '</div>' : ''}
 
@@ -947,7 +951,6 @@ class HorneroApp extends HoComponent {
       '--ho-mid-gray': '#E8E4DB',
       '--ho-header-bg': '#1B4332',
       '--ho-header-text': '#F2F1EC',
-      '--ho-header-surface': '#234D3B',
     };
     if (this.theme === 'light') {
       Object.entries(lightVars).forEach(([k, v]) => this.style.setProperty(k, v));
