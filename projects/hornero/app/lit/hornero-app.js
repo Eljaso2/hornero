@@ -392,23 +392,23 @@ class HorneroApp extends HoComponent {
       .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: .92rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
       .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text-light, #7A766C); line-height: 1.5; margin-bottom: 24px; }
+        color: var(--ho-text-light, #7A766C); line-height: 1.5; margin-bottom: 12px; }
       .chat-choice { display: flex; align-items: center; gap: 10px;
         background: var(--ho-card, #2A3230); border: 1px solid rgba(43,42,38,.06);
-        border-radius: 10px; padding: 10px 12px; cursor: pointer;
-        transition: border-color .2s, background .2s; margin-bottom: 8px; }
+        border-radius: 10px; padding: 8px 12px; cursor: pointer;
+        transition: border-color .2s, background .2s; margin-bottom: 6px; }
       .chat-choice:hover { border-color: rgba(43,42,38,.18);
         background: var(--ho-green-pale, #E0F0EB); }
-      .chat-choice-icon { width: 44px; height: 44px; flex: none;
+      .chat-choice-icon { width: 28px; height: 28px; flex: none;
         display: flex; align-items: center; justify-content: center; }
-      .chat-choice-icon img { width: 44px; height: 44px; object-fit: contain;
+      .chat-choice-icon img { width: 28px; height: 28px; object-fit: contain;
         filter: var(--ho-persona-filter, none); }
-      .chat-choice-icon svg { width: 36px; height: 36px; stroke: var(--ho-green, #4E9978);
+      .chat-choice-icon svg { width: 18px; height: 18px; stroke: var(--ho-green, #4E9978);
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
       .chat-choice-extra .chat-choice-icon { width: 28px; height: 28px; }
       .chat-choice-extra .chat-choice-icon img { width: 28px; height: 28px; }
-      .chat-choice-extra .chat-choice-icon svg { width: 16px; height: 16px; }
+      .chat-choice-extra .chat-choice-icon svg { width: 18px; height: 18px; }
       .chat-choice-extra .chat-choice-name { font-size: .86rem; }
       .chat-choice-extra .chat-choice-desc { font-size: .76rem; }
       .persona-choice-emoji { font-size: 1rem; line-height: 1; }

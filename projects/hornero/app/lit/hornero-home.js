@@ -155,10 +155,10 @@ class HorneroHome extends HoComponent {
 
       /* ===== Section badge — overlay on carousel photo, right corner ===== */
       .section-badge { position: absolute; top: 10px; right: 12px; z-index: 3;
-        font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+        font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: rgba(242,241,236,.85); background: rgba(33,31,29,.35);
-        padding: 3px 7px 2px; border-radius: 5px; }
+        padding: 2px 8px; border-radius: 6px; }
 
       /* ===== Invisible card — same bg as page, padding, no visible border ===== */
       .ghost-card { background: var(--ho-card, #2A3230);
@@ -192,9 +192,9 @@ class HorneroHome extends HoComponent {
       .news-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.36rem; line-height: 1.18; letter-spacing: .02em; text-transform: uppercase; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-      .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
+      .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: rgba(78,153,120,.6); color: #F2F1EC;
-        padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .carousel-dots { display: flex; justify-content: center; gap: 5px;
         padding: 8px 0; }
       .dot { width: 6px; height: 6px; border-radius: 50%;
@@ -218,7 +218,7 @@ class HorneroHome extends HoComponent {
         margin-bottom: 12px; }
       .infomate-macro-chip { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: rgba(176,134,63,.35); color: #E8E6E0;
-        padding: 4px 8px; border-radius: 6px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .infomate-sections { display: flex; flex-direction: column; gap: 6px; }
       .infomate-section-line { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.3; }
@@ -281,8 +281,8 @@ class HorneroHome extends HoComponent {
       .panorama-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .panorama-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .60rem; background: rgba(78,153,120,.6); color: #F2F1EC;
-        padding: 2px 7px; border-radius: 5px; font-weight: 600;
+        font-size: .62rem; background: rgba(78,153,120,.6); color: #F2F1EC;
+        padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
 
       /* ===== ESFERA 4: Formación — hero card ===== */
@@ -300,8 +300,8 @@ class HorneroHome extends HoComponent {
       .formacion-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .formacion-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .60rem; background: rgba(78,153,120,.6); color: #F2F1EC;
-        padding: 2px 7px; border-radius: 5px; font-weight: 600;
+        font-size: .62rem; background: rgba(78,153,120,.6); color: #F2F1EC;
+        padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
       .formacion-badge { display: none; }
 
@@ -319,7 +319,7 @@ class HorneroHome extends HoComponent {
         line-height: 1.4; margin-top: 4px; }
       .esfera-card .card-tag { font-family: 'JetBrains Mono', monospace;
         font-size: .62rem; background: #E0F0EB; color: #3D6B56;
-        padding: 3px 8px; border-radius: 6px; font-weight: 600;
+        padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 6px; }
       .esfera-card .lock-icon { position: absolute; top: 10px; right: 12px;
         width: 16px; height: 16px; }
