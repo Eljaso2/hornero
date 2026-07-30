@@ -285,21 +285,19 @@ class HorneroPerfil extends HoComponent {
           ).join('') : ''}
         </div>
 
-        <!-- Notificaciones push -->
+        <!-- Notificaciones + Theme -->
         <div class="notif-card">
           <div class="theme-row">
             <span class="theme-label">🔔 Notificaciones</span>
             <div class="toggle-switch${this.pushEnabled ? ' active' : ''}" id="push-toggle"></div>
           </div>
           ${this.pushPermission === 'denied' ? '<div style="margin-top:8px"><span class="notif-status denied">Bloqueado</span></div>' : ''}
-        </div>
-
-        <!-- Theme toggle -->
-        <div class="theme-row">
-          <span class="theme-label">☀️ Claro / Oscuro</span>
-          <button class="theme-toggle${this.theme === 'light' ? ' active' : ''}" id="themeToggle">
-            <span class="theme-toggle-knob"></span>
-          </button>
+          <div class="theme-row" style="margin-top:12px">
+            <span class="theme-label">☀️ Claro / Oscuro</span>
+            <button class="theme-toggle${this.theme === 'light' ? ' active' : ''}" id="themeToggle">
+              <span class="theme-toggle-knob"></span>
+            </button>
+          </div>
         </div>
 
         <!-- Logout -->
