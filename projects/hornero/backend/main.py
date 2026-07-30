@@ -7,10 +7,13 @@ Enfoque híbrido: proxy rápido ahora → migrar a RAG self-hosted en Phase 2.
 """
 
 import json
+import logging
 import os
 import re
 import subprocess
 import tempfile
+import time
+from collections import defaultdict
 from datetime import datetime
 
 from dotenv import load_dotenv
@@ -44,6 +47,33 @@ DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "")  # Separate key for STT �
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "https://eljaso2.github.io")
 LOCAL_ORIGIN = os.getenv("LOCAL_ORIGIN", "http://localhost:*")
 APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
+
+# ===== Logging =====
+logger = logging.getLogger("hornero")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+
+# ===== Rate Limiting (in-memory) =====
+_rate_limit_store = defaultdict(list)  # IP → [timestamps]
+RATE_LIMIT_MAX = 20  # requests per minute
+RATE_LIMIT_WINDOW = 60  # seconds
+
+
+def _check_rate_limit(client_ip: str) -> bool:
+    """Check if the client IP is within rate limits. Returns True if allowed."""
+    now = time.time()
+    # Clean old timestamps
+    timestamps = _rate_limit_store[client_ip]
+    _rate_limit_store[client_ip] = [t for t in timestamps if now - t < RATE_LIMIT_WINDOW]
+    # Check limit
+    if len(_rate_limit_store[client_ip]) >= RATE_LIMIT_MAX:
+        return False
+    _rate_limit_store[client_ip].append(now)
+    return True
+
 
 # ===== FastAPI app =====
 app = FastAPI(

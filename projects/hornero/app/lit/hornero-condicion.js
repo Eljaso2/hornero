@@ -36,7 +36,7 @@ class HorneroCondicion extends HoComponent {
         color: var(--ho-text-light, #9C988D); margin-bottom: 8px; }
       .section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
-      .intro { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
+      .intro { font-family: 'Public Sans', sans-serif; font-size: .86rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-bottom: 12px; }
 
       /* ===== Tab bar ===== */
@@ -140,7 +140,7 @@ class HorneroCondicion extends HoComponent {
       .ice-card:hover { border-color: var(--ho-green, #4E9978); }
       .ice-card .ice-emoji { font-size: 1.2rem; }
       .ice-card .ice-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .82rem; color: var(--ho-text, #E8E6E0); margin-top: 3px; }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); margin-top: 3px; }
       .ice-card .ice-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; color: var(--ho-green-dark, #3D6B56);
         background: var(--ho-green-pale, #E0F0EB); border-radius: 6px;

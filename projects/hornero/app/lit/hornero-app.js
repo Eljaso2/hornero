@@ -389,10 +389,10 @@ class HorneroApp extends HoComponent {
       .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text, #E8E6E0); margin-bottom: 8px; }
-      .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: 1.02rem;
+      .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: .92rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
-      .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .92rem;
-        color: var(--ho-text-light, #7A766C); line-height: 1.5; margin-bottom: 12px; }
+      .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text-light, #7A766C); line-height: 1.4; margin-bottom: 12px; }
       .chat-choice { display: flex; align-items: center; gap: 10px;
         background: var(--ho-card, #2A3230); border: 1px solid rgba(43,42,38,.06);
         border-radius: 10px; padding: 10px 14px; cursor: pointer;
@@ -420,7 +420,7 @@ class HorneroApp extends HoComponent {
       .persona-icon-companero { background: #C89660; }
       .persona-icon-historiador { background: #D7D4E8; }
       .chat-choice-text { flex: 1; }
-      .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .92rem;
+      .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .88rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); }
       .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #7A766C); line-height: 1.3; margin-top: 1px; }

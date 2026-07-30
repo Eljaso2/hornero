@@ -391,7 +391,7 @@ class HorneroChat extends HoComponent {
       /* Informes drawer section headers */
       .informes-section-header { padding: 10px 16px 6px;
         font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+        font-size: .72rem; letter-spacing: .04em; text-transform: uppercase;
         color: var(--ho-green-dark, #3D6B56);
         background: var(--ho-green-pale, #E0F0EB);
         border-radius: 8px 8px 0 0; margin-top: 8px; }
@@ -618,7 +618,7 @@ class HorneroChat extends HoComponent {
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .reporte-card-actions { display: flex; gap: 6px;
         padding: 8px 12px 4px; justify-content: flex-end; }
-      .reporte-card-prompt { font-family: 'Public Sans', sans-serif; font-size: .88rem;
+      .reporte-card-prompt { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text, #E8E6E0); padding: 0; line-height: 1.5; }
       .reporte-card-prompt em { font-style: italic; color: var(--ho-text-mid, #6E6A60); }
       .reporte-btn { border-radius: 8px; padding: 6px 8px;
@@ -753,7 +753,7 @@ class HorneroChat extends HoComponent {
       .msg-text { font-family: 'Public Sans', sans-serif; font-size: .90rem;
         color: var(--ho-text, #E8E6E0); line-height: 1.55;
         margin-bottom: 8px; }
-      .msg-text p { margin-bottom: 4px; }
+      .msg-text p { margin-bottom: 10px; }
       .msg-text p:last-child { margin-bottom: 0; }
       .msg-text strong { font-weight: 700; color: var(--ho-green-dark, #3D6B56); }
 
@@ -801,9 +801,9 @@ class HorneroChat extends HoComponent {
       .msg-section { margin-bottom: 12px; }
       .msg-section:last-child { margin-bottom: 0; }
       .msg-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .96rem; color: var(--ho-text, #E8E6E0); margin-bottom: 6px; }
-      .msg-section-body { font-family: 'Public Sans', sans-serif; font-size: .88rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.55; }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); margin-bottom: 6px; }
+      .msg-section-body { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.4; }
       .msg-section-body p { margin-bottom: 4px; }
 
       /* Divider between sections */
@@ -1433,9 +1433,8 @@ class HorneroChat extends HoComponent {
       // Close list if we hit a non-list line
       if (inList) { html += this._closeList(listType, listItems); inList = false; }
 
-      // --- Empty line = paragraph break ---
+      // --- Empty line = paragraph separator (skip: <p> margin already handles it) ---
       if (trimmed === '') {
-        html += '<br>';
         continue;
       }
 
@@ -2148,7 +2147,14 @@ class HorneroChat extends HoComponent {
           // Remove dislike from sibling
           const dislikeBtn = btn.parentElement.querySelector('[data-action="dislike"]');
           if (dislikeBtn) dislikeBtn.classList.remove('disliked');
-          this.emit('chat-feedback', { type: 'like', liked: btn.classList.contains('liked') });
+          this.emit('chat-feedback', {
+            type: 'like',
+            liked: btn.classList.contains('liked'),
+            messageIndex: msgIndex,
+            persona: this.persona,
+            sessionId: this.sessionId,
+            messageText: (this.messages[msgIndex] || {}).text?.substring(0, 200) || '',
+          });
         }
 
         if (action === 'dislike') {
@@ -2157,7 +2163,14 @@ class HorneroChat extends HoComponent {
           // Remove like from sibling
           const likeBtn = btn.parentElement.querySelector('[data-action="like"]');
           if (likeBtn) likeBtn.classList.remove('liked');
-          this.emit('chat-feedback', { type: 'dislike', disliked: btn.classList.contains('disliked') });
+          this.emit('chat-feedback', {
+            type: 'dislike',
+            disliked: btn.classList.contains('disliked'),
+            messageIndex: msgIndex,
+            persona: this.persona,
+            sessionId: this.sessionId,
+            messageText: (this.messages[msgIndex] || {}).text?.substring(0, 200) || '',
+          });
         }
       });
     });

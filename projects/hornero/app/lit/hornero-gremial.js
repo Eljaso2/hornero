@@ -303,6 +303,10 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
+      // Listen for feedback (like/dislike) and send to backend
+      chatEl.addEventListener('chat-feedback', (e) => {
+        this._sendFeedback(e.detail);
+      });
       // Listen for export from toolbar button — add download card message
       chatEl.addEventListener('chat-export', (e) => {
         this._handleChatExport(e.detail);
@@ -985,6 +989,34 @@ class HorneroGremial extends HoComponent {
     const now = new Date();
     return now.getHours().toString().padStart(2, '0') + ':' +
            now.getMinutes().toString().padStart(2, '0');
+  }
+
+  // ===== Send feedback to backend (like/dislike) =====
+  async _sendFeedback(detail) {
+    if (!detail || !detail.type) return;
+    const rating = detail.type === 'like' && detail.liked ? 'like' :
+                   detail.type === 'dislike' && detail.disliked ? 'dislike' : '';
+    if (!rating) return;
+
+    try {
+      const h = window.location.hostname;
+      const baseUrl = (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.'))
+        ? 'http://' + h + ':8000' : 'https://hornero-ia.onrender.com';
+
+      await fetch(baseUrl + '/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: this._sessionId || '',
+          message_index: detail.messageIndex || -1,
+          rating: rating,
+          persona: detail.persona || this._activePersona,
+          message_text: detail.messageText || '',
+        }),
+      });
+    } catch (e) {
+      console.warn('Feedback send failed:', e);
+    }
   }
 
   async _saveChatHistory() {
