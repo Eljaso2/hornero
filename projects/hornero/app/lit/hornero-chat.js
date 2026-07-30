@@ -688,7 +688,8 @@ class HorneroChat extends HoComponent {
       .msg-avatar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
-      .msg-avatar img { width: 32px; height: 32px; object-fit: contain; }
+      .msg-avatar img { width: 32px; height: 32px; object-fit: contain;
+        filter: var(--ho-persona-filter, none); }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .78rem; }
@@ -708,7 +709,8 @@ class HorneroChat extends HoComponent {
       .persona-icon-inner { width: 100%; height: 100%;
         display: flex; align-items: center; justify-content: center; }
       .persona-icon-inner img { width: 100%; height: 100%;
-        object-fit: contain; }
+        object-fit: contain;
+        filter: var(--ho-persona-filter, none); }
       .persona-icon-inner .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
 
       /* === Redirect derivation button in message === */
@@ -719,10 +721,10 @@ class HorneroChat extends HoComponent {
         transition: transform .15s, box-shadow .2s; }
       .msg-redirect-btn:hover { transform: scale(1.05);
         box-shadow: 0 2px 8px rgba(255,255,255,.1); }
-      .msg-redirect-icon-circle { width: 22px; height: 22px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none;
-        border: 1.5px solid var(--ho-border, rgba(255,255,255,.15)); }
-      .msg-redirect-icon-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+      .msg-redirect-icon-circle { width: 22px; height: 22px;
+        display: flex; align-items: center; justify-content: center; flex: none; }
+      .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: contain;
+        filter: var(--ho-persona-filter, none); }
       .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
 
       /* "Ver mis informes" button in message — opens informes drawer */
@@ -840,11 +842,10 @@ class HorneroChat extends HoComponent {
       /* Typing indicator — no bubble, just dots inline */
       .typing-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
         animation: msgin .2s ease; }
-      .typing-avatar { width: 30px; height: 30px; border-radius: 50%;
-        background: transparent;
-        display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden;
-        border: 2px solid var(--ho-border, rgba(255,255,255,.15)); }
-      .typing-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+      .typing-avatar { width: 32px; height: 32px;
+        display: flex; align-items: center; justify-content: center; flex: none; }
+      .typing-avatar img { width: 32px; height: 32px; object-fit: contain;
+        filter: var(--ho-persona-filter, none); }
       .typing-dots { display: flex; gap: 5px; align-items: center; }
       .typing-dot { width: 8px; height: 8px; border-radius: 50%;
         background: var(--ho-green-light, #80CCA0); animation: dotbounce 1.4s ease infinite; }

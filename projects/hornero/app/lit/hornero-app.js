@@ -400,9 +400,9 @@ class HorneroApp extends HoComponent {
       .chat-choice:hover { border-color: rgba(43,42,38,.18);
         background: var(--ho-green-pale, #E0F0EB); }
       .chat-choice-icon { width: 44px; height: 44px; flex: none;
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        border: 2px solid var(--ho-border, rgba(255,255,255,.12)); overflow: hidden; }
-      .chat-choice-icon img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        display: flex; align-items: center; justify-content: center; }
+      .chat-choice-icon img { width: 44px; height: 44px; object-fit: contain;
+        filter: var(--ho-persona-filter, none); }
       .chat-choice-icon svg { width: 36px; height: 36px; stroke: var(--ho-green, #4E9978);
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
@@ -959,6 +959,7 @@ class HorneroApp extends HoComponent {
       '--ho-header-bg': '#F8F6F0',
       '--ho-header-text': '#1E2321',
       '--ho-header-surface': '#F0EDE5',
+      '--ho-persona-filter': 'saturate(1.3) brightness(1.1)',
     };
     if (this.theme === 'light') {
       Object.entries(lightVars).forEach(([k, v]) => this.style.setProperty(k, v));
