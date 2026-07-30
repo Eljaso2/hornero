@@ -137,7 +137,7 @@ class HorneroPerfil extends HoComponent {
       .nivel-badge.green { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
       .nivel-badge.gold { background: #F0E4CC; color: #7A5E2C; }
       .nivel-badge.mid { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-dark-mid, #536260); }
-      .nivel-badge.dark { background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-dark, #1E2321); border: 1px solid var(--ho-dark, #1E2321); }
+      .nivel-badge.dark { background: var(--ho-warm-gray, #E6E3DB); color: var(--ho-text, #1E2321); border: 1px solid var(--ho-text, #1E2321); }
 
       /* Edit mode */
       .edit-input { width: 100%; background: var(--ho-card, #2A3230);

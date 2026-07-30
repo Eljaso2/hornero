@@ -193,7 +193,7 @@ class HorneroHome extends HoComponent {
         font-size: 1.06rem; line-height: 1.2; letter-spacing: .02em; text-transform: uppercase; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
       .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: rgba(78,153,120,.6); color: #F2F1EC;
+        background: rgba(78,153,120,.6); color: var(--ho-text-off, #F2F1EC);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .carousel-dots { display: flex; justify-content: center; gap: 5px;
         padding: 8px 0; }
@@ -211,13 +211,13 @@ class HorneroHome extends HoComponent {
         padding: 28px 16px 16px; }
       .infomate-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-        color: var(--ho-text, #E8E6E0); background: rgba(176,134,63,.35);
+        color: var(--ho-green-dark, #3D6B56); background: var(--ho-green-pale, #E0F0EB);
         border-radius: 6px; padding: 6px 10px; display: inline-block;
         margin-bottom: 14px; }
       .infomate-macro-row { display: flex; flex-wrap: wrap; gap: 6px;
         margin-bottom: 12px; }
       .infomate-macro-chip { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: rgba(176,134,63,.35); color: #E8E6E0;
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .infomate-sections { display: flex; flex-direction: column; gap: 6px; }
       .infomate-section-line { font-family: 'Public Sans', sans-serif; font-size: .86rem;
@@ -281,7 +281,7 @@ class HorneroHome extends HoComponent {
       .panorama-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .panorama-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; background: rgba(78,153,120,.6); color: #F2F1EC;
+        font-size: .62rem; background: rgba(78,153,120,.6); color: var(--ho-text-off, #F2F1EC);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
 
@@ -300,7 +300,7 @@ class HorneroHome extends HoComponent {
       .formacion-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .formacion-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; background: rgba(78,153,120,.6); color: #F2F1EC;
+        font-size: .62rem; background: rgba(78,153,120,.6); color: var(--ho-text-off, #F2F1EC);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
       .formacion-badge { display: none; }
@@ -318,7 +318,7 @@ class HorneroHome extends HoComponent {
       .esfera-card .card-desc { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 4px; }
       .esfera-card .card-tag { font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; background: #E0F0EB; color: #3D6B56;
+        font-size: .62rem; background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 6px; }
       .esfera-card .lock-icon { position: absolute; top: 10px; right: 12px;
