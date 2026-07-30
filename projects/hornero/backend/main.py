@@ -713,13 +713,29 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
 
 @app.get("/api/health")
 async def health():
-    """Health check endpoint."""
+    """Health check endpoint — includes audio diagnostics."""
+    # Check ffmpeg availability
+    ffmpeg_ok = False
+    ffmpeg_version = ""
+    try:
+        result = subprocess.run(["ffmpeg", "-version"], capture_output=True, timeout=5)
+        ffmpeg_ok = result.returncode == 0
+        ffmpeg_version = result.stdout.decode()[:80].strip() if result.stdout else ""
+    except Exception as e:
+        ffmpeg_version = f"error: {type(e).__name__}"
+
     return {
         "status": "ok",
         "provider": LLM_PROVIDER,
         "clipping_items": len(get_clipping()),
         "kb_chunks": len(ALL_CHUNKS),
         "rag": "keyword",
+        "audio": {
+            "ffmpeg": ffmpeg_ok,
+            "ffmpeg_version": ffmpeg_version,
+            "dashscope_key": bool(DASHSCOPE_API_KEY or DEEPSEEK_API_KEY),
+            "dashscope_model": DASHSCOPE_STT_MODEL,
+        },
         "timestamp": datetime.now().isoformat(),
     }
 
@@ -783,6 +799,34 @@ async def refresh_clipping():
     """Force refresh of clipping cache from GitHub Pages."""
     count = refresh()
     return {"status": "ok", "clipping_items": count, "timestamp": datetime.now().isoformat()}
+
+
+# ===== Feedback endpoint =====
+class FeedbackRequest(BaseModel):
+    session_id: str = ""
+    message_index: int = -1
+    rating: str = ""  # "like" or "dislike"
+    comment: str = ""
+    persona: str = ""
+    message_text: str = ""  # First 200 chars for context (no PII)
+
+
+@app.post("/api/feedback")
+async def feedback_endpoint(req: FeedbackRequest):
+    """Receive and log user feedback on chat responses.
+
+    Feedback is logged to stdout for analysis. Future: persist to SQLite.
+    """
+    if req.rating not in ("like", "dislike"):
+        raise HTTPException(400, "Rating must be 'like' or 'dislike'")
+
+    # Log feedback for analysis
+    print(f"FEEDBACK: session={req.session_id} index={req.message_index} "
+          f"rating={req.rating} persona={req.persona} "
+          f"text_preview={req.message_text[:100]}... "
+          f"comment={req.comment}")
+
+    return {"status": "ok", "message": "Feedback registrado"}
 
 
 # ===== Push Notification endpoints =====
