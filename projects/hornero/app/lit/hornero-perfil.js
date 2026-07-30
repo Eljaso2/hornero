@@ -287,12 +287,8 @@ class HorneroPerfil extends HoComponent {
 
         <!-- Notificaciones push -->
         <div class="notif-card">
-          <div class="info-card-title">🔔 NOTIFICACIONES</div>
+          <div class="info-card-title">🔔 Recibí una alerta cuando hay un nuevo clipping disponible</div>
           <div class="notif-row">
-            <div class="notif-info">
-              <div class="notif-title">Notificaciones</div>
-              <div class="notif-desc">Recibí una alerta cuando hay un nuevo clipping disponible</div>
-            </div>
             <div class="toggle-switch${this.pushEnabled ? ' active' : ''}" id="push-toggle"></div>
           </div>
           ${this.pushPermission === 'denied' ? '<div style="margin-top:8px"><span class="notif-status denied">Bloqueado</span></div>' : ''}
