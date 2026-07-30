@@ -292,7 +292,7 @@ def get_system_prompt(formato: str, clipping_items: list = None) -> str:
         'debate': PERSONA_DEBATE,
         'consulta': PERSONA_CONSULTA,
         'contenido': PERSONA_CONTENIDO,
-        'reporte': PERSONA_REPORTE,
+        'reporte': PERSONA_DEBATE,
         'historia': PERSONA_HISTORIADOR,
     }
 
@@ -331,7 +331,7 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
         'debate': PERSONA_DEBATE,
         'consulta': PERSONA_CONSULTA,
         'contenido': PERSONA_CONTENIDO,
-        'reporte': PERSONA_REPORTE,
+        'reporte': PERSONA_DEBATE,
         'historia': PERSONA_HISTORIADOR,
     }
 
