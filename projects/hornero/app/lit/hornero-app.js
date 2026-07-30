@@ -681,8 +681,7 @@ class HorneroApp extends HoComponent {
             ${showHeader ? '<div class="top-bar">' +
               '<div class="header-text">' +
                 (this.theme === 'light'
-                  ? '<img class="header-bird" src="assets/dreamina-2026-07-30-7667-Extract only the line art of the bird an....png" alt="Hornero" />' +
-                    '<img class="app-brand-img" src="assets/hornero-brand-typo-dark.png" alt="HORNERO" />'
+                  ? '<img class="app-brand-img" src="assets/dreamina-2026-07-30-5682-Change_the_background_to_solid__pure_whi...-removebg-preview.png" alt="HORNERO" />'
                   : '<img class="app-brand-img" src="assets/hornero-brand-typo-transparent.png" alt="HORNERO" />') +
               '</div>' +
             '</div>' : ''}

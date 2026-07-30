@@ -290,12 +290,11 @@ class HorneroPerfil extends HoComponent {
           <div class="info-card-title">🔔 NOTIFICACIONES</div>
           <div class="notif-row">
             <div class="notif-info">
-              <div class="notif-title">Notificaciones de clipping</div>
+              <div class="notif-title">Notificaciones</div>
               <div class="notif-desc">Recibí una alerta cuando hay un nuevo clipping disponible</div>
             </div>
             <div class="toggle-switch${this.pushEnabled ? ' active' : ''}" id="push-toggle"></div>
           </div>
-          <div class="notif-privacy">⚠️ Al activar notificaciones, tu dispositivo se registra en nuestro servidor. No almacenamos datos personales, solo un identificador técnico necesario para enviar la notificación.</div>
           ${this.pushPermission !== 'unsupported' ? '<div style="margin-top:8px"><span class="notif-status ' + this.pushPermission + '">' + this.pushPermission + '</span></div>' : ''}
         </div>
 

@@ -52,6 +52,7 @@ var ASSETS = [
   './assets/hornero-logo.png',
   './assets/hornero-brand-typo-white.png',
   './assets/hornero-brand-typo-dark.png',
+  './assets/dreamina-2026-07-30-5682-Change_the_background_to_solid__pure_whi...-removebg-preview.png',
   './assets/hornero-logo-nobg.png',
   './assets/hornero-brand-creative.png',
   './assets/personajes/historiadora.png',
