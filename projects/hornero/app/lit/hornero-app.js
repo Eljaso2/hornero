@@ -386,7 +386,7 @@ class HorneroApp extends HoComponent {
 
       /* ===== Chat landing — choice buttons ===== */
       .chat-landing { padding: 24px 20px; }
-      .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+      .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .72rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text, #E8E6E0); margin-bottom: 8px; }
       .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: .92rem;
@@ -409,8 +409,8 @@ class HorneroApp extends HoComponent {
       .chat-choice-extra .chat-choice-icon { width: 28px; height: 28px; }
       .chat-choice-extra .chat-choice-icon img { width: 28px; height: 28px; }
       .chat-choice-extra .chat-choice-icon svg { width: 16px; height: 16px; }
-      .chat-choice-extra .chat-choice-name { font-size: .78rem; }
-      .chat-choice-extra .chat-choice-desc { font-size: .68rem; }
+      .chat-choice-extra .chat-choice-name { font-size: .86rem; }
+      .chat-choice-extra .chat-choice-desc { font-size: .76rem; }
       .persona-choice-emoji { font-size: 1rem; line-height: 1; }
       .persona-icon-companero { background: #C89660; }
       .persona-icon-abogado { background: #D4E4F7; }
@@ -645,10 +645,9 @@ class HorneroApp extends HoComponent {
 
       screenContent = '<div class="chat-landing">' +
         '<div class="chat-landing-kicker">🪶 Mesa de trabajo</div>' +
-        '<div class="chat-landing-title">Hornero te escucha</div>' +
-        '<div class="chat-landing-desc">Chateá con la inteligencia artificial sindical. Diferentes compañeros responden según lo que necesites:</div>' +
+        '<div class="chat-landing-desc">Chateá con los compañeros del gremio. Cada uno te ayuda según lo que necesites:</div>' +
         personaChoices +
-        (extraChoices ? '<div class="chat-landing-desc" style="margin-top:12px;margin-bottom:8px;font-size:.72rem;font-weight:600;color:#7A766C;letter-spacing:.08em;text-transform:uppercase">Tu actividad</div>' + extraChoices : '') +
+        (extraChoices ? '<div class="chat-landing-kicker" style="margin-top:12px;margin-bottom:8px">Tu actividad</div>' + extraChoices : '') +
       '</div>';
     } else if (this.screen === 'misConversaciones') {
       screenContent = this._renderMisConversaciones();
