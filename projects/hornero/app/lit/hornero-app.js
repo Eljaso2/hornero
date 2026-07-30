@@ -330,7 +330,7 @@ class HorneroApp extends HoComponent {
         display: block; margin: 0 auto; }
 
       /* ===== Floating back button — chat screens (no header, no bottom nav) ===== */
-      .floating-back-btn { position: absolute; top: calc(8px + env(safe-area-inset-top, 0px)); left: 12px;
+      .floating-back-btn { position: absolute; top: 8px; left: 12px;
         width: 30px; height: 30px; border-radius: 50%;
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         background: var(--ho-card, #2A3230); cursor: pointer;
@@ -360,7 +360,7 @@ class HorneroApp extends HoComponent {
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; background: var(--ho-bg, #1E2321); }
+        scrollbar-width: none; background: var(--ho-bg, #1E2321); position: relative; }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Bottom nav — warm light background, no white ===== */
@@ -690,10 +690,9 @@ class HorneroApp extends HoComponent {
               '</div>' : ''}
 
             <div class="body-scroll">
+              ${(!showHeader && !showBottomNav) ? '<button class="floating-back-btn" id="floatingBackBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
               ${screenContent}
             </div>
-
-            ${(!showHeader && !showBottomNav) ? '<button class="floating-back-btn" id="floatingBackBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
 
             ${showBottomNav ? '<div class="bottom-nav">' +
               this._getNavDef().map(n => {
