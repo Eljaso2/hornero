@@ -424,6 +424,10 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
 
     Falls back to non-streaming if the LLM provider doesn't support streaming.
     """
+    # Rate limiting
+    client_ip = request.client.host if request else "unknown"
+    if not _check_rate_limit(client_ip):
+        raise HTTPException(429, "Demasiadas solicitudes. Esperá un momento e intentá de nuevo.")
 
     # RAG retrieval: find relevant KB chunks based on user query
     relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade)
