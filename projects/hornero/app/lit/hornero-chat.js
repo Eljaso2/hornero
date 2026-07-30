@@ -686,10 +686,11 @@ class HorneroChat extends HoComponent {
       .msg-content { max-width: 90%; animation: msgin .35s ease; }
 
       .msg-avatar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-      .msg-avatar { width: 26px; height: 26px; border-radius: 50%;
-        background: var(--ho-green-pale, #E0F0EB);
-        display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden; }
-      .msg-avatar img { width: 18px; height: 18px; }
+      .msg-avatar { width: 30px; height: 30px; border-radius: 50%;
+        background: transparent;
+        display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden;
+        border: 2px solid var(--ho-border, rgba(255,255,255,.15)); }
+      .msg-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .78rem; }
@@ -699,15 +700,15 @@ class HorneroChat extends HoComponent {
 
       /* === Persona icons — top-left corner of chat === */
       .chat-persona-icon { position: absolute; top: 12px; z-index: 20;
-        width: 34px; height: 34px; border-radius: 50%;
-        border: 1.5px solid var(--ho-border, rgba(255,255,255,.08));
+        width: 40px; height: 40px; border-radius: 50%;
+        border: 2.5px solid var(--ho-border, rgba(255,255,255,.12));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
         transition: border-color .2s, transform .15s, opacity .2s; overflow: hidden;
         opacity: .55; }
       .chat-persona-icon:hover { transform: scale(1.08); opacity: .85;
         border-color: var(--ho-green-light, #80CCA0); }
       .chat-persona-icon.active { transform: scale(1.06);
-        opacity: 1; border-width: 2px; border-color: var(--ho-green, #4E9978); }
+        opacity: 1; border-width: 3px; border-color: var(--ho-green, #4E9978); }
       .persona-icon-inner { width: 100%; height: 100%;
         display: flex; align-items: center; justify-content: center; }
       .persona-icon-inner img { width: 100%; height: 100%;
@@ -723,8 +724,9 @@ class HorneroChat extends HoComponent {
       .msg-redirect-btn:hover { transform: scale(1.05);
         box-shadow: 0 2px 8px rgba(255,255,255,.1); }
       .msg-redirect-icon-circle { width: 22px; height: 22px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none; }
-      .msg-redirect-icon-circle img { width: 14px; height: 14px; }
+        display: flex; align-items: center; justify-content: center; overflow: hidden; flex: none;
+        border: 1.5px solid var(--ho-border, rgba(255,255,255,.15)); }
+      .msg-redirect-icon-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
       .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
 
       /* "Ver mis informes" button in message — opens informes drawer */
@@ -842,10 +844,11 @@ class HorneroChat extends HoComponent {
       /* Typing indicator — no bubble, just dots inline */
       .typing-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
         animation: msgin .2s ease; }
-      .typing-avatar { width: 26px; height: 26px; border-radius: 50%;
-        background: var(--ho-green-pale, #E0F0EB);
-        display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden; }
-      .typing-avatar img { width: 18px; height: 18px; }
+      .typing-avatar { width: 30px; height: 30px; border-radius: 50%;
+        background: transparent;
+        display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden;
+        border: 2px solid var(--ho-border, rgba(255,255,255,.15)); }
+      .typing-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
       .typing-dots { display: flex; gap: 5px; align-items: center; }
       .typing-dot { width: 8px; height: 8px; border-radius: 50%;
         background: var(--ho-green-light, #80CCA0); animation: dotbounce 1.4s ease infinite; }
@@ -978,7 +981,7 @@ class HorneroChat extends HoComponent {
       : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
     const typingHtml = this.typing ?
       `<div class="typing-row persona-${this.persona}">
-        <div class="typing-avatar" style="background:${typingPersona.bg}">${typingAvatarInner}</div>
+        <div class="typing-avatar">${typingAvatarInner}</div>
         <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>
@@ -1016,7 +1019,7 @@ class HorneroChat extends HoComponent {
       const inner = cfg.img
         ? `<img src="${cfg.img}" alt="${cfg.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-      const leftPos = 50 + idx * 38;
+      const leftPos = 50 + idx * 44;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px; border-color:${isActive ? cfg.color : 'var(--ho-border, rgba(255,255,255,.08))'}">
         <span class="persona-icon-inner">${inner}</span>
@@ -1471,7 +1474,7 @@ class HorneroChat extends HoComponent {
       ? `<img src="${personaCfg.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
       : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
     const avatarRow = `<div class="msg-avatar-row persona-${m.persona || this.persona}">
-      <div class="msg-avatar" style="background:${personaCfg.bg}">${avatarInner}</div>
+      <div class="msg-avatar">${avatarInner}</div>
       <div class="msg-avatar-name" style="color:${personaCfg.color}">${personaCfg.name}</div>
     </div>`;
 
