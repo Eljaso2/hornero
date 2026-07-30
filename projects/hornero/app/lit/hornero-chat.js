@@ -375,10 +375,15 @@ class HorneroChat extends HoComponent {
       .informes-drawer.swipe-closing { animation: none; transition: transform .25s ease-out; }
 
       .informes-header { padding: 16px; display: flex; align-items: center;
-        justify-content: space-between; flex: none;
+        justify-content: space-between; flex: none; gap: 10px;
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .informes-back-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--ho-text-off, #F2F1EC); flex: none; }
+      .informes-back-btn svg { width: 18px; height: 18px; }
       .informes-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
 
       /* Informes drawer section headers */
       .informes-section-header { padding: 10px 16px 6px;
@@ -477,10 +482,15 @@ class HorneroChat extends HoComponent {
       @keyframes slideIn { from { transform: translateX(100%); } to { transform: none; } }
 
       .history-header { padding: 16px; display: flex; align-items: center;
-        justify-content: space-between; flex: none;
+        justify-content: space-between; flex: none; gap: 10px;
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .history-back-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--ho-text-off, #F2F1EC); flex: none; }
+      .history-back-btn svg { width: 18px; height: 18px; }
       .history-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
       .history-new-btn { background: var(--ho-green, #4E9978); border: none;
         border-radius: 8px; padding: 4px 10px; cursor: pointer; display: flex;
         align-items: center; justify-content: center; transition: background .2s;
@@ -1058,6 +1068,9 @@ class HorneroChat extends HoComponent {
       `<div class="history-overlay">
         <div class="history-drawer">
           <div class="history-header">
+            <button class="history-back-btn" id="historyBackBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
             <div class="history-header-title">${this.historyTitle || 'Historial'}</div>
             <button class="history-new-btn" title="Nuevo chat">
               <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -1125,6 +1138,9 @@ class HorneroChat extends HoComponent {
       `<div class="informes-overlay">
         <div class="informes-drawer">
           <div class="informes-header">
+            <button class="informes-back-btn" id="informesBackBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
             <div class="informes-header-title">${this.informesTitle || 'Mis Reportes'}</div>
             <button class="informes-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
@@ -1238,6 +1254,9 @@ class HorneroChat extends HoComponent {
         `<div class="recibidos-overlay">
           <div class="recibidos-drawer">
             <div class="informes-header">
+              <button class="informes-back-btn" id="recibidosBackBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
               <div class="informes-header-title">Reportes Recibidos</div>
               <button class="informes-close-btn" id="recibidosCloseBtn">
                 <svg viewBox="0 0 24 24">${xSvg}</svg>
@@ -1869,6 +1888,12 @@ class HorneroChat extends HoComponent {
         this._closeHistoryDrawer();
       });
     }
+    const historyBackBtn = this.shadowRoot.querySelector('#historyBackBtn');
+    if (historyBackBtn) {
+      historyBackBtn.addEventListener('click', () => {
+        this._closeHistoryDrawer();
+      });
+    }
     if (historyDrawerEl) {
       this._setupDrawerSwipe(historyDrawerEl, () => this._closeHistoryDrawer());
     }
@@ -1934,6 +1959,12 @@ class HorneroChat extends HoComponent {
     const informesCloseBtn = this.shadowRoot.querySelector('.informes-close-btn');
     if (informesCloseBtn) {
       informesCloseBtn.addEventListener('click', () => {
+        this._closeInformesDrawer();
+      });
+    }
+    const informesBackBtn = this.shadowRoot.querySelector('#informesBackBtn');
+    if (informesBackBtn) {
+      informesBackBtn.addEventListener('click', () => {
         this._closeInformesDrawer();
       });
     }

@@ -427,9 +427,14 @@ class HorneroApp extends HoComponent {
          Same styles as chat drawer items for visual consistency */
       .list-screen { padding: 0; }
       .list-screen-header { padding: 16px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        display: flex; align-items: center; justify-content: space-between; flex: none; }
+        display: flex; align-items: center; gap: 10px; flex: none; }
+      .list-screen-back { width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--ho-text-off, #F2F1EC); flex: none; }
+      .list-screen-back svg { width: 18px; height: 18px; }
       .list-screen-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
       .list-screen-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #7A766C); padding: 12px 16px 0; line-height: 1.4; }
       .list-scroll { overflow-y: auto; padding: 8px 0; }
@@ -811,6 +816,14 @@ class HorneroApp extends HoComponent {
         this._navigateTo(parent);
       });
     }
+    // Bind list screen back button (Mis Conversaciones, Mis Reportes, Recibidos)
+    const listBackBtn = this.shadowRoot.querySelector('#listBackBtn');
+    if (listBackBtn) {
+      listBackBtn.addEventListener('click', () => {
+        const parent = this._parentScreen[this.screen] || 'home';
+        this._navigateTo(parent);
+      });
+    }
     // Bind update banner
     const updateBanner = this.shadowRoot.querySelector('#updateBanner');
     if (updateBanner) updateBanner.addEventListener('click', () => {
@@ -1005,6 +1018,8 @@ class HorneroApp extends HoComponent {
   // ===== Recibidos screen: incoming reports from lower grades =====
   _renderRecibidos() {
     const list = this.recibidosList || [];
+    const backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    const backBtn = '<button class="list-screen-back" id="listBackBtn">' + backSvg + '</button>';
     const estadoLabelMap = {
       'pendiente': 'Pendiente',
       'visto': 'Visto',
@@ -1014,7 +1029,7 @@ class HorneroApp extends HoComponent {
     const editSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
     if (list.length === 0) {
       return '<div class="list-screen">' +
-        '<div class="list-screen-header"><div class="list-screen-title">Reportes Recibidos</div></div>' +
+        '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Reportes Recibidos</div></div>' +
         '<div class="list-empty">No hay reportes pendientes de revision</div>' +
       '</div>';
     }
@@ -1057,7 +1072,7 @@ class HorneroApp extends HoComponent {
       '</div>';
     }).join('');
     return '<div class="list-screen">' +
-      '<div class="list-screen-header"><div class="list-screen-title">Reportes Recibidos</div></div>' +
+      '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Reportes Recibidos</div></div>' +
       '<div class="list-screen-desc">Informes de trabajadores bajo tu responsabilidad que necesitan revision. Toca un informe para leerlo.</div>' +
       '<div class="list-scroll">' + items + '</div>' +
     '</div>';
@@ -1083,6 +1098,8 @@ class HorneroApp extends HoComponent {
   // ===== Mis Conversaciones screen: full list of all chat sessions =====
   _renderMisConversaciones() {
     const list = this.misConversacionesList || [];
+    const backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    const backBtn = '<button class="list-screen-back" id="listBackBtn">' + backSvg + '</button>';
     const sectionConfig = {
       consulta:  { emoji: '♣', label: 'Consulta',  color: '#2B5278' },
       contenido: { emoji: '♪', label: 'Contenido', color: '#5A4A3A' },
@@ -1093,7 +1110,7 @@ class HorneroApp extends HoComponent {
     const defaultSection = { emoji: '♠', label: 'Hornero', color: '#7A3B1E' };
     if (list.length === 0) {
       return '<div class="list-screen">' +
-        '<div class="list-screen-header"><div class="list-screen-title">Mis Conversaciones</div></div>' +
+        '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Conversaciones</div></div>' +
         '<div class="list-empty">No hay chats guardados</div>' +
       '</div>';
     }
@@ -1120,7 +1137,7 @@ class HorneroApp extends HoComponent {
       '</div>';
     }).join('');
     return '<div class="list-screen">' +
-      '<div class="list-screen-header"><div class="list-screen-title">Mis Conversaciones</div></div>' +
+      '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Conversaciones</div></div>' +
       '<div class="list-screen-desc">Historial de chats de toda la pagina. Toca una conversacion para continuar.</div>' +
       '<div class="list-scroll">' + items + '</div>' +
     '</div>';
@@ -1144,6 +1161,8 @@ class HorneroApp extends HoComponent {
   // ===== Mis Reportes screen =====
   _renderMisReportes() {
     const list = this.misReportesList || [];
+    const backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    const backBtn = '<button class="list-screen-back" id="listBackBtn">' + backSvg + '</button>';
     const estadoLabelMap = {
       'pendiente': 'Pendiente de revision',
       'aceptado': 'Aprobado por trabajador',
@@ -1162,7 +1181,7 @@ class HorneroApp extends HoComponent {
     };
     if (list.length === 0) {
       return '<div class="list-screen">' +
-        '<div class="list-screen-header"><div class="list-screen-title">Mis Reportes</div></div>' +
+        '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Reportes</div></div>' +
         '<div class="list-empty">No hay informes guardados</div>' +
       '</div>';
     }
@@ -1201,7 +1220,7 @@ class HorneroApp extends HoComponent {
       '</div>';
     }).join('');
     return '<div class="list-screen">' +
-      '<div class="list-screen-header"><div class="list-screen-title">Mis Reportes</div></div>' +
+      '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Reportes</div></div>' +
       '<div class="list-screen-desc">Informes gremiales que armaste. Toca un informe para leerlo.</div>' +
       '<div class="list-scroll">' + items + '</div>' +
     '</div>';
