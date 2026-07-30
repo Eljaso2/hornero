@@ -386,42 +386,43 @@ class HorneroApp extends HoComponent {
 
       /* ===== Chat landing — choice buttons ===== */
       .chat-landing { padding: 24px 20px; }
-      .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+      .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .82rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         color: var(--ho-text, #E8E6E0); margin-bottom: 8px; }
-      .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: .92rem;
+      .chat-landing-title { font-family: 'Archivo', sans-serif; font-size: 1.02rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
-      .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+      .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .92rem;
         color: var(--ho-text-light, #7A766C); line-height: 1.5; margin-bottom: 12px; }
-      .chat-choice { display: flex; align-items: center; gap: 8px;
+      .chat-choice { display: flex; align-items: center; gap: 10px;
         background: var(--ho-card, #2A3230); border: 1px solid rgba(43,42,38,.06);
-        border-radius: 8px; padding: 6px 10px; cursor: pointer;
-        transition: border-color .2s, background .2s; margin-bottom: 4px; }
+        border-radius: 10px; padding: 10px 14px; cursor: pointer;
+        transition: border-color .2s, background .2s; margin-bottom: 6px;
+        min-height: 52px; }
       .chat-choice:hover { border-color: rgba(43,42,38,.18);
         background: var(--ho-green-pale, #E0F0EB); }
-      .chat-choice-icon { width: 24px; height: 24px; flex: none;
+      .chat-choice-icon { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
-      .chat-choice-icon img { width: 24px; height: 24px; object-fit: contain;
+      .chat-choice-icon img { width: 32px; height: 32px; object-fit: contain;
         filter: var(--ho-persona-filter, none); }
-      .chat-choice-icon svg { width: 16px; height: 16px; stroke: var(--ho-green, #4E9978);
+      .chat-choice-icon svg { width: 20px; height: 20px; stroke: var(--ho-green, #4E9978);
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
-      .chat-choice-extra .chat-choice-icon { width: 28px; height: 28px; }
-      .chat-choice-extra .chat-choice-icon img { width: 28px; height: 28px; }
-      .chat-choice-extra .chat-choice-icon svg { width: 18px; height: 18px; }
-      .chat-choice-extra .chat-choice-name { font-size: .86rem; }
-      .chat-choice-extra .chat-choice-desc { font-size: .76rem; }
-      .chat-choice-extra { gap: 10px; padding: 8px 12px; border-radius: 10px; margin-bottom: 6px; }
-      .persona-choice-emoji { font-size: .9rem; line-height: 1; }
+      .chat-choice-extra .chat-choice-icon { width: 32px; height: 32px; }
+      .chat-choice-extra .chat-choice-icon img { width: 32px; height: 32px; }
+      .chat-choice-extra .chat-choice-icon svg { width: 20px; height: 20px; }
+      .chat-choice-extra .chat-choice-name { font-size: .92rem; }
+      .chat-choice-extra .chat-choice-desc { font-size: .82rem; }
+      .chat-choice-extra { gap: 10px; padding: 10px 14px; border-radius: 10px; margin-bottom: 6px; }
+      .persona-choice-emoji { font-size: 1.1rem; line-height: 1; }
       .persona-icon-companero { background: #C89660; }
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
       .persona-icon-companero { background: #C89660; }
       .persona-icon-historiador { background: #D7D4E8; }
       .chat-choice-text { flex: 1; }
-      .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .8rem;
+      .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .92rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); }
-      .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .7rem;
+      .chat-choice-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #7A766C); line-height: 1.3; margin-top: 1px; }
 
       /* ===== List screens (Mis Conversaciones, Mis Reportes, Recibidos) =====
