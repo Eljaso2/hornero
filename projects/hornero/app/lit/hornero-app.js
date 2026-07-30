@@ -379,7 +379,7 @@ class HorneroApp extends HoComponent {
       .nav-btn.active svg { stroke: var(--ho-green, #4E9978); stroke-width: 2.6; }
       .nav-btn img { width: 24px; height: 24px; object-fit: contain; opacity: .55; transition: opacity .2s; transform: scale(1.8); }
       .nav-btn.active img { opacity: 1; }
-      .nav-bird-icon { filter: brightness(0.35); }
+      .nav-bird-icon { filter: brightness(0.35); transform: scale(2.3); }
       .nav-btn .label { font-size: .60rem; font-weight: 600; color: var(--ho-text-mid, #9C988D);
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: var(--ho-green, #4E9978); }

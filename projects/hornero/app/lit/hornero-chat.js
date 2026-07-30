@@ -686,11 +686,9 @@ class HorneroChat extends HoComponent {
       .msg-content { max-width: 90%; animation: msgin .35s ease; }
 
       .msg-avatar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-      .msg-avatar { width: 30px; height: 30px; border-radius: 50%;
-        background: transparent;
-        display: flex; align-items: center; justify-content: center; flex: none; overflow: hidden;
-        border: 2px solid var(--ho-border, rgba(255,255,255,.15)); }
-      .msg-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+      .msg-avatar { width: 32px; height: 32px; flex: none;
+        display: flex; align-items: center; justify-content: center; }
+      .msg-avatar img { width: 32px; height: 32px; object-fit: contain; }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .78rem; }
