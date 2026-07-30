@@ -611,7 +611,6 @@ class HorneroHistoriador extends HoComponent {
       console.warn('Feedback send failed:', e);
     }
   }
-
-  async _saveChatHistory()
+}
 
 customElements.define('hornero-historiador', HorneroHistoriador);
