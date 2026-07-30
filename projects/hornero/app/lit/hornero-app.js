@@ -354,7 +354,7 @@ class HorneroApp extends HoComponent {
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 600; color: var(--ho-text-mid, #7A766C);
         background: none; border: none; cursor: pointer;
-        padding: 6px 12px; white-space: nowrap;
+        padding: 10px 12px; white-space: nowrap;
         border-bottom: 2px solid transparent;
         transition: color .2s, border-color .2s; }
       .sections-btn.active { color: var(--ho-green, #4E9978);
