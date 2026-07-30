@@ -41,9 +41,13 @@ DEEPSEEK_MODEL = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 ANTHROPIC_BASE_URL = os.getenv("ANTHROPIC_BASE_URL", "https://api.anthropic.com/v1/messages")
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
-DASHSCOPE_STT_URL = os.getenv("DASHSCOPE_STT_URL", "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation")
-DASHSCOPE_STT_MODEL = os.getenv("DASHSCOPE_STT_MODEL", "paraformer-v2")
+DASHSCOPE_STT_URL = os.getenv("DASHSCOPE_STT_URL", "")
+DASHSCOPE_STT_MODEL = os.getenv("DASHSCOPE_STT_MODEL", "")
 DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "")  # Separate key for STT — falls back to DEEPSEEK_API_KEY
+# Groq Whisper STT (OpenAI-compatible, free tier)
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_STT_URL = os.getenv("GROQ_STT_URL", "https://api.groq.com/openai/v1/audio/transcriptions")
+GROQ_STT_MODEL = os.getenv("GROQ_STT_MODEL", "whisper-large-v3")
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "https://eljaso2.github.io")
 LOCAL_ORIGIN = os.getenv("LOCAL_ORIGIN", "http://localhost:*")
 APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
@@ -641,23 +645,17 @@ async def audio_chat_endpoint(
 
 
 async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
-    """Transcribe audio using DashScope OpenAI-compatible /audio/transcriptions endpoint.
+    """Transcribe audio using Groq Whisper (OpenAI-compatible) or DashScope fallback.
 
-    Uses the same API key as chat (DEEPSEEK_API_KEY) via compatible-mode endpoint.
-    Endpoint: POST https://dashscope.aliyuncs.com/compatible-mode/v1/audio/transcriptions
-    Models: sensevoice-v1, paraformer-v2
-    Format: multipart/form-data (same as OpenAI Whisper API)
+    Primary: Groq Whisper API (free, fast, OpenAI-compatible)
+    Fallback: DashScope Paraformer-v2 (if DASHSCOPE_API_KEY is set)
 
     Returns transcribed text string. Empty string on failure.
     """
-    stt_api_key = DASHSCOPE_API_KEY or DEEPSEEK_API_KEY
-
     # Determine original format
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "webm"
 
-    # Convert unsupported formats (WebM, MP4, M4A) to WAV via ffmpeg
-    # The compatible-mode endpoint accepts: wav, mp3, ogg, flac, m4a, aac, amr
-    # WebM container is NOT supported
+    # Convert unsupported formats to WAV via ffmpeg
     final_bytes = audio_bytes
     final_ext = ext
 
@@ -682,7 +680,7 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
             else:
                 stderr = result.stderr.decode()[:300] if result.stderr else ""
                 print(f"ffmpeg conversion failed (exit {result.returncode}): {stderr}")
-                return ""  # Can't transcribe unsupported format without conversion
+                return ""
 
             # Cleanup temp files
             try: os.unlink(tmp_in_path)
@@ -693,48 +691,81 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
             print(f"ffmpeg error: {type(e).__name__}: {str(e)}")
             return ""
 
-    # Build DashScope OpenAI-compatible STT URL
-    stt_base = os.getenv("DASHSCOPE_STT_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1/audio/transcriptions")
+    # Try Groq Whisper first
+    if GROQ_API_KEY:
+        try:
+            files = {
+                "file": (f"recording.{final_ext}", final_bytes, f"audio/{final_ext}"),
+            }
+            data = {
+                "model": GROQ_STT_MODEL,
+                "response_format": "json",
+                "language": "es",
+            }
+            headers = {
+                "Authorization": f"Bearer {GROQ_API_KEY}",
+            }
 
-    # Send audio as multipart/form-data (same as OpenAI Whisper API)
-    try:
-        files = {
-            "file": (f"recording.{final_ext}", final_bytes, f"audio/{final_ext}"),
-        }
-        data = {
-            "model": DASHSCOPE_STT_MODEL,
-            "response_format": "json",
-        }
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                response = await client.post(GROQ_STT_URL, headers=headers, files=files, data=data)
+                print(f"Groq STT response status: {response.status_code}")
+                print(f"Groq STT response body: {response.text[:500]}")
 
-        headers = {
-            "Authorization": f"Bearer {stt_api_key}",
-        }
+                response.raise_for_status()
+                result = response.json()
+                text = result.get("text", "")
 
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                stt_base,
-                headers=headers,
-                files=files,
-                data=data,
-            )
-            print(f"STT API response status: {response.status_code}")
-            print(f"STT API response body: {response.text[:500]}")
+                if text:
+                    print(f"Groq STT transcript: '{text[:100]}...' (from {filename} as {final_ext})")
+                    return text
+                else:
+                    print(f"Groq STT returned empty transcript")
+        except httpx.HTTPStatusError as e:
+            error_body = e.response.text[:500] if e.response else ""
+            print(f"Groq STT error: HTTP {e.response.status_code}: {error_body}")
+        except Exception as e:
+            print(f"Groq STT error: {type(e).__name__}: {str(e)}")
 
-            response.raise_for_status()
-            result = response.json()
+    # Fallback: DashScope native API (if DASHSCOPE_API_KEY is set)
+    stt_api_key = DASHSCOPE_API_KEY or DEEPSEEK_API_KEY
+    if stt_api_key and DASHSCOPE_STT_URL:
+        import base64
+        try:
+            content_type_map = {
+                "wav": "audio/wav", "mp3": "audio/mpeg", "ogg": "audio/ogg",
+                "flac": "audio/flac", "aac": "audio/aac", "amr": "audio/amr", "pcm": "audio/pcm",
+            }
+            audio_mime = content_type_map.get(final_ext, "audio/wav")
+            audio_b64 = base64.b64encode(final_bytes).decode("utf-8")
+            audio_data_uri = f"data:{audio_mime};base64,{audio_b64}"
 
-            # OpenAI-compatible response: {"text": "..."}
-            text = result.get("text", "")
+            request_body = {
+                "model": DASHSCOPE_STT_MODEL,
+                "input": {"audio": audio_data_uri},
+                "parameters": {"format": final_ext, "sample_rate": 16000},
+            }
+            headers = {
+                "Authorization": f"Bearer {stt_api_key}",
+                "Content-Type": "application/json",
+            }
 
-            print(f"STT transcript: '{text[:100]}...' (from {filename} as {final_ext})")
-            return text
-    except httpx.HTTPStatusError as e:
-        error_body = e.response.text[:500] if e.response else ""
-        print(f"STT error: HTTP {e.response.status_code}: {error_body}")
-        return ""
-    except Exception as e:
-        print(f"STT error: {type(e).__name__}: {str(e)}")
-        return ""
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                response = await client.post(DASHSCOPE_STT_URL, headers=headers, json=request_body)
+                print(f"DashScope STT response status: {response.status_code}")
+
+                response.raise_for_status()
+                result = response.json()
+                output = result.get("output", {})
+                text = output.get("text", "") or result.get("text", "")
+
+                if text:
+                    print(f"DashScope STT transcript: '{text[:100]}...'")
+                    return text
+        except Exception as e:
+            print(f"DashScope STT error: {type(e).__name__}: {str(e)}")
+
+    print(f"STT failed: no provider returned a transcript")
+    return ""
 
 
 @app.get("/api/health")
@@ -759,6 +790,8 @@ async def health():
         "audio": {
             "ffmpeg": ffmpeg_ok,
             "ffmpeg_version": ffmpeg_version,
+            "groq_key": bool(GROQ_API_KEY),
+            "groq_model": GROQ_STT_MODEL,
             "dashscope_key": bool(DASHSCOPE_API_KEY or DEEPSEEK_API_KEY),
             "dashscope_model": DASHSCOPE_STT_MODEL,
         },
