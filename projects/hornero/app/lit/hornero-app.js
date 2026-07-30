@@ -644,7 +644,7 @@ class HorneroApp extends HoComponent {
       }
 
       screenContent = '<div class="chat-landing">' +
-        '<div class="chat-landing-kicker">🪶 Mesa de trabajo</div>' +
+        '<div class="chat-landing-kicker">Mesa de trabajo</div>' +
         '<div class="chat-landing-desc">Chateá con los compañeros del gremio. Cada uno te ayuda según lo que necesites:</div>' +
         personaChoices +
         (extraChoices ? '<div class="chat-landing-kicker" style="margin-top:12px;margin-bottom:8px">Tu actividad</div>' +
