@@ -871,27 +871,27 @@ class HorneroChat extends HoComponent {
       /* === Input bar: fondo CLARO (no gris oscuro) === */
       .chat-input { background: var(--ho-bg, #1E2321);
         border-top: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        padding: 6px 12px calc(12px + env(safe-area-inset-bottom, 0px));
-        display: flex; align-items: center; gap: 6px; flex: none; }
+        padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+        display: flex; align-items: center; gap: 8px; flex: none; }
 
       .chat-input-field { flex: 1; background: var(--ho-card, #2A3230);
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 22px; padding: 0 14px; font-size: .88rem;
+        border-radius: 22px; padding: 0 14px; font-size: .92rem;
         color: var(--ho-text, #E8E6E0); font-family: 'Public Sans', sans-serif;
         outline: none; transition: border-color .2s;
-        height: 28px; max-height: 120px;
+        height: 36px; max-height: 120px;
         resize: none; overflow-y: hidden;
-        line-height: 28px; vertical-align: middle; }
+        line-height: 36px; vertical-align: middle; }
       .chat-input-field:focus { border-color: var(--ho-green, #4E9978); }
       .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
 
       /* Input toolbar buttons */
       .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; align-self: center; }
-      .chat-toolbar-btn { width: 28px; height: 28px; border-radius: 50%;
+      .chat-toolbar-btn { width: 36px; height: 36px; border-radius: 50%;
         border: none; cursor: pointer; display: flex; align-items: center;
         justify-content: center; flex: none; transition: background .2s, transform .15s; }
       .chat-toolbar-btn:hover { transform: scale(1.08); }
-      .chat-toolbar-btn svg { width: 15px; height: 15px; stroke-width: 2;
+      .chat-toolbar-btn svg { width: 18px; height: 18px; stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
       .chat-attach-btn { background: var(--ho-green-pale, #E0F0EB); }
@@ -1701,17 +1701,23 @@ class HorneroChat extends HoComponent {
       inputField.addEventListener('input', updateToolbar);
 
       // === Auto-resize textarea: grow with content, shrink when empty ===
+      const LINE_H = 36; // Single-line height (matches CSS)
+      const LINE_MULTI = 20; // Line height in multi-line mode (px)
+      const PAD_V = 8; // Vertical padding in multi-line mode
       const autoResize = () => {
-        inputField.style.height = '28px'; // Reset to single line
+        inputField.style.height = LINE_H + 'px';
         inputField.style.padding = '0 14px';
-        inputField.style.lineHeight = '28px';
+        inputField.style.lineHeight = LINE_H + 'px';
         const scrollH = inputField.scrollHeight;
-        if (scrollH > 28) {
-          // Multi-line: switch to padded layout for wrapped text
-          inputField.style.height = Math.min(scrollH, 120) + 'px';
-          inputField.style.padding = '6px 14px';
-          inputField.style.lineHeight = '1.4';
-          inputField.style.overflowY = scrollH > 120 ? 'auto' : 'hidden';
+        if (scrollH > LINE_H) {
+          // Multi-line: calculate how many rows the text actually needs
+          const contentH = scrollH - PAD_V; // Remove padding to get raw content height
+          const rows = Math.ceil(contentH / LINE_MULTI);
+          const targetH = Math.min(rows * LINE_MULTI + PAD_V, 120);
+          inputField.style.height = targetH + 'px';
+          inputField.style.padding = PAD_V / 2 + 'px 14px';
+          inputField.style.lineHeight = LINE_MULTI + 'px';
+          inputField.style.overflowY = targetH >= 120 ? 'auto' : 'hidden';
         } else {
           inputField.style.overflowY = 'hidden';
         }
@@ -1734,9 +1740,9 @@ class HorneroChat extends HoComponent {
         if (text || detail.image || detail.video) {
           this.emit('chat-send', detail);
           inputField.value = '';
-          inputField.style.height = '28px';
+          inputField.style.height = '36px';
           inputField.style.padding = '0 14px';
-          inputField.style.lineHeight = '28px';
+          inputField.style.lineHeight = '36px';
           this.suggestions = [];
           this.render();
         }
