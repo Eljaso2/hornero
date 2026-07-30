@@ -287,12 +287,12 @@ class HorneroApp extends HoComponent {
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
         .top-bar-back:hover { background: var(--ho-dark-mid, #536260);
           border-color: var(--ho-green-light, #80CCA0); }
-        /* Mobile: sections-bar matches header bg — light in day mode, dark in night mode */
-        .sections-bar { background: var(--ho-header-surface, var(--ho-dark-surface, #3F4E4A));
-          border-bottom: none; }
-        .sections-btn { color: var(--ho-header-text, var(--ho-text-light, #7A766C)); }
-        .sections-btn.active { color: var(--ho-green-light, #80CCA0);
-          border-bottom-color: var(--ho-green-light, #80CCA0); }
+        /* Mobile: sections-bar light in day mode, dark in night mode */
+        .sections-bar { background: var(--ho-bg, var(--ho-dark-surface, #3F4E4A));
+          border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+        .sections-btn { color: var(--ho-text-mid, var(--ho-text-light, #7A766C)); }
+        .sections-btn.active { color: var(--ho-green, var(--ho-green-light, #80CCA0));
+          border-bottom-color: var(--ho-green, var(--ho-green-light, #80CCA0)); }
         .header-text .app-brand-img { height: 44px; }
         .floating-back-btn { background: var(--ho-dark-surface, #3F4E4A);
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
