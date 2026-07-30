@@ -378,6 +378,7 @@ class HorneroApp extends HoComponent {
       .nav-btn.active svg { stroke: var(--ho-green, #4E9978); stroke-width: 2.6; }
       .nav-btn img { width: 24px; height: 24px; object-fit: contain; opacity: .55; transition: opacity .2s; transform: scale(1.8); }
       .nav-btn.active img { opacity: 1; }
+      .nav-bird-icon { filter: brightness(0.35); }
       .nav-btn .label { font-size: .60rem; font-weight: 600; color: var(--ho-text-mid, #9C988D);
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: var(--ho-green, #4E9978); }
@@ -700,8 +701,12 @@ class HorneroApp extends HoComponent {
 
             ${showBottomNav ? '<div class="bottom-nav">' +
               this._getNavDef().map(n => {
-                const iconHtml = n.img
-                  ? '<img src="' + n.img + '" alt="' + n.label + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><svg viewBox="0 0 24 24" style="display:none">' + n.svg + '</svg>'
+                // Day mode: use bird line art for Inicio button
+                const imgSrc = (n.id === 'home' && this.theme === 'light')
+                  ? 'assets/dreamina-2026-07-30-7667-Extract only the line art of the bird an....png'
+                  : n.img;
+                const iconHtml = imgSrc
+                  ? '<img class="' + (n.id === 'home' && this.theme === 'light' ? 'nav-bird-icon' : '') + '" src="' + imgSrc + '" alt="' + n.label + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><svg viewBox="0 0 24 24" style="display:none">' + n.svg + '</svg>'
                   : '<svg viewBox="0 0 24 24">' + n.svg + '</svg>';
                 const badgeHtml = (this.newClippingAvailable && n.id === 'actualidad') ? '<span class="nav-badge"></span>' : '';
                 return '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
