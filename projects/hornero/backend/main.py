@@ -641,32 +641,27 @@ async def audio_chat_endpoint(
 
 
 async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
-    """Transcribe audio using DashScope Paraformer-v2 sync API.
+    """Transcribe audio using DashScope OpenAI-compatible /audio/transcriptions endpoint.
 
-    DashScope STT does NOT have an OpenAI-compatible /audio/transcriptions endpoint.
-    Instead, Paraformer-v2 uses the multimodal-generation sync endpoint:
-      POST /api/v1/services/aigc/multimodal-generation/generation
+    Uses the same API key as chat (DEEPSEEK_API_KEY) via compatible-mode endpoint.
+    Endpoint: POST https://dashscope.aliyuncs.com/compatible-mode/v1/audio/transcriptions
+    Models: sensevoice-v1, paraformer-v2
+    Format: multipart/form-data (same as OpenAI Whisper API)
 
-    Audio input: base64 encoded in JSON body (data:audio/<format>;base64,<data>)
-    WebM is not supported by Paraformer-v2 → we convert to WAV via ffmpeg first.
-
-    Uses DASHSCOPE_API_KEY for auth (falls back to DEEPSEEK_API_KEY).
     Returns transcribed text string. Empty string on failure.
     """
-    import base64
-
     stt_api_key = DASHSCOPE_API_KEY or DEEPSEEK_API_KEY
 
     # Determine original format
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "webm"
 
-    # Convert unsupported formats (WebM, OGG, MP4, M4A) to WAV via ffmpeg
-    # Paraformer-v2 supports: wav, pcm, mp3, flac, ogg (opus), aac, amr
+    # Convert unsupported formats (WebM, MP4, M4A) to WAV via ffmpeg
+    # The compatible-mode endpoint accepts: wav, mp3, ogg, flac, m4a, aac, amr
     # WebM container is NOT supported
     final_bytes = audio_bytes
     final_ext = ext
 
-    unsupported_formats = ("webm", "mp4", "m4a", "avi", "flv", "mkv", "mov", "wmv", "wma")
+    unsupported_formats = ("webm", "mp4", "avi", "flv", "mkv", "mov", "wmv", "wma")
     if ext in unsupported_formats:
         try:
             with tempfile.NamedTemporaryFile(suffix=f".{ext}", delete=False) as tmp_in:
@@ -698,58 +693,38 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
             print(f"ffmpeg error: {type(e).__name__}: {str(e)}")
             return ""
 
-    # Build base64 audio string for DashScope API
-    content_type_map = {
-        "wav": "audio/wav",
-        "mp3": "audio/mpeg",
-        "ogg": "audio/ogg",
-        "flac": "audio/flac",
-        "aac": "audio/aac",
-        "amr": "audio/amr",
-        "pcm": "audio/pcm",
-    }
-    audio_mime = content_type_map.get(final_ext, "audio/wav")
-    audio_b64 = base64.b64encode(final_bytes).decode("utf-8")
-    audio_data_uri = f"data:{audio_mime};base64,{audio_b64}"
+    # Build DashScope OpenAI-compatible STT URL
+    stt_base = os.getenv("DASHSCOPE_STT_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1/audio/transcriptions")
 
-    # DashScope Paraformer-v2 sync API request
-    request_body = {
-        "model": DASHSCOPE_STT_MODEL,
-        "input": {
-            "audio": audio_data_uri,
-        },
-        "parameters": {
-            "format": final_ext,
-            "sample_rate": 16000,
-        },
-    }
-
-    headers = {
-        "Authorization": f"Bearer {stt_api_key}",
-        "Content-Type": "application/json",
-    }
-
+    # Send audio as multipart/form-data (same as OpenAI Whisper API)
     try:
+        files = {
+            "file": (f"recording.{final_ext}", final_bytes, f"audio/{final_ext}"),
+        }
+        data = {
+            "model": DASHSCOPE_STT_MODEL,
+            "response_format": "json",
+        }
+
+        headers = {
+            "Authorization": f"Bearer {stt_api_key}",
+        }
+
         async with httpx.AsyncClient(timeout=60.0) as client:
             response = await client.post(
-                DASHSCOPE_STT_URL,
+                stt_base,
                 headers=headers,
-                json=request_body,
+                files=files,
+                data=data,
             )
-            # Log full response for debugging regardless of status
             print(f"STT API response status: {response.status_code}")
-            print(f"STT API response body: {response.text[:1000]}")
+            print(f"STT API response body: {response.text[:500]}")
 
             response.raise_for_status()
             result = response.json()
 
-            # Extract text from DashScope response structure
-            # Response format: {"output": {"text": "..."}, "request_id": "..."}
-            output = result.get("output", {})
-            text = output.get("text", "")
-            if not text:
-                # Some responses nest differently
-                text = result.get("text", "")
+            # OpenAI-compatible response: {"text": "..."}
+            text = result.get("text", "")
 
             print(f"STT transcript: '{text[:100]}...' (from {filename} as {final_ext})")
             return text
@@ -799,15 +774,12 @@ async def audio_debug_endpoint(
     audio_bytes = await audio.read()
     filename = audio.filename or "recording.webm"
 
-    # Run transcribe_audio but also capture the raw DashScope response
-    import base64 as b64mod
-
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "webm"
     final_bytes = audio_bytes
     final_ext = ext
 
     # Convert if needed
-    unsupported_formats = ("webm", "mp4", "m4a", "avi", "flv", "mkv", "mov", "wmv", "wma")
+    unsupported_formats = ("webm", "mp4", "avi", "flv", "mkv", "mov", "wmv", "wma")
     ffmpeg_result = None
     if ext in unsupported_formats:
         try:
@@ -834,31 +806,19 @@ async def audio_debug_endpoint(
         except Exception as e:
             ffmpeg_result = {"error": f"{type(e).__name__}: {str(e)}"}
 
-    # Build and send DashScope request
-    content_type_map = {
-        "wav": "audio/wav", "mp3": "audio/mpeg", "ogg": "audio/ogg",
-        "flac": "audio/flac", "aac": "audio/aac", "amr": "audio/amr", "pcm": "audio/pcm",
-    }
-    audio_mime = content_type_map.get(final_ext, "audio/wav")
-    audio_b64 = b64mod.b64encode(final_bytes).decode("utf-8")
-    audio_data_uri = f"data:{audio_mime};base64,{audio_b64}"
-
+    # Send via OpenAI-compatible multipart endpoint
     stt_api_key = DASHSCOPE_API_KEY or DEEPSEEK_API_KEY
+    stt_base = os.getenv("DASHSCOPE_STT_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1/audio/transcriptions")
 
-    request_body = {
-        "model": DASHSCOPE_STT_MODEL,
-        "input": {
-            "audio": audio_data_uri,
-        },
-        "parameters": {
-            "format": final_ext,
-            "sample_rate": 16000,
-        },
+    files = {
+        "file": (f"recording.{final_ext}", final_bytes, f"audio/{final_ext}"),
     }
-
+    data = {
+        "model": DASHSCOPE_STT_MODEL,
+        "response_format": "json",
+    }
     headers = {
         "Authorization": f"Bearer {stt_api_key}",
-        "Content-Type": "application/json",
     }
 
     dashscope_response = None
@@ -866,7 +826,7 @@ async def audio_debug_endpoint(
     dashscope_error = None
     try:
         async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(DASHSCOPE_STT_URL, headers=headers, json=request_body)
+            response = await client.post(stt_base, headers=headers, files=files, data=data)
             dashscope_status = response.status_code
             dashscope_response = response.json()
     except Exception as e:
@@ -888,7 +848,7 @@ async def audio_debug_endpoint(
             "api_key_present": bool(stt_api_key),
             "api_key_prefix": stt_api_key[:8] + "..." if stt_api_key else "NONE",
             "model": DASHSCOPE_STT_MODEL,
-            "url": DASHSCOPE_STT_URL,
+            "url": stt_base,
         },
     }
 
