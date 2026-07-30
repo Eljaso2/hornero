@@ -177,26 +177,26 @@ class HorneroApp extends HoComponent {
     this._parentScreen = {
       actualidad: 'home',
       chat: 'home',
+      gremial: 'chat',
       consulta: 'chat',
+      contenido: 'chat',
+      historiador: 'chat',
       is: 'home',
       condicion: 'home',
       perfil: 'home',
       // Actualidad sub-screens → back to actualidad
       clipping: 'actualidad',
       infomate: 'actualidad',
-      gremial: 'home',
       // Condicion sub-screens → back to condicion
       smvm: 'condicion',
       felicidad: 'condicion',
       ve: 'condicion',
       // Other sub-screens
       ecosistema: 'home',
-      contenido: 'home',
       formacion: 'home',
       argumento: 'home',
       comunicador: 'home',
       archivo: 'home',
-      historiador: 'home',
       misConversaciones: 'chat',
       misReportes: 'chat',
     };
