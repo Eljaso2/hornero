@@ -647,7 +647,8 @@ class HorneroApp extends HoComponent {
         '<div class="chat-landing-kicker">🪶 Mesa de trabajo</div>' +
         '<div class="chat-landing-desc">Chateá con los compañeros del gremio. Cada uno te ayuda según lo que necesites:</div>' +
         personaChoices +
-        (extraChoices ? '<div class="chat-landing-kicker" style="margin-top:12px;margin-bottom:8px">Tu actividad</div>' + extraChoices : '') +
+        (extraChoices ? '<div class="chat-landing-kicker" style="margin-top:12px;margin-bottom:8px">Tu actividad</div>' +
+          '<div class="chat-landing-desc" style="margin-bottom:12px">Historial de tus charlas con los compañeros y de los reportes que elaboraste y recibiste.</div>' + extraChoices : '') +
       '</div>';
     } else if (this.screen === 'misConversaciones') {
       screenContent = this._renderMisConversaciones();
