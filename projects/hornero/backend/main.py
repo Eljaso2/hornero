@@ -787,6 +787,108 @@ async def health():
     }
 
 
+@app.post("/api/audio-debug")
+async def audio_debug_endpoint(
+    audio: UploadFile = File(...),
+):
+    """Debug endpoint — returns raw DashScope STT response for troubleshooting."""
+    audio_bytes = await audio.read()
+    filename = audio.filename or "recording.webm"
+
+    # Run transcribe_audio but also capture the raw DashScope response
+    import base64 as b64mod
+
+    ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "webm"
+    final_bytes = audio_bytes
+    final_ext = ext
+
+    # Convert if needed
+    unsupported_formats = ("webm", "mp4", "m4a", "avi", "flv", "mkv", "mov", "wmv", "wma")
+    ffmpeg_result = None
+    if ext in unsupported_formats:
+        try:
+            with tempfile.NamedTemporaryFile(suffix=f".{ext}", delete=False) as tmp_in:
+                tmp_in.write(audio_bytes)
+                tmp_in_path = tmp_in.name
+            tmp_out_path = tmp_in_path.rsplit(".", 1)[0] + ".wav"
+            result = subprocess.run(
+                ["ffmpeg", "-i", tmp_in_path, "-ar", "16000", "-ac", "1", "-f", "wav", "-y", tmp_out_path],
+                capture_output=True, timeout=15,
+            )
+            ffmpeg_result = {
+                "exit_code": result.returncode,
+                "stderr": result.stderr.decode()[:500] if result.stderr else "",
+            }
+            if result.returncode == 0 and os.path.exists(tmp_out_path):
+                with open(tmp_out_path, "rb") as f:
+                    final_bytes = f.read()
+                final_ext = "wav"
+            try: os.unlink(tmp_in_path)
+            except: pass
+            try: os.unlink(tmp_out_path)
+            except: pass
+        except Exception as e:
+            ffmpeg_result = {"error": f"{type(e).__name__}: {str(e)}"}
+
+    # Build and send DashScope request
+    content_type_map = {
+        "wav": "audio/wav", "mp3": "audio/mpeg", "ogg": "audio/ogg",
+        "flac": "audio/flac", "aac": "audio/aac", "amr": "audio/amr", "pcm": "audio/pcm",
+    }
+    audio_mime = content_type_map.get(final_ext, "audio/wav")
+    audio_b64 = b64mod.b64encode(final_bytes).decode("utf-8")
+    audio_data_uri = f"data:{audio_mime};base64,{audio_b64}"
+
+    stt_api_key = DASHSCOPE_API_KEY or DEEPSEEK_API_KEY
+
+    request_body = {
+        "model": DASHSCOPE_STT_MODEL,
+        "input": {
+            "audio": audio_data_uri,
+        },
+        "parameters": {
+            "format": final_ext,
+            "sample_rate": 16000,
+        },
+    }
+
+    headers = {
+        "Authorization": f"Bearer {stt_api_key}",
+        "Content-Type": "application/json",
+    }
+
+    dashscope_response = None
+    dashscope_status = None
+    dashscope_error = None
+    try:
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            response = await client.post(DASHSCOPE_STT_URL, headers=headers, json=request_body)
+            dashscope_status = response.status_code
+            dashscope_response = response.json()
+    except Exception as e:
+        dashscope_error = f"{type(e).__name__}: {str(e)}"
+
+    return {
+        "input": {
+            "filename": filename,
+            "size_bytes": len(audio_bytes),
+            "original_ext": ext,
+            "final_ext": final_ext,
+            "final_size_bytes": len(final_bytes),
+            "ffmpeg": ffmpeg_result,
+        },
+        "dashscope": {
+            "status_code": dashscope_status,
+            "response": dashscope_response,
+            "error": dashscope_error,
+            "api_key_present": bool(stt_api_key),
+            "api_key_prefix": stt_api_key[:8] + "..." if stt_api_key else "NONE",
+            "model": DASHSCOPE_STT_MODEL,
+            "url": DASHSCOPE_STT_URL,
+        },
+    }
+
+
 @app.get("/api/kb")
 async def get_knowledge_base(category: str = None, tipo: str = None):
     """Return knowledge base chunks for Archivo UI. Filterable by category and tipo.
