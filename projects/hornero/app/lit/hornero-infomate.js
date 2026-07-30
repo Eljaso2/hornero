@@ -153,13 +153,13 @@ class HorneroInfomate extends HoComponent {
       .popup-overlay { position: fixed; inset: 0;
         background: rgba(33,31,29,.65); z-index: 50;
         display: flex; align-items: flex-start; justify-content: center;
-        padding: 16px; overflow-y: auto; -webkit-overflow-scrolling: touch;
+        padding: 16px 16px 40px; overflow-y: auto; -webkit-overflow-scrolling: touch;
         animation: popfade .25s ease; }
 
       .popup-content { background: var(--ho-card, #2A3230); border-radius: 16px;
         border: 1px solid var(--ho-border, rgba(255,255,255,.12));
         max-width: 100%; width: 380px; position: relative;
-        overflow: hidden; }
+        overflow: hidden; margin-bottom: 24px; }
 
       .popup-close { position: absolute; top: 10px; right: 12px;
         background: var(--ho-dark-surface, #3F4E4A); color: var(--ho-text-off, #F2F1EC);
