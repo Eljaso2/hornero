@@ -33,7 +33,8 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 
 /* Desktop: phone mockup centered */
 @media(min-width:500px){
-  body{background:var(--ho-body-bg)}
+  html{height:auto}
+  body{background:var(--ho-body-bg);overflow-y:auto;height:auto}
   .app-wrap{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:40px 20px}
   .phone{width:412px;background:var(--ho-dark);border-radius:46px;padding:12px;box-shadow:0 40px 80px -30px var(--ho-shadow);position:sticky;top:40px}
   .screen{background:var(--ho-bg);border-radius:35px;overflow:hidden;height:824px;display:flex;flex-direction:column;position:relative}

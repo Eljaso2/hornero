@@ -190,7 +190,7 @@ class HorneroHome extends HoComponent {
         background: linear-gradient(transparent, rgba(33,31,29,.85));
         color: #F2F1EC; }
       .news-title { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.36rem; line-height: 1.18; letter-spacing: .02em; text-transform: uppercase; }
+        font-size: 1.06rem; line-height: 1.2; letter-spacing: .02em; text-transform: uppercase; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
       .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: rgba(78,153,120,.6); color: #F2F1EC;
@@ -221,7 +221,7 @@ class HorneroHome extends HoComponent {
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .infomate-sections { display: flex; flex-direction: column; gap: 6px; }
       .infomate-section-line { font-family: 'Public Sans', sans-serif; font-size: .86rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.3; }
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.4; }
       .infomate-section-line strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
 
       /* --- Agenda cloud --- */

@@ -39,6 +39,14 @@ class HorneroHistoriador extends HoComponent {
     return 'https://hornero-ia.onrender.com/api/audio';
   }
 
+  static get STREAM_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/chat/stream';
+    }
+    return 'https://hornero-ia.onrender.com/api/chat/stream';
+  }
+
   constructor() {
     super();
     this.grade = 'A';
@@ -262,64 +270,201 @@ class HorneroHistoriador extends HoComponent {
     return { role: 'hornero', sections: [{ title: '¡Hola! Soy el Historiador/a', body: 'Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
-  async _handleUserMessage(text) {
+  _handleUserMessage(text) {
     this.messages = [...this.messages, { role: 'user', text, tags: ['historia'], time: this._timeNow() }];
     this._typing = true;
     this._saveChatHistory();
     this.render();
 
-    try {
-      const history = this.messages.map(m => ({
-        role: m.role,
-        text: m.text || '',
-        sections: m.sections || [],
-      }));
-
-      const response = await this._fetchWithTimeout(HorneroHistoriador.API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          formato: 'historia',
-          history: history,
-          grade: this.grade,
-          sector: this.sector,
-          requested_persona: 'historiador',
-          session_id: this._sessionId,
-        }),
+    // Try streaming first, fallback to non-streaming
+    this._callBackendStream(text).catch((err) => {
+      console.warn('Stream failed, falling back to non-streaming:', err);
+      this._callBackend(text).catch((err2) => {
+        if (err2.message === 'FETCH_TIMEOUT') {
+          this.messages = [...this.messages, {
+            role: 'hornero',
+            text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.',
+            tags: ['historia', 'timeout'],
+            persona: 'historiador',
+            time: this._timeNow(),
+          }];
+        } else {
+          this.messages = [...this.messages, {
+            role: 'hornero',
+            text: 'No puedo conectarme ahora. Intentá de nuevo en un momento.',
+            tags: ['historia', 'error'],
+            persona: 'historiador',
+            time: this._timeNow(),
+          }];
+        }
+        this._typing = false;
+        this.render();
       });
+    });
+  }
 
-      if (!response.ok) throw new Error('Backend error: ' + response.status);
+  async _callBackendStream(text) {
+    const history = this.messages.map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
 
-      const data = await response.json();
-      this.messages = [...this.messages, {
-        role: 'hornero',
-        text: data.text || '',
-        sections: data.sections || [],
-        tags: data.tags || ['historia'],
-        persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
-        redirect_persona: data.redirect_persona || '',
-        time: data.time || this._timeNow(),
-      }];
-      // Don't update _activePersona from backend — keep original
-      this._typing = false;
-      this._saveChatHistory();
-      this.render();
-    } catch (e) {
-      this._typing = false;
-      const errMsg = e.message === 'FETCH_TIMEOUT'
-        ? 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.'
-        : 'No puedo conectarme ahora. Intentá de nuevo en un momento.';
-      const errTags = e.message === 'FETCH_TIMEOUT' ? ['historia', 'timeout'] : ['historia', 'error'];
-      this.messages = [...this.messages, {
-        role: 'hornero',
-        text: errMsg,
-        tags: errTags,
-        persona: 'historiador',
-        time: this._timeNow(),
-      }];
-      this.render();
+    const response = await fetch(HorneroHistoriador.STREAM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        formato: 'historia',
+        history: history,
+        grade: this.grade,
+        sector: this.sector,
+        requested_persona: this._activePersona,
+        session_id: this._sessionId,
+      }),
+    });
+
+    if (!response.ok) throw new Error('Stream error: ' + response.status);
+
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let streamingText = '';
+    let streamingPersona = this._activePersona;
+
+    // Start streaming — show typing indicator until first token
+    this._typing = true;
+    if (chatEl) {
+      chatEl.streamingText = '';
+      chatEl._streamingPersona = streamingPersona;
+      chatEl.render();
     }
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Process complete SSE events from buffer
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || ''; // Keep incomplete line in buffer
+
+        for (const line of lines) {
+          if (line.startsWith('event: token')) {
+            // Next line should be data
+            continue;
+          }
+          if (line.startsWith('data: ') && !line.startsWith('data: {')) {
+            // Token data — plain text content
+            const content = line.slice(6).replace(/\\n/g, '\n');
+            if (content) {
+              streamingText += content;
+              this._typing = false; // Hide typing dots once we have text
+              if (chatEl) {
+                chatEl.streamingText = streamingText;
+                chatEl._streamingPersona = streamingPersona;
+                chatEl.render();
+              }
+            }
+          }
+          if (line.startsWith('data: {')) {
+            // JSON data — could be done event or error
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.text !== undefined) {
+                // This is the "done" event with full metadata
+                streamingPersona = data.persona || this._activePersona;
+                // Finalize: add the complete message to messages array
+                this.messages = [...this.messages, {
+                  role: 'hornero',
+                  text: data.text || streamingText,
+                  sections: data.sections || [],
+                  tags: data.tags || ['historia'],
+                  persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
+                  redirect_persona: data.redirect_persona || '',
+                  time: data.time || this._timeNow(),
+                }];
+                // Clear streaming state
+                if (chatEl) {
+                  chatEl.streamingText = '';
+                  chatEl._streamingPersona = '';
+                }
+                this._typing = false; this._greetingRequested = false;
+                this._saveChatHistory();
+                this.render();
+                return;
+              }
+              if (data.message) {
+                // Error event
+                throw new Error(data.message);
+              }
+            } catch (e) {
+              if (e.message !== 'Stream error') throw e;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      // Stream interrupted — if we have partial text, save it as a message
+      if (streamingText) {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: streamingText,
+          tags: ['historia', 'stream-partial'],
+          persona: 'historiador',
+          time: this._timeNow(),
+        }];
+      }
+      if (chatEl) {
+        chatEl.streamingText = '';
+        chatEl._streamingPersona = '';
+      }
+      this._typing = false;
+      this.render();
+      throw e;
+    }
+  }
+
+  async _callBackend(text) {
+    const history = this.messages.map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const response = await this._fetchWithTimeout(HorneroHistoriador.API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        formato: 'historia',
+        history: history,
+        grade: this.grade,
+        sector: this.sector,
+        requested_persona: 'historiador',
+        session_id: this._sessionId,
+      }),
+    });
+
+    if (!response.ok) throw new Error('Backend error: ' + response.status);
+
+    const data = await response.json();
+    this.messages = [...this.messages, {
+      role: 'hornero',
+      text: data.text || '',
+      sections: data.sections || [],
+      tags: data.tags || ['historia'],
+      persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
+      redirect_persona: data.redirect_persona || '',
+      time: data.time || this._timeNow(),
+    }];
+    // Don't update _activePersona from backend — keep original
+    this._typing = false;
+    this._saveChatHistory();
+    this.render();
   }
 
   async _handleAudioMessage(audioBlob, duration, fileName) {

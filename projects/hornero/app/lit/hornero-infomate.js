@@ -87,15 +87,15 @@ class HorneroInfomate extends HoComponent {
       .edicion-header { margin-bottom: 12px; }
       .edicion-row { display: flex; align-items: center; gap: 8px; }
       .edicion-btn { background: var(--ho-gold, #B0863F); color: #F2F1EC;
-        border: none; border-radius: 4px; cursor: pointer;
-        font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+        border: none; border-radius: 6px; cursor: pointer;
+        font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         padding: 5px 10px; font-weight: 600; letter-spacing: .06em;
         transition: opacity .2s; }
       .edicion-btn:hover { opacity: .8; }
       .edicion-btn:disabled { opacity: .3; cursor: default; }
       .edicion-center { flex: 1; text-align: center; }
       .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .88rem; color: var(--ho-gold, #B0863F);
+        font-size: 1.06rem; color: var(--ho-gold, #B0863F);
         letter-spacing: .04em; }
       .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
@@ -116,7 +116,7 @@ class HorneroInfomate extends HoComponent {
       .macro-key { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-gold, #B0863F); font-weight: 600;
         text-transform: uppercase; letter-spacing: .08em; }
-      .macro-val { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+      .macro-val { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text, #E8E6E0); font-weight: 700; margin-top: 2px; }
 
       /* Section cards */
@@ -126,10 +126,11 @@ class HorneroInfomate extends HoComponent {
         border-radius: 13px; padding: 14px; margin-bottom: 10px; }
 
       .section-titulo { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .96rem; color: var(--ho-text, #E8E6E0); }
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); line-height: 1.25;
+        margin-top: 4px; }
 
       .section-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.4; margin-top: 4px; }
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.4; margin-top: 3px; }
 
       .section-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
       .data-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;

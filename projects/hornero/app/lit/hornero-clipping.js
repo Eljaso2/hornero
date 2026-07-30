@@ -188,7 +188,7 @@ class HorneroClipping extends HoComponent {
       .edicion-btn svg { width: 20px; height: 20px; }
       .edicion-center { flex: 1; text-align: center; }
       .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .88rem; color: var(--ho-green-dark, #3D6B56);
+        font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; }
       .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
@@ -261,7 +261,7 @@ class HorneroClipping extends HoComponent {
       .feed-card-emoji { font-size: 1rem; margin-left: 4px; }
 
       .feed-card-titulo { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .96rem; color: var(--ho-text, #E8E6E0); margin-top: 4px;
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); margin-top: 4px;
         line-height: 1.25; }
 
       .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
@@ -298,8 +298,8 @@ class HorneroClipping extends HoComponent {
       .popup-titulo { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-text, #E8E6E0);
         line-height: 1.2; }
-      .popup-desarrollo { font-family: 'Public Sans', sans-serif; font-size: .86rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.6; margin-top: 10px; }
+      .popup-desarrollo { font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.55; margin-top: 10px; }
       .popup-fuente { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); margin-top: 8px; font-style: italic; }
       .popup-fuente a { color: var(--ho-green, #4E9978); text-decoration: none;

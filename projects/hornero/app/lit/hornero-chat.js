@@ -24,6 +24,7 @@ class HorneroChat extends HoComponent {
       theme: String,        // 'dark' or 'light' — theme-aware persona icons
       username: String,      // Login username for per-user data isolation
       grade: String,         // User grade (B.a, B.b, B.c, B.d) — controls Reportes Recibidos icon
+      streamingText: String, // Live streaming text being built token-by-token
     };
   }
 
@@ -62,6 +63,8 @@ class HorneroChat extends HoComponent {
     this._exportInProgress = false; // debounce guard for export button
     this._showRecibidos = false; // recibidos drawer state
     this._recibidosBadge = false; // badge on recibidos icon
+    this.streamingText = ''; // Live streaming text — when non-empty, shows as "in progress" message
+    this._streamingPersona = ''; // Persona for the streaming message
   }
 
   _detectAudioMimeType() {
@@ -862,6 +865,13 @@ class HorneroChat extends HoComponent {
       .typing-dot:nth-child(2) { animation-delay: .2s; }
       .typing-dot:nth-child(3) { animation-delay: .4s; }
 
+      /* Streaming message — live text with cursor */
+      .streaming-text { line-height: 1.5; }
+      .streaming-cursor { display: inline-block; width: 2px; height: 1em;
+        background: var(--ho-green-light, #80CCA0); margin-left: 2px;
+        animation: blink 1s step-end infinite; vertical-align: text-bottom; }
+      @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
       /* Suggestion buttons — format options */
       .chat-suggestions { display: grid; grid-template-columns: 1fr 1fr;
         gap: 8px; padding: 10px 16px; flex: none; }
@@ -986,11 +996,29 @@ class HorneroChat extends HoComponent {
     const typingAvatarInner = typingPersona.img
       ? `<img src="${typingPersona.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
       : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
-    const typingHtml = this.typing ?
+    const typingHtml = this.typing && !this.streamingText ?
       `<div class="typing-row persona-${this.persona}">
         <div class="typing-avatar">${typingAvatarInner}</div>
         <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+        </div>
+      </div>` : '';
+
+    // Streaming message — live text building token-by-token
+    const streamingPersona = this._streamingPersona || this.persona;
+    const streamingPersonaCfg = this._getPersonaConfig(streamingPersona);
+    const streamingAvatarInner = streamingPersonaCfg.img
+      ? `<img src="${streamingPersonaCfg.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${streamingPersonaCfg.emoji}</span>`
+      : `<span class="msg-avatar-emoji">${streamingPersonaCfg.emoji}</span>`;
+    const streamingHtml = this.streamingText ?
+      `<div class="msg-row hornero streaming">
+        <div class="msg-avatar-row persona-${streamingPersona}">
+          <div class="msg-avatar">${streamingAvatarInner}</div>
+          <div class="msg-avatar-name" style="color:${streamingPersonaCfg.color}">${streamingPersonaCfg.name}</div>
+        </div>
+        <div class="msg-content">
+          <div class="msg-text streaming-text">${this._formatMarkdown(this.streamingText)}</div>
+          <div class="streaming-cursor"></div>
         </div>
       </div>` : '';
 
@@ -1220,6 +1248,7 @@ class HorneroChat extends HoComponent {
 
       <div class="chat-scroll">
         ${messagesHtml}
+        ${streamingHtml}
         ${typingHtml}
       </div>
 

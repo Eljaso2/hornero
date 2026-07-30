@@ -264,7 +264,7 @@ class HorneroApp extends HoComponent {
           box-shadow: 0 40px 80px -30px rgba(43,42,38,.6);
           position: sticky; top: 40px; }
         .screen { background: var(--ho-bg, #1E2321); border-radius: 35px;
-          overflow: hidden; height: min(824px, calc(100vh - 100px)); display: flex;
+          overflow: hidden; height: 824px; display: flex;
           flex-direction: column; position: relative; }
         /* Desktop: show simulated status bar */
         .status-bar { background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);

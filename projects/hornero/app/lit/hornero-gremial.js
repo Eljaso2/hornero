@@ -39,6 +39,14 @@ class HorneroGremial extends HoComponent {
     return 'https://hornero-ia.onrender.com/api/audio';
   }
 
+  static get STREAM_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/chat/stream';
+    }
+    return 'https://hornero-ia.onrender.com/api/chat/stream';
+  }
+
   constructor() {
     super();
     this.grade = 'A';
@@ -495,15 +503,154 @@ class HorneroGremial extends HoComponent {
     this._saveChatHistory();
     this.render();
 
-    this._callBackend(text).catch(() => {
-      this.messages = [...this.messages, this._localResponse(text)];
-      this._typing = false;
-      this.render();
+    // Try streaming first, fallback to non-streaming
+    this._callBackendStream(text).catch((err) => {
+      console.warn('Stream failed, falling back to non-streaming:', err);
+      this._callBackend(text).catch((err2) => {
+        if (err2.message === 'FETCH_TIMEOUT') {
+          this.messages = [...this.messages, {
+            role: 'hornero',
+            text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.',
+            tags: ['reporte', 'timeout'],
+            persona: 'companero',
+            time: this._timeNow(),
+          }];
+        } else {
+          this.messages = [...this.messages, this._localResponse(text)];
+        }
+        this._typing = false;
+        this.render();
+      });
     });
   }
 
+  async _callBackendStream(text) {
+    const history = this.messages.map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const response = await fetch(HorneroGremial.STREAM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        formato: 'reporte',
+        history: history,
+        grade: this.grade,
+        sector: this.sector,
+        requested_persona: 'companero',
+        session_id: this._sessionId,
+      }),
+    });
+
+    if (!response.ok) throw new Error('Stream error: ' + response.status);
+
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let streamingText = '';
+    let streamingPersona = 'companero';
+
+    // Start streaming — show typing indicator until first token
+    this._typing = true;
+    if (chatEl) {
+      chatEl.streamingText = '';
+      chatEl._streamingPersona = streamingPersona;
+      chatEl.render();
+    }
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Process complete SSE events from buffer
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || ''; // Keep incomplete line in buffer
+
+        for (const line of lines) {
+          if (line.startsWith('event: token')) {
+            // Next line should be data
+            continue;
+          }
+          if (line.startsWith('data: ') && !line.startsWith('data: {')) {
+            // Token data — plain text content
+            const content = line.slice(6).replace(/\\n/g, '\n');
+            if (content) {
+              streamingText += content;
+              this._typing = false; // Hide typing dots once we have text
+              if (chatEl) {
+                chatEl.streamingText = streamingText;
+                chatEl._streamingPersona = streamingPersona;
+                chatEl.render();
+              }
+            }
+          }
+          if (line.startsWith('data: {')) {
+            // JSON data — could be done event or error
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.text !== undefined) {
+                // This is the "done" event with full metadata
+                streamingPersona = data.persona || 'companero';
+                // Finalize: add the complete message to messages array
+                this.messages = [...this.messages, {
+                  role: 'hornero',
+                  text: data.text || streamingText,
+                  sections: data.sections || [],
+                  tags: data.tags || ['reporte'],
+                  persona: 'companero', // Force: gremial screen ALWAYS uses compañero
+                  redirect_persona: data.redirect_persona || '',
+                  time: data.time || this._timeNow(),
+                }];
+                // Clear streaming state
+                if (chatEl) {
+                  chatEl.streamingText = '';
+                  chatEl._streamingPersona = '';
+                }
+                this._typing = false;
+                this._saveChatHistory();
+                this.render();
+                return;
+              }
+              if (data.message) {
+                // Error event
+                throw new Error(data.message);
+              }
+            } catch (e) {
+              if (e.message !== 'Stream error') throw e;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      // Stream interrupted — if we have partial text, save it as a message
+      if (streamingText) {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: streamingText,
+          tags: ['reporte', 'stream-partial'],
+          persona: 'companero',
+          time: this._timeNow(),
+        }];
+      }
+      if (chatEl) {
+        chatEl.streamingText = '';
+        chatEl._streamingPersona = '';
+      }
+      this._typing = false;
+      this.render();
+      throw e;
+    }
+  }
+
   async _callBackend(text) {
-    const history = this.messages.slice(-7, -1).map(m => ({
+    const history = this.messages.slice(-10).map(m => ({
       role: m.role,
       text: m.text || '',
       sections: m.sections || [],
@@ -780,7 +927,7 @@ class HorneroGremial extends HoComponent {
   }
 
   async _callAudioBackend(audioBlob, fileName) {
-    const history = this.messages.slice(-7, -1).map(m => ({
+    const history = this.messages.slice(-10).map(m => ({
       role: m.role,
       text: m.text || '',
       sections: m.sections || [],

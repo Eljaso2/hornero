@@ -55,6 +55,12 @@
       background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
       margin: 0; padding: 0; height: 100%; }
+    /* Desktop: allow page scroll so phone frame is fully visible in short viewports */
+    @media(min-width:500px) {
+      html { height: auto; }
+      body { overflow-y: auto; height: auto; }
+      hornero-app { height: auto; }
+    }
     hornero-app { display: block; width: 100%; height: 100%;
       height: -webkit-fill-available; }
     /* Splash screen — mirrors login layout (logo + spacer + version = same logo height as login) */
@@ -192,7 +198,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=237"></script>
+  <script type="module" src="lit/hornero-components.js?v=238"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){

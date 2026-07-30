@@ -85,6 +85,88 @@ def validated_redirect(redirect_persona: str) -> str:
         return redirect_persona
     return ""
 
+
+async def call_llm_with_retry(system_prompt: str, user_message: str, history: list,
+                                formato: str = "consulta", max_retries: int = 1) -> str:
+    """Call LLM with automatic retry on invalid response.
+
+    First attempt: normal call with standard temperature.
+    Retry: simplified prompt with low temperature to force valid JSON.
+    """
+    # Determine temperature based on formato/persona
+    temperature_map = {
+        'debate': 0.4,     # More natural, conversational
+        'consulta': 0.2,   # More precise, factual
+        'contenido': 0.5,  # More creative
+        'reporte': 0.2,    # More precise
+        'historia': 0.2,   # More factual
+    }
+    temperature = temperature_map.get(formato, 0.3)
+
+    # Determine max_tokens based on formato
+    max_tokens_map = {
+        'debate': 2000,
+        'consulta': 2000,
+        'contenido': 3000,  # Content needs more space
+        'reporte': 3000,    # Reports need more space
+        'historia': 2000,
+    }
+    max_tokens = max_tokens_map.get(formato, 2000)
+
+    # First attempt
+    raw_response = await _call_llm(system_prompt, user_message, history,
+                                    temperature=temperature, max_tokens=max_tokens)
+
+    # Validate response
+    parsed = parse_llm_response(raw_response)
+    if _validate_parsed_response(parsed) and parsed.get("tags", ["respuesta-libre"])[0] != "respuesta-libre":
+        return raw_response  # Valid response
+
+    # Retry with simplified prompt
+    if max_retries > 0:
+        print(f"LLM response invalid (tags: {parsed.get('tags', [])}), retrying with simplified prompt...")
+        retry_prompt = (
+            "Respondé SOLO con JSON válido. Formato: "
+            '{"text": "tu respuesta", "tags": ["tema", "formato"], "persona": "abogado"}\n\n'
+            "No agregues texto fuera del JSON. No uses markdown code blocks.\n\n"
+            f"Contexto: {system_prompt[:500]}...\n\n"
+            f"Pregunta: {user_message}"
+        )
+        retry_message = f"Respondé con JSON válido a: {user_message[:200]}"
+        raw_response = await _call_llm(retry_prompt, retry_message, [],
+                                        temperature=0.1, max_tokens=max_tokens)
+
+    return raw_response
+
+
+async def _call_llm(system_prompt: str, user_message: str, history: list,
+                     temperature: float = 0.3, max_tokens: int = 2000) -> str:
+    """Call the configured LLM provider."""
+    if LLM_PROVIDER == "deepseek":
+        return await call_deepseek(
+            api_key=DEEPSEEK_API_KEY,
+            system_prompt=system_prompt,
+            user_message=user_message,
+            history=history,
+            model=DEEPSEEK_MODEL,
+            base_url=DEEPSEEK_BASE_URL,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+    elif LLM_PROVIDER == "claude":
+        return await call_claude(
+            api_key=ANTHROPIC_API_KEY,
+            system_prompt=system_prompt,
+            user_message=user_message,
+            history=history,
+            model=ANTHROPIC_MODEL,
+            base_url=ANTHROPIC_BASE_URL,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+    else:
+        raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
+
 # ===== Request/Response models =====
 class GreetingRequest(BaseModel):
     section: str = "consulta"  # consulta|contenido|debate|historia
@@ -227,8 +309,9 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
     those chunks into the system prompt instead of the full KNOWLEDGE_BASE.
     """
 
-    # RAG retrieval: find relevant chunks based on user query
-    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade)
+    # RAG retrieval: find relevant chunks based on user query + conversation context
+    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade,
+                                          conversation_history=req.history)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
     # Build system prompt with ONLY relevant KB chunks
@@ -252,28 +335,14 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
     # Build the user message with format context
     full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
 
-    # Call LLM
+    # Call LLM with retry on invalid response
     try:
-        if LLM_PROVIDER == "deepseek":
-            raw_response = await call_deepseek(
-                api_key=DEEPSEEK_API_KEY,
-                system_prompt=system_prompt,
-                user_message=full_message,
-                history=req.history,
-                model=DEEPSEEK_MODEL,
-                base_url=DEEPSEEK_BASE_URL,
-            )
-        elif LLM_PROVIDER == "claude":
-            raw_response = await call_claude(
-                api_key=ANTHROPIC_API_KEY,
-                system_prompt=system_prompt,
-                user_message=full_message,
-                history=req.history,
-                model=ANTHROPIC_MODEL,
-                base_url=ANTHROPIC_BASE_URL,
-            )
-        else:
-            raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
+        raw_response = await call_llm_with_retry(
+            system_prompt=system_prompt,
+            user_message=full_message,
+            history=req.history,
+            formato=req.formato,
+        )
     except httpx.HTTPStatusError as e:
         raise HTTPException(500, f"LLM HTTP error {e.response.status_code}: {e.response.text}")
     except Exception as e:
@@ -298,6 +367,131 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
         raw=raw_response,
         persona=final_persona,
         redirect_persona=validated_redirect(parsed.get("redirect_persona", "")),
+    )
+
+
+@app.post("/api/chat/stream")
+async def chat_stream_endpoint(req: ChatRequest):
+    """Streaming chat endpoint — returns SSE events with tokens as they arrive.
+
+    Events emitted:
+      - event: token\ndata: {content}\n\n  — each token chunk
+      - event: done\ndata: {text, sections, tags, time, persona, redirect_persona}\n\n  — final parsed response
+      - event: error\ndata: {message}\n\n  — if something fails
+
+    Falls back to non-streaming if the LLM provider doesn't support streaming.
+    """
+
+    # RAG retrieval: find relevant KB chunks based on user query
+    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade)
+    chunk_ids = [c["id"] for c in relevant_chunks]
+
+    # Build system prompt with ONLY relevant KB chunks
+    system_prompt = get_system_prompt_rag(
+        formato=req.formato,
+        chunk_ids=chunk_ids,
+        clipping_items=get_clipping(),
+        query=req.message,
+        requested_persona=req.requested_persona,
+    )
+    effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
+    if req.requested_persona:
+        if req.requested_persona in PERSONA_NAME_MAP:
+            effective_persona = req.requested_persona
+        elif req.requested_persona in PERSONA_MAP:
+            effective_persona = req.requested_persona
+    format_hint = get_format_hint(req.formato)
+
+    # Build the user message with format context
+    full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
+
+    async def event_generator():
+        try:
+            if LLM_PROVIDER == "deepseek":
+                async for chunk in call_deepseek_stream(
+                    api_key=DEEPSEEK_API_KEY,
+                    system_prompt=system_prompt,
+                    user_message=full_message,
+                    history=req.history,
+                    model=DEEPSEEK_MODEL,
+                    base_url=DEEPSEEK_BASE_URL,
+                ):
+                    if chunk["type"] == "token":
+                        # Escape newlines for SSE data field
+                        content = chunk["content"].replace("\n", "\\n")
+                        yield f"event: token\ndata: {content}\n\n"
+                    elif chunk["type"] == "done":
+                        # Parse the full response
+                        full_text = chunk["full_text"]
+                        parsed = parse_llm_response(full_text)
+                        now = datetime.now()
+                        time_str = now.strftime("%H:%M")
+
+                        llm_persona = parsed.get("persona", "")
+                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
+
+                        result = {
+                            "text": parsed.get("text", ""),
+                            "sections": parsed.get("sections", []),
+                            "tags": parsed.get("tags", [req.formato]),
+                            "time": time_str,
+                            "persona": final_persona,
+                            "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                        }
+                        yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+            else:
+                # Claude/other provider: no streaming support yet — fall back to non-streaming
+                # wrapped in SSE format for consistent frontend handling
+                if LLM_PROVIDER == "claude":
+                    raw_response = await call_claude(
+                        api_key=ANTHROPIC_API_KEY,
+                        system_prompt=system_prompt,
+                        user_message=full_message,
+                        history=req.history,
+                        model=ANTHROPIC_MODEL,
+                        base_url=ANTHROPIC_BASE_URL,
+                    )
+                else:
+                    raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
+
+                parsed = parse_llm_response(raw_response)
+                now = datetime.now()
+                time_str = now.strftime("%H:%M")
+
+                llm_persona = parsed.get("persona", "")
+                final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
+
+                # Send entire text as single token event for non-streaming fallback
+                text_content = parsed.get("text", "")
+                if text_content:
+                    content = text_content.replace("\n", "\\n")
+                    yield f"event: token\ndata: {content}\n\n"
+
+                result = {
+                    "text": parsed.get("text", ""),
+                    "sections": parsed.get("sections", []),
+                    "tags": parsed.get("tags", [req.formato]),
+                    "time": time_str,
+                    "persona": final_persona,
+                    "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                }
+                yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+
+        except httpx.HTTPStatusError as e:
+            error_msg = f"LLM HTTP error {e.response.status_code}"
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+        except Exception as e:
+            error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",  # Disable nginx buffering
+        },
     )
 
 
@@ -662,7 +856,9 @@ def parse_llm_response(raw: str) -> dict:
     # Try to find JSON in the response
     # Case 1: pure JSON
     try:
-        return json.loads(raw)
+        result = json.loads(raw)
+        if _validate_parsed_response(result):
+            return result
     except json.JSONDecodeError:
         pass
 
@@ -670,7 +866,9 @@ def parse_llm_response(raw: str) -> dict:
     json_match = re.search(r"```(?:json)?\s*\n?(.*?)\n?```", raw, re.DOTALL)
     if json_match:
         try:
-            return json.loads(json_match.group(1).strip())
+            result = json.loads(json_match.group(1).strip())
+            if _validate_parsed_response(result):
+                return result
         except json.JSONDecodeError:
             pass
 
@@ -678,7 +876,9 @@ def parse_llm_response(raw: str) -> dict:
     brace_match = re.search(r"\{.*\}", raw, re.DOTALL)
     if brace_match:
         try:
-            return json.loads(brace_match.group(0))
+            result = json.loads(brace_match.group(0))
+            if _validate_parsed_response(result):
+                return result
         except json.JSONDecodeError:
             pass
 
@@ -688,3 +888,30 @@ def parse_llm_response(raw: str) -> dict:
         "sections": [],
         "tags": ["respuesta-libre"],
     }
+
+
+def _validate_parsed_response(parsed: dict) -> bool:
+    """Validate that a parsed LLM response has the minimum required fields.
+
+    A valid response must have either:
+    - A non-empty 'text' field, OR
+    - A non-empty 'sections' list with at least one section
+    - A 'tags' list (even if empty)
+    """
+    if not isinstance(parsed, dict):
+        return False
+
+    # Must have text or sections
+    has_text = bool(parsed.get("text", "").strip())
+    has_sections = bool(parsed.get("sections", []))
+
+    if not has_text and not has_sections:
+        return False
+
+    # If sections exist, at least one must have content
+    if has_sections:
+        sections = parsed.get("sections", [])
+        if not any(s.get("body") or s.get("quote") or s.get("title") for s in sections if isinstance(s, dict)):
+            return False
+
+    return True
