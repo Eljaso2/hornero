@@ -732,6 +732,10 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
                 headers=headers,
                 json=request_body,
             )
+            # Log full response for debugging regardless of status
+            print(f"STT API response status: {response.status_code}")
+            print(f"STT API response body: {response.text[:1000]}")
+
             response.raise_for_status()
             result = response.json()
 
