@@ -250,9 +250,9 @@ class HorneroClipping extends HoComponent {
       .feed-card-img { width: 100%; height: 140px; object-fit: cover; display: block; }
       .feed-card-body { padding: 12px 14px; }
 
-      .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+      .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text-mid, #6E6A60);
-        padding: 2px 6px; border-radius: 5px; font-weight: 500; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 500; }
 
       .source-badge { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; padding: 2px 8px; border-radius: 6px; margin-left: 4px;
