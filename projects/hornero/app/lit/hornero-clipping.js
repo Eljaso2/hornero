@@ -292,7 +292,7 @@ class HorneroClipping extends HoComponent {
         display: flex; align-items: center; justify-content: center; }
 
       .popup-img { width: 100%; height: 180px; object-fit: cover; display: block; }
-      .popup-body { padding: 14px 16px 20px; }
+      .popup-body { padding: 14px 16px 32px; }
       .popup-title-line { display: flex; align-items: baseline; gap: 6px; }
       .popup-emoji { font-size: 1rem; }
       .popup-titulo { font-family: 'Archivo', sans-serif; font-weight: 800;
@@ -302,10 +302,9 @@ class HorneroClipping extends HoComponent {
         color: var(--ho-text-mid, #6E6A60); line-height: 1.55; margin-top: 10px; }
       .popup-fuente { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); margin-top: 8px; font-style: italic; }
-      .popup-fuente a { color: var(--ho-green, #4E9978); text-decoration: none;
+      .popup-fuente a { color: var(--ho-green, #4E9978); text-decoration: underline;
         transition: color .2s; }
-      .popup-fuente a:hover { color: var(--ho-green-light, #80CCA0);
-        text-decoration: underline; }
+      .popup-fuente a:hover { color: var(--ho-green-light, #80CCA0); }
       .popup-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
 
       @keyframes popfade { from { opacity: 0 } to { opacity: 1 } }
@@ -383,11 +382,25 @@ class HorneroClipping extends HoComponent {
           (item.emoji ? '<span class="popup-emoji">' + item.emoji + '</span>' : '') +
           '<span class="popup-titulo">' + (item.titulo || '') + '</span></div>' +
           '<div class="popup-desarrollo">' + (item.desarrollo || '') + '</div>' +
-          (item.fuente ? '<div class="popup-fuente">Fuente: ' + (item.fuente_url ? '<a href="' + item.fuente_url + '" target="_blank" rel="noopener">' + item.fuente + '</a>' : item.fuente) + '</div>' : '') +
+          (item.fuente ? '<div class="popup-fuente">Fuente: ' + this._renderFuentes(item.fuente, item.fuente_url) + '</div>' : '') +
           (tagsHtml ? '<div class="popup-tags">' + tagsHtml + '</div>' : '') +
         '</div>' +
       '</div>' +
     '</div>';
+  }
+
+  // Parse fuentes: "InfoGremiales — 27/07 | Página/12 — 28/07" → separate underlined links
+  _renderFuentes(fuenteStr, fuenteUrl) {
+    if (!fuenteStr) return '';
+    const parts = fuenteStr.split('|').map(s => s.trim()).filter(Boolean);
+    if (parts.length <= 1) {
+      // Single source
+      return fuenteUrl ? '<a href="' + fuenteUrl + '" target="_blank" rel="noopener">' + fuenteStr + '</a>' : fuenteStr;
+    }
+    // Multiple sources — each one underlined, separated by " · "
+    return parts.map(p => {
+      return fuenteUrl ? '<a href="' + fuenteUrl + '" target="_blank" rel="noopener">' + p + '</a>' : p;
+    }).join(' · ');
   }
 
   // ===== After-render =====
