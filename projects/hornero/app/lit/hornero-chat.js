@@ -1000,7 +1000,7 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Persona icons — top-left corner (all 5 always visible, active one highlighted)
-    const allPersonas = ['abogado', 'periodista', 'companero', 'historiador'];
+    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador'];
     // Screen mapping for navigation
     const personaScreenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
