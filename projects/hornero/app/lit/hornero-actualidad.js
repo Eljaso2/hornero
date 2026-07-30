@@ -125,34 +125,46 @@ class HorneroActualidad extends HoComponent {
         padding: 12px 16px 16px; scrollbar-width: none; }
       .scroll::-webkit-scrollbar { width: 0; }
 
-      /* Feed card — foto de fondo con overlay */
+      /* Feed card — foto de fondo con overlay semi-opaco */
       .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         background: var(--ho-card, #2A3230); cursor: pointer;
         transition: border-color .2s; position: relative; }
+      .feed-card:hover { border-color: var(--ho-green, #4E9978); }
 
-      .feed-card-img { width: 100%; height: 100px; object-fit: cover; display: block; }
+      /* Foto de fondo — cubre toda la card */
+      .feed-card-img { position: absolute; inset: 0;
+        width: 100%; height: 100%; object-fit: cover; display: block; z-index: 0; }
 
-      /* Info debajo de la foto */
-      .feed-card-overlay { padding: 10px 14px 12px;
-        background: var(--ho-card, #2A3230); color: var(--ho-text, #E8E6E0); }
+      /* Capa semi-opaca sobre la foto */
+      .feed-card-dim { position: absolute; inset: 0; z-index: 1;
+        background: rgba(30,35,33,.6); }
+
+      /* Texto encima de la foto */
+      .feed-card-overlay { position: relative; z-index: 2;
+        padding: 14px; color: #F2F1EC; }
 
       .feed-card-label { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; letter-spacing: .02em; text-transform: uppercase; }
 
       .feed-card-sublabel { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-text-mid, #6E6A60); letter-spacing: .06em;
+        color: rgba(242,241,236,.7); letter-spacing: .06em;
         margin-top: 2px; }
 
-      /* Tags debajo de la foto */
+      /* Tags sobre la foto */
       .feed-card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
       .photo-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
-        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
+        background: rgba(78,153,120,.7); color: #F2F1EC;
         padding: 2px 6px; border-radius: 4px; font-weight: 600;
-        white-space: nowrap; }
+        white-space: nowrap; backdrop-filter: blur(4px); }
 
-      /* Sin foto — solo overlay */
-      .feed-card-no-photo .feed-card-overlay { padding: 14px; }
+      /* Sin foto — sin dim, texto normal */
+      .feed-card-no-photo .feed-card-dim { display: none; }
+      .feed-card-no-photo .feed-card-overlay { color: var(--ho-text, #E8E6E0); }
+      .feed-card-no-photo .feed-card-sublabel { color: var(--ho-text-mid, #6E6A60); }
+      .feed-card-no-photo .photo-tag {
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
+        backdrop-filter: none; }
 
       /* Noticia titles list — shown after expand */
       .noticia-list { margin-top: 8px; padding: 0 14px 10px; }
@@ -219,7 +231,7 @@ class HorneroActualidad extends HoComponent {
     const noPhotoClass = hasFoto ? '' : ' feed-card-no-photo';
 
     return '<div class="feed-card' + noPhotoClass + '" data-screen="clipping" data-clip-edicion="' + ed.numero + '">' +
-      (hasFoto ? '<img class="feed-card-img" src="' + foto + '" alt="" loading="lazy">' : '') +
+      (hasFoto ? '<img class="feed-card-img" src="' + foto + '" alt="" loading="lazy"><div class="feed-card-dim"></div>' : '') +
       '<div class="feed-card-overlay">' +
         '<div class="feed-card-label">' + label + '</div>' +
         '<div class="feed-card-sublabel">' + sublabel + '</div>' +
@@ -294,7 +306,7 @@ class HorneroActualidad extends HoComponent {
     const noPhotoClass = hasFoto ? '' : ' feed-card-no-photo';
 
     return '<div class="feed-card' + noPhotoClass + '" data-screen="infomate" data-mate-mes="' + ed.mes + '">' +
-      (hasFoto ? '<img class="feed-card-img" src="' + foto + '" alt="" loading="lazy">' : '') +
+      (hasFoto ? '<img class="feed-card-img" src="' + foto + '" alt="" loading="lazy"><div class="feed-card-dim"></div>' : '') +
       '<div class="feed-card-overlay">' +
         '<div class="feed-card-label">' + mateLabel + '</div>' +
         '<div class="feed-card-sublabel">' + mateSublabel + '</div>' +
