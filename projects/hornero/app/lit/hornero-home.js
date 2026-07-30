@@ -190,7 +190,7 @@ class HorneroHome extends HoComponent {
         background: linear-gradient(transparent, rgba(33,31,29,.85));
         color: #F2F1EC; }
       .news-title { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.32rem; line-height: 1.18; letter-spacing: .02em; text-transform: uppercase; }
+        font-size: 1.36rem; line-height: 1.18; letter-spacing: .02em; text-transform: uppercase; }
       .news-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
       .news-tag { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         background: rgba(78,153,120,.6); color: #F2F1EC;
@@ -220,7 +220,7 @@ class HorneroHome extends HoComponent {
         background: rgba(176,134,63,.35); color: #E8E6E0;
         padding: 4px 8px; border-radius: 6px; font-weight: 600; }
       .infomate-sections { display: flex; flex-direction: column; gap: 6px; }
-      .infomate-section-line { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+      .infomate-section-line { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.3; }
       .infomate-section-line strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
 

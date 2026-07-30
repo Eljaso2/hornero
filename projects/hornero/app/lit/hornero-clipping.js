@@ -261,10 +261,10 @@ class HorneroClipping extends HoComponent {
       .feed-card-emoji { font-size: 1rem; margin-left: 4px; }
 
       .feed-card-titulo { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); margin-top: 4px;
+        font-size: .96rem; color: var(--ho-text, #E8E6E0); margin-top: 4px;
         line-height: 1.25; }
 
-      .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+      .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.4;
         max-height: 2.8em; overflow: hidden; margin-top: 3px; }
 
@@ -296,9 +296,9 @@ class HorneroClipping extends HoComponent {
       .popup-title-line { display: flex; align-items: baseline; gap: 6px; }
       .popup-emoji { font-size: 1rem; }
       .popup-titulo { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.02rem; color: var(--ho-text, #E8E6E0);
+        font-size: 1.06rem; color: var(--ho-text, #E8E6E0);
         line-height: 1.2; }
-      .popup-desarrollo { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+      .popup-desarrollo { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.6; margin-top: 10px; }
       .popup-fuente { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); margin-top: 8px; font-style: italic; }

@@ -126,9 +126,9 @@ class HorneroInfomate extends HoComponent {
         border-radius: 13px; padding: 14px; margin-bottom: 10px; }
 
       .section-titulo { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
+        font-size: .96rem; color: var(--ho-text, #E8E6E0); }
 
-      .section-bajada { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+      .section-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.4; margin-top: 4px; }
 
       .section-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
