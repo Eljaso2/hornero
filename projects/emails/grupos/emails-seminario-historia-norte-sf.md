@@ -1,7 +1,7 @@
 # Emails del Seminario Historia del Norte de Santa Fe
 
 > Listado de emails extraído de la hoja "5. Mails" del archivo `temas_investigacion_140.xlsx`
-> Total: 157 emails
+> Total: 161 emails
 
 ---
 
@@ -162,3 +162,7 @@ lulatisera@gmail.com
 juliettasol@gmail.com
 marandrea.adobato@gmail.com
 nahueltoro345@gmail.com
+lucianosanchez286@gmail.com
+guillesanchezmorzan@gmail.com
+raulrossi2002@gmail.com
+43jariso@gmail.com

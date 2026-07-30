@@ -209,6 +209,10 @@ Fuente: `temas_investigacion_140.xlsx`
 | Julieta Sol Nievas | Taller de historia popular en Villa Gdor. Gálvez | juliettasol@gmail.com | 154 |
 | Andrea Adobato | | marandrea.adobato@gmail.com | 155 |
 | Norberto Toro | | nahueltoro345@gmail.com | 156 |
+| Luciano Sánchez | | lucianosanchez286@gmail.com | 157 |
+| Guillermo Sánchez Morzan | | guillesanchezmorzan@gmail.com | 158 |
+| Camilo Di Croce | | raulrossi2002@gmail.com | 159 |
+| Javier Ríos Solís | | 43jariso@gmail.com | 160 |
 
 ---
 
