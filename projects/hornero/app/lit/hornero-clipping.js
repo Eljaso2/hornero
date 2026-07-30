@@ -179,13 +179,13 @@ class HorneroClipping extends HoComponent {
       /* Edition header — centrality: label in center, arrows on sides */
       .edicion-header { margin-bottom: 12px; }
       .edicion-row { display: flex; align-items: center; gap: 8px; }
-      .edicion-btn { background: var(--ho-green, #4E9978); color: #F2F1EC;
-        border: none; border-radius: 4px; cursor: pointer;
-        font-family: 'JetBrains Mono', monospace; font-size: .72rem;
-        padding: 5px 10px; font-weight: 600; letter-spacing: .06em;
-        transition: opacity .2s; }
-      .edicion-btn:hover { opacity: .8; }
-      .edicion-btn:disabled { opacity: .3; cursor: default; }
+      .edicion-btn { background: none; border: none; cursor: pointer;
+        color: var(--ho-text-mid, #6E6A60); padding: 6px;
+        transition: color .2s, opacity .2s; display: flex;
+        align-items: center; justify-content: center; }
+      .edicion-btn:hover { color: var(--ho-text, #E8E6E0); }
+      .edicion-btn:disabled { opacity: .2; cursor: default; }
+      .edicion-btn svg { width: 20px; height: 20px; }
       .edicion-center { flex: 1; text-align: center; }
       .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .88rem; color: var(--ho-green-dark, #3D6B56);
@@ -254,8 +254,8 @@ class HorneroClipping extends HoComponent {
         background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text-mid, #6E6A60);
         padding: 2px 6px; border-radius: 5px; font-weight: 500; }
 
-      .source-badge { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-left: 4px;
+      .source-badge { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        font-weight: 600; padding: 2px 8px; border-radius: 6px; margin-left: 4px;
         background: var(--ho-green, #4E9978); color: #F2F1EC; }
 
       .feed-card-emoji { font-size: 1rem; margin-left: 4px; }
@@ -271,7 +271,7 @@ class HorneroClipping extends HoComponent {
       .feed-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
       .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
-        padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
 
       /* ===== Popup overlay (noticia) ===== */
       .popup-overlay { position: fixed; inset: 0;
@@ -322,16 +322,18 @@ class HorneroClipping extends HoComponent {
     const hasPrev = this._edicionIdx < this._ediciones.length - 1;
     const hasNext = this._edicionIdx > 0;
 
-    // Edition header: ← anterior | CLIPPING N°X (center) | próximo →
+    // Edition header: ← | CLIPPING N°X (center) | →
     // Date line below is clickable → opens calendar
+    const chevLeft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    const chevRight = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
     const edicionHeader = '<div class="edicion-header">' +
       '<div class="edicion-row">' +
-        '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>← anterior</button>' +
+        '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>' + chevLeft + '</button>' +
         '<div class="edicion-center">' +
           '<div class="edicion-numero">CLIPPING N°' + numero + '</div>' +
           '<div class="edicion-fecha" id="edFecha">' + fechaLong + '</div>' +
         '</div>' +
-        '<button class="edicion-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + '>próximo →</button>' +
+        '<button class="edicion-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + '>' + chevRight + '</button>' +
       '</div>' +
     '</div>';
 
