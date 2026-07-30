@@ -1,7 +1,7 @@
 # Emails del Seminario Historia del Norte de Santa Fe
 
 > Listado de emails extraído de la hoja "5. Mails" del archivo `temas_investigacion_140.xlsx`
-> Total: 156 emails
+> Total: 157 emails
 
 ---
 
@@ -119,6 +119,7 @@ ssilvanaeeblanco@gmail.com
 mariasolmenapace@gmail.com
 racarmona.1@gmail.com
 ari_zorzon@hotmail.com
+ari.zorzon93@gmail.com
 sandraescudero@gmail.com
 perezantonella2020@gmail.com
 Noelia12go@gmail.com
