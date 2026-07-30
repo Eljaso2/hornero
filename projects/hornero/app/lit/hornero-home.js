@@ -303,16 +303,9 @@ class HorneroHome extends HoComponent {
         font-size: .60rem; background: rgba(78,153,120,.6); color: #F2F1EC;
         padding: 2px 7px; border-radius: 5px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
-      .formacion-badge { position: absolute; top: 10px; left: 10px; z-index: 2;
-        width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
-        border: 2px solid rgba(242,241,236,.6); background: var(--ho-card, #2A3230); }
-      .formacion-badge img { width: 100%; height: 100%; object-fit: cover; }
+      .formacion-badge { display: none; }
 
-      /* ===== Historiador badge on Archivo card ===== */
-      .card-historiador-badge { position: absolute; top: 10px; right: 12px;
-        width: 30px; height: 30px; border-radius: 50%; overflow: hidden;
-        border: 2px solid var(--ho-green-pale, #E0F0EB); }
-      .card-historiador-badge img { width: 100%; height: 100%; object-fit: cover; }
+      .card-historiador-badge { display: none; }
 
       .esfera-card { background: var(--ho-card, #2A3230);
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
@@ -479,7 +472,6 @@ class HorneroHome extends HoComponent {
       <!-- ESFERA 4: Historia Obrera — hero card -->
       <div class="formacion-card" data-screen="formacion">
         <img src="assets/personajes/ho.jpg" alt="Historia Obrera" class="hero">
-        <div class="formacion-badge"><img src="assets/personajes/historiadora.png" alt="Historiador/a"></div>
         <div class="formacion-overlay">
           <div class="card-name">Historia Obrera</div>
           <div class="card-desc">Formación, cursos, efemérides, libros, mitín</div>
@@ -492,7 +484,6 @@ class HorneroHome extends HoComponent {
         <div class="card-name">Archivo</div>
         <div class="card-desc">Convenios, referentes, fuentes sindicales — la memoria del sindicato</div>
         <span class="card-tag">documentos · académicos · multimedia</span>
-        <div class="card-historiador-badge"><img src="assets/personajes/historiadora.png" alt="Historiador/a"></div>
       </div>
     `;
   }
