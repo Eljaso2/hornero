@@ -349,6 +349,7 @@ class HorneroApp extends HoComponent {
       .sections-bar { background: var(--ho-bg, #1E2321);
         flex: none; display: flex; overflow-x: auto;
         padding: 0px 12px 0px; gap: 0;
+        margin-top: 6px;
         scrollbar-width: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .sections-bar::-webkit-scrollbar { width: 0; }
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
