@@ -618,12 +618,13 @@ class HorneroApp extends HoComponent {
       const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
       const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
 
-      // Persona choices (always shown)
+      // Persona choices (always shown) — theme-aware icons
+      const isLight = this.theme === 'light';
       const personaChoices =
-        choiceHtml('gremial', 'companero', 'assets/personajes/companera.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
-        choiceHtml('consulta', 'abogado', 'assets/personajes/abogado.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
-        choiceHtml('contenido', 'periodista', 'assets/personajes/periodista.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
-        choiceHtml('historiador', 'historiador', 'assets/personajes/historiadora.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
+        choiceHtml('gremial', 'companero', isLight ? 'assets/personajes/dark02.png' : 'assets/personajes/a02.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
+        choiceHtml('consulta', 'abogado', isLight ? 'assets/personajes/dark03.png' : 'assets/personajes/a03.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
+        choiceHtml('contenido', 'periodista', isLight ? 'assets/personajes/dark04.png' : 'assets/personajes/a04.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
+        choiceHtml('historiador', 'historiador', isLight ? 'assets/personajes/dark01.png' : 'assets/personajes/a01.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
 
       // Grade-based extras — navigate to full list screens
       let extraChoices = '';

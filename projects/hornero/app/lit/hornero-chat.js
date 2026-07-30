@@ -21,6 +21,7 @@ class HorneroChat extends HoComponent {
       informeBadge: Boolean, // True = outline grueso + fondo pálido (informe nuevo)
       informesTitle: String, // Custom title for informes drawer — default "Informes"
       persona: String,      // Active persona: companero|abogado|periodista|historiador
+      theme: String,        // 'dark' or 'light' — theme-aware persona icons
       username: String,      // Login username for per-user data isolation
       grade: String,         // User grade (B.a, B.b, B.c, B.d) — controls Reportes Recibidos icon
     };
@@ -40,6 +41,7 @@ class HorneroChat extends HoComponent {
     this.informeBadge = false;
     this.informesTitle = 'Mis Reportes';
     this.persona = 'abogado';
+    this.theme = localStorage.getItem('hornero-theme') || 'dark';
     this.username = '';
     this.grade = 'A';
     this._isRecording = false;  // audio recording state
@@ -1428,11 +1430,12 @@ class HorneroChat extends HoComponent {
 
   // ===== Persona config: avatar icon, name, colors per persona =====
   _getPersonaConfig(persona) {
+    const isLight = this.theme === 'light';
     const map = {
-      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: 'assets/personajes/abogado.png' },
-      'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/companera.png' },
-      'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/periodista.png' },
-      'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/historiadora.png' },
+      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: isLight ? 'assets/personajes/dark03.png' : 'assets/personajes/a03.png' },
+      'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: isLight ? 'assets/personajes/dark02.png' : 'assets/personajes/a02.png' },
+      'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: isLight ? 'assets/personajes/dark04.png' : 'assets/personajes/a04.png' },
+      'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: isLight ? 'assets/personajes/dark01.png' : 'assets/personajes/a01.png' },
     };
     return map[persona] || map['abogado'];
   }

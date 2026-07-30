@@ -58,7 +58,15 @@ var ASSETS = [
   './assets/personajes/historiadora.png',
   './assets/personajes/abogado.png',
   './assets/personajes/companera.png',
-  './assets/personajes/periodista.png'
+  './assets/personajes/periodista.png',
+  './assets/personajes/a01.png',
+  './assets/personajes/a02.png',
+  './assets/personajes/a03.png',
+  './assets/personajes/a04.png',
+  './assets/personajes/dark01.png',
+  './assets/personajes/dark02.png',
+  './assets/personajes/dark03.png',
+  './assets/personajes/dark04.png'
 ];
 
 // Install: cache core assets individually (resilient — skip failures)
