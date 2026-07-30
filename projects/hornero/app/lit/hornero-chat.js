@@ -698,11 +698,11 @@ class HorneroChat extends HoComponent {
       .typing-avatar-emoji { font-size: .72rem; line-height: 1; }
 
       /* === Persona icons — top-left corner of chat === */
-      .chat-persona-icon { position: absolute; top: 12px; z-index: 20;
-        width: 40px; height: 40px;
+      .chat-persona-icon { position: absolute; top: 14px; z-index: 20;
+        width: 32px; height: 32px;
         cursor: pointer; display: flex; align-items: center; justify-content: center;
         transition: transform .15s, opacity .2s; overflow: visible;
-        opacity: .5; }
+        opacity: .5; background: none; border: none; padding: 0; }
       .chat-persona-icon:hover { transform: scale(1.08); opacity: .85; }
       .chat-persona-icon.active { transform: scale(1.06);
         opacity: 1; }
@@ -1016,9 +1016,9 @@ class HorneroChat extends HoComponent {
       const inner = cfg.img
         ? `<img src="${cfg.img}" alt="${cfg.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-      const leftPos = 50 + idx * 44;
+      const leftPos = 46 + idx * 36;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
-      return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px; border-color:${isActive ? cfg.color : 'var(--ho-border, rgba(255,255,255,.08))'}">
+      return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px">
         <span class="persona-icon-inner">${inner}</span>
       </button>`;
     }).join('');
