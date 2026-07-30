@@ -115,7 +115,7 @@ class HorneroIs extends HoComponent {
         line-height: 1.4; }
       .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
-        padding: 3px 8px; border-radius: 6px; font-weight: 600; display: inline-block;
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; display: inline-block;
         margin: 1px 0; }
       .tags-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
 

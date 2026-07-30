@@ -81,7 +81,7 @@ class HorneroGremial extends HoComponent {
         font-size: .92rem; color: var(--ho-text-off, #F2F1EC); flex: 1;
         letter-spacing: .04em; text-transform: uppercase; }
       .inform-view-header-estado { font-family: 'JetBrains Mono', monospace;
-        font-size: .68rem; padding: 3px 10px; border-radius: 8px; font-weight: 700; }
+        font-size: .62rem; padding: 2px 8px; border-radius: 6px; font-weight: 700; }
       .inform-view-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
       .inform-view-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .inform-view-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
@@ -102,9 +102,9 @@ class HorneroGremial extends HoComponent {
         margin: 16px 0; }
       .inform-view-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
         padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
-      .inform-view-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+      .inform-view-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: #EDEAE3; color: var(--ho-text, #E8E6E0);
-        padding: 4px 10px; border-radius: 8px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .inform-view-actions { padding: 12px 16px; display: flex; gap: 8px;
         justify-content: flex-end; flex: none;
         border-top: 1px solid var(--ho-border, rgba(255,255,255,.08));

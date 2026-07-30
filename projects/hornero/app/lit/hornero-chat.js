@@ -610,9 +610,9 @@ class HorneroChat extends HoComponent {
       .reporte-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
         padding: 10px 14px; border-top: 1px solid var(--ho-green-pale, #E0F0EB);
         background: var(--ho-bg, #1E2321); }
-      .reporte-card-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+      .reporte-card-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: #EDEAE3; color: var(--ho-text, #E8E6E0);
-        padding: 4px 10px; border-radius: 8px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .reporte-card-actions { display: flex; gap: 6px;
         padding: 8px 12px 4px; justify-content: flex-end; }
       .reporte-card-prompt { font-family: 'Public Sans', sans-serif; font-size: .88rem;
@@ -824,9 +824,9 @@ class HorneroChat extends HoComponent {
 
       /* Tags */
       .msg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-      .msg-tag { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+      .msg-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
-        padding: 4px 10px; border-radius: 8px; font-weight: 600; }
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
 
       .msg-time.hornero-time { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         color: var(--ho-text-light, #9C988D); opacity: .7; margin-top: 6px; }
@@ -2286,7 +2286,7 @@ h1 { font-family: 'Archivo', sans-serif; font-weight: 800; color: #3D6B56; borde
 .msg-quote-author { font-weight: 700; font-style: normal; color: #3D6B56; }
 .msg-quote-source { font-family: monospace; font-size: .7rem; color: #6E6A60; font-style: normal; }
 .msg-tags { margin-top: 6px; }
-.msg-tag { background: #E0F0EB; color: #3D6B56; padding: 2px 8px; border-radius: 6px; font-family: monospace; font-size: .75rem; font-weight: 600; display: inline-block; margin-right: 4px; }
+.msg-tag { background: #E0F0EB; color: #3D6B56; padding: 2px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: .62rem; font-weight: 600; display: inline-block; margin-right: 4px; }
 .divider { border: none; border-top: 1px dashed #4E9978; margin: 24px 0; }
 footer { font-family: monospace; font-size: .7rem; color: #9C988D; border-top: 1px solid #4E9978; padding-top: 12px; margin-top: 40px; text-align: center; }
 </style>

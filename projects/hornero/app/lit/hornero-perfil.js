@@ -131,9 +131,9 @@ class HorneroPerfil extends HoComponent {
 
       /* Nivel badge */
       .nivel-badge { display: inline-flex; align-items: center; gap: 5px;
-        font-family: 'JetBrains Mono', monospace; font-size: .66rem;
+        font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; letter-spacing: .10em; text-transform: uppercase;
-        padding: 4px 9px; border-radius: 6px; }
+        padding: 2px 8px; border-radius: 6px; }
       .nivel-badge.green { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
       .nivel-badge.gold { background: #F0E4CC; color: #7A5E2C; }
       .nivel-badge.mid { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-dark-mid, #536260); }
@@ -161,10 +161,10 @@ class HorneroPerfil extends HoComponent {
       /* Agremiación card (dark) */
       .agremiacion-card { background: var(--ho-dark, #1E2321);
         border-radius: 13px; padding: 16px; margin-bottom: 12px; }
-      .agremiacion-badge { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+      .agremiacion-badge { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
         background: var(--ho-dark-surface, #3F4E4A); color: var(--ho-text-off, #F2F1EC);
-        padding: 5px 10px; border-radius: 6px; display: inline-block;
+        padding: 2px 8px; border-radius: 6px; display: inline-block;
         margin-bottom: 10px; }
       .agremiacion-field { display: flex; align-items: baseline; gap: 8px;
         margin-bottom: 8px; }
@@ -218,7 +218,7 @@ class HorneroPerfil extends HoComponent {
         padding-top: 6px; border-top: 1px solid var(--ho-border, rgba(255,255,255,.06)); }
       .notif-status { font-family: 'JetBrains Mono', monospace; font-size:.62rem;
         font-weight: 600; letter-spacing:.06em; text-transform: uppercase;
-        padding: 3px 8px; border-radius: 6px; }
+        padding: 2px 8px; border-radius: 6px; }
       .notif-status.granted { background: #1E3A2E; color: #80CCA0; }
       .notif-status.denied { background: #3A1E1E; color: #CC8080; }
       .notif-status.default { background: #3A341E; color: #CCA880; }

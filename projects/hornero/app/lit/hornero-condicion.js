@@ -141,10 +141,10 @@ class HorneroCondicion extends HoComponent {
       .ice-card .ice-emoji { font-size: 1.2rem; }
       .ice-card .ice-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .82rem; color: var(--ho-text, #E8E6E0); margin-top: 3px; }
-      .ice-card .ice-tag { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
+      .ice-card .ice-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; color: var(--ho-green-dark, #3D6B56);
-        background: var(--ho-green-pale, #E0F0EB); border-radius: 5px;
-        padding: 2px 6px; display: inline-block; margin-top: 3px; }
+        background: var(--ho-green-pale, #E0F0EB); border-radius: 6px;
+        padding: 2px 8px; display: inline-block; margin-top: 3px; }
       .ice-card .ice-desc { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.3; margin-top: 3px; }
 
