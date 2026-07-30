@@ -16,11 +16,12 @@ from datetime import datetime
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import httpx
 
 from knowledge_base import get_system_prompt, get_system_prompt_rag, get_format_hint, get_greeting_hint, PERSONA_MAP, PERSONA_NAME_MAP
-from llm_providers.deepseek import call_deepseek
+from llm_providers.deepseek import call_deepseek, call_deepseek_stream
 from llm_providers.claude import call_claude
 from clipping_cache import get_clipping, refresh
 from rag_retriever import retrieve_for_query
