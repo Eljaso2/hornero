@@ -329,7 +329,7 @@ class HorneroApp extends HoComponent {
       .header-text .header-bird { height: 32px; width: auto; object-fit: contain; display: block; }
       .header-text .app-brand-img { height: 44px; width: auto; object-fit: contain;
         display: block; }
-      .header-text .app-brand-img-light { height: 68px; }
+      .header-text .app-brand-img-light { filter: brightness(0) saturate(0); }
 
       /* ===== Floating back button — chat screens (no header, no bottom nav) ===== */
       .floating-back-btn { position: absolute; top: 8px; left: 12px;
@@ -684,7 +684,7 @@ class HorneroApp extends HoComponent {
             ${showHeader ? '<div class="top-bar">' +
               '<div class="header-text">' +
                 (this.theme === 'light'
-                  ? '<img class="app-brand-img app-brand-img-light" src="assets/dreamina-2026-07-30-5682-Change_the_background_to_solid__pure_whi...-removebg-preview.png" alt="HORNERO" />'
+                  ? '<img class="app-brand-img app-brand-img-light" src="assets/hornero-brand-typo-transparent.png" alt="HORNERO" />'
                   : '<img class="app-brand-img" src="assets/hornero-brand-typo-transparent.png" alt="HORNERO" />') +
               '</div>' +
             '</div>' : ''}

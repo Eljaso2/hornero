@@ -3,51 +3,51 @@
 // ho-component.js provides: Shadow DOM, reactive properties, html/css tagged templates
 
 // Core helper
-import { HoComponent, html, css } from './ho-component.js?v=224';
+import { HoComponent, html, css } from './ho-component.js?v=225';
 
 // Shell: <hornero-app> — navigation, auth, state global, 8 nav buttons
-import './hornero-app.js?v=224';
+import './hornero-app.js?v=225';
 
 // Home: <hornero-home> — cards de entry points a las 6 esferas
-import './hornero-home.js?v=224';
+import './hornero-home.js?v=225';
 
 // ESFERA 1 — Actualidad y agenda
-import './hornero-actualidad.js?v=224';
+import './hornero-actualidad.js?v=225';
 // Sub-screens: Clipping, InfoMate, Reporte Gremial
-import './hornero-clipping.js?v=224';
-import './hornero-infomate.js?v=224';
-import './hornero-gremial.js?v=224';
+import './hornero-clipping.js?v=225';
+import './hornero-infomate.js?v=225';
+import './hornero-gremial.js?v=225';
 
 // ESFERA 2 — Consulta y asesoramiento
 // Consulta (formatos + chat con backend LLM)
-import './hornero-consulta.js?v=224';
+import './hornero-consulta.js?v=225';
 // Sub-screen: Contenido sindical (podcast, reel, columna, entrevista)
-import './hornero-contenido.js?v=224';
+import './hornero-contenido.js?v=225';
 
 // (Debate y Consulta: placeholder en hornero-app.js)
 
 // ESFERA 3 — Formación: Historia Obrera
-import './hornero-formacion.js?v=224';
+import './hornero-formacion.js?v=225';
 
 // ESFERA 4 — Reporte gremial
-import './hornero-is.js?v=224';
+import './hornero-is.js?v=225';
 
 // ESFERA 5 — Historiador (historia laboral latinoamericana)
-import './hornero-historiador.js?v=224';
+import './hornero-historiador.js?v=225';
 
 // ESFERA 6 — Diagnóstico y panorama
-import './hornero-condicion.js?v=224';
+import './hornero-condicion.js?v=225';
 
 // ESFERA 6 — Archivo / Biblioteca del sindicato
-import './hornero-archivo.js?v=224';
+import './hornero-archivo.js?v=225';
 
 // Perfil (nombre, email, sector/sindicato)
-import './hornero-perfil.js?v=224';
+import './hornero-perfil.js?v=225';
 
 // Sub-screens
-import './hornero-coyuntura.js?v=224';  // Clipping semanal (legacy, backup)
-import './hornero-chat.js?v=224';       // Motor de chat reutilizable
-import './hornero-ecosistema.js?v=224'; // Qué es Hornero, Xiong, cadena de valor
-import './hornero-login.js?v=224';      // Login screen (client-side auth para piloto)
+import './hornero-coyuntura.js?v=225';  // Clipping semanal (legacy, backup)
+import './hornero-chat.js?v=225';       // Motor de chat reutilizable
+import './hornero-ecosistema.js?v=225'; // Qué es Hornero, Xiong, cadena de valor
+import './hornero-login.js?v=225';      // Login screen (client-side auth para piloto)
 
 export { HoComponent, html, css };
