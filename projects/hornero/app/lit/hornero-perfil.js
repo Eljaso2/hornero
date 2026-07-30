@@ -153,6 +153,10 @@ class HorneroPerfil extends HoComponent {
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .82rem;
         cursor: pointer; margin-top: 4px; }
       .edit-btn.secondary { background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text, #E8E6E0); }
+      .edit-icon-btn { background: none; border: none; cursor: pointer;
+        font-size: .92rem; padding: 4px; margin-top: 4px; opacity: .5;
+        transition: opacity .2s; }
+      .edit-icon-btn:hover { opacity: 1; }
 
       /* Agremiación card (dark) */
       .agremiacion-card { background: var(--ho-dark, #1E2321);
@@ -200,7 +204,8 @@ class HorneroPerfil extends HoComponent {
       /* Notification toggle */
       .notif-card { background: var(--ho-card, #2A3230);
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; padding: 16px; margin-bottom: 12px; }
+        border-radius: 13px; padding: 16px; margin-bottom: 12px;
+        display: flex; flex-direction: column; justify-content: center; }
       .notif-row { display: flex; align-items: center; justify-content: space-between;
         gap: 12px; }
       .notif-info { flex: 1; }
@@ -258,9 +263,6 @@ class HorneroPerfil extends HoComponent {
     if (agrem.territorio) agremFields.push({ label: 'Territorio', value: agrem.territorio });
     agremFields.push({ label: 'Empresa', value: agrem.empresa || '' });
     agremFields.push({ label: 'Puesto', value: agrem.puesto || '' });
-
-    // If no agremiación data at all, show a minimal card
-    const hasAgremiacion = agremFields.length > 0;
 
     return html`
       <div class="scroll">
