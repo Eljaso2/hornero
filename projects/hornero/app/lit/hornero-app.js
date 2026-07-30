@@ -724,7 +724,12 @@ class HorneroApp extends HoComponent {
     // Bind bottom nav button clicks
     this.shadowRoot.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        this._navigateTo(btn.dataset.screen);
+        const screen = btn.dataset.screen;
+        // Reporte button → always open as Compañero chat
+        if (screen === 'gremial') {
+          this._initialPersona = 'companero';
+        }
+        this._navigateTo(screen);
       });
     });
     // Load recibidos data when screen is active
