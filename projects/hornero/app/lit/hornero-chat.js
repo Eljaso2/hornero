@@ -1752,21 +1752,20 @@ class HorneroChat extends HoComponent {
 
       // === Auto-resize textarea: grow with content, shrink when empty ===
       const LINE_H = 36; // Single-line height (matches CSS)
-      const LINE_MULTI = 20; // Line height in multi-line mode (px)
-      const PAD_V = 8; // Vertical padding in multi-line mode
       const autoResize = () => {
+        // Reset to single-line to measure actual content
         inputField.style.height = LINE_H + 'px';
         inputField.style.padding = '0 14px';
         inputField.style.lineHeight = LINE_H + 'px';
         const scrollH = inputField.scrollHeight;
         if (scrollH > LINE_H) {
-          // Multi-line: calculate how many rows the text actually needs
-          const contentH = scrollH - PAD_V; // Remove padding to get raw content height
-          const rows = Math.ceil(contentH / LINE_MULTI);
-          const targetH = Math.min(rows * LINE_MULTI + PAD_V, 120);
+          // Multi-line: let browser calculate exact height via auto
+          inputField.style.height = 'auto';
+          const actualH = inputField.scrollHeight;
+          const targetH = Math.min(actualH, 120);
           inputField.style.height = targetH + 'px';
-          inputField.style.padding = PAD_V / 2 + 'px 14px';
-          inputField.style.lineHeight = LINE_MULTI + 'px';
+          inputField.style.padding = '6px 14px';
+          inputField.style.lineHeight = '20px';
           inputField.style.overflowY = targetH >= 120 ? 'auto' : 'hidden';
         } else {
           inputField.style.overflowY = 'hidden';
