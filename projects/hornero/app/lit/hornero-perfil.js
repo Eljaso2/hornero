@@ -295,7 +295,7 @@ class HorneroPerfil extends HoComponent {
             </div>
             <div class="toggle-switch${this.pushEnabled ? ' active' : ''}" id="push-toggle"></div>
           </div>
-          ${this.pushPermission !== 'unsupported' ? '<div style="margin-top:8px"><span class="notif-status ' + this.pushPermission + '">' + this.pushPermission + '</span></div>' : ''}
+          ${this.pushPermission === 'denied' ? '<div style="margin-top:8px"><span class="notif-status denied">Bloqueado</span></div>' : ''}
         </div>
 
         <!-- Theme toggle -->
