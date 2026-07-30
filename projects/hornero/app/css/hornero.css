@@ -21,6 +21,10 @@
   --ho-shadow: rgba(0,0,0,.5);
   --ho-border: rgba(255,255,255,.08);
   --ho-input-border: rgba(255,255,255,.1);
+  /* Header-specific vars — dark mode = same as bg, light mode = dark green */
+  --ho-header-bg: #1E2321;
+  --ho-header-text: #F2F1EC;
+  --ho-header-surface: #2A3230;
 }
 
 *{margin:0;padding:0;box-sizing:border-box}

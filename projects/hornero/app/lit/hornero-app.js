@@ -36,7 +36,7 @@ class HorneroApp extends HoComponent {
     this.recibidosList = [];
     this.misConversacionesList = [];
     this.misReportesList = [];
-    this._initialPersona = 'ia-sindical'; // Persona selected from landing page
+    this._initialPersona = 'abogado'; // Persona selected from landing page
     this._clipEdicion = null;
     this._clipExpandId = null;
     this._mateMes = null;
@@ -149,8 +149,8 @@ class HorneroApp extends HoComponent {
     this.titles = {
       home: 'Inicio',
       actualidad: 'Actualidad',
-      chat: 'Chat IA Sindical',
-      consulta: 'Chateá con la IA Sindical',
+      chat: 'Chat',
+      consulta: 'Chateá con tu interlocutor/a',
       formacion: 'Historia Obrera · Formación',
       is: 'Reporte gremial',
       condicion: 'Panorama',
@@ -167,7 +167,7 @@ class HorneroApp extends HoComponent {
       // Actualidad sub-screens
       clipping: 'Clipping de noticias',
       infomate: 'InfoMate',
-      gremial: 'Reporte Gremial · IA Sindical',
+      gremial: 'Reporte Gremial',
       historiador: 'Historiador',
       misConversaciones: 'Mis Conversaciones',
       misReportes: 'Mis Reportes',
@@ -281,18 +281,18 @@ class HorneroApp extends HoComponent {
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
         /* Mobile: top-bar dark background merges with system status bar */
-        .top-bar { background: var(--ho-dark, #1E2321);
-          color: var(--ho-text-off, #F2F1EC); }
+        .top-bar { background: var(--ho-header-bg, var(--ho-dark, #1E2321));
+          color: var(--ho-header-text, var(--ho-text-off, #F2F1EC)); }
         .top-bar-back { background: var(--ho-dark-surface, #3F4E4A);
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
         .top-bar-back:hover { background: var(--ho-dark-mid, #536260);
           border-color: var(--ho-green-light, #80CCA0); }
-        /* Mobile: sections-bar dark to match header — no border (seamless merge) */
-        .sections-bar { background: var(--ho-dark-surface, #3F4E4A);
+        /* Mobile: sections-bar matches header bg — light in day mode, dark in night mode */
+        .sections-bar { background: var(--ho-header-surface, var(--ho-dark-surface, #3F4E4A));
           border-bottom: none; }
-        .sections-btn { color: var(--ho-sections-text, var(--ho-text-light, #7A766C)); }
-        .sections-btn.active { color: var(--ho-sections-active, var(--ho-green-light, #80CCA0));
-          border-bottom-color: var(--ho-sections-active, var(--ho-green-light, #80CCA0)); }
+        .sections-btn { color: var(--ho-header-text, var(--ho-text-light, #7A766C)); }
+        .sections-btn.active { color: var(--ho-green-light, #80CCA0);
+          border-bottom-color: var(--ho-green-light, #80CCA0); }
         .header-text .app-brand-img { height: 44px; }
         .floating-back-btn { background: var(--ho-dark-surface, #3F4E4A);
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
@@ -304,8 +304,8 @@ class HorneroApp extends HoComponent {
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
       /* ===== Top bar — back button + title centered ===== */
-      .top-bar { background: var(--ho-bg, #1E2321);
-        color: var(--ho-text, #E8E6E0);
+      .top-bar { background: var(--ho-header-bg, var(--ho-bg, #1E2321));
+        color: var(--ho-header-text, var(--ho-text, #E8E6E0));
         padding: 0 16px; display: flex; align-items: flex-end;
         justify-content: center; position: relative; flex: none;
         min-height: 0;
@@ -350,13 +350,13 @@ class HorneroApp extends HoComponent {
         scrollbar-width: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .sections-bar::-webkit-scrollbar { width: 0; }
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
-        font-weight: 600; color: var(--ho-sections-text, var(--ho-text-mid, #7A766C));
+        font-weight: 600; color: var(--ho-text-mid, #7A766C);
         background: none; border: none; cursor: pointer;
         padding: 6px 12px; white-space: nowrap;
         border-bottom: 2px solid transparent;
         transition: color .2s, border-color .2s; }
-      .sections-btn.active { color: var(--ho-sections-active, var(--ho-green, #4E9978));
-        border-bottom-color: var(--ho-sections-active, var(--ho-green, #4E9978)); }
+      .sections-btn.active { color: var(--ho-green, #4E9978);
+        border-bottom-color: var(--ho-green, #4E9978); }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -408,7 +408,7 @@ class HorneroApp extends HoComponent {
       .chat-choice-extra .chat-choice-name { font-size: .78rem; }
       .chat-choice-extra .chat-choice-desc { font-size: .68rem; }
       .persona-choice-emoji { font-size: 1rem; line-height: 1; }
-      .persona-icon-ia-sindical { background: #E0F0EB; }
+      .persona-icon-companero { background: #C89660; }
       .persona-icon-abogado { background: #D4E4F7; }
       .persona-icon-periodista { background: #E8E0D7; }
       .persona-icon-companero { background: #C89660; }
@@ -585,7 +585,7 @@ class HorneroApp extends HoComponent {
       const mateMesAttr = this._mateMes ? ' mate-mes="' + this._mateMes + '"' : '';
       screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"' + mateMesAttr + '></hornero-infomate>';
     } else if (this.screen === 'gremial') {
-      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'relator') + '"></hornero-gremial>';
+      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'companero') + '"></hornero-gremial>';
     } else if (this.screen === 'historiador') {
       screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
@@ -618,10 +618,9 @@ class HorneroApp extends HoComponent {
 
       // Persona choices (always shown)
       const personaChoices =
-        choiceHtml('gremial', '', 'assets/personajes/relator.png', 'Relator/a', '🪶', 'Relator/a', 'Te ayudo a elaborar un reporte gremial') +
+        choiceHtml('gremial', 'companero', 'assets/personajes/companera.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
         choiceHtml('consulta', 'abogado', 'assets/personajes/abogado.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
-        choiceHtml('contenido', 'periodista', 'assets/personajes/periodista.png', 'Periodista', '🎙️', 'Periodista', 'Podcasts, reels, columnas, entrevistas') +
-        choiceHtml('consulta', 'companero', 'assets/personajes/companera.png', 'Compañera', '✊', 'Compañero/a', 'Experiencia obrera, organización, debate') +
+        choiceHtml('contenido', 'periodista', 'assets/personajes/periodista.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
         choiceHtml('historiador', 'historiador', 'assets/personajes/historiadora.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
 
       // Grade-based extras — navigate to full list screens
@@ -679,7 +678,7 @@ class HorneroApp extends HoComponent {
             ${this._clipBannerVisible && this.newClippingAvailable ? '<div class="clipping-banner" id="clippingBanner"><span class="clip-banner-text">📰 Nuevo clipping — Edición N°' + this._newClipNumero + '</span><button class="clip-dismiss" id="clipDismiss">✕</button></div>' : ''}
             ${showHeader ? '<div class="top-bar">' +
               '<div class="header-text">' +
-                '<img class="app-brand-img" src="assets/hornero-brand-typo-transparent.png" alt="HORNERO" />' +
+                '<img class="app-brand-img" src="assets/hornero-brand-typo-white.png" alt="HORNERO" />' +
               '</div>' +
             '</div>' : ''}
 
@@ -771,7 +770,7 @@ class HorneroApp extends HoComponent {
         const persona = item.dataset.navigatePersona;
         const sessionId = item.dataset.navigateSession;
         if (screen) {
-          this._initialPersona = persona || 'ia-sindical';
+          this._initialPersona = persona || 'abogado';
           this._navigateTo(screen);
         }
       });
@@ -785,7 +784,7 @@ class HorneroApp extends HoComponent {
     // Bind chat-choice buttons (Chat landing screen)
     this.shadowRoot.querySelectorAll('.chat-choice').forEach(btn => {
       btn.addEventListener('click', () => {
-        this._initialPersona = btn.dataset.persona || 'ia-sindical';
+        this._initialPersona = btn.dataset.persona || 'abogado';
         this._navigateTo(btn.dataset.screen);
       });
     });
@@ -925,13 +924,13 @@ class HorneroApp extends HoComponent {
     const lightVars = {
       '--ho-bg': '#F8F6F0',
       '--ho-card': '#FFFFFF',
-      '--ho-dark': '#1B4332',
-      '--ho-dark-surface': '#234D3B',
-      '--ho-dark-mid': '#2D5E4A',
+      '--ho-dark': '#F0EDE5',
+      '--ho-dark-surface': '#E8E4DB',
+      '--ho-dark-mid': '#D5D0C8',
       '--ho-text': '#1E2321',
       '--ho-text-mid': '#5A5650',
       '--ho-text-light': '#7A766C',
-      '--ho-text-off': '#F2F1EC',
+      '--ho-text-off': '#1E2321',
       '--ho-green': '#3D7A5E',
       '--ho-green-light': '#4E9978',
       '--ho-green-pale': '#E0F0EB',
@@ -942,8 +941,9 @@ class HorneroApp extends HoComponent {
       '--ho-shadow': 'rgba(0,0,0,.15)',
       '--ho-warm-gray': '#D5D0C8',
       '--ho-mid-gray': '#E8E4DB',
-      '--ho-sections-text': 'rgba(242,241,236,.55)',
-      '--ho-sections-active': '#80CCA0',
+      '--ho-header-bg': '#1B4332',
+      '--ho-header-text': '#F2F1EC',
+      '--ho-header-surface': '#234D3B',
     };
     if (this.theme === 'light') {
       Object.entries(lightVars).forEach(([k, v]) => this.style.setProperty(k, v));
@@ -959,7 +959,7 @@ class HorneroApp extends HoComponent {
     if (!metaTheme) return;
 
     const isLight = this.theme === 'light';
-    const appBg = isLight ? '#1B4332' : '#1E2321';
+    const appBg = isLight ? '#F8F6F0' : '#1E2321';
     const loginBg = isLight ? '#F8F6F0' : '#1E2321';
 
     // Login screen or main app → same bg
@@ -1070,11 +1070,11 @@ class HorneroApp extends HoComponent {
     const sectionConfig = {
       consulta:  { emoji: '♣', label: 'Consulta',  color: '#2B5278' },
       contenido: { emoji: '♪', label: 'Contenido', color: '#5A4A3A' },
-      debate:    { emoji: '♠', label: 'Companero', color: '#7A3B1E' },
-      reporte:   { emoji: '♢', label: 'Reporte',   color: '#3D6B56' },
+      debate:    { emoji: '♠', label: 'Compañero/a', color: '#7A3B1E' },
+      reporte:   { emoji: '♠', label: 'Compañero/a', color: '#7A3B1E' },
       historia:  { emoji: '♤', label: 'Historia',   color: '#4A3A5A' },
     };
-    const defaultSection = { emoji: '♢', label: 'IA Sindical', color: '#3D6B56' };
+    const defaultSection = { emoji: '♠', label: 'Hornero', color: '#7A3B1E' };
     if (list.length === 0) {
       return '<div class="list-screen">' +
         '<div class="list-screen-header"><div class="list-screen-title">Mis Conversaciones</div></div>' +
@@ -1087,7 +1087,7 @@ class HorneroApp extends HoComponent {
       const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
       const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
       const navScreen = s.section === 'reporte' ? 'gremial' : s.section === 'contenido' ? 'contenido' : s.section === 'historia' ? 'historiador' : 'consulta';
-      const navPersona = s.section === 'reporte' ? 'relator' : s.section === 'historia' ? 'historiador' : s.section === 'contenido' ? 'periodista' : s.section === 'debate' ? 'companero' : 'abogado';
+      const navPersona = s.section === 'reporte' ? 'companero' : s.section === 'historia' ? 'historiador' : s.section === 'contenido' ? 'periodista' : s.section === 'debate' ? 'companero' : 'abogado';
       return '<div class="history-item" data-navigate-screen="' + navScreen + '" data-navigate-persona="' + navPersona + '" data-navigate-session="' + s.sessionId + '">' +
         '<div class="history-item-section ' + sectionClass + '">' +
           '<span class="history-item-section-emoji">' + sec.emoji + '</span>' +

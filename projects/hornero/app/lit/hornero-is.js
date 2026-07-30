@@ -149,7 +149,7 @@ class HorneroIs extends HoComponent {
     if (this.step === 0) {
       return html`
         <div class="role-select">
-          <div class="kicker">✍️ INTELIGENCIA SINDICAL</div>
+          <div class="kicker">✍️ INFORME SINDICAL</div>
           <div style="font-size:.82rem;color:#6E6A60;margin-bottom:12px;padding:0 2px">
             Seleccioná tu rol para entrar al sistema. Cada rol tiene funciones y visibilidad diferentes.
           </div>

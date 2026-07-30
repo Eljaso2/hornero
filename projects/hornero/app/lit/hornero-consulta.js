@@ -1,4 +1,4 @@
-// ===== <hornero-consulta> — Consulta IA Sindical =====
+// ===== <hornero-consulta> — Consulta legal =====
 // Chat directo — IA inicia diálogo saludando y explicando qué se puede consultar
 // Backend LLM (DashScope/Claude) + fallback offline con KB local
 // Native Web Component — zero dependencies
@@ -76,7 +76,7 @@ class HorneroConsulta extends HoComponent {
     return html`
       <div class="chat-container">
         <hornero-chat
-          title="Chateá con el Relator"
+          title="Chateá con el Abogado/a"
           input-placeholder="Escribí tu consulta, pregunta, o tema..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
@@ -272,7 +272,7 @@ class HorneroConsulta extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '¡Hola, compañero!', body: 'Soy la IA Sindical de Hornero, tu asistente para trabajadores aceiteros. Estoy para ayudarte con lo que necesites.' },
+        { title: '¡Hola!', body: 'Soy el abogado laboralista del gremio aceitero. Estoy para ayudarte con lo que necesites.' },
         { title: '¿Qué puedes consultar?', body: 'Paritaria aceitera, condiciones laborales, SMVM y distribución del ingreso, reforma laboral, convenio CCT 420/05, organización sindical, referentes como Yofra y Cremonte.' },
         { title: '', body: '', quote: 'Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Ciclo "Por las hendijas del Quebracho", enero 2021' },
       ],
@@ -502,7 +502,7 @@ class HorneroConsulta extends HoComponent {
     if (lower.includes('cremonte')) {
       return { role: 'hornero', sections: [{ title: 'Cremonte', body: 'Investigador labour. Analista de distribución del ingreso, salario mínimo y reforma laboral. Autor de "Valor y precio de la fuerza de trabajo" (2023).' }, { title: '', body: '', quote: 'El salario mínimo no es un número abstracto — es el piso de lo que una persona necesita para reproducir su fuerza de trabajo.', quoteAuthor: 'Cremonte', quoteSource: '"Valor y precio de la fuerza de trabajo", 2023' }], tags: ['cremonte', 'consulta'], persona: p, time: this._timeNow() };
     }
-    return { role: 'hornero', sections: [{ title: 'IA Sindical', body: 'No tengo datos específicos sobre eso, pero puedo ayudarte con: paritaria aceitera, condiciones laborales, SMVM, reforma laboral, convenio CCT 420/05, organización sindical. ¿Qué te interesa?' }], tags: ['consulta'], persona: p, time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: 'Abogado/a', body: 'No tengo datos específicos sobre eso, pero puedo ayudarte con: paritaria aceitera, condiciones laborales, SMVM, reforma laboral, convenio CCT 420/05, organización sindical. ¿Qué te interesa?' }], tags: ['consulta'], persona: p, time: this._timeNow() };
   }
 
   _timeNow() {
@@ -537,7 +537,7 @@ class HorneroConsulta extends HoComponent {
     if (chatEl) {
       // Generate title from first user message or fallback
       const firstUserMsg = this.messages.find(m => m.role === 'user');
-      const title = firstUserMsg && firstUserMsg.title ? firstUserMsg.title : 'Consulta IA Sindical';
+      const title = firstUserMsg && firstUserMsg.title ? firstUserMsg.title : 'Consulta';
       const filename = title + '.txt';
       // Generate TXT content and trigger download
       chatEl._downloadTxt(this.messages, title, title);
@@ -558,7 +558,7 @@ class HorneroConsulta extends HoComponent {
   _handleChatExport(detail) {
     if (!this.messages || this.messages.length === 0) return;
     if (detail && detail.download) {
-      const title = detail.title || 'Consulta IA Sindical';
+      const title = detail.title || 'Consulta';
       this.messages = [...this.messages, {
         role: 'hornero',
         text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
@@ -575,9 +575,8 @@ class HorneroConsulta extends HoComponent {
     // All persona icon clicks navigate to that persona's screen
     const screenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
-      'companero': { screen: 'consulta', persona: 'companero' },
+      'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
-      'relator': { screen: 'gremial' },
       'historiador': { screen: 'historiador' },
     };
     const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);

@@ -1,4 +1,4 @@
-"""Backend Hornero — Chat IA Sindical proxy
+"""Backend Hornero — Chat proxy
 
 FastAPI minimal que recibe mensajes del chat, construye prompt sindical,
 llama a LLM externo (DeepSeek o Claude), devuelve respuesta estructurada.
@@ -46,7 +46,7 @@ APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
 
 # ===== FastAPI app =====
 app = FastAPI(
-    title="Hornero IA Sindical",
+    title="Hornero Chat",
     description="Backend proxy para chat IA sindical — LLM + knowledge base sindical + clipping dinámico",
     version="0.2.0",
 )
@@ -79,7 +79,7 @@ app.add_middleware(
 # ===== Helpers =====
 def validated_redirect(redirect_persona: str) -> str:
     """Validate redirect_persona field from LLM response."""
-    allowed = ["abogado", "companero", "periodista", "relator", "historiador", "ia-sindical", ""]
+    allowed = ["abogado", "companero", "periodista", "historiador", ""]
     if redirect_persona in allowed:
         return redirect_persona
     return ""
@@ -89,7 +89,7 @@ class GreetingRequest(BaseModel):
     section: str = "consulta"  # consulta|contenido|debate|historia
     grade: str = "A"
     sector: str = "aceitero"
-    requested_persona: str = ""  # companero|abogado|periodista|relator|historiador|ia-sindical — override
+    requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
     days_since_last_chat: int = 999  # Days since last chat session — affects greeting tone
 
@@ -100,7 +100,7 @@ class GreetingResponse(BaseModel):
     tags: list
     time: str
     raw: str = ""
-    persona: str = "ia-sindical"
+    persona: str = "abogado"
     redirect_persona: str = ""  # Derivation: persona to redirect to (empty = no redirect)
 
 
@@ -110,7 +110,7 @@ class ChatRequest(BaseModel):
     history: list = []  # [{role, text, sections}]
     grade: str = "A"
     sector: str = "aceitero"
-    requested_persona: str = ""  # companero|abogado|periodista|relator|historiador — override
+    requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
 
 
@@ -120,7 +120,7 @@ class ChatResponse(BaseModel):
     tags: list
     time: str
     raw: str = ""  # Raw LLM response for debugging
-    persona: str = "ia-sindical"  # Who responded: companero|abogado|periodista|relator|historiador|ia-sindical
+    persona: str = "abogado"  # Who responded: companero|abogado|periodista|historiador
     redirect_persona: str = ""  # Derivation: persona to redirect to (empty = no redirect)
 
 
@@ -158,7 +158,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     """
     # Greeting: no RAG retrieval needed (persona + principles are sufficient)
     # Use requested_persona if provided, otherwise section-based default
-    if req.requested_persona and req.requested_persona in ["companero", "abogado", "periodista", "relator", "historiador", "ia-sindical"]:
+    if req.requested_persona and req.requested_persona in ["companero", "abogado", "periodista", "historiador"]:
         effective_persona = req.requested_persona
     elif req.requested_persona and req.requested_persona in PERSONA_MAP:
         effective_persona = PERSONA_MAP.get(req.requested_persona, 'abogado')
@@ -205,7 +205,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
 
     # Determine persona from LLM response or fallback
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "historiador", "ia-sindical"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
 
     return GreetingResponse(
         text=parsed.get("text", ""),
@@ -287,7 +287,7 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse:
 
     # Determine persona from LLM response or fallback
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "historiador", "ia-sindical"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
 
     return ChatResponse(
         text=parsed.get("text", ""),
@@ -385,7 +385,7 @@ async def audio_chat_endpoint(
     time_str = now.strftime("%H:%M")
 
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "relator", "historiador", "ia-sindical"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
 
     return ChatResponse(
         text=parsed.get("text", ""),

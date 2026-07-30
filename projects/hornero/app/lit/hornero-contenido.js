@@ -233,7 +233,7 @@ class HorneroContenido extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '¡Hola! Soy la IA Sindical', body: 'Te guío para producir contenido sindical con impacto. Elegí un formato o pedí ayuda general sobre cualquier tema sindical.' },
+        { title: '¡Hola! Soy el Periodista', body: 'Te guío para producir contenido sindical con impacto. Elegí un formato o pedí ayuda general sobre cualquier tema sindical.' },
         { title: '', body: '', quote: 'Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Ciclo "Por las hendijas del Quebracho", enero 2021' },
       ],
       tags: ['contenido', 'greeting'],
@@ -373,7 +373,7 @@ class HorneroContenido extends HoComponent {
     if (lower.match(/podcast/)) {
       return { role: 'hornero', sections: [{ title: 'Podcast sindical', body: 'Audio narrado, 5-15 minutos. Se escucha en el colectivo, en la planta, en la asamblea. Contame tu tema y te propongo estructura, script y fuentes.' }, { title: '', body: '', quote: 'La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Asamblea paritaria aceitera, junio 2026' }], tags: ['podcast', 'contenido'], time: this._timeNow() };
     }
-    return { role: 'hornero', sections: [{ title: 'IA Sindical', body: 'Contame tu tema o formato. Puedo ayudarte con podcast, reel, columna, entrevista — o cualquier consulta sindical.' }], tags: ['contenido'], time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: 'Periodista', body: 'Contame tu tema o formato. Puedo ayudarte con podcast, reel, columna, entrevista — o cualquier consulta sindical.' }], tags: ['contenido'], time: this._timeNow() };
   }
 
   _timeNow() {
@@ -417,9 +417,8 @@ class HorneroContenido extends HoComponent {
   _handlePersonaNavigate(targetPersona, targetScreen) {
     const screenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
-      'companero': { screen: 'consulta', persona: 'companero' },
+      'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
-      'relator': { screen: 'gremial' },
       'historiador': { screen: 'historiador' },
     };
     const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);

@@ -20,7 +20,7 @@ class HorneroChat extends HoComponent {
       historyTitle: String, // Custom title for history drawer — default "Historial"
       informeBadge: Boolean, // True = outline grueso + fondo pálido (informe nuevo)
       informesTitle: String, // Custom title for informes drawer — default "Informes"
-      persona: String,      // Active persona: companero|abogado|periodista|relator|historiador
+      persona: String,      // Active persona: companero|abogado|periodista|historiador
       username: String,      // Login username for per-user data isolation
       grade: String,         // User grade (B.a, B.b, B.c, B.d) — controls Reportes Recibidos icon
     };
@@ -1000,14 +1000,13 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Persona icons — top-left corner (all 5 always visible, active one highlighted)
-    const allPersonas = ['relator', 'abogado', 'periodista', 'companero', 'historiador'];
+    const allPersonas = ['abogado', 'periodista', 'companero', 'historiador'];
     // Screen mapping for navigation
     const personaScreenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
-      'companero': { screen: 'consulta', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
-      'relator': { screen: 'gremial' },
-      'historiador': { screen: 'historiador' },
+      'companero': { screen: 'gremial', persona: 'companero' },
+      'historiador': { screen: 'historiador', persona: 'historiador' },
     };
     const personaIconsHtml = allPersonas.map((p, idx) => {
       const cfg = this._getPersonaConfig(p);
@@ -1047,11 +1046,11 @@ class HorneroChat extends HoComponent {
     const sectionConfig = {
       consulta:  { emoji: '📖', label: 'Consulta',  color: '#2B5278' },
       contenido: { emoji: '🎙️', label: 'Contenido', color: '#5A4A3A' },
-      debate:    { emoji: '✊', label: 'Compañero', color: '#7A3B1E' },
-      reporte:   { emoji: '🪶', label: 'Reporte',   color: '#3D6B56' },
+      debate:    { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E' },
+      reporte:   { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E' },
       historia:  { emoji: '📜', label: 'Historia',   color: '#4A3A5A' },
     };
-    const defaultSection = { emoji: '🪶', label: 'IA Sindical', color: '#3D6B56' };
+    const defaultSection = { emoji: '✊', label: 'Hornero', color: '#7A3B1E' };
 
     const historyDrawerHtml = this._showHistory ?
       `<div class="history-overlay">
@@ -1430,11 +1429,9 @@ class HorneroChat extends HoComponent {
   // ===== Persona config: avatar icon, name, colors per persona =====
   _getPersonaConfig(persona) {
     const map = {
-      'ia-sindical':  { emoji: '🪶', name: 'IA Sindical', bg: 'var(--ho-green-pale, #E0F0EB)', color: 'var(--ho-green-dark, #3D6B56)', img: 'assets/hornero-logo.png' },
       'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: 'assets/personajes/abogado.png' },
-      'companero':    { emoji: '✊', name: 'Compañera',      bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/companera.png' },
+      'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/companera.png' },
       'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/periodista.png' },
-      'relator':      { emoji: '📝', name: 'Relator/a', bg: '#E0E8D7', color: '#4A6A2C', img: 'assets/personajes/relator.png' },
       'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/historiadora.png' },
     };
     return map[persona] || map['abogado'];
@@ -2062,7 +2059,7 @@ class HorneroChat extends HoComponent {
           const text = msgContent ? msgContent.textContent.trim() : '';
           // Web Share API if available, otherwise copy
           if (navigator.share) {
-            navigator.share({ title: 'IA Sindical', text: text }).catch(() => {});
+            navigator.share({ title: 'Hornero', text: text }).catch(() => {});
           } else {
             // Fallback: copy to clipboard
             if (navigator.clipboard) {
@@ -2195,7 +2192,7 @@ class HorneroChat extends HoComponent {
     const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
 
     const lines = msgs.map(m => {
-      const role = m.role === 'user' ? '→ Trabajador' : '← IA Sindical';
+      const role = m.role === 'user' ? '→ Trabajador' : '← Hornero';
       const time = m.time ? ` [${m.time}]` : '';
       let content = '';
 
@@ -2258,7 +2255,7 @@ footer { font-family: monospace; font-size: .7rem; color: #9C988D; border-top: 1
 <h1>${chatTitle}</h1>
 <div class="meta">${dateStr} — ${timeStr}</div>
 ${msgs.map(m => {
-  const role = m.role === 'user' ? 'Trabajador' : 'IA Sindical';
+  const role = m.role === 'user' ? 'Trabajador' : 'Hornero';
   const roleClass = m.role === 'user' ? 'user' : 'hornero';
   const time = m.time ? ` <span class="msg-time">[${m.time}]</span>` : '';
   let contentHtml = '';
@@ -2292,7 +2289,7 @@ ${msgs.map(m => {
     ${tagsHtml}
   </div>`;
 }).join('<hr class="divider">')}
-<footer>Exportado de Hornero — IA Sindical</footer>
+<footer>Exportado de Hornero</footer>
 </body>
 </html>`;
   }
@@ -2320,7 +2317,7 @@ ${msgs.map(m => {
     const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
 
     const lines = msgs.map(m => {
-      const role = m.role === 'user' ? '→ Trabajador' : '← IA Sindical';
+      const role = m.role === 'user' ? '→ Trabajador' : '← Hornero';
       const time = m.time ? ` [${m.time}]` : '';
       let content = '';
       if (m.text) content = m.text;
@@ -2344,7 +2341,7 @@ ${msgs.map(m => {
       return `${role}${time}\n${content}`;
     });
 
-    return `${chatTitle}\n${dateStr} — ${timeStr}\n${'─'.repeat(60)}\n\n${lines.join('\n\n' + '─'.repeat(40) + '\n\n')}\n\n${'─'.repeat(60)}\nExportado de Hornero — IA Sindical`;
+    return `${chatTitle}\n${dateStr} — ${timeStr}\n${'─'.repeat(60)}\n\n${lines.join('\n\n' + '─'.repeat(40) + '\n\n')}\n\n${'─'.repeat(60)}\nExportado de Hornero`;
   }
 
   // Download as plain .txt file

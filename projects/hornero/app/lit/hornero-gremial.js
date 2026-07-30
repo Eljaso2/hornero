@@ -50,7 +50,7 @@ class HorneroGremial extends HoComponent {
     this._historyLoaded = false;
     this._sessionId = '';
     this._informeBadge = false;
-    this._activePersona = 'relator'; // Gremial always uses relator persona
+    this._activePersona = 'companero'; // Gremial always uses compañero persona
     this._username = ''; // login username for per-user data isolation
     this._viewingInforme = null; // Full-screen informe viewer overlay state
   }
@@ -397,7 +397,7 @@ class HorneroGremial extends HoComponent {
           section: 'reporte',
           grade: this.grade,
           sector: this.sector,
-          requested_persona: 'relator',
+          requested_persona: 'companero',
           days_since_last_chat: daysSinceLastChat,
         }),
       });
@@ -410,7 +410,7 @@ class HorneroGremial extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['reporte', 'greeting'],
-        persona: 'relator', // Force: gremial screen ALWAYS uses relator — never swap actors mid-chat
+        persona: 'companero', // Force: gremial screen ALWAYS uses compañero — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
         time: data.time || this._timeNow(),
       }];
@@ -518,7 +518,7 @@ class HorneroGremial extends HoComponent {
         history: history,
         grade: this.grade,
         sector: this.sector,
-        requested_persona: 'relator',
+        requested_persona: 'companero',
       }),
     });
 
@@ -530,7 +530,7 @@ class HorneroGremial extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['reporte'],
-      persona: 'relator', // Force: gremial screen ALWAYS uses relator — never swap actors mid-chat
+      persona: 'companero', // Force: gremial screen ALWAYS uses compañero — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
@@ -724,7 +724,7 @@ class HorneroGremial extends HoComponent {
         text: 'Abrimos tu informe para que lo puedas corregir. Lee el contenido y decime qué querés cambiar.',
         sections: informe.sections || [],
         tags: ['reporte', 'reporte-generado'],
-        persona: 'relator',
+        persona: 'companero',
         time: this._timeNow(),
         informe_id: informeId,  // link back to the saved informe
       };
@@ -733,7 +733,7 @@ class HorneroGremial extends HoComponent {
         role: 'hornero',
         text: '¿Qué querés corregir? Decime qué cambiar y lo ajusto.',
         tags: ['reporte', 'correccion-pendiente'],
-        persona: 'relator',
+        persona: 'companero',
         time: this._timeNow(),
       }];
 
@@ -791,7 +791,7 @@ class HorneroGremial extends HoComponent {
     formData.append('formato', 'reporte');
     formData.append('grade', this.grade);
     formData.append('sector', this.sector);
-    formData.append('requested_persona', 'relator');
+    formData.append('requested_persona', 'companero');
     formData.append('history', JSON.stringify(history));
 
     const response = await fetch(HorneroGremial.AUDIO_URL, {
@@ -807,11 +807,11 @@ class HorneroGremial extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['reporte', 'audio'],
-      persona: 'relator', // Force: gremial screen ALWAYS uses relator — never swap actors mid-chat
+      persona: 'companero', // Force: gremial screen ALWAYS uses compañero — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
     }];
-    this._activePersona = data.persona || 'relator';
+    this._activePersona = data.persona || 'companero';
     this._typing = false;
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) chatEl.resetAudioState();
@@ -820,7 +820,7 @@ class HorneroGremial extends HoComponent {
   }
 
   _localResponse(userText) {
-    // Relator investigates — asks follow-up questions, does NOT produce informe yet
+    // Compañero investigates — asks follow-up questions, does NOT produce informe yet
     return {
       role: 'hornero',
       text: 'Entendido. Quiero entender mejor la situación para poder elaborar un informe completo. ¿Podés contarme más detalles?',
@@ -929,9 +929,8 @@ class HorneroGremial extends HoComponent {
   _handlePersonaNavigate(targetPersona, targetScreen) {
     const screenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
-      'companero': { screen: 'consulta', persona: 'companero' },
+      'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
-      'relator': { screen: 'gremial' },
       'historiador': { screen: 'historiador' },
     };
     const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);

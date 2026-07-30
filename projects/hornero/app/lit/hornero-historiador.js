@@ -403,9 +403,8 @@ class HorneroHistoriador extends HoComponent {
   _handlePersonaNavigate(targetPersona, targetScreen) {
     const screenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
-      'companero': { screen: 'consulta', persona: 'companero' },
+      'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
-      'relator': { screen: 'gremial' },
       'historiador': { screen: 'historiador', persona: 'historiador' },
     };
     const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
