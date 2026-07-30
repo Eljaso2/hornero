@@ -147,11 +147,11 @@ class HorneroHome extends HoComponent {
   _styles() {
     return css`
       /* ===== Home container — no top padding → photo fuses with header ===== */
-      :host { display: block; padding: 0 16px 16px; background: #1E2321; }
+      :host { display: block; padding: 0 16px 16px; background: var(--ho-bg, #1E2321); }
 
       /* ===== Section name — kicker style, dark on light bg ===== */
       .esfera-name { font-family: 'Archivo', sans-serif; font-size: .92rem;
-        font-weight: 700; color: #E8E6E0; margin-bottom: 10px; }
+        font-weight: 700; color: var(--ho-text, #E8E6E0); margin-bottom: 10px; }
 
       /* ===== Section badge — overlay on carousel photo, right corner ===== */
       .section-badge { position: absolute; top: 10px; right: 12px; z-index: 3;
@@ -199,7 +199,7 @@ class HorneroHome extends HoComponent {
         padding: 8px 0; }
       .dot { width: 6px; height: 6px; border-radius: 50%;
         background: #9C988D; transition: background .2s; }
-      .dot.active { background: #4E9978; }
+      .dot.active { background: var(--ho-green, #4E9978); }
 
       /* --- InfoMate home card --- */
       .infomate-home { position: relative; margin-bottom: 16px;
@@ -211,7 +211,7 @@ class HorneroHome extends HoComponent {
         padding: 28px 16px 16px; }
       .infomate-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-        color: #E8E6E0; background: rgba(176,134,63,.35);
+        color: var(--ho-text, #E8E6E0); background: rgba(176,134,63,.35);
         border-radius: 6px; padding: 6px 10px; display: inline-block;
         margin-bottom: 14px; }
       .infomate-macro-row { display: flex; flex-wrap: wrap; gap: 6px;
@@ -260,11 +260,11 @@ class HorneroHome extends HoComponent {
         padding: 14px 6px; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; }
       .icon-btn:hover { opacity: .8; }
-      .icon-btn svg { width: 46px; height: 46px; stroke: #4E9978;
+      .icon-btn svg { width: 46px; height: 46px; stroke: var(--ho-green, #4E9978);
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
-        color: #E8E6E0; }
+        color: var(--ho-text, #E8E6E0); }
 
       /* ===== ESFERA 3: Panorama — hero card ===== */
       .panorama-card { position: relative; border-radius: 13px; margin-bottom: 10px;
@@ -321,8 +321,8 @@ class HorneroHome extends HoComponent {
       .esfera-card:hover { border-color: rgba(43,42,38,.18); }
       .esfera-card.locked { cursor: default; }
       .esfera-card .card-name { font-family: 'Archivo', sans-serif;
-        font-weight: 700; font-size: .92rem; color: #E8E6E0; }
-      .esfera-card .card-desc { font-size: .82rem; color: #6E6A60;
+        font-weight: 700; font-size: .92rem; color: var(--ho-text, #E8E6E0); }
+      .esfera-card .card-desc { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
         line-height: 1.4; margin-top: 4px; }
       .esfera-card .card-tag { font-family: 'JetBrains Mono', monospace;
         font-size: .62rem; background: #E0F0EB; color: #3D6B56;

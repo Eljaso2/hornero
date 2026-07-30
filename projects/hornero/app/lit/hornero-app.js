@@ -290,9 +290,9 @@ class HorneroApp extends HoComponent {
         /* Mobile: sections-bar dark to match header — no border (seamless merge) */
         .sections-bar { background: var(--ho-dark-surface, #3F4E4A);
           border-bottom: none; }
-        .sections-btn { color: var(--ho-text-light, #7A766C); }
-        .sections-btn.active { color: var(--ho-green-light, #80CCA0);
-          border-bottom-color: var(--ho-green-light, #80CCA0); }
+        .sections-btn { color: var(--ho-sections-text, var(--ho-text-light, #7A766C)); }
+        .sections-btn.active { color: var(--ho-sections-active, var(--ho-green-light, #80CCA0));
+          border-bottom-color: var(--ho-sections-active, var(--ho-green-light, #80CCA0)); }
         .header-text .app-brand-img { height: 44px; }
         .floating-back-btn { background: var(--ho-dark-surface, #3F4E4A);
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
@@ -350,13 +350,13 @@ class HorneroApp extends HoComponent {
         scrollbar-width: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .sections-bar::-webkit-scrollbar { width: 0; }
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
-        font-weight: 600; color: var(--ho-text-mid, #7A766C);
+        font-weight: 600; color: var(--ho-sections-text, var(--ho-text-mid, #7A766C));
         background: none; border: none; cursor: pointer;
         padding: 6px 12px; white-space: nowrap;
         border-bottom: 2px solid transparent;
         transition: color .2s, border-color .2s; }
-      .sections-btn.active { color: var(--ho-green, #4E9978);
-        border-bottom-color: var(--ho-green, #4E9978); }
+      .sections-btn.active { color: var(--ho-sections-active, var(--ho-green, #4E9978));
+        border-bottom-color: var(--ho-sections-active, var(--ho-green, #4E9978)); }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
@@ -925,13 +925,13 @@ class HorneroApp extends HoComponent {
     const lightVars = {
       '--ho-bg': '#F8F6F0',
       '--ho-card': '#FFFFFF',
-      '--ho-dark': '#F0EDE5',
-      '--ho-dark-surface': '#E8E4DB',
-      '--ho-dark-mid': '#D5D0C8',
+      '--ho-dark': '#1B4332',
+      '--ho-dark-surface': '#234D3B',
+      '--ho-dark-mid': '#2D5E4A',
       '--ho-text': '#1E2321',
       '--ho-text-mid': '#5A5650',
       '--ho-text-light': '#7A766C',
-      '--ho-text-off': '#1E2321',
+      '--ho-text-off': '#F2F1EC',
       '--ho-green': '#3D7A5E',
       '--ho-green-light': '#4E9978',
       '--ho-green-pale': '#E0F0EB',
@@ -942,6 +942,8 @@ class HorneroApp extends HoComponent {
       '--ho-shadow': 'rgba(0,0,0,.15)',
       '--ho-warm-gray': '#D5D0C8',
       '--ho-mid-gray': '#E8E4DB',
+      '--ho-sections-text': 'rgba(242,241,236,.55)',
+      '--ho-sections-active': '#80CCA0',
     };
     if (this.theme === 'light') {
       Object.entries(lightVars).forEach(([k, v]) => this.style.setProperty(k, v));
@@ -957,7 +959,7 @@ class HorneroApp extends HoComponent {
     if (!metaTheme) return;
 
     const isLight = this.theme === 'light';
-    const appBg = isLight ? '#F8F6F0' : '#1E2321';
+    const appBg = isLight ? '#1B4332' : '#1E2321';
     const loginBg = isLight ? '#F8F6F0' : '#1E2321';
 
     // Login screen or main app → same bg

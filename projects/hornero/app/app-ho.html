@@ -23,9 +23,10 @@
       try{s=JSON.parse(localStorage.getItem('hornero-session'))}catch(e){}
       var t=localStorage.getItem('hornero-theme')||'dark';
       var c=t==='light'?'#F8F6F0':'#1E2321';
+      var tc=t==='light'?'#1B4332':'#1E2321';
       document.documentElement.style.setProperty('background',c,'important');
       var m=document.querySelector('meta[name="theme-color"]');
-      if(m)m.setAttribute('content',c);
+      if(m)m.setAttribute('content',tc);
       window._hoInitBg=c;
       window._hoInitTheme=t;
     })();
@@ -192,7 +193,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?v=210"></script>
+  <script type="module" src="lit/hornero-components.js?v=211"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){
