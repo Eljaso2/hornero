@@ -287,8 +287,8 @@ class HorneroPerfil extends HoComponent {
 
         <!-- Notificaciones push -->
         <div class="notif-card">
-          <div class="info-card-title">🔔 Recibí una alerta cuando hay un nuevo clipping disponible</div>
-          <div class="notif-row">
+          <div class="theme-row">
+            <span class="theme-label">🔔 Notificaciones</span>
             <div class="toggle-switch${this.pushEnabled ? ' active' : ''}" id="push-toggle"></div>
           </div>
           ${this.pushPermission === 'denied' ? '<div style="margin-top:8px"><span class="notif-status denied">Bloqueado</span></div>' : ''}
@@ -296,7 +296,7 @@ class HorneroPerfil extends HoComponent {
 
         <!-- Theme toggle -->
         <div class="theme-row">
-          <span class="theme-label">☀️ Modo de día</span>
+          <span class="theme-label">☀️ Claro / Oscuro</span>
           <button class="theme-toggle${this.theme === 'light' ? ' active' : ''}" id="themeToggle">
             <span class="theme-toggle-knob"></span>
           </button>
