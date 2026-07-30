@@ -273,8 +273,8 @@ class HorneroApp extends HoComponent {
           font-family: 'JetBrains Mono', monospace; }
       }
       @media(max-width:499px){
-        .app-wrap { height: 100dvh; overflow: hidden; }
-        .phone { width: 100%; height: 100dvh; overflow: hidden; }
+        .app-wrap { position: fixed; inset: 0; overflow: hidden; }
+        .phone { width: 100%; height: 100%; overflow: hidden; }
         .screen { background: var(--ho-dark, #1E2321); display: flex;
           flex-direction: column; position: relative;
           height: 100%; overflow: hidden; }

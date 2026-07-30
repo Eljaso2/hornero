@@ -39,10 +39,10 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
   .phone{width:412px;background:var(--ho-dark);border-radius:46px;padding:12px;box-shadow:0 40px 80px -30px var(--ho-shadow);position:sticky;top:40px}
   .screen{background:var(--ho-bg);border-radius:35px;overflow:hidden;height:824px;display:flex;flex-direction:column;position:relative}
 }
-/* Mobile: full screen native — dark bg matches login, screen content uses ho-bg */
+/* Mobile: full screen native — fixed position prevents keyboard push-up */
 @media(max-width:499px){
-  .app-wrap{height:100dvh;overflow:hidden;background:var(--ho-bg,#1E2321)}
-  .phone{width:100%;height:100dvh;overflow:hidden;background:var(--ho-bg,#1E2321)}
+  .app-wrap{position:fixed;inset:0;overflow:hidden;background:var(--ho-bg,#1E2321)}
+  .phone{width:100%;height:100%;overflow:hidden;background:var(--ho-bg,#1E2321)}
   .screen{background:var(--ho-bg);display:flex;flex-direction:column;position:relative;height:100%;overflow:hidden}
 }
 

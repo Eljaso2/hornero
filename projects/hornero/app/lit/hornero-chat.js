@@ -890,30 +890,30 @@ class HorneroChat extends HoComponent {
         color: var(--ho-text-off, #F2F1EC); }
       .suggestion-emoji { font-size: 1.4rem; }
 
-      /* === Input bar: fondo CLARO (no gris oscuro) === */
+      /* === Input bar: fondo CLARO (no gris oscuro) — compact === */
       .chat-input { background: var(--ho-bg, #1E2321);
         border-top: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px));
-        display: flex; align-items: center; gap: 8px; flex: none; }
+        padding: 6px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+        display: flex; align-items: center; gap: 6px; flex: none; }
 
       .chat-input-field { flex: 1; background: var(--ho-card, #2A3230);
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 22px; padding: 0 14px; font-size: .92rem;
+        border-radius: 22px; padding: 0 14px; font-size: .88rem;
         color: var(--ho-text, #E8E6E0); font-family: 'Public Sans', sans-serif;
         outline: none; transition: border-color .2s;
-        height: 36px; max-height: 120px;
+        height: 34px; max-height: 120px;
         resize: none; overflow-y: hidden;
-        line-height: 36px; vertical-align: middle; }
+        line-height: 34px; vertical-align: middle; }
       .chat-input-field:focus { border-color: var(--ho-green, #4E9978); }
       .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
 
-      /* Input toolbar buttons */
-      .chat-toolbar { display: flex; align-items: center; gap: 4px; flex: none; align-self: center; }
-      .chat-toolbar-btn { width: 36px; height: 36px; border-radius: 50%;
+      /* Input toolbar buttons — compact */
+      .chat-toolbar { display: flex; align-items: center; gap: 3px; flex: none; align-self: center; }
+      .chat-toolbar-btn { width: 32px; height: 32px; border-radius: 50%;
         border: none; cursor: pointer; display: flex; align-items: center;
         justify-content: center; flex: none; transition: background .2s, transform .15s; }
       .chat-toolbar-btn:hover { transform: scale(1.08); }
-      .chat-toolbar-btn svg { width: 18px; height: 18px; stroke-width: 2;
+      .chat-toolbar-btn svg { width: 16px; height: 16px; stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
       .chat-attach-btn { background: var(--ho-green-pale, #E0F0EB); }
@@ -1693,6 +1693,28 @@ class HorneroChat extends HoComponent {
     const fileInput = this.shadowRoot.querySelector('.chat-file-input');
     const removeAttachBtn = this.shadowRoot.querySelector('.chat-attach-remove');
 
+    // === Visual Viewport: adjust chat height when keyboard opens ===
+    // Prevents the entire page from scrolling up (losing conversation)
+    // and keeps input bar visible above the keyboard
+    if (!this._visualViewportSetup) {
+      this._visualViewportSetup = true;
+      if (window.visualViewport) {
+        const onViewportChange = () => {
+          const kbHeight = window.innerHeight - window.visualViewport.height;
+          if (kbHeight > 50) {
+            // Keyboard is open — shrink chat to fit above keyboard
+            const rect = this.getBoundingClientRect();
+            this.style.height = (window.visualViewport.height - rect.top) + 'px';
+          } else {
+            // Keyboard closed — restore full height
+            this.style.height = '';
+          }
+        };
+        window.visualViewport.addEventListener('resize', onViewportChange);
+        window.visualViewport.addEventListener('scroll', onViewportChange);
+      }
+    }
+
     // === History button (top-right corner) → open drawer ===
     const historyBtn = this.shadowRoot.querySelector('#chatHistoryBtn');
     if (historyBtn) {
@@ -1751,24 +1773,27 @@ class HorneroChat extends HoComponent {
       inputField.addEventListener('input', updateToolbar);
 
       // === Auto-resize textarea: grow with content, shrink when empty ===
-      const LINE_H = 36; // Single-line height (matches CSS)
+      // Fix: measure with the SAME styles used for display (line-height + padding)
+      // to avoid extra empty lines appearing below the text
       const autoResize = () => {
-        // Reset to single-line to measure actual content
-        inputField.style.height = LINE_H + 'px';
-        inputField.style.padding = '0 14px';
-        inputField.style.lineHeight = LINE_H + 'px';
+        // Set multi-line styles FIRST so scrollHeight is accurate
+        inputField.style.padding = '6px 14px';
+        inputField.style.lineHeight = '20px';
+        // Shrink to 0 to force accurate scrollHeight measurement
+        inputField.style.height = '0';
         const scrollH = inputField.scrollHeight;
-        if (scrollH > LINE_H) {
-          // Multi-line: let browser calculate exact height via auto
-          inputField.style.height = 'auto';
-          const actualH = inputField.scrollHeight;
-          const targetH = Math.min(actualH, 120);
-          inputField.style.height = targetH + 'px';
-          inputField.style.padding = '6px 14px';
-          inputField.style.lineHeight = '20px';
-          inputField.style.overflowY = targetH >= 120 ? 'auto' : 'hidden';
-        } else {
+
+        if (scrollH <= 34) {
+          // Single line — centered vertically
+          inputField.style.height = '34px';
+          inputField.style.padding = '0 14px';
+          inputField.style.lineHeight = '34px';
           inputField.style.overflowY = 'hidden';
+        } else {
+          // Multi-line — grow exactly to fit content, no extra lines
+          const targetH = Math.min(scrollH, 120);
+          inputField.style.height = targetH + 'px';
+          inputField.style.overflowY = targetH >= 120 ? 'auto' : 'hidden';
         }
       };
       inputField.addEventListener('input', autoResize);
@@ -1789,9 +1814,9 @@ class HorneroChat extends HoComponent {
         if (text || detail.image || detail.video) {
           this.emit('chat-send', detail);
           inputField.value = '';
-          inputField.style.height = '36px';
+          inputField.style.height = '34px';
           inputField.style.padding = '0 14px';
-          inputField.style.lineHeight = '36px';
+          inputField.style.lineHeight = '34px';
           this.suggestions = [];
           this.render();
         }
