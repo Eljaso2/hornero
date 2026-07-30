@@ -7,6 +7,7 @@ var _vapidPublicKey = '';
 var _vapidPublicKeyFallback = '-VxkGMqre712s9bEP1OSLMc8nihD1lLEiMOCAgGAmixC2g7LWIhXSwrgeDaia923LpSQs5IzpBHCojVDBd_OVA';
 var _pushBackendUrl = '';
 var _isSubscribed = false;
+var _vapidKeyReady = null; // Promise that resolves when VAPID key is available
 
 // ===== Init =====
 function initPushSubscription() {
@@ -19,8 +20,8 @@ function initPushSubscription() {
   // Detectar backend URL desde la config
   _detectBackendUrl();
 
-  // Obtener VAPID key del backend
-  _fetchVapidKey();
+  // Obtener VAPID key del backend (returns a promise)
+  _vapidKeyReady = _fetchVapidKey();
 
   // Verificar estado actual de suscripción
   navigator.serviceWorker.ready.then(function(reg) {
@@ -49,9 +50,9 @@ function _detectBackendUrl() {
 function _fetchVapidKey() {
   if (!_pushBackendUrl) {
     _vapidPublicKey = _vapidPublicKeyFallback;
-    return;
+    return Promise.resolve(_vapidPublicKey);
   }
-  fetch(_pushBackendUrl + '/api/push/vapid-key')
+  return fetch(_pushBackendUrl + '/api/push/vapid-key')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.publicKey) {
@@ -59,11 +60,14 @@ function _fetchVapidKey() {
         console.log('Push: VAPID key recibida del backend');
       } else {
         _vapidPublicKey = _vapidPublicKeyFallback;
+        console.log('Push: backend devolvió key vacía — usando fallback');
       }
+      return _vapidPublicKey;
     })
     .catch(function(e) {
       console.warn('Push: no se pudo obtener VAPID key del backend — usando fallback');
       _vapidPublicKey = _vapidPublicKeyFallback;
+      return _vapidPublicKey;
     });
 }
 
@@ -83,29 +87,34 @@ function requestNotificationPermission() {
 
 // ===== Subscribe =====
 function subscribeUser() {
-  if (!_vapidPublicKey) {
-    console.warn('Push: no hay VAPID key — no se puede suscribir');
-    return Promise.reject('No VAPID key');
-  }
+  // Asegurar que la VAPID key esté disponible antes de suscribir
+  var vapidReady = _vapidKeyReady || Promise.resolve(_vapidPublicKey || _vapidPublicKeyFallback);
 
-  return navigator.serviceWorker.ready.then(function(reg) {
-    return reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: _urlBase64ToUint8Array(_vapidPublicKey)
+  return vapidReady.then(function() {
+    if (!_vapidPublicKey) {
+      console.warn('Push: no hay VAPID key — no se puede suscribir');
+      return Promise.reject('No VAPID key');
+    }
+
+    return navigator.serviceWorker.ready.then(function(reg) {
+      return reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: _urlBase64ToUint8Array(_vapidPublicKey)
+      });
+    }).then(function(subscription) {
+      console.log('Push: suscripción creada');
+      _isSubscribed = true;
+      // Enviar al backend
+      return _sendSubscriptionToServer(subscription);
+    }).then(function() {
+      _updatePushUI();
+      return true;
+    }).catch(function(e) {
+      console.warn('Push: suscripción falló', e);
+      _isSubscribed = false;
+      _updatePushUI();
+      throw e;
     });
-  }).then(function(subscription) {
-    console.log('Push: suscripción creada');
-    _isSubscribed = true;
-    // Enviar al backend
-    return _sendSubscriptionToServer(subscription);
-  }).then(function() {
-    _updatePushUI();
-    return true;
-  }).catch(function(e) {
-    console.warn('Push: suscripción falló', e);
-    _isSubscribed = false;
-    _updatePushUI();
-    throw e;
   });
 }
 

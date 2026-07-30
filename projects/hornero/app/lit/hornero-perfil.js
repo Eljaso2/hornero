@@ -462,6 +462,20 @@ class HorneroPerfil extends HoComponent {
       this.pushPermission = ('Notification' in window) ? Notification.permission : 'unsupported';
       this.render();
     } else {
+      // Verificar si el browser soporta notificaciones
+      if (!('Notification' in window)) {
+        this.savedMsg = '⚠️ Tu navegador no soporta notificaciones';
+        this.pushPermission = 'unsupported';
+        this.render();
+        return;
+      }
+      // Verificar si el permiso ya fue denegado antes
+      if (Notification.permission === 'denied') {
+        this.savedMsg = '⚠️ Bloqueado por el navegador — habilitá notificaciones en Configuración';
+        this.pushPermission = 'denied';
+        this.render();
+        return;
+      }
       // Activar: primero pedir permiso, luego suscribir
       if (typeof requestNotificationPermission === 'function') {
         const permission = await requestNotificationPermission();
@@ -473,7 +487,8 @@ class HorneroPerfil extends HoComponent {
               this.pushEnabled = true;
               this.savedMsg = '🔔 Notificaciones activadas';
             } catch(e) {
-              this.savedMsg = '⚠️ No se pudo activar notificaciones';
+              console.warn('Perfil: push subscribe falló', e);
+              this.savedMsg = '⚠️ No se pudo activar notificaciones — verificá la conexión';
               this.pushEnabled = false;
             }
           }
