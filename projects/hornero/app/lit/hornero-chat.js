@@ -2592,7 +2592,6 @@ ${msgs.map(m => {
     overlay.className = 'export-confirm-overlay';
     overlay.innerHTML = `
       <div class="export-confirm-dialog">
-        <div class="export-confirm-icon">📥</div>
         <div class="export-confirm-title">¿Descargar la conversación?</div>
         <div class="export-confirm-subtitle">Se guardará como archivo de texto en tu dispositivo</div>
         <div class="export-confirm-actions">
