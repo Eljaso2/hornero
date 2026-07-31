@@ -404,6 +404,7 @@ class HorneroApp extends HoComponent {
         display: flex; align-items: center; justify-content: center; }
       .chat-choice-icon img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
+      .chat-choice-icon img.periodista-full { object-fit: contain; object-position: center; }
       .chat-choice-icon svg { width: 20px; height: 20px; stroke: var(--ho-green, #4E9978);
         stroke-width: 1.8; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
@@ -613,7 +614,7 @@ class HorneroApp extends HoComponent {
       // Helper for choice HTML with PNG icon
       const choiceHtml = (screen, persona, img, alt, emoji, name, desc, extraClass = '') =>
         `<div class="chat-choice ${extraClass}" data-screen="${screen}" ${persona ? `data-persona="${persona}"` : ''}>` +
-        `<div class="chat-choice-icon"><img src="${img}" alt="${alt}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="persona-choice-emoji" style="display:none">${emoji}</span></div>` +
+        `<div class="chat-choice-icon"><img src="${img}" alt="${alt}" class="${persona === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="persona-choice-emoji" style="display:none">${emoji}</span></div>` +
         `<div class="chat-choice-text"><div class="chat-choice-name">${name}</div><div class="chat-choice-desc">${desc}</div></div></div>`;
 
       // Helper for extra choice with SVG icon (Mis Chats, Mis Reportes, Recibidos)
