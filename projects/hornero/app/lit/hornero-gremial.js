@@ -641,6 +641,19 @@ class HorneroGremial extends HoComponent {
       }
     }
 
+    // Detect missing reporte — user says it's not in their list after approval
+    const isMissingReporte = lower.match(/\b(no est[aá]|no aparece|no lo veo|no lo encuentro|no est[aá] guardado|no se guard[oó]|falta el informe|no figura)\b/);
+    if (isMissingReporte) {
+      const approvedReporte = [...this.messages].reverse().find(m =>
+        m.role === 'hornero' && m.tags && m.tags.includes('reporte-aprobado')
+      );
+      if (approvedReporte) {
+        // Check if the informe actually exists in the DB
+        this._verifyAndResaveInforme(approvedReporte, text);
+        return;
+      }
+    }
+
     // Generate title for session from the first user message
     const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
     const title = isFirstUserMsg ? this._generateTitle(text, 'reporte') : undefined;
@@ -974,6 +987,92 @@ class HorneroGremial extends HoComponent {
         tags: ['reporte', 'correccion-pendiente'],
         time: this._timeNow(),
       }];
+      this._saveChatHistory();
+      this.render();
+    }
+  }
+
+  // Verify if an approved informe exists in the DB — if not, re-save it
+  async _verifyAndResaveInforme(reportMsg, userText) {
+    // Add user message
+    this.messages = [...this.messages, { role: 'user', text: userText, time: this._timeNow() }];
+    this._saveChatHistory();
+    this.render();
+
+    try {
+      // Check if any informe exists for this user with recent date
+      const session = this._getSession();
+      const username = session.username || this._username || '';
+      let informes = [];
+      if (typeof obtenerInformesTodos === 'function') {
+        informes = await obtenerInformesTodos(username);
+      }
+      // Check if the most recent informe matches the approved reporte
+      const reporteContent = (reportMsg.text || '').substring(0, 100);
+      const found = informes.some(inf => {
+        const infContent = (inf.contenido || '').substring(0, 100);
+        return infContent === reporteContent ||
+               (inf.sections && inf.sections.length === (reportMsg.sections || []).length &&
+                inf.fecha === new Date().toISOString().slice(0, 10));
+      });
+
+      if (found) {
+        // Informe exists — just tell the user
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: `El informe está guardado. Abrí **Mis Reportes** (el ícono de documento arriba a la derecha) y lo vas a ver ahí.`,
+          tags: ['reporte', 'informe-ya-existe'],
+          open_informes: true,
+          time: this._timeNow(),
+        }];
+        this._saveChatHistory();
+        this.render();
+      } else {
+        // Informe not found — re-save it
+        try {
+          const result = await this._saveInforme(reportMsg);
+          this._informeBadge = true;
+          const numero = result ? result.numero : '';
+          this.messages = [...this.messages, {
+            role: 'hornero',
+            text: `Tenías razón, el informe no se había guardado. Ya lo guardé${numero ? ' como Reporte Gremial N°' + numero : ''}. Lo tenés en **Mis Reportes**.`,
+            tags: ['reporte', 'informe-reguardado'],
+            open_informes: true,
+            time: this._timeNow(),
+          }];
+        } catch(e) {
+          this.messages = [...this.messages, {
+            role: 'hornero',
+            text: 'No pude guardarlo de nuevo. Probá tocando el botón **Aprobar** que aparece en el informe, o contactá soporte.',
+            tags: ['reporte', 'informe-error'],
+            time: this._timeNow(),
+          }];
+        }
+        this._saveChatHistory();
+        this.render();
+      }
+    } catch(e) {
+      console.warn('Gremial: verify informe failed', e);
+      // If DB check fails, try re-saving anyway
+      try {
+        const result = await this._saveInforme(reportMsg);
+        this._informeBadge = true;
+        const numero = result ? result.numero : '';
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: `Lo re-guardé${numero ? ' como Reporte Gremial N°' + numero : ''}. Lo tenés en **Mis Reportes**.`,
+          tags: ['reporte', 'informe-reguardado'],
+          open_informes: true,
+          time: this._timeNow(),
+        }];
+      } catch(e2) {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: 'No pude guardarlo. Probá tocando el botón **Aprobar** en el informe.',
+          tags: ['reporte', 'informe-error'],
+          time: this._timeNow(),
+        }];
+      }
       this._saveChatHistory();
       this.render();
     }
