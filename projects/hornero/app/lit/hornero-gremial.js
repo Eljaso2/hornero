@@ -606,6 +606,41 @@ class HorneroGremial extends HoComponent {
       return;
     }
 
+    // Detect approval of a pending reporte — intercept before sending to backend
+    const isApproval = lower.match(/^(s[ií]|s[ií] señor|s[ií] señora|dale|aprobado|aprobá|apru[ée]bo|confirmo|est[aá] bien|est[aá] perfecto|dalo por aprobado|guardalo|guard[aá])$/);
+    if (isApproval) {
+      const pendingReporte = [...this.messages].reverse().find(m =>
+        m.role === 'hornero' && m.tags && m.tags.includes('reporte-generado') && !m.tags.includes('reporte-aprobado')
+      );
+      if (pendingReporte) {
+        // Add user message
+        this.messages = [...this.messages, { role: 'user', text: text, time: this._timeNow() }];
+        this._saveChatHistory();
+        this.render();
+        // Auto-approve the reporte
+        this._handleReporteAction({ action: 'aprobar' });
+        return;
+      }
+    }
+
+    // Detect rejection/correction of a pending reporte
+    const isCorrection = lower.match(/^(no|correg[ií]|correg[ií]r|cambiar|modificar|ajustar|editar|algo est[aá] mal|no es as[ií])$/) ||
+      lower.match(/\b(no est[aá] bien|no es eso|algo para corregir|quiero cambiar|modificar algo)\b/);
+    if (isCorrection) {
+      const pendingReporte = [...this.messages].reverse().find(m =>
+        m.role === 'hornero' && m.tags && m.tags.includes('reporte-generado') && !m.tags.includes('reporte-aprobado')
+      );
+      if (pendingReporte) {
+        // Add user message
+        this.messages = [...this.messages, { role: 'user', text: text, time: this._timeNow() }];
+        this._saveChatHistory();
+        this.render();
+        // Auto-trigger correction
+        this._handleReporteAction({ action: 'corregir' });
+        return;
+      }
+    }
+
     // Generate title for session from the first user message
     const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
     const title = isFirstUserMsg ? this._generateTitle(text, 'reporte') : undefined;
@@ -919,8 +954,15 @@ class HorneroGremial extends HoComponent {
         // Activate informe badge (icon turns green-pale)
         this._informeBadge = true;
 
-        // No extra confirmation messages — the card itself changes visual state
-        // The reporte card gets estado-aceptado class which hides approve/correct buttons
+        // Brief confirmation message — NOT the full reporte again
+        const confirmMsg = {
+          role: 'hornero',
+          text: `✅ Informe guardado. Lo tenés en **Mis Reportes**.`,
+          tags: ['reporte', 'informe-guardado'],
+          open_informes: true, // Renders "Ver mis informes" button
+          time: this._timeNow(),
+        };
+        this.messages = [...this.messages, confirmMsg];
         this._saveChatHistory();
         this.render();
       }
