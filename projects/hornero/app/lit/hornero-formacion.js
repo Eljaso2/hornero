@@ -266,16 +266,16 @@ class HorneroFormacion extends HoComponent {
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
         padding: 20px 16px 14px; display: flex; flex-direction: column;
-        align-items: center; justify-content: center; gap: 8px;
+        align-items: flex-start; gap: 10px;
         flex-shrink: 0; }
-      .hero-banner-img { width: 100%; max-width: 320px; height: auto;
+      .hero-banner-img { width: 100%; max-width: 280px; height: auto;
         display: block; }
       :host(.theme-light) .hero-banner-img { filter: brightness(0.85); }
-      .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .78rem;
+      .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: center; max-width: 340px; }
+        text-align: left; }
       .hero-bajada-link { display: inline-block; margin-top: 4px;
-        font-family: 'Archivo', sans-serif; font-size: .72rem; font-weight: 600;
+        font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
 
