@@ -591,24 +591,20 @@ class HorneroGremial extends HoComponent {
     this._stopProgressiveReveal(); // Clear any existing timer
     this._progressiveRevealFull = fullText;
     this._progressiveRevealIndex = 0;
-    const chunkSize = 3; // Characters per tick — feels natural, not too fast
-    const interval = 18; // ms between ticks — ~55 chars/sec, readable pace
+    const chunkSize = 3; // Characters per tick
+    const interval = 18; // ms between ticks — ~55 chars/sec
     this._progressiveRevealTimer = setInterval(() => {
       this._progressiveRevealIndex += chunkSize;
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
         // Done — show full text
         this._stopProgressiveReveal();
         if (chatEl) {
-          chatEl.streamingText = this._progressiveRevealFull;
-          chatEl._streamingPersona = persona;
-          chatEl.render();
+          chatEl.updateStreamingText(this._progressiveRevealFull);
         }
         return;
       }
       if (chatEl) {
-        chatEl.streamingText = this._progressiveRevealFull.substring(0, this._progressiveRevealIndex);
-        chatEl._streamingPersona = persona;
-        chatEl.render();
+        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex));
       }
     }, interval);
   }
@@ -688,10 +684,10 @@ class HorneroGremial extends HoComponent {
                 if (content.length > 50 && !this._progressiveRevealTimer) {
                   this._startProgressiveReveal(streamingText, chatEl, streamingPersona);
                 } else {
-                  // Small chunk (true streaming) — show immediately
+                  // Small chunk (true streaming) — update DOM directly, no full render
                   chatEl.streamingText = streamingText;
                   chatEl._streamingPersona = streamingPersona;
-                  chatEl.render();
+                  chatEl.updateStreamingText(streamingText);
                 }
               }
             }

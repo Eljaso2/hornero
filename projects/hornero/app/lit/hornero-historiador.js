@@ -324,16 +324,12 @@ class HorneroHistoriador extends HoComponent {
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
         this._stopProgressiveReveal();
         if (chatEl) {
-          chatEl.streamingText = this._progressiveRevealFull;
-          chatEl._streamingPersona = persona;
-          chatEl.render();
+          chatEl.updateStreamingText(this._progressiveRevealFull);
         }
         return;
       }
       if (chatEl) {
-        chatEl.streamingText = this._progressiveRevealFull.substring(0, this._progressiveRevealIndex);
-        chatEl._streamingPersona = persona;
-        chatEl.render();
+        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex));
       }
     }, interval);
   }
@@ -415,7 +411,7 @@ class HorneroHistoriador extends HoComponent {
                   // Small chunk (true streaming) — show immediately
                   chatEl.streamingText = streamingText;
                   chatEl._streamingPersona = streamingPersona;
-                  chatEl.render();
+                  chatEl.updateStreamingText(streamingText);
                 }
               }
             }

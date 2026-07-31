@@ -257,6 +257,21 @@ class HorneroChat extends HoComponent {
     }
   }
 
+  // Public method: update streaming text WITHOUT full re-render
+  // Only updates the DOM element — avoids flicker during progressive reveal
+  updateStreamingText(text) {
+    this.streamingText = text;
+    const streamingEl = this.shadowRoot.querySelector('.streaming-text');
+    if (streamingEl) {
+      streamingEl.innerHTML = this._formatMarkdown(text);
+      // Auto-scroll to bottom
+      const scroll = this.shadowRoot.querySelector('.chat-scroll');
+      if (scroll) {
+        scroll.scrollTop = scroll.scrollHeight;
+      }
+    }
+  }
+
   // Public method: parent components call this when audio processing completes
   // (transcription done, LLM response received) — resets mic to idle state
   resetAudioState() {
@@ -651,7 +666,7 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 76px; /* room for history btn + informes btn */
+        padding-top: 56px; /* room for persona icons row */
         -webkit-overflow-scrolling: touch; }
 
       /* Animations */
