@@ -28,6 +28,7 @@ class HorneroChat extends HoComponent {
       hidePersonaBar: Boolean, // Hide persona icons in top bar (e.g. Historia Obrera)
       hideInformesBtn: Boolean, // Hide Mis Reportes button in top bar
       centerLogo: String,      // URL for a small logo in the top bar center (when persona bar is hidden)
+      noAutoScroll: Boolean,   // Disable auto-scroll (e.g. when banner is visible above)
     };
   }
 
@@ -51,6 +52,7 @@ class HorneroChat extends HoComponent {
     this.hidePersonaBar = false;
     this.hideInformesBtn = false;
     this.centerLogo = '';
+    this.noAutoScroll = false;
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
     this._mediaStream = null;   // MediaStream from getUserMedia
@@ -276,7 +278,7 @@ class HorneroChat extends HoComponent {
       // Auto-scroll to bottom
       const scroll = this.shadowRoot.querySelector('.chat-scroll');
       if (scroll) {
-        scroll.scrollTop = scroll.scrollHeight;
+        this._autoScroll();
       }
     }
   }
@@ -787,6 +789,9 @@ class HorneroChat extends HoComponent {
         height: 48px; display: flex; align-items: center; justify-content: space-between;
         padding: 0 8px; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      :host(.theme-light) .chat-top-bar,
+      :host([data-theme="light"]) .chat-top-bar {
+        background: var(--ho-green-pale, #E0F0EB); }
       .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
@@ -1845,7 +1850,20 @@ class HorneroChat extends HoComponent {
   }
 
   _afterRender() {
-    // === Mark drawers as stable after first render (prevent slideIn replay) ===
+    // === Apply theme class to host for CSS selectors ===
+    if (this.theme === 'light') {
+      this.classList.add('theme-light');
+    } else {
+      this.classList.remove('theme-light');
+    }
+
+  _autoScroll() {
+    if (this.noAutoScroll) return;
+    const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    this._autoScroll();
+  }
+
+  // === Mark drawers as stable after first render (prevent slideIn replay) ===
     if (this._showHistory) this._historyDrawerStable = true;
     if (this._showInformes) this._informesDrawerStable = true;
     if (this._showRecibidos) this._recibidosDrawerStable = true;
@@ -2486,7 +2504,7 @@ class HorneroChat extends HoComponent {
 
     // Scroll to bottom after render
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
-    if (scroll) scroll.scrollTop = scroll.scrollHeight;
+    this._autoScroll();
   }
 
   // ===== Export chat as downloadable text/HTML document =====
@@ -2753,7 +2771,7 @@ ${msgs.map(m => {
     // Do NOT close drawers when a new message arrives — keep them open
     this.render();
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
-    if (scroll) scroll.scrollTop = scroll.scrollHeight;
+    this._autoScroll();
   }
 
   deleteMessage(msgIndex) {
@@ -2767,7 +2785,7 @@ ${msgs.map(m => {
       this.render();
       // Scroll to bottom after deletion
       const scroll = this.shadowRoot.querySelector('.chat-scroll');
-      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+      this._autoScroll();
     }
   }
 
@@ -2779,7 +2797,7 @@ ${msgs.map(m => {
     this.suggestions = arr || [];
     this.render();
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
-    if (scroll) scroll.scrollTop = scroll.scrollHeight;
+    this._autoScroll();
   }
 
   clearSuggestions() {
@@ -2810,7 +2828,7 @@ ${msgs.map(m => {
     // Scroll to bottom after drawer close (delay ensures layout is complete)
     setTimeout(() => {
       const scroll = this.shadowRoot.querySelector('.chat-scroll');
-      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+      this._autoScroll();
     }, 100);
   }
 
@@ -2853,7 +2871,7 @@ ${msgs.map(m => {
     // Scroll to bottom after drawer close (delay ensures layout is complete)
     setTimeout(() => {
       const scroll = this.shadowRoot.querySelector('.chat-scroll');
-      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+      this._autoScroll();
     }, 100);
   }
 
@@ -2888,7 +2906,7 @@ ${msgs.map(m => {
     this.emit('chat-state-changed', {});
     setTimeout(() => {
       const scroll = this.shadowRoot.querySelector('.chat-scroll');
-      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+      this._autoScroll();
     }, 100);
   }
 

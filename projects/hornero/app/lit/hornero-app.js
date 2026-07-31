@@ -204,6 +204,54 @@ class HorneroApp extends HoComponent {
 
     this.titles.recibidos = 'Reportes Recibidos';
     this._parentScreen.recibidos = 'chat';
+    // Map sub-screens to their parent bottom-nav button
+    this._navParentMap = {
+      actualidad: 'actualidad',
+      clipping: 'actualidad',
+      infomate: 'actualidad',
+      chat: 'chat',
+      consulta: 'chat',
+      contenido: 'chat',
+      historiador: 'chat',
+      misConversaciones: 'chat',
+      misReportes: 'chat',
+      recibidos: 'chat',
+      gremial: 'gremial',
+      condicion: 'condicion',
+      smvm: 'condicion',
+      felicidad: 'condicion',
+      ve: 'condicion',
+      ecosistema: 'home',
+      formacion: 'home',
+      is: 'home',
+      archivo: 'home',
+      argumento: 'home',
+      comunicador: 'home',
+    };
+    // Map sub-screens to their parent section in the sections bar
+    this._sectionParentMap = {
+      actualidad: 'actualidad',
+      clipping: 'clipping',
+      infomate: 'infomate',
+      chat: 'chat',
+      consulta: 'chat',
+      contenido: 'contenido',
+      historiador: 'historiador',
+      misConversaciones: 'chat',
+      misReportes: 'chat',
+      recibidos: 'chat',
+      gremial: 'gremial',
+      is: 'gremial',
+      condicion: 'condicion',
+      smvm: 'smvm',
+      felicidad: 'felicidad',
+      ve: 've',
+      ecosistema: 'ecosistema',
+      formacion: 'formacion',
+      archivo: 'home',
+      argumento: 'home',
+      comunicador: 'home',
+    };
   }
 
   // Recibidos NOT in nav bottom — only in chat top-right for grades B.b/B.c/B.d
@@ -578,11 +626,8 @@ class HorneroApp extends HoComponent {
     const currentTitle = this.titles[this.screen] || 'Hornero';
     // Header only visible on Home screen
     const showHeader = this.screen === 'home';
-    // Chat screens: hide bottom-nav
-    const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido' || this.screen === 'gremial' || this.screen === 'historiador' || this.screen === 'formacion';
-    // Sections bar always visible (active section highlighted)
-    const showSectionsBar = true;
-    const showBottomNav = !isChatScreen;
+    // Bottom nav always visible — active section highlighted
+    const showBottomNav = true;
 
     // Build screen content
     let screenContent = '';
@@ -703,12 +748,14 @@ class HorneroApp extends HoComponent {
             ${showSectionsBar ? '<div class="sections-bar">' +
               this.sectionsDef.map(s => {
                 const badgeHtml = (this.newClippingAvailable && s.id === 'clipping') ? '<span class="sections-badge"></span>' : '';
-                return '<button class="sections-btn' + (s.id === this.screen ? ' active' : '') + '" data-screen="' + s.id + '">' + s.label + badgeHtml + '</button>';
+                // Resolve active section: sub-screens map to parent section
+                const activeSection = this._sectionParentMap[this.screen] || this.screen;
+                return '<button class="sections-btn' + (s.id === activeSection ? ' active' : '') + '" data-screen="' + s.id + '">' + s.label + badgeHtml + '</button>';
               }).join('') +
               '</div>' : ''}
 
             <div class="body-scroll">
-              ${(!showHeader && !showBottomNav && !isChatScreen) ? '<button class="floating-back-btn" id="floatingBackBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
+              ${(!showHeader && !showBottomNav) ? '<button class="floating-back-btn" id="floatingBackBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
               ${screenContent}
             </div>
 
@@ -722,7 +769,9 @@ class HorneroApp extends HoComponent {
                   ? '<img class="' + (n.id === 'home' && this.theme === 'light' ? 'nav-bird-icon' : '') + '" src="' + imgSrc + '" alt="' + n.label + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><svg viewBox="0 0 24 24" style="display:none">' + n.svg + '</svg>'
                   : '<svg viewBox="0 0 24 24">' + n.svg + '</svg>';
                 const badgeHtml = (this.newClippingAvailable && n.id === 'actualidad') ? '<span class="nav-badge"></span>' : '';
-                return '<button class="nav-btn' + (n.id === this.screen ? ' active' : '') + '" data-screen="' + n.id + '">' +
+                // Resolve active nav: sub-screens map to parent nav button
+                const activeNav = this._navParentMap[this.screen] || this.screen;
+                return '<button class="nav-btn' + (n.id === activeNav ? ' active' : '') + '" data-screen="' + n.id + '">' +
                   iconHtml + badgeHtml +
                   '<span class="label">' + n.label + '</span>' +
                   '</button>';
@@ -736,6 +785,11 @@ class HorneroApp extends HoComponent {
   }
 
   _afterRender() {
+    // Auto-scroll sections bar to show active section
+    const activeSectionBtn = this.shadowRoot.querySelector('.sections-btn.active');
+    if (activeSectionBtn) {
+      activeSectionBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
     // Bind sections bar button clicks (top navigation)
     this.shadowRoot.querySelectorAll('.sections-btn').forEach(btn => {
       btn.addEventListener('click', () => {
