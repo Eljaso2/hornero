@@ -1133,6 +1133,19 @@ async def chat_session_delete(username: str = "", sessionId: str = ""):
         conn.close()
 
 
+@app.delete("/api/chat/clear-all")
+async def chat_clear_all():
+    """Clear ALL chat messages for ALL users. Used for one-time cleanup."""
+    conn = _get_chat_db()
+    try:
+        cursor = conn.execute("DELETE FROM chat_messages")
+        conn.commit()
+        logger.info(f"Chat clear-all: deleted {cursor.rowcount} messages")
+        return {"deleted": cursor.rowcount}
+    finally:
+        conn.close()
+
+
 # ===== Response parser =====
 def parse_llm_response(raw: str) -> dict:
     """Parse LLM response into structured format.
