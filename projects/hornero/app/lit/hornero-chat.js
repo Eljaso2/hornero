@@ -790,7 +790,7 @@ class HorneroChat extends HoComponent {
         padding: 0 8px; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
-      .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
+      .chat-top-bar-center { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
       .chat-top-bar-right { display: flex; align-items: center; gap: 4px; }
@@ -1280,24 +1280,28 @@ class HorneroChat extends HoComponent {
         </div>
       </div>` : '';
 
-    // Informes drawer — estado labels (updated for hierarchical flow)
+    // Informes drawer — estado labels (3 estados claros)
     const estadoLabelMap = {
       'pendiente': '⏳ Pendiente de revisión',
-      'aceptado': '✅ Aprobado por trabajador',
-      'visto': '👁 Visto por delegado',
-      'aprobado': '✅ Aprobado por delegado',
-      'aprobado-delegado': '✅ Aprobado por delegado',
-      'corregido': '📝 Modificado',
-      'corregido-delegado': '📝 Corregido por delegado',
-      'enviado': '📤 Enviado',
-      'publicado': '📢 Publicado',
+      'aprobado': '✅ Aprobado sin cambios',
+      'aprobado-con-cambios': '📝 Aprobado con cambios',
+      // Legacy compat
+      'aprobado-delegado': '✅ Aprobado sin cambios',
+      'corregido-delegado': '📝 Aprobado con cambios',
+      'visto': '⏳ Pendiente de revisión',
+      'aceptado': '✅ Aprobado sin cambios',
+      'corregido': '📝 Aprobado con cambios',
     };
     const estadoClassMap = {
       'pendiente': 'estado-pendiente',
-      'aceptado': 'estado-aceptado',
-      'visto': 'estado-visto',
       'aprobado': 'estado-aprobado',
-      'corregido': 'estado-corregido',
+      'aprobado-con-cambios': 'estado-con-cambios',
+      // Legacy compat
+      'aprobado-delegado': 'estado-aprobado',
+      'corregido-delegado': 'estado-con-cambios',
+      'visto': 'estado-pendiente',
+      'aceptado': 'estado-aprobado',
+      'corregido': 'estado-con-cambios',
     };
     const informesDrawerHtml = this._showInformes ?
       `<div class="informes-overlay">

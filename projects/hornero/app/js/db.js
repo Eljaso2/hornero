@@ -379,6 +379,9 @@ function actualizarEstadoInforme(id, estado) {
 
 // Correcciones (additive traceability)
 function guardarCorreccion(correccion) { return dbPut('correcciones', correccion); }
+function guardarCorreccionBatch(correcciones) {
+  return Promise.all(correcciones.map(function(c) { return dbPut('correcciones', c); }));
+}
 function obtenerCorrecciones(informeId) { return dbGetByIndex('correcciones', 'informeId', informeId); }
 function obtenerCorreccionesPorGrado(grado) { return dbGetByIndex('correcciones', 'correctorGrado', grado); }
 
