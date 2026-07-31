@@ -62,6 +62,9 @@ class HorneroGremial extends HoComponent {
     this._username = ''; // login username for per-user data isolation
     this._viewingInforme = null; // Full-screen informe viewer overlay state
     this._cachedIncomingReports = []; // Cached incoming reports for sending to backend
+    this._progressiveRevealTimer = null; // Timer for progressive text reveal
+    this._progressiveRevealFull = ''; // Full text to reveal progressively
+    this._progressiveRevealIndex = 0; // Current reveal position
   }
 
   connectedCallback() {
@@ -540,6 +543,8 @@ class HorneroGremial extends HoComponent {
   }
 
   _handleUserMessage(text) {
+    // Stop any ongoing progressive reveal
+    this._stopProgressiveReveal();
     // Detect export keywords — download current chat or last reporte as document
     // Only match explicit export requests, not incidental words in normal conversation
     const lower = text.toLowerCase().trim();
@@ -579,6 +584,42 @@ class HorneroGremial extends HoComponent {
         this.render();
       });
     });
+  }
+
+  _startProgressiveReveal(fullText, chatEl, persona) {
+    // Reveal text progressively — simulates streaming for non-streaming backends
+    this._stopProgressiveReveal(); // Clear any existing timer
+    this._progressiveRevealFull = fullText;
+    this._progressiveRevealIndex = 0;
+    const chunkSize = 3; // Characters per tick — feels natural, not too fast
+    const interval = 18; // ms between ticks — ~55 chars/sec, readable pace
+    this._progressiveRevealTimer = setInterval(() => {
+      this._progressiveRevealIndex += chunkSize;
+      if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
+        // Done — show full text
+        this._stopProgressiveReveal();
+        if (chatEl) {
+          chatEl.streamingText = this._progressiveRevealFull;
+          chatEl._streamingPersona = persona;
+          chatEl.render();
+        }
+        return;
+      }
+      if (chatEl) {
+        chatEl.streamingText = this._progressiveRevealFull.substring(0, this._progressiveRevealIndex);
+        chatEl._streamingPersona = persona;
+        chatEl.render();
+      }
+    }, interval);
+  }
+
+  _stopProgressiveReveal() {
+    if (this._progressiveRevealTimer) {
+      clearInterval(this._progressiveRevealTimer);
+      this._progressiveRevealTimer = null;
+    }
+    this._progressiveRevealFull = '';
+    this._progressiveRevealIndex = 0;
   }
 
   async _callBackendStream(text) {
@@ -643,9 +684,15 @@ class HorneroGremial extends HoComponent {
               streamingText += content;
               this._typing = false; // Hide typing dots once we have text
               if (chatEl) {
-                chatEl.streamingText = streamingText;
-                chatEl._streamingPersona = streamingPersona;
-                chatEl.render();
+                // If chunk is large (non-streaming fallback), reveal progressively
+                if (content.length > 50 && !this._progressiveRevealTimer) {
+                  this._startProgressiveReveal(streamingText, chatEl, streamingPersona);
+                } else {
+                  // Small chunk (true streaming) — show immediately
+                  chatEl.streamingText = streamingText;
+                  chatEl._streamingPersona = streamingPersona;
+                  chatEl.render();
+                }
               }
             }
           }
@@ -667,6 +714,7 @@ class HorneroGremial extends HoComponent {
                   time: data.time || this._timeNow(),
                 }];
                 // Clear streaming state
+                this._stopProgressiveReveal();
                 if (chatEl) {
                   chatEl.streamingText = '';
                   chatEl._streamingPersona = '';
@@ -688,6 +736,7 @@ class HorneroGremial extends HoComponent {
       }
     } catch (e) {
       // Stream interrupted — if we have partial text, save it as a message
+      this._stopProgressiveReveal();
       if (streamingText) {
         this.messages = [...this.messages, {
           role: 'hornero',
@@ -731,10 +780,39 @@ class HorneroGremial extends HoComponent {
     if (!response.ok) throw new Error('Backend error: ' + response.status);
 
     const data = await response.json();
+    const responseText = data.text || '';
+    const responseSections = data.sections || [];
+
+    // Progressive reveal for non-streaming fallback
+    if (responseText && responseText.length > 50) {
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) {
+        this._typing = false;
+        this._startProgressiveReveal(responseText, chatEl, 'companero');
+        // Wait for reveal to finish, then add message
+        const revealDone = new Promise((resolve) => {
+          const check = setInterval(() => {
+            if (!this._progressiveRevealTimer) {
+              clearInterval(check);
+              resolve();
+            }
+          }, 50);
+        });
+        // Timeout: if reveal takes too long, force finish
+        const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
+        await Promise.race([revealDone, timeout]);
+        this._stopProgressiveReveal();
+        if (chatEl) {
+          chatEl.streamingText = '';
+          chatEl._streamingPersona = '';
+        }
+      }
+    }
+
     this.messages = [...this.messages, {
       role: 'hornero',
-      text: data.text || '',
-      sections: data.sections || [],
+      text: responseText,
+      sections: responseSections,
       tags: data.tags || ['reporte'],
       persona: 'companero', // Force: gremial screen ALWAYS uses compañero — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
