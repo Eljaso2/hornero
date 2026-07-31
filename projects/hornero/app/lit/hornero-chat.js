@@ -55,13 +55,16 @@ class HorneroChat extends HoComponent {
     this._audioProcessing = false; // "Transcribiendo..." state
     this._detectAudioMimeType(); // detect browser-supported audio format
     this._showHistory = false; // history drawer state
+    this._historyDrawerStable = false; // prevent slideIn replay on re-render
     this._historySessions = []; // cached session list
     this._showInformes = false; // informes drawer state
+    this._informesDrawerStable = false; // prevent slideIn replay on re-render
     this._informesList = [];    // cached informes list (own informes)
     this._informesEntrantes = []; // incoming informes from lower grades (cross-user)
     this._expandedReports = {}; // message index → boolean (expanded/collapsed)
     this._exportInProgress = false; // debounce guard for export button
     this._showRecibidos = false; // recibidos drawer state
+    this._recibidosDrawerStable = false; // prevent slideIn replay on re-render
     this._recibidosBadge = false; // badge on recibidos icon
     this.streamingText = ''; // Live streaming text — when non-empty, shows as "in progress" message
     this._streamingPersona = ''; // Persona for the streaming message
@@ -375,6 +378,7 @@ class HorneroChat extends HoComponent {
         background: var(--ho-bg, #1E2321); display: flex; flex-direction: column;
         box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease;
         touch-action: pan-y; }
+      .recibidos-drawer.stable { animation: none; }
 
       /* Informes drawer overlay */
       .informes-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -386,6 +390,7 @@ class HorneroChat extends HoComponent {
         background: var(--ho-bg, #1E2321); display: flex; flex-direction: column;
         box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease;
         touch-action: pan-y; }
+      .informes-drawer.stable { animation: none; }
       .informes-drawer.swiping { animation: none; transition: none; }
       .informes-drawer.swipe-closing { animation: none; transition: transform .25s ease-out; }
 
@@ -492,6 +497,7 @@ class HorneroChat extends HoComponent {
         background: var(--ho-bg, #1E2321); display: flex; flex-direction: column;
         box-shadow: -4px 0 20px rgba(0,0,0,.15); animation: slideIn .3s ease;
         touch-action: pan-y; /* allow vertical scroll inside, but capture horizontal swipe */ }
+      .history-drawer.stable { animation: none; }
       .history-drawer.swiping { animation: none; transition: none; }
       .history-drawer.swipe-closing { animation: none; transition: transform .25s ease-out; }
       @keyframes slideIn { from { transform: translateX(100%); } to { transform: none; } }
@@ -1192,7 +1198,7 @@ class HorneroChat extends HoComponent {
 
     const historyDrawerHtml = this._showHistory ?
       `<div class="history-overlay">
-        <div class="history-drawer">
+        <div class="history-drawer${this._historyDrawerStable ? ' stable' : ''}">
           <div class="history-header">
             <button class="history-back-btn" id="historyBackBtn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1262,7 +1268,7 @@ class HorneroChat extends HoComponent {
     };
     const informesDrawerHtml = this._showInformes ?
       `<div class="informes-overlay">
-        <div class="informes-drawer">
+        <div class="informes-drawer${this._informesDrawerStable ? ' stable' : ''}">
           <div class="informes-header">
             <button class="informes-back-btn" id="informesBackBtn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1387,7 +1393,7 @@ class HorneroChat extends HoComponent {
 
       ${isHigherGrade ? (this._showRecibidos ?
         `<div class="recibidos-overlay">
-          <div class="recibidos-drawer">
+          <div class="recibidos-drawer${this._recibidosDrawerStable ? ' stable' : ''}">
             <div class="informes-header">
               <button class="informes-back-btn" id="recibidosBackBtn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1738,9 +1744,10 @@ class HorneroChat extends HoComponent {
         return `<div class="msg-section">${content}</div>${divider}`;
       }).join('');
     }
-    // Tags rendered for both text and sections modes
-    const tagsHtml = m.tags ?
-      `<div class="msg-tags">${m.tags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
+    // Tags rendered for both text and sections modes (hide respuesta-libre in live chat)
+    const visibleTags = (m.tags || []).filter(t => t !== 'respuesta-libre');
+    const tagsHtml = visibleTags.length > 0 ?
+      `<div class="msg-tags">${visibleTags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
     contentHtml += tagsHtml;
 
     // Download card — clickable file attachment for exported chats
@@ -2666,7 +2673,7 @@ ${msgs.map(m => {
     const current = this.messages || [];
     current.push(msg);
     this.messages = current;
-    this._showHistory = false; // Close drawer when new message arrives
+    // Do NOT close drawers when a new message arrives — keep them open
     this.render();
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll) scroll.scrollTop = scroll.scrollHeight;
