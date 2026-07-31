@@ -626,12 +626,17 @@ class HorneroChat extends HoComponent {
         font-family: 'Public Sans', sans-serif; font-size: .84rem;
         color: var(--ho-text, #E8E6E0); line-height: 1.6; }
 
-      /* Clasificación section — structured labels */
+      /* Clasificación section — structured labels with inline tag badges */
       .reporte-card-section[data-section-type="clasificacion"] .reporte-card-section-body {
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
       .reporte-card-section[data-section-type="clasificacion"] .reporte-card-section-body strong {
         color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
+      .reporte-card-section[data-section-type="clasificacion"] .clasif-tag {
+        display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
+        padding: 2px 8px; border-radius: 6px; font-weight: 600;
+        vertical-align: middle; margin: 0 2px; line-height: 1.4; }
 
       /* Extractos del diálogo section — quote style */
       .reporte-card-section[data-section-type="extractos"] .reporte-card-section-body {
@@ -1650,7 +1655,14 @@ class HorneroChat extends HoComponent {
         else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
         if (i > 0 && s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
         else if (i > 0) content += `<div class="reporte-card-section-title">Detalle</div>`;
-        if (s.body) content += `<div class="reporte-card-section-body">${this._formatMarkdown(s.body)}</div>`;
+        if (s.body) {
+          let bodyHtml = this._formatMarkdown(s.body);
+          // In Clasificación section: convert #tag patterns into visual tag badges
+          if (sectionType === 'clasificacion') {
+            bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="reporte-card-tag clasif-tag">#$1</span>');
+          }
+          content += `<div class="reporte-card-section-body">${bodyHtml}</div>`;
+        }
         const divider = (i < m.sections.length - 1) ? '<div class="reporte-card-divider"></div>' : '';
         return `<div class="reporte-card-section" data-section-type="${sectionType}">${content}</div>${divider}`;
       }).join('');

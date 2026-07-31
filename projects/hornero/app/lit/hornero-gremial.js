@@ -119,6 +119,11 @@ class HorneroGremial extends HoComponent {
         font-size: .84rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.55; }
       .inform-view-section[data-section-type="clasificacion"] .inform-view-section-body strong {
         color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
+      .inform-view-section[data-section-type="clasificacion"] .clasif-tag {
+        display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        padding: 2px 8px; border-radius: 6px; font-weight: 600;
+        vertical-align: middle; margin: 0 2px; line-height: 1.4; }
       .inform-view-section[data-section-type="extractos"] .inform-view-section-body {
         font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
@@ -225,7 +230,14 @@ class HorneroGremial extends HoComponent {
       else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
       if (s.title) content += `<div class="inform-view-section-title">${s.title}</div>`;
       else if (i > 0) content += `<div class="inform-view-section-title">Detalle</div>`;
-      if (s.body) content += `<div class="inform-view-section-body">${this._formatMarkdown(s.body)}</div>`;
+      if (s.body) {
+        let bodyHtml = this._formatMarkdown(s.body);
+        // In Clasificación section: convert #tag patterns into visual tag badges
+        if (sectionType === 'clasificacion') {
+          bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="inform-view-tag clasif-tag">#$1</span>');
+        }
+        content += `<div class="inform-view-section-body">${bodyHtml}</div>`;
+      }
       const divider = (i < (inf.sections || []).length - 1) ?
         '<div class="inform-view-section-divider"></div>' : '';
       return `<div class="inform-view-section" data-section-type="${sectionType}">${content}</div>${divider}`;

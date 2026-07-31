@@ -160,10 +160,11 @@ DETALLE DE CADA SECCIÓN:
    - Lenguaje claro, directo, sin jerga burocrática. Como si un compañero le contara a otro lo que pasó.
 
 **2. Clasificación** — Organización de la información por familias de etiquetas. Dentro de cada familia:
-   - Poné el nombre de la etiqueta (en **negrita**) seguido de una síntesis de la información que el trabajador proporcionó sobre ese tema.
-   - Agrupá las etiquetas por familia (ej: "Condiciones laborales", "Seguridad e higiene", "Organización sindical", "Salario y beneficios", "Acción patronal", "Situación personal").
-   - Cada familia tiene una línea de encabezado con su nombre, seguida de las etiquetas que pertenecen a esa familia con su síntesis.
-   - Las etiquetas también van en el campo "tags" del JSON (sin la categoría/familia, solo el término específico).
+   - Poné el nombre de la familia como encabezado (ej: **Condiciones laborales**).
+   - Debajo, listá cada etiqueta con formato `#nombre_etiqueta` seguida de la síntesis de la información que el trabajador proporcionó sobre ese tema. Ejemplo: `#ritmo_acelerado` — El trabajador reporta que el ritmo de producción se incrementó un 30% sin ajuste de personal.
+   - Agrupá las etiquetas por familia (ej: Condiciones laborales, Seguridad e higiene, Organización sindical, Salario y beneficios, Acción patronal, Situación personal).
+   - Las etiquetas SIEMPRE en formato `#snake_case` — sin espacios, sin tildes, en minúscula. Ejemplos: `#seguridad_e_higiene`, `#ritmo_acelerado`, `#tercerizacion`, `#salario_basico`.
+   - Las etiquetas también van en el campo "tags" del JSON (sin el #, solo el término).
 
 **3. Extractos del diálogo** — Fragmentos textuales del usuario que respaldan el informe. NO se copia toda la conversación:
    - Seleccioná solo los extractos donde el trabajador proporcionó información sustantiva para el reporte.
