@@ -124,9 +124,9 @@ function initDB() {
 // ===== One-time cleanup: clear chatHistory + informes (local + backend) =====
 // Runs only once (flag in localStorage), then auto-removes itself
 // Bumping version triggers re-run for all users on next load
-// v11: per-user cleanup (no nuclear clear-all), borra solo datos del usuario actual
+// v12: per-user cleanup (no nuclear clear-all), borra solo datos del usuario actual
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v11') return Promise.resolve(false);
+  if (localStorage.getItem('hornero-chats-cleared') === 'v12') return Promise.resolve(false);
   console.log('DB: one-time cleanup — clearing chatHistory + informes for current user (local + backend)');
   var session = {};
   try { session = JSON.parse(localStorage.getItem('hornero-session') || '{}'); } catch(e) {}
@@ -134,7 +134,7 @@ function limpiarChatsYReportes() {
   return borrarChatsUsuario(username).then(function() {
     return borrarInformesUsuario(username);
   }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v11');
+    localStorage.setItem('hornero-chats-cleared', 'v12');
     console.log('DB: cleanup complete — chatHistory + informes cleared for user', username, '(local + backend)');
     return true;
   }).catch(function(e) {
