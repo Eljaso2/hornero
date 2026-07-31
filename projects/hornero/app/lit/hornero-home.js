@@ -300,7 +300,7 @@ class HorneroHome extends HoComponent {
         color: #F2F1EC; }
       .panorama-overlay .card-name { font-family: 'Archivo', sans-serif;
         font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
-        text-transform: uppercase; }
+        text-transform: uppercase; color: #6BAF8D; }
       .panorama-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .panorama-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
@@ -319,7 +319,7 @@ class HorneroHome extends HoComponent {
         color: #F2F1EC; }
       .formacion-overlay .card-name { font-family: 'Archivo', sans-serif;
         font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
-        text-transform: uppercase; }
+        text-transform: uppercase; color: #6BAF8D; }
       .formacion-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .formacion-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
@@ -341,7 +341,7 @@ class HorneroHome extends HoComponent {
         color: #F2F1EC; }
       .archivo-overlay .card-name { font-family: 'Archivo', sans-serif;
         font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
-        text-transform: uppercase; }
+        text-transform: uppercase; color: #6BAF8D; }
       .archivo-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .archivo-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
