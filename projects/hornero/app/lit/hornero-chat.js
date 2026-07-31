@@ -2227,14 +2227,16 @@ class HorneroChat extends HoComponent {
               if (typeof actualizarEstadoInforme === 'function') {
                 actualizarEstadoInforme(infId, 'visto').then(() => {
                   this.emit('informes-select', { informeId: infId });
-                  this._closeInformesDrawer();
+                  if (this._showRecibidos) this._closeRecibidosDrawer();
+                  else this._closeInformesDrawer();
                 });
                 return; // Don't emit yet — wait for state update
               }
             }
           } catch(e) {}
           this.emit('informes-select', { informeId: infId });
-          this._closeInformesDrawer();
+          if (this._showRecibidos) this._closeRecibidosDrawer();
+          else this._closeInformesDrawer();
         }
       });
     });
@@ -2246,7 +2248,8 @@ class HorneroChat extends HoComponent {
         const infId = btn.dataset.editInforme;
         if (infId) {
           this.emit('informes-edit', { informeId: infId });
-          this._closeInformesDrawer();
+          if (this._showRecibidos) this._closeRecibidosDrawer();
+          else this._closeInformesDrawer();
         }
       });
     });
