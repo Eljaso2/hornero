@@ -792,6 +792,7 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
+      :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
       .chat-top-bar-right { display: flex; align-items: center; gap: 4px; }
 
       /* Back button inside top bar */
