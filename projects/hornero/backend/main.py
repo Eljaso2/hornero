@@ -594,6 +594,7 @@ async def audio_chat_endpoint(
         clipping_items=get_clipping(),
         query=transcript,
         requested_persona=requested_persona,
+        grade=grade,
     )
     effective_persona = PERSONA_MAP.get(formato, 'abogado')
     if requested_persona:
@@ -601,7 +602,7 @@ async def audio_chat_endpoint(
             effective_persona = requested_persona
         elif requested_persona in PERSONA_MAP:
             effective_persona = requested_persona
-    format_hint = get_format_hint(formato)
+    format_hint = get_format_hint(formato, grade)
 
     full_message = f"{format_hint}\n\nPregunta del trabajador (mensaje de audio): {transcript}"
 
