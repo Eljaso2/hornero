@@ -414,7 +414,10 @@ function guardarChatMsg(msg) {
   // Ensure msg has id and timestamp
   if (!msg.id) msg.id = generarUUID();
   if (!msg.timestamp) msg.timestamp = Date.now();
-  return dbPut('chatHistory', msg);
+  return dbPut('chatHistory', msg).then(function(result) {
+    _syncMsgToBackend(msg); // Push to backend (fire-and-forget)
+    return result;
+  });
 }
 
 function obtenerChatHistory(section) {
@@ -436,7 +439,24 @@ function borrarChatHistory(section) {
 
 function obtenerChatSessionMessages(sessionId) {
   return dbGetByIndex('chatHistory', 'sessionId', sessionId).then(function(messages) {
-    return (messages || []).sort(function(a, b) { return a.timestamp - b.timestamp; });
+    messages = (messages || []).sort(function(a, b) { return a.timestamp - b.timestamp; });
+    // If no local messages, try fetching from backend
+    if (messages.length === 0) {
+      var session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+      var username = session.username || '';
+      if (username) {
+        return fetchChatSessionMessagesFromBackend(username, sessionId).then(function(remoteMsgs) {
+          if (remoteMsgs && remoteMsgs.length > 0) {
+            // Merge into local IDB
+            return _mergeRemoteMessages(remoteMsgs).then(function() {
+              return remoteMsgs.sort(function(a, b) { return a.timestamp - b.timestamp; });
+            });
+          }
+          return messages;
+        });
+      }
+    }
+    return messages;
   });
 }
 
@@ -444,7 +464,11 @@ function obtenerChatSessions(username) {
   // Returns distinct sessions with metadata: sessionId, section, timestamp, preview
   // Preview = first user question (not IA greeting which is always the same)
   // If username provided, only return sessions belonging to that user
-  return dbGetAll('chatHistory').then(function(allMessages) {
+  // Sync: pull remote sessions first, merge into local, then return local
+  var pullPromise = username ? _fetchAndMergeRemoteSessions(username) : Promise.resolve();
+  return pullPromise.then(function() {
+    return dbGetAll('chatHistory');
+  }).then(function(allMessages) {
     if (!allMessages || allMessages.length === 0) return [];
     // Filter by username — strict: only show messages belonging to this user
     // No backward-compat leak: messages with empty/undefined username are excluded
@@ -503,6 +527,10 @@ function obtenerChatSessions(username) {
 
 function borrarChatSession(sessionId) {
   return obtenerChatSessionMessages(sessionId).then(function(messages) {
+    // Delete from backend first (get username from first message)
+    if (messages && messages.length > 0 && messages[0].username) {
+      _deleteChatSessionFromBackend(messages[0].username, sessionId);
+    }
     return Promise.all((messages || []).map(function(m) { return dbDelete('chatHistory', m.id); }));
   });
 }
