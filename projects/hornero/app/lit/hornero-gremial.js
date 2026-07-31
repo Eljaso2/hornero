@@ -325,6 +325,10 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('persona-redirect', (e) => {
         this._handlePersonaNavigate(e.detail.persona);
       });
+      // Listen for back button → go to chat landing
+      chatEl.addEventListener('chat-back', () => {
+        this.emit('screen-change', { screen: 'chat' });
+      });
     }
 
     // === Informe viewer overlay action buttons ===

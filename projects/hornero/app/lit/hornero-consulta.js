@@ -143,6 +143,10 @@ class HorneroConsulta extends HoComponent {
       chatEl.addEventListener('persona-redirect', (e) => {
         this._handlePersonaNavigate(e.detail.persona);
       });
+      // Listen for back button → go to chat landing
+      chatEl.addEventListener('chat-back', () => {
+        this.emit('screen-change', { screen: 'chat' });
+      });
       // Listen for audio message from mic recording
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);

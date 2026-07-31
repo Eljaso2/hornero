@@ -139,6 +139,10 @@ class HorneroHistoriador extends HoComponent {
       chatEl.addEventListener('persona-redirect', (e) => {
         this._handlePersonaNavigate(e.detail.persona);
       });
+      // Listen for back button → go to chat landing
+      chatEl.addEventListener('chat-back', () => {
+        this.emit('screen-change', { screen: 'chat' });
+      });
       chatEl.addEventListener('chat-audio', (e) => {
         this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
       });
