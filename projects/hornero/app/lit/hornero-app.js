@@ -300,6 +300,10 @@ class HorneroApp extends HoComponent {
       this.set('userTerritory', session.territory);
       this.set('userSector', session.sector || 'aceitero');
       this.set('userName', session.nombre || session.username);
+      // Iniciar full sync: pull datos remotos + push datos locales + syncQueue
+      if (typeof iniciarFullSync === 'function') {
+        iniciarFullSync(session.username);
+      }
     }
   }
 
@@ -1234,6 +1238,10 @@ class HorneroApp extends HoComponent {
       this.set('userTerritory', session.territory);
       this.set('userSector', session.sector || 'aceitero');
       this.set('userName', session.nombre || session.username);
+      // Iniciar full sync al hacer login
+      if (typeof iniciarFullSync === 'function') {
+        iniciarFullSync(session.username);
+      }
     });
 
     // Listen for logout from any child component (Perfil screen)

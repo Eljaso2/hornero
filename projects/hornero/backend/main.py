@@ -1025,6 +1025,7 @@ async def chat_sync(req: ChatSyncRequest):
                     timestamp=excluded.timestamp,
                     title=excluded.title,
                     redirect_persona=excluded.redirect_persona
+                WHERE excluded.timestamp > chat_messages.timestamp
             """, (
                 msg.get("id"),
                 msg.get("sessionId", ""),
@@ -1152,20 +1153,27 @@ INFORMES_DB_PATH = os.path.join(os.path.dirname(__file__), "informes.db")
 
 
 def _get_informes_db():
-    """Get or create SQLite connection for informes + table."""
+    """Get or create SQLite connection for informes + correcciones tables."""
     conn = sqlite3.connect(INFORMES_DB_PATH)
     conn.row_factory = sqlite3.Row
+    # Informes: campos que el frontend envía (contenido, sections, etiquetas, datosDuros, numero)
+    # Legacy: relato, clasificacion, ficha, tags se mantienen por compatibilidad
     conn.execute("""
         CREATE TABLE IF NOT EXISTS informes (
             id TEXT PRIMARY KEY,
             grado INTEGER NOT NULL,
+            numero INTEGER DEFAULT 0,
             semana TEXT DEFAULT '',
             territorio TEXT DEFAULT '',
             estado TEXT DEFAULT 'pendiente',
             username TEXT NOT NULL,
             empresa TEXT DEFAULT '',
             fecha TEXT DEFAULT '',
-            timestamp INTEGER NOT NULL,
+            timestamp INTEGER NOT NULL DEFAULT 0,
+            contenido TEXT DEFAULT '',
+            sections TEXT DEFAULT '[]',
+            etiquetas TEXT DEFAULT '{}',
+            datosDuros TEXT DEFAULT '[]',
             relato TEXT DEFAULT '',
             clasificacion TEXT DEFAULT '',
             ficha TEXT DEFAULT '',
@@ -1173,10 +1181,43 @@ def _get_informes_db():
             created_at TEXT DEFAULT CURRENT_TIMESTAMP
         )
     """)
+    # Add missing columns if they don't exist (for existing DBs)
+    try: conn.execute("ALTER TABLE informes ADD COLUMN numero INTEGER DEFAULT 0")
+    except: pass
+    try: conn.execute("ALTER TABLE informes ADD COLUMN contenido TEXT DEFAULT ''")
+    except: pass
+    try: conn.execute("ALTER TABLE informes ADD COLUMN sections TEXT DEFAULT '[]'")
+    except: pass
+    try: conn.execute("ALTER TABLE informes ADD COLUMN etiquetas TEXT DEFAULT '{}'")
+    except: pass
+    try: conn.execute("ALTER TABLE informes ADD COLUMN datosDuros TEXT DEFAULT '[]'")
+    except: pass
     conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_username ON informes(username)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_grado ON informes(grado)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_estado ON informes(estado)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_territorio ON informes(territorio)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_empresa ON informes(empresa)")
+    # Correcciones: trazabilidad aditiva por informe
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS correcciones (
+            id TEXT PRIMARY KEY,
+            informeId TEXT NOT NULL,
+            correctorGrado INTEGER DEFAULT 2,
+            correctorUsername TEXT DEFAULT '',
+            fecha TEXT DEFAULT '',
+            tipo TEXT DEFAULT '',
+            seccionIndex INTEGER DEFAULT 0,
+            seccionTitle TEXT DEFAULT '',
+            textoOriginal TEXT DEFAULT '',
+            textoNuevo TEXT DEFAULT '',
+            resumen TEXT DEFAULT '',
+            cambios TEXT DEFAULT '',
+            timestamp INTEGER NOT NULL DEFAULT 0,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_informeId ON correcciones(informeId)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_username ON correcciones(correctorUsername)")
     conn.commit()
     return conn
 
@@ -1188,7 +1229,7 @@ class InformeSyncRequest(BaseModel):
 
 @app.post("/api/informes/sync")
 async def informes_sync(req: InformeSyncRequest):
-    """Upsert batch de informes desde un dispositivo. Fire-and-forget sync."""
+    """Upsert batch de informes desde un dispositivo. Timestamp guard: solo actualiza si más nuevo."""
     if not req.username or not req.informes:
         return {"synced": 0}
     conn = _get_informes_db()
@@ -1198,11 +1239,13 @@ async def informes_sync(req: InformeSyncRequest):
             if not isinstance(inf, dict) or not inf.get("id"):
                 continue
             conn.execute("""
-                INSERT INTO informes (id, grado, semana, territorio, estado, username,
-                    empresa, fecha, timestamp, relato, clasificacion, ficha, tags)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO informes (id, grado, numero, semana, territorio, estado, username,
+                    empresa, fecha, timestamp, contenido, sections, etiquetas, datosDuros,
+                    relato, clasificacion, ficha, tags)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     grado=excluded.grado,
+                    numero=excluded.numero,
                     semana=excluded.semana,
                     territorio=excluded.territorio,
                     estado=excluded.estado,
@@ -1210,13 +1253,19 @@ async def informes_sync(req: InformeSyncRequest):
                     empresa=excluded.empresa,
                     fecha=excluded.fecha,
                     timestamp=excluded.timestamp,
+                    contenido=excluded.contenido,
+                    sections=excluded.sections,
+                    etiquetas=excluded.etiquetas,
+                    datosDuros=excluded.datosDuros,
                     relato=excluded.relato,
                     clasificacion=excluded.clasificacion,
                     ficha=excluded.ficha,
                     tags=excluded.tags
+                WHERE excluded.timestamp > informes.timestamp
             """, (
                 inf.get("id"),
                 inf.get("grado", 1),
+                inf.get("numero", 0),
                 inf.get("semana", ""),
                 inf.get("territorio", ""),
                 inf.get("estado", "pendiente"),
@@ -1224,6 +1273,10 @@ async def informes_sync(req: InformeSyncRequest):
                 inf.get("empresa", ""),
                 inf.get("fecha", ""),
                 inf.get("timestamp", 0),
+                inf.get("contenido", ""),
+                json.dumps(inf.get("sections", []), ensure_ascii=False),
+                json.dumps(inf.get("etiquetas", {}), ensure_ascii=False),
+                json.dumps(inf.get("datosDuros", []), ensure_ascii=False),
                 inf.get("relato", ""),
                 inf.get("clasificacion", ""),
                 inf.get("ficha", ""),
@@ -1324,6 +1377,7 @@ def _row_to_informe(r):
     return {
         "id": r["id"],
         "grado": r["grado"],
+        "numero": r["numero"] if "numero" in r.keys() else 0,
         "semana": r["semana"],
         "territorio": r["territorio"],
         "estado": r["estado"],
@@ -1331,10 +1385,14 @@ def _row_to_informe(r):
         "empresa": r["empresa"],
         "fecha": r["fecha"],
         "timestamp": r["timestamp"],
-        "relato": r["relato"],
-        "clasificacion": r["clasificacion"],
-        "ficha": r["ficha"],
-        "tags": json.loads(r["tags"]) if r["tags"] else [],
+        "contenido": r["contenido"] if "contenido" in r.keys() else "",
+        "sections": json.loads(r["sections"]) if "sections" in r.keys() and r["sections"] else [],
+        "etiquetas": json.loads(r["etiquetas"]) if "etiquetas" in r.keys() and r["etiquetas"] else {},
+        "datosDuros": json.loads(r["datosDuros"]) if "datosDuros" in r.keys() and r["datosDuros"] else [],
+        "relato": r["relato"] if "relato" in r.keys() else "",
+        "clasificacion": r["clasificacion"] if "clasificacion" in r.keys() else "",
+        "ficha": r["ficha"] if "ficha" in r.keys() else "",
+        "tags": json.loads(r["tags"]) if "tags" in r.keys() and r["tags"] else [],
     }
 
 
@@ -1355,16 +1413,114 @@ async def informes_clear_user(username: str = ""):
 
 @app.delete("/api/informes/delete")
 async def informe_delete(username: str = "", id: str = ""):
-    """Borrar un informe específico de un usuario."""
+    """Borrar un informe específico de un usuario + sus correcciones."""
     if not username or not id:
         return {"deleted": 0}
     conn = _get_informes_db()
     try:
+        # Delete correcciones for this informe first
+        conn.execute("DELETE FROM correcciones WHERE informeId = ?", (id,))
         cursor = conn.execute("DELETE FROM informes WHERE username = ? AND id = ?", (username, id))
         conn.commit()
         return {"deleted": cursor.rowcount}
     finally:
         conn.close()
+
+
+# ===== Correcciones Sync (SQLite) =====
+
+class CorreccionSyncRequest(BaseModel):
+    username: str
+    correcciones: list = []
+
+
+@app.post("/api/correcciones/sync")
+async def correcciones_sync(req: CorreccionSyncRequest):
+    """Upsert batch de correcciones desde un dispositivo. Timestamp guard: solo actualiza si más nuevo."""
+    if not req.username or not req.correcciones:
+        return {"synced": 0}
+    conn = _get_informes_db()
+    try:
+        synced = 0
+        for cor in req.correcciones:
+            if not isinstance(cor, dict) or not cor.get("id"):
+                continue
+            conn.execute("""
+                INSERT INTO correcciones (id, informeId, correctorGrado, correctorUsername,
+                    fecha, tipo, seccionIndex, seccionTitle, textoOriginal, textoNuevo,
+                    resumen, cambios, timestamp)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    informeId=excluded.informeId,
+                    correctorGrado=excluded.correctorGrado,
+                    correctorUsername=excluded.correctorUsername,
+                    fecha=excluded.fecha,
+                    tipo=excluded.tipo,
+                    seccionIndex=excluded.seccionIndex,
+                    seccionTitle=excluded.seccionTitle,
+                    textoOriginal=excluded.textoOriginal,
+                    textoNuevo=excluded.textoNuevo,
+                    resumen=excluded.resumen,
+                    cambios=excluded.cambios,
+                    timestamp=excluded.timestamp
+                WHERE excluded.timestamp > correcciones.timestamp
+            """, (
+                cor.get("id"),
+                cor.get("informeId", ""),
+                cor.get("correctorGrado", 2),
+                cor.get("correctorUsername", ""),
+                cor.get("fecha", ""),
+                cor.get("tipo", ""),
+                cor.get("seccionIndex", 0),
+                cor.get("seccionTitle", ""),
+                cor.get("textoOriginal", ""),
+                cor.get("textoNuevo", ""),
+                cor.get("resumen", ""),
+                cor.get("cambios", ""),
+                cor.get("timestamp", 0),
+            ))
+            synced += 1
+        conn.commit()
+        return {"synced": synced}
+    except Exception as e:
+        logger.error(f"Correcciones sync error: {e}")
+        return {"synced": 0, "error": str(e)}
+    finally:
+        conn.close()
+
+
+@app.get("/api/correcciones")
+async def correcciones_get(informeId: str = ""):
+    """Obtener correcciones de un informe."""
+    if not informeId:
+        return []
+    conn = _get_informes_db()
+    try:
+        rows = conn.execute("""
+            SELECT * FROM correcciones WHERE informeId = ? ORDER BY timestamp ASC
+        """, (informeId,)).fetchall()
+        return [_row_to_correccion(r) for r in rows]
+    finally:
+        conn.close()
+
+
+def _row_to_correccion(r):
+    """Convert a SQLite Row to a dict for the API response."""
+    return {
+        "id": r["id"],
+        "informeId": r["informeId"],
+        "correctorGrado": r["correctorGrado"],
+        "correctorUsername": r["correctorUsername"],
+        "fecha": r["fecha"],
+        "tipo": r["tipo"],
+        "seccionIndex": r["seccionIndex"],
+        "seccionTitle": r["seccionTitle"] if "seccionTitle" in r.keys() else "",
+        "textoOriginal": r["textoOriginal"],
+        "textoNuevo": r["textoNuevo"],
+        "resumen": r["resumen"] if "resumen" in r.keys() else "",
+        "cambios": r["cambios"] if "cambios" in r.keys() else "",
+        "timestamp": r["timestamp"],
+    }
 
 
 # ===== Chat: per-user clear =====

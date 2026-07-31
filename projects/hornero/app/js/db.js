@@ -4,7 +4,7 @@
 
 var HORNERO_DB = {
   name: 'hornero-app',
-  version: 7,
+  version: 8,
   stores: {
     // Cargas: input del trabajador (voz/texto/foto) antes de procesar
     cargas: { keyPath: 'id', indexes: [
@@ -24,13 +24,15 @@ var HORNERO_DB = {
       { name: 'territorio', keyPath: 'territorio' },
       { name: 'estado', keyPath: 'estado' }, // 'pendiente','visto','corregido','enviado','publicado','aprobado-delegado','corregido-delegado'
       { name: 'username', keyPath: 'username' }, // per-user isolation
-      { name: 'empresa', keyPath: 'empresa' } // cross-user visibility: filter by plant
+      { name: 'empresa', keyPath: 'empresa' }, // cross-user visibility: filter by plant
+      { name: 'timestamp', keyPath: 'timestamp' } // for sync merge
     ]},
     // Correcciones: cada corrección es un registro ADDITIVE con trazabilidad
     correcciones: { keyPath: 'id', indexes: [
       { name: 'informeId', keyPath: 'informeId' },
       { name: 'correctorGrado', keyPath: 'correctorGrado' },
-      { name: 'fecha', keyPath: 'fecha' }
+      { name: 'fecha', keyPath: 'fecha' },
+      { name: 'timestamp', keyPath: 'timestamp' } // for sync merge
     ]},
     // Clipping: datos de clipping cacheados
     clipping: { keyPath: 'id', indexes: [
@@ -405,11 +407,32 @@ function actualizarEstadoInforme(id, estado) {
 }
 
 // Correcciones (additive traceability)
-function guardarCorreccion(correccion) { return dbPut('correcciones', correccion); }
-function guardarCorreccionBatch(correcciones) {
-  return Promise.all(correcciones.map(function(c) { return dbPut('correcciones', c); }));
+// Sync: push on save, pull on load (same pattern as informes + chat)
+function guardarCorreccion(correccion) {
+  if (!correccion.timestamp) correccion.timestamp = Date.now();
+  return dbPut('correcciones', correccion).then(function(result) {
+    _syncCorreccionToBackend(correccion);
+    return result;
+  });
 }
-function obtenerCorrecciones(informeId) { return dbGetByIndex('correcciones', 'informeId', informeId); }
+function guardarCorreccionBatch(correcciones) {
+  return Promise.all(correcciones.map(function(c) {
+    if (!c.timestamp) c.timestamp = Date.now();
+    return dbPut('correcciones', c);
+  })).then(function(results) {
+    _syncCorreccionBatchToBackend(correcciones);
+    return results;
+  });
+}
+function obtenerCorrecciones(informeId) {
+  return dbGetByIndex('correcciones', 'informeId', informeId).then(function(correcciones) {
+    if (!correcciones || correcciones.length === 0) {
+      // Fallback: fetch from backend if no local data
+      return _fetchAndMergeRemoteCorrecciones(informeId);
+    }
+    return correcciones;
+  });
+}
 function obtenerCorreccionesPorGrado(grado) { return dbGetByIndex('correcciones', 'correctorGrado', grado); }
 
 // Clipping
@@ -654,6 +677,74 @@ function _deleteInformeFromBackend(username, informeId) {
 }
 
 
+// ===== Correcciones Sync (Backend) =====
+// Sincroniza correcciones entre dispositivos via backend SQLite.
+// Estrategia: local-first → push on save, pull on load, merge por id.
+
+// Push: enviar una corrección al backend (fire-and-forget)
+function _syncCorreccionToBackend(correccion) {
+  if (!correccion || !correccion.id) return;
+  var baseUrl = _getChatSyncBaseUrl();
+  fetch(baseUrl + '/api/correcciones/sync', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: correccion.correctorUsername || '', correcciones: [correccion] })
+  }).catch(function(e) {
+    console.warn('Correccion sync push failed:', e);
+  });
+}
+
+// Push batch: enviar varias correcciones al backend en una sola request
+function _syncCorreccionBatchToBackend(correcciones) {
+  if (!correcciones || correcciones.length === 0) return;
+  var baseUrl = _getChatSyncBaseUrl();
+  var username = (correcciones[0] && correcciones[0].correctorUsername) || '';
+  fetch(baseUrl + '/api/correcciones/sync', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: username, correcciones: correcciones })
+  }).catch(function(e) {
+    console.warn('Correccion batch sync push failed:', e);
+  });
+}
+
+// Pull: obtener correcciones de un informe desde el backend y mergear
+function _fetchAndMergeRemoteCorrecciones(informeId) {
+  if (!informeId) return Promise.resolve([]);
+  var baseUrl = _getChatSyncBaseUrl();
+  var controller = new AbortController();
+  var timeout = setTimeout(function() { controller.abort(); }, 5000);
+  return fetch(baseUrl + '/api/correcciones?informeId=' + encodeURIComponent(informeId), { signal: controller.signal })
+    .then(function(r) { clearTimeout(timeout); return r.ok ? r.json() : []; })
+    .then(function(remoteCorrecciones) {
+      if (!remoteCorrecciones || !Array.isArray(remoteCorrecciones) || remoteCorrecciones.length === 0) return [];
+      return _mergeRemoteCorrecciones(remoteCorrecciones).then(function() {
+        return remoteCorrecciones;
+      });
+    })
+    .catch(function(e) {
+      clearTimeout(timeout);
+      console.warn('Correccion sync pull failed:', e);
+      return [];
+    });
+}
+
+// Merge: upsert correcciones remotas en IDB local (solo si no existen o son más nuevas)
+function _mergeRemoteCorrecciones(remoteCorrecciones) {
+  if (!remoteCorrecciones || remoteCorrecciones.length === 0) return Promise.resolve();
+  var promises = remoteCorrecciones.map(function(cor) {
+    return dbGet('correcciones', cor.id).then(function(existing) {
+      if (!existing) {
+        return dbPut('correcciones', cor);
+      } else if ((cor.timestamp || 0) > (existing.timestamp || 0)) {
+        return dbPut('correcciones', cor);
+      }
+    });
+  });
+  return Promise.all(promises);
+}
+
+
 // ===== Borrado per-user (chats + informes) =====
 
 function borrarChatsUsuario(username) {
@@ -781,4 +872,196 @@ function fetchChatSessionMessagesFromBackend(username, sessionId) {
       console.warn('Chat sync fetch session failed:', e);
       return [];
     });
+}
+
+
+// ===== SyncQueue: reliable delivery =====
+// Reemplaza fire-and-forget con cola persistente en IDB.
+// Encola operaciones → drena periódicamente → marca como completadas.
+// Si falla: reintenta (hasta 3 veces), luego marca como error.
+
+var _syncQueueTimer = null;
+var _syncQueueDraining = false;
+
+// Iniciar drenaje periódico de la cola de sync
+function iniciarSyncQueue() {
+  if (_syncQueueTimer) return; // ya iniciado
+  _syncQueueTimer = setInterval(function() {
+    _drenarSyncQueue();
+  }, 30000); // cada 30s
+  // También drenar cuando la app vuelve a primer plano
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) _drenarSyncQueue();
+  });
+  // Drenar inmediatamente
+  _drenarSyncQueue();
+}
+
+// Drenar la cola: enviar todos los items pendientes al backend
+function _drenarSyncQueue() {
+  if (_syncQueueDraining) return; // evitar reentrancia
+  _syncQueueDraining = true;
+  obtenerSyncPendientes().then(function(pendientes) {
+    if (!pendientes || pendientes.length === 0) {
+      _syncQueueDraining = false;
+      return;
+    }
+    var baseUrl = _getChatSyncBaseUrl();
+    // Agrupar por tipo para batch requests
+    var informes = pendientes.filter(function(p) { return p.tipo === 'informe'; });
+    var correcciones = pendientes.filter(function(p) { return p.tipo === 'correccion'; });
+    var chats = pendientes.filter(function(p) { return p.tipo === 'chat'; });
+    var others = pendientes.filter(function(p) {
+      return p.tipo !== 'informe' && p.tipo !== 'correccion' && p.tipo !== 'chat';
+    });
+
+    var promises = [];
+
+    // Batch informes
+    if (informes.length > 0) {
+      var infUsername = informes[0].username || '';
+      promises.push(
+        fetch(baseUrl + '/api/informes/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: infUsername, informes: informes.map(function(p) { return p.data; }) })
+        }).then(function(r) { return r.ok; })
+        .then(function(ok) {
+          if (ok) {
+            return Promise.all(informes.map(function(p) { return marcarSyncCompletado(p.id); }));
+          }
+          return Promise.all(informes.map(function(p) { return _incrementarSyncRetry(p); }));
+        })
+        .catch(function() {
+          return Promise.all(informes.map(function(p) { return _incrementarSyncRetry(p); }));
+        })
+      );
+    }
+
+    // Batch correcciones
+    if (correcciones.length > 0) {
+      var corUsername = correcciones[0].username || '';
+      promises.push(
+        fetch(baseUrl + '/api/correcciones/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: corUsername, correcciones: correcciones.map(function(p) { return p.data; }) })
+        }).then(function(r) { return r.ok; })
+        .then(function(ok) {
+          if (ok) {
+            return Promise.all(correcciones.map(function(p) { return marcarSyncCompletado(p.id); }));
+          }
+          return Promise.all(correcciones.map(function(p) { return _incrementarSyncRetry(p); }));
+        })
+        .catch(function() {
+          return Promise.all(correcciones.map(function(p) { return _incrementarSyncRetry(p); }));
+        })
+      );
+    }
+
+    // Batch chats
+    if (chats.length > 0) {
+      var chatUsername = chats[0].username || '';
+      promises.push(
+        fetch(baseUrl + '/api/chat/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: chatUsername, messages: chats.map(function(p) { return p.data; }) })
+        }).then(function(r) { return r.ok; })
+        .then(function(ok) {
+          if (ok) {
+            return Promise.all(chats.map(function(p) { return marcarSyncCompletado(p.id); }));
+          }
+          return Promise.all(chats.map(function(p) { return _incrementarSyncRetry(p); }));
+        })
+        .catch(function() {
+          return Promise.all(chats.map(function(p) { return _incrementarSyncRetry(p); }));
+        })
+      );
+    }
+
+    // Others: mark as completed (no backend endpoint yet)
+    if (others.length > 0) {
+      promises.push(Promise.all(others.map(function(p) { return marcarSyncCompletado(p.id); })));
+    }
+
+    return Promise.all(promises).then(function() {
+      _syncQueueDraining = false;
+    });
+  }).catch(function(e) {
+    console.warn('SyncQueue drain error:', e);
+    _syncQueueDraining = false;
+  });
+}
+
+// Incrementar retry counter; si supera 3, marcar como error
+function _incrementarSyncRetry(item) {
+  return dbGet('syncQueue', item.id).then(function(op) {
+    if (!op) return;
+    op.retries = (op.retries || 0) + 1;
+    if (op.retries >= 3) {
+      op.estado = 'error';
+      console.warn('SyncQueue: item', item.id, 'failed after 3 retries');
+    }
+    return dbPut('syncQueue', op);
+  });
+}
+
+
+// ===== Full Sync Push =====
+// Push todos los datos locales del usuario al backend.
+// Se ejecuta al cargar la app para garantizar que el backend tenga datos completos
+// (importante porque Render tiene SQLite efímero que se pierde en cada deploy).
+
+function _pushAllLocalData(username) {
+  if (!username) return Promise.resolve();
+  var baseUrl = _getChatSyncBaseUrl();
+  return Promise.all([
+    dbGetByIndex('informes', 'username', username),
+    dbGetByIndex('chatHistory', 'username', username)
+  ]).then(function(results) {
+    var informes = results[0] || [];
+    var messages = results[1] || [];
+    // Push informes
+    if (informes.length > 0) {
+      fetch(baseUrl + '/api/informes/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, informes: informes })
+      }).catch(function(e) { console.warn('Full sync push informes failed:', e); });
+    }
+    // Push chat messages (existing endpoint)
+    if (messages.length > 0) {
+      fetch(baseUrl + '/api/chat/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, messages: messages })
+      }).catch(function(e) { console.warn('Full sync push chat failed:', e); });
+    }
+    // Push correcciones (batch all)
+    return dbGetAll('correcciones').then(function(allCorrecciones) {
+      var correcciones = (allCorrecciones || []).filter(function(c) {
+        return c.correctorUsername === username || c.informeId; // push all correcciones linked to user's informes
+      });
+      if (correcciones.length > 0) {
+        fetch(baseUrl + '/api/correcciones/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: username, correcciones: correcciones })
+        }).catch(function(e) { console.warn('Full sync push correcciones failed:', e); });
+      }
+    });
+  });
+}
+
+// Init: pull + push al cargar la app
+function iniciarFullSync(username) {
+  if (!username) return;
+  // 1. Pull remote data first (merge into local IDB)
+  _fetchAndMergeRemoteInformes(username).then(function() {
+    // 2. Push all local data to backend (ensures backend has complete copy)
+    _pushAllLocalData(username);
+  });
+  // 3. Start syncQueue for reliable delivery
+  iniciarSyncQueue();
 }
