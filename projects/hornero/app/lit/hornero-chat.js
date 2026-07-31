@@ -2695,6 +2695,40 @@ ${msgs.map(m => {
     setTimeout(() => { toast.classList.remove('show'); }, 2500);
   }
 
+  // ===== Public API: Drawer state preservation =====
+  // Parent components call getDrawerState() before re-rendering,
+  // then restoreDrawerState() after the new <hornero-chat> is created.
+  // This prevents drawers from closing when the parent re-renders.
+
+  getDrawerState() {
+    return {
+      showHistory: this._showHistory,
+      showInformes: this._showInformes,
+      showRecibidos: this._showRecibidos,
+      historyDrawerStable: this._historyDrawerStable,
+      informesDrawerStable: this._informesDrawerStable,
+      recibidosDrawerStable: this._recibidosDrawerStable,
+      historySessions: this._historySessions,
+      informesList: this._informesList,
+      informesEntrantes: this._informesEntrantes,
+    };
+  }
+
+  restoreDrawerState(state) {
+    if (!state) return;
+    this._showHistory = state.showHistory || false;
+    this._showInformes = state.showInformes || false;
+    this._showRecibidos = state.showRecibidos || false;
+    this._historyDrawerStable = state.historyDrawerStable || false;
+    this._informesDrawerStable = state.informesDrawerStable || false;
+    this._recibidosDrawerStable = state.recibidosDrawerStable || false;
+    if (state.historySessions) this._historySessions = state.historySessions;
+    if (state.informesList) this._informesList = state.informesList;
+    if (state.informesEntrantes) this._informesEntrantes = state.informesEntrantes;
+    // Re-render to show the restored drawer state
+    this.render();
+  }
+
   // ===== Public API =====
   addMessage(msg) {
     const current = this.messages || [];

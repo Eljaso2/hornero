@@ -66,6 +66,7 @@ class HorneroGremial extends HoComponent {
     this._progressiveRevealTimer = null; // Timer for progressive text reveal
     this._progressiveRevealFull = ''; // Full text to reveal progressively
     this._progressiveRevealIndex = 0; // Current reveal position
+    this._savedDrawerState = null; // Drawer state saved before re-render (prevents drawer closing)
   }
 
   connectedCallback() {
@@ -76,6 +77,15 @@ class HorneroGremial extends HoComponent {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
       if (session && session.username) this._username = session.username;
     } catch(e) {}
+  }
+
+  // Override render() to save chat drawer state before innerHTML destroys it
+  render() {
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      this._savedDrawerState = chatEl.getDrawerState();
+    }
+    super.render();
   }
 
   _styles() {
@@ -302,6 +312,11 @@ class HorneroGremial extends HoComponent {
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) {
       this._syncChatMessages(chatEl);
+      // Restore drawer state saved before re-render (prevents drawer closing)
+      if (this._savedDrawerState) {
+        chatEl.restoreDrawerState(this._savedDrawerState);
+        this._savedDrawerState = null;
+      }
       chatEl.addEventListener('chat-send', (e) => {
         this._handleUserMessage(e.detail.text);
       });
