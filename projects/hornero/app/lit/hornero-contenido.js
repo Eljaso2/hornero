@@ -92,6 +92,7 @@ class HorneroContenido extends HoComponent {
           typing="${this._typing}"
           persona="${this._activePersona}"
           username="${this._username}"
+          grade="${this.grade}"
         ></hornero-chat>
       </div>
     `;
@@ -197,6 +198,7 @@ class HorneroContenido extends HoComponent {
       chatEl.sessionId = this._sessionId;
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
+      chatEl.grade = this.grade;
       chatEl.render();
     }
   }

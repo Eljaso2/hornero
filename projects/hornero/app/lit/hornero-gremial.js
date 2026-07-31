@@ -154,6 +154,7 @@ class HorneroGremial extends HoComponent {
           informes-title="Mis Reportes"
           persona="${this._activePersona}"
           username="${this._username}"
+          grade="${this.grade}"
         ></hornero-chat>
       </div>
 
@@ -379,6 +380,7 @@ class HorneroGremial extends HoComponent {
       chatEl.informesTitle = 'Mis Reportes';
       chatEl.informeBadge = this._informeBadge;
       chatEl.persona = this._activePersona;
+      chatEl.grade = this.grade;
       // Do NOT call chatEl.render() here — the chat re-renders itself
       // when its attributes change (from gremial render) or from drawer open/close.
       // Double render was causing the blank screen bug.
