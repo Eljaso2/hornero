@@ -260,7 +260,7 @@ class HorneroFormacion extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #1E2321); }
+        background: var(--ho-bg, #1E2321); overflow-x: hidden; }
 
       /* ===== Hero banner with bajada overlay ===== */
       .hero-banner { position: relative; width: 100%;
