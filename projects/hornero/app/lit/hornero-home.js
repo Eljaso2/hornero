@@ -293,10 +293,10 @@ class HorneroHome extends HoComponent {
       .panorama-card { position: relative; border-radius: 13px; margin-bottom: 10px;
         overflow: hidden; cursor: pointer; min-height: 140px; }
       .panorama-card img.hero { width: 100%; height: 180px; object-fit: cover;
-        display: block; }
+        display: block; opacity: .55; }
       .panorama-overlay { position: absolute; bottom: 0; left: 0; right: 0;
         padding: 36px 14px 12px;
-        background: linear-gradient(transparent, rgba(33,31,29,.85));
+        background: linear-gradient(transparent, rgba(33,31,29,.92));
         color: #F2F1EC; }
       .panorama-overlay .card-name { font-family: 'Archivo', sans-serif;
         font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
@@ -312,10 +312,10 @@ class HorneroHome extends HoComponent {
       .formacion-card { position: relative; border-radius: 13px; margin-bottom: 10px;
         overflow: hidden; cursor: pointer; min-height: 140px; }
       .formacion-card img.hero { width: 100%; height: 180px; object-fit: cover;
-        display: block; }
+        display: block; opacity: .55; }
       .formacion-overlay { position: absolute; bottom: 0; left: 0; right: 0;
         padding: 36px 14px 12px;
-        background: linear-gradient(transparent, rgba(33,31,29,.85));
+        background: linear-gradient(transparent, rgba(33,31,29,.92));
         color: #F2F1EC; }
       .formacion-overlay .card-name { font-family: 'Archivo', sans-serif;
         font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
@@ -329,6 +329,25 @@ class HorneroHome extends HoComponent {
       .formacion-badge { display: none; }
 
       .card-historiador-badge { display: none; }
+
+      /* ===== ESFERA 5: Archivo — hero card ===== */
+      .archivo-card { position: relative; border-radius: 13px; margin-bottom: 10px;
+        overflow: hidden; cursor: pointer; min-height: 140px; }
+      .archivo-card img.hero { width: 100%; height: 180px; object-fit: cover;
+        display: block; opacity: .55; }
+      .archivo-overlay { position: absolute; bottom: 0; left: 0; right: 0;
+        padding: 36px 14px 12px;
+        background: linear-gradient(transparent, rgba(33,31,29,.92));
+        color: #F2F1EC; }
+      .archivo-overlay .card-name { font-family: 'Archivo', sans-serif;
+        font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
+        text-transform: uppercase; }
+      .archivo-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
+        line-height: 1.4; margin-top: 3px; }
+      .archivo-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
+        font-size: .62rem; background: rgba(78,153,120,.6); color: var(--ho-text-off, #F2F1EC);
+        padding: 2px 8px; border-radius: 6px; font-weight: 600;
+        display: inline-block; margin-top: 5px; }
 
       .esfera-card { background: var(--ho-card, #2A3230);
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
@@ -512,11 +531,14 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 5: Archivo — la memoria del sindicato -->
-      <div class="esfera-card" data-screen="archivo">
-        <div class="card-name">Archivo</div>
-        <div class="card-desc">Convenios, referentes, fuentes sindicales — la memoria del sindicato</div>
-        <span class="card-tag">documentos · académicos · multimedia</span>
+      <!-- ESFERA 5: Archivo — hero card -->
+      <div class="archivo-card" data-screen="archivo">
+        <img src="assets/archivo-bg.jpg" alt="Archivo" class="hero">
+        <div class="archivo-overlay">
+          <div class="card-name">Archivo</div>
+          <div class="card-desc">Convenios, referentes, fuentes sindicales — la memoria del sindicato</div>
+          <span class="card-tag">documentos · académicos · multimedia</span>
+        </div>
       </div>
     `;
   }
@@ -571,7 +593,7 @@ class HorneroHome extends HoComponent {
     }
 
     // Esfera cards + hero cards — navigation
-    this.shadowRoot.querySelectorAll('.esfera-card, .formacion-card, .panorama-card').forEach(card => {
+    this.shadowRoot.querySelectorAll('.esfera-card, .formacion-card, .panorama-card, .archivo-card').forEach(card => {
       card.addEventListener('click', () => {
         if (card.classList.contains('locked')) return;
         this.goScreen(card.dataset.screen);
