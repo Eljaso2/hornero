@@ -37,6 +37,7 @@ class HorneroApp extends HoComponent {
     this.misConversacionesList = [];
     this.misReportesList = [];
     this._initialPersona = 'abogado'; // Persona selected from landing page
+    this._initialSessionId = ''; // Session ID from Mis Conversaciones — load existing chat
     this._clipEdicion = null;
     this._clipExpandId = null;
     this._mateMes = null;
@@ -596,9 +597,9 @@ class HorneroApp extends HoComponent {
       const mateMesAttr = this._mateMes ? ' mate-mes="' + this._mateMes + '"' : '';
       screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"' + mateMesAttr + '></hornero-infomate>';
     } else if (this.screen === 'gremial') {
-      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'companero') + '"></hornero-gremial>';
+      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'companero') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-gremial>';
     } else if (this.screen === 'historiador') {
-      screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '"></hornero-historiador>';
+      screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
     } else if (this.screen === 'formacion') {
@@ -657,9 +658,9 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'misReportes') {
       screenContent = this._renderMisReportes();
     } else if (this.screen === 'consulta') {
-      screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'abogado') + '"></hornero-consulta>';
+      screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'abogado') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-consulta>';
     } else if (this.screen === 'contenido') {
-      screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'periodista') + '"></hornero-contenido>';
+      screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'periodista') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-contenido>';
     } else if (this.screen === 'condicion') {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
@@ -793,6 +794,7 @@ class HorneroApp extends HoComponent {
         const sessionId = item.dataset.navigateSession;
         if (screen) {
           this._initialPersona = persona || 'abogado';
+          this._initialSessionId = sessionId || ''; // Pass session to load
           this._navigateTo(screen);
         }
       });
@@ -807,6 +809,7 @@ class HorneroApp extends HoComponent {
     this.shadowRoot.querySelectorAll('.chat-choice').forEach(btn => {
       btn.addEventListener('click', () => {
         this._initialPersona = btn.dataset.persona || 'abogado';
+        this._initialSessionId = ''; // New chat — no session to load
         this._navigateTo(btn.dataset.screen);
       });
     });
@@ -961,7 +964,7 @@ class HorneroApp extends HoComponent {
       '--ho-text-mid': '#5A5650',
       '--ho-text-light': '#7A766C',
       '--ho-text-off': '#1E2321',
-      '--ho-green': '#3D7A5E',
+      '--ho-green': '#2E6B4E',
       '--ho-green-light': '#4E9978',
       '--ho-green-pale': '#E0F0EB',
       '--ho-green-dark': '#3D6B56',

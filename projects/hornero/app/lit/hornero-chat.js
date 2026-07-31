@@ -666,7 +666,7 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 56px; /* room for persona icons row */
+        padding-top: 52px; /* room for persona icons row */
         -webkit-overflow-scrolling: touch; }
 
       /* Animations */
@@ -1102,7 +1102,7 @@ class HorneroChat extends HoComponent {
       const inner = cfg.img
         ? `<img src="${cfg.img}" alt="${cfg.name}" class="${p === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-      const leftPos = 12 + idx * 36;
+      const leftPos = 50 + idx * 36;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px">
         <span class="persona-icon-inner">${inner}</span>
