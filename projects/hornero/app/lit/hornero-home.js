@@ -250,10 +250,7 @@ class HorneroHome extends HoComponent {
       .agenda-prox .agenda-date { font-size: .46rem; }
 
       /* ===== ESFERA 2: Chat — 4 personajes ===== */
-      .esfera-consulta { margin-bottom: 20px;
-        background: var(--ho-card, #2A3230);
-        border-radius: 13px; padding: 16px 14px 18px;
-        border: 1px solid rgba(43,42,38,.06); }
+      .esfera-consulta { margin-bottom: 20px; }
       .consulta-icons { display: flex; justify-content: space-around; gap: 8px; }
       .icon-btn { display: flex; flex-direction: column; align-items: center;
         gap: 8px; background: none; border: none; cursor: pointer;
@@ -262,7 +259,6 @@ class HorneroHome extends HoComponent {
       .icon-btn:hover { opacity: .8; }
       .persona-home-img { width: 64px; height: 64px; border-radius: 14px;
         object-fit: cover; object-position: center 25%;
-        border: 2px solid var(--ho-green, #4E9978);
         filter: var(--ho-persona-filter, none); }
       .persona-home-img.periodista-full { object-fit: contain; }
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
