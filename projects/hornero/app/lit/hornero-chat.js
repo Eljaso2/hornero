@@ -714,6 +714,42 @@ class HorneroChat extends HoComponent {
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="corregir"],
       .reporte-card.estado-aceptado .reporte-card-prompt { display: none; }
 
+      /* Correccion badges — grade-colored indicators */
+      .correccion-badge { display: inline-block; font-family: 'JetBrains Mono', monospace;
+        font-size: .58rem; padding: 1px 6px; border-radius: 4px; font-weight: 600;
+        margin-left: 6px; vertical-align: middle; }
+      .correccion-badge.grado-2 { background: #E0F0EB; color: #3D6B56; }
+      .correccion-badge.grado-3 { background: #D7E8F3; color: #2C5A8A; }
+      .correccion-badge.grado-4 { background: #E8DCF0; color: #5A3D7A; }
+
+      /* Section with grade-colored left border */
+      .reporte-card-section.modificado-grado-2 .reporte-card-section-body { border-left: 3px solid #4E9978; padding-left: 10px; }
+      .reporte-card-section.modificado-grado-3 .reporte-card-section-body { border-left: 3px solid #2C5A8A; padding-left: 10px; }
+      .reporte-card-section.modificado-grado-4 .reporte-card-section-body { border-left: 3px solid #5A3D7A; padding-left: 10px; }
+
+      /* Historial de cambios section */
+      .reporte-card-historial { margin-top: 12px; padding: 10px 12px;
+        background: rgba(0,0,0,.03); border-radius: 8px;
+        border-top: 2px dashed rgba(0,0,0,.08); }
+      .reporte-card-historial-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .78rem; color: var(--ho-text-mid, #6E6A60); margin-bottom: 8px; }
+      .reporte-card-historial-entry { padding: 6px 0;
+        border-bottom: 1px solid rgba(0,0,0,.05); }
+      .reporte-card-historial-entry:last-child { border-bottom: none; }
+      .reporte-card-historial-grado { font-family: 'JetBrains Mono', monospace;
+        font-size: .62rem; font-weight: 700; margin-bottom: 2px; }
+      .reporte-card-historial-grado.grado-2 { color: #4E9978; }
+      .reporte-card-historial-grado.grado-3 { color: #2C5A8A; }
+      .reporte-card-historial-grado.grado-4 { color: #5A3D7A; }
+      .reporte-card-historial-resumen { font-family: 'Public Sans', sans-serif;
+        font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
+      .reporte-card-historial-secciones { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+      .reporte-card-historial-seccion { font-family: 'JetBrains Mono', monospace;
+        font-size: .56rem; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+      .reporte-card-historial-seccion.grado-2 { background: #E0F0EB; color: #3D6B56; }
+      .reporte-card-historial-seccion.grado-3 { background: #D7E8F3; color: #2C5A8A; }
+      .reporte-card-historial-seccion.grado-4 { background: #E8DCF0; color: #5A3D7A; }
+
       /* Progress bar */
       .chat-progress-wrap { padding: 4px 16px 0; flex: none; }
       .chat-progress-bar { height: 4px; background: var(--ho-mid-gray, #ECEAE3); border-radius: 4px; }
@@ -1695,7 +1731,8 @@ class HorneroChat extends HoComponent {
       const isExpanded = this._expandedReports[expandedKey] || false;
 
       const titleSection = m.sections[0];
-      const cardTitle = titleSection.title || 'Informe Gremial';
+      const isModificado = tags.includes('correccion-modificado');
+      const cardTitle = (titleSection.title || 'Informe Gremial') + (isModificado ? ' (Modificado)' : '');
       const summary = titleSection.body ? titleSection.body.substring(0, 120) : '';
 
       const sectionsHtml = m.sections.map((s, i) => {
@@ -1765,6 +1802,7 @@ class HorneroChat extends HoComponent {
             </div>
             ${tagsHtml}
             ${actionsHtml}
+            ${isModificado && m._correcciones ? this._renderHistorialCambios(m._correcciones) : ''}
           </div>
           ${timeHtml}
         </div>
@@ -2623,6 +2661,34 @@ ${msgs.map(m => {
   }
 
   // Generate TXT content string (for use in download cards or export)
+  // Render historial de cambios section for a reporte card
+  _renderHistorialCambios(correcciones) {
+    if (!correcciones || correcciones.length === 0) return '';
+    // Group by grado
+    const byGrado = {};
+    correcciones.forEach(c => {
+      const g = c.correctorGrado || 2;
+      if (!byGrado[g]) byGrado[g] = [];
+      byGrado[g].push(c);
+    });
+    const entries = Object.entries(byGrado).sort((a, b) => a[0] - b[0]);
+    const entriesHtml = entries.map(([grado, corrs]) => {
+      const gradoLabel = 'G' + grado;
+      const gradoClass = 'grado-' + grado;
+      const secciones = corrs.map(c => `<span class="reporte-card-historial-seccion ${gradoClass}">${c.seccionTitle || c.resumen || 'Cambio'}</span>`).join('');
+      const resumen = corrs.length === 1 ? corrs[0].resumen : corrs.length + ' cambios realizados';
+      return `<div class="reporte-card-historial-entry">
+        <div class="reporte-card-historial-grado ${gradoClass}">${gradoLabel} — ${corrs[0].correctorUsername || ''} — ${corrs[0].fecha || ''}</div>
+        <div class="reporte-card-historial-resumen">${resumen}</div>
+        <div class="reporte-card-historial-secciones">${secciones}</div>
+      </div>`;
+    }).join('');
+    return `<div class="reporte-card-historial">
+      <div class="reporte-card-historial-title">📝 Historial de cambios</div>
+      ${entriesHtml}
+    </div>`;
+  }
+
   _generateTxtContent(messages, title) {
     const msgs = messages || this.messages || [];
     const chatTitle = title || this.title || 'Chat Hornero';

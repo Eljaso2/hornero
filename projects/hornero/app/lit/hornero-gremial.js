@@ -64,6 +64,8 @@ class HorneroGremial extends HoComponent {
     this._viewingInforme = null; // Full-screen informe viewer overlay state
     this._cachedIncomingReports = []; // Cached incoming reports for sending to backend
     this._progressiveRevealTimer = null; // Timer for progressive text reveal
+    this._originalSectionsBeforeCorrection = null; // Sections snapshot before superior correction
+    this._correctingInformeId = null; // ID of informe being corrected by superior
     this._progressiveRevealFull = ''; // Full text to reveal progressively
     this._progressiveRevealIndex = 0; // Current reveal position
     this._savedDrawerState = null; // Drawer state saved before re-render (prevents drawer closing)
@@ -99,7 +101,7 @@ class HorneroGremial extends HoComponent {
         background: var(--ho-bg, #1E2321); z-index: 100; display: flex;
         flex-direction: column; animation: fadeIn .25s ease; }
       .inform-view-header { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
-        flex: none; background: var(--ho-green-dark, #3D6B56); }
+        flex: none; background: transparent; }
       .inform-view-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .92rem; color: var(--ho-text-off, #F2F1EC);
         letter-spacing: .04em; text-transform: uppercase; }
@@ -114,6 +116,29 @@ class HorneroGremial extends HoComponent {
       .inform-view-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
       .inform-view-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .inform-view-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
+      .inform-view-header-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
+      /* Historial de cambios in viewer */
+      .inform-view-historial { margin-top: 16px; padding: 12px;
+        background: rgba(255,255,255,.03); border-radius: 8px;
+        border-top: 2px dashed rgba(255,255,255,.1); }
+      .inform-view-historial-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .78rem; color: var(--ho-text-mid, #6E6A60); margin-bottom: 8px; }
+      .inform-view-historial-entry { padding: 6px 0;
+        border-bottom: 1px solid rgba(255,255,255,.05); }
+      .inform-view-historial-entry:last-child { border-bottom: none; }
+      .inform-view-historial-grado { font-family: 'JetBrains Mono', monospace;
+        font-size: .62rem; font-weight: 700; margin-bottom: 2px; }
+      .inform-view-historial-grado.grado-2 { color: #4E9978; }
+      .inform-view-historial-grado.grado-3 { color: #2C5A8A; }
+      .inform-view-historial-grado.grado-4 { color: #5A3D7A; }
+      .inform-view-historial-resumen { font-family: 'Public Sans', sans-serif;
+        font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
+      .inform-view-historial-secciones { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+      .inform-view-historial-seccion { font-family: 'JetBrains Mono', monospace;
+        font-size: .56rem; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+      .inform-view-historial-seccion.grado-2 { background: #E0F0EB; color: #3D6B56; }
+      .inform-view-historial-seccion.grado-3 { background: #D7E8F3; color: #2C5A8A; }
+      .inform-view-historial-seccion.grado-4 { background: #E8DCF0; color: #5A3D7A; }
       .inform-view-header-footer { display: flex; align-items: center;
         justify-content: space-between; }
       .inform-view-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -209,26 +234,29 @@ class HorneroGremial extends HoComponent {
     const numero = inf.numero || '';
     const estado = inf.estado || 'pendiente';
     const estadoLabelMap = {
-      'pendiente': '⏳ Pendiente',
-      'visto': '👁 Visto',
-      'aceptado': '✅ Aceptado',
-      'aprobado': '✅ Aprobado',
-      'aprobado-delegado': '✅ Aprobado',
-      'corregido-delegado': '📝 Corregido',
+      'pendiente': '⏳ Pendiente de revisión',
+      'aprobado': '✅ Aprobado sin cambios',
+      'aprobado-con-cambios': '📝 Aprobado con cambios',
+      'aprobado-delegado': '✅ Aprobado sin cambios',
+      'corregido-delegado': '📝 Aprobado con cambios',
+      'visto': '⏳ Pendiente de revisión',
+      'aceptado': '✅ Aprobado sin cambios',
     };
     const estadoClassMap = {
       'pendiente': 'estado-pendiente',
-      'visto': 'estado-aceptado',
-      'aceptado': 'estado-aceptado',
       'aprobado': 'estado-aprobado',
+      'aprobado-con-cambios': 'estado-con-cambios',
       'aprobado-delegado': 'estado-aprobado',
-      'corregido-delegado': 'estado-aceptado',
+      'corregido-delegado': 'estado-con-cambios',
+      'visto': 'estado-pendiente',
+      'aceptado': 'estado-aprobado',
     };
     const estadoLabel = estadoLabelMap[estado] || estado;
     const estadoClass = estadoClassMap[estado] || '';
-    const titleText = numero ? 'Reporte Gremial N°' + numero :
+    const isModificado = estado === 'aprobado-con-cambios' || estado === 'corregido-delegado' || estado === 'corregido';
+    const titleText = (numero ? 'Reporte Gremial N°' + numero :
       (inf.sections && inf.sections.length > 0 ?
-        (inf.sections[0].title || 'Informe Gremial') : 'Informe Gremial');
+        (inf.sections[0].title || 'Informe Gremial') : 'Informe Gremial')) + (isModificado ? ' (Modificado)' : '');
 
     // Sections — all expanded, no collapse; section-type-aware styling
     const sectionsHtml = (inf.sections || []).map((s, i) => {
@@ -302,9 +330,38 @@ class HorneroGremial extends HoComponent {
         <div class="inform-view-scroll">
           ${sectionsHtml}
           ${tagsHtml}
+          ${this._renderViewerHistorial(inf._correcciones)}
         </div>
       </div>
     `;
+  }
+
+  // Render historial de cambios in viewer overlay
+  _renderViewerHistorial(correcciones) {
+    if (!correcciones || correcciones.length === 0) return '';
+    // Group by grado
+    const byGrado = {};
+    correcciones.forEach(c => {
+      const g = c.correctorGrado || 2;
+      if (!byGrado[g]) byGrado[g] = [];
+      byGrado[g].push(c);
+    });
+    const entries = Object.entries(byGrado).sort((a, b) => a[0] - b[0]);
+    const entriesHtml = entries.map(([grado, corrs]) => {
+      const gradoLabel = 'G' + grado;
+      const gradoClass = 'grado-' + grado;
+      const secciones = corrs.map(c => `<span class="inform-view-historial-seccion ${gradoClass}">${c.seccionTitle || c.resumen || 'Cambio'}</span>`).join('');
+      const resumen = corrs.length === 1 ? corrs[0].resumen : corrs.length + ' cambios realizados';
+      return `<div class="inform-view-historial-entry">
+        <div class="inform-view-historial-grado ${gradoClass}">${gradoLabel} — ${corrs[0].correctorUsername || ''} — ${corrs[0].fecha || ''}</div>
+        <div class="inform-view-historial-resumen">${resumen}</div>
+        <div class="inform-view-historial-secciones">${secciones}</div>
+      </div>`;
+    }).join('');
+    return `<div class="inform-view-historial">
+      <div class="inform-view-historial-title">📝 Historial de cambios</div>
+      ${entriesHtml}
+    </div>`;
   }
 
   // ===== Auto-detect reporte from text content =====
@@ -409,6 +466,9 @@ class HorneroGremial extends HoComponent {
       });
       chatEl.addEventListener('informes-reenviar', (e) => {
         this._handleInformeEdit(e.detail.informeId);
+      });
+      chatEl.addEventListener('informes-approve', (e) => {
+        this._handleInformeApprove(e.detail.informeId);
       });
       // After chat self-renders (drawer close/delete), re-sync messages without chat render
       chatEl.addEventListener('chat-state-changed', () => {
@@ -1077,6 +1137,10 @@ class HorneroGremial extends HoComponent {
         const idx = this.messages.indexOf(reportMsg);
         if (idx >= 0) {
           reportMsg.tags = [...(reportMsg.tags || []), 'reporte-aprobado'];
+          // If this was a superior correction, mark as modificado
+          if (this._originalSectionsBeforeCorrection !== null || this._correctingInformeId) {
+            reportMsg.tags = [...reportMsg.tags, 'correccion-modificado'];
+          }
           this.messages[idx] = reportMsg;
         }
 
@@ -1091,6 +1155,10 @@ class HorneroGremial extends HoComponent {
             const result = await this._updateInforme(reportMsg.informe_id, reportMsg);
             savedInformeId = reportMsg.informe_id;
             numero = result ? result.numero : 1;
+            // If this was a superior correction, attach correcciones to the message
+            if (result && result._correcciones && result._correcciones.length > 0) {
+              reportMsg._correcciones = result._correcciones;
+            }
           } else {
             const result = await this._saveInforme(reportMsg);
             savedInformeId = result ? result.id : '';
@@ -1297,12 +1365,40 @@ class HorneroGremial extends HoComponent {
     if (!informe) {
       throw new Error('Informe no encontrado: ' + informeId);
     }
-    // Update content, keep estado as 'pendiente' (delegate needs to see the correction)
+    // Update content — detect if this is a superior correction
+    const isSuperiorCorrection = this._originalSectionsBeforeCorrection !== null;
+    const newSections = reportMsg.sections || [];
+
     informe.contenido = reportMsg.text || '';
-    informe.sections = reportMsg.sections || [];
+    informe.sections = newSections;
     informe.etiquetas = { temas: (reportMsg.tags || []).filter(t => t !== 'reporte' && t !== 'reporte-generado' && t !== 'reporte-aprobado') };
-    informe.estado = 'pendiente';
-    informe.fecha = new Date().toISOString().slice(0, 10); // update date to reflect correction
+    informe.fecha = new Date().toISOString().slice(0, 10);
+
+    if (isSuperiorCorrection) {
+      // Superior correction: save correcciones and set estado to 'aprobado-con-cambios'
+      const originalSections = this._originalSectionsBeforeCorrection;
+      this._originalSectionsBeforeCorrection = null;
+      this._correctingInformeId = null;
+
+      let savedCorrecciones = [];
+      try {
+        const { cambios, correcciones } = await this._saveCorreccionesFromDiff(informeId, originalSections, newSections);
+        savedCorrecciones = correcciones;
+        if (cambios.length > 0) {
+          informe.estado = 'aprobado-con-cambios';
+        } else {
+          informe.estado = 'aprobado'; // No actual changes detected
+        }
+      } catch(e) {
+        console.warn('Gremial: correccion save failed', e);
+        informe.estado = 'aprobado-con-cambios'; // Assume changes were made
+      }
+      const result = await guardarInforme(informe);
+      return { ...result, _correcciones: savedCorrecciones };
+    } else {
+      // Worker's own correction: keep as pendiente for superior review
+      informe.estado = 'pendiente';
+    }
     return guardarInforme(informe);
   }
 
@@ -1312,6 +1408,11 @@ class HorneroGremial extends HoComponent {
       if (typeof obtenerInforme !== 'function') return;
       const informe = await obtenerInforme(informeId);
       if (!informe) return;
+      // Load correcciones for this informe
+      if (typeof obtenerCorrecciones === 'function') {
+        const correcciones = await obtenerCorrecciones(informeId);
+        informe._correcciones = correcciones || [];
+      }
       this._viewingInforme = informe;
       this.render();
     } catch(e) {
@@ -1356,6 +1457,10 @@ class HorneroGremial extends HoComponent {
       const informe = await obtenerInforme(informeId);
       if (!informe) return;
 
+      // Save original sections before correction (for diff later)
+      this._originalSectionsBeforeCorrection = JSON.parse(JSON.stringify(informe.sections || []));
+      this._correctingInformeId = informeId;
+
       // Re-inject the informe content as a new reporte-generado message
       const reportMsg = {
         role: 'hornero',
@@ -1380,6 +1485,102 @@ class HorneroGremial extends HoComponent {
     } catch(e) {
       console.warn('Gremial: informe edit load failed', e);
     }
+  }
+
+  // Superior approves a received informe without changes
+  async _handleInformeApprove(informeId) {
+    try {
+      if (typeof actualizarEstadoInforme !== 'function') return;
+      const session = this._getSession();
+      const gradoMap = { 'B.a': 1, 'B.b': 2, 'B.c': 3, 'B.d': 4 };
+      const correctorGrado = gradoMap[session.grade] || 2;
+
+      // Update estado to 'aprobado'
+      await actualizarEstadoInforme(informeId, 'aprobado');
+
+      // Save traceability record (aprobación sin cambios)
+      if (typeof guardarCorreccion === 'function') {
+        const uuid = typeof generarUUID === 'function' ? generarUUID() : 'c-' + Date.now();
+        await guardarCorreccion({
+          id: 'corr-' + uuid,
+          informeId: informeId,
+          correctorGrado: correctorGrado,
+          correctorUsername: session.username || this._username || '',
+          fecha: new Date().toISOString().slice(0, 10),
+          tipo: 'aprobacion-sin-cambios',
+          cambios: null,
+          resumen: 'Aprobado sin cambios',
+        });
+      }
+
+      // Notify user
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: '✅ Informe aprobado sin cambios.',
+        tags: ['reporte', 'informe-aprobado'],
+        persona: 'companero',
+        time: this._timeNow(),
+      }];
+      this._saveChatHistory();
+      this.render();
+    } catch(e) {
+      console.warn('Gremial: informe approve failed', e);
+    }
+  }
+
+  // Compute diff between original and new sections, save correcciones
+  async _saveCorreccionesFromDiff(informeId, originalSections, newSections) {
+    const session = this._getSession();
+    const gradoMap = { 'B.a': 1, 'B.b': 2, 'B.c': 3, 'B.d': 4 };
+    const correctorGrado = gradoMap[session.grade] || 2;
+
+    const cambios = [];
+    const correcciones = [];
+    const maxLen = Math.max(originalSections.length, newSections.length);
+
+    for (let i = 0; i < maxLen; i++) {
+      const orig = originalSections[i] || {};
+      const nuevo = newSections[i] || {};
+      const origBody = orig.body || '';
+      const nuevoBody = nuevo.body || '';
+
+      if (origBody !== nuevoBody || (orig.title || '') !== (nuevo.title || '')) {
+        const tipo = !origBody && nuevoBody ? 'agregado' :
+                     origBody && !nuevoBody ? 'eliminado' : 'modificado';
+        cambios.push({
+          sectionIndex: i,
+          sectionTitle: nuevo.title || orig.title || 'Sección ' + (i + 1),
+          tipo: tipo,
+          original: origBody.substring(0, 200),
+          modificado: nuevoBody.substring(0, 200),
+        });
+
+        const uuid = typeof generarUUID === 'function' ? generarUUID() : 'c-' + Date.now() + '-' + i;
+        correcciones.push({
+          id: 'corr-' + uuid,
+          informeId: informeId,
+          correctorGrado: correctorGrado,
+          correctorUsername: session.username || this._username || '',
+          fecha: new Date().toISOString().slice(0, 10),
+          seccionIndex: i,
+          seccionTitle: nuevo.title || orig.title || 'Sección ' + (i + 1),
+          textoOriginal: origBody,
+          textoNuevo: nuevoBody,
+          tipo: tipo,
+          resumen: tipo === 'modificado' ? 'Sección modificada' :
+                   tipo === 'agregado' ? 'Sección agregada' : 'Sección eliminada',
+        });
+      }
+    }
+
+    // Save all correcciones
+    if (correcciones.length > 0 && typeof guardarCorreccionBatch === 'function') {
+      await guardarCorreccionBatch(correcciones);
+    } else if (correcciones.length > 0 && typeof guardarCorreccion === 'function') {
+      await Promise.all(correcciones.map(c => guardarCorreccion(c)));
+    }
+
+    return { cambios, correcciones };
   }
 
   // Generate TXT content for a single informe (for download card)
