@@ -726,7 +726,7 @@ class HorneroChat extends HoComponent {
 
       /* === USER message: bubble (green, right-aligned) === */
       .msg-row { margin-bottom: 14px; animation: msgin .35s ease; }
-      .msg-row.hornero + .msg-row.hornero { margin-top: 10px; }
+      .msg-row.hornero + .msg-row.hornero { margin-top: 24px; }
       .msg-row.user { display: flex; flex-direction: column; align-items: flex-end; }
 
       .msg-row.user .msg-bubble {
@@ -2115,8 +2115,8 @@ class HorneroChat extends HoComponent {
         if (e.target.closest('.history-item-delete') || e.target.closest('.history-item-export')) return;
         const sid = item.dataset.sessionId;
         if (sid) {
-          // Emit event FIRST — parent's re-render will close drawer naturally
           this.emit('chat-session-select', { sessionId: sid, section: this.section });
+          this._closeHistoryDrawer();
         }
       });
     });

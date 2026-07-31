@@ -406,7 +406,7 @@ class HorneroFormacion extends HoComponent {
 
     const menuText = '¿Querés saber más? Estos son los contenidos que podemos explorar:\n\n• 🔥 [**Efemérides**](https://historiaobrera.com.ar/) — Las fechas clave del movimiento obrero argentino\n\n• 📝 [**Mitín**](https://historiaobrera.com.ar/mitin/) — Ensayos y relatos sobre historia obrera\n\n• 📚 [**Colección**](https://historiaobrera.com.ar/coleccion-la-argentina-peronista/) — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n\n• 🎬 [**Retazos**](https://historiaobrera.com.ar/retazos-de-historia-obrera/) — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras sobre cualquier tema.';
 
-    // 1. Show typing dots for 2s
+    // 1. Show typing dots for 1s
     this._typing = true;
     this.render();
 
@@ -423,10 +423,10 @@ class HorneroFormacion extends HoComponent {
             // 4. Progressive reveal of second message
             this._typing = false;
             this._revealMessage(menuText, 'historiador', ['historia', 'greeting', 'menu'], null);
-          }, 1800);
-        }, 1200);
+          }, 800);
+        }, 600);
       });
-    }, 2000);
+    }, 1000);
   }
 
   // ===== Progressive reveal: show text char by char via streaming =====
@@ -448,8 +448,8 @@ class HorneroFormacion extends HoComponent {
     chatEl.render();
 
     let index = 0;
-    const chunkSize = 2;
-    const interval = 18;
+    const chunkSize = 4;
+    const interval = 12;
 
     this._revealTimer = setInterval(() => {
       index += chunkSize;
