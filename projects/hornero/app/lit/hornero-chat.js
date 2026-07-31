@@ -322,7 +322,7 @@ class HorneroChat extends HoComponent {
         transition: background .2s, border-color .2s, transform .15s; }
       .chat-history-btn:hover { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
-      .chat-history-btn svg { width: 16px; height: 16px;
+      .chat-history-btn svg { width: 18px; height: 18px;
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-history-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
@@ -339,7 +339,7 @@ class HorneroChat extends HoComponent {
         transition: background .2s, border-color .2s, transform .15s; }
       .chat-informes-btn:hover { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
-      .chat-informes-btn svg { width: 16px; height: 16px;
+      .chat-informes-btn svg { width: 18px; height: 18px;
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-informes-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
@@ -358,7 +358,7 @@ class HorneroChat extends HoComponent {
         transition: background .2s, border-color .2s, transform .15s; overflow: hidden; }
       .chat-recibidos-btn:hover { background: #F0E4CC;
         border-color: var(--ho-gold, #B0863F); transform: scale(1.08); }
-      .chat-recibidos-btn svg { width: 16px; height: 16px;
+      .chat-recibidos-btn svg { width: 18px; height: 18px;
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-recibidos-btn:hover svg { stroke: var(--ho-gold, #B0863F); }
@@ -727,14 +727,17 @@ class HorneroChat extends HoComponent {
       .typing-avatar-emoji { font-size: .72rem; line-height: 1; }
 
       /* === Persona icons — top-left corner of chat === */
-      .chat-persona-icon { position: absolute; top: 14px; z-index: 20;
-        width: 32px; height: 32px;
+      .chat-persona-icon { position: absolute; top: 12px; z-index: 20;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: transform .15s, opacity .2s; overflow: visible;
-        opacity: .5; background: none; border: none; padding: 0; }
-      .chat-persona-icon:hover { transform: scale(1.08); opacity: .85; }
+        transition: transform .15s, opacity .2s, background .2s, border-color .2s;
+        overflow: hidden; opacity: .55; padding: 0; }
+      .chat-persona-icon:hover { transform: scale(1.08); opacity: .85;
+        background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
       .chat-persona-icon.active { transform: scale(1.06);
-        opacity: 1; }
+        opacity: 1; border-color: var(--ho-green, #4E9978); }
       .persona-icon-inner { width: 100%; height: 100%;
         display: flex; align-items: center; justify-content: center; }
       .persona-icon-inner img { width: 100%; height: 100%;
@@ -1073,7 +1076,7 @@ class HorneroChat extends HoComponent {
       const inner = cfg.img
         ? `<img src="${cfg.img}" alt="${cfg.name}" class="${p === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-      const leftPos = 46 + idx * 36;
+      const leftPos = 12 + idx * 36;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px">
         <span class="persona-icon-inner">${inner}</span>
