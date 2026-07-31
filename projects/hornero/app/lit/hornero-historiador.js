@@ -106,6 +106,7 @@ class HorneroHistoriador extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
+          hide-recibidos-btn
         ></hornero-chat>
       </div>
     `;
@@ -188,6 +189,7 @@ class HorneroHistoriador extends HoComponent {
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
+      chatEl.hideRecibidosBtn = true;
       chatEl.render();
     }
   }

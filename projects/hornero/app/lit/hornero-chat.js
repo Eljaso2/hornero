@@ -27,6 +27,7 @@ class HorneroChat extends HoComponent {
       streamingText: String, // Live streaming text being built token-by-token
       hidePersonaBar: Boolean, // Hide persona icons in top bar (e.g. Historia Obrera)
       hideInformesBtn: Boolean, // Hide Mis Reportes button in top bar
+      hideRecibidosBtn: Boolean, // Hide Reportes recibidos button in top bar (e.g. Historia Obrera)
       centerLogo: String,      // URL for a small logo in the top bar center (when persona bar is hidden)
       noAutoScroll: Boolean,   // Disable auto-scroll (e.g. when banner is visible above)
       topBarAccent: Boolean,   // Light mode: colored top bar (only Historia Obrera when banner hidden)
@@ -52,6 +53,7 @@ class HorneroChat extends HoComponent {
     this.grade = 'A';
     this.hidePersonaBar = false;
     this.hideInformesBtn = false;
+    this.hideRecibidosBtn = false;
     this.centerLogo = '';
     this.noAutoScroll = false;
     this.topBarAccent = false;
@@ -1412,9 +1414,9 @@ class HorneroChat extends HoComponent {
     // Recibidos SVG icon (inbox — arrow down into tray)
     const recibidosSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
 
-    // Show recibidos icon only for grades B.b, B.c, B.d (not B.a or A)
+    // Show recibidos icon only for grades B.b, B.c, B.d (not B.a or A) and not hidden
     const isHigherGrade = this.grade === 'B.b' || this.grade === 'B.c' || this.grade === 'B.d';
-    const recibidosBtnHtml = isHigherGrade ?
+    const recibidosBtnHtml = (isHigherGrade && !this.hideRecibidosBtn) ?
       `<button class="chat-recibidos-btn${this._recibidosBadge ? ' badge' : ''}" id="chatRecibidosBtn" title="Reportes recibidos">
         <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
       </button>` : '';
