@@ -716,7 +716,7 @@ class HorneroChat extends HoComponent {
 
       /* === USER message: bubble (green, right-aligned) === */
       .msg-row { margin-bottom: 14px; animation: msgin .35s ease; }
-      .msg-row.user { display: flex; justify-content: flex-end; }
+      .msg-row.user { display: flex; flex-direction: column; align-items: flex-end; }
 
       .msg-row.user .msg-bubble {
         max-width: 82%; background: var(--ho-green-light, #80CCA0);
