@@ -300,7 +300,7 @@ class HorneroArchivo extends HoComponent {
         <div class="section-title">La memoria del sindicato</div>
         <div class="intro">Convenios, referentes, fuentes sindicales. Explorá, buscá, consultá con la IA.</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:var(--ho-green-pale,#E0F0EB);border-radius:10px;cursor:pointer" id="historiadorLink">
-          <img src="assets/personajes/historiadora.png" alt="Historiador/a" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--ho-green,#4E9978)">
+          <img src="assets/personajes/${(localStorage.getItem('hornero-theme') || 'dark') === 'light' ? 'a01' : 'dark01'}.png" alt="Historiador/a" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--ho-green,#4E9978);object-fit:cover;object-position:center 25%">
           <div style="flex:1">
             <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;color:#E8E6E0">📜 Historiador/a te guía</div>
             <div style="font-size:.72rem;color:#3D6B56;line-height:1.3">Chateá con la Historiador/a para recorrer los archivos, buscar fuentes, entender la historia obrera.</div>

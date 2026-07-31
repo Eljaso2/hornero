@@ -4,7 +4,7 @@
 // This means: push changes → open app → see changes immediately, no cache clearing
 // Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v271';
+var CACHE_NAME = 'hornero-v272';
 var ASSETS = [
   './css/hornero.css',
   './js/db.js',
@@ -55,10 +55,6 @@ var ASSETS = [
   './assets/dreamina-2026-07-30-5682-Change_the_background_to_solid__pure_whi...-removebg-preview.png',
   './assets/hornero-logo-nobg.png',
   './assets/hornero-brand-creative.png',
-  './assets/personajes/historiadora.png',
-  './assets/personajes/abogado.png',
-  './assets/personajes/companera.png',
-  './assets/personajes/periodista.png',
   './assets/personajes/a01.png',
   './assets/personajes/a02.png',
   './assets/personajes/a03.png',
