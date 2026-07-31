@@ -394,6 +394,9 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('informes-edit', (e) => {
         this._handleInformeEdit(e.detail.informeId);
       });
+      chatEl.addEventListener('informes-reenviar', (e) => {
+        this._handleInformeEdit(e.detail.informeId);
+      });
       // After chat self-renders (drawer close/delete), re-sync messages without chat render
       chatEl.addEventListener('chat-state-changed', () => {
         this._syncChatMessages(chatEl);

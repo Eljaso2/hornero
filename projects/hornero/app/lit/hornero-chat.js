@@ -432,7 +432,12 @@ class HorneroChat extends HoComponent {
         font-weight: 700; color: var(--ho-text, #E8E6E0); line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .informes-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; }
+        color: var(--ho-text-light, #9C988D); display: flex; gap: 8px; align-items: center; }
+      .informes-item-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-light, #9C988D); letter-spacing: .06em;
+        background: var(--ho-mid-gray, #ECEAE3); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      .informes-item-grado { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: #D4E4F7; color: #2B5278; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .informes-item-estado { background: var(--ho-green-pale, #E0F0EB);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #3D6B56); }
@@ -442,28 +447,33 @@ class HorneroChat extends HoComponent {
       .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
 
-      .informes-item-edit-btn { background: none;
-        border: 1.5px solid #B0863F; color: #B0863F;
-        border-radius: 10px; padding: 5px 12px; cursor: pointer;
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .72rem;
-        display: inline-flex; align-items: center; gap: 4px;
-        transition: background .2s, border-color .2s; margin-top: 4px; }
-      .informes-item-edit-btn:hover { background: #F0E4CC; }
+      .informes-item-footer { display: flex; align-items: center;
+        justify-content: space-between; margin-top: 4px; }
+      .informes-item-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-light, #9C988D); }
+      .informes-item-actions { display: flex; gap: 4px; }
+      .informes-action-btn { width: 28px; height: 28px; border-radius: 8px;
+        background: none; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s; }
+      .informes-action-btn svg { width: 14px; height: 14px;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .informes-action-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .informes-action-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .informes-action-btn:disabled { opacity: .3; pointer-events: none; }
 
-      .informes-item-reviewed { opacity: .55; }
+      .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+      .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .informes-separator { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 700; color: var(--ho-text-light, #9C988D);
         padding: 8px 16px 4px; border-top: 2px solid var(--ho-border, rgba(43,42,38,.18));
         margin-top: 6px; letter-spacing: .04em; text-transform: uppercase; }
 
-      .informes-item-visto-label { font-family: 'Archivo', sans-serif;
-        font-size: .72rem; font-weight: 700; color: var(--ho-green-dark, #3D6B56);
-        background: var(--ho-green-pale, #E0F0EB); border-radius: 8px;
-        padding: 3px 10px; margin-top: 4px; display: inline-block; }
-      .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-      .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
-        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      .informes-item-reviewed { opacity: .55; }
 
       /* Informes item review buttons (aprobar/corregir for incoming G1) — subtle, icon-only */
       .informes-review-actions { display: flex; gap: 6px; margin-top: 6px; }
@@ -559,6 +569,23 @@ class HorneroChat extends HoComponent {
         color: var(--ho-green-dark, #3D6B56); }
       .history-item-footer { display: flex; align-items: center;
         justify-content: space-between; margin-top: 2px; }
+      .history-item-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-light, #9C988D); }
+      .history-item-actions { display: flex; gap: 4px; }
+      .history-action-btn { width: 28px; height: 28px; border-radius: 8px;
+        background: none; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s; }
+      .history-action-btn svg { width: 14px; height: 14px;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .history-action-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .history-action-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .history-action-btn[data-action="delete"]:hover { background: #FDECEA;
+        border-color: #D32F2F; }
+      .history-action-btn[data-action="delete"]:hover svg { stroke: #D32F2F; }
+
       .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); letter-spacing: .06em;
         background: var(--ho-mid-gray, #ECEAE3); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
@@ -566,31 +593,6 @@ class HorneroChat extends HoComponent {
       .history-empty { padding: 40px 20px; text-align: center;
         font-family: 'Archivo', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #9C988D); }
-
-      .history-item-actions { display: flex; gap: 6px; justify-content: flex-end; }
-
-      .history-item-delete { background: none; border: none; cursor: pointer;
-        padding: 4px; display: flex; }
-      .history-item-delete svg { width: 14px; height: 14px;
-        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .history-item-delete:hover svg { stroke: var(--ho-gold, #B0863F); }
-
-      /* Export button inside history drawer items */
-      .history-item-export { background: none; border: none; cursor: pointer;
-        padding: 4px; display: flex; }
-      .history-item-export svg { width: 14px; height: 14px;
-        stroke: var(--ho-green, #4E9978); stroke-width: 2;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .history-item-export:hover svg { stroke: var(--ho-green-dark, #3D6B56); transform: scale(1.1); }
-
-      /* Export button inside informes drawer items */
-      .informes-item-export { background: none; border: none; cursor: pointer;
-        padding: 4px; align-self: flex-end; display: flex; margin-top: 4px; }
-      .informes-item-export svg { width: 14px; height: 14px;
-        stroke: var(--ho-green, #4E9978); stroke-width: 2;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .informes-item-export:hover svg { stroke: var(--ho-green-dark, #3D6B56); transform: scale(1.1); }
 
       /* Section badge colors */
       .section-consulta { color: #4E9978; }
@@ -1240,6 +1242,10 @@ class HorneroChat extends HoComponent {
                 const iconInner = personaCfg.img
                   ? `<img src="${personaCfg.img}" alt="${sec.label}" class="history-item-persona-img${personaKey === 'periodista' ? ' periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
                   : `<span class="history-item-section-emoji">${sec.emoji}</span>`;
+                // SVG icons for action buttons
+                const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
+                const reenviarIcon = '<path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>';
+                const deleteIcon = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>';
                 return `<div class="history-item${isActive ? ' active' : ''}" data-session-id="${s.sessionId}">
                   <div class="history-item-section ${sectionClass}">
                     <span class="history-item-section-icon">${iconInner}</span>
@@ -1247,17 +1253,20 @@ class HorneroChat extends HoComponent {
                   </div>
                   <div class="history-item-preview">${s.preview || 'Nuevo chat'}</div>
                   <div class="history-item-meta">
-                    <span>${dateStr} · ${timeStr}</span>
+                    ${s.username ? '<span class="history-item-user">@' + s.username + '</span>' : ''}
                     <span class="history-item-count">${s.messageCount} msgs</span>
                   </div>
                   <div class="history-item-footer">
-                    ${s.username ? '<span class="history-item-user">@' + s.username + '</span>' : '<span></span>'}
+                    <span class="history-item-date">${dateStr} · ${timeStr}</span>
                     <div class="history-item-actions">
-                      <button class="history-item-export" data-export-session="${s.sessionId}" title="Exportar chat">
-                        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      <button class="history-action-btn" data-action="download" data-session-id="${s.sessionId}" title="Descargar">
+                        <svg viewBox="0 0 24 24">${downloadIcon}</svg>
                       </button>
-                      <button class="history-item-delete" data-delete-session="${s.sessionId}" title="Borrar chat">
-                        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                      <button class="history-action-btn" data-action="reenviar" data-session-id="${s.sessionId}" title="Reenviar">
+                        <svg viewBox="0 0 24 24">${reenviarIcon}</svg>
+                      </button>
+                      <button class="history-action-btn" data-action="delete" data-session-id="${s.sessionId}" title="Borrar">
+                        <svg viewBox="0 0 24 24">${deleteIcon}</svg>
                       </button>
                     </div>
                   </div>
@@ -1305,31 +1314,37 @@ class HorneroChat extends HoComponent {
                     (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
                     (inf.contenido || '').substring(0, 80));
                 const dateStr = inf.fecha || '';
-                const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
-                const tagsHtml = tags.length > 0 ?
-                  `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
                 const displayEstado = inf.estado || 'pendiente';
                 const estadoClass = estadoClassMap[displayEstado] || '';
                 const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
-                const gradoBadge = inf.grado ? `<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G${inf.grado}</span>` : '';
-                const editBtnHtml = (displayEstado === 'pendiente' || displayEstado === 'aceptado') ?
-                  `<button class="informes-item-edit-btn" data-edit-informe="${inf.id}" title="Editar informe">✏️ Editar</button>` : '';
-                const vistoLabelHtml = (displayEstado === 'visto' || displayEstado === 'aprobado' || displayEstado === 'aprobado-delegado') ?
-                  `<span class="informes-item-visto-label">👁 Visto por delegado</span>` : '';
+                const gradoBadge = inf.grado ? `<span class="informes-item-grado">G${inf.grado}</span>` : '';
+                // Corregir: activo solo para pendiente/aceptado, disabled para visto+
+                const corregirDisabled = (displayEstado !== 'pendiente' && displayEstado !== 'aceptado') ? ' disabled' : '';
+                // SVG icons for action buttons
+                const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
+                const reenviarIcon = '<path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>';
+                const corregirIcon = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
                 return `<div class="informes-item" data-informe-id="${inf.id}">
                   <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
                   <div class="informes-item-meta">
-                    <span>${dateStr}</span>
-                    ${inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : ''}
+                    ${inf.username ? '<span class="informes-item-user">@' + inf.username + '</span>' : ''}
                     ${gradoBadge}
                     <span class="informes-item-estado ${estadoClass}">${estadoLabel}</span>
                   </div>
-                  ${tagsHtml}
-                  ${editBtnHtml}
-                  ${vistoLabelHtml}
-                  <button class="informes-item-export" data-export-informe="${inf.id}" title="Exportar informe">
-                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  </button>
+                  <div class="informes-item-footer">
+                    <span class="informes-item-date">${dateStr}</span>
+                    <div class="informes-item-actions">
+                      <button class="informes-action-btn" data-action="download" data-informe-id="${inf.id}" title="Descargar">
+                        <svg viewBox="0 0 24 24">${downloadIcon}</svg>
+                      </button>
+                      <button class="informes-action-btn" data-action="reenviar" data-informe-id="${inf.id}" title="Reenviar">
+                        <svg viewBox="0 0 24 24">${reenviarIcon}</svg>
+                      </button>
+                      <button class="informes-action-btn" data-action="corregir" data-informe-id="${inf.id}" title="Corregir"${corregirDisabled}>
+                        <svg viewBox="0 0 24 24">${corregirIcon}</svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>`;
               }).join('')}
           </div>
@@ -2111,8 +2126,8 @@ class HorneroChat extends HoComponent {
     // === History drawer: select session ===
     this.shadowRoot.querySelectorAll('.history-item').forEach(item => {
       item.addEventListener('click', (e) => {
-        // Don't trigger if delete or export button was clicked
-        if (e.target.closest('.history-item-delete') || e.target.closest('.history-item-export')) return;
+        // Don't trigger if action button was clicked
+        if (e.target.closest('.history-action-btn')) return;
         const sid = item.dataset.sessionId;
         if (sid) {
           this.emit('chat-session-select', { sessionId: sid, section: this.section });
@@ -2121,37 +2136,36 @@ class HorneroChat extends HoComponent {
       });
     });
 
-    // === History drawer: export session ===
-    this.shadowRoot.querySelectorAll('.history-item-export').forEach(btn => {
+    // === History drawer: action buttons (download, reenviar, delete) ===
+    this.shadowRoot.querySelectorAll('.history-action-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const sid = btn.dataset.exportSession;
-        if (sid && typeof obtenerChatSessionMessages === 'function') {
-          obtenerChatSessionMessages(sid).then(msgs => {
-            if (msgs && msgs.length > 0) {
-              const preview = (msgs[0].text || '').substring(0, 30).replace(/[?!.]+$/, '');
-              this._downloadTxt(msgs, preview || 'chat-hornero', preview || 'chat-hornero');
-            }
-          }).catch(err => console.warn('Chat: export session failed', err));
-        }
-      });
-    });
+        const action = btn.dataset.action;
+        const sid = btn.dataset.sessionId;
+        if (!action || !sid) return;
 
-    // === History drawer: delete session ===
-    this.shadowRoot.querySelectorAll('.history-item-delete').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const sid = btn.dataset.deleteSession;
-        if (sid && typeof borrarChatSession === 'function') {
-          borrarChatSession(sid).then(() => {
-            // Notify parent that a session was deleted
-            this.emit('chat-session-delete', { sessionId: sid, section: this.section });
-            this._openHistoryDrawer(); // Refresh drawer
-            // After drawer refresh, notify parent to re-sync messages
-            this.emit('chat-state-changed', {});
-          }).catch((err) => {
-            console.warn('Chat: delete session failed', err);
-          });
+        if (action === 'download') {
+          if (typeof obtenerChatSessionMessages === 'function') {
+            obtenerChatSessionMessages(sid).then(msgs => {
+              if (msgs && msgs.length > 0) {
+                const preview = (msgs[0].text || '').substring(0, 30).replace(/[?!.]+$/, '');
+                this._downloadTxt(msgs, preview || 'chat-hornero', preview || 'chat-hornero');
+              }
+            }).catch(err => console.warn('Chat: export session failed', err));
+          }
+        } else if (action === 'reenviar') {
+          this.emit('chat-session-reenviar', { sessionId: sid, section: this.section });
+          this._closeHistoryDrawer();
+        } else if (action === 'delete') {
+          if (typeof borrarChatSession === 'function') {
+            borrarChatSession(sid).then(() => {
+              this.emit('chat-session-delete', { sessionId: sid, section: this.section });
+              this._openHistoryDrawer();
+              this.emit('chat-state-changed', {});
+            }).catch((err) => {
+              console.warn('Chat: delete session failed', err);
+            });
+          }
         }
       });
     });
@@ -2214,8 +2228,8 @@ class HorneroChat extends HoComponent {
     // === Informes drawer: select informe (delegate viewing transition) ===
     this.shadowRoot.querySelectorAll('.informes-item').forEach(item => {
       item.addEventListener('click', (e) => {
-        // Don't trigger if export or edit button was clicked
-        if (e.target.closest('.informes-item-export') || e.target.closest('.informes-item-edit-btn')) return;
+        // Don't trigger if action button was clicked
+        if (e.target.closest('.informes-action-btn')) return;
         const infId = item.dataset.informeId;
         if (infId) {
           // Delegate viewing: if grade is B.b/B.c/B.d and informe is pendiente → transition to 'visto'
@@ -2230,7 +2244,7 @@ class HorneroChat extends HoComponent {
                   if (this._showRecibidos) this._closeRecibidosDrawer();
                   else this._closeInformesDrawer();
                 });
-                return; // Don't emit yet — wait for state update
+                return;
               }
             }
           } catch(e) {}
@@ -2241,50 +2255,34 @@ class HorneroChat extends HoComponent {
       });
     });
 
-    // === Informes drawer: edit informe button ===
-    this.shadowRoot.querySelectorAll('.informes-item-edit-btn').forEach(btn => {
+    // === Informes drawer: action buttons (download, reenviar, corregir) ===
+    this.shadowRoot.querySelectorAll('.informes-action-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const infId = btn.dataset.editInforme;
-        if (infId) {
-          this.emit('informes-edit', { informeId: infId });
-          if (this._showRecibidos) this._closeRecibidosDrawer();
-          else this._closeInformesDrawer();
-        }
-      });
-    });
+        const action = btn.dataset.action;
+        const infId = btn.dataset.informeId;
+        if (!action || !infId) return;
 
-    // === Informes drawer: review buttons (aprobar/corregir incoming G1/G2) ===
-    this.shadowRoot.querySelectorAll('.informes-review-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const infId = btn.dataset.reviewInforme;
-        const action = btn.dataset.reviewAction;
-        if (!infId || !action) return;
-        if (typeof actualizarEstadoInforme !== 'function') return;
-
-        if (action === 'aprobar') {
-          actualizarEstadoInforme(infId, 'aprobado-delegado').then(() => {
-            // Refresh drawer after state change
-            this._openInformesDrawer();
-          });
-        } else if (action === 'corregir') {
-          actualizarEstadoInforme(infId, 'corregido-delegado').then(() => {
-            this._openInformesDrawer();
-          });
-        }
-      });
-    });
-
-    // === Informes drawer: export informe ===
-    this.shadowRoot.querySelectorAll('.informes-item-export').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const infId = btn.dataset.exportInforme;
-        if (infId && typeof obtenerInforme === 'function') {
-          obtenerInforme(infId).then(inf => {
+        if (action === 'download') {
+          if (typeof obtenerInforme === 'function') {
+            obtenerInforme(infId).then(inf => {
+              if (inf) {
+                const msgs = [{
+                  role: 'hornero',
+                  text: inf.contenido || '',
+                  sections: inf.sections || [],
+                  tags: (inf.etiquetas && inf.etiquetas.temas) ? inf.etiquetas.temas : [],
+                  time: '',
+                }];
+                const title = inf.sections && inf.sections.length > 0
+                  ? inf.sections[0].title || 'Informe Gremial'
+                  : 'Informe Gremial';
+                this._downloadTxt(msgs, title, `informe-${inf.fecha || 'gremial'}`);
+              }
+            }).catch(err => console.warn('Chat: export informe failed', err));
+          } else {
+            const inf = this._informesList.find(i => i.id === infId);
             if (inf) {
-              // Convert informe to messages format for export
               const msgs = [{
                 role: 'hornero',
                 text: inf.contenido || '',
@@ -2297,23 +2295,16 @@ class HorneroChat extends HoComponent {
                 : 'Informe Gremial';
               this._downloadTxt(msgs, title, `informe-${inf.fecha || 'gremial'}`);
             }
-          }).catch(err => console.warn('Chat: export informe failed', err));
-        } else {
-          // Fallback: search in cached informes list
-          const inf = this._informesList.find(i => i.id === infId);
-          if (inf) {
-            const msgs = [{
-              role: 'hornero',
-              text: inf.contenido || '',
-              sections: inf.sections || [],
-              tags: (inf.etiquetas && inf.etiquetas.temas) ? inf.etiquetas.temas : [],
-              time: '',
-            }];
-            const title = inf.sections && inf.sections.length > 0
-              ? inf.sections[0].title || 'Informe Gremial'
-              : 'Informe Gremial';
-            this._downloadTxt(msgs, title, `informe-${inf.fecha || 'gremial'}`);
           }
+        } else if (action === 'reenviar') {
+          this.emit('informes-reenviar', { informeId: infId });
+          if (this._showRecibidos) this._closeRecibidosDrawer();
+          else this._closeInformesDrawer();
+        } else if (action === 'corregir') {
+          if (btn.disabled) return;
+          this.emit('informes-edit', { informeId: infId });
+          if (this._showRecibidos) this._closeRecibidosDrawer();
+          else this._closeInformesDrawer();
         }
       });
     });
