@@ -4,7 +4,7 @@
 // This means: push changes → open app → see changes immediately, no cache clearing
 // Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v267';
+var CACHE_NAME = 'hornero-v268';
 var ASSETS = [
   './css/hornero.css',
   './js/db.js',
@@ -75,7 +75,7 @@ self.addEventListener('install', function(event) {
     caches.open(CACHE_NAME).then(function(cache) {
       return Promise.allSettled(
         ASSETS.map(function(url) {
-          return cache.add(url).catch(function(err) {
+          return cache.add(new Request(url, { cache: 'no-cache' })).catch(function(err) {
             console.warn('SW: failed to cache', url, err);
           });
         })
@@ -157,7 +157,29 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // Everything else (fonts, images): cache-first
+  // Images (personajes etc): stale-while-revalidate — show cached, update in background
+  var isImage = url.pathname.match(/\.(png|jpg|jpeg|gif|svg|webp|ico)$/);
+  if (isImage && url.origin === self.location.origin) {
+    event.respondWith(
+      caches.match(event.request).then(function(cached) {
+        var fetchPromise = fetch(event.request, { cache: 'no-cache' }).then(function(response) {
+          if (response && response.status === 200) {
+            var responseClone = response.clone();
+            caches.open(CACHE_NAME).then(function(cache) {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return response;
+        }).catch(function() {
+          return cached;
+        });
+        return cached || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // Everything else (fonts): cache-first
   event.respondWith(
     caches.match(event.request).then(function(cached) {
       if (cached) return cached;
