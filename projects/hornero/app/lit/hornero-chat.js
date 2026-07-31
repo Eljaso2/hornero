@@ -314,10 +314,9 @@ class HorneroChat extends HoComponent {
         font-family: 'Archivo', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #9C988D); width: 100%; text-align: center; }
 
-      /* History button — top-right corner of chat */
-      .chat-history-btn { position: absolute; top: 12px; right: 12px; z-index: 20;
-        width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+      /* History button — inside top bar */
+      .chat-history-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
         transition: background .2s, border-color .2s, transform .15s; }
       .chat-history-btn:hover { background: var(--ho-green-pale, #E0F0EB);
@@ -331,10 +330,9 @@ class HorneroChat extends HoComponent {
       .chat-export-btn { background: var(--ho-green-pale, #E0F0EB); }
       .chat-export-btn svg { stroke: var(--ho-green-dark, #3D6B56); fill: none; }
 
-      /* Informes button — top-right corner, left of history btn */
-      .chat-informes-btn { position: absolute; top: 12px; right: 48px; z-index: 20;
-        width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+      /* Informes button — inside top bar */
+      .chat-informes-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
         transition: background .2s, border-color .2s, transform .15s; }
       .chat-informes-btn:hover { background: var(--ho-green-pale, #E0F0EB);
@@ -350,10 +348,9 @@ class HorneroChat extends HoComponent {
       .chat-informes-btn.badge svg { stroke: var(--ho-green-dark, #3D6B56);
         stroke-width: 2.6; }
 
-      /* Reportes Recibidos button — top-right, only for grades B.b/B.c/B.d */
-      .chat-recibidos-btn { position: absolute; top: 12px; right: 84px; z-index: 20;
-        width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+      /* Reportes Recibidos button — inside top bar */
+      .chat-recibidos-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
         transition: background .2s, border-color .2s, transform .15s; overflow: hidden; }
       .chat-recibidos-btn:hover { background: #F0E4CC;
@@ -666,7 +663,7 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 52px; /* room for persona icons row */
+        padding-top: 8px; /* top bar is above, no overlap */
         -webkit-overflow-scrolling: touch; }
 
       /* Animations */
@@ -726,10 +723,30 @@ class HorneroChat extends HoComponent {
       /* === Typing avatar: persona-aware === */
       .typing-avatar-emoji { font-size: .72rem; line-height: 1; }
 
-      /* === Persona icons — top-left corner of chat === */
-      .chat-persona-icon { position: absolute; top: 12px; z-index: 20;
-        width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+      /* === Chat top bar (cintillo) — persona icons + action buttons === */
+      .chat-top-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+        height: 48px; display: flex; align-items: center; justify-content: space-between;
+        padding: 0 8px; background: var(--ho-card, #2A3230);
+        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
+      .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
+      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; }
+
+      /* Back button inside top bar */
+      .chat-back-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .chat-back-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .chat-back-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+
+      /* Persona icons — inside top bar */
+      .chat-persona-icon { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
         transition: transform .15s, opacity .2s, background .2s, border-color .2s;
         overflow: hidden; opacity: .55; padding: 0; }
@@ -1102,9 +1119,8 @@ class HorneroChat extends HoComponent {
       const inner = cfg.img
         ? `<img src="${cfg.img}" alt="${cfg.name}" class="${p === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-      const leftPos = 50 + idx * 36;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
-      return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}" style="left:${leftPos}px">
+      return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
         <span class="persona-icon-inner">${inner}</span>
       </button>`;
     }).join('');
@@ -1280,17 +1296,25 @@ class HorneroChat extends HoComponent {
       </button>` : '';
 
     return html`
-      ${personaIconsHtml}
-
-      ${recibidosBtnHtml}
-
-      <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Mis Reportes">
-        <svg viewBox="0 0 24 24">${informeSvg}</svg>
-      </button>
-
-      <button class="chat-history-btn" id="chatHistoryBtn" title="Mis Conversaciones">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      </button>
+      <div class="chat-top-bar">
+        <div class="chat-top-bar-left">
+          <button class="chat-back-btn" id="chatBackBtn" title="Volver">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </button>
+        </div>
+        <div class="chat-top-bar-center">
+          ${personaIconsHtml}
+        </div>
+        <div class="chat-top-bar-right">
+          ${recibidosBtnHtml}
+          <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Mis Reportes">
+            <svg viewBox="0 0 24 24">${informeSvg}</svg>
+          </button>
+          <button class="chat-history-btn" id="chatHistoryBtn" title="Mis Conversaciones">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </button>
+        </div>
+      </div>
 
       ${progressFill}
 
