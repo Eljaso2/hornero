@@ -11,6 +11,7 @@ class HorneroFormacion extends HoComponent {
       grade: String,
       sector: String,
       messages: Array,
+      _bannerVisible: Boolean,
     };
   }
 
@@ -39,6 +40,7 @@ class HorneroFormacion extends HoComponent {
     this.messages = [];
     this._typing = false;
     this._greetingShown = false;
+    this._bannerVisible = true;
     this._sessionId = '';
     this._activePersona = 'historiador';
     this._username = '';
@@ -260,28 +262,22 @@ class HorneroFormacion extends HoComponent {
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); }
 
-      /* ===== Hero banner ===== */
+      /* ===== Hero banner with bajada overlay ===== */
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
-        padding: 24px 16px 16px; display: flex; flex-direction: column;
-        align-items: center; justify-content: center; gap: 6px;
+        padding: 20px 16px 14px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 8px;
         flex-shrink: 0; }
       .hero-banner-img { width: 100%; max-width: 320px; height: auto;
         display: block; }
-      /* Light mode: if logo is dark on transparent, keep as-is; if light, invert */
       :host(.theme-light) .hero-banner-img { filter: brightness(0.85); }
-      .hero-subtitle { font-family: 'Archivo', sans-serif; font-weight: 600;
-        font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
-        text-align: center; }
-
-      /* ===== Bajada ===== */
-      .bajada { padding: 12px 16px 8px; }
-      .bajada-text { font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
-      .bajada-link { display: inline-block; margin-top: 6px;
-        font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
+      .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .78rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        text-align: center; max-width: 340px; }
+      .hero-bajada-link { display: inline-block; margin-top: 4px;
+        font-family: 'Archivo', sans-serif; font-size: .72rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
-      .bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
+      .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
 
       /* ===== Chat container ===== */
       .chat-container { flex: 1; display: flex; flex-direction: column;
@@ -291,18 +287,16 @@ class HorneroFormacion extends HoComponent {
 
   _render() {
     return html`
+      ${this._bannerVisible ? html`
       <div class="hero-banner">
         <img class="hero-banner-img" src="assets/Historia-Obrera_marca-.png" alt="Historia Obrera">
-        <div class="hero-subtitle">Formación sindical y obrera</div>
-      </div>
-
-      <div class="bajada">
-        <div class="bajada-text">
+        <div class="hero-bajada">
           Efemérides de la clase trabajadora, ensayos en el Mitín, la colección La Argentina Peronista y retazos de historia en audio, video e ilustración.
           Todo desde abajo — la historia que nos cuentan los que la hicieron.
+          <a class="hero-bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗ historiaobrera.com.ar</a>
         </div>
-        <a class="bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗ historiaobrera.com.ar</a>
       </div>
+      ` : ''}
 
       <div class="chat-container">
         <hornero-chat
@@ -314,6 +308,7 @@ class HorneroFormacion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
+          hide-persona-bar
         ></hornero-chat>
       </div>
     `;
@@ -379,6 +374,7 @@ class HorneroFormacion extends HoComponent {
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
+      chatEl.hidePersonaBar = true;
       chatEl.render();
     }
   }
@@ -388,26 +384,44 @@ class HorneroFormacion extends HoComponent {
     const efe = this._getEfemerideSemana();
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
-    let greetingText = '';
+    // First message: efeméride — shown with progressive reveal (typing effect)
+    let efeText = '';
     if (efe) {
-      greetingText = `${efe.emoji} Esta semana se conmemora el **${efe.title}** (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\n¿Querés saber más? Podemos explorar juntos:\n\n• 🔥 **Efemérides** — Las fechas clave del movimiento obrero argentino\n• 📝 **Mitín** — Ensayos y relatos sobre historia obrera\n• 📚 **Colección** — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n• 🎬 **Retazos** — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras sobre cualquier tema de historia obrera.`;
+      efeText = `${efe.emoji} Esta semana se conmemora el **${efe.title}** (${efe.fecha}/${efe.year}).\n\n${efe.narrative}`;
     } else {
-      greetingText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?';
+      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.';
     }
 
     this.messages = [{
       role: 'hornero',
-      text: greetingText,
+      text: efeText,
       tags: ['historia', 'greeting', 'efemeride-semana'],
       persona: 'historiador',
       time: this._timeNow(),
     }];
+
+    // Second message: "¿Querés saber más?" — appears after a delay
+    setTimeout(() => {
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: '¿Querés saber más? Podemos explorar juntos:\n\n• 🔥 **Efemérides** — Las fechas clave del movimiento obrero argentino\n• 📝 **Mitín** — Ensayos y relatos sobre historia obrera\n• 📚 **Colección** — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n• 🎬 **Retazos** — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras.',
+        tags: ['historia', 'greeting', 'menu'],
+        persona: 'historiador',
+        time: this._timeNow(),
+      }];
+      this.render();
+    }, 2800);
+
     this.render();
   }
 
   // ===== Handle user message =====
   _handleUserMessage(text) {
     this._stopProgressiveReveal();
+    // Hide banner when user starts chatting
+    if (this._bannerVisible) {
+      this._bannerVisible = false;
+    }
     this.messages = [...this.messages, { role: 'user', text, tags: ['historia'], time: this._timeNow() }];
     this._typing = true;
     this._saveChatHistory();

@@ -25,6 +25,7 @@ class HorneroChat extends HoComponent {
       username: String,      // Login username for per-user data isolation
       grade: String,         // User grade (B.a, B.b, B.c, B.d) — controls Reportes Recibidos icon
       streamingText: String, // Live streaming text being built token-by-token
+      hidePersonaBar: Boolean, // Hide persona icons in top bar (e.g. Historia Obrera)
     };
   }
 
@@ -45,6 +46,7 @@ class HorneroChat extends HoComponent {
     this.theme = localStorage.getItem('hornero-theme') || 'dark';
     this.username = '';
     this.grade = 'A';
+    this.hidePersonaBar = false;
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
     this._mediaStream = null;   // MediaStream from getUserMedia
@@ -1362,7 +1364,7 @@ class HorneroChat extends HoComponent {
           </button>
         </div>
         <div class="chat-top-bar-center">
-          ${personaIconsHtml}
+          ${this.hidePersonaBar ? '' : personaIconsHtml}
         </div>
         <div class="chat-top-bar-right">
           ${recibidosBtnHtml}
