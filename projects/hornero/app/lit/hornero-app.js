@@ -549,7 +549,7 @@ class HorneroApp extends HoComponent {
       .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
       .informes-item-footer { display: flex; align-items: center;
-        justify-content: space-between; margin-top: 4px; }
+        gap: 8px; margin-top: 4px; }
       .informes-item-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); }
       .informes-item-actions { display: flex; gap: 4px; }
@@ -694,7 +694,7 @@ class HorneroApp extends HoComponent {
     // Build screen content
     let screenContent = '';
     if (this.screen === 'home') {
-      screenContent = '<hornero-home grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-home>';
+      screenContent = '<hornero-home grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-home>';
     } else if (this.screen === 'is') {
       screenContent = '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>';
     } else if (this.screen === 'actualidad') {

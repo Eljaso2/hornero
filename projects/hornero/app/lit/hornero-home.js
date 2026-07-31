@@ -11,6 +11,7 @@ class HorneroHome extends HoComponent {
       grade: String,
       sector: String,
       carouselIndex: Number,
+      theme: String,
     };
   }
 
@@ -32,6 +33,7 @@ class HorneroHome extends HoComponent {
     this.grade = 'A';
     this.sector = 'aceitero';
     this.carouselIndex = 0;
+    this.theme = localStorage.getItem('hornero-theme') || 'dark';
     this._clipping = [];
     this._agenda = [];
     this._latestType = 'clipping';  // 'clipping' or 'infomate'
@@ -51,6 +53,12 @@ class HorneroHome extends HoComponent {
 
   async connectedCallback() {
     super.connectedCallback();
+    // Apply theme class
+    if (this.theme === 'light') {
+      this.classList.add('theme-light');
+    } else {
+      this.classList.remove('theme-light');
+    }
     // If we have cached data, render immediately for instant display
     const c = HorneroHome._cache;
     if (c.loaded) {
@@ -348,6 +356,11 @@ class HorneroHome extends HoComponent {
         font-size: .62rem; background: rgba(78,153,120,.6); color: var(--ho-text-off, #F2F1EC);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
+
+      /* ===== Light mode: hero card titles = gris casi blanco ===== */
+      :host(.theme-light) .panorama-overlay .card-name { color: #D8D6D0; }
+      :host(.theme-light) .formacion-overlay .card-name { color: #D8D6D0; }
+      :host(.theme-light) .archivo-overlay .card-name { color: #D8D6D0; }
 
       .esfera-card { background: var(--ho-card, #2A3230);
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
