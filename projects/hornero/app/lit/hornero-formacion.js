@@ -261,33 +261,18 @@ class HorneroFormacion extends HoComponent {
         background: var(--ho-bg, #1E2321); }
 
       /* ===== Hero banner ===== */
-      .hero-banner { position: relative; width: 100%; min-height: 180px;
-        overflow: hidden; flex-shrink: 0; }
-      .hero-banner img { width: 100%; height: 180px; object-fit: cover;
+      .hero-banner { position: relative; width: 100%;
+        background: var(--ho-dark, #1E2321);
+        padding: 24px 16px 16px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 6px;
+        flex-shrink: 0; }
+      .hero-banner-img { width: 100%; max-width: 320px; height: auto;
         display: block; }
-      /* Dark overlay for text readability */
-      .hero-overlay { position: absolute; inset: 0;
-        background: linear-gradient(to bottom,
-          rgba(30,35,33,.3) 0%,
-          rgba(30,35,33,.5) 40%,
-          rgba(30,35,33,.85) 100%);
-        display: flex; flex-direction: column; justify-content: flex-end;
-        padding: 16px; }
-      /* Light mode: lighter overlay */
-      :host([data-theme="light"]) .hero-overlay,
-      :host(.theme-light) .hero-overlay {
-        background: linear-gradient(to bottom,
-          rgba(248,246,240,.2) 0%,
-          rgba(248,246,240,.4) 40%,
-          rgba(248,246,240,.8) 100%); }
-      .hero-kicker { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: var(--ho-green-light, #80CCA0); margin-bottom: 4px; }
-      .hero-title { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.2rem; color: var(--ho-text-off, #F2F1EC);
-        letter-spacing: .02em; text-transform: uppercase; line-height: 1.2; }
+      /* Light mode: if logo is dark on transparent, keep as-is; if light, invert */
+      :host(.theme-light) .hero-banner-img { filter: brightness(0.85); }
       .hero-subtitle { font-family: 'Archivo', sans-serif; font-weight: 600;
-        font-size: .82rem; color: rgba(242,241,236,.85); margin-top: 2px; }
+        font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
+        text-align: center; }
 
       /* ===== Bajada ===== */
       .bajada { padding: 12px 16px 8px; }
@@ -307,12 +292,8 @@ class HorneroFormacion extends HoComponent {
   _render() {
     return html`
       <div class="hero-banner">
-        <img src="assets/personajes/ho.jpg" alt="Historia Obrera">
-        <div class="hero-overlay">
-          <div class="hero-kicker">📜 HISTORIA OBRERA</div>
-          <div class="hero-title">Historia Obrera</div>
-          <div class="hero-subtitle">Formación sindical y obrera</div>
-        </div>
+        <img class="hero-banner-img" src="assets/Historia-Obrera_marca-.png" alt="Historia Obrera">
+        <div class="hero-subtitle">Formación sindical y obrera</div>
       </div>
 
       <div class="bajada">
