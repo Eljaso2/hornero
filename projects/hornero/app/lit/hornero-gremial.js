@@ -692,8 +692,8 @@ class HorneroGremial extends HoComponent {
     this._stopProgressiveReveal(); // Clear any existing timer
     this._progressiveRevealFull = fullText;
     this._progressiveRevealIndex = 0;
-    const chunkSize = 3; // Characters per tick
-    const interval = 18; // ms between ticks — ~55 chars/sec
+    const chunkSize = 1; // Characters per tick
+    const interval = 25; // ms between ticks
     this._progressiveRevealTimer = setInterval(() => {
       this._progressiveRevealIndex += chunkSize;
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
