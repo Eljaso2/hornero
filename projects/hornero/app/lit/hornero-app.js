@@ -41,6 +41,8 @@ class HorneroApp extends HoComponent {
     this._clipEdicion = null;
     this._clipExpandId = null;
     this._mateMes = null;
+    this._profileOpen = false;
+    this._pushEnabled = (typeof isPushSubscribed === 'function') ? isPushSubscribed() : false;
 
     // Synchronous session restore from localStorage (avoids login flash)
     const stored = localStorage.getItem('hornero-session');
@@ -596,6 +598,43 @@ class HorneroApp extends HoComponent {
         color: var(--ho-text-off, #F2F1EC); cursor: pointer; font-size: 1rem;
         padding: 4px 8px; }
 
+      /* ===== Profile popup ===== */
+      .profile-overlay { position: fixed; inset: 0;
+        background: rgba(33,31,29,.65); z-index: 200;
+        display: flex; align-items: flex-start; justify-content: center;
+        padding: 16px 16px 40px; overflow-y: auto; -webkit-overflow-scrolling: touch;
+        animation: popfade .25s ease; }
+      .profile-popup { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.12));
+        border-radius: 16px; max-width: 100%; width: 380px;
+        position: relative; overflow: hidden; margin-bottom: 24px; }
+      .profile-close { position: absolute; top: 10px; right: 12px;
+        background: var(--ho-dark-surface, #3F4E4A); color: var(--ho-text-off, #F2F1EC);
+        width: 28px; height: 28px; border-radius: 50%; border: none;
+        cursor: pointer; font-size: .85rem; z-index: 10;
+        display: flex; align-items: center; justify-content: center; }
+      .profile-popup-body { padding: 20px 16px 16px; }
+
+      /* Toggle switch (profile popup) */
+      .toggle-switch { position: relative; width: 44px; height: 24px;
+        background: var(--ho-warm-gray, #3A4340); border-radius: 12px;
+        cursor: pointer; transition: background .2s; flex: none; }
+      .toggle-switch.active { background: var(--ho-green, #4E9978); }
+      .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px;
+        width: 20px; height: 20px; border-radius: 50%; background: #F2F1EC;
+        transition: transform .2s; }
+      .toggle-switch.active::after { transform: translateX(20px); }
+
+      /* Theme toggle (profile popup) */
+      .theme-toggle { width: 48px; height: 26px; border-radius: 13px;
+        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
+        position: relative; transition: background .3s; flex: none; }
+      .theme-toggle.active { background: var(--ho-green, #4E9978); }
+      .theme-toggle-knob { position: absolute; top: 3px; left: 3px;
+        width: 20px; height: 20px; border-radius: 50%;
+        background: var(--ho-text-off, #F2F1EC); transition: transform .3s; }
+      .theme-toggle.active .theme-toggle-knob { transform: translateX(22px); }
+
       /* ===== Nav badge (new clipping indicator) ===== */
       .nav-btn { position: relative; }
       .nav-badge { position: absolute; top: 2px; right: calc(50% - 18px);
@@ -783,7 +822,110 @@ class HorneroApp extends HoComponent {
           </div>
         </div>
       </div>
+
+      ${this._profileOpen ? this._renderProfilePopup() : ''}
     `;
+  }
+
+  // ===== Profile popup =====
+  _renderProfilePopup() {
+    const grade = this.userGrade;
+    const sector = this.userSector;
+    const theme = this.theme;
+
+    // Build profile content inline (same data as hornero-perfil)
+    let session = {};
+    try {
+      const stored = localStorage.getItem('hornero-session');
+      if (stored) session = JSON.parse(stored);
+    } catch(e) {}
+
+    const gradeLabels = {
+      'B.a': { num: 1, role: 'Trabajador base', color: 'green' },
+      'B.b': { num: 2, role: 'Delegada', color: 'gold' },
+      'B.c': { num: 3, role: 'Secretaría', color: 'mid' },
+      'B.d': { num: 4, role: 'Federación', color: 'dark' },
+    };
+    const gradeInfo = gradeLabels[grade] || { num: 0, role: 'Sin acceso', color: '' };
+
+    const agrem = session.agremiacion || {};
+    const agremFields = [];
+    if (agrem.federacion) agremFields.push({ label: 'Federación', value: agrem.federacion });
+    if (agrem.sindicato) agremFields.push({ label: 'Sindicato', value: agrem.sindicato });
+    const convenioLine = agrem.convenio ? (agrem.sectorName ? agrem.convenio + ' · ' + agrem.sectorName : agrem.convenio) : '';
+    agremFields.push({ label: 'Convenio', value: convenioLine });
+    if (agrem.territorio) agremFields.push({ label: 'Territorio', value: agrem.territorio });
+    agremFields.push({ label: 'Empresa', value: agrem.empresa || '' });
+    agremFields.push({ label: 'Puesto', value: agrem.puesto || '' });
+
+    const email = session.email || '';
+    const userName = this.userName || 'Usuario';
+
+    const agremFieldsHtml = agremFields.map(f =>
+      '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">' +
+      '<span style="font-family:Public Sans,sans-serif;font-size:.78rem;color:var(--ho-text-mid,#9C988D);min-width:80px">' + f.label + '</span>' +
+      '<span style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-off,#F2F1EC);font-weight:600' + (f.value ? '' : ';color:var(--ho-text-light,#7A766D)') + '">' + (f.value || '—') + '</span>' +
+      '</div>'
+    ).join('');
+
+    const nivelBadgeStyle = {
+      green: 'background:var(--ho-green-pale,#E0F0EB);color:var(--ho-green-dark,#3D6B56)',
+      gold: 'background:#F0E4CC;color:#7A5E2C',
+      mid: 'background:var(--ho-mid-gray,#ECEAE3);color:var(--ho-dark-mid,#536260)',
+      dark: 'background:var(--ho-warm-gray,#E6E3DB);color:var(--ho-text,#1E2321);border:1px solid var(--ho-text,#1E2321)',
+    };
+
+    return html`
+      <div class="profile-overlay" id="profileOverlay">
+        <div class="profile-popup">
+          <button class="profile-close" id="profileClose">✕</button>
+          <div class="profile-popup-body">
+            <!-- Datos Personales -->
+            <div style="font-family:JetBrains Mono,monospace;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ho-text-light,#9C988D);margin-bottom:12px">👤 DATOS PERSONALES</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
+              <span style="font-family:Public Sans,sans-serif;font-size:.78rem;color:var(--ho-text-mid,#9C988D);min-width:60px">Usuario</span>
+              <span style="font-family:Public Sans,sans-serif;font-size:.86rem;color:var(--ho-text,#E8E6E0);font-weight:600">${userName}</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
+              <span style="font-family:Public Sans,sans-serif;font-size:.78rem;color:var(--ho-text-mid,#9C988D);min-width:60px">Email</span>
+              <span style="font-family:Public Sans,sans-serif;font-size:.86rem;font-weight:600;color:${email ? 'var(--ho-text,#E8E6E0)' : 'var(--ho-text-light,#6E6A60)'}">${email || 'No configurado'}</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
+              <span style="font-family:Public Sans,sans-serif;font-size:.78rem;color:var(--ho-text-mid,#9C988D);min-width:60px">Nivel</span>
+              <span style="font-family:JetBrains Mono,monospace;font-size:.62rem;font-weight:600;letter-spacing:.10em;text-transform:uppercase;padding:2px 8px;border-radius:6px;${nivelBadgeStyle[gradeInfo.color] || ''}">N${gradeInfo.num} · ${gradeInfo.role}</span>
+            </div>
+
+            <!-- Agremiación -->
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--ho-border,rgba(255,255,255,.08))">
+              <div style="font-family:JetBrains Mono,monospace;font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--ho-dark-surface,#3F4E4A);color:var(--ho-text-off,#F2F1EC);padding:2px 8px;border-radius:6px;display:inline-block;margin-bottom:10px">AGREMIACIÓN</div>
+              ${agremFieldsHtml}
+            </div>
+
+            <!-- Notificaciones + Theme -->
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--ho-border,rgba(255,255,255,.08))">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                <span style="font-family:Archivo,sans-serif;font-weight:600;font-size:.82rem;color:var(--ho-text,#E8E6E0)">🔔 Notificaciones</span>
+                <div class="toggle-switch${this._pushEnabled ? ' active' : ''}" id="profile-push-toggle"></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-family:Archivo,sans-serif;font-weight:600;font-size:.82rem;color:var(--ho-text,#E8E6E0)">☀️ Claro / Oscuro</span>
+                <button class="theme-toggle${theme === 'dark' ? ' active' : ''}" id="profileThemeToggle">
+                  <span class="theme-toggle-knob"></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Logout -->
+            <button style="background:#A6553E;color:var(--ho-text-off,#F2F1EC);border:none;border-radius:10px;padding:12px 24px;font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;width:100%;margin-top:16px" id="profileLogoutBtn">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  _closeProfilePopup() {
+    this._profileOpen = false;
+    this.render();
   }
 
   _afterRender() {
@@ -795,6 +937,12 @@ class HorneroApp extends HoComponent {
     // Bind sections bar button clicks (top navigation)
     this.shadowRoot.querySelectorAll('.sections-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        // Perfil section → open profile popup instead of navigating
+        if (btn.dataset.screen === 'perfil') {
+          this._profileOpen = true;
+          this.render();
+          return;
+        }
         this._navigateTo(btn.dataset.screen);
       });
     });
@@ -802,6 +950,12 @@ class HorneroApp extends HoComponent {
     this.shadowRoot.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const screen = btn.dataset.screen;
+        // Perfil button → open profile popup instead of navigating
+        if (screen === 'perfil') {
+          this._profileOpen = true;
+          this.render();
+          return;
+        }
         // Reporte button → always open as Compañero chat
         if (screen === 'gremial') {
           this._initialPersona = 'companero';
@@ -926,6 +1080,47 @@ class HorneroApp extends HoComponent {
       this._clipBannerVisible = false;
       this.render();
     });
+    // Bind profile popup close
+    const profileClose = this.shadowRoot.querySelector('#profileClose');
+    if (profileClose) profileClose.addEventListener('click', () => this._closeProfilePopup());
+    const profileOverlay = this.shadowRoot.querySelector('#profileOverlay');
+    if (profileOverlay) profileOverlay.addEventListener('click', (e) => {
+      if (e.target === profileOverlay) this._closeProfilePopup();
+    });
+    // Bind profile popup: theme toggle
+    const profileThemeToggle = this.shadowRoot.querySelector('#profileThemeToggle');
+    if (profileThemeToggle) profileThemeToggle.addEventListener('click', () => {
+      const newTheme = this.theme === 'light' ? 'dark' : 'light';
+      this.set('theme', newTheme);
+      localStorage.setItem('hornero-theme', newTheme);
+      this._updateThemeColor();
+      this.render(); // re-render popup with new theme
+    });
+    // Bind profile popup: push toggle
+    const profilePushToggle = this.shadowRoot.querySelector('#profile-push-toggle');
+    if (profilePushToggle) profilePushToggle.addEventListener('click', async () => {
+      if (this._pushEnabled) {
+        if (typeof unsubscribeUser === 'function') await unsubscribeUser();
+        this._pushEnabled = false;
+      } else {
+        if (!('Notification' in window)) return;
+        if (Notification.permission === 'denied') return;
+        if (typeof requestNotificationPermission === 'function') {
+          const permission = await requestNotificationPermission();
+          if (permission === 'granted' && typeof subscribeUser === 'function') {
+            try { await subscribeUser(); this._pushEnabled = true; } catch(e) { this._pushEnabled = false; }
+          }
+        }
+      }
+      this.render();
+    });
+    // Bind profile popup: logout
+    const profileLogoutBtn = this.shadowRoot.querySelector('#profileLogoutBtn');
+    if (profileLogoutBtn) profileLogoutBtn.addEventListener('click', () => {
+      this._closeProfilePopup();
+      this._handleLogout();
+    });
+
     // Acknowledge clipping when navigating to clipping screen
     if (this.screen === 'clipping' && this.newClippingAvailable && typeof acknowledgeClipping === 'function') {
       acknowledgeClipping(this._newClipVersion);
