@@ -29,6 +29,7 @@ class HorneroChat extends HoComponent {
       hideInformesBtn: Boolean, // Hide Mis Reportes button in top bar
       centerLogo: String,      // URL for a small logo in the top bar center (when persona bar is hidden)
       noAutoScroll: Boolean,   // Disable auto-scroll (e.g. when banner is visible above)
+      topBarAccent: Boolean,   // Light mode: colored top bar (only Historia Obrera when banner hidden)
     };
   }
 
@@ -53,6 +54,7 @@ class HorneroChat extends HoComponent {
     this.hideInformesBtn = false;
     this.centerLogo = '';
     this.noAutoScroll = false;
+    this.topBarAccent = false;
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
     this._mediaStream = null;   // MediaStream from getUserMedia
@@ -790,8 +792,7 @@ class HorneroChat extends HoComponent {
         height: 48px; display: flex; align-items: center; justify-content: space-between;
         padding: 0 8px; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      :host(.theme-light) .chat-top-bar,
-      :host([data-theme="light"]) .chat-top-bar {
+      :host(.theme-light.topbar-accent) .chat-top-bar {
         background: var(--ho-green-pale, #E0F0EB); }
       .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
@@ -1856,6 +1857,12 @@ class HorneroChat extends HoComponent {
       this.classList.add('theme-light');
     } else {
       this.classList.remove('theme-light');
+    }
+    // === Top bar accent: only Historia Obrera when banner is hidden ===
+    if (this.topBarAccent) {
+      this.classList.add('topbar-accent');
+    } else {
+      this.classList.remove('topbar-accent');
     }
 
     // === Mark drawers as stable after first render (prevent slideIn replay) ===
