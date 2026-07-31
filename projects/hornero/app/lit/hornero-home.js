@@ -258,7 +258,7 @@ class HorneroHome extends HoComponent {
         transition: opacity .2s; }
       .icon-btn:hover { opacity: .8; }
       .persona-home-img { width: 64px; height: 64px; border-radius: 14px;
-        object-fit: cover; object-position: center 25%;
+        object-fit: contain; object-position: center;
         filter: var(--ho-persona-filter, none); }
       .persona-home-img.periodista-full { object-fit: contain; }
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
