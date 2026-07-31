@@ -510,11 +510,6 @@ class HorneroChat extends HoComponent {
       .history-header { padding: 16px; display: flex; align-items: center;
         justify-content: space-between; flex: none; gap: 10px;
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .history-back-btn { width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        color: var(--ho-text-off, #F2F1EC); flex: none; }
-      .history-back-btn svg { width: 18px; height: 18px; }
       .history-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
       .history-new-btn { background: none; border: none;

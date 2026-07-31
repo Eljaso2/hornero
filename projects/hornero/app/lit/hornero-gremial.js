@@ -294,6 +294,45 @@ class HorneroGremial extends HoComponent {
     `;
   }
 
+  // ===== Auto-detect reporte from text content =====
+  // When the backend returns a report as plain text (without structured sections),
+  // parse the text to extract sections and add the reporte-generado tag.
+  // This ensures the reporte card is rendered with the "Aprobar" button.
+  _parseReporteFromText(text) {
+    if (!text || text.length < 100) return { isReporte: false };
+
+    // Detect report patterns: "Relato" + "Clasificación" (or similar)
+    const hasRelato = /\bRelato\b/.test(text);
+    const hasClasif = /\bClasificaci[oó]n\b|\bEtiqueta\b/.test(text);
+    if (!hasRelato || !hasClasif) return { isReporte: false };
+
+    // Parse sections from text
+    // Pattern: **N. Title** or **Title** followed by body text until next section
+    const sectionRegex = /\*\*\d+\.\s*(Relato|Clasificaci[oó]n|Etiqueta|Extractos?|Di[aá]logo|Ficha|Reportante)\*\*/gi;
+    const matches = [];
+    let match;
+    while ((match = sectionRegex.exec(text)) !== null) {
+      matches.push({ index: match.index, title: match[1], length: match[0].length });
+    }
+
+    if (matches.length < 2) return { isReporte: false };
+
+    // Extract sections
+    const sections = [];
+    for (let i = 0; i < matches.length; i++) {
+      const bodyStart = matches[i].index + matches[i].length;
+      const bodyEnd = i < matches.length - 1 ? matches[i + 1].index : text.length;
+      const body = text.substring(bodyStart, bodyEnd)
+        .replace(/^[\s\n]+/, '')  // trim leading whitespace
+        .replace(/[\s\n]+$/, '')  // trim trailing whitespace
+        .replace(/^---\s*\n?/, '')  // remove leading ---
+        .replace(/\n?---\s*$/, ''); // remove trailing ---
+      sections.push({ title: matches[i].title, body });
+    }
+
+    return { sections, isReporte: true };
+  }
+
   // Simple markdown formatter for informe viewer
   _formatMarkdown(text) {
     if (!text) return '';
@@ -832,11 +871,42 @@ class HorneroGremial extends HoComponent {
                 // This is the "done" event with full metadata
                 streamingPersona = data.persona || 'companero';
                 // Finalize: add the complete message to messages array
+                const responseText = data.text || streamingText;
+                const responseSections = data.sections || [];
+                let responseTags = data.tags || ['reporte'];
+
+                // Auto-detect reporte from text if backend didn't return structured sections
+                if (responseSections.length === 0 && responseText) {
+                  const parsed = this._parseReporteFromText(responseText);
+                  if (parsed.isReporte) {
+                    responseTags = [...responseTags, 'reporte-generado'];
+                    if (!responseTags.includes('reporte')) responseTags.push('reporte');
+                    this.messages = [...this.messages, {
+                      role: 'hornero',
+                      text: responseText,
+                      sections: parsed.sections,
+                      tags: responseTags,
+                      persona: 'companero', // Force: gremial screen ALWAYS uses compañero
+                      redirect_persona: data.redirect_persona || '',
+                      time: data.time || this._timeNow(),
+                    }];
+                    this._stopProgressiveReveal();
+                    if (chatEl) {
+                      chatEl.streamingText = '';
+                      chatEl._streamingPersona = '';
+                    }
+                    this._typing = false;
+                    this._saveChatHistory();
+                    this.render();
+                    return;
+                  }
+                }
+
                 this.messages = [...this.messages, {
                   role: 'hornero',
-                  text: data.text || streamingText,
-                  sections: data.sections || [],
-                  tags: data.tags || ['reporte'],
+                  text: responseText,
+                  sections: responseSections,
+                  tags: responseTags,
                   persona: 'companero', // Force: gremial screen ALWAYS uses compañero
                   redirect_persona: data.redirect_persona || '',
                   time: data.time || this._timeNow(),
@@ -909,7 +979,18 @@ class HorneroGremial extends HoComponent {
 
     const data = await response.json();
     const responseText = data.text || '';
-    const responseSections = data.sections || [];
+    let responseSections = data.sections || [];
+    let responseTags = data.tags || ['reporte'];
+
+    // Auto-detect reporte from text if backend didn't return structured sections
+    if (responseSections.length === 0 && responseText) {
+      const parsed = this._parseReporteFromText(responseText);
+      if (parsed.isReporte) {
+        responseSections = parsed.sections;
+        responseTags = [...responseTags, 'reporte-generado'];
+        if (!responseTags.includes('reporte')) responseTags.push('reporte');
+      }
+    }
 
     // Progressive reveal for non-streaming fallback
     if (responseText && responseText.length > 50) {
@@ -941,7 +1022,7 @@ class HorneroGremial extends HoComponent {
       role: 'hornero',
       text: responseText,
       sections: responseSections,
-      tags: data.tags || ['reporte'],
+      tags: responseTags,
       persona: 'companero', // Force: gremial screen ALWAYS uses compañero — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
       time: data.time || this._timeNow(),
