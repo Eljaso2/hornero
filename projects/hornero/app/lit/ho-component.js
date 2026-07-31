@@ -120,11 +120,18 @@ class HoComponent extends HTMLElement {
   // ===== Render =====
   // Subclass overrides render() to return html`` template string
   render() {
-    const template = this._render ? this._render() : '';
-    const styles = this._styles ? this._styles() : '';
-    this.shadowRoot.innerHTML = `<style>${styles}</style>${template}`;
-    // Call lifecycle hook after render
-    if (this._afterRender) this._afterRender();
+    try {
+      const template = this._render ? this._render() : '';
+      const styles = this._styles ? this._styles() : '';
+      this.shadowRoot.innerHTML = `<style>${styles}</style>${template}`;
+      // Call lifecycle hook after render
+      if (this._afterRender) this._afterRender();
+    } catch(e) {
+      console.error('Render error in', this.tagName, e);
+      this.shadowRoot.innerHTML = `<div style="padding:20px;color:#E8E6E0;font-family:sans-serif;font-size:14px">
+        <p style="color:#F87171;font-weight:bold">Error de renderizado</p>
+        <p style="color:#9C988D;font-size:12px">${e.message}</p></div>`;
+    }
   }
 
   // ===== Event dispatching =====
