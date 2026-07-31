@@ -119,22 +119,24 @@ function initDB() {
   });
 }
 
-// ===== One-time cleanup: clear chatHistory (local + backend) =====
+// ===== One-time cleanup: clear chatHistory + informes (local + backend) =====
 // Runs only once (flag in localStorage), then auto-removes itself
 // Bumping version triggers re-run for all users on next load
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v9') return Promise.resolve(false);
-  console.log('DB: one-time cleanup — clearing chatHistory (local + backend)');
+  if (localStorage.getItem('hornero-chats-cleared') === 'v10') return Promise.resolve(false);
+  console.log('DB: one-time cleanup — clearing chatHistory + informes (local + backend)');
   return dbClearStore('chatHistory').then(function() {
+    return dbClearStore('informes');
+  }).then(function() {
     // Also clear backend chat history (fire-and-forget)
     var baseUrl = _getChatSyncBaseUrl();
     fetch(baseUrl + '/api/chat/clear-all', { method: 'DELETE' })
       .then(function(r) { return r.json(); })
-      .then(function(data) { console.log('DB: backend cleared', data); })
+      .then(function(data) { console.log('DB: backend chat cleared', data); })
       .catch(function(e) { console.warn('DB: backend clear failed', e); });
   }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v9');
-    console.log('DB: cleanup complete — chatHistory cleared (local + backend)');
+    localStorage.setItem('hornero-chats-cleared', 'v10');
+    console.log('DB: cleanup complete — chatHistory + informes cleared (local + backend)');
     return true;
   }).catch(function(e) {
     console.warn('DB: cleanup failed', e);
