@@ -1732,6 +1732,14 @@ class HorneroChat extends HoComponent {
       });
     }
 
+    // === Recibidos button (top-right, left of informes) → open drawer ===
+    const recibidosBtn = this.shadowRoot.querySelector('#chatRecibidosBtn');
+    if (recibidosBtn) {
+      recibidosBtn.addEventListener('click', () => {
+        this._openRecibidosDrawer();
+      });
+    }
+
     // === Export button (top-right corner) → export current chat ===
     const exportBtn = this.shadowRoot.querySelector('#chatExportBtn');
     if (exportBtn) {
@@ -2024,6 +2032,47 @@ class HorneroChat extends HoComponent {
     if (informesDrawerEl) {
       this._setupDrawerSwipe(informesDrawerEl, () => this._closeInformesDrawer());
     }
+
+    // === Recibidos drawer: close + swipe ===
+    const recibidosOverlay = this.shadowRoot.querySelector('.recibidos-overlay');
+    const recibidosDrawerEl = this.shadowRoot.querySelector('.recibidos-drawer');
+    if (recibidosOverlay) {
+      recibidosOverlay.addEventListener('click', (e) => {
+        if (e.target === recibidosOverlay) {
+          this._closeRecibidosDrawer();
+        }
+      });
+    }
+    const recibidosCloseBtn = this.shadowRoot.querySelector('#recibidosCloseBtn');
+    if (recibidosCloseBtn) {
+      recibidosCloseBtn.addEventListener('click', () => {
+        this._closeRecibidosDrawer();
+      });
+    }
+    const recibidosBackBtn = this.shadowRoot.querySelector('#recibidosBackBtn');
+    if (recibidosBackBtn) {
+      recibidosBackBtn.addEventListener('click', () => {
+        this._closeRecibidosDrawer();
+      });
+    }
+    if (recibidosDrawerEl) {
+      this._setupDrawerSwipe(recibidosDrawerEl, () => this._closeRecibidosDrawer());
+    }
+
+    // === Recibidos drawer: approve / correct actions ===
+    this.shadowRoot.querySelectorAll('[data-review-informe]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const infId = btn.dataset.reviewInforme;
+        const action = btn.dataset.reviewAction;
+        if (infId && typeof actualizarEstadoInforme === 'function') {
+          const estado = action === 'aprobar' ? 'aprobado-delegado' : 'corregido-delegado';
+          actualizarEstadoInforme(infId, estado).then(() => {
+            this._openRecibidosDrawer(); // Refresh drawer
+          });
+        }
+      });
+    });
 
     // === Informes drawer: select informe (delegate viewing transition) ===
     this.shadowRoot.querySelectorAll('.informes-item').forEach(item => {
@@ -2586,6 +2635,34 @@ ${msgs.map(m => {
   setInformeBadge(bool) {
     this.informeBadge = bool;
     this.render();
+  }
+
+  // ===== Recibidos Drawer =====
+  async _openRecibidosDrawer() {
+    try {
+      const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+      const userGrade = session.grade || 'A';
+      const userEmpresa = (session.agremiacion && session.agremiacion.empresa) || '';
+      const userTerritory = session.territory || '';
+      if (typeof obtenerInformesEntrantes === 'function' && userGrade !== 'B.a' && userGrade !== 'A') {
+        this._informesEntrantes = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa);
+      } else {
+        this._informesEntrantes = [];
+      }
+    } catch(e) { console.warn('Chat: recibidos load failed', e); this._informesEntrantes = []; }
+    this._recibidosBadge = false;
+    this._showRecibidos = true;
+    this.render();
+  }
+
+  _closeRecibidosDrawer() {
+    this._showRecibidos = false;
+    this.render();
+    this.emit('chat-state-changed', {});
+    setTimeout(() => {
+      const scroll = this.shadowRoot.querySelector('.chat-scroll');
+      if (scroll) scroll.scrollTop = scroll.scrollHeight;
+    }, 100);
   }
 
   // ===== Share menu for reporte cards (WhatsApp, Email, Download TXT) =====
