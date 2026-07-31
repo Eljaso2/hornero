@@ -628,8 +628,8 @@ class HorneroApp extends HoComponent {
     const showHeader = this.screen === 'home';
     // Bottom nav always visible — active section highlighted
     const showBottomNav = true;
-    // Sections bar visible on chat screens
-    const showSectionsBar = ['consulta', 'contenido', 'gremial', 'historiador', 'formacion', 'chat'].includes(this.screen);
+    // Sections bar visible on all screens except home (which has its own header)
+    const showSectionsBar = this.screen !== 'home';
 
     // Build screen content
     let screenContent = '';
