@@ -409,6 +409,11 @@ class HorneroChat extends HoComponent {
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .informes-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
+      .informes-back-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--ho-text-off, #F2F1EC); flex: none; }
+      .informes-back-btn svg { width: 18px; height: 18px; }
 
       /* Informes drawer section headers */
       .informes-section-header { padding: 10px 16px 6px;
@@ -784,8 +789,6 @@ class HorneroChat extends HoComponent {
         height: 48px; display: flex; align-items: center; justify-content: space-between;
         padding: 0 8px; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      :host(.theme-light.topbar-accent) .chat-top-bar {
-        background: #3A4340; }
       .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
@@ -1299,6 +1302,9 @@ class HorneroChat extends HoComponent {
       `<div class="informes-overlay">
         <div class="informes-drawer${this._informesDrawerStable ? ' stable' : ''}">
           <div class="informes-header">
+            <button class="informes-back-btn" id="informesBackBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
             <div class="informes-header-title">${this.informesTitle || 'Mis Reportes'}</div>
             <button class="informes-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
@@ -2184,6 +2190,13 @@ class HorneroChat extends HoComponent {
     if (informesCloseBtn) {
       informesCloseBtn.addEventListener('click', () => {
         this._closeInformesDrawer();
+      });
+    }
+    const informesBackBtn = this.shadowRoot.querySelector('#informesBackBtn');
+    if (informesBackBtn) {
+      informesBackBtn.addEventListener('click', () => {
+        this._closeInformesDrawer();
+        this.emit('chat-back', {});
       });
     }
     if (informesDrawerEl) {
