@@ -300,6 +300,11 @@ class HorneroApp extends HoComponent {
       this.set('userTerritory', session.territory);
       this.set('userSector', session.sector || 'aceitero');
       this.set('userName', session.nombre || session.username);
+      // One-time cleanup: borrar chats + informes + correcciones (ALL users)
+      // Must run BEFORE full sync so pull doesn't re-fetch old data
+      if (typeof limpiarChatsYReportes === 'function') {
+        await limpiarChatsYReportes();
+      }
       // Iniciar full sync: pull datos remotos + push datos locales + syncQueue
       if (typeof iniciarFullSync === 'function') {
         iniciarFullSync(session.username);
@@ -1238,8 +1243,14 @@ class HorneroApp extends HoComponent {
       this.set('userTerritory', session.territory);
       this.set('userSector', session.sector || 'aceitero');
       this.set('userName', session.nombre || session.username);
-      // Iniciar full sync al hacer login
-      if (typeof iniciarFullSync === 'function') {
+      // One-time cleanup then full sync
+      if (typeof limpiarChatsYReportes === 'function') {
+        limpiarChatsYReportes().then(function() {
+          if (typeof iniciarFullSync === 'function') {
+            iniciarFullSync(session.username);
+          }
+        });
+      } else if (typeof iniciarFullSync === 'function') {
         iniciarFullSync(session.username);
       }
     });

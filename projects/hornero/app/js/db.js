@@ -128,24 +128,27 @@ function initDB() {
 function limpiarChatsYReportes() {
   if (localStorage.getItem('hornero-chats-cleared') === 'v13') return Promise.resolve(false);
   console.log('DB: one-time cleanup — clearing chatHistory + informes + correcciones for ALL users (local + backend)');
+  var baseUrl = _getChatSyncBaseUrl();
   return dbClearStore('chatHistory').then(function() {
     return dbClearStore('informes');
   }).then(function() {
     return dbClearStore('correcciones');
   }).then(function() {
-    var baseUrl = _getChatSyncBaseUrl();
-    fetch(baseUrl + '/api/chat/clear-all', { method: 'DELETE' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) { console.log('DB: backend chat cleared', data); })
-      .catch(function(e) { console.warn('DB: backend chat clear failed', e); });
-    fetch(baseUrl + '/api/informes/clear-all', { method: 'DELETE' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) { console.log('DB: backend informes cleared', data); })
-      .catch(function(e) { console.warn('DB: backend informes clear failed', e); });
-    fetch(baseUrl + '/api/correcciones/clear-all', { method: 'DELETE' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) { console.log('DB: backend correcciones cleared', data); })
-      .catch(function(e) { console.warn('DB: backend correcciones clear failed', e); });
+    // Await backend clears before continuing (so pull doesn't re-fetch old data)
+    return Promise.all([
+      fetch(baseUrl + '/api/chat/clear-all', { method: 'DELETE' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) { console.log('DB: backend chat cleared', data); })
+        .catch(function(e) { console.warn('DB: backend chat clear failed', e); }),
+      fetch(baseUrl + '/api/informes/clear-all', { method: 'DELETE' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) { console.log('DB: backend informes cleared', data); })
+        .catch(function(e) { console.warn('DB: backend informes clear failed', e); }),
+      fetch(baseUrl + '/api/correcciones/clear-all', { method: 'DELETE' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) { console.log('DB: backend correcciones cleared', data); })
+        .catch(function(e) { console.warn('DB: backend correcciones clear failed', e); })
+    ]);
   }).then(function() {
     localStorage.setItem('hornero-chats-cleared', 'v13');
     console.log('DB: cleanup complete — chatHistory + informes + correcciones cleared (ALL users, local + backend)');
