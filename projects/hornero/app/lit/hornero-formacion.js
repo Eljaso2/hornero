@@ -309,6 +309,7 @@ class HorneroFormacion extends HoComponent {
           username="${this._username}"
           grade="${this.grade}"
           hide-persona-bar
+          hide-informes-btn
         ></hornero-chat>
       </div>
     `;
@@ -375,6 +376,7 @@ class HorneroFormacion extends HoComponent {
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
       chatEl.hidePersonaBar = true;
+      chatEl.hideInformesBtn = true;
       chatEl.render();
     }
   }

@@ -26,6 +26,7 @@ class HorneroChat extends HoComponent {
       grade: String,         // User grade (B.a, B.b, B.c, B.d) — controls Reportes Recibidos icon
       streamingText: String, // Live streaming text being built token-by-token
       hidePersonaBar: Boolean, // Hide persona icons in top bar (e.g. Historia Obrera)
+      hideInformesBtn: Boolean, // Hide Mis Reportes button in top bar
     };
   }
 
@@ -47,6 +48,7 @@ class HorneroChat extends HoComponent {
     this.username = '';
     this.grade = 'A';
     this.hidePersonaBar = false;
+    this.hideInformesBtn = false;
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
     this._mediaStream = null;   // MediaStream from getUserMedia
@@ -1368,9 +1370,9 @@ class HorneroChat extends HoComponent {
         </div>
         <div class="chat-top-bar-right">
           ${recibidosBtnHtml}
-          <button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Mis Reportes">
+          ${this.hideInformesBtn ? '' : html`<button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Mis Reportes">
             <svg viewBox="0 0 24 24">${informeSvg}</svg>
-          </button>
+          </button>`}
           <button class="chat-history-btn" id="chatHistoryBtn" title="Mis Conversaciones">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </button>
