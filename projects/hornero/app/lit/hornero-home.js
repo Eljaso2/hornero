@@ -255,9 +255,11 @@ class HorneroHome extends HoComponent {
       .icon-btn { display: flex; flex-direction: column; align-items: center;
         gap: 8px; background: none; border: none; cursor: pointer;
         padding: 10px 8px; font-family: 'Archivo', sans-serif;
-        transition: opacity .2s;
-        border-right: 1px solid #C8E6D8; }
-      .icon-btn:last-child { border-right: none; }
+        transition: opacity .2s; position: relative; }
+      .icon-btn:not(:last-child)::after {
+        content: ''; position: absolute; right: 0; top: 10px;
+        width: 1px; height: 64px;
+        background: var(--ho-green-pale, #E0F0EB); }
       .icon-btn:hover { opacity: .8; }
       .persona-home-img { width: 64px; height: 64px; border-radius: 0;
         object-fit: contain; object-position: center;
