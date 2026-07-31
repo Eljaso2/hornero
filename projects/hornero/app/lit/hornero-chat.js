@@ -724,6 +724,7 @@ class HorneroChat extends HoComponent {
       .persona-icon-inner img { width: 100%; height: 100%;
         object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
+      .persona-icon-inner img.periodista-full { object-fit: contain; object-position: center; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
 
       /* === Redirect derivation button in message === */
@@ -1052,7 +1053,7 @@ class HorneroChat extends HoComponent {
       const cfg = this._getPersonaConfig(p);
       const isActive = p === this.persona;
       const inner = cfg.img
-        ? `<img src="${cfg.img}" alt="${cfg.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
+        ? `<img src="${cfg.img}" alt="${cfg.name}" class="${p === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
       const leftPos = 46 + idx * 36;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
