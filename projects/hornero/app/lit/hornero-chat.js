@@ -522,13 +522,13 @@ class HorneroChat extends HoComponent {
       .history-back-btn svg { width: 18px; height: 18px; }
       .history-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
-      .history-new-btn { background: var(--ho-green, #4E9978); border: none;
+      .history-new-btn { background: none; border: none;
         border-radius: 8px; padding: 4px 10px; cursor: pointer; display: flex;
         align-items: center; justify-content: center; transition: background .2s;
         margin-left: 8px; }
-      .history-new-btn svg { width: 14px; height: 14px; stroke: var(--ho-text-off, #F2F1EC);
+      .history-new-btn svg { width: 14px; height: 14px; stroke: var(--ho-text, #E8E6E0);
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .history-new-btn:hover { background: var(--ho-green-dark, #3D6B56); }
+      .history-new-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
       .history-close-btn { background: none; border: none; cursor: pointer;
         width: 28px; height: 28px; border-radius: 50%; display: flex;
         align-items: center; justify-content: center;
@@ -1227,9 +1227,6 @@ class HorneroChat extends HoComponent {
       `<div class="history-overlay">
         <div class="history-drawer${this._historyDrawerStable ? ' stable' : ''}">
           <div class="history-header">
-            <button class="history-back-btn" id="historyBackBtn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
             <div class="history-header-title">${this.historyTitle || 'Historial'}</div>
             <button class="history-new-btn" title="Nuevo chat">
               <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -1303,9 +1300,6 @@ class HorneroChat extends HoComponent {
       `<div class="informes-overlay">
         <div class="informes-drawer${this._informesDrawerStable ? ' stable' : ''}">
           <div class="informes-header">
-            <button class="informes-back-btn" id="informesBackBtn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
             <div class="informes-header-title">${this.informesTitle || 'Mis Reportes'}</div>
             <button class="informes-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
@@ -1428,9 +1422,6 @@ class HorneroChat extends HoComponent {
         `<div class="recibidos-overlay">
           <div class="recibidos-drawer${this._recibidosDrawerStable ? ' stable' : ''}">
             <div class="informes-header">
-              <button class="informes-back-btn" id="recibidosBackBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
               <div class="informes-header-title">Reportes Recibidos</div>
               <button class="informes-close-btn" id="recibidosCloseBtn">
                 <svg viewBox="0 0 24 24">${xSvg}</svg>
@@ -2123,12 +2114,6 @@ class HorneroChat extends HoComponent {
         this._closeHistoryDrawer();
       });
     }
-    const historyBackBtn = this.shadowRoot.querySelector('#historyBackBtn');
-    if (historyBackBtn) {
-      historyBackBtn.addEventListener('click', () => {
-        this._closeHistoryDrawer();
-      });
-    }
     if (historyDrawerEl) {
       this._setupDrawerSwipe(historyDrawerEl, () => this._closeHistoryDrawer());
     }
@@ -2194,12 +2179,6 @@ class HorneroChat extends HoComponent {
     const informesCloseBtn = this.shadowRoot.querySelector('.informes-close-btn');
     if (informesCloseBtn) {
       informesCloseBtn.addEventListener('click', () => {
-        this._closeInformesDrawer();
-      });
-    }
-    const informesBackBtn = this.shadowRoot.querySelector('#informesBackBtn');
-    if (informesBackBtn) {
-      informesBackBtn.addEventListener('click', () => {
         this._closeInformesDrawer();
       });
     }
