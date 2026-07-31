@@ -720,7 +720,7 @@ class HorneroChat extends HoComponent {
 
       .msg-row.user .msg-time {
         font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: var(--ho-green-dark, #3D6B56); opacity: .7; margin-top: 5px; text-align: right; }
+        color: var(--ho-green-dark, #3D6B56); opacity: .7; }
 
       /* User image/video attachment */
       .msg-media { max-width: 220px; margin-bottom: 6px; border-radius: 12px; overflow: hidden; }
@@ -1038,8 +1038,8 @@ class HorneroChat extends HoComponent {
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
       /* Delete button for user bubbles — positioned below bubble */
-      .msg-row.user .msg-delete-row { display: flex; justify-content: flex-end;
-        margin-top: 2px; }
+      .msg-row.user .msg-meta-row { display: flex; justify-content: flex-end;
+        align-items: center; gap: 6px; margin-top: 3px; }
 
       /* Attachment preview in input */
       .chat-attach-preview { max-width: 80px; max-height: 60px; border-radius: 8px;
@@ -1606,8 +1606,9 @@ class HorneroChat extends HoComponent {
       const textHtml = m.text ? m.text : '';
       const deleteSvg = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/>';
       return `<div class="msg-row user">
-        <div class="msg-bubble">${mediaHtml}${textHtml}${timeHtml}</div>
-        <div class="msg-delete-row">
+        <div class="msg-bubble">${mediaHtml}${textHtml}</div>
+        <div class="msg-meta-row">
+          ${timeHtml}
           <button class="msg-delete-btn" data-action="delete" data-msg-index="${msgIndex}" title="Borrar mensaje">
             <svg viewBox="0 0 24 24">${deleteSvg}</svg>
           </button>

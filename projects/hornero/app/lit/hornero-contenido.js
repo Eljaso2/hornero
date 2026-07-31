@@ -604,8 +604,11 @@ class HorneroContenido extends HoComponent {
 
   _timeNow() {
     const now = new Date();
-    return now.getHours().toString().padStart(2, '0') + ':' +
-           now.getMinutes().toString().padStart(2, '0');
+    const d = now.getDate().toString().padStart(2, '0');
+    const m = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][now.getMonth()];
+    const h = now.getHours().toString().padStart(2, '0');
+    const min = now.getMinutes().toString().padStart(2, '0');
+    return d + ' ' + m + ' ' + h + ':' + min;
   }
 
   // ===== Send feedback to backend (like/dislike) =====
