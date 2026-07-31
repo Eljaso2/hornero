@@ -61,6 +61,7 @@ class HorneroGremial extends HoComponent {
     this._activePersona = 'companero'; // Gremial always uses compañero persona
     this._username = ''; // login username for per-user data isolation
     this._viewingInforme = null; // Full-screen informe viewer overlay state
+    this._cachedIncomingReports = []; // Cached incoming reports for sending to backend
   }
 
   connectedCallback() {
@@ -384,10 +385,58 @@ class HorneroGremial extends HoComponent {
     }
   }
 
+  async _loadIncomingReports() {
+    // Load incoming reports from lower grades for G2+ users.
+    // Caches the reports so they can be sent with each chat request.
+    const gradeMap = {'A': 'G1', 'B.a': 'G1', 'B.b': 'G2', 'B.c': 'G3', 'B.d': 'G4'};
+    const gradeCode = gradeMap[this.grade] || 'G1';
+    if (gradeCode === 'G1') {
+      this._cachedIncomingReports = [];
+      return [];
+    }
+    try {
+      const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+      const userTerritory = session.territory || '';
+      const userEmpresa = (session.agremiacion && session.agremiacion.empresa) || '';
+      if (typeof obtenerInformesEntrantes === 'function') {
+        this._cachedIncomingReports = await obtenerInformesEntrantes(this.grade, userTerritory, userEmpresa);
+      } else {
+        this._cachedIncomingReports = [];
+      }
+    } catch(e) {
+      console.warn('Gremial: incoming reports load failed', e);
+      this._cachedIncomingReports = [];
+    }
+    return this._cachedIncomingReports;
+  }
+
+  _formatIncomingReportsForBackend() {
+    // Format cached incoming reports for sending to backend.
+    // Only sends essential fields to keep payload small.
+    if (!this._cachedIncomingReports || this._cachedIncomingReports.length === 0) return [];
+    return this._cachedIncomingReports.map(inf => ({
+      id: inf.id || '',
+      numero: inf.numero || '',
+      titulo: inf.titulo || '',
+      sections: (inf.sections || []).map(s => ({
+        title: s.title || '',
+        body: (s.body || '').substring(0, 300), // Truncate for token efficiency
+      })),
+      estado: inf.estado || 'pendiente',
+      grado: inf.grado || '',
+      username: inf.username || '',
+      fecha: inf.fecha || '',
+    }));
+  }
+
   async _requestGreeting() {
     this._greetingRequested = true;
     this._typing = true;
     this.render();
+
+    // Load incoming reports for G2+ users (before greeting)
+    await this._loadIncomingReports();
+    const incomingReports = this._formatIncomingReportsForBackend();
 
     // Calculate days since last chat for greeting context
     let daysSinceLastChat = 999; // Default: long time ago
@@ -411,6 +460,8 @@ class HorneroGremial extends HoComponent {
           sector: this.sector,
           requested_persona: 'companero',
           days_since_last_chat: daysSinceLastChat,
+          incoming_reports: incomingReports,
+          incoming_reports_count: incomingReports.length,
         }),
       });
 
@@ -546,6 +597,7 @@ class HorneroGremial extends HoComponent {
         sector: this.sector,
         requested_persona: 'companero',
         session_id: this._sessionId,
+        incoming_reports: this._formatIncomingReportsForBackend(),
       }),
     });
 
@@ -670,6 +722,7 @@ class HorneroGremial extends HoComponent {
         grade: this.grade,
         sector: this.sector,
         requested_persona: 'companero',
+        incoming_reports: this._formatIncomingReportsForBackend(),
       }),
     });
 

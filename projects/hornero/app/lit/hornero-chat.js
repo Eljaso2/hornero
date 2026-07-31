@@ -1479,10 +1479,10 @@ class HorneroChat extends HoComponent {
   _getPersonaConfig(persona) {
     const isLight = this.theme === 'light';
     const map = {
-      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: isLight ? 'assets/personajes/dark03.png' : 'assets/personajes/a03.png' },
+      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: isLight ? 'assets/personajes/a03.png' : 'assets/personajes/dark03.png' },
       'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: isLight ? 'assets/personajes/a02.png' : 'assets/personajes/dark02.png' },
       'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: isLight ? 'assets/personajes/a04.png' : 'assets/personajes/dark04.png' },
-      'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: isLight ? 'assets/personajes/dark01.png' : 'assets/personajes/a01.png' },
+      'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: isLight ? 'assets/personajes/a01.png' : 'assets/personajes/dark01.png' },
     };
     return map[persona] || map['abogado'];
   }

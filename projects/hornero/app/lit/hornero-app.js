@@ -631,9 +631,9 @@ class HorneroApp extends HoComponent {
       const isLight = this.theme === 'light';
       const personaChoices =
         choiceHtml('gremial', 'companero', isLight ? 'assets/personajes/a02.png' : 'assets/personajes/dark02.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
-        choiceHtml('consulta', 'abogado', isLight ? 'assets/personajes/dark03.png' : 'assets/personajes/a03.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
+        choiceHtml('consulta', 'abogado', isLight ? 'assets/personajes/a03.png' : 'assets/personajes/dark03.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
         choiceHtml('contenido', 'periodista', isLight ? 'assets/personajes/a04.png' : 'assets/personajes/dark04.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
-        choiceHtml('historiador', 'historiador', isLight ? 'assets/personajes/dark01.png' : 'assets/personajes/a01.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
+        choiceHtml('historiador', 'historiador', isLight ? 'assets/personajes/a01.png' : 'assets/personajes/dark01.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
 
       // Grade-based extras — navigate to full list screens
       let extraChoices = '';
