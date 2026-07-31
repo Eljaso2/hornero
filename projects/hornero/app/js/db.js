@@ -124,34 +124,49 @@ function initDB() {
 // ===== One-time cleanup: clear chatHistory + informes + correcciones (local + backend) =====
 // Runs only once (flag in localStorage), then auto-removes itself
 // Bumping version triggers re-run for all users on next load
-// v14: nuclear clear-all — borra TODOS los datos de TODOS los usuarios
+// v15: nuclear clear-all — borra TODOS los datos de TODOS los usuarios piloto
+// Usa clear-user por cada usuario (endpoints que sí existen en el backend deployado)
+var PILOT_USERS = ['eljaso', 'test4', 'test3', 'test1c', 'test_guaycuru', 'test1a', 'test2', 'test1b'];
+var _cleanupJustRan = false;
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v14') return Promise.resolve(false);
-  console.log('DB: one-time cleanup — clearing chatHistory + informes + correcciones for ALL users (local + backend)');
+  if (localStorage.getItem('hornero-chats-cleared') === 'v15') return Promise.resolve(false);
+  console.log('DB: one-time cleanup — clearing chatHistory + informes + correcciones for ALL pilot users (local + backend)');
   var baseUrl = _getChatSyncBaseUrl();
   return dbClearStore('chatHistory').then(function() {
     return dbClearStore('informes');
   }).then(function() {
     return dbClearStore('correcciones');
   }).then(function() {
-    // Await backend clears before continuing (so pull doesn't re-fetch old data)
-    return Promise.all([
+    // Clear backend per-user (endpoints que SÍ existen en el backend deployado)
+    var backendPromises = [];
+    // Chat: clear-all existe
+    backendPromises.push(
       fetch(baseUrl + '/api/chat/clear-all', { method: 'DELETE' })
         .then(function(r) { return r.json(); })
         .then(function(data) { console.log('DB: backend chat cleared', data); })
-        .catch(function(e) { console.warn('DB: backend chat clear failed', e); }),
-      fetch(baseUrl + '/api/informes/clear-all', { method: 'DELETE' })
-        .then(function(r) { return r.json(); })
-        .then(function(data) { console.log('DB: backend informes cleared', data); })
-        .catch(function(e) { console.warn('DB: backend informes clear failed', e); }),
+        .catch(function(e) { console.warn('DB: backend chat clear failed', e); })
+    );
+    // Informes: clear-user por cada usuario (clear-all puede no existir aún)
+    PILOT_USERS.forEach(function(username) {
+      backendPromises.push(
+        fetch(baseUrl + '/api/informes/clear-user?username=' + encodeURIComponent(username), { method: 'DELETE' })
+          .then(function(r) { return r.json(); })
+          .then(function(data) { console.log('DB: backend informes cleared for', username, data); })
+          .catch(function(e) { console.warn('DB: backend informes clear failed for', username, e); })
+      );
+    });
+    // Correcciones: clear-all puede no existir aún, intentar igual
+    backendPromises.push(
       fetch(baseUrl + '/api/correcciones/clear-all', { method: 'DELETE' })
         .then(function(r) { return r.json(); })
         .then(function(data) { console.log('DB: backend correcciones cleared', data); })
-        .catch(function(e) { console.warn('DB: backend correcciones clear failed', e); })
-    ]);
+        .catch(function(e) { console.warn('DB: backend correcciones clear-all failed (expected if not deployed yet)', e); })
+    );
+    return Promise.all(backendPromises);
   }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v14');
-    console.log('DB: cleanup complete — chatHistory + informes + correcciones cleared (ALL users, local + backend)');
+    localStorage.setItem('hornero-chats-cleared', 'v15');
+    _cleanupJustRan = true;
+    console.log('DB: cleanup complete — chatHistory + informes + correcciones cleared (ALL pilot users, local + backend)');
     return true;
   }).catch(function(e) {
     console.warn('DB: cleanup failed', e);
@@ -1071,12 +1086,17 @@ function _pushAllLocalData(username) {
 }
 
 // Init: pull + push al cargar la app
+// Si el cleanup acaba de correr, NO hacer push (para no re-subir datos viejos que otro dispositivo puede tener)
 function iniciarFullSync(username) {
   if (!username) return;
   // 1. Pull remote data first (merge into local IDB)
   _fetchAndMergeRemoteInformes(username).then(function() {
-    // 2. Push all local data to backend (ensures backend has complete copy)
-    _pushAllLocalData(username);
+    // 2. Push all local data to backend (solo si NO acaba de correr cleanup)
+    if (!_cleanupJustRan) {
+      _pushAllLocalData(username);
+    } else {
+      console.log('DB: skipping full push after cleanup — data was just cleared');
+    }
   });
   // 3. Start syncQueue for reliable delivery
   iniciarSyncQueue();
