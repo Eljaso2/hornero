@@ -111,6 +111,26 @@ class HorneroGremial extends HoComponent {
         text-transform: uppercase; letter-spacing: .06em; }
       .inform-view-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
+
+      /* Section-type-aware styles for the 4 report sections */
+      .inform-view-section[data-section-type="relato"] .inform-view-section-body {
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); line-height: 1.65; }
+      .inform-view-section[data-section-type="clasificacion"] .inform-view-section-body {
+        font-size: .84rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.55; }
+      .inform-view-section[data-section-type="clasificacion"] .inform-view-section-body strong {
+        color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
+      .inform-view-section[data-section-type="extractos"] .inform-view-section-body {
+        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
+        padding-left: 14px; background: rgba(78,153,120,.06);
+        border-radius: 0 8px 8px 0; }
+      .inform-view-section[data-section-type="ficha"] .inform-view-section-body {
+        font-family: 'JetBrains Mono', monospace; font-size: .74rem;
+        color: var(--ho-text-light, #9C988D); line-height: 1.7;
+        background: var(--ho-bg, #1E2321); border-radius: 8px;
+        padding: 10px 14px; }
+      .inform-view-section[data-section-type="ficha"] .inform-view-section-body strong {
+        color: var(--ho-text-mid, #6E6A60); font-weight: 600; }
       .inform-view-section-divider { height: 1px; background: rgba(43,42,38,.10);
         margin: 16px 0; }
       .inform-view-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
@@ -193,15 +213,22 @@ class HorneroGremial extends HoComponent {
       (inf.sections && inf.sections.length > 0 ?
         (inf.sections[0].title || 'Informe Gremial') : 'Informe Gremial');
 
-    // Sections — all expanded, no collapse
+    // Sections — all expanded, no collapse; section-type-aware styling
     const sectionsHtml = (inf.sections || []).map((s, i) => {
       let content = '';
+      // Detect section type for styling based on title
+      const sectionTitle = (s.title || '').toLowerCase();
+      let sectionType = 'default';
+      if (sectionTitle.includes('relato')) sectionType = 'relato';
+      else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
+      else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo') || sectionTitle.includes('transcript')) sectionType = 'extractos';
+      else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
       if (s.title) content += `<div class="inform-view-section-title">${s.title}</div>`;
       else if (i > 0) content += `<div class="inform-view-section-title">Detalle</div>`;
       if (s.body) content += `<div class="inform-view-section-body">${this._formatMarkdown(s.body)}</div>`;
       const divider = (i < (inf.sections || []).length - 1) ?
         '<div class="inform-view-section-divider"></div>' : '';
-      return `<div class="inform-view-section">${content}</div>${divider}`;
+      return `<div class="inform-view-section" data-section-type="${sectionType}">${content}</div>${divider}`;
     }).join('');
 
     // Tags

@@ -620,6 +620,35 @@ class HorneroChat extends HoComponent {
         text-transform: uppercase; letter-spacing: .06em; }
       .reporte-card-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
+
+      /* Relato section — narrative style */
+      .reporte-card-section[data-section-type="relato"] .reporte-card-section-body {
+        font-family: 'Public Sans', sans-serif; font-size: .84rem;
+        color: var(--ho-text, #E8E6E0); line-height: 1.6; }
+
+      /* Clasificación section — structured labels */
+      .reporte-card-section[data-section-type="clasificacion"] .reporte-card-section-body {
+        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
+      .reporte-card-section[data-section-type="clasificacion"] .reporte-card-section-body strong {
+        color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
+
+      /* Extractos del diálogo section — quote style */
+      .reporte-card-section[data-section-type="extractos"] .reporte-card-section-body {
+        font-family: 'Public Sans', sans-serif; font-size: .80rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
+        padding-left: 12px; background: rgba(78,153,120,.06);
+        border-radius: 0 8px 8px 0; }
+
+      /* Ficha del reportante section — compact card style */
+      .reporte-card-section[data-section-type="ficha"] .reporte-card-section-body {
+        font-family: 'JetBrains Mono', monospace; font-size: .74rem;
+        color: var(--ho-text-light, #9C988D); line-height: 1.7;
+        background: var(--ho-bg, #1E2321); border-radius: 8px;
+        padding: 10px 14px; }
+      .reporte-card-section[data-section-type="ficha"] .reporte-card-section-body strong {
+        color: var(--ho-text-mid, #6E6A60); font-weight: 600; }
       .reporte-card-divider { height: 1px; background: rgba(255,255,255,.06);
         margin: 10px 0; }
       .reporte-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
@@ -1612,11 +1641,18 @@ class HorneroChat extends HoComponent {
 
       const sectionsHtml = m.sections.map((s, i) => {
         let content = '';
+        // Detect section type for styling based on title
+        const sectionTitle = (s.title || '').toLowerCase();
+        let sectionType = 'default';
+        if (sectionTitle.includes('relato')) sectionType = 'relato';
+        else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
+        else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo') || sectionTitle.includes('transcript')) sectionType = 'extractos';
+        else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
         if (i > 0 && s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
         else if (i > 0) content += `<div class="reporte-card-section-title">Detalle</div>`;
         if (s.body) content += `<div class="reporte-card-section-body">${this._formatMarkdown(s.body)}</div>`;
         const divider = (i < m.sections.length - 1) ? '<div class="reporte-card-divider"></div>' : '';
-        return `<div class="reporte-card-section">${content}</div>${divider}`;
+        return `<div class="reporte-card-section" data-section-type="${sectionType}">${content}</div>${divider}`;
       }).join('');
 
       // Tags inside card (excluding system tags)
