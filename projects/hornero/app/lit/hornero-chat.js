@@ -1706,7 +1706,7 @@ class HorneroChat extends HoComponent {
       const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" title="Borrar"><svg viewBox="0 0 24 24">${trashSvg}</svg></button>`;
       const promptText = isReporteAprobado
         ? '' // No prompt for already-approved reports
-        : '<div class="reporte-card-prompt">Buenísimo, compañero! Me alegra que el informe refleje bien lo que querías decir. Ahora, para dejarlo asentado en el sistema, necesito que me confirmes: ¿Aprobás este informe para guardarlo en tu archivo?</div>';
+        : '<div class="reporte-card-prompt">Revisá el informe. Si está todo bien, tocá el botón <strong>Aprobar</strong> para guardarlo en tu archivo.</div>';
       const actionsHtml = isReporteAprobado ?
         `<div class="reporte-card-actions">${shareBtn}${deleteBtn}</div>` :
         `<button class="reporte-btn-aprobar" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">✅ Aprobar</button>

@@ -1108,15 +1108,11 @@ class HorneroGremial extends HoComponent {
           console.warn('Gremial: informe verification failed', e);
         }
 
-        // Brief confirmation message — NOT the full reporte again
-        const confirmText = verified
-          ? `✅ Informe guardado. Lo tenés en **Mis Reportes**.`
-          : `✅ Informe guardado. Tocá **Mis Reportes** (📄 arriba a la derecha) para verlo.`;
+        // Brief confirmation message — just notify, no link/button needed
         const confirmMsg = {
           role: 'hornero',
-          text: confirmText,
+          text: '✅ Informe guardado en tu archivo.',
           tags: ['reporte', 'informe-guardado'],
-          open_informes: true, // Renders "Ver mis informes" button
           time: this._timeNow(),
         };
         this.messages = [...this.messages, confirmMsg];
@@ -1174,9 +1170,8 @@ class HorneroGremial extends HoComponent {
         // Informe exists — just tell the user
         this.messages = [...this.messages, {
           role: 'hornero',
-          text: `El informe está guardado. Abrí **Mis Reportes** (el ícono de documento arriba a la derecha) y lo vas a ver ahí.`,
+          text: `El informe ya está guardado en tu archivo.`,
           tags: ['reporte', 'informe-ya-existe'],
-          open_informes: true,
           time: this._timeNow(),
         }];
         this._saveChatHistory();
@@ -1189,9 +1184,8 @@ class HorneroGremial extends HoComponent {
           const numero = result ? result.numero : '';
           this.messages = [...this.messages, {
             role: 'hornero',
-            text: `Tenías razón, el informe no se había guardado. Ya lo guardé${numero ? ' como Reporte Gremial N°' + numero : ''}. Lo tenés en **Mis Reportes**.`,
+            text: `Ya lo guardé${numero ? ' como Reporte Gremial N°' + numero : ''}.`,
             tags: ['reporte', 'informe-reguardado'],
-            open_informes: true,
             time: this._timeNow(),
           }];
         } catch(e) {
@@ -1214,9 +1208,8 @@ class HorneroGremial extends HoComponent {
         const numero = result ? result.numero : '';
         this.messages = [...this.messages, {
           role: 'hornero',
-          text: `Lo re-guardé${numero ? ' como Reporte Gremial N°' + numero : ''}. Lo tenés en **Mis Reportes**.`,
+          text: `Lo re-guardé${numero ? ' como Reporte Gremial N°' + numero : ''}.`,
           tags: ['reporte', 'informe-reguardado'],
-          open_informes: true,
           time: this._timeNow(),
         }];
       } catch(e2) {
