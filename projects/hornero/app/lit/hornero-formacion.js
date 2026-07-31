@@ -386,6 +386,7 @@ class HorneroFormacion extends HoComponent {
       chatEl.hidePersonaBar = true;
       chatEl.hideInformesBtn = true;
       chatEl.centerLogo = this._bannerVisible ? '' : 'assets/Historia-Obrera_marca-.png';
+      chatEl.noAutoScroll = this._bannerVisible;
       chatEl.render();
     }
   }
