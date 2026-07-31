@@ -188,6 +188,11 @@ class HorneroGremial extends HoComponent {
         font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
         padding-left: 14px; background: rgba(78,153,120,.06);
         border-radius: 0 8px 8px 0; }
+      .inform-view-section[data-section-type="transcript"] .inform-view-section-body {
+        font-size: .84rem; color: var(--ho-text, #E8E6E0); line-height: 1.6;
+        border-left: 3px solid var(--ho-green, #4E9978);
+        padding-left: 14px; background: rgba(78,153,120,.06);
+        border-radius: 0 8px 8px 0; }
       .inform-view-section[data-section-type="ficha"] .inform-view-section-body {
         font-family: 'JetBrains Mono', monospace; font-size: .74rem;
         color: var(--ho-text-light, #9C988D); line-height: 1.7;
@@ -266,12 +271,19 @@ class HorneroGremial extends HoComponent {
       let sectionType = 'default';
       if (sectionTitle.includes('relato')) sectionType = 'relato';
       else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
-      else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo') || sectionTitle.includes('transcript')) sectionType = 'extractos';
+      else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
+      else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'extractos';
       else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
       if (s.title) content += `<div class="inform-view-section-title">${s.title}</div>`;
       else if (i > 0) content += `<div class="inform-view-section-title">Detalle</div>`;
       if (s.body) {
-        let bodyHtml = this._formatMarkdown(s.body);
+        // Clean AI confirmation text from section body (not part of the informe)
+        let cleanBody = s.body
+          .replace(/\n*---\s*\n.*$/s, '')
+          .replace(/\n*¿Es esto lo que querías.*$/s, '')
+          .replace(/\n*respuesta-libre\s*$/s, '')
+          .replace(/[\s\n]+$/, '');
+        let bodyHtml = this._formatMarkdown(cleanBody);
         // In Clasificación section: convert #tag patterns into visual tag badges
         if (sectionType === 'clasificacion') {
           bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="inform-view-tag clasif-tag">#$1</span>');
@@ -378,7 +390,7 @@ class HorneroGremial extends HoComponent {
 
     // Parse sections from text
     // Pattern: **N. Title** or **Title** followed by body text until next section
-    const sectionRegex = /\*\*\d+\.\s*(Relato|Clasificaci[oó]n|Etiqueta|Extractos?|Di[aá]logo|Ficha|Reportante)\*\*/gi;
+    const sectionRegex = /\*\*\d+\.\s*(Relato|Clasificaci[oó]n|Etiqueta|Transcript|Extractos?|Di[aá]logo|Ficha|Reportante)\*\*/gi;
     const matches = [];
     let match;
     while ((match = sectionRegex.exec(text)) !== null) {
@@ -392,11 +404,16 @@ class HorneroGremial extends HoComponent {
     for (let i = 0; i < matches.length; i++) {
       const bodyStart = matches[i].index + matches[i].length;
       const bodyEnd = i < matches.length - 1 ? matches[i + 1].index : text.length;
-      const body = text.substring(bodyStart, bodyEnd)
+      let body = text.substring(bodyStart, bodyEnd)
         .replace(/^[\s\n]+/, '')  // trim leading whitespace
         .replace(/[\s\n]+$/, '')  // trim trailing whitespace
         .replace(/^---\s*\n?/, '')  // remove leading ---
         .replace(/\n?---\s*$/, ''); // remove trailing ---
+      // Remove trailing confirmation text and tags from AI (not part of the informe)
+      body = body.replace(/\n*---\s*\n.*$/s, ''); // remove everything after trailing ---
+      body = body.replace(/\n*¿Es esto lo que querías.*$/s, '');
+      body = body.replace(/\n*respuesta-libre\s*$/s, '');
+      body = body.replace(/[\s\n]+$/, ''); // re-trim trailing whitespace
       sections.push({ title: matches[i].title, body });
     }
 

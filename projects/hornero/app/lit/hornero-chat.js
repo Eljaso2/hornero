@@ -662,6 +662,12 @@ class HorneroChat extends HoComponent {
         font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
         padding-left: 12px; background: rgba(78,153,120,.06);
         border-radius: 0 8px 8px 0; }
+      .reporte-card-section[data-section-type="transcript"] .reporte-card-section-body {
+        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text, #E8E6E0); line-height: 1.6;
+        border-left: 3px solid var(--ho-green, #4E9978);
+        padding-left: 12px; background: rgba(78,153,120,.06);
+        border-radius: 0 8px 8px 0; }
 
       /* Ficha del reportante section — compact card style */
       .reporte-card-section[data-section-type="ficha"] .reporte-card-section-body {
@@ -1740,12 +1746,19 @@ class HorneroChat extends HoComponent {
         let sectionType = 'default';
         if (sectionTitle.includes('relato')) sectionType = 'relato';
         else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
-        else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo') || sectionTitle.includes('transcript')) sectionType = 'extractos';
+        else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
+        else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'extractos';
         else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
         if (i > 0 && s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
         else if (i > 0) content += `<div class="reporte-card-section-title">Detalle</div>`;
         if (s.body) {
-          let bodyHtml = this._formatMarkdown(s.body);
+          // Clean AI confirmation text from section body (not part of the informe)
+          let cleanBody = s.body
+            .replace(/\n*---\s*\n.*$/s, '')
+            .replace(/\n*¿Es esto lo que querías.*$/s, '')
+            .replace(/\n*respuesta-libre\s*$/s, '')
+            .replace(/[\s\n]+$/, '');
+          let bodyHtml = this._formatMarkdown(cleanBody);
           // In Clasificación section: convert #tag patterns into visual tag badges
           if (sectionType === 'clasificacion') {
             bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="reporte-card-tag clasif-tag">#$1</span>');
@@ -1757,7 +1770,7 @@ class HorneroChat extends HoComponent {
       }).join('');
 
       // Tags inside card (excluding system tags)
-      const visibleTags = tags.filter(t => t !== 'reporte-generado' && t !== 'reporte' && t !== 'reporte-aprobado');
+      const visibleTags = tags.filter(t => t !== 'reporte-generado' && t !== 'reporte' && t !== 'reporte-aprobado' && t !== 'respuesta-libre');
       const tagsHtml = visibleTags.length > 0 ?
         `<div class="reporte-card-tags">${visibleTags.map(t => `<span class="reporte-card-tag">${t}</span>`).join('')}</div>` : '';
 
