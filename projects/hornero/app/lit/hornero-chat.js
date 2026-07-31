@@ -1001,6 +1001,32 @@ class HorneroChat extends HoComponent {
         font-size: .62rem; cursor: pointer; display: flex; align-items: center;
         justify-content: center; }
       .chat-attach-preview-wrap { position: relative; flex: none; }
+
+      /* Export confirmation popup — modal overlay */
+      .export-confirm-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 950; background: rgba(43,42,38,.55); display: flex;
+        align-items: center; justify-content: center; }
+      .export-confirm-dialog { background: var(--ho-card, #2A3230); border-radius: 18px;
+        padding: 24px 22px 18px; width: 280px; text-align: center;
+        box-shadow: 0 8px 32px rgba(43,42,38,.25);
+        animation: msgin .25s ease; }
+      .export-confirm-icon { font-size: 2rem; margin-bottom: 8px; }
+      .export-confirm-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1rem; color: var(--ho-text, #E8E6E0); margin-bottom: 6px; }
+      .export-confirm-subtitle { font-family: 'Public Sans', sans-serif;
+        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.4;
+        margin-bottom: 18px; }
+      .export-confirm-actions { display: flex; gap: 10px; justify-content: center; }
+      .export-confirm-cancel { background: none; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        border-radius: 10px; padding: 10px 20px; cursor: pointer;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
+        color: var(--ho-text-light, #9C988D); transition: background .2s; }
+      .export-confirm-cancel:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .export-confirm-ok { background: var(--ho-green, #4E9978); border: none;
+        border-radius: 10px; padding: 10px 20px; cursor: pointer;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
+        color: var(--ho-text-off, #F2F1EC); transition: background .2s; }
+      .export-confirm-ok:hover { background: var(--ho-green-dark, #3D6B56); }
     `;
   }
 
@@ -1762,26 +1788,16 @@ class HorneroChat extends HoComponent {
       });
     }
 
-    // === Export button (top-right corner) → export current chat ===
+    // === Export button (input toolbar) → confirm popup + download TXT ===
     const exportBtn = this.shadowRoot.querySelector('#chatExportBtn');
     if (exportBtn) {
       exportBtn.addEventListener('click', () => {
-        if (this._exportInProgress) return; // Debounce guard — prevent triple export
-        if (this.messages && this.messages.length > 0) {
-          this._exportInProgress = true;
-          const filename = (this.title || 'chat-hornero') + '.txt';
-          // Generate TXT content for the download card
-          const txtContent = this._generateTxtContent(this.messages, this.title);
-          // Emit event with file content so parent handles download + message
-          this.emit('chat-export', {
-            messages: this.messages,
-            title: this.title,
-            section: this.section,
-            sessionId: this.sessionId,
-            download: { content: txtContent, filename: filename, label: 'Click para descargar' }
-          });
-          setTimeout(() => { this._exportInProgress = false; }, 2000);
-        }
+        if (this._exportInProgress) return; // Debounce guard
+        if (!this.messages || this.messages.length === 0) return;
+        this._exportInProgress = true;
+        // Show confirmation popup before downloading
+        this._showExportConfirm();
+        setTimeout(() => { this._exportInProgress = false; }, 2000);
       });
     }
 
@@ -2284,25 +2300,21 @@ class HorneroChat extends HoComponent {
     });
 
     // === Download file cards (clickable file attachment in chat) ===
-    // Open preview in new tab + trigger download for phone notification
+    // Direct download to device — no browser preview, opens with Notes/text editor
     this.shadowRoot.querySelectorAll('.msg-download-card[data-action="download-file"]').forEach(card => {
       card.addEventListener('click', () => {
         const msgIndex = Number(card.dataset.msgIndex);
         const msg = this.messages[msgIndex];
         if (msg && msg.download && msg.download.content) {
           const blob = new Blob([msg.download.content], { type: 'text/plain;charset=utf-8' });
-          // Open preview in new tab so user can see the txt without searching filesystem
           const blobUrl = URL.createObjectURL(blob);
-          window.open(blobUrl, '_blank');
-          // Also trigger download for phone notification
           const a = document.createElement('a');
           a.href = blobUrl;
           a.download = msg.download.filename || 'chat-hornero.txt';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          // Don't revoke immediately — the new tab needs the URL
-          setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 10000);
+          setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 5000);
           this._showDownloadToast(msg.download.filename || 'chat-hornero');
         }
       });
@@ -2537,6 +2549,44 @@ ${msgs.map(m => {
     this._showDownloadToast(filename || title || 'chat-hornero');
   }
 
+  // ===== Export confirmation popup =====
+  // Custom modal: "¿Descargar la conversación?" → Descargar TXT / Cancelar
+  _showExportConfirm() {
+    const existing = this.shadowRoot.querySelector('.export-confirm-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'export-confirm-overlay';
+    overlay.innerHTML = `
+      <div class="export-confirm-dialog">
+        <div class="export-confirm-icon">📥</div>
+        <div class="export-confirm-title">¿Descargar la conversación?</div>
+        <div class="export-confirm-subtitle">Se guardará como archivo de texto en tu dispositivo</div>
+        <div class="export-confirm-actions">
+          <button class="export-confirm-cancel">Cancelar</button>
+          <button class="export-confirm-ok">Descargar TXT</button>
+        </div>
+      </div>
+    `;
+    this.shadowRoot.appendChild(overlay);
+
+    // Cancel button
+    overlay.querySelector('.export-confirm-cancel').addEventListener('click', () => {
+      overlay.remove();
+    });
+
+    // Confirm → download TXT directly
+    overlay.querySelector('.export-confirm-ok').addEventListener('click', () => {
+      overlay.remove();
+      this._downloadTxt(this.messages, this.title, this.title || 'chat-hornero');
+    });
+
+    // Click outside dialog → close
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+  }
+
   // Show brief toast notification confirming the download
   _showDownloadToast(filename) {
     const toast = this.shadowRoot.querySelector('#downloadToast');
@@ -2733,17 +2783,16 @@ ${msgs.map(m => {
           const body = encodeURIComponent(txtContent);
           window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
         } else if (shareAction === 'download') {
-          // Download TXT: generate blob and trigger download + open preview
+          // Download TXT: generate blob and trigger download directly (no browser preview)
           const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
           const blobUrl = URL.createObjectURL(blob);
-          window.open(blobUrl, '_blank');
           const a = document.createElement('a');
           a.href = blobUrl;
           a.download = title + '.txt';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 10000);
+          setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 5000);
           this._showDownloadToast(title);
         }
         overlay.remove();
