@@ -715,7 +715,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'formacion') {
       screenContent = '<hornero-formacion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-formacion>';
     } else if (this.screen === 'archivo') {
-      screenContent = '<hornero-archivo grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-archivo>';
+      screenContent = '<hornero-archivo grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-archivo>';
     } else if (this.screen === 'chat') {
       // Chat landing — personas + grade-based extras (Mis Chats / Mis Reportes / Recibidos)
       const grade = this.userGrade;

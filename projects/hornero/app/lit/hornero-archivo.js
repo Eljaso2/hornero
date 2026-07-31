@@ -1,7 +1,6 @@
 // ===== <hornero-archivo> — Esfera 6: Archivo del sindicato =====
-// Biblioteca: documentos, académicos, multimedia
-// Browsable + searchable KB chunks from backend
-// "Consultar con IA" → navigates to chat
+// Chat con Historiadora que explica y ofrece el sistema de búsqueda
+// Patrón idéntico a Historia Obrera (hornero-formacion)
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -11,547 +10,777 @@ class HorneroArchivo extends HoComponent {
     return {
       grade: String,
       sector: String,
-      tab: String,        // 'buscar' | 'fuentes' | 'multimedia'
-      query: String,      // search query text
-      results: Array,     // search results from /api/kb/search
-      allChunks: Array,   // all chunks from /api/kb (list view)
-      categories: Object, // category metadata from /api/kb
-      tipos: Array,       // tipo list from /api/kb
-      tipoFilter: String, // selected tipo filter
-      categoryFilter: String, // selected category filter
-      expandedId: String, // currently expanded chunk id
-      loading: Boolean,   // loading state
+      persona: String,     // Initial persona from navigation
+      sessionId: String,   // Session ID — if set, load existing session
+      messages: Array,
+      _bannerVisible: Boolean,
     };
   }
 
   // ===== Backend URLs =====
-  static get KB_URL() {
+  static get API_URL() {
     const h = window.location.hostname;
     if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/kb';
+      return 'http://' + h + ':8000/api/chat';
     }
-    return 'https://hornero-ia.onrender.com/api/kb';
+    return 'https://hornero-ia.onrender.com/api/chat';
   }
 
-  static get KB_SEARCH_URL() {
+  static get STREAM_URL() {
     const h = window.location.hostname;
     if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/kb/search';
+      return 'http://' + h + ':8000/api/chat/stream';
     }
-    return 'https://hornero-ia.onrender.com/api/kb/search';
+    return 'https://hornero-ia.onrender.com/api/chat/stream';
   }
 
-  static get KB_CHUNK_URL() {
+  static get GREETING_URL() {
     const h = window.location.hostname;
     if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/kb';
+      return 'http://' + h + ':8000/api/greeting';
     }
-    return 'https://hornero-ia.onrender.com/api/kb';
+    return 'https://hornero-ia.onrender.com/api/greeting';
+  }
+
+  static get AUDIO_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/audio';
+    }
+    return 'https://hornero-ia.onrender.com/api/audio';
   }
 
   constructor() {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
-    this.tab = 'buscar';
-    this.query = '';
-    this.results = [];
-    this.allChunks = [];
-    this.categories = {};
-    this.tipos = [];
-    this.tipoFilter = '';
-    this.categoryFilter = '';
-    this.expandedId = '';
-    this.loading = false;
+    this._chatSection = 'archivo';
+    this.messages = [];
+    this._typing = false;
+    this._greetingShown = false;
+    this._greetingRequested = false;
+    this._historyLoaded = false;
+    this._bannerVisible = true;
+    this._sessionId = '';
+    this._activePersona = 'historiador';
+    this._username = '';
+    this._progressiveRevealTimer = null;
+    this._progressiveRevealFull = '';
+    this._progressiveRevealIndex = 0;
+    this._savedDrawerState = null;
   }
 
-  async connectedCallback() {
+  connectedCallback() {
     super.connectedCallback();
-    // Try to load cached chunks from IndexedDB
-    if (typeof dbGet === 'function' && typeof dbGetAll === 'function') {
-      try {
-        var cached = await dbGetAll('biblioteca');
-        if (cached && cached.length > 0) {
-          this.allChunks = cached;
-        }
-      } catch(e) { console.warn('Archivo: IndexedDB read failed', e); }
-    }
-    // Fetch fresh chunks from backend
-    this._fetchChunks();
-  }
-
-  async _fetchChunks() {
-    this.loading = true;
-    var url = HorneroArchivo.KB_URL;
-    if (this.categoryFilter) url += '?category=' + this.categoryFilter;
-    if (this.tipoFilter) url += (url.includes('?') ? '&' : '?') + 'tipo=' + this.tipoFilter;
-
     try {
-      var resp = await fetch(url);
-      if (!resp.ok) throw new Error('Fetch failed: ' + resp.status);
-      var data = await resp.json();
-      this.set('allChunks', data.chunks || []);
-      this.set('categories', data.categories || {});
-      this.set('tipos', data.tipos || []);
-      this.loading = false;
-      // Cache chunks in IndexedDB
-      this._cacheChunks(data.chunks);
-    } catch(e) {
-      console.warn('Archivo: backend fetch failed, using cached', e);
-      this.loading = false;
+      const session = JSON.parse(localStorage.getItem('hornero-session'));
+      if (session && session.username) this._username = session.username;
+    } catch(e) {}
+  }
+
+  // Override render() to save chat drawer state before innerHTML destroys it
+  render() {
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      this._savedDrawerState = chatEl.getDrawerState();
     }
-  }
-
-  _cacheChunks(chunks) {
-    if (typeof dbPut !== 'function') return;
-    chunks.forEach(function(c) {
-      dbPut('biblioteca', c).catch(function(e) { console.warn('Cache chunk failed', e); });
-    });
-  }
-
-  async _searchChunks(q) {
-    if (!q || q.length < 2) { this.set('results', []); return; }
-    this.loading = true;
-    try {
-      var resp = await fetch(HorneroArchivo.KB_SEARCH_URL + '?q=' + encodeURIComponent(q));
-      if (!resp.ok) throw new Error('Search failed: ' + resp.status);
-      var data = await resp.json();
-      this.set('results', data.results || []);
-      this.loading = false;
-    } catch(e) {
-      // Fallback: local keyword search on cached chunks
-      this._localSearch(q);
-      this.loading = false;
-    }
-  }
-
-  _localSearch(q) {
-    // Offline fallback: keyword search on cached chunks
-    var terms = q.toLowerCase().split();
-    var stopWords = ['que', 'el', 'la', 'de', 'en', 'es', 'se', 'no', 'si', 'yo', 'me', 'mi', 'tu', 'te', 'y', 'o', 'a', 'al', 'por', 'para', 'con', 'sin'];
-    terms = terms.filter(function(t) { return t.length > 2 && stopWords.indexOf(t) === -1; });
-    var scored = [];
-    this.allChunks.forEach(function(c) {
-      var searchable = (c.title + ' ' + (c.excerpt || c.text || '') + ' ' + (c.tags || []).join(' ')).toLowerCase();
-      var score = 0;
-      terms.forEach(function(t) { if (searchable.indexOf(t) !== -1) score++; });
-      if (score > 0) scored.push(Object.assign({}, c, { relevance_score: score }));
-    });
-    scored.sort(function(a, b) { return b.relevance_score - a.relevance_score; });
-    this.set('results', scored.slice(0, 10));
+    super.render();
   }
 
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #1E2321); }
-      .scroll { flex: 1; overflow-y: auto; padding: 20px 16px;
-        -webkit-overflow-scrolling: touch; }
-      .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: var(--ho-text-light, #9C988D); margin-bottom: 8px; }
-      .section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
-      .intro { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.4; margin-bottom: 16px; }
+        background: var(--ho-bg, #1E2321); overflow-x: hidden; }
 
-      /* ===== Tab bar ===== */
-      .tab-bar { display: flex; gap: 0; margin-bottom: 16px;
-        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .tab-btn { font-family: 'Archivo', sans-serif; font-size: .76rem;
-        font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        background: none; border: none; cursor: pointer;
-        padding: 8px 14px; border-bottom: 2px solid transparent;
-        transition: color .2s, border-color .2s; }
-      .tab-btn.active { color: var(--ho-green, #4E9978);
-        border-bottom-color: var(--ho-green, #4E9978); }
-
-      /* ===== Search ===== */
-      .search-wrap { display: flex; gap: 8px; margin-bottom: 16px; }
-      .search-input { flex: 1; font-family: 'Public Sans', sans-serif;
-        font-size: .84rem; padding: 10px 12px; border-radius: 10px;
-        border: 1px solid var(--ho-border, rgba(255,255,255,.1));
-        background: var(--ho-card, #2A3230); color: var(--ho-text, #E8E6E0);
-        outline: none; transition: border-color .2s; }
-      .search-input:focus { border-color: var(--ho-green, #4E9978); }
-      .search-input::placeholder { color: var(--ho-text-light, #9C988D); }
-      .search-btn { background: var(--ho-green, #4E9978); color: #fff;
-        border: none; border-radius: 10px; padding: 10px 14px; cursor: pointer;
+      /* ===== Hero banner ===== */
+      .hero-banner { position: relative; width: 100%;
+        background: var(--ho-dark, #1E2321);
+        padding: 20px 16px 14px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 10px;
+        flex-shrink: 0; }
+      .hero-icon { font-size: 2.2rem; margin-bottom: 2px; }
+      .hero-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: 1.1rem; color: var(--ho-text, #E8E6E0); }
+      .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        text-align: left; }
+      .hero-bajada-link { display: inline-block; margin-top: 4px;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
-        transition: background .2s; }
-      .search-btn:hover { background: var(--ho-green-dark, #3D6B56); }
+        color: var(--ho-green, #4E9978); }
+      .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
 
-      /* ===== Tipo filter ===== */
-      .tipo-bar { display: flex; gap: 8px; margin-bottom: 14px; }
-      .tipo-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
-        font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 8px; padding: 6px 10px; cursor: pointer;
-        transition: background .2s, color .2s, border-color .2s; }
-      .tipo-btn.active { background: var(--ho-green, #4E9978); color: #fff;
-        border-color: var(--ho-green, #4E9978); }
-
-      /* ===== Category cards ===== */
-      .cat-grid { display: grid; grid-template-columns: repeat(2, 1fr);
-        gap: 10px; margin-bottom: 16px; }
-      .cat-card { background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; padding: 12px; cursor: pointer;
-        transition: border-color .2s; }
-      .cat-card:hover { border-color: var(--ho-green, #4E9978); }
-      .cat-title-line { display: flex; align-items: baseline; gap: 6px; }
-      .cat-icon { font-size: 1rem; }
-      .cat-label { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
-      .cat-desc { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.3; margin-top: 2px; }
-
-      /* ===== Chunk cards ===== */
-      .chunk-card { background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; padding: 14px; margin-bottom: 10px;
-        cursor: pointer; transition: border-color .2s, background .2s; }
-      .chunk-card:hover { border-color: var(--ho-green, #4E9978);
-        background: var(--ho-green-pale, #E0F0EB); }
-      .chunk-card.expanded { cursor: default; }
-
-      .chunk-header { display: flex; align-items: center; gap: 10px; }
-      .chunk-badge { font-size: .86rem; flex: none; }
-      .chunk-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #E8E6E0); flex: 1; }
-      .chunk-score { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-green-dark, #3D6B56); flex: none; }
-
-      .chunk-excerpt { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.4; margin-top: 6px; }
-      .chunk-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-      .chunk-tag { font-family: 'JetBrains Mono', monospace; font-size: .60rem;
-        font-weight: 600; color: var(--ho-green-dark, #3D6B56);
-        background: var(--ho-green-pale, #E0F0EB); border-radius: 6px;
-        padding: 2px 6px; }
-      .chunk-source { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-text-light, #9C988D); margin-top: 6px; }
-
-      /* ===== Expanded chunk ===== */
-      .chunk-full { margin-top: 12px; font-size: .82rem;
-        color: var(--ho-text, #E8E6E0); line-height: 1.5;
-        white-space: pre-wrap; padding: 10px;
-        background: rgba(110,131,68,.04); border-radius: 8px; }
-      .chunk-full-quote { background: var(--ho-green-pale, #E0F0EB);
-        border-radius: 8px; padding: 10px 12px; margin-top: 10px;
-        font-size: .82rem; color: var(--ho-green-dark, #3D6B56);
-        line-height: 1.5; font-style: italic; }
-      .chunk-full-quote-author { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
-        margin-top: 4px; font-style: normal; font-weight: 600; }
-
-      /* ===== Actions ===== */
-      .chunk-actions { display: flex; gap: 8px; margin-top: 12px; }
-      .action-btn { font-family: 'Archivo', sans-serif; font-size: .76rem;
-        font-weight: 600; border-radius: 8px; padding: 8px 14px; cursor: pointer;
-        transition: background .2s, color .2s; }
-      .action-ia { background: var(--ho-green, #4E9978); color: #fff;
-        border: none; }
-      .action-ia:hover { background: var(--ho-green-dark, #3D6B56); }
-      .action-collapse { background: none; color: var(--ho-text-mid, #6E6A60);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.1)); }
-      .action-collapse:hover { border-color: var(--ho-text, #E8E6E0);
-        color: var(--ho-text, #E8E6E0); }
-
-      /* ===== Empty state ===== */
-      .empty { text-align: center; padding: 30px 20px; color: var(--ho-text-light, #9C988D);
-        font-size: .82rem; }
-      .empty-icon { font-size: 2rem; margin-bottom: 8px; }
-
-      /* ===== Loading ===== */
-      .loading { text-align: center; padding: 20px; color: var(--ho-text-light, #9C988D);
-        font-size: .78rem; }
-
-      /* ===== Tipo colors ===== */
-      .tipo-doc { color: #4E9978; }
-      .tipo-acad { color: #3D6B56; }
-      .tipo-mult { color: #80CCA0; }
+      /* ===== Chat container ===== */
+      .chat-container { flex: 1; display: flex; flex-direction: column;
+        min-height: 0; overflow: hidden; }
     `;
-  }
-
-  _tipoBadge(tipo) {
-    var map = { documento: '📄', academico: '📚', multimedia: '📰' };
-    return map[tipo] || '📄';
-  }
-
-  _tipoClass(tipo) {
-    var map = { documento: 'tipo-doc', academico: 'tipo-acad', multimedia: 'tipo-mult' };
-    return map[tipo] || '';
   }
 
   _render() {
-    var tabContent = '';
-
-    if (this.tab === 'buscar') {
-      tabContent = this._renderBuscar();
-    } else if (this.tab === 'fuentes') {
-      tabContent = this._renderFuentes();
-    } else if (this.tab === 'multimedia') {
-      tabContent = this._renderMultimedia();
-    }
-
     return html`
-      <div class="scroll">
-        <div class="kicker">📚 ARCHIVO DEL SINDICATO</div>
-        <div class="section-title">La memoria del sindicato</div>
-        <div class="intro">Convenios, referentes, fuentes sindicales. Explorá, buscá, consultá con la IA.</div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:var(--ho-green-pale,#E0F0EB);border-radius:10px;cursor:pointer" id="historiadorLink">
-          <img src="assets/personajes/a01.png" alt="Historiador/a" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--ho-green,#4E9978);object-fit:cover;object-position:center 25%">
-          <div style="flex:1">
-            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;color:#E8E6E0">📜 Historiador/a te guía</div>
-            <div style="font-size:.72rem;color:#3D6B56;line-height:1.3">Chateá con la Historiador/a para recorrer los archivos, buscar fuentes, entender la historia obrera.</div>
-          </div>
-          <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#4E9978;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      ${this._bannerVisible ? html`
+      <div class="hero-banner">
+        <div class="hero-icon">📚</div>
+        <div class="hero-title">Archivo del sindicato</div>
+        <div class="hero-bajada">
+          Convenios, referentes, fuentes sindicales, documentos académicos.
+          La Historiadora te guía para buscar y explorar la memoria del sindicato.
         </div>
-        <div class="intro">Convenios, referentes, fuentes sindicales. Explorá, buscá, consultá con la IA.</div>
+      </div>
+      ` : ''}
 
-        <div class="tab-bar">
-          <button class="tab-btn${this.tab === 'buscar' ? ' active' : ''}" data-tab="buscar">🔍 Buscar</button>
-          <button class="tab-btn${this.tab === 'fuentes' ? ' active' : ''}" data-tab="fuentes">📄 Fuentes</button>
-          <button class="tab-btn${this.tab === 'multimedia' ? ' active' : ''}" data-tab="multimedia">📰 Multimedia</button>
-        </div>
-
-        ${tabContent}
+      <div class="chat-container">
+        <hornero-chat
+          title="Archivo"
+          input-placeholder="Buscar en el archivo..."
+          messages="${JSON.stringify(this.messages)}"
+          typing="${this._typing}"
+          section="archivo"
+          history-title="Historial"
+          persona="${this._activePersona}"
+          username="${this._username}"
+          grade="${this.grade}"
+          hide-persona-bar
+          hide-informes-btn
+          hide-recibidos-btn
+          center-logo="${this._bannerVisible ? '' : '📚'}"
+          no-auto-scroll="${this._bannerVisible}"
+        ></hornero-chat>
       </div>
     `;
   }
 
-  _renderBuscar() {
-    var resultsHtml = '';
-    if (this.loading) {
-      resultsHtml = '<div class="loading">Buscando...</div>';
-    } else if (this.results.length > 0) {
-      resultsHtml = this.results.map(function(r) {
-        return this._renderChunkCard(r);
-      }).join('');
-    } else if (this.query && this.query.length >= 2) {
-      resultsHtml = '<div class="empty"><div class="empty-icon">🔍</div>No se encontraron resultados para "' + this.query + '"</div>';
-    } else {
-      resultsHtml = '<div class="empty"><div class="empty-icon">🔎</div>Escribí al menos 2 letras para buscar</div>';
-    }
-
-    return html`
-      <div class="search-wrap">
-        <input class="search-input" id="searchInput" type="text"
-          placeholder="Buscar en el archivo..." value="${this.query}">
-        <button class="search-btn" id="searchBtn">Buscar</button>
-      </div>
-      ${resultsHtml}
-    `;
-  }
-
-  _renderFuentes() {
-    var catKeys = Object.keys(this.categories || {});
-    var catCards = catKeys.map(function(k) {
-      var meta = this.categories[k];
-      return html`<div class="cat-card" data-category="${k}">
-        <div class="cat-title-line"><span class="cat-icon">${meta.icon || '📄'}</span>
-        <span class="cat-label">${meta.label || k}</span></div>
-        <div class="cat-desc">${meta.desc || ''}</div>
-      </div>`;
-    }).join('');
-
-    // Show chunks filtered by tipo/category
-    var filteredChunks = this.allChunks;
-    if (this.tipoFilter) {
-      filteredChunks = filteredChunks.filter(function(c) { return c.tipo === this.tipoFilter; }.bind(this));
-    }
-    if (this.categoryFilter) {
-      filteredChunks = filteredChunks.filter(function(c) { return c.category === this.categoryFilter; }.bind(this));
-    }
-
-    var chunksHtml = filteredChunks.map(function(c) {
-      return this._renderChunkCard(c);
-    }).join('');
-
-    if (filteredChunks.length === 0 && !this.loading) {
-      chunksHtml = '<div class="empty"><div class="empty-icon">📂</div>No hay fuentes en esta categoría</div>';
-    }
-
-    return html`
-      <div class="tipo-bar">
-        <button class="tipo-btn${this.tipoFilter === '' ? ' active' : ''}" data-tipo="">Todos</button>
-        <button class="tipo-btn${this.tipoFilter === 'documento' ? ' active' : ''}" data-tipo="documento">📄 Documentos</button>
-        <button class="tipo-btn${this.tipoFilter === 'academico' ? ' active' : ''}" data-tipo="academico">📚 Académicos</button>
-      </div>
-
-      ${this.categoryFilter ? '' : html`<div class="cat-grid">${catCards}</div>`}
-
-      ${this.categoryFilter ? html`<div class="kicker">${(this.categories[this.categoryFilter] || {}).label || this.categoryFilter}</div>` : ''}
-
-      ${this.loading ? '<div class="loading">Cargando fuentes...</div>' : chunksHtml}
-    `;
-  }
-
-  _renderMultimedia() {
-    // Filter multimedia chunks
-    var multiChunks = this.allChunks.filter(function(c) { return c.tipo === 'multimedia'; });
-
-    var chunksHtml = multiChunks.map(function(c) {
-      return this._renderChunkCard(c);
-    }).join('');
-
-    if (multiChunks.length === 0 && !this.loading) {
-      chunksHtml = '<div class="empty"><div class="empty-icon">📰</div>No hay contenido multimedia todavía.<br>Se agregarán notas periodísticas, YouTube, Reels IG.</div>';
-    }
-
-    return html`
-      ${this.loading ? '<div class="loading">Cargando multimedia...</div>' : chunksHtml}
-    `;
-  }
-
-  _renderChunkCard(chunk) {
-    var isExpanded = this.expandedId === chunk.id;
-    var badge = this._tipoBadge(chunk.tipo);
-    var tipoClass = this._tipoClass(chunk.tipo);
-    var excerpt = chunk.excerpt || '';
-    var tags = (chunk.tags || []).slice(0, 6);
-    var source = (chunk.sources || []).slice(0, 2).join(' · ');
-    var scoreHtml = chunk.relevance_score ? html`<span class="chunk-score">+${chunk.relevance_score}</span>` : '';
-
-    var expandedHtml = '';
-    if (isExpanded) {
-      // Fetch full chunk content
-      var fullText = chunk.text || chunk.excerpt || '';
-      var quotesHtml = '';
-      if (chunk.quotes && chunk.quotes.length > 0) {
-        quotesHtml = chunk.quotes.map(function(q) {
-          return html`<div class="chunk-full-quote">"${q.text}"<div class="chunk-full-quote-author">— ${q.author}, ${q.source}</div></div>`;
-        }).join('');
+  _afterRender() {
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      this._syncChatMessages(chatEl);
+      // Restore drawer state saved before re-render
+      if (this._savedDrawerState) {
+        chatEl.restoreDrawerState(this._savedDrawerState);
+        this._savedDrawerState = null;
       }
-      expandedHtml = html`
-        <div class="chunk-full">${fullText}</div>
-        ${quotesHtml}
-        <div class="chunk-actions">
-          <button class="action-btn action-ia" data-chunk-id="${chunk.id}" data-chunk-title="${chunk.title}">🤖 Consultar con IA</button>
-          <button class="action-btn action-collapse" data-collapse>Cerrar</button>
-        </div>
-      `;
+      chatEl.addEventListener('chat-send', (e) => {
+        this._handleUserMessage(e.detail.text);
+      });
+      chatEl.addEventListener('chat-session-select', (e) => {
+        this._loadSession(e.detail.sessionId);
+      });
+      chatEl.addEventListener('chat-session-delete', (e) => {
+        if (e.detail.sessionId === this._sessionId) {
+          this.messages = [];
+          this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
+          this.render();
+        }
+      });
+      chatEl.addEventListener('chat-message-delete', (e) => {
+        const { msgIndex, msg } = e.detail;
+        if (msgIndex >= 0 && msgIndex < this.messages.length) {
+          this.messages.splice(msgIndex, 1);
+          if (msg && msg.id && typeof borrarChatMsg === 'function') {
+            borrarChatMsg(msg.id);
+          }
+          this.render();
+        }
+      });
+      chatEl.addEventListener('persona-navigate', (e) => {
+        this._handlePersonaNavigate(e.detail.persona);
+      });
+      chatEl.addEventListener('persona-redirect', (e) => {
+        this._handlePersonaNavigate(e.detail.persona);
+      });
+      chatEl.addEventListener('chat-back', () => {
+        this.emit('screen-change', { screen: 'home' });
+      });
+      chatEl.addEventListener('chat-input-focus', () => {
+        if (this._bannerVisible) {
+          this._bannerVisible = false;
+          this.render();
+        }
+      });
+      chatEl.addEventListener('chat-audio', (e) => {
+        this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
+      });
+      chatEl.addEventListener('chat-feedback', (e) => {
+        this._sendFeedback(e.detail);
+      });
+      chatEl.addEventListener('chat-export', (e) => {
+        this._handleChatExport(e.detail);
+      });
+      chatEl.addEventListener('chat-new-session', () => {
+        this._startNewSession();
+      });
     }
 
-    return html`
-      <div class="chunk-card${isExpanded ? ' expanded' : ''}" data-chunk-id="${chunk.id}">
-        <div class="chunk-header">
-          <span class="chunk-badge ${tipoClass}">${badge}</span>
-          <span class="chunk-title">${chunk.title}</span>
-          ${scoreHtml}
-        </div>
-        ${!isExpanded ? html`<div class="chunk-excerpt">${excerpt}</div>` : ''}
-        ${!isExpanded ? html`<div class="chunk-tags">${tags.map(function(t) { return html`<span class="chunk-tag">${t}</span>`; }).join('')}</div>` : ''}
-        <div class="chunk-source">${source}</div>
-        ${expandedHtml}
-      </div>
-    `;
+    // Load chat history or show greeting
+    if (!this._historyLoaded) {
+      this._loadChatHistory();
+    }
   }
 
-  async _afterRender() {
-    // Historiador link — navigate to historiador screen
-    var historiadorLink = this.shadowRoot.querySelector('#historiadorLink');
-    if (historiadorLink) {
-      historiadorLink.addEventListener('click', function() {
-        this.emit('screen-change', { screen: 'historiador', persona: 'historiador', preQuery: 'Quiero explorar los archivos sindicales' });
-      }.bind(this));
+  _syncChatMessages(chatEl) {
+    if (chatEl) {
+      chatEl.messages = this.messages;
+      chatEl.typing = this._typing;
+      chatEl.section = this._chatSection;
+      chatEl.sessionId = this._sessionId;
+      chatEl.username = this._username;
+      chatEl.persona = this._activePersona;
+      chatEl.grade = this.grade;
+      chatEl.hidePersonaBar = true;
+      chatEl.hideInformesBtn = true;
+      chatEl.hideRecibidosBtn = true;
+      chatEl.centerLogo = this._bannerVisible ? '' : '📚';
+      chatEl.noAutoScroll = this._bannerVisible;
+      chatEl.topBarAccent = !this._bannerVisible;
+      chatEl.render();
     }
-
-    // Tab buttons
-    this.shadowRoot.querySelectorAll('.tab-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        this.set('tab', btn.dataset.tab);
-        this.set('expandedId', '');
-        if (btn.dataset.tab === 'fuentes') this._fetchChunks();
-      }.bind(this));
-    });
-
-    // Search input + button
-    var searchInput = this.shadowRoot.querySelector('#searchInput');
-    var searchBtn = this.shadowRoot.querySelector('#searchBtn');
-    if (searchInput) {
-      searchInput.addEventListener('input', function() {
-        this.query = searchInput.value;
-      }.bind(this));
-      searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') this._searchChunks(searchInput.value);
-      }.bind(this));
-    }
-    if (searchBtn) {
-      searchBtn.addEventListener('click', function() {
-        this._searchChunks(searchInput ? searchInput.value : this.query);
-      }.bind(this));
-    }
-
-    // Tipo filter buttons
-    this.shadowRoot.querySelectorAll('.tipo-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        this.set('tipoFilter', btn.dataset.tipo);
-        this._fetchChunks();
-      }.bind(this));
-    });
-
-    // Category cards
-    this.shadowRoot.querySelectorAll('.cat-card').forEach(function(card) {
-      card.addEventListener('click', function() {
-        this.set('categoryFilter', card.dataset.category);
-        this._fetchChunks();
-      }.bind(this));
-    });
-
-    // Chunk cards — expand/collapse
-    this.shadowRoot.querySelectorAll('.chunk-card:not(.expanded)').forEach(function(card) {
-      card.addEventListener('click', function() {
-        var chunkId = card.dataset.chunkId;
-        // Fetch full chunk content then expand
-        this._expandChunk(chunkId);
-      }.bind(this));
-    });
-
-    // Expanded chunk — action buttons
-    this.shadowRoot.querySelectorAll('.action-ia').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var title = btn.dataset.chunkTitle || '';
-        // Navigate to chat with pre-loaded query
-        this.emit('screen-change', { screen: 'consulta', preQuery: 'Quiero saber más sobre: ' + title });
-      }.bind(this));
-    });
-
-    this.shadowRoot.querySelectorAll('.action-collapse').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        this.set('expandedId', '');
-      }.bind(this));
-    });
   }
 
-  async _expandChunk(chunkId) {
-    // Try to find chunk in cached data first
-    var cached = this.allChunks.find(function(c) { return c.id === chunkId; });
-    if (cached && cached.text) {
-      this.set('expandedId', chunkId);
+  // ===== Load chat history from IndexedDB =====
+  async _loadChatHistory() {
+    if (this._historyLoaded) return;
+    this._historyLoaded = true;
+
+    // If a sessionId was passed (from Mis Conversaciones), load that session
+    if (this.sessionId && this.sessionId.length > 0) {
+      await this._loadSession(this.sessionId);
+      this.sessionId = '';
       return;
     }
 
-    // Fetch full chunk from backend
-    try {
-      var resp = await fetch(HorneroArchivo.KB_CHUNK_URL + '/' + chunkId);
-      if (resp.ok) {
-        var fullChunk = await resp.json();
-        // Merge full text into allChunks
-        var updated = this.allChunks.map(function(c) {
-          if (c.id === chunkId) return Object.assign({}, c, fullChunk);
-          return c;
-        });
-        this.set('allChunks', updated);
-        this.set('expandedId', chunkId);
-      }
-    } catch(e) {
-      console.warn('Archivo: fetch chunk failed', e);
-      // Still expand with excerpt
-      this.set('expandedId', chunkId);
+    // Try to restore the most recent session for this section + username
+    if (typeof obtenerChatSessions === 'function' && this._username) {
+      try {
+        const sessions = await obtenerChatSessions(this._username);
+        const mySessions = sessions.filter(s => s.section === this._chatSection);
+        if (mySessions.length > 0) {
+          const latestSession = mySessions[0];
+          await this._loadSession(latestSession.sessionId);
+          return;
+        }
+      } catch(e) { console.warn('Archivo: session restore failed', e); }
     }
+
+    // No previous session found — start fresh with greeting
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._showGreeting();
+  }
+
+  async _loadSession(sessionId) {
+    try {
+      if (typeof obtenerChatSessionMessages === 'function') {
+        const saved = await obtenerChatSessionMessages(sessionId);
+        if (saved && saved.length > 0) {
+          this._sessionId = sessionId;
+          this._bannerVisible = false;
+          this.messages = saved;
+          this._historyLoaded = true;
+          this.render();
+        }
+      }
+    } catch(e) { console.warn('Archivo: session load failed', e); }
+  }
+
+  // ===== Start a new chat session =====
+  _startNewSession() {
+    this._stopProgressiveReveal();
+    this.messages = [];
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._historyLoaded = true;
+    this._greetingRequested = false;
+    this._activePersona = 'historiador';
+    this._requestGreeting();
+  }
+
+  // ===== Greeting: explain the search system =====
+  _showGreeting() {
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+
+    const greetingText = '📚 ¡Hola! Soy la Historiadora. En el **Archivo del sindicato** encontrás convenios, referentes, fuentes sindicales, documentos académicos y más.\n\nPuedo ayudarte a buscar lo que necesitás. Estos son los modos de búsqueda:\n\n• 🔍 **Buscar por palabra clave** — Decime qué tema te interesa y busco en todo el archivo\n\n• 📄 **Fuentes por categoría** — Explorá los documentos organizados por tema: convenios, historia sindical, legislación laboral, etc.\n\n• 📚 **Académicos** — Artículos y papers de investigación sobre el mundo del trabajo\n\n• 📰 **Multimedia** — Notas periodísticas, audio, video (se irá sumando contenido)\n\nPreguntame lo que quieras o decime un tema y te busco las fuentes.';
+
+    // 1. Show typing dots for 1s
+    this._typing = true;
+    this.render();
+
+    setTimeout(() => {
+      // 2. Progressive reveal of greeting
+      this._typing = false;
+      this._revealMessage(greetingText, 'historiador', ['archivo', 'greeting', 'busqueda'], null);
+    }, 1000);
+  }
+
+  // ===== Progressive reveal: show text char by char via streaming =====
+  _revealMessage(fullText, persona, tags, onComplete) {
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (!chatEl) {
+      this.messages = [...this.messages, {
+        role: 'hornero', text: fullText, tags: tags,
+        persona: persona, time: this._timeNow(),
+      }];
+      this.render();
+      if (onComplete) onComplete();
+      return;
+    }
+
+    // Start streaming
+    chatEl.streamingText = '';
+    chatEl._streamingPersona = persona;
+    chatEl.render();
+
+    let index = 0;
+    const chunkSize = 4;
+    const interval = 12;
+
+    this._revealTimer = setInterval(() => {
+      index += chunkSize;
+      if (index >= fullText.length) {
+        clearInterval(this._revealTimer);
+        this._revealTimer = null;
+        this.messages = [...this.messages, {
+          role: 'hornero', text: fullText, tags: tags,
+          persona: persona, time: this._timeNow(),
+        }];
+        chatEl.streamingText = '';
+        chatEl._streamingPersona = '';
+        this.render();
+        if (onComplete) onComplete();
+        return;
+      }
+      chatEl.streamingText = fullText.substring(0, index);
+      chatEl._streamingPersona = persona;
+      chatEl.updateStreamingText(fullText.substring(0, index));
+    }, interval);
+  }
+
+  // ===== Handle user message =====
+  _handleUserMessage(text) {
+    this._stopProgressiveReveal();
+    // Hide banner when user starts chatting
+    if (this._bannerVisible) {
+      this._bannerVisible = false;
+    }
+    this.messages = [...this.messages, { role: 'user', text, tags: ['archivo'], time: this._timeNow() }];
+    this._typing = true;
+    this._saveChatHistory();
+    this.render();
+
+    // Try streaming first, fallback to non-streaming
+    this._callBackendStream(text).catch((err) => {
+      console.warn('Stream failed, falling back to non-streaming:', err);
+      this._callBackend(text).catch((err2) => {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: 'No puedo conectarme ahora. Intentá de nuevo en un momento.',
+          tags: ['archivo', 'error'],
+          persona: 'historiador',
+          time: this._timeNow(),
+        }];
+        this._typing = false;
+        this.render();
+      });
+    });
+  }
+
+  // ===== Progressive reveal for backend stream =====
+  _startProgressiveReveal(fullText, chatEl, persona) {
+    this._stopProgressiveReveal();
+    this._progressiveRevealFull = fullText;
+    this._progressiveRevealIndex = 0;
+    const chunkSize = 1;
+    const interval = 25;
+    this._progressiveRevealTimer = setInterval(() => {
+      this._progressiveRevealIndex += chunkSize;
+      if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
+        this._stopProgressiveReveal();
+        if (chatEl) chatEl.updateStreamingText(this._progressiveRevealFull);
+        return;
+      }
+      if (chatEl) {
+        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex));
+      }
+    }, interval);
+  }
+
+  _stopProgressiveReveal() {
+    if (this._progressiveRevealTimer) {
+      clearInterval(this._progressiveRevealTimer);
+      this._progressiveRevealTimer = null;
+    }
+    if (this._revealTimer) {
+      clearInterval(this._revealTimer);
+      this._revealTimer = null;
+    }
+    this._progressiveRevealFull = '';
+    this._progressiveRevealIndex = 0;
+  }
+
+  async _callBackendStream(text) {
+    const history = this.messages.map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const response = await fetch(HorneroArchivo.STREAM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        formato: 'historia',
+        history: history,
+        grade: this.grade,
+        sector: this.sector,
+        requested_persona: 'historiador',
+        session_id: this._sessionId,
+      }),
+    });
+
+    if (!response.ok) throw new Error('Stream error: ' + response.status);
+
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let streamingText = '';
+    let streamingPersona = this._activePersona;
+
+    this._typing = true;
+    if (chatEl) {
+      chatEl.streamingText = '';
+      chatEl._streamingPersona = streamingPersona;
+      chatEl.render();
+    }
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('event: token')) continue;
+          if (line.startsWith('data: ') && !line.startsWith('data: {')) {
+            const content = line.slice(6).replace(/\\n/g, '\n');
+            if (content) {
+              streamingText += content;
+              this._typing = false;
+              if (chatEl) {
+                if (content.length > 50 && !this._progressiveRevealTimer) {
+                  this._startProgressiveReveal(streamingText, chatEl, streamingPersona);
+                } else {
+                  chatEl.streamingText = streamingText;
+                  chatEl._streamingPersona = streamingPersona;
+                  chatEl.updateStreamingText(streamingText);
+                }
+              }
+            }
+          }
+          if (line.startsWith('data: {')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.text !== undefined) {
+                streamingPersona = data.persona || this._activePersona;
+                this.messages = [...this.messages, {
+                  role: 'hornero',
+                  text: data.text || streamingText,
+                  sections: data.sections || [],
+                  tags: data.tags || ['archivo'],
+                  persona: 'historiador',
+                  redirect_persona: data.redirect_persona || '',
+                  time: data.time || this._timeNow(),
+                }];
+                this._stopProgressiveReveal();
+                if (chatEl) {
+                  chatEl.streamingText = '';
+                  chatEl._streamingPersona = '';
+                }
+                this._typing = false;
+                this._saveChatHistory();
+                this.render();
+                return;
+              }
+              if (data.message) throw new Error(data.message);
+            } catch (e) {
+              if (e.message !== 'Stream error') throw e;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      this._stopProgressiveReveal();
+      if (streamingText) {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: streamingText,
+          tags: ['archivo', 'stream-partial'],
+          persona: 'historiador',
+          time: this._timeNow(),
+        }];
+      }
+      if (chatEl) {
+        chatEl.streamingText = '';
+        chatEl._streamingPersona = '';
+      }
+      this._typing = false;
+      this.render();
+      throw e;
+    }
+  }
+
+  // ===== Non-streaming backend fallback =====
+  async _callBackend(text) {
+    const history = this.messages.map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const response = await this._fetchWithTimeout(HorneroArchivo.API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        formato: 'historia',
+        history: history,
+        grade: this.grade,
+        sector: this.sector,
+        requested_persona: 'historiador',
+        session_id: this._sessionId,
+      }),
+    });
+
+    if (!response.ok) throw new Error('Backend error: ' + response.status);
+
+    const data = await response.json();
+    const responseText = data.text || '';
+
+    if (responseText && responseText.length > 50) {
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) {
+        this._typing = false;
+        this._startProgressiveReveal(responseText, chatEl, 'historiador');
+        const revealDone = new Promise((resolve) => {
+          const check = setInterval(() => {
+            if (!this._progressiveRevealTimer) { clearInterval(check); resolve(); }
+          }, 50);
+        });
+        const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
+        await Promise.race([revealDone, timeout]);
+        this._stopProgressiveReveal();
+        if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
+      }
+    }
+
+    this.messages = [...this.messages, {
+      role: 'hornero',
+      text: data.text || '',
+      sections: data.sections || [],
+      tags: data.tags || ['archivo'],
+      persona: 'historiador',
+      redirect_persona: data.redirect_persona || '',
+      time: data.time || this._timeNow(),
+    }];
+    this._typing = false;
+    this._saveChatHistory();
+    this.render();
+  }
+
+  _fetchWithTimeout(url, options, timeoutMs = 30000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .then(response => { clearTimeout(timeoutId); return response; })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') throw new Error('FETCH_TIMEOUT');
+        throw err;
+      });
+  }
+
+  // ===== Request greeting from backend =====
+  async _requestGreeting() {
+    this._greetingRequested = true;
+    this._typing = true;
+    this.render();
+
+    try {
+      const response = await this._fetchWithTimeout(HorneroArchivo.GREETING_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          section: 'historia',
+          grade: this.grade,
+          sector: this.sector,
+          requested_persona: 'historiador',
+          session_id: this._sessionId,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Greeting error: ' + response.status);
+
+      const data = await response.json();
+      this.messages = [{
+        role: 'hornero',
+        text: data.text || '',
+        sections: data.sections || [],
+        tags: data.tags || ['archivo', 'greeting'],
+        persona: 'historiador',
+        redirect_persona: data.redirect_persona || '',
+        time: data.time || this._timeNow(),
+      }];
+      this._typing = false; this._greetingRequested = false;
+      this.render();
+    } catch (e) {
+      this._typing = false; this._greetingRequested = false;
+      this.messages = [this._localGreeting()];
+      this.render();
+    }
+  }
+
+  _localGreeting() {
+    return { role: 'hornero', sections: [{ title: '📚 Archivo del sindicato', body: 'Convenios, referentes, fuentes sindicales, documentos académicos. Preguntame lo que buscás y te guío.' }], tags: ['archivo', 'greeting'], persona: 'historiador', time: this._timeNow() };
+  }
+
+  // ===== Handle audio message =====
+  async _handleAudioMessage(audioBlob, duration, fileName) {
+    this.messages = [...this.messages, { role: 'user', text: '🎤 Audio enviado', tags: ['archivo', 'audio'], time: this._timeNow() }];
+    this._typing = true;
+    this.render();
+
+    try {
+      const history = this.messages.map(m => ({
+        role: m.role,
+        text: m.text || '',
+        sections: m.sections || [],
+      }));
+
+      const formData = new FormData();
+      formData.append('audio', audioBlob, fileName);
+      formData.append('formato', 'historia');
+      formData.append('grade', this.grade);
+      formData.append('sector', this.sector);
+      formData.append('requested_persona', 'historiador');
+      formData.append('session_id', this._sessionId);
+      formData.append('history', JSON.stringify(history));
+
+      const response = await this._fetchWithTimeout(HorneroArchivo.AUDIO_URL, {
+        method: 'POST',
+        body: formData,
+      }, 45000);
+
+      if (!response.ok) throw new Error('Audio backend error: ' + response.status);
+
+      const data = await response.json();
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: data.text || '',
+        sections: data.sections || [],
+        tags: data.tags || ['archivo', 'audio'],
+        persona: 'historiador',
+        redirect_persona: data.redirect_persona || '',
+        time: data.time || this._timeNow(),
+      }];
+      this._typing = false;
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      this._saveChatHistory();
+      this.render();
+    } catch (e) {
+      this._typing = false;
+      const errMsg = e.message === 'FETCH_TIMEOUT'
+        ? 'No puedo procesar el audio ahora — el servidor está lento. Intentá de nuevo.'
+        : 'No puedo procesar el audio ahora. Intentá de nuevo.';
+      const errTags = e.message === 'FETCH_TIMEOUT' ? ['archivo', 'audio', 'timeout'] : ['archivo', 'audio-error'];
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: errMsg,
+        tags: errTags,
+        persona: 'historiador',
+        time: this._timeNow(),
+      }];
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      this.render();
+    }
+  }
+
+  _handlePersonaNavigate(targetPersona) {
+    const screenMap = {
+      'abogado': { screen: 'consulta', persona: 'abogado' },
+      'companero': { screen: 'gremial', persona: 'companero' },
+      'periodista': { screen: 'contenido', persona: 'periodista' },
+      'historiador': { screen: 'formacion', persona: 'historiador' },
+    };
+    const target = screenMap[targetPersona];
+    if (target) {
+      this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
+    }
+  }
+
+  _handleChatExport(detail) {
+    if (!this.messages || this.messages.length === 0) return;
+    if (detail && detail.download) {
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
+        download: detail.download,
+        tags: ['archivo', 'exportado'],
+        time: this._timeNow(),
+      }];
+      this._saveChatHistory();
+      this.render();
+    }
+  }
+
+  async _sendFeedback(detail) {
+    if (!detail || !detail.type) return;
+    const rating = detail.type === 'like' && detail.liked ? 'like' :
+                   detail.type === 'dislike' && detail.disliked ? 'dislike' : '';
+    if (!rating) return;
+    try {
+      const h = window.location.hostname;
+      const baseUrl = (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.'))
+        ? 'http://' + h + ':8000' : 'https://hornero-ia.onrender.com';
+      await fetch(baseUrl + '/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: this._sessionId || '',
+          message_index: detail.messageIndex || -1,
+          rating: rating,
+          persona: detail.persona || this._activePersona,
+          message_text: detail.messageText || '',
+        }),
+      });
+    } catch (e) { console.warn('Feedback send failed:', e); }
+  }
+
+  async _saveChatHistory() {
+    try {
+      if (typeof guardarChatMsg === 'function') {
+        for (const m of this.messages) {
+          if (!m.id) {
+            m.id = typeof generarUUID === 'function' ? generarUUID() : 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+            m.section = this._chatSection;
+            m.sessionId = this._sessionId;
+            m.timestamp = Date.now();
+            m.username = this._username;
+          }
+          await guardarChatMsg(m);
+        }
+      }
+    } catch(e) { console.warn('Archivo: chat history save failed', e); }
+  }
+
+  _timeNow() {
+    const now = new Date();
+    const d = now.getDate().toString().padStart(2, '0');
+    const m = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][now.getMonth()];
+    const h = now.getHours().toString().padStart(2, '0');
+    const min = now.getMinutes().toString().padStart(2, '0');
+    return d + ' ' + m + ' ' + h + ':' + min;
   }
 }
 
