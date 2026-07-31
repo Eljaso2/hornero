@@ -209,6 +209,8 @@ class GreetingRequest(BaseModel):
     requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
     days_since_last_chat: int = 999  # Days since last chat session — affects greeting tone
+    incoming_reports: list = []  # Reports from lower grades (for G2+ users)
+    incoming_reports_count: int = 0  # Count of incoming reports (for greeting hint)
 
 
 class GreetingResponse(BaseModel):
@@ -229,6 +231,7 @@ class ChatRequest(BaseModel):
     sector: str = "aceitero"
     requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
+    incoming_reports: list = []  # Reports from lower grades (for G2+ users)
 
 
 class ChatResponse(BaseModel):
@@ -281,12 +284,12 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
         effective_persona = PERSONA_MAP.get(req.requested_persona, 'abogado')
     else:
         effective_persona = PERSONA_MAP.get(req.section, 'abogado')
-    system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping(), requested_persona=req.requested_persona)
+    system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping(), requested_persona=req.requested_persona, grade=req.grade, incoming_reports=req.incoming_reports)
     # Resolve effective section for greeting hint (requested_persona may override)
     greeting_section = req.section
     if req.requested_persona and req.requested_persona in PERSONA_NAME_MAP:
         greeting_section = PERSONA_NAME_MAP[req.requested_persona]
-    greeting_hint = get_greeting_hint(greeting_section, req.grade, req.days_since_last_chat)
+    greeting_hint = get_greeting_hint(greeting_section, req.grade, req.days_since_last_chat, req.incoming_reports_count)
 
     try:
         if LLM_PROVIDER == "deepseek":
@@ -362,6 +365,8 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
         clipping_items=get_clipping(),
         query=req.message,
         requested_persona=req.requested_persona,
+        grade=req.grade,
+        incoming_reports=req.incoming_reports,
     )
     # Determine effective persona string for fallback
     effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
@@ -370,7 +375,7 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
             effective_persona = req.requested_persona
         elif req.requested_persona in PERSONA_MAP:
             effective_persona = req.requested_persona
-    format_hint = get_format_hint(req.formato)
+    format_hint = get_format_hint(req.formato, req.grade)
 
     # Build the user message with format context
     full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
@@ -444,6 +449,8 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
         clipping_items=get_clipping(),
         query=req.message,
         requested_persona=req.requested_persona,
+        grade=req.grade,
+        incoming_reports=req.incoming_reports,
     )
     effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
     if req.requested_persona:
@@ -451,7 +458,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
             effective_persona = req.requested_persona
         elif req.requested_persona in PERSONA_MAP:
             effective_persona = req.requested_persona
-    format_hint = get_format_hint(req.formato)
+    format_hint = get_format_hint(req.formato, req.grade)
 
     # Build the user message with format context
     full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"

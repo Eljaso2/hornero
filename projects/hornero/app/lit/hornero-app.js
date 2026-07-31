@@ -630,9 +630,9 @@ class HorneroApp extends HoComponent {
       // Persona choices (always shown) — theme-aware icons
       const isLight = this.theme === 'light';
       const personaChoices =
-        choiceHtml('gremial', 'companero', isLight ? 'assets/personajes/dark02.png' : 'assets/personajes/a02.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
+        choiceHtml('gremial', 'companero', isLight ? 'assets/personajes/a02.png' : 'assets/personajes/dark02.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
         choiceHtml('consulta', 'abogado', isLight ? 'assets/personajes/dark03.png' : 'assets/personajes/a03.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
-        choiceHtml('contenido', 'periodista', isLight ? 'assets/personajes/dark04.png' : 'assets/personajes/a04.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
+        choiceHtml('contenido', 'periodista', isLight ? 'assets/personajes/a04.png' : 'assets/personajes/dark04.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
         choiceHtml('historiador', 'historiador', isLight ? 'assets/personajes/dark01.png' : 'assets/personajes/a01.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
 
       // Grade-based extras — navigate to full list screens
