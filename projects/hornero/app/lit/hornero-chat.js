@@ -2501,6 +2501,12 @@ class HorneroChat extends HoComponent {
     this._autoScroll();
   }
 
+  _autoScroll() {
+    if (this.noAutoScroll) return;
+    const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    if (scroll) scroll.scrollTop = scroll.scrollHeight;
+  }
+
   // ===== Export chat as downloadable text/HTML document =====
   _buildChatHtml(messages, title) {
     const msgs = messages || this.messages || [];
