@@ -448,12 +448,13 @@ class HorneroChat extends HoComponent {
         color: var(--ho-green-dark, #3D6B56); }
       .informes-item-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
       .informes-item-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
-      .informes-item-estado.estado-visto { background: #D7E8F3; color: #2C5A8A; }
+      .informes-item-estado.estado-visto { background: #F0E4CC; color: #856404; }
       .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
-      .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
+      .informes-item-estado.estado-corregido { background: #D4E4F7; color: #2B5278; }
+      .informes-item-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
 
       .informes-item-footer { display: flex; align-items: center;
-        justify-content: space-between; margin-top: 4px; }
+        gap: 8px; margin-top: 4px; }
       .informes-item-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #9C988D); }
       .informes-item-actions { display: flex; gap: 4px; }
@@ -1463,17 +1464,19 @@ class HorneroChat extends HoComponent {
                   const empresaLabel = inf.empresa ? `<span class="informes-item-tag">${inf.empresa}</span>` : '';
                   const estadoLabelMap = {
                     'pendiente': '⏳ Pendiente',
-                    'visto': '👁 Visto',
-                    'aprobado': '✅ Aprobado',
-                    'aprobado-delegado': '✅ Aprobado',
-                    'corregido-delegado': '📝 Corregido',
+                    'aprobado': '✅ Aprobado sin cambios',
+                    'aprobado-con-cambios': '📝 Con cambios',
+                    'aprobado-delegado': '✅ Aprobado sin cambios',
+                    'corregido-delegado': '📝 Con cambios',
+                    'visto': '⏳ Pendiente',
                   };
                   const estadoClassMap = {
                     'pendiente': 'estado-pendiente',
-                    'visto': 'estado-visto',
                     'aprobado': 'estado-aprobado',
+                    'aprobado-con-cambios': 'estado-con-cambios',
                     'aprobado-delegado': 'estado-aprobado',
-                    'corregido-delegado': 'estado-corregido',
+                    'corregido-delegado': 'estado-con-cambios',
+                    'visto': 'estado-pendiente',
                   };
                   const estadoLabel = estadoLabelMap[inf.estado] || inf.estado;
                   const estadoClass = estadoClassMap[inf.estado] || '';
@@ -2234,11 +2237,15 @@ class HorneroChat extends HoComponent {
         e.stopPropagation();
         const infId = btn.dataset.reviewInforme;
         const action = btn.dataset.reviewAction;
-        if (infId && typeof actualizarEstadoInforme === 'function') {
-          const estado = action === 'aprobar' ? 'aprobado-delegado' : 'corregido-delegado';
-          actualizarEstadoInforme(infId, estado).then(() => {
-            this._openRecibidosDrawer(); // Refresh drawer
-          });
+        if (!infId) return;
+        if (action === 'aprobar') {
+          // Aprobar sin cambios: emitir evento al parent
+          this.emit('informes-approve', { informeId: infId });
+          this._closeRecibidosDrawer();
+        } else if (action === 'corregir') {
+          // Corregir: abrir informe en chat para edición con IA
+          this.emit('informes-edit', { informeId: infId });
+          this._closeRecibidosDrawer();
         }
       });
     });
