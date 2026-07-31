@@ -384,7 +384,7 @@ class HorneroFormacion extends HoComponent {
       chatEl.grade = this.grade;
       chatEl.hidePersonaBar = true;
       chatEl.hideInformesBtn = true;
-      chatEl.centerLogo = 'assets/Historia-Obrera_marca-.png';
+      chatEl.centerLogo = this._bannerVisible ? '' : 'assets/Historia-Obrera_marca-.png';
       chatEl.render();
     }
   }
@@ -394,7 +394,6 @@ class HorneroFormacion extends HoComponent {
     const efe = this._getEfemerideSemana();
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
-    // First message: efeméride — con link e invitación a ingresar
     let efeText = '';
     if (efe) {
       efeText = `${efe.emoji} Esta semana se conmemora el **${efe.title}** (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\nPodés leer más sobre esta efeméride en el sitio:\n↗ https://historiaobrera.com.ar/\n\n¿Te interesa? Contame y seguimos profundizando.`;
@@ -402,27 +401,73 @@ class HorneroFormacion extends HoComponent {
       efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nEncontrá todo en ↗ https://historiaobrera.com.ar/';
     }
 
-    this.messages = [{
-      role: 'hornero',
-      text: efeText,
-      tags: ['historia', 'greeting', 'efemeride-semana'],
-      persona: 'historiador',
-      time: this._timeNow(),
-    }];
+    const menuText = '¿Querés saber más? Estos son los contenidos que podemos explorar:\n\n• 🔥 [**Efemérides**](https://historiaobrera.com.ar/) — Las fechas clave del movimiento obrero argentino\n\n• 📝 [**Mitín**](https://historiaobrera.com.ar/mitin/) — Ensayos y relatos sobre historia obrera\n\n• 📚 [**Colección**](https://historiaobrera.com.ar/coleccion-la-argentina-peronista/) — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n\n• 🎬 [**Retazos**](https://historiaobrera.com.ar/retazos-de-historia-obrera/) — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras sobre cualquier tema.';
 
-    // Second message: "¿Querés saber más?" — aparece con más distancia (4s)
+    // 1. Show typing dots for 2s
+    this._typing = true;
+    this.render();
+
     setTimeout(() => {
+      // 2. Start progressive reveal of first message
+      this._typing = false;
+      this._revealMessage(efeText, 'historiador', ['historia', 'greeting', 'efemeride-semana'], () => {
+        // 3. After first message finishes, pause, then show typing for second message
+        setTimeout(() => {
+          this._typing = true;
+          this.render();
+
+          setTimeout(() => {
+            // 4. Progressive reveal of second message
+            this._typing = false;
+            this._revealMessage(menuText, 'historiador', ['historia', 'greeting', 'menu'], null);
+          }, 1800);
+        }, 1200);
+      });
+    }, 2000);
+  }
+
+  // ===== Progressive reveal: show text char by char via streaming =====
+  _revealMessage(fullText, persona, tags, onComplete) {
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (!chatEl) {
       this.messages = [...this.messages, {
-        role: 'hornero',
-        text: '¿Querés saber más? Estos son los contenidos que podemos explorar:\n\n• 🔥 [**Efemérides**](https://historiaobrera.com.ar/) — Las fechas clave del movimiento obrero argentino\n\n• 📝 [**Mitín**](https://historiaobrera.com.ar/mitin/) — Ensayos y relatos sobre historia obrera\n\n• 📚 [**Colección**](https://historiaobrera.com.ar/coleccion-la-argentina-peronista/) — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n\n• 🎬 [**Retazos**](https://historiaobrera.com.ar/retazos-de-historia-obrera/) — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras sobre cualquier tema.',
-        tags: ['historia', 'greeting', 'menu'],
-        persona: 'historiador',
-        time: this._timeNow(),
+        role: 'hornero', text: fullText, tags: tags,
+        persona: persona, time: this._timeNow(),
       }];
       this.render();
-    }, 4000);
+      if (onComplete) onComplete();
+      return;
+    }
 
-    this.render();
+    // Start streaming
+    chatEl.streamingText = '';
+    chatEl._streamingPersona = persona;
+    chatEl.render();
+
+    let index = 0;
+    const chunkSize = 2;
+    const interval = 18;
+
+    this._revealTimer = setInterval(() => {
+      index += chunkSize;
+      if (index >= fullText.length) {
+        clearInterval(this._revealTimer);
+        this._revealTimer = null;
+        this.messages = [...this.messages, {
+          role: 'hornero', text: fullText, tags: tags,
+          persona: persona, time: this._timeNow(),
+        }];
+        chatEl.streamingText = '';
+        chatEl._streamingPersona = '';
+        this._saveChatHistory();
+        this.render();
+        if (onComplete) onComplete();
+        return;
+      }
+      chatEl.streamingText = fullText.substring(0, index);
+      chatEl._streamingPersona = persona;
+      chatEl.updateStreamingText(fullText.substring(0, index));
+    }, interval);
   }
 
   // ===== Handle user message =====
