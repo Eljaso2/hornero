@@ -310,6 +310,7 @@ class HorneroFormacion extends HoComponent {
           grade="${this.grade}"
           hide-persona-bar
           hide-informes-btn
+          center-logo="assets/Historia-Obrera_marca-.png"
         ></hornero-chat>
       </div>
     `;
@@ -324,6 +325,12 @@ class HorneroFormacion extends HoComponent {
       });
       chatEl.addEventListener('chat-back', () => {
         this.emit('screen-change', { screen: 'home' });
+      });
+      chatEl.addEventListener('chat-input-focus', () => {
+        if (this._bannerVisible) {
+          this._bannerVisible = false;
+          this.render();
+        }
       });
       chatEl.addEventListener('persona-navigate', (e) => {
         this._handlePersonaNavigate(e.detail.persona);
@@ -377,6 +384,7 @@ class HorneroFormacion extends HoComponent {
       chatEl.grade = this.grade;
       chatEl.hidePersonaBar = true;
       chatEl.hideInformesBtn = true;
+      chatEl.centerLogo = 'assets/Historia-Obrera_marca-.png';
       chatEl.render();
     }
   }

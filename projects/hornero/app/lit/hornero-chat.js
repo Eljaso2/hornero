@@ -27,6 +27,7 @@ class HorneroChat extends HoComponent {
       streamingText: String, // Live streaming text being built token-by-token
       hidePersonaBar: Boolean, // Hide persona icons in top bar (e.g. Historia Obrera)
       hideInformesBtn: Boolean, // Hide Mis Reportes button in top bar
+      centerLogo: String,      // URL for a small logo in the top bar center (when persona bar is hidden)
     };
   }
 
@@ -49,6 +50,7 @@ class HorneroChat extends HoComponent {
     this.grade = 'A';
     this.hidePersonaBar = false;
     this.hideInformesBtn = false;
+    this.centerLogo = '';
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
     this._mediaStream = null;   // MediaStream from getUserMedia
@@ -787,6 +789,7 @@ class HorneroChat extends HoComponent {
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
+      .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       .chat-top-bar-right { display: flex; align-items: center; gap: 4px; }
 
       /* Back button inside top bar */
@@ -1366,7 +1369,7 @@ class HorneroChat extends HoComponent {
           </button>
         </div>
         <div class="chat-top-bar-center">
-          ${this.hidePersonaBar ? '' : personaIconsHtml}
+          ${this.hidePersonaBar ? (this.centerLogo ? html`<img class="chat-top-bar-logo" src="${this.centerLogo}" alt="">` : '') : personaIconsHtml}
         </div>
         <div class="chat-top-bar-right">
           ${recibidosBtnHtml}
@@ -1881,6 +1884,13 @@ class HorneroChat extends HoComponent {
     if (backBtn) {
       backBtn.addEventListener('click', () => {
         this.emit('chat-back', {});
+      });
+    }
+
+    // === Input focus → emit event (parent can hide banner etc) ===
+    if (inputField) {
+      inputField.addEventListener('focus', () => {
+        this.emit('chat-input-focus', {});
       });
     }
 
