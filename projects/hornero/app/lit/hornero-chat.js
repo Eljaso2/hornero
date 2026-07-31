@@ -407,11 +407,6 @@ class HorneroChat extends HoComponent {
       .informes-header { padding: 16px; display: flex; align-items: center;
         justify-content: space-between; flex: none; gap: 10px;
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .informes-back-btn { width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        color: var(--ho-text-off, #F2F1EC); flex: none; }
-      .informes-back-btn svg { width: 18px; height: 18px; }
       .informes-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
 
@@ -793,7 +788,7 @@ class HorneroChat extends HoComponent {
         padding: 0 8px; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       :host(.theme-light.topbar-accent) .chat-top-bar {
-        background: var(--ho-green-pale, #E0F0EB); }
+        background: #3A4340; }
       .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
@@ -2199,12 +2194,6 @@ class HorneroChat extends HoComponent {
     const recibidosCloseBtn = this.shadowRoot.querySelector('#recibidosCloseBtn');
     if (recibidosCloseBtn) {
       recibidosCloseBtn.addEventListener('click', () => {
-        this._closeRecibidosDrawer();
-      });
-    }
-    const recibidosBackBtn = this.shadowRoot.querySelector('#recibidosBackBtn');
-    if (recibidosBackBtn) {
-      recibidosBackBtn.addEventListener('click', () => {
         this._closeRecibidosDrawer();
       });
     }
