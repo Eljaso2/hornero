@@ -676,17 +676,18 @@ class HorneroChat extends HoComponent {
       .msg-row.user { display: flex; justify-content: flex-end; }
 
       .msg-row.user .msg-bubble {
-        max-width: 82%; background: var(--ho-green, #4E9978);
-        color: var(--ho-text-off, #F2F1EC);
+        max-width: 82%; background: var(--ho-green-light, #80CCA0);
+        color: var(--ho-bg, #1E2321);
         border-radius: 18px 18px 4px 18px; padding: 8px 14px;
         font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        font-weight: 600;
         line-height: 1.35; position: relative;
         min-height: 36px; display: inline-block;
         vertical-align: middle; }
 
       .msg-row.user .msg-time {
         font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: #E1E7D0; opacity: .7; margin-top: 5px; text-align: right; }
+        color: var(--ho-green-dark, #3D6B56); opacity: .7; margin-top: 5px; text-align: right; }
 
       /* User image/video attachment */
       .msg-media { max-width: 220px; margin-bottom: 6px; border-radius: 12px; overflow: hidden; }
@@ -1785,6 +1786,14 @@ class HorneroChat extends HoComponent {
         };
         window.visualViewport.addEventListener('resize', onViewportResize);
       }
+    }
+
+    // === Back button → navigate to chat landing ===
+    const backBtn = this.shadowRoot.querySelector('#chatBackBtn');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        this.emit('chat-back', {});
+      });
     }
 
     // === History button (top-right corner) → open drawer ===
