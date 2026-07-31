@@ -510,3 +510,98 @@ function borrarChatSession(sessionId) {
 function borrarChatMsg(msgId) {
   return dbDelete('chatHistory', msgId);
 }
+
+
+// ===== Chat History Sync (Backend) =====
+// Sincroniza historial de chat entre dispositivos via backend SQLite.
+// Estrategia: local-first → push on save, pull on load, merge por id.
+
+function _getChatSyncBaseUrl() {
+  var h = window.location.hostname;
+  if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+    return 'http://' + h + ':8000';
+  }
+  return 'https://hornero-ia.onrender.com';
+}
+
+// Push: enviar un mensaje al backend (fire-and-forget, no bloquea)
+function _syncMsgToBackend(msg) {
+  if (!msg || !msg.id || !msg.username) return; // sin username, no sync
+  var baseUrl = _getChatSyncBaseUrl();
+  fetch(baseUrl + '/api/chat/sync', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: msg.username, messages: [msg] })
+  }).catch(function(e) {
+    console.warn('Chat sync push failed:', e);
+  });
+}
+
+// Pull: obtener sesiones del backend y mergear con local
+function _fetchAndMergeRemoteSessions(username) {
+  if (!username) return Promise.resolve();
+  var baseUrl = _getChatSyncBaseUrl();
+  return fetch(baseUrl + '/api/chat/sessions?username=' + encodeURIComponent(username))
+    .then(function(r) { return r.ok ? r.json() : []; })
+    .then(function(remoteSessions) {
+      if (!remoteSessions || remoteSessions.length === 0) return;
+      // Para cada sesión remota, fetch mensajes y mergear en IDB
+      var promises = remoteSessions.map(function(s) {
+        return fetch(baseUrl + '/api/chat/messages?username=' + encodeURIComponent(username) +
+                     '&sessionId=' + encodeURIComponent(s.sessionId))
+          .then(function(r) { return r.ok ? r.json() : []; })
+          .then(function(remoteMsgs) {
+            if (!remoteMsgs || remoteMsgs.length === 0) return;
+            return _mergeRemoteMessages(remoteMsgs);
+          });
+      });
+      return Promise.all(promises);
+    })
+    .catch(function(e) {
+      console.warn('Chat sync pull failed:', e);
+    });
+}
+
+// Merge: upsert mensajes remotos en IDB local (solo si no existen o son más nuevos)
+function _mergeRemoteMessages(remoteMsgs) {
+  if (!remoteMsgs || remoteMsgs.length === 0) return Promise.resolve();
+  var promises = remoteMsgs.map(function(msg) {
+    // Verificar si ya existe localmente
+    return dbGet('chatHistory', msg.id).then(function(existing) {
+      if (!existing) {
+        // No existe localmente → insertar
+        return dbPut('chatHistory', msg);
+      } else if (msg.timestamp > existing.timestamp) {
+        // Remoto es más nuevo → actualizar
+        return dbPut('chatHistory', msg);
+      }
+      // Local es más nuevo o igual → no hacer nada
+    });
+  });
+  return Promise.all(promises);
+}
+
+// Delete: borrar sesión del backend
+function _deleteChatSessionFromBackend(username, sessionId) {
+  if (!username || !sessionId) return;
+  var baseUrl = _getChatSyncBaseUrl();
+  fetch(baseUrl + '/api/chat/session?username=' + encodeURIComponent(username) +
+        '&sessionId=' + encodeURIComponent(sessionId), {
+    method: 'DELETE'
+  }).catch(function(e) {
+    console.warn('Chat sync delete failed:', e);
+  });
+}
+
+// Fetch mensajes de una sesión desde el backend (fallback si no hay local)
+function fetchChatSessionMessagesFromBackend(username, sessionId) {
+  if (!username || !sessionId) return Promise.resolve([]);
+  var baseUrl = _getChatSyncBaseUrl();
+  return fetch(baseUrl + '/api/chat/messages?username=' + encodeURIComponent(username) +
+               '&sessionId=' + encodeURIComponent(sessionId))
+    .then(function(r) { return r.ok ? r.json() : []; })
+    .catch(function(e) {
+      console.warn('Chat sync fetch session failed:', e);
+      return [];
+    });
+}

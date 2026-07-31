@@ -10,6 +10,7 @@ import json
 import logging
 import os
 import re
+import sqlite3
 import subprocess
 import tempfile
 import time
@@ -106,7 +107,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Permissive for dev — tighten in production
     allow_credentials=True,
-    allow_methods=["POST", "GET", "OPTIONS"],
+    allow_methods=["POST", "GET", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -956,6 +957,180 @@ async def push_stats():
         "subscriptions": get_subscription_count(),
         "vapid_key_set": bool(get_vapid_public_key()),
     }
+
+
+# ===== Chat History Sync (SQLite) =====
+
+CHAT_DB_PATH = os.path.join(os.path.dirname(__file__), "chat_history.db")
+
+
+def _get_chat_db():
+    """Get or create SQLite connection for chat history + table."""
+    conn = sqlite3.connect(CHAT_DB_PATH)
+    conn.row_factory = sqlite3.Row
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS chat_messages (
+            id TEXT PRIMARY KEY,
+            session_id TEXT NOT NULL,
+            username TEXT NOT NULL,
+            section TEXT NOT NULL,
+            role TEXT NOT NULL,
+            persona TEXT DEFAULT '',
+            text TEXT DEFAULT '',
+            sections TEXT DEFAULT '[]',
+            tags TEXT DEFAULT '[]',
+            time_str TEXT DEFAULT '',
+            timestamp INTEGER NOT NULL,
+            title TEXT DEFAULT '',
+            redirect_persona TEXT DEFAULT '',
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_chat_username ON chat_messages(username)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_chat_session ON chat_messages(session_id, username)")
+    conn.commit()
+    return conn
+
+
+class ChatSyncRequest(BaseModel):
+    username: str
+    messages: list = []
+
+
+@app.post("/api/chat/sync")
+async def chat_sync(req: ChatSyncRequest):
+    """Upsert batch of chat messages from a device. Fire-and-forget sync."""
+    if not req.username or not req.messages:
+        return {"synced": 0}
+    conn = _get_chat_db()
+    try:
+        synced = 0
+        for msg in req.messages:
+            if not isinstance(msg, dict) or not msg.get("id"):
+                continue
+            conn.execute("""
+                INSERT INTO chat_messages (id, session_id, username, section, role, persona,
+                    text, sections, tags, time_str, timestamp, title, redirect_persona)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    session_id=excluded.session_id,
+                    username=excluded.username,
+                    section=excluded.section,
+                    role=excluded.role,
+                    persona=excluded.persona,
+                    text=excluded.text,
+                    sections=excluded.sections,
+                    tags=excluded.tags,
+                    time_str=excluded.time_str,
+                    timestamp=excluded.timestamp,
+                    title=excluded.title,
+                    redirect_persona=excluded.redirect_persona
+            """, (
+                msg.get("id"),
+                msg.get("sessionId", ""),
+                req.username,
+                msg.get("section", ""),
+                msg.get("role", "user"),
+                msg.get("persona", ""),
+                msg.get("text", ""),
+                json.dumps(msg.get("sections", []), ensure_ascii=False),
+                json.dumps(msg.get("tags", []), ensure_ascii=False),
+                msg.get("time", ""),
+                msg.get("timestamp", 0),
+                msg.get("title", ""),
+                msg.get("redirect_persona", ""),
+            ))
+            synced += 1
+        conn.commit()
+        return {"synced": synced}
+    except Exception as e:
+        logger.error(f"Chat sync error: {e}")
+        return {"synced": 0, "error": str(e)}
+    finally:
+        conn.close()
+
+
+@app.get("/api/chat/sessions")
+async def chat_sessions(username: str = ""):
+    """List chat sessions for a user. Returns session metadata."""
+    if not username:
+        return []
+    conn = _get_chat_db()
+    try:
+        rows = conn.execute("""
+            SELECT session_id, section, persona, timestamp, title, role, text,
+                   COUNT(*) as message_count
+            FROM chat_messages
+            WHERE username = ?
+            GROUP BY session_id
+            ORDER BY MAX(timestamp) DESC
+        """, (username,)).fetchall()
+        sessions = []
+        for r in rows:
+            # Use title from first user message as preview
+            preview = r["title"] or ""
+            if not preview and r["role"] == "user":
+                preview = (r["text"] or "")[:80]
+            sessions.append({
+                "sessionId": r["session_id"],
+                "section": r["section"],
+                "persona": r["persona"],
+                "timestamp": r["timestamp"],
+                "preview": preview or "Nuevo chat",
+                "messageCount": r["message_count"],
+            })
+        return sessions
+    finally:
+        conn.close()
+
+
+@app.get("/api/chat/messages")
+async def chat_messages(username: str = "", sessionId: str = ""):
+    """Get all messages for a specific chat session."""
+    if not username or not sessionId:
+        return []
+    conn = _get_chat_db()
+    try:
+        rows = conn.execute("""
+            SELECT * FROM chat_messages
+            WHERE username = ? AND session_id = ?
+            ORDER BY timestamp ASC
+        """, (username, sessionId)).fetchall()
+        messages = []
+        for r in rows:
+            messages.append({
+                "id": r["id"],
+                "sessionId": r["session_id"],
+                "section": r["section"],
+                "role": r["role"],
+                "persona": r["persona"],
+                "text": r["text"],
+                "sections": json.loads(r["sections"]) if r["sections"] else [],
+                "tags": json.loads(r["tags"]) if r["tags"] else [],
+                "time": r["time_str"],
+                "timestamp": r["timestamp"],
+                "title": r["title"],
+                "redirect_persona": r["redirect_persona"],
+            })
+        return messages
+    finally:
+        conn.close()
+
+
+@app.delete("/api/chat/session")
+async def chat_session_delete(username: str = "", sessionId: str = ""):
+    """Delete all messages for a chat session."""
+    if not username or not sessionId:
+        return {"deleted": 0}
+    conn = _get_chat_db()
+    try:
+        cursor = conn.execute("""
+            DELETE FROM chat_messages WHERE username = ? AND session_id = ?
+        """, (username, sessionId))
+        conn.commit()
+        return {"deleted": cursor.rowcount}
+    finally:
+        conn.close()
 
 
 # ===== Response parser =====
