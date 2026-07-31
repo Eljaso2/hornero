@@ -1695,11 +1695,12 @@ class HorneroChat extends HoComponent {
 
     // === Visual Viewport: adjust chat height when keyboard opens ===
     // Prevents the entire page from scrolling up (losing conversation)
-    // and keeps input bar visible above the keyboard
+    // Only listens to 'resize' (not 'scroll') to avoid miscalculations
+    // when the user scrolls the chat messages
     if (!this._visualViewportSetup) {
       this._visualViewportSetup = true;
       if (window.visualViewport) {
-        const onViewportChange = () => {
+        const onViewportResize = () => {
           const kbHeight = window.innerHeight - window.visualViewport.height;
           if (kbHeight > 50) {
             // Keyboard is open — shrink chat to fit above keyboard
@@ -1710,8 +1711,7 @@ class HorneroChat extends HoComponent {
             this.style.height = '';
           }
         };
-        window.visualViewport.addEventListener('resize', onViewportChange);
-        window.visualViewport.addEventListener('scroll', onViewportChange);
+        window.visualViewport.addEventListener('resize', onViewportResize);
       }
     }
 
@@ -1773,13 +1773,13 @@ class HorneroChat extends HoComponent {
       inputField.addEventListener('input', updateToolbar);
 
       // === Auto-resize textarea: grow with content, shrink when empty ===
-      // Fix: measure with the SAME styles used for display (line-height + padding)
-      // to avoid extra empty lines appearing below the text
+      // scrollHeight includes padding but NOT border; with box-sizing: border-box
+      // the height property includes border, so we must add border width (2px)
       const autoResize = () => {
         // Set multi-line styles FIRST so scrollHeight is accurate
         inputField.style.padding = '6px 14px';
         inputField.style.lineHeight = '20px';
-        // Shrink to 0 to force accurate scrollHeight measurement
+        // Shrink to force accurate scrollHeight measurement
         inputField.style.height = '0';
         const scrollH = inputField.scrollHeight;
 
@@ -1790,8 +1790,9 @@ class HorneroChat extends HoComponent {
           inputField.style.lineHeight = '34px';
           inputField.style.overflowY = 'hidden';
         } else {
-          // Multi-line — grow exactly to fit content, no extra lines
-          const targetH = Math.min(scrollH, 120);
+          // Multi-line — grow exactly to fit content
+          // +2px compensates border (1px top + 1px bottom) not included in scrollHeight
+          const targetH = Math.min(scrollH + 2, 120);
           inputField.style.height = targetH + 'px';
           inputField.style.overflowY = targetH >= 120 ? 'auto' : 'hidden';
         }
