@@ -1857,13 +1857,7 @@ class HorneroChat extends HoComponent {
       this.classList.remove('theme-light');
     }
 
-  _autoScroll() {
-    if (this.noAutoScroll) return;
-    const scroll = this.shadowRoot.querySelector('.chat-scroll');
-    this._autoScroll();
-  }
-
-  // === Mark drawers as stable after first render (prevent slideIn replay) ===
+    // === Mark drawers as stable after first render (prevent slideIn replay) ===
     if (this._showHistory) this._historyDrawerStable = true;
     if (this._showInformes) this._informesDrawerStable = true;
     if (this._showRecibidos) this._recibidosDrawerStable = true;
