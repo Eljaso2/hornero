@@ -10,6 +10,8 @@ class HorneroFormacion extends HoComponent {
     return {
       grade: String,
       sector: String,
+      persona: String,  // Initial persona from Mesa de Trabajo landing
+      sessionId: String, // Session ID — if set, load existing session instead of greeting
       messages: Array,
       _bannerVisible: Boolean,
     };
@@ -32,6 +34,22 @@ class HorneroFormacion extends HoComponent {
     return 'https://hornero-ia.onrender.com/api/chat/stream';
   }
 
+  static get GREETING_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/greeting';
+    }
+    return 'https://hornero-ia.onrender.com/api/greeting';
+  }
+
+  static get AUDIO_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/audio';
+    }
+    return 'https://hornero-ia.onrender.com/api/audio';
+  }
+
   constructor() {
     super();
     this.grade = 'A';
@@ -40,6 +58,8 @@ class HorneroFormacion extends HoComponent {
     this.messages = [];
     this._typing = false;
     this._greetingShown = false;
+    this._greetingRequested = false;
+    this._historyLoaded = false;
     this._bannerVisible = true;
     this._sessionId = '';
     this._activePersona = 'historiador';
@@ -47,6 +67,7 @@ class HorneroFormacion extends HoComponent {
     this._progressiveRevealTimer = null;
     this._progressiveRevealFull = '';
     this._progressiveRevealIndex = 0;
+    this._savedDrawerState = null;
   }
 
   connectedCallback() {
@@ -55,6 +76,15 @@ class HorneroFormacion extends HoComponent {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
       if (session && session.username) this._username = session.username;
     } catch(e) {}
+  }
+
+  // Override render() to save chat drawer state before innerHTML destroys it
+  render() {
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      this._savedDrawerState = chatEl.getDrawerState();
+    }
+    super.render();
   }
 
   // ===== Data: Efemérides =====
@@ -305,11 +335,13 @@ class HorneroFormacion extends HoComponent {
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           section="historia"
+          history-title="Historial"
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
           hide-persona-bar
           hide-informes-btn
+          hide-recibidos-btn
           center-logo="${this._bannerVisible ? '' : 'assets/Historia-Obrera_marca-.png'}"
           no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
@@ -321,23 +353,23 @@ class HorneroFormacion extends HoComponent {
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) {
       this._syncChatMessages(chatEl);
+      // Restore drawer state saved before re-render (prevents drawer closing)
+      if (this._savedDrawerState) {
+        chatEl.restoreDrawerState(this._savedDrawerState);
+        this._savedDrawerState = null;
+      }
       chatEl.addEventListener('chat-send', (e) => {
         this._handleUserMessage(e.detail.text);
       });
-      chatEl.addEventListener('chat-back', () => {
-        this.emit('screen-change', { screen: 'home' });
+      chatEl.addEventListener('chat-session-select', (e) => {
+        this._loadSession(e.detail.sessionId);
       });
-      chatEl.addEventListener('chat-input-focus', () => {
-        if (this._bannerVisible) {
-          this._bannerVisible = false;
+      chatEl.addEventListener('chat-session-delete', (e) => {
+        if (e.detail.sessionId === this._sessionId) {
+          this.messages = [];
+          this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
           this.render();
         }
-      });
-      chatEl.addEventListener('persona-navigate', (e) => {
-        this._handlePersonaNavigate(e.detail.persona);
-      });
-      chatEl.addEventListener('persona-redirect', (e) => {
-        this._handlePersonaNavigate(e.detail.persona);
       });
       chatEl.addEventListener('chat-message-delete', (e) => {
         const { msgIndex, msg } = e.detail;
@@ -349,18 +381,38 @@ class HorneroFormacion extends HoComponent {
           this.render();
         }
       });
+      chatEl.addEventListener('persona-navigate', (e) => {
+        this._handlePersonaNavigate(e.detail.persona);
+      });
+      chatEl.addEventListener('persona-redirect', (e) => {
+        this._handlePersonaNavigate(e.detail.persona);
+      });
+      chatEl.addEventListener('chat-back', () => {
+        this.emit('screen-change', { screen: 'home' });
+      });
+      chatEl.addEventListener('chat-input-focus', () => {
+        if (this._bannerVisible) {
+          this._bannerVisible = false;
+          this.render();
+        }
+      });
+      chatEl.addEventListener('chat-audio', (e) => {
+        this._handleAudioMessage(e.detail.audioBlob, e.detail.duration, e.detail.fileName);
+      });
       chatEl.addEventListener('chat-feedback', (e) => {
         this._sendFeedback(e.detail);
       });
       chatEl.addEventListener('chat-export', (e) => {
         this._handleChatExport(e.detail);
       });
+      chatEl.addEventListener('chat-new-session', () => {
+        this._startNewSession();
+      });
     }
 
-    // Show greeting on first load
-    if (!this._greetingShown) {
-      this._greetingShown = true;
-      this._showGreeting();
+    // Load chat history or show greeting
+    if (!this._historyLoaded) {
+      this._loadChatHistory();
     }
 
     // Apply light mode class to host for banner overlay
@@ -385,11 +437,68 @@ class HorneroFormacion extends HoComponent {
       chatEl.grade = this.grade;
       chatEl.hidePersonaBar = true;
       chatEl.hideInformesBtn = true;
+      chatEl.hideRecibidosBtn = true;
       chatEl.centerLogo = this._bannerVisible ? '' : 'assets/Historia-Obrera_marca-.png';
       chatEl.noAutoScroll = this._bannerVisible;
-      chatEl.topBarAccent = !this._bannerVisible; // Color en cintillo solo cuando banner desaparece
+      chatEl.topBarAccent = !this._bannerVisible;
       chatEl.render();
     }
+  }
+
+  // ===== Load chat history from IndexedDB =====
+  async _loadChatHistory() {
+    if (this._historyLoaded) return;
+    this._historyLoaded = true;
+
+    // If a sessionId was passed (from Mis Conversaciones), load that session
+    if (this.sessionId && this.sessionId.length > 0) {
+      await this._loadSession(this.sessionId);
+      this.sessionId = '';
+      return;
+    }
+
+    // Try to restore the most recent session for this section + username
+    if (typeof obtenerChatSessions === 'function' && this._username) {
+      try {
+        const sessions = await obtenerChatSessions(this._username);
+        const mySessions = sessions.filter(s => s.section === this._chatSection);
+        if (mySessions.length > 0) {
+          const latestSession = mySessions[0];
+          await this._loadSession(latestSession.sessionId);
+          return;
+        }
+      } catch(e) { console.warn('Formacion: session restore failed', e); }
+    }
+
+    // No previous session found — start fresh with greeting
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._showGreeting();
+  }
+
+  async _loadSession(sessionId) {
+    try {
+      if (typeof obtenerChatSessionMessages === 'function') {
+        const saved = await obtenerChatSessionMessages(sessionId);
+        if (saved && saved.length > 0) {
+          this._sessionId = sessionId;
+          this._bannerVisible = false; // Hide banner when restoring session
+          this.messages = saved;
+          this._historyLoaded = true;
+          this.render();
+        }
+      }
+    } catch(e) { console.warn('Formacion: session load failed', e); }
+  }
+
+  // ===== Start a new chat session =====
+  _startNewSession() {
+    this._stopProgressiveReveal();
+    this.messages = [];
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._historyLoaded = true;
+    this._greetingRequested = false;
+    this._activePersona = 'historiador';
+    this._requestGreeting();
   }
 
   // ===== Generate greeting with efeméride of the week =====
@@ -715,6 +824,113 @@ class HorneroFormacion extends HoComponent {
         if (err.name === 'AbortError') throw new Error('FETCH_TIMEOUT');
         throw err;
       });
+  }
+
+  // ===== Request greeting from backend (like Historiador) =====
+  async _requestGreeting() {
+    this._greetingRequested = true;
+    this._typing = true;
+    this.render();
+
+    try {
+      const response = await this._fetchWithTimeout(HorneroFormacion.GREETING_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          section: 'historia',
+          grade: this.grade,
+          sector: this.sector,
+          requested_persona: 'historiador',
+          session_id: this._sessionId,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Greeting error: ' + response.status);
+
+      const data = await response.json();
+      this.messages = [{
+        role: 'hornero',
+        text: data.text || '',
+        sections: data.sections || [],
+        tags: data.tags || ['historia', 'greeting'],
+        persona: 'historiador',
+        redirect_persona: data.redirect_persona || '',
+        time: data.time || this._timeNow(),
+      }];
+      this._typing = false; this._greetingRequested = false;
+      this.render();
+    } catch (e) {
+      this._typing = false; this._greetingRequested = false;
+      this.messages = [this._localGreeting()];
+      this.render();
+    }
+  }
+
+  _localGreeting() {
+    return { role: 'hornero', sections: [{ title: '¡Hola! Soy la Historiadora', body: 'Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
+  }
+
+  // ===== Handle audio message =====
+  async _handleAudioMessage(audioBlob, duration, fileName) {
+    this.messages = [...this.messages, { role: 'user', text: '🎤 Audio enviado', tags: ['historia', 'audio'], time: this._timeNow() }];
+    this._typing = true;
+    this.render();
+
+    try {
+      const history = this.messages.map(m => ({
+        role: m.role,
+        text: m.text || '',
+        sections: m.sections || [],
+      }));
+
+      const formData = new FormData();
+      formData.append('audio', audioBlob, fileName);
+      formData.append('formato', 'historia');
+      formData.append('grade', this.grade);
+      formData.append('sector', this.sector);
+      formData.append('requested_persona', 'historiador');
+      formData.append('session_id', this._sessionId);
+      formData.append('history', JSON.stringify(history));
+
+      const response = await this._fetchWithTimeout(HorneroFormacion.AUDIO_URL, {
+        method: 'POST',
+        body: formData,
+      }, 45000);
+
+      if (!response.ok) throw new Error('Audio backend error: ' + response.status);
+
+      const data = await response.json();
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: data.text || '',
+        sections: data.sections || [],
+        tags: data.tags || ['historia', 'audio'],
+        persona: 'historiador',
+        redirect_persona: data.redirect_persona || '',
+        time: data.time || this._timeNow(),
+      }];
+      this._typing = false;
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      this._saveChatHistory();
+      this.render();
+    } catch (e) {
+      this._typing = false;
+      const errMsg = e.message === 'FETCH_TIMEOUT'
+        ? 'No puedo procesar el audio ahora — el servidor está lento. Intentá de nuevo.'
+        : 'No puedo procesar el audio ahora. Intentá de nuevo.';
+      const errTags = e.message === 'FETCH_TIMEOUT' ? ['historia', 'audio', 'timeout'] : ['historia', 'audio-error'];
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: errMsg,
+        tags: errTags,
+        persona: 'historiador',
+        time: this._timeNow(),
+      }];
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      this.render();
+    }
   }
 
   _handlePersonaNavigate(targetPersona) {

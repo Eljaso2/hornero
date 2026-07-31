@@ -713,7 +713,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
     } else if (this.screen === 'formacion') {
-      screenContent = '<hornero-formacion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-formacion>';
+      screenContent = '<hornero-formacion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-formacion>';
     } else if (this.screen === 'archivo') {
       screenContent = '<hornero-archivo grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-archivo>';
     } else if (this.screen === 'chat') {
@@ -1082,7 +1082,7 @@ class HorneroApp extends HoComponent {
           this._initialSessionId = sessionId || ''; // Pass session to load
           // If already on the same screen, load the session directly without re-navigating
           if (this.screen === screen && sessionId) {
-            const screenMap = { gremial: 'hornero-gremial', historiador: 'hornero-historiador', consulta: 'hornero-consulta', contenido: 'hornero-contenido' };
+            const screenMap = { gremial: 'hornero-gremial', historiador: 'hornero-historiador', formacion: 'hornero-formacion', consulta: 'hornero-consulta', contenido: 'hornero-contenido' };
             const comp = this.shadowRoot.querySelector(screenMap[screen]);
             if (comp && typeof comp._loadSession === 'function') {
               comp._loadSession(sessionId);
@@ -1459,7 +1459,7 @@ class HorneroApp extends HoComponent {
       const sectionClass = s.section ? 'section-' + s.section : 'section-default';
       const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
       const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
-      const navScreen = s.section === 'reporte' ? 'gremial' : s.section === 'contenido' ? 'contenido' : s.section === 'historia' ? 'historiador' : 'consulta';
+      const navScreen = s.section === 'reporte' ? 'gremial' : s.section === 'contenido' ? 'contenido' : s.section === 'historia' ? 'formacion' : 'consulta';
       const personaKey = s.persona || sec.persona;
       const navPersona = personaKey === 'companero' ? 'companero' : personaKey === 'historiador' ? 'historiador' : personaKey === 'periodista' ? 'periodista' : 'abogado';
       const imgSrc = sec.img;
