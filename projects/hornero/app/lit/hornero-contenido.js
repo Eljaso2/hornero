@@ -69,8 +69,7 @@ class HorneroContenido extends HoComponent {
 
   connectedCallback() {
     super.connectedCallback();
-    // Generate new sessionId on each visit — start fresh
-    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    // Don't generate sessionId yet — _loadChatHistory will restore or create
     // Get username from login session for per-user data isolation
     try {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
@@ -183,7 +182,10 @@ class HorneroContenido extends HoComponent {
       this.sessionId = '';
       return;
     }
-    // On each visit: start fresh with new sessionId
+    // Generate sessionId for new chat
+    if (!this._sessionId) {
+      this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    }
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }

@@ -70,7 +70,7 @@ class HorneroGremial extends HoComponent {
 
   connectedCallback() {
     super.connectedCallback();
-    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    // Don't generate sessionId yet — _loadChatHistory will restore or create
     // Get username from login session for per-user data isolation
     try {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
@@ -403,6 +403,10 @@ class HorneroGremial extends HoComponent {
       this.sessionId = '';
       return;
     }
+    // Generate sessionId for new chat
+    if (!this._sessionId) {
+      this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    }
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
@@ -612,7 +616,19 @@ class HorneroGremial extends HoComponent {
       const pendingReporte = [...this.messages].reverse().find(m =>
         m.role === 'hornero' && m.tags && m.tags.includes('reporte-generado') && !m.tags.includes('reporte-aprobado')
       );
-      if (pendingReporte) {
+      // Fallback: also detect reportes without 'reporte-generado' tag (e.g. IA didn't include it)
+      const fallbackReporte = !pendingReporte ? [...this.messages].reverse().find(m =>
+        m.role === 'hornero' && m.sections && m.sections.length >= 2 &&
+        m.sections.some(s => (s.title || '').toLowerCase().includes('relato')) &&
+        !m.tags?.includes('reporte-aprobado') && !m.tags?.includes('informe-guardado') &&
+        !m.tags?.includes('informe-error')
+      ) : null;
+      const targetReporte = pendingReporte || fallbackReporte;
+      if (targetReporte) {
+        // Ensure reporte-generado tag is present (for UI detection + save flow)
+        if (!targetReporte.tags?.includes('reporte-generado')) {
+          targetReporte.tags = [...(targetReporte.tags || []), 'reporte-generado', 'reporte'];
+        }
         // Add user message
         this.messages = [...this.messages, { role: 'user', text: text, time: this._timeNow() }];
         this._saveChatHistory();

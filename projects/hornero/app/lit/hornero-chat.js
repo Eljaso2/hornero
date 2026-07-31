@@ -690,6 +690,16 @@ class HorneroChat extends HoComponent {
       .reporte-btn-delete svg { stroke-width: 1.8; }
       .reporte-btn-corregir { border: 1.5px solid #B0863F; color: #B0863F; }
       .reporte-btn-corregir:hover { background: #F0E4CC; }
+      .reporte-btn-aprobar { width: 100%; padding: 12px 20px;
+        border-radius: 12px; border: none; cursor: pointer;
+        background: var(--ho-green, #4E9978); color: #fff;
+        font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .88rem; display: flex; align-items: center;
+        justify-content: center; gap: 6px;
+        transition: background .2s, transform .15s; }
+      .reporte-btn-aprobar:hover { background: var(--ho-green-dark, #3D6B56);
+        transform: scale(1.02); }
+      .reporte-btn-aprobar:active { transform: scale(.98); }
       .reporte-card.estado-aceptado { border-color: rgba(43,42,38,.2);
         opacity: .85; }
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="aprobar"],
@@ -1644,12 +1654,15 @@ class HorneroChat extends HoComponent {
       <div class="msg-avatar-name" style="color:${personaCfg.color}">${personaCfg.name}</div>
     </div>`;
 
-    // === REPORTE DESPLEGABLE: if tags include 'reporte-generado' ===
+    // === REPORTE DESPLEGABLE: if tags include 'reporte-generado' or looks like a reporte ===
     const tags = m.tags || [];
     const isReporteGenerado = tags.includes('reporte-generado');
     const isReporteAprobado = tags.includes('reporte-aprobado');
+    // Fallback: detect reportes without 'reporte-generado' tag (IA didn't include it)
+    const looksLikeReporte = !isReporteGenerado && m.sections && m.sections.length >= 2 &&
+      m.sections.some(s => (s.title || '').toLowerCase().includes('relato'));
 
-    if (isReporteGenerado && m.sections && m.sections.length > 0) {
+    if ((isReporteGenerado || looksLikeReporte) && m.sections && m.sections.length > 0) {
       // Render as expandable report card
       const estadoClass = isReporteAprobado ? 'estado-aceptado' : '';
       const expandedKey = 'report-' + msgIndex;
@@ -1696,11 +1709,11 @@ class HorneroChat extends HoComponent {
       const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" title="Borrar"><svg viewBox="0 0 24 24">${trashSvg}</svg></button>`;
       const promptText = isReporteAprobado
         ? '' // No prompt for already-approved reports
-        : '<div class="reporte-card-prompt">Acá está tu informe. Aceptalo, editalo, reenvialo o borralo. <em>Puedes editar hasta que el delegado lo vea.</em></div>';
+        : 'Buenísimo, compañero! Me alegra que el informe refleje bien lo que querías decir. Ahora, para dejarlo asentado en el sistema, necesito que me confirmes: ¿Aprobás este informe para guardarlo en tu archivo?';
       const actionsHtml = isReporteAprobado ?
         `<div class="reporte-card-actions">${shareBtn}${deleteBtn}</div>` :
-        `<div class="reporte-card-actions">
-          <button class="reporte-btn" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar"><svg viewBox="0 0 24 24">${approveSvg}</svg></button>
+        `<button class="reporte-btn-aprobar" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">✅ Aprobar</button>
+        <div class="reporte-card-actions">
           <button class="reporte-btn reporte-btn-corregir" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Editar">✏️ Editar</button>
           ${shareBtn}
           ${deleteBtn}
@@ -2434,7 +2447,7 @@ class HorneroChat extends HoComponent {
     });
 
     // === Reporte card: approve/correct/export buttons ===
-    this.shadowRoot.querySelectorAll('.reporte-btn').forEach(btn => {
+    this.shadowRoot.querySelectorAll('.reporte-btn, .reporte-btn-aprobar').forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.reporteAction;
         const msgIndex = Number(btn.dataset.msgIndex);

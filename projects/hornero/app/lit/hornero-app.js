@@ -798,6 +798,15 @@ class HorneroApp extends HoComponent {
         if (screen) {
           this._initialPersona = persona || 'abogado';
           this._initialSessionId = sessionId || ''; // Pass session to load
+          // If already on the same screen, load the session directly without re-navigating
+          if (this.screen === screen && sessionId) {
+            const screenMap = { gremial: 'hornero-gremial', historiador: 'hornero-historiador', consulta: 'hornero-consulta', contenido: 'hornero-contenido' };
+            const comp = this.shadowRoot.querySelector(screenMap[screen]);
+            if (comp && typeof comp._loadSession === 'function') {
+              comp._loadSession(sessionId);
+            }
+            return;
+          }
           this._navigateTo(screen);
         }
       });
