@@ -249,7 +249,7 @@ class HorneroHome extends HoComponent {
       .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .54rem; }
       .agenda-prox .agenda-date { font-size: .46rem; }
 
-      /* ===== ESFERA 2: Consulta — 3 íconos ===== */
+      /* ===== ESFERA 2: Chat — 4 personajes ===== */
       .esfera-consulta { margin-bottom: 20px;
         background: var(--ho-card, #2A3230);
         border-radius: 13px; padding: 16px 14px 18px;
@@ -260,9 +260,11 @@ class HorneroHome extends HoComponent {
         padding: 14px 6px; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; }
       .icon-btn:hover { opacity: .8; }
-      .icon-btn svg { width: 46px; height: 46px; stroke: var(--ho-green, #4E9978);
-        stroke-width: 1.8; fill: none; stroke-linecap: round;
-        stroke-linejoin: round; }
+      .persona-home-img { width: 46px; height: 46px; border-radius: 50%;
+        object-fit: cover; object-position: center 25%;
+        border: 2px solid var(--ho-green, #4E9978);
+        filter: var(--ho-persona-filter, none); }
+      .persona-home-img.periodista-full { object-fit: contain; }
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
         color: var(--ho-text, #E8E6E0); }
 
@@ -421,11 +423,6 @@ class HorneroHome extends HoComponent {
         ev.nombre + '<span class="agenda-date">' + ev.dateStr + '</span></span>'
     ).join('');
 
-    // --- Consulta icons ---
-    const debateSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
-    const consultaSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/>';
-    const contenidoSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
-
     // --- Esfera 4 access ---
     const isLocked = this.accessMap['is'] !== 'open' && !this._hasAccess('is');
 
@@ -440,21 +437,25 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 2: Chat IA -->
+      <!-- ESFERA 2: Chat IA — 4 personajes -->
       <div class="esfera-consulta">
         <div class="esfera-name">Chat</div>
         <div class="consulta-icons">
-          <button class="icon-btn" data-screen="consulta">
-            <svg viewBox="0 0 24 24">${debateSvg}</svg>
-            <span class="icon-label">Debate</span>
+          <button class="icon-btn" data-screen="gremial" data-persona="companero">
+            <img src="assets/personajes/a02.png" alt="Compañero/a" class="persona-home-img">
+            <span class="icon-label">Compañero/a</span>
           </button>
-          <button class="icon-btn" data-screen="consulta">
-            <svg viewBox="0 0 24 24">${consultaSvg}</svg>
-            <span class="icon-label">Consulta</span>
+          <button class="icon-btn" data-screen="consulta" data-persona="abogado">
+            <img src="assets/personajes/a03.png" alt="Abogado/a" class="persona-home-img">
+            <span class="icon-label">Abogado/a</span>
           </button>
-          <button class="icon-btn" data-screen="contenido">
-            <svg viewBox="0 0 24 24">${contenidoSvg}</svg>
-            <span class="icon-label">Contenido</span>
+          <button class="icon-btn" data-screen="contenido" data-persona="periodista">
+            <img src="assets/personajes/a04.png" alt="Periodista" class="persona-home-img periodista-full">
+            <span class="icon-label">Periodista</span>
+          </button>
+          <button class="icon-btn" data-screen="historiador" data-persona="historiador">
+            <img src="assets/personajes/a01.png" alt="Historiadora" class="persona-home-img">
+            <span class="icon-label">Historiadora</span>
           </button>
         </div>
       </div>
@@ -548,7 +549,9 @@ class HorneroHome extends HoComponent {
     // Consulta icons — navigation
     this.shadowRoot.querySelectorAll('.icon-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        this.goScreen(btn.dataset.screen);
+        const detail = { screen: btn.dataset.screen };
+        if (btn.dataset.persona) detail.persona = btn.dataset.persona;
+        this.emit('screen-change', detail);
       });
     });
   }
