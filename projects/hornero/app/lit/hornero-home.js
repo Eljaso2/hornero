@@ -251,11 +251,13 @@ class HorneroHome extends HoComponent {
 
       /* ===== ESFERA 2: Chat — 4 personajes ===== */
       .esfera-consulta { margin-bottom: 20px; }
-      .consulta-icons { display: flex; justify-content: space-around; gap: 8px; }
+      .consulta-icons { display: flex; justify-content: space-around; gap: 0; }
       .icon-btn { display: flex; flex-direction: column; align-items: center;
         gap: 8px; background: none; border: none; cursor: pointer;
-        padding: 10px 4px; font-family: 'Archivo', sans-serif;
-        transition: opacity .2s; }
+        padding: 10px 8px; font-family: 'Archivo', sans-serif;
+        transition: opacity .2s;
+        border-right: 1px solid #C8E6D8; }
+      .icon-btn:last-child { border-right: none; }
       .icon-btn:hover { opacity: .8; }
       .persona-home-img { width: 64px; height: 64px; border-radius: 0;
         object-fit: contain; object-position: center;
