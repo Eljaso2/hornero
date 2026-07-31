@@ -98,21 +98,45 @@ class HorneroGremial extends HoComponent {
       .inform-view-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
         background: var(--ho-bg, #1E2321); z-index: 100; display: flex;
         flex-direction: column; animation: fadeIn .25s ease; }
-      .inform-view-header { padding: 14px 16px; display: flex; align-items: center;
-        gap: 10px; flex: none; background: var(--ho-green-dark, #3D6B56); }
+      .inform-view-header { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
+        flex: none; background: var(--ho-green-dark, #3D6B56); }
       .inform-view-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: .92rem; color: var(--ho-text-off, #F2F1EC); flex: 1;
+        font-size: .92rem; color: var(--ho-text-off, #F2F1EC);
         letter-spacing: .04em; text-transform: uppercase; }
+      .inform-view-header-meta { display: flex; align-items: center; gap: 8px; }
+      .inform-view-header-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-off, #F2F1EC); letter-spacing: .06em;
+        background: rgba(255,255,255,.15); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      .inform-view-header-grado { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: #D4E4F7; color: #2B5278; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .inform-view-header-estado { font-family: 'JetBrains Mono', monospace;
         font-size: .62rem; padding: 2px 8px; border-radius: 6px; font-weight: 700; }
       .inform-view-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
       .inform-view-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .inform-view-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
-      .inform-view-close { background: rgba(255,255,255,.15); border: none; cursor: pointer;
-        border-radius: 8px; padding: 6px 10px; color: var(--ho-text-off, #F2F1EC);
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .78rem;
-        display: flex; align-items: center; gap: 4px; }
-      .inform-view-close:hover { background: rgba(255,255,255,.25); }
+      .inform-view-header-footer { display: flex; align-items: center;
+        justify-content: space-between; }
+      .inform-view-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: rgba(255,255,255,.6); }
+      .inform-view-header-actions { display: flex; gap: 4px; }
+      .inform-view-header-btn { width: 28px; height: 28px; border-radius: 8px;
+        background: none; border: 1px solid rgba(255,255,255,.15);
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s; }
+      .inform-view-header-btn svg { width: 14px; height: 14px;
+        stroke: rgba(255,255,255,.7); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .inform-view-header-btn:hover { background: rgba(255,255,255,.15);
+        border-color: rgba(255,255,255,.3); }
+      .inform-view-header-btn:hover svg { stroke: #fff; }
+      .inform-view-header-btn:disabled { opacity: .3; pointer-events: none; }
+      .inform-view-header-btn[data-inform-view-action="borrar"]:hover { background: #FDECEA;
+        border-color: #D32F2F; }
+      .inform-view-header-btn[data-inform-view-action="borrar"]:hover svg { stroke: #D32F2F; }
+      .inform-view-close-btn { width: auto; padding: 0 6px; font-size: .82rem;
+        color: rgba(255,255,255,.7); border: none; background: rgba(255,255,255,.1);
+        border-radius: 6px; }
+      .inform-view-close-btn:hover { background: rgba(255,255,255,.2); color: #fff; }
       .inform-view-scroll { flex: 1; overflow-y: auto; padding: 20px 16px; }
       .inform-view-section { margin-bottom: 16px; }
       .inform-view-section:last-child { margin-bottom: 0; }
@@ -153,28 +177,6 @@ class HorneroGremial extends HoComponent {
       .inform-view-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: #EDEAE3; color: var(--ho-text, #E8E6E0);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
-      .inform-view-actions { padding: 12px 16px; display: flex; gap: 8px;
-        justify-content: flex-end; flex: none;
-        border-top: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        background: var(--ho-card, #2A3230); }
-      .inform-view-btn { border-radius: 10px; padding: 8px 14px;
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .78rem;
-        cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
-        transition: background .2s; }
-      .inform-view-btn-editar { background: none; border: 1.5px solid #B0863F;
-        color: #B0863F; }
-      .inform-view-btn-editar:hover { background: #F0E4CC; }
-      .inform-view-btn-descargar { background: none; border: 1.5px solid var(--ho-green, #4E9978);
-        color: var(--ho-green, #4E9978); }
-      .inform-view-btn-descargar:hover { background: var(--ho-green-pale, #E0F0EB); }
-      .inform-view-btn-borrar { background: none; border: 1.5px solid transparent;
-        color: var(--ho-text-light, #9C988D); }
-      .inform-view-btn-borrar:hover { color: #D32F2F; border-color: rgba(211,47,47,.2);
-        background: #FDECEA; }
-      .inform-view-meta { display: flex; align-items: center; gap: 8px;
-        margin-bottom: 16px; font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; color: var(--ho-text-muted, #8A8A74); }
-      .inform-view-meta-user { color: var(--ho-text-mid, #6E6A60); }
 
       @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     `;
@@ -266,29 +268,40 @@ class HorneroGremial extends HoComponent {
       ${inf.grado ? '<span>G' + inf.grado + '</span>' : ''}
     </div>`;
 
-    // Action buttons — Editar only for pendiente/aceptado
+    // Action buttons — corregir/reenviar disabled for visto+
     const canEdit = estado === 'pendiente' || estado === 'aceptado';
-    const editBtn = canEdit ?
-      `<button class="inform-view-btn inform-view-btn-editar" data-inform-view-action="editar">✏️ Editar</button>` : '';
-    const deleteBtn = `<button class="inform-view-btn inform-view-btn-borrar" data-inform-view-action="borrar">🗑 Borrar</button>`;
-    const downloadBtn = `<button class="inform-view-btn inform-view-btn-descargar" data-inform-view-action="descargar">📥 Descargar</button>`;
 
     return html`
       <div class="inform-view-overlay">
         <div class="inform-view-header">
-          <span class="inform-view-header-title">${titleText}</span>
-          <span class="inform-view-header-estado ${estadoClass}">${estadoLabel}</span>
-          <button class="inform-view-close" data-inform-view-action="close">✕ Cerrar</button>
+          <div class="inform-view-header-title">${titleText}</div>
+          <div class="inform-view-header-meta">
+            ${inf.username ? '<span class="inform-view-header-user">@' + inf.username + '</span>' : ''}
+            ${inf.grado ? '<span class="inform-view-header-grado">G' + inf.grado + '</span>' : ''}
+            <span class="inform-view-header-estado ${estadoClass}">${estadoLabel}</span>
+          </div>
+          <div class="inform-view-header-footer">
+            <span class="inform-view-header-date">${dateStr}</span>
+            <div class="inform-view-header-actions">
+              <button class="inform-view-header-btn" data-inform-view-action="descargar" title="Descargar">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+              <button class="inform-view-header-btn" data-inform-view-action="reenviar" title="Reenviar"${canEdit ? '' : ' disabled'}>
+                <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              </button>
+              <button class="inform-view-header-btn" data-inform-view-action="editar" title="Corregir"${canEdit ? '' : ' disabled'}>
+                <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="inform-view-header-btn" data-inform-view-action="borrar" title="Borrar">
+                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+              </button>
+              <button class="inform-view-header-btn inform-view-close-btn" data-inform-view-action="close" title="Cerrar">✕</button>
+            </div>
+          </div>
         </div>
         <div class="inform-view-scroll">
-          ${metaHtml}
           ${sectionsHtml}
           ${tagsHtml}
-        </div>
-        <div class="inform-view-actions">
-          ${editBtn}
-          ${downloadBtn}
-          ${deleteBtn}
         </div>
       </div>
     `;
@@ -436,6 +449,9 @@ class HorneroGremial extends HoComponent {
         if (action === 'close') {
           this._closeInformeViewer();
         } else if (action === 'editar' && infId) {
+          this._closeInformeViewer();
+          this._handleInformeEdit(infId);
+        } else if (action === 'reenviar' && infId) {
           this._closeInformeViewer();
           this._handleInformeEdit(infId);
         } else if (action === 'borrar' && infId) {
