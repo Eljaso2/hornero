@@ -402,7 +402,7 @@ class HorneroApp extends HoComponent {
         background: var(--ho-green-pale, #E0F0EB); }
       .chat-choice-icon { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
-      .chat-choice-icon img { width: 32px; height: 32px; object-fit: contain;
+      .chat-choice-icon img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
       .chat-choice-icon svg { width: 20px; height: 20px; stroke: var(--ho-green, #4E9978);
         stroke-width: 1.8; fill: none; stroke-linecap: round;
@@ -414,11 +414,10 @@ class HorneroApp extends HoComponent {
       .chat-choice-extra .chat-choice-desc { font-size: .82rem; }
       .chat-choice-extra { gap: 10px; padding: 10px 14px; border-radius: 10px; margin-bottom: 6px; }
       .persona-choice-emoji { font-size: 1.1rem; line-height: 1; }
-      .persona-icon-companero { background: #C89660; }
-      .persona-icon-abogado { background: #D4E4F7; }
-      .persona-icon-periodista { background: #E8E0D7; }
-      .persona-icon-companero { background: #C89660; }
-      .persona-icon-historiador { background: #D7D4E8; }
+      .persona-icon-companero { background: none; }
+      .persona-icon-abogado { background: none; }
+      .persona-icon-periodista { background: none; }
+      .persona-icon-historiador { background: none; }
       .chat-choice-text { flex: 1; }
       .chat-choice-name { font-family: 'Archivo', sans-serif; font-size: .88rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); }

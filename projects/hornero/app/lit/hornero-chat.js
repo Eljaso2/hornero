@@ -701,7 +701,7 @@ class HorneroChat extends HoComponent {
       .msg-avatar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
-      .msg-avatar img { width: 32px; height: 32px; object-fit: contain;
+      .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -722,7 +722,7 @@ class HorneroChat extends HoComponent {
       .persona-icon-inner { width: 100%; height: 100%;
         display: flex; align-items: center; justify-content: center; }
       .persona-icon-inner img { width: 100%; height: 100%;
-        object-fit: contain;
+        object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
       .persona-icon-inner .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
 
@@ -736,7 +736,7 @@ class HorneroChat extends HoComponent {
         box-shadow: 0 2px 8px rgba(255,255,255,.1); }
       .msg-redirect-icon-circle { width: 22px; height: 22px;
         display: flex; align-items: center; justify-content: center; flex: none; }
-      .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: contain;
+      .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
       .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
 
@@ -857,7 +857,7 @@ class HorneroChat extends HoComponent {
         animation: msgin .2s ease; }
       .typing-avatar { width: 32px; height: 32px;
         display: flex; align-items: center; justify-content: center; flex: none; }
-      .typing-avatar img { width: 32px; height: 32px; object-fit: contain;
+      .typing-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
       .typing-dots { display: flex; gap: 5px; align-items: center; }
       .typing-dot { width: 8px; height: 8px; border-radius: 50%;
@@ -1661,8 +1661,8 @@ class HorneroChat extends HoComponent {
       const targetInner = targetCfg.img
         ? `<img src="${targetCfg.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-redirect-emoji" style="display:none">${targetCfg.emoji}</span>`
         : `<span class="msg-redirect-emoji">${targetCfg.emoji}</span>`;
-      return `<button class="msg-redirect-btn" data-redirect-persona="${redirectPersona}" style="background:${targetCfg.bg}; border-color:${targetCfg.color}; color:${targetCfg.color}">
-        <span class="msg-redirect-icon-circle" style="background:${targetCfg.bg}">${targetInner}</span>
+      return `<button class="msg-redirect-btn" data-redirect-persona="${redirectPersona}" style="background:transparent; border-color:${targetCfg.color}; color:${targetCfg.color}">
+        <span class="msg-redirect-icon-circle" style="background:transparent">${targetInner}</span>
         Chatear con ${targetCfg.name}
       </button>`;
     })() : '';
