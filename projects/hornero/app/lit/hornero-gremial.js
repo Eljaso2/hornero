@@ -665,7 +665,7 @@ class HorneroGremial extends HoComponent {
     }
 
     // Detect approval of a pending reporte — intercept before sending to backend
-    const isApproval = lower.match(/^(s[ií]|s[ií] señor|s[ií] señora|dale|aprobado|aprobá|apru[ée]bo|confirmo|est[aá] bien|est[aá] perfecto|dalo por aprobado|guardalo|guard[aá])$/);
+    const isApproval = lower.match(/^(s[ií]|s[ií] señor|s[ií] señora|dale|aprobado|aprobá|apru[ée]bo|confirmo|est[aá] bien|est[aá] perfecto|es perfecto|es perfecto s[ií]|dalo por aprobado|guardalo|guard[aá])$/);
     if (isApproval) {
       const pendingReporte = [...this.messages].reverse().find(m =>
         m.role === 'hornero' && m.tags && m.tags.includes('reporte-generado') && !m.tags.includes('reporte-aprobado')
@@ -677,11 +677,26 @@ class HorneroGremial extends HoComponent {
         !m.tags?.includes('reporte-aprobado') && !m.tags?.includes('informe-guardado') &&
         !m.tags?.includes('informe-error')
       ) : null;
-      const targetReporte = pendingReporte || fallbackReporte;
+      // Fallback 2: detect reporte from text content (backend returned plain text without sections)
+      const textFallbackReporte = !pendingReporte && !fallbackReporte ? [...this.messages].reverse().find(m => {
+        if (m.role !== 'hornero') return false;
+        if (m.tags?.includes('reporte-aprobado') || m.tags?.includes('informe-guardado') || m.tags?.includes('informe-error')) return false;
+        if (!m.text || m.text.length < 100) return false;
+        // Must contain Relato + Clasificación patterns
+        return /\bRelato\b/.test(m.text) && /\bClasificaci[oó]n\b|\bEtiqueta\b/.test(m.text);
+      }) : null;
+      const targetReporte = pendingReporte || fallbackReporte || textFallbackReporte;
       if (targetReporte) {
         // Ensure reporte-generado tag is present (for UI detection + save flow)
         if (!targetReporte.tags?.includes('reporte-generado')) {
           targetReporte.tags = [...(targetReporte.tags || []), 'reporte-generado', 'reporte'];
+        }
+        // If text-based fallback detected, parse sections from text
+        if (targetReporte === textFallbackReporte && (!targetReporte.sections || targetReporte.sections.length === 0)) {
+          const parsed = this._parseReporteFromText(targetReporte.text);
+          if (parsed.isReporte) {
+            targetReporte.sections = parsed.sections;
+          }
         }
         // Add user message
         this.messages = [...this.messages, { role: 'user', text: text, time: this._timeNow() }];
