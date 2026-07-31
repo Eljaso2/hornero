@@ -1589,6 +1589,8 @@ class HorneroChat extends HoComponent {
 
   // Inline formatting: **bold**, *italic*, `code`
   _formatInline(text) {
+    // Links: [text](url) → <a href="url" target="_blank">text</a>
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--ho-green,#4E9978);font-weight:600;text-decoration:none">$1</a>');
     // Bold: **text** → <strong>text</strong>
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     // Italic: *text* → <em>text</em> (single asterisk, not inside strong)

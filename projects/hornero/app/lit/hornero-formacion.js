@@ -406,7 +406,7 @@ class HorneroFormacion extends HoComponent {
     setTimeout(() => {
       this.messages = [...this.messages, {
         role: 'hornero',
-        text: '¿Querés saber más? Estos son los contenidos que podemos explorar:\n\n• 🔥 **Efemérides** — Las fechas clave del movimiento obrero argentino\n↗ https://historiaobrera.com.ar/\n\n• 📝 **Mitín** — Ensayos y relatos sobre historia obrera\n↗ https://historiaobrera.com.ar/mitin/\n\n• 📚 **Colección** — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n↗ https://historiaobrera.com.ar/coleccion-la-argentina-peronista/\n\n• 🎬 **Retazos** — Docuficción, podcast, ilustraciones, música\n↗ https://historiaobrera.com.ar/retazos-de-historia-obrera/\n\nPreguntame lo que quieras sobre cualquier tema.',
+        text: '¿Querés saber más? Estos son los contenidos que podemos explorar:\n\n• 🔥 [**Efemérides**](https://historiaobrera.com.ar/) — Las fechas clave del movimiento obrero argentino\n\n• 📝 [**Mitín**](https://historiaobrera.com.ar/mitin/) — Ensayos y relatos sobre historia obrera\n\n• 📚 [**Colección**](https://historiaobrera.com.ar/coleccion-la-argentina-peronista/) — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n\n• 🎬 [**Retazos**](https://historiaobrera.com.ar/retazos-de-historia-obrera/) — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras sobre cualquier tema.',
         tags: ['historia', 'greeting', 'menu'],
         persona: 'historiador',
         time: this._timeNow(),
