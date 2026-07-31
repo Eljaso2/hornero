@@ -1,7 +1,7 @@
 // ===== <hornero-formacion> — Esfera 3: Historia Obrera · Formación =====
-// Contenido de https://historiaobrera.com.ar/
-// Tabs: Efemérides · Mitín · Colección · Retazos
-// "Consultar con Historiador/a" → navigates to historiador screen
+// Banner + bajada + chat con Historiadora que cuenta la efeméride de la semana
+// Contenido: Efemérides · Mitín · Colección · Retazos
+// Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
 
@@ -10,17 +10,49 @@ class HorneroFormacion extends HoComponent {
     return {
       grade: String,
       sector: String,
-      tab: String,        // 'efemerides' | 'mitin' | 'coleccion' | 'retazos'
-      expandedId: String,  // expanded efemeride/mitin id
+      messages: Array,
     };
+  }
+
+  // ===== Backend URLs =====
+  static get API_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/chat';
+    }
+    return 'https://hornero-ia.onrender.com/api/chat';
+  }
+
+  static get STREAM_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/chat/stream';
+    }
+    return 'https://hornero-ia.onrender.com/api/chat/stream';
   }
 
   constructor() {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
-    this.tab = 'efemerides';
-    this.expandedId = '';
+    this._chatSection = 'historia';
+    this.messages = [];
+    this._typing = false;
+    this._greetingShown = false;
+    this._sessionId = '';
+    this._activePersona = 'historiador';
+    this._username = '';
+    this._progressiveRevealTimer = null;
+    this._progressiveRevealFull = '';
+    this._progressiveRevealIndex = 0;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    try {
+      const session = JSON.parse(localStorage.getItem('hornero-session'));
+      if (session && session.username) this._username = session.username;
+    } catch(e) {}
   }
 
   // ===== Data: Efemérides =====
@@ -170,334 +202,543 @@ class HorneroFormacion extends HoComponent {
     ];
   }
 
+  // ===== Find the closest efeméride to the current week =====
+  _getEfemerideSemana() {
+    const efemerides = this._getEfemerides();
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1; // 1-12
+    const currentDay = now.getDate();
+
+    // 1. Try to find an efeméride that falls within the current week (Mon-Sun)
+    const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon...
+    const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() + mondayOffset);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+
+    for (const efe of efemerides) {
+      const parts = efe.fecha.split('/');
+      const efeDay = parseInt(parts[0]);
+      const efeMonth = parseInt(parts[1]);
+      // Check if this efeméride falls within the current week
+      if (efeMonth >= weekStart.getMonth() + 1 && efeMonth <= weekEnd.getMonth() + 1) {
+        const efeDate = new Date(now.getFullYear(), efeMonth - 1, efeDay);
+        if (efeDate >= weekStart && efeDate <= weekEnd) {
+          return efe;
+        }
+      }
+    }
+
+    // 2. No exact match — find the closest efeméride (circular within the year)
+    let closest = null;
+    let minDist = Infinity;
+    for (const efe of efemerides) {
+      const parts = efe.fecha.split('/');
+      const efeDay = parseInt(parts[0]);
+      const efeMonth = parseInt(parts[1]);
+      const efeDate = new Date(now.getFullYear(), efeMonth - 1, efeDay);
+      let dist = Math.abs(efeDate - now);
+      // Wrap around: if the date is far in the future, consider it from last year
+      if (dist > 180 * 86400000) {
+        const efeDateNext = new Date(now.getFullYear() + 1, efeMonth - 1, efeDay);
+        const distNext = Math.abs(efeDateNext - now);
+        const efeDatePrev = new Date(now.getFullYear() - 1, efeMonth - 1, efeDay);
+        const distPrev = Math.abs(efeDatePrev - now);
+        dist = Math.min(distNext, distPrev);
+      }
+      if (dist < minDist) {
+        minDist = dist;
+        closest = efe;
+      }
+    }
+    return closest;
+  }
+
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); }
-      .scroll { flex: 1; overflow-y: auto; padding: 16px 16px;
-        -webkit-overflow-scrolling: touch; }
 
-      /* ===== Header with logo ===== */
-      .form-header { display: flex; align-items: center; gap: 12px;
-        margin-bottom: 12px; }
-      .form-logo { width: 56px; height: 56px; border-radius: 10px;
-        overflow: hidden; flex: none; border: 1px solid rgba(255,255,255,.06); }
-      .form-logo img { width: 100%; height: 100%; object-fit: cover; }
-      .form-header-text { flex: 1; }
-      .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+      /* ===== Hero banner ===== */
+      .hero-banner { position: relative; width: 100%; min-height: 180px;
+        overflow: hidden; flex-shrink: 0; }
+      .hero-banner img { width: 100%; height: 180px; object-fit: cover;
+        display: block; }
+      /* Dark overlay for text readability */
+      .hero-overlay { position: absolute; inset: 0;
+        background: linear-gradient(to bottom,
+          rgba(30,35,33,.3) 0%,
+          rgba(30,35,33,.5) 40%,
+          rgba(30,35,33,.85) 100%);
+        display: flex; flex-direction: column; justify-content: flex-end;
+        padding: 16px; }
+      /* Light mode: lighter overlay */
+      :host([data-theme="light"]) .hero-overlay,
+      :host(.theme-light) .hero-overlay {
+        background: linear-gradient(to bottom,
+          rgba(248,246,240,.2) 0%,
+          rgba(248,246,240,.4) 40%,
+          rgba(248,246,240,.8) 100%); }
+      .hero-kicker { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: var(--ho-text-light, #9C988D); }
-      .section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); }
-      .intro { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.4; margin-bottom: 16px; }
+        color: var(--ho-green-light, #80CCA0); margin-bottom: 4px; }
+      .hero-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.2rem; color: var(--ho-text-off, #F2F1EC);
+        letter-spacing: .02em; text-transform: uppercase; line-height: 1.2; }
+      .hero-subtitle { font-family: 'Archivo', sans-serif; font-weight: 600;
+        font-size: .82rem; color: rgba(242,241,236,.85); margin-top: 2px; }
 
-      /* ===== Tab bar ===== */
-      .tab-bar { display: flex; gap: 0; margin-bottom: 16px;
-        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .tab-btn { font-family: 'Archivo', sans-serif; font-size: .76rem;
-        font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        background: none; border: none; cursor: pointer;
-        padding: 8px 10px; border-bottom: 2px solid transparent;
-        transition: color .2s, border-color .2s; }
-      .tab-btn.active { color: var(--ho-green, #4E9978);
-        border-bottom-color: var(--ho-green, #4E9978); }
-
-      /* ===== Efemérides cards ===== */
-      .efe-card { background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; padding: 14px; margin-bottom: 10px;
-        cursor: pointer; transition: border-color .2s; }
-      .efe-card:hover { border-color: var(--ho-green, #4E9978); }
-      .efe-card.expanded { cursor: default; }
-      .efe-header { display: flex; align-items: center; gap: 10px; }
-      .efe-emoji { font-size: 1.1rem; flex: none; }
-      .efe-date { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        font-weight: 700; color: var(--ho-green-dark, #3D6B56);
-        background: var(--ho-green-pale, #E0F0EB); border-radius: 5px;
-        padding: 2px 6px; flex: none; }
-      .efe-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #E8E6E0); flex: 1; }
-      .efe-author { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-text-light, #9C988D); margin-top: 4px; }
-      .efe-bajada { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.4; margin-top: 6px; }
-
-      /* ===== Expanded efeméride ===== */
-      .efe-narrative { font-size: .84rem; color: var(--ho-text, #E8E6E0);
-        line-height: 1.55; margin-top: 12px; white-space: pre-wrap; }
-      .efe-resources { margin-top: 10px; }
-      .efe-resource { font-family: 'Archivo', sans-serif; font-size: .78rem;
-        color: var(--ho-green-dark, #3D6B56); padding: 4px 0; }
-      .efe-bib { margin-top: 10px; }
-      .efe-bib-title { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-        color: var(--ho-text-light, #9C988D); margin-bottom: 4px; }
-      .efe-bib-item { font-size: .78rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.4; }
-      .efe-actions { display: flex; gap: 8px; margin-top: 14px; }
-      .action-ia { background: var(--ho-green, #4E9978); color: #fff;
-        border: none; border-radius: 8px; padding: 8px 14px; cursor: pointer;
-        font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600; }
-      .action-ia:hover { background: var(--ho-green-dark, #3D6B56); }
-      .action-collapse { background: none; color: var(--ho-text-mid, #6E6A60);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.1));
-        border-radius: 8px; padding: 8px 14px; cursor: pointer;
-        font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600; }
-
-      /* ===== Mitín cards ===== */
-      .mitin-card { background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; padding: 14px; margin-bottom: 10px;
-        cursor: pointer; transition: border-color .2s; }
-      .mitin-card:hover { border-color: var(--ho-green, #4E9978); }
-      .mitin-card.expanded { cursor: default; }
-      .mitin-emoji { font-size: 1.1rem; flex: none; }
-      .mitin-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; color: var(--ho-text, #E8E6E0); }
-      .mitin-author { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-text-light, #9C988D); margin-top: 3px; }
-      .mitin-bajada { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.4; margin-top: 6px; }
-      .mitin-text { font-size: .84rem; color: var(--ho-text, #E8E6E0);
-        line-height: 1.55; margin-top: 12px; }
-      .mitin-link { display: inline-block; margin-top: 10px;
+      /* ===== Bajada ===== */
+      .bajada { padding: 12px 16px 8px; }
+      .bajada-text { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
+      .bajada-link { display: inline-block; margin-top: 6px;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
+      .bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
 
-      /* ===== Colección grid ===== */
-      .col-grid { display: grid; grid-template-columns: repeat(2, 1fr);
-        gap: 10px; }
-      .col-card { background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; padding: 12px; }
-      .col-num { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        font-weight: 700; color: var(--ho-green-dark, #3D6B56);
-        background: var(--ho-green-pale, #E0F0EB); border-radius: 5px;
-        padding: 2px 6px; display: inline-block; margin-bottom: 4px; }
-      .col-emoji { font-size: .92rem; }
-      .col-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .82rem; color: var(--ho-text, #E8E6E0); }
-      .col-author { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
-        margin-top: 2px; }
-      .col-tema { font-family: 'JetBrains Mono', monospace; font-size: .60rem;
-        color: var(--ho-green-dark, #3D6B56); background: var(--ho-green-pale, #E0F0EB);
-        padding: 2px 6px; border-radius: 5px; display: inline-block;
-        margin-top: 5px; }
-
-      /* ===== Retazos cards ===== */
-      .retazo-grid { display: grid; grid-template-columns: repeat(2, 1fr);
-        gap: 10px; }
-      .retazo-card { background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; padding: 12px; cursor: pointer;
-        transition: border-color .2s; }
-      .retazo-card:hover { border-color: var(--ho-green, #4E9978); }
-      .retazo-emoji { font-size: 1.4rem; }
-      .retazo-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .82rem; color: var(--ho-text, #E8E6E0); }
-      .retazo-desc { font-size: .72rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.3; margin-top: 3px; }
-
-      /* ===== Uniones badge ===== */
-      .union-badge { margin-top: 16px; text-align: center; }
-      .union-text { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        font-weight: 600; color: var(--ho-text-light, #9C988D);
-        letter-spacing: .08em; text-transform: uppercase; }
-      .union-link { font-family: 'Archivo', sans-serif; font-size: .76rem;
-        color: var(--ho-green, #4E9978); font-weight: 600; }
-
-      /* ===== External link ===== */
-      .ext-link { margin-top: 16px; text-align: center;
-        font-family: 'Archivo', sans-serif; font-size: .78rem;
-        color: var(--ho-green, #4E9978); font-weight: 600; }
+      /* ===== Chat container ===== */
+      .chat-container { flex: 1; display: flex; flex-direction: column;
+        min-height: 0; overflow: hidden; }
     `;
   }
 
   _render() {
-    var tabContent = '';
-    if (this.tab === 'efemerides') tabContent = this._renderEfemerides();
-    else if (this.tab === 'mitin') tabContent = this._renderMitin();
-    else if (this.tab === 'coleccion') tabContent = this._renderColeccion();
-    else if (this.tab === 'retazos') tabContent = this._renderRetazos();
-
     return html`
-      <div class="scroll">
-        <div class="form-header">
-          <div class="form-logo"><img src="assets/personajes/ho.jpg" alt="HO"></div>
-          <div class="form-header-text">
-            <div class="kicker">📜 HISTORIA OBRERA</div>
-            <div class="section-title">Formación sindical y obrera</div>
-          </div>
-        </div>
-        <div class="intro">Efemérides, libros, mitín, retazos — la historia de la clase trabajadora argentina, desde abajo. Proyecto de Gustavo Nicolás Contreras.</div>
-
-        <div class="tab-bar">
-          <button class="tab-btn${this.tab === 'efemerides' ? ' active' : ''}" data-tab="efemerides">🔥 Efemérides</button>
-          <button class="tab-btn${this.tab === 'mitin' ? ' active' : ''}" data-tab="mitin">📝 Mitín</button>
-          <button class="tab-btn${this.tab === 'coleccion' ? ' active' : ''}" data-tab="coleccion">📚 Colección</button>
-          <button class="tab-btn${this.tab === 'retazos' ? ' active' : ''}" data-tab="retazos">🎬 Retazos</button>
-        </div>
-
-        ${tabContent}
-
-        <div class="union-badge">
-          <div class="union-text">Nos acompañan</div>
-          <div style="margin-top:4px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap">
-            <span class="union-link">APU</span>
-            <span style="color:#9C988D">·</span>
-            <span class="union-link">La Bancaria</span>
-            <span style="color:#9C988D">·</span>
-            <span class="union-link">Sipreba</span>
-            <span style="color:#9C988D">·</span>
-            <span class="union-link">Luz y Fuerza</span>
-          </div>
-        </div>
-
-        <div class="ext-link">
-          <a href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗ historiaobrera.com.ar — ver sitio completo</a>
+      <div class="hero-banner">
+        <img src="assets/personajes/ho.jpg" alt="Historia Obrera">
+        <div class="hero-overlay">
+          <div class="hero-kicker">📜 HISTORIA OBRERA</div>
+          <div class="hero-title">Historia Obrera</div>
+          <div class="hero-subtitle">Formación sindical y obrera</div>
         </div>
       </div>
-    `;
-  }
 
-  // ===== Tab: Efemérides =====
-  _renderEfemerides() {
-    var items = this._getEfemerides();
-    return items.map(efe => {
-      var isExpanded = this.expandedId === efe.id;
-      var expandedHtml = '';
-      if (isExpanded) {
-        var recursosHtml = (efe.recursos || []).map(r =>
-          '<div class="efe-resource">📎 ' + r + '</div>'
-        ).join('');
-        var bibHtml = (efe.bibliografia || []).map(b =>
-          '<div class="efe-bib-item">• ' + b + '</div>'
-        ).join('');
-        expandedHtml = html`
-          <div class="efe-narrative">${efe.narrative}</div>
-          ${recursosHtml ? '<div class="efe-resources">' + recursosHtml + '</div>' : ''}
-          ${bibHtml ? '<div class="efe-bib"><div class="efe-bib-title">Bibliografía</div>' + bibHtml + '</div>' : ''}
-          <div class="efe-actions">
-            <button class="action-ia" data-action="ia" data-efe-id="${efe.id}" data-efe-title="${efe.title}">🤖 Consultar con Historiador/a</button>
-            <button class="action-collapse" data-action="collapse">Cerrar</button>
-          </div>
-        `;
-      }
-      return html`
-        <div class="efe-card${isExpanded ? ' expanded' : ''}" data-efe-id="${efe.id}">
-          <div class="efe-header">
-            <span class="efe-emoji">${efe.emoji}</span>
-            <span class="efe-date">${efe.year}</span>
-            <span class="efe-title">${efe.title}</span>
-          </div>
-          <div class="efe-author">${efe.author}</div>
-          ${!isExpanded ? html`<div class="efe-bajada">${efe.bajada}</div>` : ''}
-          ${expandedHtml}
+      <div class="bajada">
+        <div class="bajada-text">
+          Efemérides de la clase trabajadora, ensayos en el Mitín, la colección La Argentina Peronista y retazos de historia en audio, video e ilustración.
+          Todo desde abajo — la historia que nos cuentan los que la hicieron.
         </div>
-      `;
-    }).join('');
-  }
-
-  // ===== Tab: Mitín =====
-  _renderMitin() {
-    var items = this._getMitin();
-    return items.map(m => {
-      var isExpanded = this.expandedId === m.id;
-      var expandedHtml = '';
-      if (isExpanded) {
-        expandedHtml = html`
-          <div class="mitin-text">${m.text}</div>
-          <a class="mitin-link" href="${m.link}" target="_blank" rel="noopener">↗ Leer y escuchar en historiaobrera.com.ar</a>
-          <div class="efe-actions" style="margin-top:14px">
-            <button class="action-ia" data-action="ia" data-efe-id="${m.id}" data-efe-title="${m.title}">🤖 Consultar con Historiador/a</button>
-            <button class="action-collapse" data-action="collapse">Cerrar</button>
-          </div>
-        `;
-      }
-      return html`
-        <div class="mitin-card${isExpanded ? ' expanded' : ''}" data-efe-id="${m.id}">
-          <span class="mitin-emoji">${m.emoji}</span>
-          <div class="mitin-title">${m.title}</div>
-          <div class="mitin-author">${m.author}</div>
-          ${!isExpanded ? html`<div class="mitin-bajada">${m.bajada}</div>` : ''}
-          ${expandedHtml}
-        </div>
-      `;
-    }).join('');
-  }
-
-  // ===== Tab: Colección =====
-  _renderColeccion() {
-    var items = this._getColeccion();
-    return html`
-      <div class="intro" style="margin-bottom:12px">Colección <strong>La Argentina Peronista</strong> — serie de libros que recorre el peronismo desde la clase trabajadora.</div>
-      <div class="col-grid">
-        ${items.map(b => html`
-          <div class="col-card">
-            <span class="col-num">N°${b.num}</span>
-            <span class="col-emoji">${b.emoji}</span>
-            <div class="col-title">${b.title}</div>
-            <div class="col-author">${b.author}</div>
-            <span class="col-tema">${b.tema}</span>
-          </div>
-        `).join('')}
+        <a class="bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗ historiaobrera.com.ar</a>
       </div>
-      <div class="ext-link" style="margin-top:12px">
-        <a href="https://historiaobrera.com.ar/coleccion-la-argentina-peronista/" target="_blank" rel="noopener">↗ Ver colección completa (18 volúmenes)</a>
-      </div>
-    `;
-  }
 
-  // ===== Tab: Retazos =====
-  _renderRetazos() {
-    var items = this._getRetazos();
-    return html`
-      <div class="intro" style="margin-bottom:12px">Arte, música, podcast, audiovisual — historia obrera en múltiples formatos.</div>
-      <div class="retazo-grid">
-        ${items.map(r => html`
-          <a class="retazo-card" href="${r.link}" target="_blank" rel="noopener">
-            <span class="retazo-emoji">${r.emoji}</span>
-            <div class="retazo-title">${r.title}</div>
-            <div class="retazo-desc">${r.desc}</div>
-          </a>
-        `).join('')}
+      <div class="chat-container">
+        <hornero-chat
+          title="Historiadora"
+          input-placeholder="Preguntá sobre huelgas, referentes, masacres, lockouts..."
+          messages="${JSON.stringify(this.messages)}"
+          typing="${this._typing}"
+          section="historia"
+          persona="${this._activePersona}"
+          username="${this._username}"
+          grade="${this.grade}"
+        ></hornero-chat>
       </div>
     `;
   }
 
   _afterRender() {
-    // Tab buttons
-    this.shadowRoot.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.set('tab', btn.dataset.tab);
-        this.set('expandedId', '');
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      this._syncChatMessages(chatEl);
+      chatEl.addEventListener('chat-send', (e) => {
+        this._handleUserMessage(e.detail.text);
       });
+      chatEl.addEventListener('chat-back', () => {
+        this.emit('screen-change', { screen: 'home' });
+      });
+      chatEl.addEventListener('persona-navigate', (e) => {
+        this._handlePersonaNavigate(e.detail.persona);
+      });
+      chatEl.addEventListener('persona-redirect', (e) => {
+        this._handlePersonaNavigate(e.detail.persona);
+      });
+      chatEl.addEventListener('chat-message-delete', (e) => {
+        const { msgIndex, msg } = e.detail;
+        if (msgIndex >= 0 && msgIndex < this.messages.length) {
+          this.messages.splice(msgIndex, 1);
+          if (msg && msg.id && typeof borrarChatMsg === 'function') {
+            borrarChatMsg(msg.id);
+          }
+          this.render();
+        }
+      });
+      chatEl.addEventListener('chat-feedback', (e) => {
+        this._sendFeedback(e.detail);
+      });
+      chatEl.addEventListener('chat-export', (e) => {
+        this._handleChatExport(e.detail);
+      });
+    }
+
+    // Show greeting on first load
+    if (!this._greetingShown) {
+      this._greetingShown = true;
+      this._showGreeting();
+    }
+
+    // Apply light mode class to host for banner overlay
+    try {
+      const theme = localStorage.getItem('hornero-theme') || 'dark';
+      if (theme === 'light') {
+        this.classList.add('theme-light');
+      } else {
+        this.classList.remove('theme-light');
+      }
+    } catch(e) {}
+  }
+
+  _syncChatMessages(chatEl) {
+    if (chatEl) {
+      chatEl.messages = this.messages;
+      chatEl.typing = this._typing;
+      chatEl.section = this._chatSection;
+      chatEl.sessionId = this._sessionId;
+      chatEl.username = this._username;
+      chatEl.persona = this._activePersona;
+      chatEl.grade = this.grade;
+      chatEl.render();
+    }
+  }
+
+  // ===== Generate greeting with efeméride of the week =====
+  _showGreeting() {
+    const efe = this._getEfemerideSemana();
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+
+    let greetingText = '';
+    if (efe) {
+      greetingText = `${efe.emoji} Esta semana se conmemora el **${efe.title}** (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\n¿Querés saber más? Podemos explorar juntos:\n\n• 🔥 **Efemérides** — Las fechas clave del movimiento obrero argentino\n• 📝 **Mitín** — Ensayos y relatos sobre historia obrera\n• 📚 **Colección** — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n• 🎬 **Retazos** — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras sobre cualquier tema de historia obrera.`;
+    } else {
+      greetingText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?';
+    }
+
+    this.messages = [{
+      role: 'hornero',
+      text: greetingText,
+      tags: ['historia', 'greeting', 'efemeride-semana'],
+      persona: 'historiador',
+      time: this._timeNow(),
+    }];
+    this.render();
+  }
+
+  // ===== Handle user message =====
+  _handleUserMessage(text) {
+    this._stopProgressiveReveal();
+    this.messages = [...this.messages, { role: 'user', text, tags: ['historia'], time: this._timeNow() }];
+    this._typing = true;
+    this._saveChatHistory();
+    this.render();
+
+    // Try streaming first, fallback to non-streaming
+    this._callBackendStream(text).catch((err) => {
+      console.warn('Stream failed, falling back to non-streaming:', err);
+      this._callBackend(text).catch((err2) => {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: 'No puedo conectarme ahora. Intentá de nuevo en un momento.',
+          tags: ['historia', 'error'],
+          persona: 'historiador',
+          time: this._timeNow(),
+        }];
+        this._typing = false;
+        this.render();
+      });
+    });
+  }
+
+  // ===== Streaming backend =====
+  _startProgressiveReveal(fullText, chatEl, persona) {
+    this._stopProgressiveReveal();
+    this._progressiveRevealFull = fullText;
+    this._progressiveRevealIndex = 0;
+    const chunkSize = 1;
+    const interval = 25;
+    this._progressiveRevealTimer = setInterval(() => {
+      this._progressiveRevealIndex += chunkSize;
+      if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
+        this._stopProgressiveReveal();
+        if (chatEl) chatEl.updateStreamingText(this._progressiveRevealFull);
+        return;
+      }
+      if (chatEl) {
+        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex));
+      }
+    }, interval);
+  }
+
+  _stopProgressiveReveal() {
+    if (this._progressiveRevealTimer) {
+      clearInterval(this._progressiveRevealTimer);
+      this._progressiveRevealTimer = null;
+    }
+    this._progressiveRevealFull = '';
+    this._progressiveRevealIndex = 0;
+  }
+
+  async _callBackendStream(text) {
+    const history = this.messages.map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const response = await fetch(HorneroFormacion.STREAM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        formato: 'historia',
+        history: history,
+        grade: this.grade,
+        sector: this.sector,
+        requested_persona: 'historiador',
+        session_id: this._sessionId,
+      }),
     });
 
-    // Efe/mitin cards — expand on click
-    this.shadowRoot.querySelectorAll('.efe-card:not(.expanded), .mitin-card:not(.expanded)').forEach(card => {
-      card.addEventListener('click', () => {
-        this.set('expandedId', card.dataset.efeId);
-      });
+    if (!response.ok) throw new Error('Stream error: ' + response.status);
+
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let streamingText = '';
+    let streamingPersona = this._activePersona;
+
+    this._typing = true;
+    if (chatEl) {
+      chatEl.streamingText = '';
+      chatEl._streamingPersona = streamingPersona;
+      chatEl.render();
+    }
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('event: token')) continue;
+          if (line.startsWith('data: ') && !line.startsWith('data: {')) {
+            const content = line.slice(6).replace(/\\n/g, '\n');
+            if (content) {
+              streamingText += content;
+              this._typing = false;
+              if (chatEl) {
+                if (content.length > 50 && !this._progressiveRevealTimer) {
+                  this._startProgressiveReveal(streamingText, chatEl, streamingPersona);
+                } else {
+                  chatEl.streamingText = streamingText;
+                  chatEl._streamingPersona = streamingPersona;
+                  chatEl.updateStreamingText(streamingText);
+                }
+              }
+            }
+          }
+          if (line.startsWith('data: {')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.text !== undefined) {
+                streamingPersona = data.persona || this._activePersona;
+                this.messages = [...this.messages, {
+                  role: 'hornero',
+                  text: data.text || streamingText,
+                  sections: data.sections || [],
+                  tags: data.tags || ['historia'],
+                  persona: 'historiador',
+                  redirect_persona: data.redirect_persona || '',
+                  time: data.time || this._timeNow(),
+                }];
+                this._stopProgressiveReveal();
+                if (chatEl) {
+                  chatEl.streamingText = '';
+                  chatEl._streamingPersona = '';
+                }
+                this._typing = false;
+                this._saveChatHistory();
+                this.render();
+                return;
+              }
+              if (data.message) throw new Error(data.message);
+            } catch (e) {
+              if (e.message !== 'Stream error') throw e;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      this._stopProgressiveReveal();
+      if (streamingText) {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: streamingText,
+          tags: ['historia', 'stream-partial'],
+          persona: 'historiador',
+          time: this._timeNow(),
+        }];
+      }
+      if (chatEl) {
+        chatEl.streamingText = '';
+        chatEl._streamingPersona = '';
+      }
+      this._typing = false;
+      this.render();
+      throw e;
+    }
+  }
+
+  // ===== Non-streaming backend fallback =====
+  async _callBackend(text) {
+    const history = this.messages.map(m => ({
+      role: m.role,
+      text: m.text || '',
+      sections: m.sections || [],
+    }));
+
+    const response = await this._fetchWithTimeout(HorneroFormacion.API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        formato: 'historia',
+        history: history,
+        grade: this.grade,
+        sector: this.sector,
+        requested_persona: 'historiador',
+        session_id: this._sessionId,
+      }),
     });
 
-    // IA action → navigate to historiador
-    this.shadowRoot.querySelectorAll('.action-ia').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        var title = btn.dataset.efeTitle || '';
-        this.emit('screen-change', { screen: 'historiador', persona: 'historiador', preQuery: 'Quiero saber más sobre: ' + title });
-      });
-    });
+    if (!response.ok) throw new Error('Backend error: ' + response.status);
 
-    // Collapse action
-    this.shadowRoot.querySelectorAll('.action-collapse').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        this.set('expandedId', '');
+    const data = await response.json();
+    const responseText = data.text || '';
+
+    if (responseText && responseText.length > 50) {
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) {
+        this._typing = false;
+        this._startProgressiveReveal(responseText, chatEl, 'historiador');
+        const revealDone = new Promise((resolve) => {
+          const check = setInterval(() => {
+            if (!this._progressiveRevealTimer) { clearInterval(check); resolve(); }
+          }, 50);
+        });
+        const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
+        await Promise.race([revealDone, timeout]);
+        this._stopProgressiveReveal();
+        if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
+      }
+    }
+
+    this.messages = [...this.messages, {
+      role: 'hornero',
+      text: data.text || '',
+      sections: data.sections || [],
+      tags: data.tags || ['historia'],
+      persona: 'historiador',
+      redirect_persona: data.redirect_persona || '',
+      time: data.time || this._timeNow(),
+    }];
+    this._typing = false;
+    this._saveChatHistory();
+    this.render();
+  }
+
+  _fetchWithTimeout(url, options, timeoutMs = 30000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .then(response => { clearTimeout(timeoutId); return response; })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') throw new Error('FETCH_TIMEOUT');
+        throw err;
       });
-    });
+  }
+
+  _handlePersonaNavigate(targetPersona) {
+    const screenMap = {
+      'abogado': { screen: 'consulta', persona: 'abogado' },
+      'companero': { screen: 'gremial', persona: 'companero' },
+      'periodista': { screen: 'contenido', persona: 'periodista' },
+      'historiador': { screen: 'formacion', persona: 'historiador' },
+    };
+    const target = screenMap[targetPersona];
+    if (target) {
+      this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
+    }
+  }
+
+  _handleChatExport(detail) {
+    if (!this.messages || this.messages.length === 0) return;
+    if (detail && detail.download) {
+      this.messages = [...this.messages, {
+        role: 'hornero',
+        text: 'Documento exportado con éxito. Click en el archivo para descargarlo.',
+        download: detail.download,
+        tags: ['historia', 'exportado'],
+        time: this._timeNow(),
+      }];
+      this._saveChatHistory();
+      this.render();
+    }
+  }
+
+  async _sendFeedback(detail) {
+    if (!detail || !detail.type) return;
+    const rating = detail.type === 'like' && detail.liked ? 'like' :
+                   detail.type === 'dislike' && detail.disliked ? 'dislike' : '';
+    if (!rating) return;
+    try {
+      const h = window.location.hostname;
+      const baseUrl = (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.'))
+        ? 'http://' + h + ':8000' : 'https://hornero-ia.onrender.com';
+      await fetch(baseUrl + '/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: this._sessionId || '',
+          message_index: detail.messageIndex || -1,
+          rating: rating,
+          persona: detail.persona || this._activePersona,
+          message_text: detail.messageText || '',
+        }),
+      });
+    } catch (e) { console.warn('Feedback send failed:', e); }
+  }
+
+  async _saveChatHistory() {
+    try {
+      if (typeof guardarChatMsg === 'function') {
+        for (const m of this.messages) {
+          if (!m.id) {
+            m.id = typeof generarUUID === 'function' ? generarUUID() : 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+            m.section = this._chatSection;
+            m.sessionId = this._sessionId;
+            m.timestamp = Date.now();
+            m.username = this._username;
+          }
+          await guardarChatMsg(m);
+        }
+      }
+    } catch(e) { console.warn('Formacion: chat history save failed', e); }
+  }
+
+  _timeNow() {
+    const now = new Date();
+    const d = now.getDate().toString().padStart(2, '0');
+    const m = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][now.getMonth()];
+    const h = now.getHours().toString().padStart(2, '0');
+    const min = now.getMinutes().toString().padStart(2, '0');
+    return d + ' ' + m + ' ' + h + ':' + min;
   }
 }
 

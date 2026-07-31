@@ -152,7 +152,7 @@ class HorneroApp extends HoComponent {
       actualidad: 'Actualidad',
       chat: 'Chat',
       consulta: 'Chateá con tu interlocutor/a',
-      formacion: 'Historia Obrera · Formación',
+      formacion: 'Historia Obrera',
       is: 'Reporte gremial',
       condicion: 'Panorama',
       archivo: 'Archivo',
@@ -579,7 +579,7 @@ class HorneroApp extends HoComponent {
     // Header only visible on Home screen
     const showHeader = this.screen === 'home';
     // Chat screens: hide bottom-nav
-    const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido' || this.screen === 'gremial' || this.screen === 'historiador';
+    const isChatScreen = this.screen === 'consulta' || this.screen === 'contenido' || this.screen === 'gremial' || this.screen === 'historiador' || this.screen === 'formacion';
     // Sections bar always visible (active section highlighted)
     const showSectionsBar = true;
     const showBottomNav = !isChatScreen;
