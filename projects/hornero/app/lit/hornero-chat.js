@@ -972,12 +972,12 @@ class HorneroChat extends HoComponent {
 
       .chat-input-field { flex: 1; background: var(--ho-card, #2A3230);
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 22px; padding: 0 14px; font-size: .88rem;
+        border-radius: 22px; padding: 6px 14px; font-size: .88rem;
         color: var(--ho-text, #E8E6E0); font-family: 'Public Sans', sans-serif;
         outline: none; transition: border-color .2s;
-        height: 34px; max-height: 120px;
+        min-height: 34px; max-height: 120px;
         resize: none; overflow-y: hidden;
-        line-height: 34px; vertical-align: middle; }
+        line-height: 20px; box-sizing: border-box; }
       .chat-input-field:focus { border-color: var(--ho-green, #4E9978); }
       .chat-input-field::placeholder { color: var(--ho-text-light, #9C988D); }
 
@@ -1899,30 +1899,15 @@ class HorneroChat extends HoComponent {
 
       inputField.addEventListener('input', updateToolbar);
 
-      // === Auto-resize textarea: grow with content, shrink when empty ===
-      // scrollHeight includes padding but NOT border; with box-sizing: border-box
-      // the height property includes border, so we must add border width (2px)
+      // === Auto-resize textarea: shrink to fit content, grow as needed ===
       const autoResize = () => {
-        // Set multi-line styles FIRST so scrollHeight is accurate
-        inputField.style.padding = '6px 14px';
-        inputField.style.lineHeight = '20px';
         // Shrink to force accurate scrollHeight measurement
         inputField.style.height = '0';
         const scrollH = inputField.scrollHeight;
-
-        if (scrollH <= 34) {
-          // Single line — centered vertically
-          inputField.style.height = '34px';
-          inputField.style.padding = '0 14px';
-          inputField.style.lineHeight = '34px';
-          inputField.style.overflowY = 'hidden';
-        } else {
-          // Multi-line — grow exactly to fit content
-          // +2px compensates border (1px top + 1px bottom) not included in scrollHeight
-          const targetH = Math.min(scrollH + 2, 120);
-          inputField.style.height = targetH + 'px';
-          inputField.style.overflowY = targetH >= 120 ? 'auto' : 'hidden';
-        }
+        // +2px compensates border (1px top + 1px bottom) not in scrollHeight
+        const targetH = Math.min(scrollH + 2, 120);
+        inputField.style.height = targetH + 'px';
+        inputField.style.overflowY = targetH >= 120 ? 'auto' : 'hidden';
       };
       inputField.addEventListener('input', autoResize);
       // Start at single-line height — only grow when user types
