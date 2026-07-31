@@ -1146,6 +1146,244 @@ async def chat_clear_all():
         conn.close()
 
 
+# ===== Informes Sync (SQLite) =====
+
+INFORMES_DB_PATH = os.path.join(os.path.dirname(__file__), "informes.db")
+
+
+def _get_informes_db():
+    """Get or create SQLite connection for informes + table."""
+    conn = sqlite3.connect(INFORMES_DB_PATH)
+    conn.row_factory = sqlite3.Row
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS informes (
+            id TEXT PRIMARY KEY,
+            grado INTEGER NOT NULL,
+            semana TEXT DEFAULT '',
+            territorio TEXT DEFAULT '',
+            estado TEXT DEFAULT 'pendiente',
+            username TEXT NOT NULL,
+            empresa TEXT DEFAULT '',
+            fecha TEXT DEFAULT '',
+            timestamp INTEGER NOT NULL,
+            relato TEXT DEFAULT '',
+            clasificacion TEXT DEFAULT '',
+            ficha TEXT DEFAULT '',
+            tags TEXT DEFAULT '[]',
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_username ON informes(username)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_grado ON informes(grado)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_estado ON informes(estado)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_territorio ON informes(territorio)")
+    conn.commit()
+    return conn
+
+
+class InformeSyncRequest(BaseModel):
+    username: str
+    informes: list = []
+
+
+@app.post("/api/informes/sync")
+async def informes_sync(req: InformeSyncRequest):
+    """Upsert batch de informes desde un dispositivo. Fire-and-forget sync."""
+    if not req.username or not req.informes:
+        return {"synced": 0}
+    conn = _get_informes_db()
+    try:
+        synced = 0
+        for inf in req.informes:
+            if not isinstance(inf, dict) or not inf.get("id"):
+                continue
+            conn.execute("""
+                INSERT INTO informes (id, grado, semana, territorio, estado, username,
+                    empresa, fecha, timestamp, relato, clasificacion, ficha, tags)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    grado=excluded.grado,
+                    semana=excluded.semana,
+                    territorio=excluded.territorio,
+                    estado=excluded.estado,
+                    username=excluded.username,
+                    empresa=excluded.empresa,
+                    fecha=excluded.fecha,
+                    timestamp=excluded.timestamp,
+                    relato=excluded.relato,
+                    clasificacion=excluded.clasificacion,
+                    ficha=excluded.ficha,
+                    tags=excluded.tags
+            """, (
+                inf.get("id"),
+                inf.get("grado", 1),
+                inf.get("semana", ""),
+                inf.get("territorio", ""),
+                inf.get("estado", "pendiente"),
+                req.username,
+                inf.get("empresa", ""),
+                inf.get("fecha", ""),
+                inf.get("timestamp", 0),
+                inf.get("relato", ""),
+                inf.get("clasificacion", ""),
+                inf.get("ficha", ""),
+                json.dumps(inf.get("tags", []), ensure_ascii=False),
+            ))
+            synced += 1
+        conn.commit()
+        return {"synced": synced}
+    except Exception as e:
+        logger.error(f"Informes sync error: {e}")
+        return {"synced": 0, "error": str(e)}
+    finally:
+        conn.close()
+
+
+@app.get("/api/informes/all")
+async def informes_all(username: str = ""):
+    """Obtener todos los informes de un usuario."""
+    if not username:
+        return []
+    conn = _get_informes_db()
+    try:
+        rows = conn.execute("""
+            SELECT * FROM informes WHERE username = ? ORDER BY timestamp DESC
+        """, (username,)).fetchall()
+        return [_row_to_informe(r) for r in rows]
+    finally:
+        conn.close()
+
+
+@app.get("/api/informes/incoming")
+async def informes_incoming(grade: str = "", territorio: str = "", empresa: str = ""):
+    """Informes visibles para un grado/territorio/empresa según jerarquía sindical.
+    B.b (delegado): ve G1 pendiente/visto/aceptado de su territorio + empresa
+    B.c (secretario): ve G2 pendiente/visto/aceptado de su territorio (todas las empresas)
+    B.d (federación): ve G3 pendiente/visto/aceptado de todos los territorios
+    """
+    if not grade:
+        return []
+    conn = _get_informes_db()
+    try:
+        # Normalize territorio for flexible matching
+        def norm_t(t):
+            return (t or "").lower().replace(" ", "").replace("-", "").replace("_", "") if t else ""
+
+        norm_terr = norm_t(territorio)
+        norm_emp = (empresa or "").lower().strip()
+        unresolved = ["pendiente", "visto", "aceptado"]
+
+        if grade == "B.b":
+            lower_grado = 1
+            rows = conn.execute(
+                "SELECT * FROM informes WHERE grado = ? AND estado IN (?, ?, ?)",
+                (lower_grado, *unresolved),
+            ).fetchall()
+            # Filter by territorio + empresa (flexible matching)
+            result = []
+            for r in rows:
+                if norm_t(r["territorio"]) != norm_terr:
+                    continue
+                r_emp = (r["empresa"] or "").lower().strip()
+                if not empresa:
+                    pass  # Delegate with no empresa → show all from territory
+                elif r_emp != norm_emp:
+                    continue
+                result.append(_row_to_informe(r))
+            return result
+
+        elif grade == "B.c":
+            lower_grado = 2
+            rows = conn.execute(
+                "SELECT * FROM informes WHERE grado = ? AND estado IN (?, ?, ?)",
+                (lower_grado, *unresolved),
+            ).fetchall()
+            # Filter by territorio only (all empresas)
+            result = []
+            for r in rows:
+                if norm_t(r["territorio"]) != norm_terr:
+                    continue
+                result.append(_row_to_informe(r))
+            return result
+
+        elif grade == "B.d":
+            lower_grado = 3
+            rows = conn.execute(
+                "SELECT * FROM informes WHERE grado = ? AND estado IN (?, ?, ?)",
+                (lower_grado, *unresolved),
+            ).fetchall()
+            return [_row_to_informe(r) for r in rows]
+
+        return []
+    finally:
+        conn.close()
+
+
+def _row_to_informe(r):
+    """Convert a SQLite Row to a dict for the API response."""
+    return {
+        "id": r["id"],
+        "grado": r["grado"],
+        "semana": r["semana"],
+        "territorio": r["territorio"],
+        "estado": r["estado"],
+        "username": r["username"],
+        "empresa": r["empresa"],
+        "fecha": r["fecha"],
+        "timestamp": r["timestamp"],
+        "relato": r["relato"],
+        "clasificacion": r["clasificacion"],
+        "ficha": r["ficha"],
+        "tags": json.loads(r["tags"]) if r["tags"] else [],
+    }
+
+
+@app.delete("/api/informes/clear-user")
+async def informes_clear_user(username: str = ""):
+    """Borrar todos los informes de un usuario."""
+    if not username:
+        return {"deleted": 0}
+    conn = _get_informes_db()
+    try:
+        cursor = conn.execute("DELETE FROM informes WHERE username = ?", (username,))
+        conn.commit()
+        logger.info(f"Informes clear-user {username}: deleted {cursor.rowcount}")
+        return {"deleted": cursor.rowcount}
+    finally:
+        conn.close()
+
+
+@app.delete("/api/informes/delete")
+async def informe_delete(username: str = "", id: str = ""):
+    """Borrar un informe específico de un usuario."""
+    if not username or not id:
+        return {"deleted": 0}
+    conn = _get_informes_db()
+    try:
+        cursor = conn.execute("DELETE FROM informes WHERE username = ? AND id = ?", (username, id))
+        conn.commit()
+        return {"deleted": cursor.rowcount}
+    finally:
+        conn.close()
+
+
+# ===== Chat: per-user clear =====
+
+@app.delete("/api/chat/clear-user")
+async def chat_clear_user(username: str = ""):
+    """Borrar todos los chats de un usuario (no borra los de otros usuarios)."""
+    if not username:
+        return {"deleted": 0}
+    conn = _get_chat_db()
+    try:
+        cursor = conn.execute("DELETE FROM chat_messages WHERE username = ?", (username,))
+        conn.commit()
+        logger.info(f"Chat clear-user {username}: deleted {cursor.rowcount} messages")
+        return {"deleted": cursor.rowcount}
+    finally:
+        conn.close()
+
+
 # ===== Response parser =====
 def parse_llm_response(raw: str) -> dict:
     """Parse LLM response into structured format.

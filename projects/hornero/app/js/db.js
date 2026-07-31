@@ -122,21 +122,18 @@ function initDB() {
 // ===== One-time cleanup: clear chatHistory + informes (local + backend) =====
 // Runs only once (flag in localStorage), then auto-removes itself
 // Bumping version triggers re-run for all users on next load
+// v11: per-user cleanup (no nuclear clear-all), borra solo datos del usuario actual
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v10') return Promise.resolve(false);
-  console.log('DB: one-time cleanup — clearing chatHistory + informes (local + backend)');
-  return dbClearStore('chatHistory').then(function() {
-    return dbClearStore('informes');
+  if (localStorage.getItem('hornero-chats-cleared') === 'v11') return Promise.resolve(false);
+  console.log('DB: one-time cleanup — clearing chatHistory + informes for current user (local + backend)');
+  var session = {};
+  try { session = JSON.parse(localStorage.getItem('hornero-session') || '{}'); } catch(e) {}
+  var username = session.username || '';
+  return borrarChatsUsuario(username).then(function() {
+    return borrarInformesUsuario(username);
   }).then(function() {
-    // Also clear backend chat history (fire-and-forget)
-    var baseUrl = _getChatSyncBaseUrl();
-    fetch(baseUrl + '/api/chat/clear-all', { method: 'DELETE' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) { console.log('DB: backend chat cleared', data); })
-      .catch(function(e) { console.warn('DB: backend clear failed', e); });
-  }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v10');
-    console.log('DB: cleanup complete — chatHistory + informes cleared (local + backend)');
+    localStorage.setItem('hornero-chats-cleared', 'v11');
+    console.log('DB: cleanup complete — chatHistory + informes cleared for user', username, '(local + backend)');
     return true;
   }).catch(function(e) {
     console.warn('DB: cleanup failed', e);
@@ -243,7 +240,13 @@ function obtenerFuentePrimaria(id) { return dbGet('fuentesPrimarias', id); }
 function obtenerFuentesPorCarga(cargaId) { return dbGetByIndex('fuentesPrimarias', 'cargaId', cargaId); }
 
 // Informes (grades 1-4)
-function guardarInforme(informe) { return dbPut('informes', informe); }
+function guardarInforme(informe) {
+  if (!informe.timestamp) informe.timestamp = Date.now();
+  return dbPut('informes', informe).then(function(result) {
+    _syncInformeToBackend(informe); // Push to backend (fire-and-forget)
+    return result;
+  });
+}
 function obtenerInforme(id) { return dbGet('informes', id); }
 function obtenerInformesPorGrado(grado) { return dbGetByIndex('informes', 'grado', grado); }
 function obtenerInformesPorEstado(estado, username) {
@@ -261,7 +264,11 @@ function obtenerInformesPorTerritorio(territorio) { return dbGetByIndex('informe
 // B.b (delegado): G1 from workers in same territory + empresa (pendiente + visto, flexible matching)
 // B.c (secretario): G2 from delegates in same territory (all empresas, pendiente + visto)
 // B.d (federación): G3 from all territories (pendiente + visto)
+// Sync: pull remote incoming informes first, then apply local filter
 function obtenerInformesEntrantes(userGrade, territorio, empresa) {
+  // Pull remote incoming informes from backend first
+  var pullPromise = _fetchAndMergeRemoteIncomingInformes(userGrade, territorio, empresa);
+  return pullPromise.then(function() {
   return dbGetAll('informes').then(function(all) {
     if (!all || all.length === 0) return [];
     // Helper: normalize territorio for flexible comparison (handle key vs display formats)
@@ -329,6 +336,7 @@ function obtenerInformesEntrantes(userGrade, territorio, empresa) {
     // B.a (base) — no incoming informes
     return [];
   });
+  }); // cierra pullPromise.then
 }
 
 // Informes: check if delegate has unrevised G1s (for G2 eligibility)
@@ -359,13 +367,17 @@ function tieneG1Pendientes(username, territorio, empresa) {
 }
 
 // Informes: load all for a user (all estados), sorted by date desc
+// Sync: pull remote informes first, then return local
 function obtenerInformesTodos(username) {
-  if (username) {
-    return dbGetByIndex('informes', 'username', username).then(function(informes) {
-      return (informes || []).sort(function(a, b) { return (b.fecha || '').localeCompare(a.fecha || ''); });
-    });
-  }
-  return dbGetAll('informes');
+  var pullPromise = username ? _fetchAndMergeRemoteInformes(username) : Promise.resolve();
+  return pullPromise.then(function() {
+    if (username) {
+      return dbGetByIndex('informes', 'username', username).then(function(informes) {
+        return (informes || []).sort(function(a, b) { return (b.fecha || '').localeCompare(a.fecha || ''); });
+      });
+    }
+    return dbGetAll('informes');
+  });
 }
 
 // Informes: get next number for a user (count existing + 1)
@@ -380,7 +392,14 @@ function obtenerInformeNumero(username) {
 
 function actualizarEstadoInforme(id, estado) {
   return dbGet('informes', id).then(function(informe) {
-    if (informe) { informe.estado = estado; return dbPut('informes', informe); }
+    if (informe) {
+      informe.estado = estado;
+      informe.timestamp = Date.now(); // Update timestamp for merge
+      return dbPut('informes', informe).then(function(result) {
+        _syncInformeToBackend(informe); // Push estado change to backend
+        return result;
+      });
+    }
     return null;
   });
 }
@@ -551,7 +570,119 @@ function borrarChatMsg(msgId) {
 }
 
 
-// ===== Chat History Sync (Backend) =====
+// ===== Informes Sync (Backend) =====
+// Sincroniza informes entre dispositivos via backend SQLite.
+// Estrategia: local-first → push on save, pull on load, merge por id.
+
+// Push: enviar un informe al backend (fire-and-forget)
+function _syncInformeToBackend(informe) {
+  if (!informe || !informe.id || !informe.username) return;
+  var baseUrl = _getChatSyncBaseUrl();
+  fetch(baseUrl + '/api/informes/sync', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: informe.username, informes: [informe] })
+  }).catch(function(e) {
+    console.warn('Informe sync push failed:', e);
+  });
+}
+
+// Pull: obtener informes del backend y mergear con local
+function _fetchAndMergeRemoteInformes(username) {
+  if (!username) return Promise.resolve();
+  var baseUrl = _getChatSyncBaseUrl();
+  var controller = new AbortController();
+  var timeout = setTimeout(function() { controller.abort(); }, 5000);
+  return fetch(baseUrl + '/api/informes/all?username=' + encodeURIComponent(username), { signal: controller.signal })
+    .then(function(r) { clearTimeout(timeout); return r.ok ? r.json() : []; })
+    .then(function(remoteInformes) {
+      if (!remoteInformes || !Array.isArray(remoteInformes) || remoteInformes.length === 0) return;
+      return _mergeRemoteInformes(remoteInformes);
+    })
+    .catch(function(e) {
+      clearTimeout(timeout);
+      console.warn('Informe sync pull failed:', e);
+    });
+}
+
+// Pull: obtener informes entrantes del backend (cross-user visibility)
+function _fetchAndMergeRemoteIncomingInformes(userGrade, territorio, empresa) {
+  if (!userGrade || userGrade === 'B.a') return Promise.resolve();
+  var baseUrl = _getChatSyncBaseUrl();
+  var controller = new AbortController();
+  var timeout = setTimeout(function() { controller.abort(); }, 5000);
+  var params = 'grade=' + encodeURIComponent(userGrade) +
+               '&territorio=' + encodeURIComponent(territorio || '') +
+               '&empresa=' + encodeURIComponent(empresa || '');
+  return fetch(baseUrl + '/api/informes/incoming?' + params, { signal: controller.signal })
+    .then(function(r) { clearTimeout(timeout); return r.ok ? r.json() : []; })
+    .then(function(remoteInformes) {
+      if (!remoteInformes || !Array.isArray(remoteInformes) || remoteInformes.length === 0) return;
+      return _mergeRemoteInformes(remoteInformes);
+    })
+    .catch(function(e) {
+      clearTimeout(timeout);
+      console.warn('Informe incoming sync pull failed:', e);
+    });
+}
+
+// Merge: upsert informes remotos en IDB local (solo si no existen o son más nuevos)
+function _mergeRemoteInformes(remoteInformes) {
+  if (!remoteInformes || remoteInformes.length === 0) return Promise.resolve();
+  var promises = remoteInformes.map(function(inf) {
+    return dbGet('informes', inf.id).then(function(existing) {
+      if (!existing) {
+        return dbPut('informes', inf);
+      } else if ((inf.timestamp || 0) > (existing.timestamp || 0)) {
+        return dbPut('informes', inf);
+      }
+    });
+  });
+  return Promise.all(promises);
+}
+
+// Delete: borrar informe del backend
+function _deleteInformeFromBackend(username, informeId) {
+  if (!username || !informeId) return;
+  var baseUrl = _getChatSyncBaseUrl();
+  fetch(baseUrl + '/api/informes/delete?username=' + encodeURIComponent(username) +
+        '&id=' + encodeURIComponent(informeId), {
+    method: 'DELETE'
+  }).catch(function(e) {
+    console.warn('Informe sync delete failed:', e);
+  });
+}
+
+
+// ===== Borrado per-user (chats + informes) =====
+
+function borrarChatsUsuario(username) {
+  if (!username) return Promise.resolve(0);
+  // 1. Borrar del backend (per-user, no nuclear)
+  var baseUrl = _getChatSyncBaseUrl();
+  fetch(baseUrl + '/api/chat/clear-user?username=' + encodeURIComponent(username), { method: 'DELETE' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) { console.log('DB: backend chats cleared for user', username, data); })
+    .catch(function(e) { console.warn('DB: backend chat clear failed', e); });
+  // 2. Borrar local: obtener todos los mensajes del usuario y eliminar
+  return dbGetByIndex('chatHistory', 'username', username).then(function(messages) {
+    return Promise.all((messages || []).map(function(m) { return dbDelete('chatHistory', m.id); }));
+  });
+}
+
+function borrarInformesUsuario(username) {
+  if (!username) return Promise.resolve(0);
+  // 1. Borrar del backend (per-user)
+  var baseUrl = _getChatSyncBaseUrl();
+  fetch(baseUrl + '/api/informes/clear-user?username=' + encodeURIComponent(username), { method: 'DELETE' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) { console.log('DB: backend informes cleared for user', username, data); })
+    .catch(function(e) { console.warn('DB: backend informes clear failed', e); });
+  // 2. Borrar local: obtener todos los informes del usuario y eliminar
+  return dbGetByIndex('informes', 'username', username).then(function(informes) {
+    return Promise.all((informes || []).map(function(inf) { return dbDelete('informes', inf.id); }));
+  });
+}
 // Sincroniza historial de chat entre dispositivos via backend SQLite.
 // Estrategia: local-first → push on save, pull on load, merge por id.
 
@@ -562,6 +693,10 @@ function _getChatSyncBaseUrl() {
   }
   return 'https://hornero-ia.onrender.com';
 }
+
+// ===== Chat History Sync (Backend) =====
+// Sincroniza historial de chat entre dispositivos via backend SQLite.
+// Estrategia: local-first → push on save, pull on load, merge por id.
 
 // Push: enviar un mensaje al backend (fire-and-forget, no bloquea)
 function _syncMsgToBackend(msg) {
