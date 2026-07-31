@@ -384,12 +384,12 @@ class HorneroFormacion extends HoComponent {
     const efe = this._getEfemerideSemana();
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
-    // First message: efeméride — shown with progressive reveal (typing effect)
+    // First message: efeméride — con link e invitación a ingresar
     let efeText = '';
     if (efe) {
-      efeText = `${efe.emoji} Esta semana se conmemora el **${efe.title}** (${efe.fecha}/${efe.year}).\n\n${efe.narrative}`;
+      efeText = `${efe.emoji} Esta semana se conmemora el **${efe.title}** (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\nPodés leer más sobre esta efeméride en el sitio:\n↗ https://historiaobrera.com.ar/\n\n¿Te interesa? Contame y seguimos profundizando.`;
     } else {
-      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.';
+      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nEncontrá todo en ↗ https://historiaobrera.com.ar/';
     }
 
     this.messages = [{
@@ -400,17 +400,17 @@ class HorneroFormacion extends HoComponent {
       time: this._timeNow(),
     }];
 
-    // Second message: "¿Querés saber más?" — appears after a delay
+    // Second message: "¿Querés saber más?" — aparece con más distancia (4s)
     setTimeout(() => {
       this.messages = [...this.messages, {
         role: 'hornero',
-        text: '¿Querés saber más? Podemos explorar juntos:\n\n• 🔥 **Efemérides** — Las fechas clave del movimiento obrero argentino\n• 📝 **Mitín** — Ensayos y relatos sobre historia obrera\n• 📚 **Colección** — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n• 🎬 **Retazos** — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras.',
+        text: '¿Querés saber más? Estos son los contenidos que podemos explorar:\n\n• 🔥 **Efemérides** — Las fechas clave del movimiento obrero argentino\n↗ https://historiaobrera.com.ar/\n\n• 📝 **Mitín** — Ensayos y relatos sobre historia obrera\n↗ https://historiaobrera.com.ar/mitin/\n\n• 📚 **Colección** — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n↗ https://historiaobrera.com.ar/coleccion-la-argentina-peronista/\n\n• 🎬 **Retazos** — Docuficción, podcast, ilustraciones, música\n↗ https://historiaobrera.com.ar/retazos-de-historia-obrera/\n\nPreguntame lo que quieras sobre cualquier tema.',
         tags: ['historia', 'greeting', 'menu'],
         persona: 'historiador',
         time: this._timeNow(),
       }];
       this.render();
-    }, 2800);
+    }, 4000);
 
     this.render();
   }
