@@ -1814,6 +1814,11 @@ class HorneroChat extends HoComponent {
   }
 
   _afterRender() {
+    // === Mark drawers as stable after first render (prevent slideIn replay) ===
+    if (this._showHistory) this._historyDrawerStable = true;
+    if (this._showInformes) this._informesDrawerStable = true;
+    if (this._showRecibidos) this._recibidosDrawerStable = true;
+
     const inputField = this.shadowRoot.querySelector('.chat-input-field');
     const micBtn = this.shadowRoot.querySelector('.chat-mic-btn');
     const sendBtn = this.shadowRoot.querySelector('.chat-send-btn');
@@ -2719,12 +2724,14 @@ ${msgs.map(m => {
         this._historySessions = [];
       }
     } catch(e) { console.warn('Chat: history sessions load failed', e); this._historySessions = []; }
+    this._historyDrawerStable = false; // animate on open
     this._showHistory = true;
     this.render();
   }
 
   _closeHistoryDrawer() {
     this._showHistory = false;
+    this._historyDrawerStable = false; // reset for next open
     this.render();
     // Emit event so parent re-syncs messages (without triggering another chat render)
     this.emit('chat-state-changed', {});
@@ -2760,12 +2767,14 @@ ${msgs.map(m => {
     } catch(e) { console.warn('Chat: informes load failed', e); this._informesList = []; this._informesEntrantes = []; }
     // Clear badge when user opens the drawer
     this.informeBadge = false;
+    this._informesDrawerStable = false; // animate on open
     this._showInformes = true;
     this.render();
   }
 
   _closeInformesDrawer() {
     this._showInformes = false;
+    this._informesDrawerStable = false; // reset for next open
     this.render();
     // Emit event so parent re-syncs messages (without triggering another chat render)
     this.emit('chat-state-changed', {});
@@ -2795,12 +2804,14 @@ ${msgs.map(m => {
       }
     } catch(e) { console.warn('Chat: recibidos load failed', e); this._informesEntrantes = []; }
     this._recibidosBadge = false;
+    this._recibidosDrawerStable = false; // animate on open
     this._showRecibidos = true;
     this.render();
   }
 
   _closeRecibidosDrawer() {
     this._showRecibidos = false;
+    this._recibidosDrawerStable = false; // reset for next open
     this.render();
     this.emit('chat-state-changed', {});
     setTimeout(() => {
