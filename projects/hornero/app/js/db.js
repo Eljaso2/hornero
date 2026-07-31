@@ -569,23 +569,26 @@ function _syncMsgToBackend(msg) {
 function _fetchAndMergeRemoteSessions(username) {
   if (!username) return Promise.resolve();
   var baseUrl = _getChatSyncBaseUrl();
-  return fetch(baseUrl + '/api/chat/sessions?username=' + encodeURIComponent(username))
-    .then(function(r) { return r.ok ? r.json() : []; })
+  var controller = new AbortController();
+  var timeout = setTimeout(function() { controller.abort(); }, 5000); // 5s timeout
+  return fetch(baseUrl + '/api/chat/sessions?username=' + encodeURIComponent(username), { signal: controller.signal })
+    .then(function(r) { clearTimeout(timeout); return r.ok ? r.json() : []; })
     .then(function(remoteSessions) {
-      if (!remoteSessions || remoteSessions.length === 0) return;
+      if (!remoteSessions || !Array.isArray(remoteSessions) || remoteSessions.length === 0) return;
       // Para cada sesión remota, fetch mensajes y mergear en IDB
       var promises = remoteSessions.map(function(s) {
         return fetch(baseUrl + '/api/chat/messages?username=' + encodeURIComponent(username) +
                      '&sessionId=' + encodeURIComponent(s.sessionId))
           .then(function(r) { return r.ok ? r.json() : []; })
           .then(function(remoteMsgs) {
-            if (!remoteMsgs || remoteMsgs.length === 0) return;
+            if (!remoteMsgs || !Array.isArray(remoteMsgs) || remoteMsgs.length === 0) return;
             return _mergeRemoteMessages(remoteMsgs);
           });
       });
       return Promise.all(promises);
     })
     .catch(function(e) {
+      clearTimeout(timeout);
       console.warn('Chat sync pull failed:', e);
     });
 }
