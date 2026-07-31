@@ -534,7 +534,12 @@ class HorneroApp extends HoComponent {
         font-weight: 700; color: var(--ho-text, #E8E6E0); line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .informes-item-meta { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
-        color: var(--ho-text-light, #7A766C); display: flex; gap: 8px; }
+        color: var(--ho-text-light, #7A766C); display: flex; gap: 8px; align-items: center; }
+      .informes-item-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-light, #9C988D); letter-spacing: .06em;
+        background: var(--ho-mid-gray, #ECEAE3); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      .informes-item-grado { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: #D4E4F7; color: #2B5278; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .informes-item-estado { background: var(--ho-green-pale, #E0F0EB);
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #3D6B56); }
@@ -543,6 +548,22 @@ class HorneroApp extends HoComponent {
       .informes-item-estado.estado-visto { background: #D7E8F3; color: #2C5A8A; }
       .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
+      .informes-item-footer { display: flex; align-items: center;
+        justify-content: space-between; margin-top: 4px; }
+      .informes-item-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-light, #9C988D); }
+      .informes-item-actions { display: flex; gap: 4px; }
+      .informes-action-btn { width: 28px; height: 28px; border-radius: 8px;
+        background: none; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s; }
+      .informes-action-btn svg { width: 14px; height: 14px;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .informes-action-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .informes-action-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .informes-action-btn:disabled { opacity: .3; pointer-events: none; }
       .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
       .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
@@ -996,10 +1017,57 @@ class HorneroApp extends HoComponent {
     });
     // Bind expandable informe items (click to show/hide content)
     this.shadowRoot.querySelectorAll('[data-expand-informe]').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        // Don't expand if action button was clicked
+        if (e.target.closest('.informes-action-btn')) return;
         const contentEl = item.querySelector('.informes-expand-content');
         if (contentEl) {
           contentEl.style.display = contentEl.style.display === 'none' ? 'block' : 'none';
+        }
+      });
+    });
+    // Bind action buttons in Mis Reportes items (download, reenviar, corregir)
+    this.shadowRoot.querySelectorAll('.informes-action-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = btn.dataset.action;
+        const infId = btn.dataset.informeId;
+        if (!action || !infId) return;
+        if (action === 'download') {
+          if (typeof obtenerInforme === 'function') {
+            obtenerInforme(infId).then(inf => {
+              if (inf) {
+                const msgs = [{
+                  role: 'hornero', text: inf.contenido || '',
+                  sections: inf.sections || [],
+                  tags: (inf.etiquetas && inf.etiquetas.temas) ? inf.etiquetas.temas : [],
+                  time: '',
+                }];
+                const title = inf.sections && inf.sections.length > 0
+                  ? inf.sections[0].title || 'Informe Gremial' : 'Informe Gremial';
+                // Use _downloadTxt from hornero-chat if available
+                const chatEl = this.shadowRoot.querySelector('hornero-gremial');
+                if (chatEl && chatEl.shadowRoot) {
+                  const chat = chatEl.shadowRoot.querySelector('hornero-chat');
+                  if (chat && typeof chat._downloadTxt === 'function') {
+                    chat._downloadTxt(msgs, title, 'informe-' + (inf.fecha || 'gremial'));
+                  }
+                }
+              }
+            }).catch(err => console.warn('App: download informe failed', err));
+          }
+        } else if (action === 'reenviar' || action === 'corregir') {
+          if (btn.disabled) return;
+          // Navigate to gremial screen and open the informe for editing
+          this._initialPersona = 'companero';
+          this._navigateTo('gremial');
+          // After navigation, trigger edit
+          setTimeout(() => {
+            const comp = this.shadowRoot.querySelector('hornero-gremial');
+            if (comp && typeof comp._handleInformeEdit === 'function') {
+              comp._handleInformeEdit(infId);
+            }
+          }, 500);
         }
       });
     });
@@ -1472,7 +1540,9 @@ class HorneroApp extends HoComponent {
       const displayEstado = inf.estado || 'pendiente';
       const estadoClass = estadoClassMap[displayEstado] || '';
       const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
-      const gradoBadge = inf.grado ? '<span class="informes-item-tag" style="background:#D4E4F7;color:#2B5278">G' + inf.grado + '</span>' : '';
+      const gradoBadge = inf.grado ? '<span class="informes-item-grado">G' + inf.grado + '</span>' : '';
+      const canEdit = displayEstado === 'pendiente' || displayEstado === 'aceptado';
+      const corregirDisabled = canEdit ? '' : ' disabled';
       let contentHtml = '';
       if (inf.sections && inf.sections.length > 0) {
         contentHtml = inf.sections.map((s, i) => {
@@ -1488,10 +1558,23 @@ class HorneroApp extends HoComponent {
       return '<div class="informes-item" data-expand-informe="' + inf.id + '">' +
         '<div class="informes-item-title">' + (titleText || 'Informe gremial') + '</div>' +
         '<div class="informes-item-meta">' +
-          '<span>' + dateStr + '</span>' +
-          (inf.username ? '<span class="history-item-user">@' + inf.username + '</span>' : '') +
+          (inf.username ? '<span class="informes-item-user">@' + inf.username + '</span>' : '') +
           gradoBadge +
           '<span class="informes-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
+        '</div>' +
+        '<div class="informes-item-footer">' +
+          '<span class="informes-item-date">' + dateStr + '</span>' +
+          '<div class="informes-item-actions">' +
+            '<button class="informes-action-btn" data-action="download" data-informe-id="' + inf.id + '" title="Descargar">' +
+              '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+            '</button>' +
+            '<button class="informes-action-btn" data-action="reenviar" data-informe-id="' + inf.id + '" title="Reenviar">' +
+              '<svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>' +
+            '</button>' +
+            '<button class="informes-action-btn" data-action="corregir" data-informe-id="' + inf.id + '" title="Corregir"' + corregirDisabled + '>' +
+              '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
+            '</button>' +
+          '</div>' +
         '</div>' +
         '<div class="informes-expand-content" style="display:none">' + contentHtml + '</div>' +
       '</div>';
