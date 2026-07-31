@@ -301,7 +301,7 @@ class HorneroFormacion extends HoComponent {
       <div class="chat-container">
         <hornero-chat
           title="Historiadora"
-          input-placeholder="Qué pensás"
+          input-placeholder="..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           section="historia"
@@ -310,7 +310,8 @@ class HorneroFormacion extends HoComponent {
           grade="${this.grade}"
           hide-persona-bar
           hide-informes-btn
-          center-logo="assets/Historia-Obrera_marca-.png"
+          center-logo="${this._bannerVisible ? '' : 'assets/Historia-Obrera_marca-.png'}"
+          no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
     `;
