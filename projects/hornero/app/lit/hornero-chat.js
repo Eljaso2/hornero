@@ -33,7 +33,7 @@ class HorneroChat extends HoComponent {
     super();
     this.title = 'Chat';
     this.messages = [];
-    this.inputPlaceholder = 'Escribí tu consulta...';
+    this.inputPlaceholder = '...';
     this.typing = false;
     this.progress = 0;
     this.suggestions = [];

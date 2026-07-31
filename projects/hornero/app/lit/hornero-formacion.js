@@ -301,7 +301,7 @@ class HorneroFormacion extends HoComponent {
       <div class="chat-container">
         <hornero-chat
           title="Historiadora"
-          input-placeholder="Preguntá sobre huelgas, referentes, masacres, lockouts..."
+          input-placeholder="..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           section="historia"

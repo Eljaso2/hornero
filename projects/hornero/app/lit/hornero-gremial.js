@@ -185,7 +185,7 @@ class HorneroGremial extends HoComponent {
       <div class="chat-container">
         <hornero-chat
           title="Reporte Gremial"
-          input-placeholder="Contá tu situación, lo que viste, lo que te pasó..."
+          input-placeholder="..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           section="reporte"
