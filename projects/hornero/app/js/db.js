@@ -460,11 +460,16 @@ function obtenerChatSessions(username) {
         sessionsMap[m.sessionId] = {
           sessionId: m.sessionId,
           section: m.section,
+          persona: m.persona || '',
           timestamp: m.timestamp,
           preview: '',
           messageCount: 0,
           username: m.username || ''
         };
+      }
+      // Capture persona from first message that has it (covers legacy sessions)
+      if (m.persona && !sessionsMap[m.sessionId].persona) {
+        sessionsMap[m.sessionId].persona = m.persona;
       }
       sessionsMap[m.sessionId].messageCount++;
       // Track first user message as preview/title (use m.title if generated)

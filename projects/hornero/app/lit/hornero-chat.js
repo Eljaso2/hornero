@@ -537,6 +537,9 @@ class HorneroChat extends HoComponent {
       .history-item.active { background: var(--ho-green-pale, #E0F0EB); }
 
       .history-item-section { display: flex; align-items: center; gap: 5px; }
+      .history-item-section-icon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
+      .history-item-persona-img { width: 100%; height: 100%; object-fit: cover; }
+      .history-item-persona-img.periodista-full { object-fit: contain; }
       .history-item-section-emoji { font-size: .82rem; line-height: 1; }
       .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
@@ -1186,15 +1189,15 @@ class HorneroChat extends HoComponent {
         <button class="chat-attach-remove" title="Quitar adjunto">✕</button>
       </div>` : '';
 
-    // History drawer — section icons mapping (matches _getPersonaConfig emojis)
+    // History drawer — section icons mapping (matches _getPersonaConfig)
     const sectionConfig = {
-      consulta:  { emoji: '📖', label: 'Consulta',  color: '#2B5278' },
-      contenido: { emoji: '🎙️', label: 'Contenido', color: '#5A4A3A' },
-      debate:    { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E' },
-      reporte:   { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E' },
-      historia:  { emoji: '📜', label: 'Historia',   color: '#4A3A5A' },
+      consulta:  { emoji: '📖', label: 'Consulta',  color: '#2B5278', persona: 'abogado' },
+      contenido: { emoji: '🎙️', label: 'Contenido', color: '#5A4A3A', persona: 'periodista' },
+      debate:    { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero' },
+      reporte:   { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero' },
+      historia:  { emoji: '📜', label: 'Historia',   color: '#4A3A5A', persona: 'historiador' },
     };
-    const defaultSection = { emoji: '✊', label: 'Hornero', color: '#7A3B1E' };
+    const defaultSection = { emoji: '✊', label: 'Hornero', color: '#7A3B1E', persona: 'abogado' };
 
     const historyDrawerHtml = this._showHistory ?
       `<div class="history-overlay">
@@ -1220,9 +1223,15 @@ class HorneroChat extends HoComponent {
                 const isActive = s.sessionId === this.sessionId;
                 const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
                 const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
+                // Use persona from session data (if available), fallback to sectionConfig
+                const personaKey = s.persona || sec.persona;
+                const personaCfg = this._getPersonaConfig(personaKey);
+                const iconInner = personaCfg.img
+                  ? `<img src="${personaCfg.img}" alt="${sec.label}" class="history-item-persona-img${personaKey === 'periodista' ? ' periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
+                  : `<span class="history-item-section-emoji">${sec.emoji}</span>`;
                 return `<div class="history-item${isActive ? ' active' : ''}" data-session-id="${s.sessionId}">
                   <div class="history-item-section ${sectionClass}">
-                    <span class="history-item-section-emoji">${sec.emoji}</span>
+                    <span class="history-item-section-icon">${iconInner}</span>
                     <span class="history-item-section-label">${sec.label}</span>
                   </div>
                   <div class="history-item-preview">${s.preview || 'Nuevo chat'}</div>

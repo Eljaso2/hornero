@@ -449,6 +449,9 @@ class HorneroApp extends HoComponent {
         transition: background .2s; }
       .history-item:hover { background: var(--ho-green-pale, #E0F0EB); }
       .history-item-section { display: flex; align-items: center; gap: 5px; }
+      .history-item-section-icon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
+      .history-item-persona-img { width: 100%; height: 100%; object-fit: cover; }
+      .history-item-persona-img.periodista-full { object-fit: contain; }
       .history-item-section-emoji { font-size: .82rem; line-height: 1; }
       .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
@@ -1106,13 +1109,13 @@ class HorneroApp extends HoComponent {
     const backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const backBtn = '<button class="list-screen-back" id="listBackBtn">' + backSvg + '</button>';
     const sectionConfig = {
-      consulta:  { emoji: '♣', label: 'Consulta',  color: '#2B5278' },
-      contenido: { emoji: '♪', label: 'Contenido', color: '#5A4A3A' },
-      debate:    { emoji: '♠', label: 'Compañero/a', color: '#7A3B1E' },
-      reporte:   { emoji: '♠', label: 'Compañero/a', color: '#7A3B1E' },
-      historia:  { emoji: '♤', label: 'Historia',   color: '#4A3A5A' },
+      consulta:  { emoji: '♣', label: 'Consulta',  color: '#2B5278', persona: 'abogado', img: 'assets/personajes/a03.png' },
+      contenido: { emoji: '♪', label: 'Contenido', color: '#5A4A3A', persona: 'periodista', img: 'assets/personajes/a04.png' },
+      debate:    { emoji: '♠', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero', img: 'assets/personajes/a02.png' },
+      reporte:   { emoji: '♠', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero', img: 'assets/personajes/a02.png' },
+      historia:  { emoji: '♤', label: 'Historia',   color: '#4A3A5A', persona: 'historiador', img: 'assets/personajes/a01.png' },
     };
-    const defaultSection = { emoji: '♠', label: 'Hornero', color: '#7A3B1E' };
+    const defaultSection = { emoji: '♠', label: 'Hornero', color: '#7A3B1E', persona: 'abogado', img: 'assets/personajes/a03.png' };
     if (list.length === 0) {
       return '<div class="list-screen">' +
         '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Conversaciones</div></div>' +
@@ -1125,10 +1128,15 @@ class HorneroApp extends HoComponent {
       const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
       const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
       const navScreen = s.section === 'reporte' ? 'gremial' : s.section === 'contenido' ? 'contenido' : s.section === 'historia' ? 'historiador' : 'consulta';
-      const navPersona = s.section === 'reporte' ? 'companero' : s.section === 'historia' ? 'historiador' : s.section === 'contenido' ? 'periodista' : s.section === 'debate' ? 'companero' : 'abogado';
+      const personaKey = s.persona || sec.persona;
+      const navPersona = personaKey === 'companero' ? 'companero' : personaKey === 'historiador' ? 'historiador' : personaKey === 'periodista' ? 'periodista' : 'abogado';
+      const imgSrc = sec.img;
+      const iconInner = imgSrc
+        ? '<img src="' + imgSrc + '" alt="' + sec.label + '" class="history-item-persona-img' + (personaKey === 'periodista' ? ' periodista-full' : '') + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'"><span class="history-item-section-emoji" style="display:none">' + sec.emoji + '</span>'
+        : '<span class="history-item-section-emoji">' + sec.emoji + '</span>';
       return '<div class="history-item" data-navigate-screen="' + navScreen + '" data-navigate-persona="' + navPersona + '" data-navigate-session="' + s.sessionId + '">' +
         '<div class="history-item-section ' + sectionClass + '">' +
-          '<span class="history-item-section-emoji">' + sec.emoji + '</span>' +
+          '<span class="history-item-section-icon">' + iconInner + '</span>' +
           '<span class="history-item-section-label">' + sec.label + '</span>' +
         '</div>' +
         '<div class="history-item-preview">' + (s.preview || 'Nuevo chat') + '</div>' +
