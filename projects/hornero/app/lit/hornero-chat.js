@@ -698,16 +698,14 @@ class HorneroChat extends HoComponent {
       .reporte-btn-delete svg { stroke-width: 1.8; }
       .reporte-btn-corregir { border: 1.5px solid #B0863F; color: #B0863F; }
       .reporte-btn-corregir:hover { background: #F0E4CC; }
-      .reporte-btn-aprobar { width: 100%; padding: 12px 20px;
-        border-radius: 12px; border: none; cursor: pointer;
-        background: var(--ho-green, #4E9978); color: #fff;
-        font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .88rem; display: flex; align-items: center;
-        justify-content: center; gap: 6px;
-        transition: background .2s, transform .15s; }
-      .reporte-btn-aprobar:hover { background: var(--ho-green-dark, #3D6B56);
-        transform: scale(1.02); }
-      .reporte-btn-aprobar:active { transform: scale(.98); }
+      .reporte-btn-aprobar { width: 100%; padding: 8px 14px;
+        border-radius: 8px; border: 1px solid var(--ho-green, #4E9978); cursor: pointer;
+        background: transparent; color: var(--ho-green, #4E9978);
+        font-family: 'Archivo', sans-serif; font-weight: 600;
+        font-size: .78rem; display: flex; align-items: center;
+        justify-content: center;
+        transition: background .2s; }
+      .reporte-btn-aprobar:hover { background: var(--ho-green-pale, #E0F0EB); }
       .reporte-card.estado-aceptado { border-color: rgba(43,42,38,.2);
         opacity: .85; }
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="aprobar"],
@@ -1772,15 +1770,10 @@ class HorneroChat extends HoComponent {
       const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" title="Borrar"><svg viewBox="0 0 24 24">${trashSvg}</svg></button>`;
       const promptText = isReporteAprobado
         ? '' // No prompt for already-approved reports
-        : '<div class="reporte-card-prompt">Revisá el informe. Si está todo bien, tocá el botón <strong>Aprobar</strong> para guardarlo en tu archivo.</div>';
+        : '<div class="reporte-card-prompt">Revisá el informe. Si está todo bien, tocá <strong>Aprobar</strong>.</div>';
       const actionsHtml = isReporteAprobado ?
-        `<div class="reporte-card-actions">${shareBtn}${deleteBtn}</div>` :
-        `<button class="reporte-btn-aprobar" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">✅ Aprobar</button>
-        <div class="reporte-card-actions">
-          <button class="reporte-btn reporte-btn-corregir" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Editar">✏️ Editar</button>
-          ${shareBtn}
-          ${deleteBtn}
-        </div>`;
+        '' :
+        `<button class="reporte-btn-aprobar" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">Aprobar</button>`;
 
       // Text before the card (like "Leelo con cuidado...")
       const textBefore = m.text ? `<div class="msg-text">${this._formatMarkdown(m.text)}</div>` : '';
@@ -1791,18 +1784,11 @@ class HorneroChat extends HoComponent {
           ${textBefore}
           ${promptText}
           <div class="reporte-card ${estadoClass}" data-report-key="${expandedKey}">
-            <div class="reporte-card-header" data-toggle-report="${expandedKey}">
+            <div class="reporte-card-header">
               <span class="reporte-card-icon">📄</span>
               <span class="reporte-card-title">${cardTitle}</span>
-              <button class="reporte-card-toggle">${isExpanded ? '▼ Cerrar' : '▶ Expandir'}</button>
             </div>
-            <div class="reporte-card-body${isExpanded ? ' expanded' : ''}">
-              ${isExpanded ? '' : `<div class="msg-fade"></div>`}
-              ${sectionsHtml}
-            </div>
-            ${tagsHtml}
             ${actionsHtml}
-            ${isModificado && m._correcciones ? this._renderHistorialCambios(m._correcciones) : ''}
           </div>
           ${timeHtml}
         </div>
