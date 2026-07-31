@@ -461,7 +461,7 @@ class HorneroFormacion extends HoComponent {
         }];
         chatEl.streamingText = '';
         chatEl._streamingPersona = '';
-        this._saveChatHistory();
+        // No guardar en historial aún — el chat se crea recién cuando el usuario envía su primer mensaje
         this.render();
         if (onComplete) onComplete();
         return;
