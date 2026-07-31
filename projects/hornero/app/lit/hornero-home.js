@@ -308,7 +308,7 @@ class HorneroHome extends HoComponent {
         color: #F2F1EC; }
       .panorama-overlay .card-name { font-family: 'Archivo', sans-serif;
         font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
-        text-transform: uppercase; color: #2D4F3F; }
+        text-transform: uppercase; color: #D8D6D0; }
       .panorama-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .panorama-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
@@ -327,7 +327,7 @@ class HorneroHome extends HoComponent {
         color: #F2F1EC; }
       .formacion-overlay .card-name { font-family: 'Archivo', sans-serif;
         font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
-        text-transform: uppercase; color: #2D4F3F; }
+        text-transform: uppercase; color: #D8D6D0; }
       .formacion-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .formacion-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
@@ -349,7 +349,7 @@ class HorneroHome extends HoComponent {
         color: #F2F1EC; }
       .archivo-overlay .card-name { font-family: 'Archivo', sans-serif;
         font-weight: 800; font-size: 1.12rem; letter-spacing: .02em;
-        text-transform: uppercase; color: #2D4F3F; }
+        text-transform: uppercase; color: #D8D6D0; }
       .archivo-overlay .card-desc { font-size: .78rem; color: rgba(242,241,236,.85);
         line-height: 1.4; margin-top: 3px; }
       .archivo-overlay .card-tag { font-family: 'JetBrains Mono', monospace;
@@ -357,10 +357,10 @@ class HorneroHome extends HoComponent {
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 5px; }
 
-      /* ===== Light mode: hero card titles = gris casi blanco ===== */
-      :host(.theme-light) .panorama-overlay .card-name { color: #D8D6D0; }
-      :host(.theme-light) .formacion-overlay .card-name { color: #D8D6D0; }
-      :host(.theme-light) .archivo-overlay .card-name { color: #D8D6D0; }
+      /* ===== Light mode: hero card titles = verde casi negro ===== */
+      :host(.theme-light) .panorama-overlay .card-name { color: #2D4F3F; }
+      :host(.theme-light) .formacion-overlay .card-name { color: #2D4F3F; }
+      :host(.theme-light) .archivo-overlay .card-name { color: #2D4F3F; }
 
       .esfera-card { background: var(--ho-card, #2A3230);
         border-radius: 13px; padding: 14px; margin-bottom: 10px;
