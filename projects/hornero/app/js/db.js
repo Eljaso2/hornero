@@ -121,21 +121,34 @@ function initDB() {
   });
 }
 
-// ===== One-time cleanup: clear chatHistory + informes (local + backend) =====
+// ===== One-time cleanup: clear chatHistory + informes + correcciones (local + backend) =====
 // Runs only once (flag in localStorage), then auto-removes itself
 // Bumping version triggers re-run for all users on next load
-// v12: per-user cleanup (no nuclear clear-all), borra solo datos del usuario actual
+// v13: nuclear clear-all — borra TODOS los datos de TODOS los usuarios
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v12') return Promise.resolve(false);
-  console.log('DB: one-time cleanup — clearing chatHistory + informes for current user (local + backend)');
-  var session = {};
-  try { session = JSON.parse(localStorage.getItem('hornero-session') || '{}'); } catch(e) {}
-  var username = session.username || '';
-  return borrarChatsUsuario(username).then(function() {
-    return borrarInformesUsuario(username);
+  if (localStorage.getItem('hornero-chats-cleared') === 'v13') return Promise.resolve(false);
+  console.log('DB: one-time cleanup — clearing chatHistory + informes + correcciones for ALL users (local + backend)');
+  return dbClearStore('chatHistory').then(function() {
+    return dbClearStore('informes');
   }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v12');
-    console.log('DB: cleanup complete — chatHistory + informes cleared for user', username, '(local + backend)');
+    return dbClearStore('correcciones');
+  }).then(function() {
+    var baseUrl = _getChatSyncBaseUrl();
+    fetch(baseUrl + '/api/chat/clear-all', { method: 'DELETE' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) { console.log('DB: backend chat cleared', data); })
+      .catch(function(e) { console.warn('DB: backend chat clear failed', e); });
+    fetch(baseUrl + '/api/informes/clear-all', { method: 'DELETE' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) { console.log('DB: backend informes cleared', data); })
+      .catch(function(e) { console.warn('DB: backend informes clear failed', e); });
+    fetch(baseUrl + '/api/correcciones/clear-all', { method: 'DELETE' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) { console.log('DB: backend correcciones cleared', data); })
+      .catch(function(e) { console.warn('DB: backend correcciones clear failed', e); });
+  }).then(function() {
+    localStorage.setItem('hornero-chats-cleared', 'v13');
+    console.log('DB: cleanup complete — chatHistory + informes + correcciones cleared (ALL users, local + backend)');
     return true;
   }).catch(function(e) {
     console.warn('DB: cleanup failed', e);

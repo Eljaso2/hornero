@@ -1411,6 +1411,20 @@ async def informes_clear_user(username: str = ""):
         conn.close()
 
 
+@app.delete("/api/informes/clear-all")
+async def informes_clear_all():
+    """Borrar TODOS los informes y correcciones de TODOS los usuarios. One-time cleanup."""
+    conn = _get_informes_db()
+    try:
+        inf_cursor = conn.execute("DELETE FROM informes")
+        cor_cursor = conn.execute("DELETE FROM correcciones")
+        conn.commit()
+        logger.info(f"Informes clear-all: deleted {inf_cursor.rowcount} informes, {cor_cursor.rowcount} correcciones")
+        return {"deleted_informes": inf_cursor.rowcount, "deleted_correcciones": cor_cursor.rowcount}
+    finally:
+        conn.close()
+
+
 @app.delete("/api/informes/delete")
 async def informe_delete(username: str = "", id: str = ""):
     """Borrar un informe específico de un usuario + sus correcciones."""
@@ -1500,6 +1514,19 @@ async def correcciones_get(informeId: str = ""):
             SELECT * FROM correcciones WHERE informeId = ? ORDER BY timestamp ASC
         """, (informeId,)).fetchall()
         return [_row_to_correccion(r) for r in rows]
+    finally:
+        conn.close()
+
+
+@app.delete("/api/correcciones/clear-all")
+async def correcciones_clear_all():
+    """Borrar TODAS las correcciones. One-time cleanup."""
+    conn = _get_informes_db()
+    try:
+        cursor = conn.execute("DELETE FROM correcciones")
+        conn.commit()
+        logger.info(f"Correcciones clear-all: deleted {cursor.rowcount}")
+        return {"deleted": cursor.rowcount}
     finally:
         conn.close()
 
