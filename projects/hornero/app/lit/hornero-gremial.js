@@ -617,8 +617,10 @@ class HorneroGremial extends HoComponent {
         this.messages = [...this.messages, { role: 'user', text: text, time: this._timeNow() }];
         this._saveChatHistory();
         this.render();
-        // Auto-approve the reporte
-        this._handleReporteAction({ action: 'aprobar' });
+        // Auto-approve the reporte — await to catch errors
+        this._handleReporteAction({ action: 'aprobar' }).catch(e => {
+          console.warn('Gremial: auto-approve failed', e);
+        });
         return;
       }
     }
@@ -677,7 +679,7 @@ class HorneroGremial extends HoComponent {
             time: this._timeNow(),
           }];
         } else {
-          this.messages = [...this.messages, this._localResponse(text)];
+          this._addWithProgressiveReveal(this._localResponse(text));
         }
         this._typing = false;
         this.render();
@@ -967,10 +969,25 @@ class HorneroGremial extends HoComponent {
         // Activate informe badge (icon turns green-pale)
         this._informeBadge = true;
 
+        // Verify the save actually worked — check if the informe exists in the DB
+        let verified = false;
+        try {
+          if (typeof obtenerInforme === 'function' && savedInformeId) {
+            const check = await obtenerInforme(savedInformeId);
+            verified = !!check;
+            console.log('Gremial: informe verification', savedInformeId, verified ? 'OK' : 'NOT FOUND');
+          }
+        } catch(e) {
+          console.warn('Gremial: informe verification failed', e);
+        }
+
         // Brief confirmation message — NOT the full reporte again
+        const confirmText = verified
+          ? `✅ Informe guardado. Lo tenés en **Mis Reportes**.`
+          : `✅ Informe guardado. Tocá **Mis Reportes** (📄 arriba a la derecha) para verlo.`;
         const confirmMsg = {
           role: 'hornero',
-          text: `✅ Informe guardado. Lo tenés en **Mis Reportes**.`,
+          text: confirmText,
           tags: ['reporte', 'informe-guardado'],
           open_informes: true, // Renders "Ver mis informes" button
           time: this._timeNow(),
@@ -978,6 +995,16 @@ class HorneroGremial extends HoComponent {
         this.messages = [...this.messages, confirmMsg];
         this._saveChatHistory();
         this.render();
+
+        // Force-refresh the informes drawer if it's open — ensures new informe appears
+        const chatEl = this.shadowRoot.querySelector('hornero-chat');
+        if (chatEl && chatEl._showInformes) {
+          try {
+            await chatEl._openInformesDrawer();
+          } catch(e) {
+            console.warn('Gremial: drawer refresh failed', e);
+          }
+        }
       }
     } else if (detail.action === 'corregir') {
       // Mark current draft as needing correction and prompt worker
@@ -1243,9 +1270,9 @@ class HorneroGremial extends HoComponent {
     this.render();
 
     this._callAudioBackend(audioBlob, fileName).catch(() => {
-      this.messages = [...this.messages, this._localResponse('audio reporte')];
-      this._typing = false;
       const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      this._addWithProgressiveReveal(this._localResponse('audio reporte'));
+      this._typing = false;
       if (chatEl) chatEl.resetAudioState();
       this.render();
     });
@@ -1289,6 +1316,36 @@ class HorneroGremial extends HoComponent {
     if (chatEl) chatEl.resetAudioState();
     this._saveChatHistory();
     this.render();
+  }
+
+  // Add a message with progressive reveal (typing effect)
+  _addWithProgressiveReveal(msg) {
+    if (!msg.text || msg.text.length <= 50) {
+      // Short text — add directly
+      this.messages = [...this.messages, msg];
+      this._typing = false;
+      this._saveChatHistory();
+      this.render();
+      return;
+    }
+    // Progressive reveal — get fresh chatEl reference
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    this._typing = false;
+    this._startProgressiveReveal(msg.text, chatEl, msg.persona || this.persona);
+    const revealDone = new Promise((resolve) => {
+      const check = setInterval(() => {
+        if (!this._progressiveRevealTimer) { clearInterval(check); resolve(); }
+      }, 50);
+    });
+    const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
+    Promise.race([revealDone, timeout]).then(() => {
+      this._stopProgressiveReveal();
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
+      this.messages = [...this.messages, msg];
+      this._saveChatHistory();
+      this.render();
+    });
   }
 
   _localResponse(userText) {

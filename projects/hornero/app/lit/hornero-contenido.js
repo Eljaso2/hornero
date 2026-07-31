@@ -290,7 +290,7 @@ class HorneroContenido extends HoComponent {
     this._callBackendStream(text).catch((err) => {
       console.warn('Stream failed, falling back to non-streaming:', err);
       this._callBackend(text).catch(() => {
-        this.messages = [...this.messages, this._localResponse(text)];
+        this._addWithProgressiveReveal(this._localResponse(text));
         this.iaStep++;
         this._typing = false; this._greetingRequested = false;
         this.render();
@@ -542,10 +542,10 @@ class HorneroContenido extends HoComponent {
     this.render();
 
     this._callAudioBackend(audioBlob, fileName).catch(() => {
-      this.messages = [...this.messages, this._localResponse('audio fallback')];
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      this._addWithProgressiveReveal(this._localResponse('audio fallback'));
       this.iaStep++;
       this._typing = false;
-      const chatEl = this.shadowRoot.querySelector('hornero-chat');
       if (chatEl) chatEl.resetAudioState();
       this.render();
     });
@@ -589,6 +589,36 @@ class HorneroContenido extends HoComponent {
     if (chatEl) chatEl.resetAudioState();
     this._saveChatHistory();
     this.render();
+  }
+
+  // Add a message with progressive reveal (typing effect)
+  _addWithProgressiveReveal(msg) {
+    if (!msg.text || msg.text.length <= 50) {
+      // Short text — add directly
+      this.messages = [...this.messages, msg];
+      this._typing = false;
+      this._saveChatHistory();
+      this.render();
+      return;
+    }
+    // Progressive reveal — get fresh chatEl reference
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    this._typing = false;
+    this._startProgressiveReveal(msg.text, chatEl, msg.persona || this.persona);
+    const revealDone = new Promise((resolve) => {
+      const check = setInterval(() => {
+        if (!this._progressiveRevealTimer) { clearInterval(check); resolve(); }
+      }, 50);
+    });
+    const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
+    Promise.race([revealDone, timeout]).then(() => {
+      this._stopProgressiveReveal();
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
+      this.messages = [...this.messages, msg];
+      this._saveChatHistory();
+      this.render();
+    });
   }
 
   _localResponse(userText) {
