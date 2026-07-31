@@ -170,7 +170,8 @@ class HorneroHome extends HoComponent {
 
       /* --- News carousel --- */
       .carousel-wrap { position: relative; margin-bottom: 16px;
-        margin-left: -16px; margin-right: -16px; overflow: hidden; }
+        margin-left: -16px; margin-right: -16px; overflow: hidden;
+        min-height: 260px; }
       /* Whisper of dark — almost imperceptible fusion with header closure */
       .carousel-wrap::before { content: ''; position: absolute;
         top: 0; left: 0; right: 0; height: 8px;
@@ -200,6 +201,26 @@ class HorneroHome extends HoComponent {
       .dot { width: 6px; height: 6px; border-radius: 50%;
         background: #9C988D; transition: background .2s; }
       .dot.active { background: var(--ho-green, #4E9978); }
+
+      /* --- Loading skeleton for carousel --- */
+      .carousel-skeleton { position: relative; min-height: 260px;
+        background: var(--ho-dark, #1E2321); margin-left: -16px; margin-right: -16px;
+        margin-bottom: 16px; overflow: hidden; }
+      .carousel-skeleton-inner { position: absolute; inset: 0;
+        display: flex; flex-direction: column; justify-content: flex-end;
+        padding: 14px; }
+      .skeleton-line { height: 14px; border-radius: 4px;
+        background: rgba(255,255,255,.06); margin-bottom: 8px; }
+      .skeleton-line.w60 { width: 60%; }
+      .skeleton-line.w40 { width: 40%; }
+      .skeleton-line.w80 { width: 80%; }
+      .skeleton-badge { position: absolute; top: 10px; right: 12px;
+        font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+        color: rgba(242,241,236,.85); background: rgba(33,31,29,.35);
+        padding: 2px 8px; border-radius: 6px; }
+      .skeleton-pulse { animation: skeleton-pulse 1.5s ease-in-out infinite; }
+      @keyframes skeleton-pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
 
       /* --- InfoMate home card --- */
       .infomate-home { position: relative; margin-bottom: 16px;
@@ -337,7 +358,18 @@ class HorneroHome extends HoComponent {
     // --- Esfera 1: Actualidad — dynamic content ---
     let esfera1Content = '';
 
-    if (this._latestType === 'infomate' && this._mateData) {
+    // Show skeleton placeholder while data loads (no clipping data yet)
+    const dataLoaded = this._clipping.length > 0 || (this._latestType === 'infomate' && this._mateData);
+
+    if (!dataLoaded) {
+      esfera1Content = '<div class="carousel-skeleton">' +
+          '<span class="skeleton-badge">Actualidad</span>' +
+          '<div class="carousel-skeleton-inner skeleton-pulse">' +
+            '<div class="skeleton-line w60"></div>' +
+            '<div class="skeleton-line w40"></div>' +
+          '</div>' +
+        '</div>';
+    } else if (this._latestType === 'infomate' && this._mateData) {
       // InfoMate is newest → show InfoMate summary card
       const meta = this._mateData.meta || {};
       const macro = this._mateData.datosMacro || {};
