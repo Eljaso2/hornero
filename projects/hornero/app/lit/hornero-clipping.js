@@ -247,7 +247,7 @@ class HorneroClipping extends HoComponent {
         transition: border-color .2s; }
       .feed-card:hover { border-color: var(--ho-green, #4E9978); }
 
-      .feed-card-img { width: 100%; height: 140px; object-fit: cover; display: block; }
+      .feed-card-img { width: 100%; height: 140px; object-fit: cover; object-position: top center; display: block; }
       .feed-card-body { padding: 12px 14px; }
 
       .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -291,7 +291,7 @@ class HorneroClipping extends HoComponent {
         cursor: pointer; font-size: .85rem; z-index: 10;
         display: flex; align-items: center; justify-content: center; }
 
-      .popup-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+      .popup-img { width: 100%; height: 180px; object-fit: cover; object-position: top center; display: block; }
       .popup-body { padding: 14px 16px 32px; }
       .popup-title-line { display: flex; align-items: baseline; gap: 6px; }
       .popup-emoji { font-size: 1rem; }
