@@ -59,20 +59,31 @@ class HoComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return Object.keys(this.properties || {});
+    // Include both camelCase (property name) and kebab-case (HTML attribute name)
+    const props = Object.keys(this.properties || {});
+    return props.concat(props.map(p => p.replace(/([A-Z])/g, '-$1').toLowerCase()));
+  }
+
+  // Map kebab-case attribute name back to camelCase property name
+  static _attrToProp(name) {
+    const props = Object.keys(this.properties || {});
+    const kebabMap = {};
+    props.forEach(p => { kebabMap[p.replace(/([A-Z])/g, '-$1').toLowerCase()] = p; });
+    return kebabMap[name] || name;
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal === newVal) return;
-    const type = this._getProperties()[name];
+    const propName = this.constructor._attrToProp(name);
+    const type = this._getProperties()[propName];
     if (type === Boolean) {
-      this[name] = newVal !== null && newVal !== 'false';
+      this[propName] = newVal !== null && newVal !== 'false';
     } else if (type === Number) {
-      this[name] = Number(newVal);
+      this[propName] = Number(newVal);
     } else if (type === Array || type === Object) {
-      try { this[name] = JSON.parse(newVal); } catch { this[name] = type === Array ? [] : {}; }
+      try { this[propName] = JSON.parse(newVal); } catch { this[propName] = type === Array ? [] : {}; }
     } else {
-      this[name] = newVal;
+      this[propName] = newVal;
     }
     this._scheduleRender();
   }
