@@ -727,7 +727,7 @@ class HorneroChat extends HoComponent {
       /* === Chat top bar (cintillo) — persona icons + action buttons === */
       .chat-top-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 20;
         height: 48px; display: flex; align-items: center; justify-content: space-between;
-        padding: 0 8px; background: var(--ho-card, #2A3230);
+        padding: 0 8px; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
       .chat-top-bar-center { display: flex; align-items: center; gap: 4px; }
