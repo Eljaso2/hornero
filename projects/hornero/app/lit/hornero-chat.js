@@ -712,12 +712,11 @@ class HorneroChat extends HoComponent {
       .msg-row.user .msg-bubble {
         max-width: 82%; background: var(--ho-green-light, #80CCA0);
         color: var(--ho-bg, #1E2321);
-        border-radius: 18px 18px 4px 18px; padding: 8px 14px;
+        border-radius: 18px 18px 4px 18px; padding: 10px 14px;
         font-family: 'Public Sans', sans-serif; font-size: .88rem;
         font-weight: 600;
         line-height: 1.35; position: relative;
-        min-height: 36px; display: inline-block;
-        vertical-align: middle; }
+        display: inline-block; }
 
       .msg-row.user .msg-time {
         font-family: 'JetBrains Mono', monospace; font-size: .58rem;
