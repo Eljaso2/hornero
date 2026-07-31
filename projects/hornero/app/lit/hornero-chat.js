@@ -703,6 +703,7 @@ class HorneroChat extends HoComponent {
         display: flex; align-items: center; justify-content: center; }
       .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
+      .msg-avatar img.periodista-full { object-fit: contain; object-position: center; }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .78rem; }
@@ -739,6 +740,7 @@ class HorneroChat extends HoComponent {
         display: flex; align-items: center; justify-content: center; flex: none; }
       .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
+      .msg-redirect-icon-circle img.periodista-full { object-fit: contain; object-position: center; }
       .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
 
       /* "Ver mis informes" button in message — opens informes drawer */
@@ -860,6 +862,7 @@ class HorneroChat extends HoComponent {
         display: flex; align-items: center; justify-content: center; flex: none; }
       .typing-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
+      .typing-avatar img.periodista-full { object-fit: contain; object-position: center; }
       .typing-dots { display: flex; gap: 5px; align-items: center; }
       .typing-dot { width: 8px; height: 8px; border-radius: 50%;
         background: var(--ho-green-light, #80CCA0); animation: dotbounce 1.4s ease infinite; }
@@ -1009,7 +1012,7 @@ class HorneroChat extends HoComponent {
     const streamingPersona = this._streamingPersona || this.persona;
     const streamingPersonaCfg = this._getPersonaConfig(streamingPersona);
     const streamingAvatarInner = streamingPersonaCfg.img
-      ? `<img src="${streamingPersonaCfg.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${streamingPersonaCfg.emoji}</span>`
+      ? `<img src="${streamingPersonaCfg.img}" alt="H" class="${streamingPersona === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${streamingPersonaCfg.emoji}</span>`
       : `<span class="msg-avatar-emoji">${streamingPersonaCfg.emoji}</span>`;
     const streamingHtml = this.streamingText ?
       `<div class="msg-row hornero streaming">
@@ -1516,7 +1519,7 @@ class HorneroChat extends HoComponent {
     // Avatar + name row — persona-aware
     const personaCfg = this._getPersonaConfig(m.persona || this.persona);
     const avatarInner = personaCfg.img
-      ? `<img src="${personaCfg.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
+      ? `<img src="${personaCfg.img}" alt="H" class="${(m.persona || this.persona) === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
       : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
     const avatarRow = `<div class="msg-avatar-row persona-${m.persona || this.persona}">
       <div class="msg-avatar">${avatarInner}</div>
@@ -1660,7 +1663,7 @@ class HorneroChat extends HoComponent {
     const redirectBtnHtml = redirectPersona ? (() => {
       const targetCfg = this._getPersonaConfig(redirectPersona);
       const targetInner = targetCfg.img
-        ? `<img src="${targetCfg.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-redirect-emoji" style="display:none">${targetCfg.emoji}</span>`
+        ? `<img src="${targetCfg.img}" alt="H" class="${redirectPersona === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-redirect-emoji" style="display:none">${targetCfg.emoji}</span>`
         : `<span class="msg-redirect-emoji">${targetCfg.emoji}</span>`;
       return `<button class="msg-redirect-btn" data-redirect-persona="${redirectPersona}" style="background:transparent; border-color:${targetCfg.color}; color:${targetCfg.color}">
         <span class="msg-redirect-icon-circle" style="background:transparent">${targetInner}</span>

@@ -355,6 +355,8 @@ class HorneroConsulta extends HoComponent {
   }
 
   _handleUserMessage(text) {
+    // Stop any ongoing progressive reveal
+    this._stopProgressiveReveal();
     // Detect export keywords — download current chat as document
     // Only match explicit export requests, not incidental words in normal conversation
     const lower = text.toLowerCase().trim();
@@ -589,10 +591,39 @@ class HorneroConsulta extends HoComponent {
     if (!response.ok) throw new Error('Backend error: ' + response.status);
 
     const data = await response.json();
+    const responseText = data.text || '';
+    const responseSections = data.sections || [];
+
+    // Progressive reveal for non-streaming fallback
+    if (responseText && responseText.length > 50) {
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) {
+        this._typing = false;
+        this._startProgressiveReveal(responseText, chatEl, 'abogado');
+        // Wait for reveal to finish, then add message
+        const revealDone = new Promise((resolve) => {
+          const check = setInterval(() => {
+            if (!this._progressiveRevealTimer) {
+              clearInterval(check);
+              resolve();
+            }
+          }, 50);
+        });
+        // Timeout: if reveal takes too long, force finish
+        const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
+        await Promise.race([revealDone, timeout]);
+        this._stopProgressiveReveal();
+        if (chatEl) {
+          chatEl.streamingText = '';
+          chatEl._streamingPersona = '';
+        }
+      }
+    }
+
     this.messages = [...this.messages, {
       role: 'hornero',
-      text: data.text || '',
-      sections: data.sections || [],
+      text: responseText,
+      sections: responseSections,
       tags: data.tags || ['consulta'],
       persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
