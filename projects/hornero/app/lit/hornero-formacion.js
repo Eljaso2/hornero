@@ -398,9 +398,9 @@ class HorneroFormacion extends HoComponent {
 
     let efeText = '';
     if (efe) {
-      efeText = `${efe.emoji} Esta semana se conmemora el **${efe.title}** (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\nPodés leer más sobre esta efeméride en el sitio:\n↗ https://historiaobrera.com.ar/\n\n¿Te interesa? Contame y seguimos profundizando.`;
+      efeText = `${efe.emoji} Esta semana se conmemora el [**${efe.title}**](https://historiaobrera.com.ar/) (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\nTocá sobre el nombre del evento para leer más en el sitio.\n\n¿Te interesa? Contame y seguimos profundizando.`;
     } else {
-      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nEncontrá todo en ↗ https://historiaobrera.com.ar/';
+      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nEncontrá todo en [**historiaobrera.com.ar**](https://historiaobrera.com.ar/)';
     }
 
     const menuText = '¿Querés saber más? Estos son los contenidos que podemos explorar:\n\n• 🔥 [**Efemérides**](https://historiaobrera.com.ar/) — Las fechas clave del movimiento obrero argentino\n\n• 📝 [**Mitín**](https://historiaobrera.com.ar/mitin/) — Ensayos y relatos sobre historia obrera\n\n• 📚 [**Colección**](https://historiaobrera.com.ar/coleccion-la-argentina-peronista/) — La Argentina Peronista, 18 volúmenes desde la clase trabajadora\n\n• 🎬 [**Retazos**](https://historiaobrera.com.ar/retazos-de-historia-obrera/) — Docuficción, podcast, ilustraciones, música\n\nPreguntame lo que quieras sobre cualquier tema.';
