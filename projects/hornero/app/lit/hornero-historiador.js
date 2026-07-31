@@ -97,7 +97,7 @@ class HorneroHistoriador extends HoComponent {
       <div class="chat-container">
         <hornero-chat
           title="Historiador/a"
-          input-placeholder="..."
+          input-placeholder="Qué pensás..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           section="historia"

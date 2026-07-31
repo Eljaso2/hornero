@@ -100,7 +100,7 @@ class HorneroContenido extends HoComponent {
       <div class="chat-container">
         <hornero-chat
           title="Producción de contenido"
-          input-placeholder="..."
+          input-placeholder="Qué pensás..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
           persona="${this._activePersona}"
