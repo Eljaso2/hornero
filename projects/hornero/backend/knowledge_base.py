@@ -148,8 +148,38 @@ INSTANCIA AD HOC: Si el usuario G2+ insiste en reportar algo propio (no basado e
 REGLA CRÍTICA: NO generés informe hasta que el trabajador lo pida explícitamente. Tu rol principal es ESCUCHAR e INDAGAR (G1) o REVISAR y TRABAJAR (G2+) — preguntar detalles, contextos, antecedentes. Antes de generar, SIEMPRE preguntá: "¿Preparo el informe?" o "¿Te armó el reporte?" y esperá su confirmación. Solo pasás a GENERAR cuando el trabajador dice que sí.
 
 FORMATO DEL INFORME: MODO CONTENIDO — JSON con sections y tags. SIEMPRE este formato, para TODOS los trabajadores, sin excepción.
-- Sections: [{ title: "Título del informe", body: "Descripción..." }, { title: "Situación reportada", body: "Detalles..." }, { title: "Datos relevantes", body: "Cifras, lugares, personas..." }]
+- Sections: [{ title: "Relato", body: "..." }, { title: "Clasificación", body: "..." }, { title: "Extractos del diálogo", body: "..." }, { title: "Ficha del reportante", body: "..." }]
 - Tags: [temas + 'reporte-generado' + 'reporte']
+
+DETALLE DE CADA SECCIÓN:
+
+**1. Relato** — Reelaboración coherente de toda la situación narrada por el trabajador. Criterios de orden:
+   - Primero cronológico: los hechos en el orden en que ocurrieron.
+   - Luego por importancia: lo más importante primero dentro de cada tramo cronológico.
+   - Emprolijá lo que el trabajador contó: unite fragmentos dispersos, resolve contradicciones, completa la secuencia lógica, pero SIN agregar información que el trabajador no dijo. Si algo no cierra, lo marcás con "(sin confirmar)" o "(el trabajador no especificó)".
+   - Lenguaje claro, directo, sin jerga burocrática. Como si un compañero le contara a otro lo que pasó.
+
+**2. Clasificación** — Organización de la información por familias de etiquetas. Dentro de cada familia:
+   - Poné el nombre de la etiqueta (en **negrita**) seguido de una síntesis de la información que el trabajador proporcionó sobre ese tema.
+   - Agrupá las etiquetas por familia (ej: "Condiciones laborales", "Seguridad e higiene", "Organización sindical", "Salario y beneficios", "Acción patronal", "Situación personal").
+   - Cada familia tiene una línea de encabezado con su nombre, seguida de las etiquetas que pertenecen a esa familia con su síntesis.
+   - Las etiquetas también van en el campo "tags" del JSON (sin la categoría/familia, solo el término específico).
+
+**3. Extractos del diálogo** — Fragmentos textuales del usuario que respaldan el informe. NO se copia toda la conversación:
+   - Seleccioná solo los extractos donde el trabajador proporcionó información sustantiva para el reporte.
+   - Si el input fue audio, transcribí los fragmentos relevantes.
+   - Formato: cada extracto como cita textual entre comillas, precedido por el contexto breve de la pregunta que lo generó (si aplica).
+   - Los extractos son la evidencia que respalda el relato y la clasificación.
+
+**4. Ficha del reportante** — Datos del trabajador que reporta:
+   - Nombre (si lo proporcionó)
+   - Función/cargo en la planta
+   - Sección/sector
+   - Empresa
+   - Grado (G1-G4)
+   - Fecha del reporte
+   - Si el trabajador no proporcionó algún dato, poné "No especificado" en ese campo.
+
 - Si generás informe, SIEMPRE incluí sections + tags con 'reporte-generado' — es obligatorio para que el sistema detecte el informe.
 - Para G2/G3/G4: el título del informe debe reflejar el grado (ej: "Reporte G2 — Síntesis delegado/a")
 
@@ -521,7 +551,7 @@ def get_format_hint(formato: str, grade: str = "A") -> str:
         'consulta': 'Consulta legal/laboral. Como abogado laboralista, respondé con precisión, fundamento, y claridad para el trabajador.',
         'contenido': 'El usuario quiere producir contenido sindical. Como periodista, ayudá a elegir formato y angle.',
         'debate': 'Debate sindical. Como companero del gremio, comparti experiencia, argumenta desde la vivencia, conecta con lo que pasa en planta.',
-        'reporte': 'Reporte gremial. Como compañero/a, ayuda al trabajador a generar un informe estructurado de su situacion. Genera MODO CONTENIDO con sections + tags. Despues de generar, pregunta si es lo que quiso decir. Si confirma, pregunta si aprueba para guardar.',
+        'reporte': 'Reporte gremial. Como compañero/a, ayuda al trabajador a generar un informe estructurado de su situacion. El informe tiene 4 secciones obligatorias: 1) Relato (narrativa coherente, cronológica + importancia), 2) Clasificación (información por familias de etiquetas, cada etiqueta con síntesis), 3) Extractos del diálogo (fragmentos textuales del usuario que respaldan el informe), 4) Ficha del reportante (nombre, función, sección, empresa, grado, fecha). Genera MODO CONTENIDO con sections + tags. Despues de generar, pregunta si es lo que quiso decir. Si confirma, pregunta si aprueba para guardar.',
         'historia': 'Consulta histórica. Como historiador/a, respondé con datos, fuentes, contexto. Conectá pasado con presente. Citá autor + página cuando puedas.',
     }
 
@@ -530,7 +560,7 @@ def get_format_hint(formato: str, grade: str = "A") -> str:
         role_names = {'G2': 'delegado/a', 'G3': 'secretario/a', 'G4': 'federación'}
         role_name = role_names.get(grade_code, 'delegado/a')
         lower_grade = str(int(grade_code[1]) - 1)
-        hints['reporte'] = f'Reporte gremial. Como compañero/a, tu función principal es ayudar al {role_name} a REVISAR los reportes G{lower_grade} entrantes y elaborar un reporte G{grade_code[1]} basado en ellos. Si insiste en reportar algo propio, marcá que es ad hoc. Genera MODO CONTENIDO con sections + tags. El título debe reflejar el grado (ej: "Reporte G{grade_code[1]} — Síntesis {role_name}").'
+        hints['reporte'] = f'Reporte gremial. Como compañero/a, tu función principal es ayudar al {role_name} a REVISAR los reportes G{lower_grade} entrantes y elaborar un reporte G{grade_code[1]} basado en ellos. Si insiste en reportar algo propio, marcá que es ad hoc. El informe tiene 4 secciones obligatorias: 1) Relato (narrativa coherente, cronológica + importancia), 2) Clasificación (información por familias de etiquetas, cada etiqueta con síntesis), 3) Extractos del diálogo (fragmentos textuales del usuario que respaldan el informe), 4) Ficha del reportante (nombre, función, sección, empresa, grado, fecha). Genera MODO CONTENIDO con sections + tags. El título debe reflejar el grado (ej: "Reporte G{grade_code[1]} — Síntesis {role_name}").'
 
     return hints.get(formato, hints['consulta'])
 
