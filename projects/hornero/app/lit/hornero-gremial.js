@@ -10,6 +10,7 @@ class HorneroGremial extends HoComponent {
       grade: String,
       sector: String,
       persona: String,  // Initial persona from Mesa de Trabajo landing
+      sessionId: String, // Session ID — if set, load existing session instead of greeting
       messages: Array,
     };
   }
@@ -352,6 +353,13 @@ class HorneroGremial extends HoComponent {
 
   async _loadChatHistory() {
     this._historyLoaded = true;
+    // If a sessionId was passed (from Mis Conversaciones), load that session
+    if (this.sessionId && this.sessionId.length > 0) {
+      await this._loadSession(this.sessionId);
+      // Clear it so next navigation starts fresh
+      this.sessionId = '';
+      return;
+    }
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }

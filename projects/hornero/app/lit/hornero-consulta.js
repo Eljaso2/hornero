@@ -11,6 +11,7 @@ class HorneroConsulta extends HoComponent {
       grade: String,
       sector: String,
       persona: String,  // Initial persona from Mesa de Trabajo landing
+      sessionId: String, // Session ID — if set, load existing session instead of greeting
       messages: Array,
       iaStep: Number,
     };
@@ -169,6 +170,13 @@ class HorneroConsulta extends HoComponent {
   async _loadChatHistory() {
     if (this._historyLoaded) return;
     this._historyLoaded = true;
+
+    // If a sessionId was passed (from Mis Conversaciones), load that session
+    if (this.sessionId && this.sessionId.length > 0) {
+      await this._loadSession(this.sessionId);
+      this.sessionId = '';
+      return;
+    }
 
     // Try to restore the most recent session for this section + username
     if (typeof obtenerChatSessions === 'function' && this._username) {
