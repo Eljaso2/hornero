@@ -139,7 +139,6 @@ class HorneroApp extends HoComponent {
       { id: 'misReportes', label: 'Mis Reportes' },
       { id: 'chat', label: 'Chat' },
       { id: 'contenido', label: 'Contenido' },
-      { id: 'historiador', label: 'Historiador' },
       { id: 'condicion', label: 'Panorama' },
       { id: 'smvm', label: 'SMVM' },
       { id: 'felicidad', label: 'Felicidad' },
@@ -171,7 +170,7 @@ class HorneroApp extends HoComponent {
       clipping: 'Clipping de noticias',
       infomate: 'InfoMate',
       gremial: 'Reporte Gremial',
-      historiador: 'Historiador',
+      historiador: 'Historiadora',
       misConversaciones: 'Mis Conversaciones',
       misReportes: 'Mis Reportes',
     };
@@ -238,7 +237,7 @@ class HorneroApp extends HoComponent {
       chat: 'chat',
       consulta: 'chat',
       contenido: 'contenido',
-      historiador: 'historiador',
+      historiador: 'formacion',
       misConversaciones: 'chat',
       misReportes: 'misReportes',
       recibidos: 'chat',
@@ -453,6 +452,40 @@ class HorneroApp extends HoComponent {
         font-weight: 700; color: var(--ho-text, #E8E6E0); margin-bottom: 4px; }
       .chat-landing-desc { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-light, #7A766C); line-height: 1.4; margin-bottom: 12px; }
+
+      /* ===== Persona carousel — one at a time, 3x bigger ===== */
+      .chat-persona-carousel { position: relative; margin: 0 -20px 16px; overflow: hidden; }
+      .chat-persona-carousel-track { display: flex; overflow-x: auto;
+        scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; }
+      .chat-persona-carousel-track::-webkit-scrollbar { width: 0; }
+      .chat-persona-slide { scroll-snap-align: center; width: 100%; flex-shrink: 0;
+        display: flex; flex-direction: column; align-items: center;
+        padding: 16px 20px; cursor: pointer; transition: transform .15s;
+        background: none; border: none; font-family: 'Archivo', sans-serif; }
+      .chat-persona-slide:hover { transform: scale(1.02); }
+      .chat-persona-slide:active { transform: scale(.97); }
+      .chat-persona-img { width: 168px; height: 168px; object-fit: contain;
+        object-position: center; filter: var(--ho-persona-filter, none);
+        margin-bottom: 12px; }
+      .chat-persona-img.periodista-full { object-fit: contain; }
+      .chat-persona-name { font-family: 'Archivo', sans-serif; font-size: 1rem;
+        font-weight: 800; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; }
+      .chat-persona-desc { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.4;
+        text-align: center; margin-top: 4px; }
+      .chat-persona-dots { display: flex; justify-content: center; gap: 6px;
+        padding: 4px 0 0; }
+      .chat-persona-dot { width: 8px; height: 8px; border-radius: 50%;
+        background: var(--ho-border, rgba(255,255,255,.15));
+        border: none; cursor: pointer; transition: background .2s, transform .2s;
+        padding: 0; }
+      .chat-persona-dot.active { background: var(--ho-green, #4E9978);
+        transform: scale(1.3); }
+      .chat-persona-dot:hover { background: var(--ho-green-light, #80CCA0); }
+
+      /* Extra choices (Mis Conversaciones, Mis Reportes, Recibidos) — keep as cards */
       .chat-choice { display: flex; align-items: center; gap: 10px;
         background: var(--ho-card, #2A3230); border: 1px solid rgba(43,42,38,.06);
         border-radius: 10px; padding: 10px 14px; cursor: pointer;
@@ -731,17 +764,26 @@ class HorneroApp extends HoComponent {
       const isHigherGrade = grade === 'B.b' || grade === 'B.c' || grade === 'B.d';
       const isBaseGrade = grade === 'B.a';
 
-      // Helper for choice HTML with PNG icon
-      const choiceHtml = (screen, persona, img, alt, emoji, name, desc, extraClass = '') =>
-        `<div class="chat-choice ${extraClass}" data-screen="${screen}" ${persona ? `data-persona="${persona}"` : ''}>` +
-        `<div class="chat-choice-icon"><img src="${img}" alt="${alt}" class="${persona === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="persona-choice-emoji" style="display:none">${emoji}</span></div>` +
-        `<div class="chat-choice-text"><div class="chat-choice-name">${name}</div><div class="chat-choice-desc">${desc}</div></div></div>`;
+      // Persona data for carousel
+      const personas = [
+        { screen: 'gremial', persona: 'companero', img: 'assets/personajes/a02.png', alt: 'Compañero/a', emoji: '✊', name: 'Compañero/a', desc: 'Te ayudo a elaborar un reporte gremial', periodistaFull: false },
+        { screen: 'consulta', persona: 'abogado', img: 'assets/personajes/a03.png', alt: 'Abogado/a', emoji: '📖', name: 'Abogado/a', desc: 'Derechos, convenios, legislación laboral', periodistaFull: false },
+        { screen: 'contenido', persona: 'periodista', img: 'assets/personajes/a04.png', alt: 'Periodista', emoji: '🎙️', name: 'Periodista', desc: 'Prensa, podcasts, reels, entrevistas', periodistaFull: true },
+        { screen: 'formacion', persona: 'historiador', img: 'assets/personajes/a01.png', alt: 'Historiadora', emoji: '📜', name: 'Historiadora', desc: 'Historia obrera, formación, archivos', periodistaFull: false },
+        { screen: 'condicion', persona: 'sociologo', img: 'assets/personajes/a05.png', alt: 'Investigador/a', emoji: '🔬', name: 'Investigador/a', desc: 'Condición obrera, índices, clase trabajadora', periodistaFull: false },
+      ];
 
-      // Helper for extra choice with SVG icon (Mis Chats, Mis Reportes, Recibidos)
-      const svgChoiceHtml = (screen, svg, name, desc, extraClass = 'chat-choice-extra') =>
-        `<div class="chat-choice ${extraClass}" data-screen="${screen}">` +
-        `<div class="chat-choice-icon"><svg viewBox="0 0 24 24">${svg}</svg></div>` +
-        `<div class="chat-choice-text"><div class="chat-choice-name">${name}</div><div class="chat-choice-desc">${desc}</div></div></div>`;
+      const personaSlides = personas.map(p =>
+        `<button class="chat-persona-slide" data-screen="${p.screen}" data-persona="${p.persona}">` +
+        `<img src="${p.img}" alt="${p.alt}" class="chat-persona-img${p.periodistaFull ? ' periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="persona-choice-emoji" style="display:none;font-size:4rem">${p.emoji}</span>` +
+        `<div class="chat-persona-name">${p.name}</div>` +
+        `<div class="chat-persona-desc">${p.desc}</div>` +
+        `</button>`
+      ).join('');
+
+      const personaDots = personas.map((_, i) =>
+        `<button class="chat-persona-dot${i === 0 ? ' active' : ''}" data-index="${i}"></button>`
+      ).join('');
 
       const chatSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
       const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
@@ -753,7 +795,7 @@ class HorneroApp extends HoComponent {
         choiceHtml('gremial', 'companero', 'assets/personajes/a02.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
         choiceHtml('consulta', 'abogado', 'assets/personajes/a03.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
         choiceHtml('contenido', 'periodista', 'assets/personajes/a04.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
-        choiceHtml('historiador', 'historiador', 'assets/personajes/a01.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos') +
+        choiceHtml('formacion', 'historiador', 'assets/personajes/a01.png', 'Historiadora', '📜', 'Historiadora', 'Historia obrera, formación, archivos') +
         choiceHtml('condicion', 'sociologo', 'assets/personajes/a05.png', 'Investigador/a', '🔬', 'Investigador/a', 'Condición obrera, índices, clase trabajadora');
 
       // Grade-based extras — navigate to full list screens

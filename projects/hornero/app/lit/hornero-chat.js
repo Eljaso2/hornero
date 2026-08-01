@@ -853,25 +853,25 @@ class HorneroChat extends HoComponent {
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
-      /* Persona icons — cintillo scrolleable (tira como home) */
+      /* Persona icons — cintillo scrolleable (sin línea divisoria) */
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
         gap: 2px; background: none; border: none; cursor: pointer;
         padding: 4px 6px; transition: opacity .2s; position: relative;
         flex-shrink: 0; scroll-snap-align: center; }
-      .chat-persona-icon:not(:last-child)::after {
-        content: ''; position: absolute; right: 0; top: 6px;
-        width: 1px; height: 40px;
-        background: var(--ho-green-pale, #E0F0EB); }
       .chat-persona-icon:hover { opacity: .8; }
       .chat-persona-icon.active { opacity: 1; }
-      .persona-icon-inner { width: 40px; height: 40px;
-        display: flex; align-items: center; justify-content: center; }
-      .persona-icon-inner img { width: 40px; height: 40px; object-fit: contain;
+      .persona-icon-inner { width: 28px; height: 28px;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.12));
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        overflow: hidden; }
+      .persona-icon-inner img { width: 28px; height: 28px; object-fit: contain;
         object-position: center; filter: var(--ho-persona-filter, none); }
       .persona-icon-inner img.periodista-full { object-fit: contain; object-position: center; }
-      .persona-icon-inner .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
+      .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
+      .chat-persona-icon.active .persona-icon-inner { border-color: var(--ho-green, #4E9978); }
       .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
-        font-size: .58rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
         white-space: nowrap; }
       .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); }
 
@@ -1223,7 +1223,7 @@ class HorneroChat extends HoComponent {
       'abogado': { screen: 'consulta', persona: 'abogado' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'companero': { screen: 'gremial', persona: 'companero' },
-      'historiador': { screen: 'historiador', persona: 'historiador' },
+      'historiador': { screen: 'formacion', persona: 'historiador' },
       'sociologo': { screen: 'condicion', persona: 'sociologo' },
     };
     const personaIconsHtml = allPersonas.map((p, idx) => {
