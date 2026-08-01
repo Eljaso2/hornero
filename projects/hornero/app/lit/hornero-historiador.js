@@ -96,7 +96,7 @@ class HorneroHistoriador extends HoComponent {
     return html`
       <div class="chat-container">
         <hornero-chat
-          title="Historiador/a"
+          title="Historiadora"
           input-placeholder="Qué pensás..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
@@ -303,7 +303,7 @@ class HorneroHistoriador extends HoComponent {
   }
 
   _localGreeting() {
-    return { role: 'hornero', sections: [{ title: '¡Hola! Soy el Historiador/a', body: 'Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: '¡Hola! Soy la Historiadora', body: 'Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
   _handleUserMessage(text) {
@@ -654,7 +654,7 @@ class HorneroHistoriador extends HoComponent {
       'abogado': { screen: 'consulta', persona: 'abogado' },
       'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
-      'historiador': { screen: 'historiador', persona: 'historiador' },
+      'historiador': { screen: 'formacion', persona: 'historiador' },
     };
     const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
     if (target) {

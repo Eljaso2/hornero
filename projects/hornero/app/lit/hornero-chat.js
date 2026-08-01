@@ -1690,7 +1690,7 @@ class HorneroChat extends HoComponent {
     const map = {
       'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: 'assets/personajes/a03.png' },
       'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/a02.png' },
-      'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/a04.png' },
+      'periodista':   { emoji: '🎙️', name: 'Periodista',   bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/a04.png' },
       'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png' },
       'sociologo':    { emoji: '🔬', name: 'Investigador/a', bg: '#D4E8D7', color: '#2D5A3D', img: 'assets/personajes/a05.png' },
     };

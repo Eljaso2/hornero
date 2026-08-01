@@ -1848,7 +1848,7 @@ class HorneroGremial extends HoComponent {
       'abogado': { screen: 'consulta', persona: 'abogado' },
       'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
-      'historiador': { screen: 'historiador' },
+      'historiador': { screen: 'formacion' },
     };
     const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
     if (target) {
