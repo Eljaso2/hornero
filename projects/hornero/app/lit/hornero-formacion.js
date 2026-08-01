@@ -317,7 +317,7 @@ class HorneroFormacion extends HoComponent {
       :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; position: relative; min-height: 5.2em; }
+        text-align: left; position: relative; min-height: 3.2em; }
       .hero-banner-title .hero-bajada-link { margin-left: 6px; font-size: .7rem; }
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
@@ -1039,6 +1039,28 @@ class HorneroFormacion extends HoComponent {
     if (target) {
       this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
     }
+  }
+
+  _renderPersonaBar() {
+    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'sociologo'];
+    const personaConfig = {
+      'companero':   { name: 'Compañero/a',    img: 'assets/personajes/a02.png' },
+      'abogado':     { name: 'Derecho',         img: 'assets/personajes/a03.png' },
+      'periodista':  { name: 'Periodista',      img: 'assets/personajes/a04.png' },
+      'historiador': { name: 'Historiadora',     img: 'assets/personajes/a01.png' },
+      'sociologo':   { name: 'Investigador/a',   img: 'assets/personajes/a05.png' },
+    };
+    return allPersonas.map(p => {
+      const cfg = personaConfig[p];
+      const isActive = p === this._activePersona;
+      const imgClass = p === 'periodista' ? 'periodista-full' : '';
+      return `<button class="hero-persona-icon${isActive ? ' active' : ''}" data-persona="${p}">
+        <span class="hero-persona-icon-inner">
+          <img src="${cfg.img}" alt="${cfg.name}" class="${imgClass}" onerror="this.style.display='none'">
+        </span>
+        <span class="hero-persona-icon-label">${cfg.name}</span>
+      </button>`;
+    }).join('');
   }
 
   _handleChatExport(detail) {

@@ -117,7 +117,7 @@ class HorneroCondicion extends HoComponent {
       :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; min-height: 5.2em; }
+        text-align: left; min-height: 3.2em; }
       .hero-bajada-link { display: inline-block; margin-top: 4px;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
