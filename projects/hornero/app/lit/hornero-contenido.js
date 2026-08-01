@@ -386,7 +386,7 @@ class HorneroContenido extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '¡Hola! Soy la Periodista', body: 'Te ayudo con contenido sindical — elegí un formato o decime qué necesitás.' },
+        { title: '¡Hola! Soy el Periodista', body: 'Te ayudo con contenido sindical — elegí un formato o decime qué necesitás.' },
       ],
       tags: ['contenido', 'greeting'],
       time: this._timeNow(),

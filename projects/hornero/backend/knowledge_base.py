@@ -677,7 +677,7 @@ def get_greeting_hint(section: str, grade: str = 'A', days_since_last_chat: int 
 
         'consulta': 'Saluda brevemente (2-3 líneas). Di que sos abogado laboralista del gremio aceitero. Preguntá qué consulta legal tiene. NO cites fallos, NO expliques el marco legal, NO列举 derechos. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy el Abogado", "body": "..."}], "tags": ["consulta", "saludo"]}',
 
-        'contenido': 'Saluda brevemente (2-3 lines). Di que sos periodista, asesora del gremio en comunicacion. Pregunta que formato le interesa o que tema quiere comunicar. NO lista formatos detallados, NO expliques todo lo que puedes hacer. Solo saluda + quien sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy la Periodista", "body": "..."}], "tags": ["contenido", "saludo"]}',
+        'contenido': 'Saluda brevemente (2-3 lines). Di que sos periodista, asesor del gremio en comunicacion. Pregunta que formato le interesa o que tema quiere comunicar. NO lista formatos detallados, NO expliques todo lo que puedes hacer. Solo saluda + quien sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy el Periodista", "body": "..."}], "tags": ["contenido", "saludo"]}',
 
         'reporte': 'Saluda brevemente (2-3 lines). Pregunta como andaron los ultimos dias, si hay alguna situacion que quiera reportar — condiciones, seguridad, ritmo, algo que le paso o que vio. NO expliques el sistema de informes, NO lista temas. Solo saluda + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy el Compañero", "body": "..."}], "tags": ["reporte", "saludo"]}',
 
