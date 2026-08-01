@@ -415,10 +415,10 @@ class HorneroApp extends HoComponent {
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 600; color: var(--ho-text-mid, #7A766C);
         background: none; border: none; cursor: pointer;
-        padding: 10px 12px; white-space: nowrap;
+        padding: 10px 8px; white-space: nowrap;
         border-bottom: 2px solid transparent;
         transition: color .2s, border-color .2s; }
-      .sections-btn + .sections-btn::before { content: '|'; margin-right: 12px; color: var(--ho-text-mid, #7A766C); font-weight: 300; }
+      .sections-btn + .sections-btn::before { content: '|'; margin-right: 8px; color: var(--ho-text-mid, #7A766C); font-weight: 300; }
       .sections-btn.active { color: var(--ho-green, #4E9978);
         border-bottom-color: var(--ho-green, #4E9978); }
       .sections-logo { width: 30px; height: 30px; object-fit: contain; vertical-align: middle; }
