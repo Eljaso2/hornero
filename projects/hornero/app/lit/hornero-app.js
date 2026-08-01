@@ -789,14 +789,11 @@ class HorneroApp extends HoComponent {
       const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
       const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
 
-      // Persona choices (always shown) — theme-aware icons
-      const isLight = this.theme === 'light';
-      const personaChoices =
-        choiceHtml('gremial', 'companero', 'assets/personajes/a02.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
-        choiceHtml('consulta', 'abogado', 'assets/personajes/a03.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
-        choiceHtml('contenido', 'periodista', 'assets/personajes/a04.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
-        choiceHtml('formacion', 'historiador', 'assets/personajes/a01.png', 'Historiadora', '📜', 'Historiadora', 'Historia obrera, formación, archivos') +
-        choiceHtml('condicion', 'sociologo', 'assets/personajes/a05.png', 'Investigador/a', '🔬', 'Investigador/a', 'Condición obrera, índices, clase trabajadora');
+      // Helper for extra choice with SVG icon (Mis Chats, Mis Reportes, Recibidos)
+      const svgChoiceHtml = (screen, svg, name, desc, extraClass = 'chat-choice-extra') =>
+        `<div class="chat-choice ${extraClass}" data-screen="${screen}">` +
+        `<div class="chat-choice-icon"><svg viewBox="0 0 24 24">${svg}</svg></div>` +
+        `<div class="chat-choice-text"><div class="chat-choice-name">${name}</div><div class="chat-choice-desc">${desc}</div></div></div>`;
 
       // Grade-based extras — navigate to full list screens
       let extraChoices = '';
@@ -810,8 +807,11 @@ class HorneroApp extends HoComponent {
 
       screenContent = '<div class="chat-landing">' +
         '<div class="chat-landing-kicker">Mesa de trabajo</div>' +
-        '<div class="chat-landing-desc">Chateá con los compañeros del gremio. Cada uno te ayuda según lo que necesites:</div>' +
-        personaChoices +
+        '<div class="chat-landing-desc">Deslizá para elegir con quién chatear:</div>' +
+        '<div class="chat-persona-carousel">' +
+          '<div class="chat-persona-carousel-track" id="chatPersonaCarousel">' + personaSlides + '</div>' +
+        '</div>' +
+        '<div class="chat-persona-dots" id="chatPersonaDots">' + personaDots + '</div>' +
         (extraChoices ? '<div class="chat-landing-kicker" style="margin-top:16px;margin-bottom:8px">Tu actividad</div>' +
           '<div class="chat-landing-desc" style="margin-bottom:12px">Historial de tus charlas con los compañeros y de los reportes que elaboraste y recibiste.</div>' + extraChoices : '') +
       '</div>';
@@ -1151,7 +1151,32 @@ class HorneroApp extends HoComponent {
         this._navigateTo(btn.dataset.screen);
       });
     });
-    // Bind chat-choice buttons (Chat landing screen)
+    // Bind chat-persona-slide buttons (carousel on Chat landing)
+    this.shadowRoot.querySelectorAll('.chat-persona-slide').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this._initialPersona = btn.dataset.persona || 'abogado';
+        this._initialSessionId = '';
+        this._navigateTo(btn.dataset.screen);
+      });
+    });
+    // Persona carousel — scroll tracking + dots
+    const chatCarousel = this.shadowRoot.querySelector('#chatPersonaCarousel');
+    const chatDots = this.shadowRoot.querySelector('#chatPersonaDots');
+    if (chatCarousel && chatDots) {
+      chatCarousel.addEventListener('scroll', () => {
+        const idx = Math.round(chatCarousel.scrollLeft / chatCarousel.offsetWidth);
+        chatDots.querySelectorAll('.chat-persona-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === idx);
+        });
+      });
+      chatDots.querySelectorAll('.chat-persona-dot').forEach(d => {
+        d.addEventListener('click', () => {
+          const idx = parseInt(d.dataset.index);
+          chatCarousel.scrollTo({ left: idx * chatCarousel.offsetWidth, behavior: 'smooth' });
+        });
+      });
+    }
+    // Bind chat-choice buttons (Chat landing screen — extra choices)
     this.shadowRoot.querySelectorAll('.chat-choice').forEach(btn => {
       btn.addEventListener('click', () => {
         this._initialPersona = btn.dataset.persona || 'abogado';
