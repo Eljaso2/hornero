@@ -816,7 +816,7 @@ class HorneroChat extends HoComponent {
 
       .msg-content { max-width: 90%; animation: msgin .35s ease; }
 
-      .msg-avatar-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin-bottom: 4px; }
+      .msg-avatar-row { display: flex; flex-direction: row; align-items: center; gap: 6px; margin-bottom: 6px; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
       .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
@@ -825,7 +825,7 @@ class HorneroChat extends HoComponent {
       :host(.theme-light) .msg-avatar-row.persona-hornero .msg-avatar img { filter: brightness(0.35); }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .62rem; white-space: nowrap; overflow: hidden;
+        font-size: .72rem; white-space: nowrap; overflow: hidden;
         text-overflow: ellipsis; }
 
       /* === Typing avatar: persona-aware === */
