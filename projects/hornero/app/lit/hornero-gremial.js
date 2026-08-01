@@ -110,6 +110,11 @@ class HorneroGremial extends HoComponent {
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/IMG-20240506-WA0028.jpg') center/cover no-repeat;
         opacity: .18; pointer-events: none; }
+      .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
+        gap: 6px; }
+      .hero-banner.collapsed::before { opacity: 0; }
+      .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
+      .hero-banner.collapsed .hero-explore-link { font-size: .64rem; padding: 2px 8px; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
@@ -119,6 +124,23 @@ class HorneroGremial extends HoComponent {
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         text-align: left; position: relative; min-height: 5.2em; }
+
+      /* ===== Collapsed banner: persona bar ===== */
+      .hero-persona-bar { display: flex; gap: 0; overflow-x: auto;
+        scrollbar-width: none; padding: 2px 0; justify-content: center; }
+      .hero-persona-bar::-webkit-scrollbar { width: 0; }
+      .hero-persona-icon { display: flex; flex-direction: column; align-items: center;
+        gap: 2px; background: none; border: none; cursor: pointer;
+        padding: 4px 6px; opacity: .45; flex-shrink: 0;
+        transition: opacity .2s; }
+      .hero-persona-icon:hover { opacity: .75; }
+      .hero-persona-icon.active { opacity: 1; }
+      .hero-persona-icon-inner { width: 24px; height: 24px; display: flex;
+        align-items: center; justify-content: center; overflow: hidden; }
+      .hero-persona-icon-inner img { width: 24px; height: 24px; object-fit: contain; }
+      .hero-persona-icon-label { font-family: 'Archivo', sans-serif; font-size: .46rem;
+        font-weight: 600; color: var(--ho-text-mid, #6E6A60); white-space: nowrap; }
+      .hero-persona-icon.active .hero-persona-icon-label { color: var(--ho-green, #4E9978); }
 
       /* ===== Explorar dropdown ===== */
       .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
@@ -266,12 +288,13 @@ class HorneroGremial extends HoComponent {
 
   _render() {
     return html`
-      ${this._bannerVisible ? html`
-      <div class="hero-banner">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Reporte Gremial</div>
+        ${this._bannerVisible ? html`
         <div class="hero-bajada">
           Elaboración de reportes gremiales, relato de situaciones, clasificación, seguimiento y aprobación.
         </div>
+        ` : ''}
         <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
         ${this._exploreOpen ? html`
         <div class="hero-explore-panel">
@@ -281,8 +304,12 @@ class HorneroGremial extends HoComponent {
           <button class="hero-explore-option" data-explore="Aprobación">Aprobación</button>
         </div>
         ` : ''}
+        ${!this._bannerVisible ? html`
+        <div class="hero-persona-bar">
+          ${this._renderPersonaBar()}
+        </div>
+        ` : ''}
       </div>
-      ` : ''}
 
       <div class="chat-container">
         <hornero-chat
@@ -297,6 +324,7 @@ class HorneroGremial extends HoComponent {
           username="${this._username}"
           grade="${this.grade}"
           no-auto-scroll="${this._bannerVisible}"
+          hide-top-bar="${!this._bannerVisible}"
         ></hornero-chat>
       </div>
 
@@ -631,6 +659,13 @@ class HorneroGremial extends HoComponent {
         this._exploreOpen = false;
         this._bannerVisible = false;
         this._handleUserMessage('Contame sobre ' + topic);
+      });
+    });
+
+    // Bind persona bar clicks
+    this.shadowRoot.querySelectorAll('.hero-persona-icon').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this._handlePersonaNavigate(btn.dataset.persona);
       });
     });
 
@@ -1957,6 +1992,28 @@ class HorneroGremial extends HoComponent {
     if (target) {
       this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
     }
+  }
+
+  _renderPersonaBar() {
+    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'sociologo'];
+    const personaConfig = {
+      'companero':   { name: 'Compañero/a',    img: 'assets/personajes/a02.png' },
+      'abogado':     { name: 'Derecho',         img: 'assets/personajes/a03.png' },
+      'periodista':  { name: 'Periodista',      img: 'assets/personajes/a04.png' },
+      'historiador': { name: 'Historiadora',     img: 'assets/personajes/a01.png' },
+      'sociologo':   { name: 'Investigador/a',   img: 'assets/personajes/a05.png' },
+    };
+    return allPersonas.map(p => {
+      const cfg = personaConfig[p];
+      const isActive = p === this._activePersona;
+      const imgClass = p === 'periodista' ? 'periodista-full' : '';
+      return `<button class="hero-persona-icon${isActive ? ' active' : ''}" data-persona="${p}">
+        <span class="hero-persona-icon-inner">
+          <img src="${cfg.img}" alt="${cfg.name}" class="${imgClass}" onerror="this.style.display='none'">
+        </span>
+        <span class="hero-persona-icon-label">${cfg.name}</span>
+      </button>`;
+    }).join('');
   }
 }
 

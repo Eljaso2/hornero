@@ -1,5 +1,5 @@
 // ===== <hornero-ecosistema> — Qué es Hornero =====
-// Xiong thesis, 6 eslabones cadena de valor IA, soberanía, distinciones
+// Chat donde Hornero cuenta qué es, con el logo como ícono
 // Native Web Component — zero dependencies
 
 import { HoComponent, html, css } from './ho-component.js';
@@ -9,6 +9,8 @@ class HorneroEcosistema extends HoComponent {
     return {
       grade: String,
       sector: String,
+      messages: Array,
+      _greetingShown: Boolean,
     };
   }
 
@@ -16,106 +18,68 @@ class HorneroEcosistema extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
+    this.messages = [];
+    this._greetingShown = false;
   }
 
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); }
-      .scroll { flex: 1; overflow-y: auto; padding: 20px 16px;
-        -webkit-overflow-scrolling: touch; }
-      .block { background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; padding: 14px; margin-bottom: 12px; }
-      .block-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .92rem; color: var(--ho-text, #E8E6E0); margin-bottom: 8px; }
-      .block-body { font-size: .82rem; color: var(--ho-text-mid, #6E6A60);
-        line-height: 1.5; }
-      .block-body p { margin-bottom: 8px; }
-      .emphasis { color: var(--ho-green, #4E9978); font-weight: 700; }
-      .kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-        color: var(--ho-text-light, #9C988D); margin-bottom: 8px; }
-      .eslabon { display: flex; align-items: center; gap: 10px;
-        padding: 6px 0; }
-      .eslabon-num { width: 26px; height: 26px; border-radius: 50%;
-        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
-        font-family: 'JetBrains Mono', monospace; font-size: .72rem; font-weight: 600;
-        display: flex; align-items: center; justify-content: center; }
-      .eslabon-text { font-size: .82rem; color: var(--ho-text, #E8E6E0); }
-      .eslabon-desc { font-size: .72rem; color: var(--ho-text-light, #9C988D); }
-      .distinction { display: grid; gap: 4px; font-size: .82rem; }
-      .no { color: var(--ho-text-light, #9C988D); font-style: italic; }
-      .yes { color: var(--ho-green, #4E9978); font-weight: 600; }
-      .arrow { color: var(--ho-text-mid, #6E6A60); font-size: .72rem; }
-      .tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
-        padding: 3px 8px; border-radius: 6px; font-weight: 600;
-        display: inline-block; margin-top: 6px; }
-      .bird { font-size: 1.2rem; }
+      .chat-container { flex: 1; display: flex; flex-direction: column;
+        min-height: 0; }
     `;
   }
 
   _render() {
     return html`
-      <div class="scroll">
-        <div class="bird" style="text-align:center;margin-bottom:12px">🪶</div>
-
-        <div class="kicker">ECOSISTEMA HORNERO</div>
-
-        <div class="block">
-          <div class="block-title">¿Qué es Hornero?</div>
-          <div class="block-body">
-            <p>El <span class="emphasis">hornero</span> es el pájaro nacional de Argentina. Construye su nido con <span class="emphasis">sus propios materiales</span> en <span class="emphasis">su propio territorio</span> — no usa nidos de otros.</p>
-            <p>La metáfora codifica toda la filosofía: la organización no <span class="emphasis">consume</span> IA corporativa — <span class="emphasis">crea</span> su propia herramienta. Con sus propios datos. En su propia infraestructura. Con sus propias categorías.</p>
-          </div>
-        </div>
-
-        <div class="block">
-          <div class="block-title">Tesis Xiong / Tricontinental</div>
-          <div class="block-body">
-            <p>La distinción fundadora: <span class="emphasis">consumir IA corporativa vs. crear IA propia</span>.</p>
-            <p>No es una distinción técnica sino <span class="emphasis">política y epistemológica</span> — determina quién controla categorías, datos, lógica y todo el ciclo del sistema.</p>
-          </div>
-          <span class="tag">política · epistemológica · soberanía</span>
-        </div>
-
-        <div class="block">
-          <div class="block-title">6 eslabones de la cadena de valor de IA</div>
-          <div class="block-body">
-            <div class="eslabon"><div class="eslabon-num">1</div><div><span class="eslabon-text">Datos</span><br><span class="eslabon-desc">Qué datos entran, quién los produce, cómo se etiquetan</span></div></div>
-            <div class="eslabon"><div class="eslabon-num">2</div><div><span class="eslabon-text">Arquitectura</span><br><span class="eslabon-desc">Cómo se organizan, quién diseña el sistema</span></div></div>
-            <div class="eslabon"><div class="eslabon-num">3</div><div><span class="eslabon-text">Fine-tuning</span><br><span class="eslabon-desc">Qué corpus, qué dirección, quién decide</span></div></div>
-            <div class="eslabon"><div class="eslabon-num">4</div><div><span class="eslabon-text">Infraestructura</span><br><span class="eslabon-desc">Dónde se procesa, quién controla el server</span></div></div>
-            <div class="eslabon"><div class="eslabon-num">5</div><div><span class="eslabon-text">Interfaz</span><br><span class="eslabon-desc">Cómo se presenta, qué sesgo tiene, quién lo experimenta</span></div></div>
-            <div class="eslabon"><div class="eslabon-num">6</div><div><span class="eslabon-text">Gobernanza</span><br><span class="eslabon-desc">Quién decide qué se publica, qué se protege</span></div></div>
-          </div>
-        </div>
-
-        <div class="block">
-          <div class="block-title">Lo que NO es → Lo que ES</div>
-          <div class="block-body">
-            <div class="distinction">
-              <div class="no">Chatbot legal genérico</div><div class="arrow">→</div><div class="yes">Herramienta posicionada desde el trabajador</div>
-              <div class="no">App de un sindicato</div><div class="arrow">→</div><div class="yes">Plataforma que cada sindicato adapta</div>
-              <div class="no">Scraper de PDFs</div><div class="arrow">→</div><div class="yes">Convenio vivo, interactivo, contextualizado</div>
-              <div class="no">Startup que extrae datos</div><div class="arrow">→</div><div class="yes">Sistema soberano</div>
-              <div class="no">Chatbot "neutral"</div><div class="arrow">→</div><div class="yes">Argumenta desde la posición del trabajador</div>
-              <div class="no">Producto de Silicon Valley</div><div class="arrow">→</div><div class="yes">Producto del campo trabajador</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="block">
-          <div class="block-title">Soberanía funcional</div>
-          <div class="block-body">
-            <p>Soberanía no depende de rack físico — depende de <span class="emphasis">quién controla acceso, datos y modelos</span>.</p>
-            <p>Un VPS donde se controla todo el stack (OS, DB, modelo, acceso) es funcionalmente soberano.</p>
-          </div>
-          <span class="tag">VPS argentino · no AWS · soberanía funcional</span>
-        </div>
+      <div class="chat-container">
+        <hornero-chat
+          title="Ecosistema Hornero"
+          input-placeholder="Escribí algo..."
+          messages="${JSON.stringify(this.messages)}"
+          persona="hornero"
+          username=""
+          grade="${this.grade}"
+          hide-persona-bar
+          center-logo="assets/hornero-logo-nobg.png"
+          section="ecosistema"
+          history-title="Historial"
+          no-auto-scroll
+        ></hornero-chat>
       </div>
     `;
+  }
+
+  _afterRender() {
+    if (!this._greetingShown) {
+      this._greetingShown = true;
+      this.messages = [{
+        role: 'hornero',
+        sections: [
+          { title: '¿Qué es Hornero?', body: 'El **hornero** es el pájaro nacional de Argentina. Construye su nido con **sus propios materiales** en **su propio territorio** — no usa nidos de otros.\n\nLa metáfora codifica toda la filosofía: la organización no **consume** IA corporativa — **crea** su propia herramienta. Con sus propios datos. En su propia infraestructura. Con sus propias categorías.' },
+          { title: 'Tesis Xiong / Tricontinental', body: 'La distinción fundadora: **consumir IA corporativa vs. crear IA propia**.\n\nNo es una distinción técnica sino **política y epistemológica** — determina quién controla categorías, datos, lógica y todo el ciclo del sistema.' },
+          { title: '6 eslabones de la cadena de valor de IA', body: '**1. Datos** — Qué datos entran, quién los produce, cómo se etiquetan\n**2. Arquitectura** — Cómo se organizan, quién diseña el sistema\n**3. Fine-tuning** — Qué corpus, qué dirección, quién decide\n**4. Infraestructura** — Dónde se procesa, quién controla el server\n**5. Interfaz** — Cómo se presenta, qué sesgo tiene, quién lo experimenta\n**6. Gobernanza** — Quién decide qué se publica, qué se protege' },
+          { title: 'Lo que NO es → Lo que ES', body: '- Chatbot legal genérico → **Herramienta posicionada desde el trabajador**\n- App de un sindicato → **Plataforma que cada sindicato adapta**\n- Scraper de PDFs → **Convenio vivo, interactivo, contextualizado**\n- Startup que extrae datos → **Sistema soberano**\n- Chatbot "neutral" → **Argumenta desde la posición del trabajador**\n- Producto de Silicon Valley → **Producto del campo trabajador**' },
+          { title: 'Soberanía funcional', body: 'Soberanía no depende de rack físico — depende de **quién controla acceso, datos y modelos**.\n\nUn VPS donde se controla todo el stack (OS, DB, modelo, acceso) es funcionalmente soberano.' },
+        ],
+        tags: ['ecosistema', 'greeting'],
+        persona: 'hornero',
+        time: this._timeNow(),
+      }];
+      this.render();
+    }
+
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      chatEl.addEventListener('chat-back', () => {
+        this.emit('screen-change', { screen: 'home' });
+      });
+    }
+  }
+
+  _timeNow() {
+    return new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
   }
 }
 

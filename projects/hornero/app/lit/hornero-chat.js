@@ -1357,6 +1357,7 @@ class HorneroChat extends HoComponent {
       reporte:   { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero' },
       historia:  { emoji: '📜', label: 'Historia',   color: '#4A3A5A', persona: 'historiador' },
       panorama:  { emoji: '🔬', label: 'Panorama',  color: '#2D5A3D', persona: 'sociologo' },
+      ecosistema: { emoji: '🪶', label: 'Ecosistema', color: '#4E9978', persona: 'hornero' },
     };
     const defaultSection = { emoji: '✊', label: 'Hornero', color: '#7A3B1E', persona: 'abogado' };
 
@@ -1802,6 +1803,7 @@ class HorneroChat extends HoComponent {
       'periodista':   { emoji: '🎙️', name: 'Periodista',   bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/a04.png' },
       'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png' },
       'sociologo':    { emoji: '🔬', name: 'Investigador/a', bg: '#D4E8D7', color: '#2D5A3D', img: 'assets/personajes/a05.png' },
+      'hornero':      { emoji: '🪶', name: 'Hornero',        bg: '#D4E8D7', color: '#4E9978', img: 'assets/hornero-logo-nobg.png' },
     };
     return map[persona] || map['abogado'];
   }

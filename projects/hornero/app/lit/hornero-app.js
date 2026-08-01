@@ -38,6 +38,7 @@ class HorneroApp extends HoComponent {
     this.misReportesList = [];
     this._initialPersona = 'abogado'; // Persona selected from landing page
     this._initialSessionId = ''; // Session ID from Mis Conversaciones — load existing chat
+    this._initialSection = ''; // Initial section/topic for condicion (e.g. 'comportamiento')
     this._clipEdicion = null;
     this._clipExpandId = null;
     this._mateMes = null;
@@ -143,7 +144,7 @@ class HorneroApp extends HoComponent {
       { id: 'condicion', label: 'Panorama' },
       { id: 'smvm', label: 'SMVM' },
       { id: 'felicidad', label: 'Felicidad' },
-      { id: 've', label: 'Comportamiento' },
+      { id: 've', label: 'Comp. Empre.' },
       { id: 'ecosistema', label: 'Ecosistema' },
       { id: 'formacion', label: 'H. Obrera' },
       { id: 'perfil', label: 'Perfil' },
@@ -830,7 +831,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'contenido') {
       screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'periodista') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-contenido>';
     } else if (this.screen === 'condicion') {
-      screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'sociologo') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-condicion>';
+      screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'sociologo') + '" session-id="' + (this._initialSessionId || '') + '" initial-section="' + (this._initialSection || '') + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
       screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-perfil>';
     } else if (this.screen === 'recibidos') {
@@ -1032,6 +1033,13 @@ class HorneroApp extends HoComponent {
         if (btn.dataset.screen === 'derecho') {
           this._initialPersona = 'abogado';
           this._navigateTo('consulta');
+          return;
+        }
+        // Comp. Empre. section → navigate to condicion with initialSection=comportamiento
+        if (btn.dataset.screen === 've') {
+          this._initialPersona = 'sociologo';
+          this._initialSection = 'comportamiento';
+          this._navigateTo('condicion');
           return;
         }
         this._navigateTo(btn.dataset.screen);

@@ -11,6 +11,7 @@ class HorneroCondicion extends HoComponent {
       sector: String,
       persona: String,    // 'sociologo' — active persona for this screen
       sessionId: String,   // Session ID — if set, load existing session
+      initialSection: String, // Initial section/topic (e.g. 'comportamiento')
       messages: Array,
       _bannerVisible: Boolean,
       _exploreOpen: Boolean,
@@ -210,6 +211,7 @@ class HorneroCondicion extends HoComponent {
           username="${this._username}"
           grade="${this.grade}"
           no-auto-scroll="${this._bannerVisible}"
+          hide-top-bar="${!this._bannerVisible}"
         ></hornero-chat>
       </div>
     `;
@@ -292,6 +294,13 @@ class HorneroCondicion extends HoComponent {
         this._bannerVisible = false;
         // Send topic as first message
         this._handleUserMessage('Contame sobre ' + topic);
+      });
+    });
+
+    // Bind persona bar clicks
+    this.shadowRoot.querySelectorAll('.hero-persona-icon').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this._handlePersonaNavigate(btn.dataset.persona);
       });
     });
 
@@ -390,7 +399,12 @@ class HorneroCondicion extends HoComponent {
   _showGreeting() {
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
-    const introText = '¡Hola! Soy investigador/a de la clase obrera. Estudio cómo se forma la clase trabajadora, qué la compone, qué la daña y qué la sostiene.\n\nAcá tenemos cuatro lecturas de la misma realidad:\n\n• 👥 **Cómo Somos** — Datos duros de la clase trabajadora argentina\n• 🏭 **Comportamiento Empresarial** — Índice ICE, 4 dimensiones de violencia\n• 💰 **SMVM** — Salario mínimo vs. valor real, brecha de superexplotación\n• 🌿 **Felicidad Laboral** — IFT = SMVM × ICE\n\nPreguntame lo que quieras sobre cualquier tema.';
+    let introText;
+    if (this.initialSection === 'comportamiento') {
+      introText = '¡Hola! Soy investigador/a de la clase obrera. Vamos a hablar del **Comportamiento Empresarial**.\n\nEl Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones de violencia empresarial: salarial, contractual, ambiental y sindical. Es una radiografía de cómo las empresas tratan a los trabajadores.\n\nPreguntame lo que quieras sobre el ICE o cualquier dimensión de la violencia empresarial.';
+    } else {
+      introText = '¡Hola! Soy investigador/a de la clase obrera. Estudio cómo se forma la clase trabajadora, qué la compone, qué la daña y qué la sostiene.\n\nAcá tenemos cuatro lecturas de la misma realidad:\n\n• 👥 **Cómo Somos** — Datos duros de la clase trabajadora argentina\n• 🏭 **Comportamiento Empresarial** — Índice ICE, 4 dimensiones de violencia\n• 💰 **SMVM** — Salario mínimo vs. valor real, brecha de superexplotación\n• 🌿 **Felicidad Laboral** — IFT = SMVM × ICE\n\nPreguntame lo que quieras sobre cualquier tema.';
+    }
 
     // 1. Show typing dots for 1s
     this._typing = true;
@@ -920,6 +934,28 @@ class HorneroCondicion extends HoComponent {
     if (target) {
       this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
     }
+  }
+
+  _renderPersonaBar() {
+    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'sociologo'];
+    const personaConfig = {
+      'companero':   { name: 'Compañero/a',    img: 'assets/personajes/a02.png' },
+      'abogado':     { name: 'Derecho',         img: 'assets/personajes/a03.png' },
+      'periodista':  { name: 'Periodista',      img: 'assets/personajes/a04.png' },
+      'historiador': { name: 'Historiadora',     img: 'assets/personajes/a01.png' },
+      'sociologo':   { name: 'Investigador/a',   img: 'assets/personajes/a05.png' },
+    };
+    return allPersonas.map(p => {
+      const cfg = personaConfig[p];
+      const isActive = p === this._activePersona;
+      const imgClass = p === 'periodista' ? 'periodista-full' : '';
+      return `<button class="hero-persona-icon${isActive ? ' active' : ''}" data-persona="${p}">
+        <span class="hero-persona-icon-inner">
+          <img src="${cfg.img}" alt="${cfg.name}" class="${imgClass}" onerror="this.style.display='none'">
+        </span>
+        <span class="hero-persona-icon-label">${cfg.name}</span>
+      </button>`;
+    }).join('');
   }
 }
 
