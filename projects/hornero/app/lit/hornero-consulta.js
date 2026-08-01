@@ -170,12 +170,13 @@ class HorneroConsulta extends HoComponent {
 
   _render() {
     return html`
-      ${this._bannerVisible ? html`
-      <div class="hero-banner">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Derecho</div>
+        ${this._bannerVisible ? html`
         <div class="hero-bajada">
           Legislación laboral, convenios colectivos. Asesoramiento legal para trabajadores y delegados.
         </div>
+        ` : ''}
         <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
         ${this._exploreOpen ? html`
         <div class="hero-explore-panel">
@@ -187,8 +188,12 @@ class HorneroConsulta extends HoComponent {
           <button class="hero-explore-option" data-explore="Organización sindical">Organización sindical</button>
         </div>
         ` : ''}
+        ${!this._bannerVisible ? html`
+        <div class="hero-persona-bar">
+          ${this._renderPersonaBar()}
+        </div>
+        ` : ''}
       </div>
-      ` : ''}
 
       <div class="chat-container">
         <hornero-chat
