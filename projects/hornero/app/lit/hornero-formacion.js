@@ -300,15 +300,17 @@ class HorneroFormacion extends HoComponent {
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
         min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
-        background: url('assets/Historia-Obrera_marca-.png') center/contain no-repeat;
+        background: url('assets/Historia-Obrera_marca-.png') center/cover no-repeat;
         opacity: .15; pointer-events: none; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
       :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .hero-banner { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; min-height: 5.2em; }
+        text-align: left; position: relative; min-height: 5.2em; }
       .hero-bajada-link { display: inline-block; margin-top: 4px;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
@@ -325,7 +327,7 @@ class HorneroFormacion extends HoComponent {
       ${this._bannerVisible ? html`
       <div class="hero-banner">
         <div class="hero-banner-title">Historia Obrera</div>
-        <div class="hero-bajada" style="position:relative">
+        <div class="hero-bajada">
           Efemérides de la clase trabajadora, ensayos en el Mitín, la colección La Argentina Peronista y retazos de historia en audio, video e ilustración.
           Todo desde abajo — la historia que nos cuentan los que la hicieron.
           <a class="hero-bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗ historiaobrera.com.ar</a>
