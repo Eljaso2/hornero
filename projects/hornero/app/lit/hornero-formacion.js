@@ -297,9 +297,10 @@ class HorneroFormacion extends HoComponent {
         background: var(--ho-dark, #1E2321);
         padding: 20px 16px 14px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 10px;
-        flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden;
+        min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
-        background: url('assets/ho.jpg') center/cover no-repeat;
+        background: url('assets/Historia-Obrera_marca-.png') center/contain no-repeat;
         opacity: .15; pointer-events: none; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
