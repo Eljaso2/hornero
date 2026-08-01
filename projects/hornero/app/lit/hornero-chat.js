@@ -79,6 +79,7 @@ class HorneroChat extends HoComponent {
     this._recibidosDrawerStable = false; // prevent slideIn replay on re-render
     this._recibidosBadge = false; // badge on recibidos icon
     this._plusMenuOpen = false; // + dropdown menu state
+    this._plusMenuCloseHandler = null; // persistent outside-click handler
     this.streamingText = ''; // Live streaming text — when non-empty, shows as "in progress" message
     this._streamingPersona = ''; // Persona for the streaming message
   }
@@ -836,7 +837,8 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 2; }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 0; padding: 0 4px; }
+        scrollbar-width: none; gap: 0; padding: 0 4px;
+        justify-content: center; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
@@ -2051,22 +2053,28 @@ class HorneroChat extends HoComponent {
       plusBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this._plusMenuOpen = !this._plusMenuOpen;
-        this.requestUpdate();
+        this.render();
       });
     }
 
-    // === Close dropdown on outside click ===
-    const closeDropdown = (e) => {
-      if (this._plusMenuOpen) {
+    // === Close dropdown on outside click (persistent handler) ===
+    // Remove previous handler if any
+    if (this._plusMenuCloseHandler) {
+      document.removeEventListener('click', this._plusMenuCloseHandler);
+      this._plusMenuCloseHandler = null;
+    }
+    if (this._plusMenuOpen) {
+      this._plusMenuCloseHandler = (e) => {
         const dropdown = this.shadowRoot.querySelector('#chatPlusDropdown');
-        if (dropdown && !dropdown.contains(e.target) && e.target !== plusBtn) {
+        if (dropdown && !dropdown.contains(e.target) && e.target !== plusBtn && !plusBtn.contains(e.target)) {
           this._plusMenuOpen = false;
-          this.requestUpdate();
+          this._plusMenuCloseHandler = null;
+          this.render();
         }
-      }
-    };
-    this.removeEventListener('click', closeDropdown);
-    this.addEventListener('click', closeDropdown);
+      };
+      // Use setTimeout to avoid the current click event triggering close immediately
+      setTimeout(() => document.addEventListener('click', this._plusMenuCloseHandler), 0);
+    }
 
     // === Input focus → emit event (parent can hide banner etc) ===
     if (inputField) {
