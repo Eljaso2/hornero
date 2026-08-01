@@ -119,23 +119,6 @@ class HorneroConsulta extends HoComponent {
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         text-align: left; position: relative; min-height: 3.2em; }
 
-      /* ===== Collapsed banner: persona bar ===== */
-      .hero-persona-bar { display: flex; gap: 0; overflow-x: auto;
-        scrollbar-width: none; padding: 2px 0; justify-content: center; }
-      .hero-persona-bar::-webkit-scrollbar { width: 0; }
-      .hero-persona-icon { display: flex; flex-direction: column; align-items: center;
-        gap: 2px; background: none; border: none; cursor: pointer;
-        padding: 4px 6px; opacity: .45; flex-shrink: 0;
-        transition: opacity .2s; }
-      .hero-persona-icon:hover { opacity: .75; }
-      .hero-persona-icon.active { opacity: 1; }
-      .hero-persona-icon-inner { width: 24px; height: 24px; display: flex;
-        align-items: center; justify-content: center; overflow: hidden; }
-      .hero-persona-icon-inner img { width: 24px; height: 24px; object-fit: contain; }
-      .hero-persona-icon-label { font-family: 'Archivo', sans-serif; font-size: .46rem;
-        font-weight: 600; color: var(--ho-text-mid, #6E6A60); white-space: nowrap; }
-      .hero-persona-icon.active .hero-persona-icon-label { color: var(--ho-green, #4E9978); }
-
       /* ===== Explorar dropdown ===== */
       .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
         font-family: 'Archivo', sans-serif; font-size: .72rem;
@@ -186,11 +169,6 @@ class HorneroConsulta extends HoComponent {
           <button class="hero-explore-option" data-explore="Reforma laboral">Reforma laboral</button>
           <button class="hero-explore-option" data-explore="CCT 420/05">CCT 420/05</button>
           <button class="hero-explore-option" data-explore="Organización sindical">Organización sindical</button>
-        </div>
-        ` : ''}
-        ${!this._bannerVisible ? html`
-        <div class="hero-persona-bar">
-          ${this._renderPersonaBar()}
         </div>
         ` : ''}
       </div>
