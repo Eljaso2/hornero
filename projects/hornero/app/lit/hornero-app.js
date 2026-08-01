@@ -410,7 +410,7 @@ class HorneroApp extends HoComponent {
       .sections-bar { background: var(--ho-bg, #1E2321);
         flex: none; display: flex; overflow-x: auto;
         padding: 8px 12px 0px; gap: 0;
-        scrollbar-width: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+        scrollbar-width: none; border-bottom: 1px solid var(--ho-text-mid, #7A766C); }
       .sections-bar::-webkit-scrollbar { width: 0; }
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 600; color: var(--ho-text-mid, #7A766C);
@@ -430,7 +430,8 @@ class HorneroApp extends HoComponent {
       .bottom-nav { background: var(--ho-bg, #1E2321);
         display: flex; justify-content: space-around;
         padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
-        width: 100%; z-index: 100; position: relative; }
+        width: 100%; z-index: 100; position: relative;
+        border-top: 1px solid var(--ho-text-mid, #7A766C); }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;
