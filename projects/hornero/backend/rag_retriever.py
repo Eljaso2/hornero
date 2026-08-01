@@ -124,6 +124,7 @@ CATEGORY_KEYWORDS = {
     "organizacion sindical": ["sindicato", "organizacion", "asamblea", "delegado", "huelga"],
     "historia obrera": ["forestal", "masacre", "lockout", "historia", "referente", "lafuente"],
     "salud laboral": ["art", "seguridad", "enfermeria", "accidente", "salud"],
+    "condicion obrera": ["clase obrera", "clase trabajadora", "ejercito", "reserva", "ice", "ift", "panorama", "condicion", "como somos", "felicidad", "distribucion", "cremonte", "canasta"],
 }
 
 

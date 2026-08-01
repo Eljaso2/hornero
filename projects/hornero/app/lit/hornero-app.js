@@ -120,7 +120,7 @@ class HorneroApp extends HoComponent {
       { id: 'actualidad', label: 'Actualidad', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
       { id: 'chat', label: 'Chat', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
       { id: 'misReportes', label: 'Mis Reportes', svg: '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>' },
-      { id: 'condicion', label: 'Panorama', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
+      { id: 'condicion', label: 'H. Obrera', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
       { id: 'perfil', label: 'Perfil', svg: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
     ];
     this.navDefRecibidos = { id: 'recibidos', label: 'Recibidos', svg: '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>' };
@@ -140,7 +140,7 @@ class HorneroApp extends HoComponent {
       { id: 'chat', label: 'Chat' },
       { id: 'contenido', label: 'Contenido' },
       { id: 'historiador', label: 'Historiador' },
-      { id: 'condicion', label: 'Panorama' },
+      { id: 'condicion', label: 'H. Obrera' },
       { id: 'smvm', label: 'SMVM' },
       { id: 'felicidad', label: 'Felicidad' },
       { id: 've', label: 'Comportamiento' },
@@ -156,7 +156,7 @@ class HorneroApp extends HoComponent {
       consulta: 'Chateá con tu interlocutor/a',
       formacion: 'Historia Obrera',
       is: 'Reporte gremial',
-      condicion: 'Panorama',
+      condicion: 'Historia Obrera',
       archivo: 'Archivo',
       perfil: 'Perfil',
       // Subscreens
@@ -753,7 +753,8 @@ class HorneroApp extends HoComponent {
         choiceHtml('gremial', 'companero', 'assets/personajes/a02.png', 'Compañero/a', '✊', 'Compañero/a', 'Te ayudo a elaborar un reporte gremial') +
         choiceHtml('consulta', 'abogado', 'assets/personajes/a03.png', 'Abogado/a', '📖', 'Abogado/a', 'Derechos, convenios, legislación laboral') +
         choiceHtml('contenido', 'periodista', 'assets/personajes/a04.png', 'Periodista', '🎙️', 'Periodista', 'Prensa, podcasts, reels, entrevistas') +
-        choiceHtml('historiador', 'historiador', 'assets/personajes/a01.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos');
+        choiceHtml('historiador', 'historiador', 'assets/personajes/a01.png', 'Historiadora', '📜', 'Historiador/a', 'Historia obrera, formación, archivos') +
+        choiceHtml('condicion', 'sociologo', 'assets/personajes/a05.png', 'Investigador/a', '🔬', 'Investigador/a', 'Condición obrera, índices, clase trabajadora');
 
       // Grade-based extras — navigate to full list screens
       let extraChoices = '';
@@ -781,7 +782,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'contenido') {
       screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'periodista') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-contenido>';
     } else if (this.screen === 'condicion') {
-      screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-condicion>';
+      screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'sociologo') + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
       screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-perfil>';
     } else if (this.screen === 'recibidos') {

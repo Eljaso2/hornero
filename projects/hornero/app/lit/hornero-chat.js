@@ -1211,13 +1211,14 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Persona icons — top-left corner (all 5 always visible, active one highlighted)
-    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador'];
+    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'sociologo'];
     // Screen mapping for navigation
     const personaScreenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'companero': { screen: 'gremial', persona: 'companero' },
       'historiador': { screen: 'historiador', persona: 'historiador' },
+      'sociologo': { screen: 'condicion', persona: 'sociologo' },
     };
     const personaIconsHtml = allPersonas.map((p, idx) => {
       const cfg = this._getPersonaConfig(p);
@@ -1259,6 +1260,7 @@ class HorneroChat extends HoComponent {
       debate:    { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero' },
       reporte:   { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero' },
       historia:  { emoji: '📜', label: 'Historia',   color: '#4A3A5A', persona: 'historiador' },
+      panorama:  { emoji: '🔬', label: 'Panorama',  color: '#2D5A3D', persona: 'sociologo' },
     };
     const defaultSection = { emoji: '✊', label: 'Hornero', color: '#7A3B1E', persona: 'abogado' };
 
@@ -1682,6 +1684,7 @@ class HorneroChat extends HoComponent {
       'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/a02.png' },
       'periodista':   { emoji: '🎙️', name: 'Periodista/a',  bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/a04.png' },
       'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png' },
+      'sociologo':    { emoji: '🔬', name: 'Investigador/a', bg: '#D4E8D7', color: '#2D5A3D', img: 'assets/personajes/a05.png' },
     };
     return map[persona] || map['abogado'];
   }

@@ -115,7 +115,7 @@ app.add_middleware(
 # ===== Helpers =====
 def validated_redirect(redirect_persona: str) -> str:
     """Validate redirect_persona field from LLM response."""
-    allowed = ["abogado", "companero", "periodista", "historiador", ""]
+    allowed = ["abogado", "companero", "periodista", "historiador", "sociologo", ""]
     if redirect_persona in allowed:
         return redirect_persona
     return ""
@@ -279,7 +279,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
     """
     # Greeting: no RAG retrieval needed (persona + principles are sufficient)
     # Use requested_persona if provided, otherwise section-based default
-    if req.requested_persona and req.requested_persona in ["companero", "abogado", "periodista", "historiador"]:
+    if req.requested_persona and req.requested_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"]:
         effective_persona = req.requested_persona
     elif req.requested_persona and req.requested_persona in PERSONA_MAP:
         effective_persona = PERSONA_MAP.get(req.requested_persona, 'abogado')
@@ -326,7 +326,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
 
     # Determine persona from LLM response or fallback
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
 
     return GreetingResponse(
         text=parsed.get("text", ""),
@@ -403,7 +403,7 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
 
     # Determine persona from LLM response or fallback
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
 
     # Log structured chat interaction
     elapsed = round(time.time() - start_time, 2)
@@ -487,7 +487,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
                         time_str = now.strftime("%H:%M")
 
                         llm_persona = parsed.get("persona", "")
-                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
+                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
 
                         result = {
                             "text": parsed.get("text", ""),
@@ -518,7 +518,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
                 time_str = now.strftime("%H:%M")
 
                 llm_persona = parsed.get("persona", "")
-                final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
+                final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
 
                 # Send entire text as single token event for non-streaming fallback
                 text_content = parsed.get("text", "")
@@ -640,7 +640,7 @@ async def audio_chat_endpoint(
     time_str = now.strftime("%H:%M")
 
     llm_persona = parsed.get("persona", "")
-    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador"] else effective_persona
+    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
 
     return ChatResponse(
         text=parsed.get("text", ""),

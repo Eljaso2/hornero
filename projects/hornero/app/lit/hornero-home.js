@@ -297,11 +297,12 @@ class HorneroHome extends HoComponent {
       .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
         color: var(--ho-text, #E8E6E0); }
 
-      /* ===== ESFERA 3: Panorama — hero card ===== */
+      /* ===== ESFERA 3: Historia Obrera — Sociólogo investigator card ===== */
       .panorama-card { position: relative; border-radius: 13px; margin-bottom: 10px;
-        overflow: hidden; cursor: pointer; min-height: 140px; }
-      .panorama-card img.hero { width: 100%; height: 180px; object-fit: cover;
-        display: block; opacity: .55; }
+        overflow: hidden; cursor: pointer; min-height: 140px;
+        background: var(--ho-dark, #1E2321); }
+      .panorama-card img.hero { width: 100%; height: 180px; object-fit: contain;
+        object-position: center bottom; display: block; opacity: .85; }
       .panorama-overlay { position: absolute; bottom: 0; left: 0; right: 0;
         padding: 36px 14px 12px;
         background: linear-gradient(transparent, rgba(33,31,29,.92));
@@ -501,7 +502,7 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 2: Chat IA — 4 personajes -->
+      <!-- ESFERA 2: Chat IA — 5 personajes -->
       <div class="esfera-consulta">
         <div class="esfera-name">Chat</div>
         <div class="consulta-icons">
@@ -521,16 +522,20 @@ class HorneroHome extends HoComponent {
             <img src="assets/personajes/a01.png" alt="Historiadora" class="persona-home-img">
             <span class="icon-label">Historiadora</span>
           </button>
+          <button class="icon-btn" data-screen="condicion" data-persona="sociologo">
+            <img src="assets/personajes/a05.png" alt="Investigador/a" class="persona-home-img">
+            <span class="icon-label">Investigador/a</span>
+          </button>
         </div>
       </div>
 
-      <!-- ESFERA 3: Panorama — hero card -->
-      <div class="panorama-card" data-screen="condicion">
-        <img src="assets/panorama-bg.png" alt="Panorama" class="hero">
+      <!-- ESFERA 3: Historia Obrera — Sociólogo investigator card -->
+      <div class="panorama-card" data-screen="condicion" data-persona="sociologo">
+        <img src="assets/personajes/a05.png" alt="Historia Obrera" class="hero">
         <div class="panorama-overlay">
-          <div class="card-name">Panorama</div>
-          <div class="card-desc">CE · IFT · Cómo Somos · SMVM</div>
-          <span class="card-tag">índices · diagnóstico · clase trabajadora</span>
+          <div class="card-name">Historia Obrera</div>
+          <div class="card-desc">Investigador/a de la clase obrera · CE · IFT · SMVM</div>
+          <span class="card-tag">condición obrera · diagnóstico · clase trabajadora</span>
         </div>
       </div>
 

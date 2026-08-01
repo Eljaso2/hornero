@@ -4,7 +4,7 @@
 // This means: push changes → open app → see changes immediately, no cache clearing
 // Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v361';
+var CACHE_NAME = 'hornero-v362';
 var ASSETS = [
   './css/hornero.css',
   './js/db.js',
@@ -58,7 +58,8 @@ var ASSETS = [
   './assets/personajes/a01.png',
   './assets/personajes/a02.png',
   './assets/personajes/a03.png',
-  './assets/personajes/a04.png'
+  './assets/personajes/a04.png',
+  './assets/personajes/a05.png'
 ];
 
 // Install: cache core assets individually (resilient — skip failures)

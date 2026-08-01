@@ -54,7 +54,7 @@ class HorneroConsulta extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
-    this._chatSection = 'consulta'; // Section key for history
+    this._chatSection = 'consulta'; // Section key for history — overridden by persona
     this.messages = [];
     this.iaStep = 0;
     this._typing = false; this._greetingRequested = false;
@@ -95,10 +95,11 @@ class HorneroConsulta extends HoComponent {
   }
 
   _render() {
+    const chatTitle = this._activePersona === 'sociologo' ? 'Chateá con el Investigador/a' : 'Chateá con tu interlocutor/a';
     return html`
       <div class="chat-container">
         <hornero-chat
-          title="Chateá con el Abogado/a"
+          title="${chatTitle}"
           input-placeholder="Qué pensás..."
           messages="${JSON.stringify(this.messages)}"
           typing="${this._typing}"
@@ -270,6 +271,16 @@ class HorneroConsulta extends HoComponent {
     this._requestGreeting();
   }
 
+  // Determine the formato (section) based on the active persona
+  _getFormato() {
+    if (this._activePersona === 'sociologo') {
+      this._chatSection = 'panorama';
+      return 'panorama';
+    }
+    this._chatSection = 'consulta';
+    return 'consulta';
+  }
+
   async _requestGreeting() {
     this._greetingRequested = true;
     this._typing = true;
@@ -280,7 +291,7 @@ class HorneroConsulta extends HoComponent {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          section: 'consulta',
+          section: this._getFormato(),
           grade: this.grade,
           sector: this.sector,
           requested_persona: this._activePersona,
@@ -313,6 +324,18 @@ class HorneroConsulta extends HoComponent {
   }
 
   _localGreeting() {
+    if (this._activePersona === 'sociologo') {
+      return {
+        role: 'hornero',
+        sections: [
+          { title: '¡Hola!', body: 'Soy investigador/a de la clase obrera. Estudio cómo se forma la clase trabajadora, qué la compone, qué la daña y qué la sostiene.' },
+          { title: '¿De qué podemos hablar?', body: 'Condición obrera, índice ICE, comportamiento empresarial, SMVM y distribución del ingreso, felicidad laboral (IFT), datos de la clase trabajadora. Preguntame lo que quieras.' },
+        ],
+        tags: ['panorama', 'greeting'],
+        persona: this._activePersona,
+        time: this._timeNow(),
+      };
+    }
     return {
       role: 'hornero',
       sections: [
@@ -468,7 +491,7 @@ class HorneroConsulta extends HoComponent {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: text,
-        formato: 'consulta',
+        formato: this._getFormato(),
         history: history,
         grade: this.grade,
         sector: this.sector,
@@ -602,7 +625,7 @@ class HorneroConsulta extends HoComponent {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: text,
-        formato: 'consulta',
+        formato: this._getFormato(),
         history: history,
         grade: this.grade,
         sector: this.sector,
@@ -699,7 +722,7 @@ class HorneroConsulta extends HoComponent {
 
     const formData = new FormData();
     formData.append('audio', audioBlob, fileName || 'recording.webm');
-    formData.append('formato', 'consulta');
+    formData.append('formato', this._getFormato());
     formData.append('grade', this.grade);
     formData.append('sector', this.sector);
     formData.append('requested_persona', this._activePersona);
@@ -766,6 +789,15 @@ class HorneroConsulta extends HoComponent {
   _localResponse(userText) {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
+
+    // Sociólogo-specific responses
+    if (p === 'sociologo') {
+      if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {
+        return { role: 'hornero', sections: [{ title: '¡Hola!', body: '¿Cómo andás? Preguntame sobre la condición obrera, el ICE, el SMVM, la felicidad laboral, los datos de la clase trabajadora. Te guío.' }], tags: ['panorama', 'saludo'], persona: p, time: this._timeNow() };
+      }
+      return { role: 'hornero', sections: [{ title: 'Investigador/a', body: 'No tengo datos específicos sobre eso, pero puedo ayudarte con: condición obrera, índice ICE, comportamiento empresarial, SMVM, felicidad laboral, datos de la clase trabajadora. ¿Qué te interesa?' }], tags: ['panorama'], persona: p, time: this._timeNow() };
+    }
+
     if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {
       return { role: 'hornero', sections: [{ title: '¡Hola!', body: '¿Cómo andás? Contame qué te interesa — paritaria, condiciones, SMVM, reforma, convenio, organización. Te guío.' }], tags: ['consulta', 'saludo'], persona: p, time: this._timeNow() };
     }
@@ -883,6 +915,7 @@ class HorneroConsulta extends HoComponent {
       'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'historiador': { screen: 'historiador' },
+      'sociologo': { screen: 'condicion', persona: 'sociologo' },
     };
     const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
     if (target) {

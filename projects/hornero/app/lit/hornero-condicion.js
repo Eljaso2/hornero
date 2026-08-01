@@ -10,6 +10,7 @@ class HorneroCondicion extends HoComponent {
     return {
       grade: String,
       sector: String,
+      persona: String,    // 'sociologo' — active persona for this screen
       tab: String,        // 'panorama' | 'como-somos' | 've' | 'smvm' | 'ift'
       subTab: String,     // sub-nav dentro de como-somos: 'foto' | 'pelicula'
       expandedId: String,  // expanded item id
@@ -20,6 +21,7 @@ class HorneroCondicion extends HoComponent {
     super();
     this.grade = 'A';
     this.sector = 'aceitero';
+    this.persona = 'sociologo';
     this.tab = 'panorama';
     this.subTab = 'foto';
     this.expandedId = '';
@@ -222,6 +224,22 @@ class HorneroCondicion extends HoComponent {
       .chat-bar-text { flex: 1; font-family: 'Archivo', sans-serif; font-size: .82rem;
         font-weight: 600; color: var(--ho-text, #E8E6E0); }
       .chat-bar-arrow { font-size: .82rem; color: var(--ho-green, #4E9978); }
+
+      /* ===== Sociólogo intro ===== */
+      .sociologo-intro { display: flex; gap: 12px; align-items: flex-start;
+        margin-bottom: 16px; }
+      .sociologo-avatar { width: 56px; height: 56px; border-radius: 50%;
+        object-fit: contain; flex: none; background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .sociologo-text { flex: 1; }
+      .sociologo-name { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .88rem; color: #2D5A3D; margin-bottom: 2px; }
+      .sociologo-role { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        font-weight: 600; color: var(--ho-text-light, #9C988D);
+        letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+      .sociologo-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.45; }
+      :host(.theme-light) .sociologo-name { color: #2D5A3D; }
     `;
   }
 
@@ -235,9 +253,18 @@ class HorneroCondicion extends HoComponent {
 
     return html`
       <div class="scroll">
-        <div class="kicker">📊 PANORAMA</div>
+        <div class="kicker">🔬 HISTORIA OBRERA</div>
         <div class="section-title">Condición obrera</div>
-        <div class="intro">Cómo actúa el empresario × lo que te importa × cómo se forma la clase × lo que te sostiene. La misma data, cuatro lecturas.</div>
+
+        <!-- Sociólogo intro -->
+        <div class="sociologo-intro">
+          <img src="assets/personajes/a05.png" alt="Investigador/a" class="sociologo-avatar">
+          <div class="sociologo-text">
+            <div class="sociologo-name">Investigador/a de la clase obrera</div>
+            <div class="sociologo-role">Sociólogo · Historia Obrera</div>
+            <div class="sociologo-desc">Acá estudio cómo se forma la clase trabajadora, qué la compone, qué la daña y qué la sostiene. Datos, índices, conexiones — la misma realidad, cuatro lecturas. Preguntame lo que quieras.</div>
+          </div>
+        </div>
 
         <div class="formula">
           <div class="formula-text">ICE × SMVM × IFT × CÓMO SOMOS</div>
@@ -710,7 +737,7 @@ class HorneroCondicion extends HoComponent {
           'chat-smvm': 'Quiero entender la brecha entre el SMVM legal y el valor real',
           'chat-ift': 'Quiero analizar la felicidad laboral en mi sector',
         };
-        this.emit('screen-change', { screen: 'consulta', persona: 'abogado', preQuery: queries[action] || '' });
+        this.emit('screen-change', { screen: 'consulta', persona: 'sociologo', preQuery: queries[action] || '' });
       });
     });
   }
