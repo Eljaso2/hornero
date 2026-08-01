@@ -1524,38 +1524,36 @@ class HorneroChat extends HoComponent {
           ${this.hidePersonaBar ? (this.centerLogo ? html`<img class="chat-top-bar-logo" src="${this.centerLogo}" alt="">` : '') : personaIconsHtml}
         </div>
         <div class="chat-top-bar-right">
-          ${!this.hidePersonaBar ? html`
-            ${this._plusMenuOpen ? html`
-              <div class="chat-plus-menu" id="chatPlusMenu">
-                <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
-                  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                </button>
-                <div class="chat-plus-divider"></div>
-                <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
-                  <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                  <span class="item-label">Historial</span>
-                </button>
-                ${!this.hideInformesBtn ? html`
-                  <button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
-                    <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
-                    <span class="item-label">Reportes</span>
-                    ${this.informeBadge ? html`<span class="item-badge"></span>` : ''}
-                  </button>
-                ` : ''}
-                ${isHigherGrade && !this.hideRecibidosBtn ? html`
-                  <button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
-                    <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
-                    <span class="item-label">Recibidos</span>
-                    ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
-                  </button>
-                ` : ''}
-              </div>
-            ` : html`
-              <button class="chat-plus-btn" id="chatPlusBtn" title="Más opciones">
+          ${this._plusMenuOpen ? html`
+            <div class="chat-plus-menu" id="chatPlusMenu">
+              <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
                 <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </button>
-            `}
-          ` : ''}
+              <div class="chat-plus-divider"></div>
+              <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
+                <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                <span class="item-label">Historial</span>
+              </button>
+              ${!this.hideInformesBtn ? html`
+                <button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
+                  <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
+                  <span class="item-label">Reportes</span>
+                  ${this.informeBadge ? html`<span class="item-badge"></span>` : ''}
+                </button>
+              ` : ''}
+              ${isHigherGrade && !this.hideRecibidosBtn ? html`
+                <button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
+                  <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
+                  <span class="item-label">Recibidos</span>
+                  ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
+                </button>
+              ` : ''}
+            </div>
+          ` : html`
+            <button class="chat-plus-btn" id="chatPlusBtn" title="Más opciones">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          `}
         </div>
       </div>
 

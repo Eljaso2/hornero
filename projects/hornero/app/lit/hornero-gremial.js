@@ -1796,6 +1796,8 @@ class HorneroGremial extends HoComponent {
   }
 
   async _saveChatHistory() {
+    // No persistir hasta que el usuario envíe su primer mensaje
+    if (!this.messages.some(m => m.role === 'user')) return;
     try {
       if (typeof guardarChatMsg === 'function') {
         for (const m of this.messages) {

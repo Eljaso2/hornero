@@ -436,8 +436,6 @@ class HorneroFormacion extends HoComponent {
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
       chatEl.hidePersonaBar = false;
-      chatEl.hideInformesBtn = true;
-      chatEl.hideRecibidosBtn = true;
       chatEl.centerLogo = '';
       chatEl.noAutoScroll = this._bannerVisible;
       chatEl.topBarAccent = false;
@@ -989,6 +987,8 @@ class HorneroFormacion extends HoComponent {
   }
 
   async _saveChatHistory() {
+    // No persistir hasta que el usuario envíe su primer mensaje
+    if (!this.messages.some(m => m.role === 'user')) return;
     try {
       if (typeof guardarChatMsg === 'function') {
         for (const m of this.messages) {
