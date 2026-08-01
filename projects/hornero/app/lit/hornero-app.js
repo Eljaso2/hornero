@@ -145,9 +145,8 @@ class HorneroApp extends HoComponent {
       { id: 'smvm', label: 'SMVM' },
       { id: 'felicidad', label: 'Felicidad' },
       { id: 've', label: 'Comp. Empre.' },
-      { id: 'ecosistema', label: 'Ecosistema' },
       { id: 'formacion', label: 'H. Obrera' },
-      { id: 'perfil', label: 'Perfil' },
+      { id: 'ecosistema', label: 'Eco H' },
     ];
 
     this.titles = {

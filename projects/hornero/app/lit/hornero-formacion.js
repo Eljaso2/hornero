@@ -376,12 +376,13 @@ class HorneroFormacion extends HoComponent {
 
   _render() {
     return html`
-      ${this._bannerVisible ? html`
-      <div class="hero-banner">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Historia Obrera <a class="hero-bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗</a></div>
+        ${this._bannerVisible ? html`
         <div class="hero-bajada">
           Efemérides, ensayos, Mitín, colección La Argentina Peronista, retazos de historia, audio, video e ilustración.
         </div>
+        ` : ''}
         <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
         ${this._exploreOpen ? html`
         <div class="hero-explore-panel">
@@ -391,8 +392,12 @@ class HorneroFormacion extends HoComponent {
           <button class="hero-explore-option" data-explore="Retazos">Retazos</button>
         </div>
         ` : ''}
+        ${!this._bannerVisible ? html`
+        <div class="hero-persona-bar">
+          ${this._renderPersonaBar()}
+        </div>
+        ` : ''}
       </div>
-      ` : ''}
 
       <div class="chat-container">
         <hornero-chat
