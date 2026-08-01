@@ -420,7 +420,8 @@ class HorneroApp extends HoComponent {
         transition: color .2s, border-color .2s; }
       .sections-btn.active { color: var(--ho-green, #4E9978);
         border-bottom-color: var(--ho-green, #4E9978); }
-      .sections-logo { width: 20px; height: 20px; object-fit: contain; vertical-align: middle; }
+      .sections-logo { width: 24px; height: 24px; object-fit: contain; vertical-align: middle; }
+      :host(.theme-light) .sections-logo { filter: brightness(0.3); }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;

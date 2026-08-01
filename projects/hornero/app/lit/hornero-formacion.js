@@ -411,6 +411,7 @@ class HorneroFormacion extends HoComponent {
           username="${this._username}"
           grade="${this.grade}"
           no-auto-scroll="${this._bannerVisible}"
+          hide-top-bar="${!this._bannerVisible}"
         ></hornero-chat>
       </div>
     `;
@@ -492,6 +493,13 @@ class HorneroFormacion extends HoComponent {
         this._exploreOpen = false;
         this._bannerVisible = false;
         this._handleUserMessage('Contame sobre ' + topic);
+      });
+    });
+
+    // Bind persona bar clicks
+    this.shadowRoot.querySelectorAll('.hero-persona-icon').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this._handlePersonaNavigate(btn.dataset.persona);
       });
     });
 
