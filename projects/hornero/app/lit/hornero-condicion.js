@@ -375,13 +375,13 @@ class HorneroCondicion extends HoComponent {
 
     let introText;
     if (this.initialSection === 'comportamiento') {
-      introText = '¡Hola! Soy investigador/a de la clase obrera. Vamos a hablar del **Comportamiento Empresarial**.\n\nEl Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones de violencia empresarial: salarial, contractual, ambiental y sindical. Es una radiografía de cómo las empresas tratan a los trabajadores.\n\nPreguntame lo que quieras sobre el ICE o cualquier dimensión de la violencia empresarial.';
+      introText = 'Soy la investigadora de la clase obrera. Vamos a hablar del Comportamiento Empresarial.\n\nEl Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones de violencia empresarial: salarial, contractual, ambiental y sindical. Es una radiografía de cómo las empresas tratan a los trabajadores.\n\nPreguntame lo que quieras sobre el ICE o cualquier dimensión de la violencia empresarial.';
     } else if (this.initialSection === 'smvm') {
-      introText = '¡Hola! Soy investigador/a de la clase obrera. Vamos a hablar del **SMVM**.\n\nEl Salario Mínimo Vital y Móvil no es solo un número: es la frontera entre lo que la ley reconoce y lo que el trabajador necesita realmente. Acá analizamos la brecha entre el salario mínimo y el valor de la fuerza de trabajo, la canasta básica, y la superexplotación.\n\nPreguntame lo que quieras sobre el SMVM, la canasta básica o la brecha salarial.';
+      introText = 'Soy la investigadora de la clase obrera. Vamos a hablar del SMVM.\n\nEl Salario Mínimo Vital y Móvil no es solo un número: es la frontera entre lo que la ley reconoce y lo que el trabajador necesita realmente. Acá analizamos la brecha entre el salario mínimo y el valor de la fuerza de trabajo, la canasta básica, y la superexplotación.\n\nPreguntame lo que quieras sobre el SMVM, la canasta básica o la brecha salarial.';
     } else if (this.initialSection === 'felicidad') {
-      introText = '¡Hola! Soy investigador/a de la clase obrera. Vamos a hablar del **Índice de Felicidad Laboral**.\n\nEl IFT cruza el SMVM con el ICE: mide cuánto gana el trabajador frente a cuánta violencia empresarial sufre. No es bienestar subjetivo — es un indicador material de la calidad de vida laboral.\n\nPreguntame lo que quieras sobre el IFT, el SMVM o el Comportamiento Empresarial.';
+      introText = 'Soy la investigadora de la clase obrera. Vamos a hablar del Índice de Felicidad Laboral.\n\nEl IFT cruza el SMVM con el ICE: mide cuánto gana el trabajador frente a cuánta violencia empresarial sufre. No es bienestar subjetivo — es un indicador material de la calidad de vida laboral.\n\nPreguntame lo que quieras sobre el IFT, el SMVM o el Comportamiento Empresarial.';
     } else {
-      introText = '¡Hola! Soy investigador/a de la clase obrera. Estudio cómo se forma la clase trabajadora, qué la compone, qué la daña y qué la sostiene.\n\nAcá tenemos cuatro lecturas de la misma realidad:\n\n• 👥 **Cómo Somos** — Datos duros de la clase trabajadora argentina\n• 🏭 **Comportamiento Empresarial** — Índice ICE, 4 dimensiones de violencia\n• 💰 **SMVM** — Salario mínimo vs. valor real, brecha de superexplotación\n• 🌿 **Felicidad Laboral** — IFT = SMVM × ICE\n\nPreguntame lo que quieras sobre cualquier tema.';
+      introText = 'Soy la investigadora de la clase obrera. Acá tenemos cuatro lecturas de la misma realidad:\n\n• 👥 Cómo Somos — Datos duros de la clase trabajadora argentina\n• 🏭 Comportamiento Empresarial — Índice ICE, 4 dimensiones de violencia\n• 💰 SMVM — Salario mínimo vs. valor real, brecha de superexplotación\n• 🌿 Felicidad Laboral — IFT = SMVM × ICE\n\nPreguntame lo que quieras sobre cualquier tema.';
     }
 
     // 1. Show typing dots for 1s
@@ -545,10 +545,7 @@ class HorneroCondicion extends HoComponent {
   _localGreeting() {
     return {
       role: 'hornero',
-      sections: [
-        { title: '¡Hola!', body: 'Soy investigador/a de la clase obrera. Estudio cómo se forma la clase trabajadora, qué la compone, qué la daña y qué la sostiene.' },
-        { title: '¿De qué podemos hablar?', body: 'Condición obrera, índice ICE, comportamiento empresarial, SMVM y distribución del ingreso, felicidad laboral (IFT), datos de la clase trabajadora. Preguntame lo que quieras.' },
-      ],
+      text: 'Soy la investigadora de la clase obrera. ¿Qué querés explorar?',
       tags: ['panorama', 'greeting'],
       persona: this._activePersona,
       time: this._timeNow(),
