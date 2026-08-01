@@ -290,7 +290,7 @@ class HorneroFormacion extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #1E2321); position: relative; overflow-x: hidden; }
+        background: var(--ho-bg, #1E2321); position: relative; }
 
       /* ===== Hero banner with bajada overlay ===== */
       .hero-banner { position: relative; width: 100%;
@@ -310,8 +310,7 @@ class HorneroFormacion extends HoComponent {
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
 
       /* ===== Chat container ===== */
-      .chat-container { flex: 1; display: flex; flex-direction: column;
-        min-height: 0; width: 100%; overflow: hidden; }
+      .chat-container { display: flex; flex-direction: column; height: 100%; }
     `;
   }
 
@@ -937,6 +936,7 @@ class HorneroFormacion extends HoComponent {
       'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'historiador': { screen: 'formacion', persona: 'historiador' },
+      'sociologo': { screen: 'condicion', persona: 'sociologo' },
     };
     const target = screenMap[targetPersona];
     if (target) {
