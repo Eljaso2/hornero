@@ -293,16 +293,20 @@ class HorneroHome extends HoComponent {
         scrollbar-width: none; gap: 0; padding: 4px 20px; }
       .consulta-icons::-webkit-scrollbar { width: 0; }
       .icon-btn { display: flex; flex-direction: column; align-items: center;
-        gap: 8px; background: none; border: none; cursor: pointer;
-        padding: 10px 14px; font-family: 'Archivo', sans-serif;
+        gap: 6px; background: none; border: none; cursor: pointer;
+        padding: 10px 4px; font-family: 'Archivo', sans-serif;
         transition: opacity .2s; position: relative;
-        flex-shrink: 0; scroll-snap-align: center; min-width: 80px; }
+        flex-shrink: 0; scroll-snap-align: center; min-width: 68px; }
+      .icon-btn:not(:last-child)::after {
+        content: ''; position: absolute; right: 0; top: 10px;
+        width: 1px; height: 54px;
+        background: var(--ho-green-pale, #E0F0EB); }
       .icon-btn:hover { opacity: .8; }
-      .persona-home-img { width: 64px; height: 64px; border-radius: 0;
+      .persona-home-img { width: 56px; height: 56px; border-radius: 0;
         object-fit: contain; object-position: center;
         filter: var(--ho-persona-filter, none); }
       .persona-home-img.periodista-full { object-fit: contain; }
-      .icon-btn .icon-label { font-size: .72rem; font-weight: 600;
+      .icon-btn .icon-label { font-size: .68rem; font-weight: 600;
         color: var(--ho-text, #E8E6E0); white-space: nowrap; }
 
       /* ===== ESFERA 3: Panorama — hero card ===== */
