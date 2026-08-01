@@ -291,7 +291,7 @@ class HorneroArchivo extends HoComponent {
   _showGreeting() {
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
-    const greetingText = '¡Hola! Soy la Historiadora. En el archivo del sindicato encontrás convenios, referentes, fuentes sindicales, documentos académicos y más.\n\nPuedo ayudarte a buscar lo que necesitás. Estos son los modos de búsqueda:\n\n• 🔍 Buscar por palabra clave — Decime qué tema te interesa y busco en todo el archivo\n\n• 📄 Fuentes por categoría — Explorá los documentos organizados por tema: convenios, historia sindical, legislación laboral, etc.\n\n• 📚 Académicos — Artículos y papers de investigación sobre el mundo del trabajo\n\n• 📰 Multimedia — Notas periodísticas, audio, video (se irá sumando contenido)\n\nPreguntame lo que quieras o decime un tema y te busco las fuentes.';
+    const greetingText = '¡Hola! Soy la Historiadora. En el archivo del sindicato encontrás convenios, referentes, fuentes sindicales, documentos académicos y más.\n\nAcá podemos buscar:\n\n• 🔍 Por palabra clave — Decime qué tema te interesa y busco en todo el archivo\n• 📄 Fuentes por categoría — Explorá los documentos organizados por tema: convenios, historia sindical, legislación laboral, etc.\n• 📚 Académicos — Artículos y papers de investigación sobre el mundo del trabajo\n• 📰 Multimedia — Notas periodísticas, audio, video (se irá sumando contenido)\n\nPreguntame lo que quieras o decime un tema y te busco las fuentes.';
 
     // 1. Show typing dots for 1s
     this._typing = true;
@@ -636,7 +636,7 @@ class HorneroArchivo extends HoComponent {
   }
 
   _localGreeting() {
-    return { role: 'hornero', sections: [{ title: '¡Hola! Soy la Historiadora', body: 'En el archivo del sindicato encontrás convenios, referentes, fuentes y documentos. Preguntame lo que buscás y te guío.' }], tags: ['archivo', 'greeting'], persona: 'historiador', time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: '¡Hola! Soy la Historiadora', body: 'En el archivo del sindicato encontrás convenios, referentes, fuentes y documentos.\n\nAcá podemos buscar:\n\n• 🔍 Por palabra clave — Decime qué tema te interesa\n• 📄 Fuentes por categoría — Convenios, historia sindical, legislación laboral\n• 📚 Académicos — Artículos y papers de investigación\n• 📰 Multimedia — Notas periodísticas, audio, video\n\nPreguntame lo que buscás y te guío.' }], tags: ['archivo', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
   // ===== Handle audio message =====
