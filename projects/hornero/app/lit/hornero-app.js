@@ -462,21 +462,22 @@ class HorneroApp extends HoComponent {
         scrollbar-width: none; }
       .chat-persona-carousel-track::-webkit-scrollbar { width: 0; }
       .chat-persona-slide { scroll-snap-align: center; width: 100%; flex-shrink: 0;
-        display: flex; flex-direction: column; align-items: center;
+        display: flex; flex-direction: row; align-items: center; gap: 16px;
         padding: 16px 20px; cursor: pointer; transition: transform .15s;
         background: none; border: none; font-family: 'Archivo', sans-serif; }
       .chat-persona-slide:hover { transform: scale(1.02); }
       .chat-persona-slide:active { transform: scale(.97); }
       .chat-persona-img { width: 168px; height: 168px; object-fit: contain;
         object-position: center; filter: var(--ho-persona-filter, none);
-        margin-bottom: 12px; }
+        flex: none; }
       .chat-persona-img.periodista-full { object-fit: contain; }
+      .chat-persona-text { flex: 1; min-width: 0; }
       .chat-persona-name { font-family: 'Archivo', sans-serif; font-size: 1rem;
         font-weight: 800; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; }
       .chat-persona-desc { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.4;
-        text-align: center; margin-top: 4px; }
+        margin-top: 4px; }
       .chat-persona-dots { display: flex; justify-content: center; gap: 6px;
         padding: 4px 0 0; }
       .chat-persona-dot { width: 8px; height: 8px; border-radius: 50%;
@@ -778,8 +779,10 @@ class HorneroApp extends HoComponent {
       const personaSlides = personas.map(p =>
         `<button class="chat-persona-slide" data-screen="${p.screen}" data-persona="${p.persona}">` +
         `<img src="${p.img}" alt="${p.alt}" class="chat-persona-img${p.periodistaFull ? ' periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="persona-choice-emoji" style="display:none;font-size:4rem">${p.emoji}</span>` +
-        `<div class="chat-persona-name">${p.name}</div>` +
-        `<div class="chat-persona-desc">${p.desc}</div>` +
+        `<div class="chat-persona-text">` +
+          `<div class="chat-persona-name">${p.name}</div>` +
+          `<div class="chat-persona-desc">${p.desc}</div>` +
+        `</div>` +
         `</button>`
       ).join('');
 
