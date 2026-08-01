@@ -385,7 +385,9 @@ class HorneroContenido extends HoComponent {
   _localGreeting() {
     return {
       role: 'hornero',
-      text: 'Soy la periodista del gremio. Te ayudo con contenido sindical — elegí un formato o decime qué necesitás.',
+      sections: [
+        { title: '¡Hola! Soy la Periodista', body: 'Te ayudo con contenido sindical — elegí un formato o decime qué necesitás.' },
+      ],
       tags: ['contenido', 'greeting'],
       time: this._timeNow(),
     };

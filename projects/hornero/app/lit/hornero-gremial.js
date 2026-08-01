@@ -809,7 +809,9 @@ class HorneroGremial extends HoComponent {
   _localGreeting() {
     return {
       role: 'hornero',
-      text: 'Soy el compañero del gremio. ¿Cómo anduvo todo? ¿Algo para reportar?',
+      sections: [
+        { title: '¡Hola! Soy el Compañero', body: '¿Cómo anduvo todo? ¿Algo para reportar?' },
+      ],
       tags: ['reporte', 'saludo'],
       persona: this._activePersona,
       time: this._timeNow(),

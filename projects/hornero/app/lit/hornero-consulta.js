@@ -424,7 +424,9 @@ class HorneroConsulta extends HoComponent {
   _localGreeting() {
     return {
       role: 'hornero',
-      text: 'Soy el abogado laboralista del gremio aceitero. ¿Qué consulta tenés?',
+      sections: [
+        { title: '¡Hola! Soy el Abogado', body: 'Soy abogado laboralista del gremio aceitero. ¿Qué consulta tenés?' },
+      ],
       tags: ['consulta', 'greeting'],
       persona: this._activePersona,
       time: this._timeNow(),
