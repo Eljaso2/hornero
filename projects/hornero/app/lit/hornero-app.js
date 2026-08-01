@@ -422,7 +422,7 @@ class HorneroApp extends HoComponent {
       .sections-btn.active { color: var(--ho-green, #4E9978);
         border-bottom-color: var(--ho-green, #4E9978); }
       .sections-logo { width: 30px; height: 30px; object-fit: contain; vertical-align: middle; }
-      :host(.theme-light) .sections-logo { filter: invert(1) brightness(0.3); }
+      .sections-logo-light { filter: brightness(0.35); }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
@@ -872,8 +872,12 @@ class HorneroApp extends HoComponent {
               this.sectionsDef.map(s => {
                 const badgeHtml = (this.newClippingAvailable && s.id === 'clipping') ? '<span class="sections-badge"></span>' : '';
                 const activeSection = this._sectionParentMap[this.screen] || this.screen;
+                const logoSrc = this.theme === 'light'
+                  ? 'assets/dreamina-2026-07-30-7667-Extract only the line art of the bird an....png'
+                  : 'assets/hornero-logo-nobg.png';
+                const logoClass = this.theme === 'light' ? 'sections-logo sections-logo-light' : 'sections-logo';
                 const labelHtml = s.id === 'ecosistema'
-                  ? 'ECO <img src="assets/hornero-logo-nobg.png" alt="Hornero" class="sections-logo">'
+                  ? 'ECO<img src="' + logoSrc + '" alt="Hornero" class="' + logoClass + '">'
                   : s.label;
                 return '<button class="sections-btn' + (s.id === activeSection ? ' active' : '') + '" data-screen="' + s.id + '">' + labelHtml + badgeHtml + '</button>';
               }).join('') +
@@ -1071,9 +1075,11 @@ class HorneroApp extends HoComponent {
         if (screen === 'gremial') {
           this._initialPersona = 'companero';
         }
-        // Mis Reportes button → load data
+        // Reporte button → navigate to Compañero chat (same as sections bar)
         if (screen === 'misReportes') {
-          this._loadMisReportes().then(() => { this._misRepLoaded = true; });
+          this._initialPersona = 'companero';
+          this._navigateTo('gremial');
+          return;
         }
         this._navigateTo(screen);
       });
