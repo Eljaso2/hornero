@@ -577,9 +577,9 @@ class HorneroFormacion extends HoComponent {
 
     let efeText = '';
     if (efe) {
-      efeText = `${efe.emoji} Esta semana se conmemora el [**${efe.title}**](https://historiaobrera.com.ar/) (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\nTocá sobre el nombre del evento para leer más en el sitio.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **Explorar** 👆`;
+      efeText = `¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\n${efe.emoji} Esta semana se conmemora el [**${efe.title}**](https://historiaobrera.com.ar/) (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\n¿Qué tema histórico querés explorar?`;
     } else {
-      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **Explorar** 👆';
+      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\n¿Qué tema histórico querés explorar?';
     }
 
     // 1. Show typing dots for 1s
