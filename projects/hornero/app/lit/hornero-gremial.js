@@ -112,7 +112,7 @@ class HorneroGremial extends HoComponent {
         opacity: .18; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
         gap: 6px; }
-      .hero-banner.collapsed::before { opacity: 0; }
+      .hero-banner.collapsed::before { opacity: .18; }
       .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
       .hero-banner.collapsed .hero-explore-link { font-size: .64rem; padding: 2px 8px; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
