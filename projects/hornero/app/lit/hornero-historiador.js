@@ -303,7 +303,7 @@ class HorneroHistoriador extends HoComponent {
   }
 
   _localGreeting() {
-    return { role: 'hornero', sections: [{ title: '¡Hola! Soy la Historiadora', body: 'Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
+    return { role: 'hornero', text: 'Soy la historiadora del movimiento obrero. ¿Qué tema querés explorar?', tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
   _handleUserMessage(text) {
