@@ -861,15 +861,13 @@ class HorneroChat extends HoComponent {
       .chat-persona-icon:hover { opacity: .8; }
       .chat-persona-icon.active { opacity: 1; }
       .persona-icon-inner { width: 28px; height: 28px;
-        border: 1px solid var(--ho-border, rgba(255,255,255,.12));
-        border-radius: 8px;
         display: flex; align-items: center; justify-content: center;
         overflow: hidden; }
       .persona-icon-inner img { width: 28px; height: 28px; object-fit: contain;
         object-position: center; filter: var(--ho-persona-filter, none); }
       .persona-icon-inner img.periodista-full { object-fit: contain; object-position: center; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
-      .chat-persona-icon.active .persona-icon-inner { border-color: var(--ho-green, #4E9978); }
+      .chat-persona-icon.active .persona-icon-inner { }
       .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
         font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
         white-space: nowrap; }
