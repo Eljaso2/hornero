@@ -1042,6 +1042,8 @@ class HorneroApp extends HoComponent {
           this._navigateTo('condicion');
           return;
         }
+        // Reset initial section for other navigations
+        this._initialSection = '';
         this._navigateTo(btn.dataset.screen);
       });
     });
