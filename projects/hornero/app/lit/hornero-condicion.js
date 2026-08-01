@@ -175,11 +175,6 @@ class HorneroCondicion extends HoComponent {
           <button class="hero-explore-option" data-explore="Índice de Felicidad">Índice de Felicidad</button>
         </div>
         ` : ''}
-        ${!this._bannerVisible ? html`
-        <div class="hero-persona-bar">
-          ${this._renderPersonaBar()}
-        </div>
-        ` : ''}
       </div>
 
       <div class="chat-container">
@@ -194,7 +189,6 @@ class HorneroCondicion extends HoComponent {
           username="${this._username}"
           grade="${this.grade}"
           no-auto-scroll="${this._bannerVisible}"
-          hide-top-bar="${!this._bannerVisible}"
         ></hornero-chat>
       </div>
     `;
@@ -277,13 +271,6 @@ class HorneroCondicion extends HoComponent {
         this._bannerVisible = false;
         // Send topic as first message
         this._handleUserMessage('Contame sobre ' + topic);
-      });
-    });
-
-    // Bind persona bar clicks
-    this.shadowRoot.querySelectorAll('.hero-persona-icon').forEach(btn => {
-      btn.addEventListener('click', () => {
-        this._handlePersonaNavigate(btn.dataset.persona);
       });
     });
 
