@@ -816,7 +816,7 @@ class HorneroChat extends HoComponent {
 
       .msg-content { max-width: 90%; animation: msgin .35s ease; }
 
-      .msg-avatar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+      .msg-avatar-row { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 6px; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
       .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
@@ -824,7 +824,7 @@ class HorneroChat extends HoComponent {
       .msg-avatar img.periodista-full { object-fit: contain; object-position: center; }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .78rem; }
+        font-size: .72rem; }
 
       /* === Typing avatar: persona-aware === */
       .typing-avatar-emoji { font-size: .72rem; line-height: 1; }
