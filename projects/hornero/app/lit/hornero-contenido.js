@@ -15,6 +15,7 @@ class HorneroContenido extends HoComponent {
       messages: Array,
       iaStep: Number,
       _bannerVisible: Boolean,
+      _exploreOpen: Boolean,
     };
   }
 
@@ -61,6 +62,7 @@ class HorneroContenido extends HoComponent {
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
     this._bannerVisible = true;
+    this._exploreOpen = false;
     this._sessionId = ''; // Current session ID — new on each visit
     this._activePersona = 'periodista'; // Default persona for contenido section
     this._username = ''; // login username for per-user data isolation
@@ -113,6 +115,33 @@ class HorneroContenido extends HoComponent {
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         text-align: left; position: relative; min-height: 5.2em; }
 
+      /* ===== Explorar dropdown ===== */
+      .hero-explore-link { display: inline-block; margin-top: 6px;
+        font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
+        color: var(--ho-green, #4E9978); background: none; border: none;
+        cursor: pointer; padding: 0; position: relative;
+        transition: color .2s; }
+      .hero-explore-link:hover { color: var(--ho-green-dark, #3D6B56); }
+      .hero-explore-link::after { content: ' ▾'; font-size: .62rem; }
+      .hero-explore-link.open::after { content: ' ▴'; }
+      .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
+        margin-top: 8px; padding: 10px 12px; border-radius: 10px;
+        background: rgba(0,0,0,.15); animation: exploreFade .2s ease;
+        position: relative; }
+      :host(.theme-light) .hero-explore-panel { background: rgba(0,0,0,.06); }
+      @keyframes exploreFade { from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: none; } }
+      .hero-explore-option { font-family: 'Archivo', sans-serif; font-size: .76rem;
+        font-weight: 600; color: var(--ho-text, #E8E6E0);
+        background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+        border-radius: 8px; padding: 6px 12px; cursor: pointer;
+        transition: background .2s, border-color .2s; }
+      .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .hero-explore-option { background: rgba(0,0,0,.04);
+        border-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB); }
+
       .chat-container { display: flex; flex-direction: column; height: 100%; }
     `;
   }
@@ -125,6 +154,15 @@ class HorneroContenido extends HoComponent {
         <div class="hero-bajada">
           Prensa, podcasts, reels, entrevistas, comunicados. Producción de contenido y comunicación sindical.
         </div>
+        <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
+        ${this._exploreOpen ? html`
+        <div class="hero-explore-panel">
+          <button class="hero-explore-option" data-explore="Podcast">Podcast</button>
+          <button class="hero-explore-option" data-explore="Reel IG">Reel IG</button>
+          <button class="hero-explore-option" data-explore="Columna">Columna</button>
+          <button class="hero-explore-option" data-explore="Entrevista">Entrevista</button>
+        </div>
+        ` : ''}
       </div>
       ` : ''}
 
@@ -209,6 +247,7 @@ class HorneroContenido extends HoComponent {
       // Hide banner when user focuses input
       chatEl.addEventListener('chat-input-focus', () => {
         if (this._bannerVisible) {
+          this._exploreOpen = false;
           this._bannerVisible = false;
           this.render();
         }
@@ -221,6 +260,23 @@ class HorneroContenido extends HoComponent {
     } else if (this.messages.length > 1) {
       if (chatEl) chatEl.clearSuggestions();
     }
+
+    // Bind Explorar toggle + option buttons
+    const exploreToggle = this.shadowRoot.querySelector('#exploreToggle');
+    if (exploreToggle) {
+      exploreToggle.addEventListener('click', () => {
+        this._exploreOpen = !this._exploreOpen;
+        this.render();
+      });
+    }
+    this.shadowRoot.querySelectorAll('.hero-explore-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const topic = btn.dataset.explore;
+        this._exploreOpen = false;
+        this._bannerVisible = false;
+        this._handleUserMessage('Contame sobre ' + topic);
+      });
+    });
 
     // On each visit: start fresh with new sessionId
     if (!this._historyLoaded) {

@@ -816,7 +816,7 @@ class HorneroChat extends HoComponent {
 
       .msg-content { max-width: 90%; animation: msgin .35s ease; }
 
-      .msg-avatar-row { display: flex; flex-direction: column; align-items: center; gap: 0; margin-bottom: 0; }
+      .msg-avatar-row { display: flex; flex-direction: column; align-items: center; gap: 3px; margin-bottom: 0; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
       .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
