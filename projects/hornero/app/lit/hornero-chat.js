@@ -1071,9 +1071,9 @@ class HorneroChat extends HoComponent {
       /* === Actions row: copiar, reenviar, like/dislike (after hornero msg) === */
       .msg-actions { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
       .msg-action-btn { background: none; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 8px; padding: 5px 10px; cursor: pointer;
+        border-radius: 8px; padding: 5px; cursor: pointer;
         font-family: 'Public Sans', sans-serif; font-size: .72rem;
-        color: var(--ho-text-mid, #6E6A60); display: flex; align-items: center; gap: 4px;
+        color: var(--ho-text-mid, #6E6A60); display: flex; align-items: center; justify-content: center;
         transition: border-color .2s, color .2s; }
       .msg-action-btn:hover { border-color: var(--ho-green, #4E9978);
         color: var(--ho-green, #4E9978); }
@@ -1968,11 +1968,9 @@ class HorneroChat extends HoComponent {
     const actionsHtml = `<div class="msg-actions">
       <button class="msg-action-btn" data-action="copy" title="Copiar">
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        Copiar
       </button>
       <button class="msg-action-btn" data-action="forward" title="Reenviar">
         <svg viewBox="0 0 24 24"><polyline points="15 17 20 12 15 7"/><path d="M4 12h16"/></svg>
-        Reenviar
       </button>
       <button class="msg-action-btn" data-action="like" title="Me gusta">
         <svg class="thumb-up" viewBox="0 0 24 24"><path d="M7 22V11L2 12V22H7Z"/><path d="M7 11L12 2C13.1 2 14 2.9 14 4V8H20C21.1 8 22 8.9 22 10V20C22 21.1 21.1 22 20 22H7"/></svg>
