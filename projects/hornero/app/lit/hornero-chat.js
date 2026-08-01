@@ -1089,7 +1089,7 @@ class HorneroChat extends HoComponent {
       .msg-action-btn.disliked svg.thumb-down { fill: var(--ho-gold, #B0863F); }
 
       /* Typing indicator — no bubble, just dots inline */
-      .typing-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+      .typing-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 14px;
         animation: msgin .2s ease; }
       .typing-avatar { width: 32px; height: 32px;
         display: flex; align-items: center; justify-content: center; flex: none; }
