@@ -421,7 +421,7 @@ class HorneroApp extends HoComponent {
       .sections-btn + .sections-btn::before { content: '|'; margin-right: 8px; color: var(--ho-text-mid, #7A766C); font-weight: 300; }
       .sections-btn.active { color: var(--ho-green, #4E9978);
         border-bottom-color: var(--ho-green, #4E9978); }
-      .sections-logo { width: 18px; height: 18px; object-fit: contain; vertical-align: middle; margin-left: -1px; }
+      .sections-logo { width: 18px; height: 18px; object-fit: contain; vertical-align: text-bottom; margin-left: -1px; }
       .sections-logo-light { filter: brightness(0.35); }
 
       /* ===== Body scroll — white background covers content area ===== */
