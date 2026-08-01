@@ -12,6 +12,7 @@ class HorneroGremial extends HoComponent {
       persona: String,  // Initial persona from Mesa de Trabajo landing
       sessionId: String, // Session ID — if set, load existing session instead of greeting
       messages: Array,
+      _bannerVisible: Boolean,
     };
   }
 
@@ -69,6 +70,7 @@ class HorneroGremial extends HoComponent {
     this._progressiveRevealFull = ''; // Full text to reveal progressively
     this._progressiveRevealIndex = 0; // Current reveal position
     this._savedDrawerState = null; // Drawer state saved before re-render (prevents drawer closing)
+    this._bannerVisible = true;
   }
 
   connectedCallback() {
@@ -95,6 +97,20 @@ class HorneroGremial extends HoComponent {
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); position: relative; }
       .chat-container { display: flex; flex-direction: column; height: 100%; }
+
+      /* ===== Hero banner — sin imagen de fondo ===== */
+      .hero-banner { position: relative; width: 100%;
+        background: var(--ho-dark, #1E2321);
+        padding: 20px 16px 14px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 10px;
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; position: relative; }
+      :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
+      .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        text-align: left; position: relative; }
 
       /* === Full-screen informe viewer overlay === */
       .inform-view-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -214,6 +230,15 @@ class HorneroGremial extends HoComponent {
 
   _render() {
     return html`
+      ${this._bannerVisible ? html`
+      <div class="hero-banner">
+        <div class="hero-banner-title">Reporte Gremial</div>
+        <div class="hero-bajada">
+          Elaboración de reportes gremiales, relato de situaciones, clasificación, seguimiento y aprobación.
+        </div>
+      </div>
+      ` : ''}
+
       <div class="chat-container">
         <hornero-chat
           title="Reporte Gremial"
@@ -226,6 +251,7 @@ class HorneroGremial extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
+          no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
 
@@ -515,6 +541,12 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('chat-back', () => {
         this.emit('screen-change', { screen: 'chat' });
       });
+      chatEl.addEventListener('chat-input-focus', () => {
+        if (this._bannerVisible) {
+          this._bannerVisible = false;
+          this.render();
+        }
+      });
     }
 
     // === Informe viewer overlay action buttons ===
@@ -569,6 +601,7 @@ class HorneroGremial extends HoComponent {
         const saved = await obtenerChatSessionMessages(sessionId);
         if (saved && saved.length > 0) {
           this._sessionId = sessionId;
+          this._bannerVisible = false; // Hide banner when restoring session
           this.messages = saved;
           this._historyLoaded = true;
           this.render();
@@ -589,6 +622,7 @@ class HorneroGremial extends HoComponent {
       chatEl.informeBadge = this._informeBadge;
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
+      chatEl.noAutoScroll = this._bannerVisible;
       // Do NOT call chatEl.render() here — the chat re-renders itself
       // when its attributes change (from gremial render) or from drawer open/close.
       // Double render was causing the blank screen bug.
@@ -750,6 +784,10 @@ class HorneroGremial extends HoComponent {
   _handleUserMessage(text) {
     // Stop any ongoing progressive reveal
     this._stopProgressiveReveal();
+    // Hide banner when user starts chatting
+    if (this._bannerVisible) {
+      this._bannerVisible = false;
+    }
     // Detect export keywords — download current chat or last reporte as document
     // Only match explicit export requests, not incidental words in normal conversation
     const lower = text.toLowerCase().trim();
