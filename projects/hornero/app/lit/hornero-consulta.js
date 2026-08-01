@@ -424,11 +424,7 @@ class HorneroConsulta extends HoComponent {
   _localGreeting() {
     return {
       role: 'hornero',
-      sections: [
-        { title: '¡Hola!', body: 'Soy el abogado laboralista del gremio aceitero. Estoy para ayudarte con lo que necesites.' },
-        { title: '¿Qué puedes consultar?', body: 'Paritaria aceitera, condiciones laborales, SMVM y distribución del ingreso, reforma laboral, convenio CCT 420/05, organización sindical, referentes como Yofra y Cremonte.' },
-        { title: '', body: '', quote: 'Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Ciclo "Por las hendijas del Quebracho", enero 2021' },
-      ],
+      text: 'Soy el abogado laboralista del gremio aceitero. ¿Qué consulta tenés?',
       tags: ['consulta', 'greeting'],
       persona: this._activePersona,
       time: this._timeNow(),

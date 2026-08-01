@@ -385,10 +385,7 @@ class HorneroContenido extends HoComponent {
   _localGreeting() {
     return {
       role: 'hornero',
-      sections: [
-        { title: '¡Hola! Soy el Periodista', body: 'Te guío para producir contenido sindical con impacto. Elegí un formato o pedí ayuda general sobre cualquier tema sindical.' },
-        { title: '', body: '', quote: 'Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Ciclo "Por las hendijas del Quebracho", enero 2021' },
-      ],
+      text: 'Soy la periodista del gremio. Te ayudo con contenido sindical — elegí un formato o decime qué necesitás.',
       tags: ['contenido', 'greeting'],
       time: this._timeNow(),
     };
