@@ -157,7 +157,7 @@ class HorneroCondicion extends HoComponent {
       <div class="hero-banner">
         <div class="hero-banner-title">Panorama</div>
         <div class="hero-bajada" style="position:relative">
-          Condición obrera, índice ICE, comportamiento empresarial, SMVM, felicidad laboral. Datos, índices, conexiones — la misma realidad, cuatro lecturas.
+          Condición obrera, comportamiento empresarial, Salario Mínimo, Vital y Móvil real, felicidad laboral.
         </div>
         <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
         ${this._exploreOpen ? html`

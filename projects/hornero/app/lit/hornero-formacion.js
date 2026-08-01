@@ -358,7 +358,7 @@ class HorneroFormacion extends HoComponent {
       <div class="hero-banner">
         <div class="hero-banner-title">Historia Obrera <a class="hero-bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗</a></div>
         <div class="hero-bajada">
-          Efemérides, ensayos, Mitín, colección La Argentina Peronista, retazos de historia, audio, video e ilustración. Desde abajo: la historia la cuentan los que la hicieron.
+          Efemérides, ensayos, Mitín, colección La Argentina Peronista, retazos de historia, audio, video e ilustración.
         </div>
         <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
         ${this._exploreOpen ? html`
