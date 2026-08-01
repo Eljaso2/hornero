@@ -998,7 +998,13 @@ class HorneroApp extends HoComponent {
 
   _closeProfilePopup() {
     this._profileOpen = false;
-    this.render();
+    // Just hide the overlay DOM — no full re-render to preserve screen state below
+    const overlay = this.shadowRoot.querySelector('#profileOverlay');
+    if (overlay) {
+      overlay.style.transition = 'opacity .15s ease';
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.remove(), 150);
+    }
   }
 
   _afterRender() {

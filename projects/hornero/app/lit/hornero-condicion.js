@@ -100,6 +100,10 @@ class HorneroCondicion extends HoComponent {
       .hero-banner-img { width: 100%; max-width: 280px; height: auto;
         display: block; }
       :host(.theme-light) .hero-banner-img { filter: brightness(0.85); }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; }
+      :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         text-align: left; }
@@ -118,7 +122,7 @@ class HorneroCondicion extends HoComponent {
     return html`
       ${this._bannerVisible ? html`
       <div class="hero-banner">
-        <img class="hero-banner-img" src="assets/panorama-bg.png" alt="Panorama">
+        <div class="hero-banner-title">🔬 Panorama</div>
         <div class="hero-bajada">
           Condición obrera, índice ICE, comportamiento empresarial, SMVM, felicidad laboral. Datos, índices, conexiones — la misma realidad, cuatro lecturas.
         </div>
