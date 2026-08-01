@@ -635,7 +635,12 @@ class HorneroGremial extends HoComponent {
         const topic = btn.dataset.explore;
         this._exploreOpen = false;
         this._bannerVisible = false;
-        this._handleUserMessage('Contame sobre ' + topic);
+        // Add user message + brief local IA response
+        const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
+        this.messages = [...this.messages, userMsg];
+        this._addWithProgressiveReveal(this._exploreResponse(topic));
+        this._saveChatHistory();
+        this.render();
       });
     });
 
