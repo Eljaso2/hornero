@@ -33,6 +33,7 @@ class HorneroHome extends HoComponent {
     this.grade = 'A';
     this.sector = 'aceitero';
     this.carouselIndex = 0;
+    this._personaIndex = 0;
     this.theme = localStorage.getItem('hornero-theme') || 'dark';
     this._clipping = [];
     this._agenda = [];
@@ -278,9 +279,9 @@ class HorneroHome extends HoComponent {
       .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .54rem; }
       .agenda-prox .agenda-date { font-size: .46rem; }
 
-      /* ===== ESFERA 2: Chat — 5 personajes, tira scrolleable ===== */
+      /* ===== ESFERA 2: Chat — 5 personajes, carrusel de a uno ===== */
       .esfera-consulta { margin-bottom: 20px; }
-      .consulta-scroll-wrap { position: relative; margin: 0 -16px; }
+      .consulta-scroll-wrap { position: relative; margin: 0 -16px; overflow: hidden; }
       .consulta-scroll-wrap::before,
       .consulta-scroll-wrap::after { content: ''; position: absolute;
         top: 0; bottom: 0; width: 24px; z-index: 2; pointer-events: none; }
@@ -290,24 +291,34 @@ class HorneroHome extends HoComponent {
         background: linear-gradient(to left, var(--ho-bg, #1E2321), transparent); }
       .consulta-icons { display: flex; overflow-x: auto;
         scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 0; padding: 4px 20px; }
+        scrollbar-width: none; gap: 0; padding: 10px 0; }
       .consulta-icons::-webkit-scrollbar { width: 0; }
       .icon-btn { display: flex; flex-direction: column; align-items: center;
-        gap: 6px; background: none; border: none; cursor: pointer;
-        padding: 10px 4px; font-family: 'Archivo', sans-serif;
-        transition: opacity .2s; position: relative;
-        flex-shrink: 0; scroll-snap-align: center; min-width: 68px; }
-      .icon-btn:not(:last-child)::after {
-        content: ''; position: absolute; right: 0; top: 10px;
-        width: 1px; height: 54px;
-        background: var(--ho-green-pale, #E0F0EB); }
-      .icon-btn:hover { opacity: .8; }
-      .persona-home-img { width: 56px; height: 56px; border-radius: 0;
+        justify-content: center; gap: 10px; background: none; border: none;
+        cursor: pointer; padding: 16px 8px; font-family: 'Archivo', sans-serif;
+        transition: opacity .2s, transform .2s; position: relative;
+        flex-shrink: 0; scroll-snap-align: center;
+        width: 100%; min-height: 230px; }
+      .icon-btn:hover { opacity: .85; transform: scale(1.03); }
+      .icon-btn:active { transform: scale(.97); }
+      .persona-home-img { width: 168px; height: 168px; border-radius: 0;
         object-fit: contain; object-position: center;
         filter: var(--ho-persona-filter, none); }
       .persona-home-img.periodista-full { object-fit: contain; }
-      .icon-btn .icon-label { font-size: .68rem; font-weight: 600;
-        color: var(--ho-text, #E8E6E0); white-space: nowrap; }
+      .icon-btn .icon-label { font-size: .88rem; font-weight: 700;
+        color: var(--ho-text, #E8E6E0); white-space: nowrap;
+        letter-spacing: .02em; text-transform: uppercase; }
+      .icon-btn .icon-sublabel { font-size: .68rem; font-weight: 500;
+        color: var(--ho-text-mid, #6E6A60); margin-top: -4px; }
+      .consulta-dots { display: flex; justify-content: center; gap: 6px;
+        padding: 6px 0 4px; }
+      .consulta-dot { width: 8px; height: 8px; border-radius: 50%;
+        background: var(--ho-border, rgba(255,255,255,.15));
+        border: none; cursor: pointer; transition: background .2s, transform .2s;
+        padding: 0; }
+      .consulta-dot.active { background: var(--ho-green, #4E9978);
+        transform: scale(1.25); }
+      .consulta-dot:hover { background: var(--ho-green-light, #80CCA0); }
 
       /* ===== ESFERA 3: Panorama — hero card ===== */
       .panorama-card { position: relative; border-radius: 13px; margin-bottom: 10px;
@@ -513,32 +524,44 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 2: Chat IA — 5 personajes, tira scrolleable -->
+      <!-- ESFERA 2: Chat IA — 5 personajes, carrusel de a uno -->
       <div class="esfera-consulta">
         <div class="esfera-name">Chat</div>
         <div class="consulta-scroll-wrap">
-          <div class="consulta-icons">
+          <div class="consulta-icons" id="personaCarousel">
             <button class="icon-btn" data-screen="gremial" data-persona="companero">
               <img src="assets/personajes/a02.png" alt="Compañero/a" class="persona-home-img">
               <span class="icon-label">Compañero/a</span>
+              <span class="icon-sublabel">Reporte gremial</span>
             </button>
             <button class="icon-btn" data-screen="consulta" data-persona="abogado">
               <img src="assets/personajes/a03.png" alt="Abogado/a" class="persona-home-img">
               <span class="icon-label">Abogado/a</span>
+              <span class="icon-sublabel">Consulta legal</span>
             </button>
             <button class="icon-btn" data-screen="contenido" data-persona="periodista">
               <img src="assets/personajes/a04.png" alt="Periodista" class="persona-home-img periodista-full">
               <span class="icon-label">Periodista</span>
+              <span class="icon-sublabel">Contenido y comunicación</span>
             </button>
             <button class="icon-btn" data-screen="historiador" data-persona="historiador">
               <img src="assets/personajes/a01.png" alt="Historiadora" class="persona-home-img">
               <span class="icon-label">Historiadora</span>
+              <span class="icon-sublabel">Historia obrera</span>
             </button>
             <button class="icon-btn" data-screen="condicion" data-persona="sociologo">
               <img src="assets/personajes/a05.png" alt="Investigador/a" class="persona-home-img">
               <span class="icon-label">Investigador/a</span>
+              <span class="icon-sublabel">Panorama y datos</span>
             </button>
           </div>
+        </div>
+        <div class="consulta-dots" id="personaDots">
+          <button class="consulta-dot active" data-index="0"></button>
+          <button class="consulta-dot" data-index="1"></button>
+          <button class="consulta-dot" data-index="2"></button>
+          <button class="consulta-dot" data-index="3"></button>
+          <button class="consulta-dot" data-index="4"></button>
         </div>
       </div>
 
@@ -639,6 +662,29 @@ class HorneroHome extends HoComponent {
         this.emit('screen-change', detail);
       });
     });
+
+    // Persona carousel — scroll tracking + dots
+    const personaCarousel = this.shadowRoot.querySelector('#personaCarousel');
+    const personaDots = this.shadowRoot.querySelector('#personaDots');
+    if (personaCarousel && personaDots) {
+      // Scroll → update dots
+      personaCarousel.addEventListener('scroll', () => {
+        const idx = Math.round(personaCarousel.scrollLeft / personaCarousel.offsetWidth);
+        if (idx !== this._personaIndex && idx >= 0 && idx < 5) {
+          this._personaIndex = idx;
+          personaDots.querySelectorAll('.consulta-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+          });
+        }
+      });
+      // Click on dot → scroll to persona
+      personaDots.querySelectorAll('.consulta-dot').forEach(d => {
+        d.addEventListener('click', () => {
+          const idx = parseInt(d.dataset.index);
+          personaCarousel.scrollTo({ left: idx * personaCarousel.offsetWidth, behavior: 'smooth' });
+        });
+      });
+    }
   }
 }
 
