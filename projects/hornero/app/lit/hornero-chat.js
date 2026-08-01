@@ -1515,7 +1515,7 @@ class HorneroChat extends HoComponent {
     const isHigherGrade = this.grade === 'B.b' || this.grade === 'B.c' || this.grade === 'B.d';
 
     return html`
-      <div class="chat-top-bar">
+      <div class="chat-top-bar"${this.hidePersonaBar && !this.centerLogo ? ' style="display:none"' : ''}>
         <div class="chat-top-bar-left">
           <button class="chat-back-btn" id="chatBackBtn" title="Volver">
             <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
@@ -1525,7 +1525,7 @@ class HorneroChat extends HoComponent {
           ${this.hidePersonaBar ? (this.centerLogo ? html`<img class="chat-top-bar-logo" src="${this.centerLogo}" alt="">` : '') : personaIconsHtml}
         </div>
         <div class="chat-top-bar-right">
-          ${this._plusMenuOpen ? html`
+          ${this.hidePersonaBar ? '' : this._plusMenuOpen ? html`
             <div class="chat-plus-menu" id="chatPlusMenu">
               <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
                 <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
