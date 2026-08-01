@@ -224,8 +224,6 @@ class HorneroArchivo extends HoComponent {
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
       chatEl.hidePersonaBar = true;
-      chatEl.hideInformesBtn = true;
-      chatEl.hideRecibidosBtn = true;
       chatEl.centerLogo = this._bannerVisible ? '' : '📚';
       chatEl.noAutoScroll = this._bannerVisible;
       chatEl.topBarAccent = !this._bannerVisible;

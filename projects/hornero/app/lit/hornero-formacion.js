@@ -343,8 +343,6 @@ class HorneroFormacion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          hide-informes-btn
-          hide-recibidos-btn
           no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
