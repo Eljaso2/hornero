@@ -868,18 +868,19 @@ class HorneroChat extends HoComponent {
       :host(.theme-light) .chat-plus-dropdown { background: var(--ho-bg, #F8F6F0);
         box-shadow: 0 8px 24px rgba(0,0,0,.12); }
       @keyframes dropdownSlideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-      .chat-plus-item { display: flex; align-items: center; gap: 10px;
-        padding: 10px 14px; background: none; border: none; cursor: pointer;
-        width: 100%; text-align: left; font-family: 'Archivo', sans-serif;
-        font-size: .78rem; font-weight: 600; color: var(--ho-text-off, #F2F1EC);
-        transition: background .15s; }
+      .chat-plus-item { display: flex; flex-direction: column; align-items: center;
+        gap: 3px; padding: 10px 14px; background: none; border: none; cursor: pointer;
+        width: 100%; text-align: center; font-family: 'Archivo', sans-serif;
+        font-size: .68rem; font-weight: 600; color: var(--ho-text-off, #F2F1EC);
+        transition: background .15s; position: relative; }
       .chat-plus-item:hover { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
       :host(.theme-light) .chat-plus-item { color: var(--ho-text-dark, #1E2321); }
-      .chat-plus-item svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+      .chat-plus-item svg { width: 18px; height: 18px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
       .chat-plus-item:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .chat-plus-item .item-badge { width: 8px; height: 8px; border-radius: 50%;
-        background: var(--ho-green, #4E9978); margin-left: auto; flex-shrink: 0; }
+      .chat-plus-item .item-badge { position: absolute; top: 6px; right: 10px;
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--ho-green, #4E9978); flex-shrink: 0; }
       .chat-plus-item .item-badge.gold { background: var(--ho-gold, #B0863F); }
 
       /* History/Informes/Recibidos as cintillo items — inside scrollable center (legacy, kept for reference) */
