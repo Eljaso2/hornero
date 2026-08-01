@@ -339,10 +339,8 @@ class HorneroFormacion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          ${this._bannerVisible ? 'hide-persona-bar' : ''}
           hide-informes-btn
           hide-recibidos-btn
-          center-logo="${this._bannerVisible ? 'assets/Historia-Obrera_marca-.png' : ''}"
           no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
@@ -435,12 +433,12 @@ class HorneroFormacion extends HoComponent {
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
-      chatEl.hidePersonaBar = this._bannerVisible;
+      chatEl.hidePersonaBar = false;
       chatEl.hideInformesBtn = true;
       chatEl.hideRecibidosBtn = true;
-      chatEl.centerLogo = this._bannerVisible ? 'assets/Historia-Obrera_marca-.png' : '';
+      chatEl.centerLogo = '';
       chatEl.noAutoScroll = this._bannerVisible;
-      chatEl.topBarAccent = !this._bannerVisible;
+      chatEl.topBarAccent = false;
       chatEl.render();
     }
   }
