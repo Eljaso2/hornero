@@ -101,7 +101,7 @@ class HorneroConsulta extends HoComponent {
         flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/Aniversario-Noche-de-las-corbatas_IG--1024x1024 copy.png') center/cover no-repeat;
-        opacity: .15; pointer-events: none; }
+        opacity: .25; pointer-events: none; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
