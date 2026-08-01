@@ -289,7 +289,7 @@ class HorneroFormacion extends HoComponent {
 
   _styles() {
     return css`
-      :host { display: flex; flex-direction: column; height: 100%; width: 100%;
+      :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); position: relative; }
 
       /* ===== Hero banner with bajada overlay ===== */
@@ -297,7 +297,7 @@ class HorneroFormacion extends HoComponent {
         background: var(--ho-dark, #1E2321);
         padding: 20px 16px 14px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 10px;
-        flex-shrink: 0; }
+        flex-shrink: 0; box-sizing: border-box; }
       .hero-banner-img { width: 100%; max-width: 280px; height: auto;
         display: block; }
       :host(.theme-light) .hero-banner-img { filter: brightness(0.85); }
@@ -310,7 +310,8 @@ class HorneroFormacion extends HoComponent {
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
 
       /* ===== Chat container ===== */
-      .chat-container { display: flex; flex-direction: column; height: 100%; }
+      .chat-container { flex: 1; display: flex; flex-direction: column;
+        min-height: 0; }
     `;
   }
 
@@ -438,6 +439,9 @@ class HorneroFormacion extends HoComponent {
       chatEl.centerLogo = '';
       chatEl.noAutoScroll = this._bannerVisible;
       chatEl.topBarAccent = false;
+      // Force chat to fill flex container instead of height:100%
+      chatEl.style.flex = '1';
+      chatEl.style.minHeight = '0';
       chatEl.render();
     }
   }
