@@ -812,11 +812,11 @@ class HorneroChat extends HoComponent {
       .msg-download-label { font-size: .70rem; color: var(--ho-text-muted, #8A8A74); }
 
       /* === HORNERO message: NO bubble — plain text block === */
-      .msg-row.hornero { display: flex; flex-direction: row; align-items: flex-start; gap: 8px; }
+      .msg-row.hornero { display: flex; flex-direction: column; align-items: flex-start; }
 
-      .msg-content { flex: 1; min-width: 0; max-width: calc(100% - 44px); animation: msgin .35s ease; }
+      .msg-content { max-width: 90%; animation: msgin .35s ease; }
 
-      .msg-avatar-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin-bottom: 0; flex-shrink: 0; }
+      .msg-avatar-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin-bottom: 4px; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
       .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
