@@ -420,6 +420,7 @@ class HorneroApp extends HoComponent {
         transition: color .2s, border-color .2s; }
       .sections-btn.active { color: var(--ho-green, #4E9978);
         border-bottom-color: var(--ho-green, #4E9978); }
+      .sections-logo { width: 20px; height: 20px; object-fit: contain; vertical-align: middle; }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
@@ -868,9 +869,11 @@ class HorneroApp extends HoComponent {
             ${showSectionsBar ? '<div class="sections-bar">' +
               this.sectionsDef.map(s => {
                 const badgeHtml = (this.newClippingAvailable && s.id === 'clipping') ? '<span class="sections-badge"></span>' : '';
-                // Resolve active section: sub-screens map to parent section
                 const activeSection = this._sectionParentMap[this.screen] || this.screen;
-                return '<button class="sections-btn' + (s.id === activeSection ? ' active' : '') + '" data-screen="' + s.id + '">' + s.label + badgeHtml + '</button>';
+                const labelHtml = s.id === 'ecosistema'
+                  ? '<img src="assets/hornero-logo-nobg.png" alt="Hornero" class="sections-logo">'
+                  : s.label;
+                return '<button class="sections-btn' + (s.id === activeSection ? ' active' : '') + '" data-screen="' + s.id + '">' + labelHtml + badgeHtml + '</button>';
               }).join('') +
               '</div>' : ''}
 
@@ -1032,6 +1035,12 @@ class HorneroApp extends HoComponent {
         if (btn.dataset.screen === 'derecho') {
           this._initialPersona = 'abogado';
           this._navigateTo('consulta');
+          return;
+        }
+        // Reporte section → navigate to gremial with companero persona
+        if (btn.dataset.screen === 'misReportes') {
+          this._initialPersona = 'companero';
+          this._navigateTo('gremial');
           return;
         }
         // Comp. Empre. section → navigate to condicion with initialSection=comportamiento
