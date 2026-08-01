@@ -1060,7 +1060,7 @@ class HorneroChat extends HoComponent {
         color: var(--ho-text-mid, #6E6A60); margin-top: 5px; font-style: normal; }
 
       /* Tags */
-      .msg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .msg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
       .msg-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
