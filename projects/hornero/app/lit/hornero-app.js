@@ -760,7 +760,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'historiador') {
       screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
-      screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-ecosistema>';
+      screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-ecosistema>';
     } else if (this.screen === 'formacion') {
       screenContent = '<hornero-formacion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-formacion>';
     } else if (this.screen === 'archivo') {

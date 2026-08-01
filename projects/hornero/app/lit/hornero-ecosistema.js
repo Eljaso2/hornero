@@ -9,6 +9,7 @@ class HorneroEcosistema extends HoComponent {
     return {
       grade: String,
       sector: String,
+      theme: String,
       messages: Array,
       _typing: Boolean,
     };
@@ -87,6 +88,7 @@ class HorneroEcosistema extends HoComponent {
           persona="hornero"
           username=""
           grade="${this.grade}"
+          theme="${this.theme || ''}"
           hide-persona-bar
           section="ecosistema"
           history-title="Historial"

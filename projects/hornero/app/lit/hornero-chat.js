@@ -822,7 +822,7 @@ class HorneroChat extends HoComponent {
       .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
       .msg-avatar img.periodista-full { object-fit: contain; object-position: center; }
-      :host(.theme-light) .msg-avatar-row.persona-hornero .msg-avatar img { filter: invert(1) brightness(0.3); }
+      :host(.theme-light) .msg-avatar-row.persona-hornero .msg-avatar img { filter: brightness(0.35); }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .62rem; white-space: nowrap; overflow: hidden;
@@ -1096,7 +1096,7 @@ class HorneroChat extends HoComponent {
       .typing-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
       .typing-avatar img.periodista-full { object-fit: contain; object-position: center; }
-      :host(.theme-light) .typing-row.persona-hornero .typing-avatar img { filter: invert(1) brightness(0.3); }
+      :host(.theme-light) .typing-row.persona-hornero .typing-avatar img { filter: brightness(0.35); }
       .typing-dots { display: flex; gap: 5px; align-items: center; }
       .typing-dot { width: 8px; height: 8px; border-radius: 50%;
         background: var(--ho-green-light, #80CCA0); animation: dotbounce 1.4s ease infinite; }
