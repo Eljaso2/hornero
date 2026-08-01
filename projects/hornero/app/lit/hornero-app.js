@@ -872,13 +872,7 @@ class HorneroApp extends HoComponent {
               this.sectionsDef.map(s => {
                 const badgeHtml = (this.newClippingAvailable && s.id === 'clipping') ? '<span class="sections-badge"></span>' : '';
                 const activeSection = this._sectionParentMap[this.screen] || this.screen;
-                const logoSrc = this.theme === 'light'
-                  ? 'assets/dreamina-2026-07-30-7667-Extract only the line art of the bird an....png'
-                  : 'assets/hornero-logo-nobg.png';
-                const logoClass = this.theme === 'light' ? 'sections-logo sections-logo-light' : 'sections-logo';
-                const labelHtml = s.id === 'ecosistema'
-                  ? 'ECO <img src="' + logoSrc + '" alt="Hornero" class="' + logoClass + '">'
-                  : s.label;
+                const labelHtml = s.label;
                 return '<button class="sections-btn' + (s.id === activeSection ? ' active' : '') + '" data-screen="' + s.id + '">' + labelHtml + badgeHtml + '</button>';
               }).join('') +
               '</div>' : ''}
