@@ -1056,6 +1056,20 @@ class HorneroApp extends HoComponent {
           this._navigateTo('condicion');
           return;
         }
+        // SMVM section → navigate to condicion with initialSection=smvm
+        if (btn.dataset.screen === 'smvm') {
+          this._initialPersona = 'sociologo';
+          this._initialSection = 'smvm';
+          this._navigateTo('condicion');
+          return;
+        }
+        // Felicidad section → navigate to condicion with initialSection=felicidad
+        if (btn.dataset.screen === 'felicidad') {
+          this._initialPersona = 'sociologo';
+          this._initialSection = 'felicidad';
+          this._navigateTo('condicion');
+          return;
+        }
         // Reset initial section for other navigations
         this._initialSection = '';
         this._navigateTo(btn.dataset.screen);
