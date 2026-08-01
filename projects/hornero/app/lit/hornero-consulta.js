@@ -115,19 +115,20 @@ class HorneroConsulta extends HoComponent {
         text-align: left; position: relative; min-height: 5.2em; }
 
       /* ===== Explorar dropdown ===== */
-      .hero-explore-link { display: inline-block; margin-top: 6px;
-        font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
-        color: var(--ho-green, #4E9978); background: none; border: none;
-        cursor: pointer; padding: 0; position: relative;
-        transition: color .2s; }
-      .hero-explore-link:hover { color: var(--ho-green-dark, #3D6B56); }
-      .hero-explore-link::after { content: ' ▾'; font-size: .62rem; }
-      .hero-explore-link.open::after { content: ' ▴'; }
+      .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
+        font-family: 'Archivo', sans-serif; font-size: .72rem;
+        font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+        color: var(--ho-green-dark, #3D6B56); background: var(--ho-green-pale, #E0F0EB);
+        border: 1px solid var(--ho-green, #4E9978); border-radius: 6px;
+        padding: 4px 10px; cursor: pointer; position: relative;
+        transition: background .2s, border-color .2s; }
+      .hero-explore-link:hover { background: var(--ho-green-light, #D4DCC0);
+        border-color: var(--ho-green-dark, #3D6B56); }
+      .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
+      .hero-explore-link.open::after { content: '▴'; }
       .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
-        margin-top: 8px; padding: 10px 12px; border-radius: 10px;
-        background: rgba(0,0,0,.15); animation: exploreFade .2s ease;
+        margin-top: 2px; animation: exploreFade .2s ease;
         position: relative; }
-      :host(.theme-light) .hero-explore-panel { background: rgba(0,0,0,.06); }
       @keyframes exploreFade { from { opacity: 0; transform: translateY(-4px); }
         to { opacity: 1; transform: none; } }
       .hero-explore-option { font-family: 'Archivo', sans-serif; font-size: .76rem;
