@@ -103,7 +103,7 @@ class HorneroArchivo extends HoComponent {
         font-size: 1.1rem; color: var(--ho-text, #E8E6E0); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; }
+        text-align: left; min-height: 5.2em; }
       .hero-bajada-link { display: inline-block; margin-top: 4px;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }

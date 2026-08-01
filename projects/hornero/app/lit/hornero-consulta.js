@@ -106,9 +106,11 @@ class HorneroConsulta extends HoComponent {
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
       :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .hero-banner { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; position: relative; }
+        text-align: left; position: relative; min-height: 5.2em; }
 
       .chat-container { display: flex; flex-direction: column; height: 100%; }
     `;

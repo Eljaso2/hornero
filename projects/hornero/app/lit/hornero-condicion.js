@@ -105,9 +105,11 @@ class HorneroCondicion extends HoComponent {
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
       :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .hero-banner { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; }
+        text-align: left; min-height: 5.2em; }
       .hero-bajada-link { display: inline-block; margin-top: 4px;
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
