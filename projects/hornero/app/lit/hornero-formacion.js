@@ -472,7 +472,8 @@ class HorneroFormacion extends HoComponent {
         // Add user message + brief local IA response
         const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
         this.messages = [...this.messages, userMsg];
-        this._addWithProgressiveReveal(this._exploreResponse(topic));
+        const resp = this._exploreResponse(topic);
+        this.messages = [...this.messages, resp];
         this._saveChatHistory();
         this.render();
       });
@@ -1070,6 +1071,18 @@ class HorneroFormacion extends HoComponent {
         }
       }
     } catch(e) { console.warn('Formacion: chat history save failed', e); }
+  }
+
+  // Brief local response when user clicks an explore button
+  _exploreResponse(topic) {
+    const map = {
+      'Efemérides': { title: 'Efemérides', body: 'Las fechas clave del movimiento obrero argentino: huelgas, masacres, lockouts, conquistas. ¿Qué fecha o evento te interesa?' },
+      'Mitín': { title: 'Mitín', body: 'Ensayos y relatos sobre historia obrera: textos largos, análisis, testimonios. ¿Sobre qué tema querés leer?' },
+      'Colección': { title: 'Colección', body: 'La Argentina Peronista: 18 volúmenes que cuentan la historia desde la clase trabajadora. ¿Qué volumen o tema te interesa?' },
+      'Retazos': { title: 'Retazos', body: 'Docuficción, podcast, ilustraciones, música: historias obreras en otros formatos. ¿Qué formato te atrae?' },
+    };
+    const section = map[topic] || { title: topic, body: 'Preguntame lo que quieras sobre ' + topic + '.' };
+    return { role: 'hornero', sections: [section], tags: ['historia', 'explore'], persona: 'historiador', time: this._timeNow() };
   }
 
   _timeNow() {

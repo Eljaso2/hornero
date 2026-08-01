@@ -1816,6 +1816,19 @@ class HorneroGremial extends HoComponent {
     });
   }
 
+  // Brief local response when user clicks an explore button
+  _exploreResponse(topic) {
+    const p = this._activePersona;
+    const map = {
+      'Relato': { title: 'Relato', body: 'Contame qué pasó y te ayudo a redactar el relato del hecho. Podés describir la situación, el lugar, los involucrados, las circunstancias.' },
+      'Clasificación': { title: 'Clasificación', body: 'A partir del relato, clasificamos el hecho: tipo de violencia, gravedad, alcance. Primero necesitamos el relato.' },
+      'Seguimiento': { title: 'Seguimiento', body: 'Hacemos seguimiento de los reportes: estado, acciones tomadas, pendientes. ¿Querés ver el estado de un reporte existente?' },
+      'Aprobación': { title: 'Aprobación', body: 'Revisión y aprobación de informes gremiales por parte de los referentes. ¿Querés ver los informes pendientes?' },
+    };
+    const section = map[topic] || { title: topic, body: 'Preguntame lo que quieras sobre ' + topic + '.' };
+    return { role: 'hornero', sections: [section], tags: ['reporte', 'explore'], persona: p, time: this._timeNow() };
+  }
+
   _localResponse(userText) {
     // Compañero investigates — asks follow-up questions, does NOT produce informe yet
     return {

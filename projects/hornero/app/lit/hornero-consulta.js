@@ -876,6 +876,21 @@ class HorneroConsulta extends HoComponent {
     });
   }
 
+  // Brief local response when user clicks an explore button
+  _exploreResponse(topic) {
+    const p = this._activePersona;
+    const map = {
+      'Paritaria': { title: 'Paritaria', body: 'La negociación colectiva aceitera: propuesta patronal, demanda obrera, cláusulas, topes. Preguntame lo que quieras.' },
+      'Condiciones laborales': { title: 'Condiciones laborales', body: 'Jornada, salud, seguridad, ART, acoso, carga. Las condiciones concretas de trabajo. ¿Qué te interesa?' },
+      'SMVM y distribución': { title: 'SMVM y distribución', body: 'Salario Mínimo Vital y Móvil vs. valor real, brecha de superexplotación, distribución del ingreso. Preguntame.' },
+      'Reforma laboral': { title: 'Reforma laboral', body: 'Cambios en la legislación laboral: DNU, Ley Bases, flexibilización, impacto en convenios. ¿Qué aspecto te interesa?' },
+      'CCT 420/05': { title: 'CCT 420/05', body: 'Convenio Colectivo de Trabajo aceitero: escalas, categorías, cláusulas, vigencia. Preguntame lo que quieras.' },
+      'Organización sindical': { title: 'Organización sindical', body: 'Estructura, delegados, comisión interna, asamblea, derechos de representación. ¿Sobre qué querés saber?' },
+    };
+    const section = map[topic] || { title: topic, body: 'Preguntame lo que quieras sobre ' + topic + '.' };
+    return { role: 'hornero', sections: [section], tags: ['consulta', 'explore'], persona: p, time: this._timeNow() };
+  }
+
   _localResponse(userText) {
     const lower = userText.toLowerCase();
     const p = this._activePersona;

@@ -749,6 +749,18 @@ class HorneroContenido extends HoComponent {
     });
   }
 
+  // Brief local response when user clicks an explore button
+  _exploreResponse(topic) {
+    const map = {
+      'Podcast': { title: 'Podcast', body: 'Te ayudo a planificar y producir un episodio de podcast: tema, guion, estructura, duración. ¿Sobre qué querés hablar?' },
+      'Reel IG': { title: 'Reel IG', body: 'Contenido para Instagram Reels: idea, guion visual, texto, duración, hashtags. ¿Qué tema querés cubrir?' },
+      'Columna': { title: 'Columna', body: 'Columna de opinión sindical: tema, argumento, estructura, tono. ¿Sobre qué querés escribir?' },
+      'Entrevista': { title: 'Entrevista', body: 'Preparación de entrevista: perfil del entrevistado, preguntas clave, formato, duración. ¿A quién querés entrevistar?' },
+    };
+    const section = map[topic] || { title: topic, body: 'Preguntame lo que quieras sobre ' + topic + '.' };
+    return { role: 'hornero', sections: [section], tags: ['contenido', 'explore'], time: this._timeNow() };
+  }
+
   _localResponse(userText) {
     const lower = userText.toLowerCase();
     if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {

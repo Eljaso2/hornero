@@ -816,6 +816,19 @@ class HorneroCondicion extends HoComponent {
     });
   }
 
+  // Brief local response when user clicks an explore button
+  _exploreResponse(topic) {
+    const p = this._activePersona;
+    const map = {
+      'Cómo Somos': { title: 'Cómo Somos', body: 'Datos duros de la clase trabajadora argentina: composición, empleo, informalidad, desigualdad. Preguntame lo que quieras.' },
+      'Comportamiento Empresarial': { title: 'Comportamiento Empresarial', body: 'El Índice ICE mide 4 dimensiones de violencia empresarial: salarial, contractual, ambiental y sindical. ¿Qué dimensión te interesa?' },
+      'SMVM': { title: 'SMVM', body: 'Salario Mínimo Vital y Móvil vs. valor real, brecha de superexplotación, canasta básica. Preguntame.' },
+      'Índice de Felicidad': { title: 'Índice de Felicidad', body: 'IFT = SMVM × ICE. Un índice que cruza salario mínimo con violencia empresarial para medir la felicidad laboral. ¿Querés profundizar?' },
+    };
+    const section = map[topic] || { title: topic, body: 'Preguntame lo que quieras sobre ' + topic + '.' };
+    return { role: 'hornero', sections: [section], tags: ['panorama', 'explore'], persona: p, time: this._timeNow() };
+  }
+
   _localResponse(userText) {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
