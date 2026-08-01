@@ -278,31 +278,38 @@ class HorneroHome extends HoComponent {
       .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .54rem; }
       .agenda-prox .agenda-date { font-size: .46rem; }
 
-      /* ===== ESFERA 2: Chat — 4 personajes ===== */
+      /* ===== ESFERA 2: Chat — 5 personajes, tira scrolleable ===== */
       .esfera-consulta { margin-bottom: 20px; }
-      .consulta-icons { display: flex; justify-content: space-around; gap: 0; }
+      .consulta-scroll-wrap { position: relative; margin: 0 -16px; }
+      .consulta-scroll-wrap::before,
+      .consulta-scroll-wrap::after { content: ''; position: absolute;
+        top: 0; bottom: 0; width: 24px; z-index: 2; pointer-events: none; }
+      .consulta-scroll-wrap::before { left: 0;
+        background: linear-gradient(to right, var(--ho-bg, #1E2321), transparent); }
+      .consulta-scroll-wrap::after { right: 0;
+        background: linear-gradient(to left, var(--ho-bg, #1E2321), transparent); }
+      .consulta-icons { display: flex; overflow-x: auto;
+        scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; gap: 0; padding: 4px 20px; }
+      .consulta-icons::-webkit-scrollbar { width: 0; }
       .icon-btn { display: flex; flex-direction: column; align-items: center;
         gap: 8px; background: none; border: none; cursor: pointer;
-        padding: 10px 8px; font-family: 'Archivo', sans-serif;
-        transition: opacity .2s; position: relative; }
-      .icon-btn:not(:last-child)::after {
-        content: ''; position: absolute; right: 0; top: 10px;
-        width: 1px; height: 64px;
-        background: var(--ho-green-pale, #E0F0EB); }
+        padding: 10px 14px; font-family: 'Archivo', sans-serif;
+        transition: opacity .2s; position: relative;
+        flex-shrink: 0; scroll-snap-align: center; min-width: 80px; }
       .icon-btn:hover { opacity: .8; }
       .persona-home-img { width: 64px; height: 64px; border-radius: 0;
         object-fit: contain; object-position: center;
         filter: var(--ho-persona-filter, none); }
       .persona-home-img.periodista-full { object-fit: contain; }
-      .icon-btn .icon-label { font-size: .76rem; font-weight: 600;
-        color: var(--ho-text, #E8E6E0); }
+      .icon-btn .icon-label { font-size: .72rem; font-weight: 600;
+        color: var(--ho-text, #E8E6E0); white-space: nowrap; }
 
-      /* ===== ESFERA 3: Historia Obrera — Sociólogo investigator card ===== */
+      /* ===== ESFERA 3: Panorama — hero card ===== */
       .panorama-card { position: relative; border-radius: 13px; margin-bottom: 10px;
-        overflow: hidden; cursor: pointer; min-height: 140px;
-        background: var(--ho-dark, #1E2321); }
-      .panorama-card img.hero { width: 100%; height: 180px; object-fit: contain;
-        object-position: center bottom; display: block; opacity: .85; }
+        overflow: hidden; cursor: pointer; min-height: 140px; }
+      .panorama-card img.hero { width: 100%; height: 180px; object-fit: cover;
+        display: block; opacity: .55; }
       .panorama-overlay { position: absolute; bottom: 0; left: 0; right: 0;
         padding: 36px 14px 12px;
         background: linear-gradient(transparent, rgba(33,31,29,.92));
@@ -502,40 +509,42 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 2: Chat IA — 5 personajes -->
+      <!-- ESFERA 2: Chat IA — 5 personajes, tira scrolleable -->
       <div class="esfera-consulta">
         <div class="esfera-name">Chat</div>
-        <div class="consulta-icons">
-          <button class="icon-btn" data-screen="gremial" data-persona="companero">
-            <img src="assets/personajes/a02.png" alt="Compañero/a" class="persona-home-img">
-            <span class="icon-label">Compañero/a</span>
-          </button>
-          <button class="icon-btn" data-screen="consulta" data-persona="abogado">
-            <img src="assets/personajes/a03.png" alt="Abogado/a" class="persona-home-img">
-            <span class="icon-label">Abogado/a</span>
-          </button>
-          <button class="icon-btn" data-screen="contenido" data-persona="periodista">
-            <img src="assets/personajes/a04.png" alt="Periodista" class="persona-home-img periodista-full">
-            <span class="icon-label">Periodista</span>
-          </button>
-          <button class="icon-btn" data-screen="historiador" data-persona="historiador">
-            <img src="assets/personajes/a01.png" alt="Historiadora" class="persona-home-img">
-            <span class="icon-label">Historiadora</span>
-          </button>
-          <button class="icon-btn" data-screen="condicion" data-persona="sociologo">
-            <img src="assets/personajes/a05.png" alt="Investigador/a" class="persona-home-img">
-            <span class="icon-label">Investigador/a</span>
-          </button>
+        <div class="consulta-scroll-wrap">
+          <div class="consulta-icons">
+            <button class="icon-btn" data-screen="gremial" data-persona="companero">
+              <img src="assets/personajes/a02.png" alt="Compañero/a" class="persona-home-img">
+              <span class="icon-label">Compañero/a</span>
+            </button>
+            <button class="icon-btn" data-screen="consulta" data-persona="abogado">
+              <img src="assets/personajes/a03.png" alt="Abogado/a" class="persona-home-img">
+              <span class="icon-label">Abogado/a</span>
+            </button>
+            <button class="icon-btn" data-screen="contenido" data-persona="periodista">
+              <img src="assets/personajes/a04.png" alt="Periodista" class="persona-home-img periodista-full">
+              <span class="icon-label">Periodista</span>
+            </button>
+            <button class="icon-btn" data-screen="historiador" data-persona="historiador">
+              <img src="assets/personajes/a01.png" alt="Historiadora" class="persona-home-img">
+              <span class="icon-label">Historiadora</span>
+            </button>
+            <button class="icon-btn" data-screen="condicion" data-persona="sociologo">
+              <img src="assets/personajes/a05.png" alt="Investigador/a" class="persona-home-img">
+              <span class="icon-label">Investigador/a</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- ESFERA 3: Historia Obrera — Sociólogo investigator card -->
+      <!-- ESFERA 3: Panorama — hero card -->
       <div class="panorama-card" data-screen="condicion" data-persona="sociologo">
-        <img src="assets/personajes/a05.png" alt="Historia Obrera" class="hero">
+        <img src="assets/panorama-bg.png" alt="Panorama" class="hero">
         <div class="panorama-overlay">
-          <div class="card-name">Historia Obrera</div>
-          <div class="card-desc">Investigador/a de la clase obrera · CE · IFT · SMVM</div>
-          <span class="card-tag">condición obrera · diagnóstico · clase trabajadora</span>
+          <div class="card-name">Panorama</div>
+          <div class="card-desc">CE · IFT · Cómo Somos · SMVM</div>
+          <span class="card-tag">índices · diagnóstico · clase trabajadora</span>
         </div>
       </div>
 
