@@ -1301,7 +1301,7 @@ class HorneroChat extends HoComponent {
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
       // Short label for cintillo
-      const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiadora', 'sociologo': 'Investigador/a' };
+      const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Derecho', 'periodista': 'Periodista', 'historiador': 'Historiadora', 'sociologo': 'Investigador/a' };
       const label = shortLabels[p] || cfg.name;
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
         <span class="persona-icon-inner">${inner}</span>
@@ -1332,7 +1332,7 @@ class HorneroChat extends HoComponent {
 
     // History drawer — section icons mapping (matches _getPersonaConfig)
     const sectionConfig = {
-      consulta:  { emoji: '📖', label: 'Consulta',  color: '#2B5278', persona: 'abogado' },
+      consulta:  { emoji: '📖', label: 'Derecho',    color: '#2B5278', persona: 'abogado' },
       contenido: { emoji: '🎙️', label: 'Contenido', color: '#5A4A3A', persona: 'periodista' },
       debate:    { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero' },
       reporte:   { emoji: '✊', label: 'Compañero/a', color: '#7A3B1E', persona: 'companero' },

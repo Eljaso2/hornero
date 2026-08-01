@@ -138,6 +138,7 @@ class HorneroApp extends HoComponent {
       { id: 'infomate', label: 'InfoMate' },
       { id: 'misReportes', label: 'Mis Reportes' },
       { id: 'chat', label: 'Chat' },
+      { id: 'derecho', label: 'Derecho' },
       { id: 'contenido', label: 'Contenido' },
       { id: 'condicion', label: 'Panorama' },
       { id: 'smvm', label: 'SMVM' },
@@ -152,6 +153,7 @@ class HorneroApp extends HoComponent {
       home: 'Inicio',
       actualidad: 'Actualidad',
       chat: 'Chat',
+      derecho: 'Derecho',
       consulta: 'Chateá con tu interlocutor/a',
       formacion: 'Historia Obrera',
       is: 'Reporte gremial',
@@ -235,7 +237,7 @@ class HorneroApp extends HoComponent {
       clipping: 'clipping',
       infomate: 'infomate',
       chat: 'chat',
-      consulta: 'chat',
+      consulta: 'derecho',
       contenido: 'contenido',
       historiador: 'formacion',
       misConversaciones: 'chat',
@@ -1020,6 +1022,12 @@ class HorneroApp extends HoComponent {
         if (btn.dataset.screen === 'perfil') {
           this._profileOpen = true;
           this.render();
+          return;
+        }
+        // Derecho section → navigate to consulta with abogado persona
+        if (btn.dataset.screen === 'derecho') {
+          this._initialPersona = 'abogado';
+          this._navigateTo('consulta');
           return;
         }
         this._navigateTo(btn.dataset.screen);
