@@ -922,7 +922,7 @@ class HorneroFormacion extends HoComponent {
   }
 
   _localGreeting() {
-    return { role: 'hornero', sections: [{ title: '¡Hola! Soy la Historiadora', body: 'Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nAcá podemos recorrer:\n\n• 📅 Efemérides — Hechos históricos de cada semana\n• 📖 Mitín — Ensayos de historia obrera argentina\n• 📚 Colección La Argentina Peronista — Libros y documentos\n• 🎬 Retazos — Docuficción, audio, ilustraciones, música\n\n¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Historiadora — conozco la historia del movimiento obrero: huelgas, masacres, lockouts, referentes que nadie recuerda. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
   // ===== Handle audio message =====

@@ -810,7 +810,7 @@ class HorneroGremial extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '¡Hola! Soy el Compañero', body: '¿Cómo anduvo todo? ¿Algo para reportar?' },
+        { title: '', body: '¡Hola! Soy el Compañero — años en planta, pasé por las asambleas, las paritarias, las huelgas. Te ayudo con lo que necesites: reportar una situación, debatir organización, armar un reporte gremial. ¿Cómo anduvo todo?' },
       ],
       tags: ['reporte', 'saludo'],
       persona: this._activePersona,

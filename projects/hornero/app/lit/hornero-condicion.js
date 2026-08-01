@@ -546,7 +546,7 @@ class HorneroCondicion extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '¡Hola! Soy la Investigadora', body: 'Investigo la clase obrera — cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Qué querés explorar?' },
+        { title: '', body: '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Qué querés explorar?' },
       ],
       tags: ['panorama', 'greeting'],
       persona: this._activePersona,
@@ -836,7 +836,7 @@ class HorneroCondicion extends HoComponent {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
     if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {
-      return { role: 'hornero', sections: [{ title: '¡Hola!', body: '¿Cómo andás? Preguntame sobre la condición obrera, el ICE, el SMVM, la felicidad laboral, los datos de la clase trabajadora. Te guío.' }], tags: ['panorama', 'saludo'], persona: p, time: this._timeNow() };
+      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: p, time: this._timeNow() };
     }
     return { role: 'hornero', sections: [{ title: 'Investigador/a', body: 'No tengo datos específicos sobre eso, pero puedo ayudarte con: condición obrera, índice ICE, comportamiento empresarial, SMVM, felicidad laboral, datos de la clase trabajadora. ¿Qué te interesa?' }], tags: ['panorama'], persona: p, time: this._timeNow() };
   }

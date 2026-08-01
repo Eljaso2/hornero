@@ -636,7 +636,7 @@ class HorneroArchivo extends HoComponent {
   }
 
   _localGreeting() {
-    return { role: 'hornero', sections: [{ title: '¡Hola! Soy la Historiadora', body: 'En el archivo del sindicato encontrás convenios, referentes, fuentes y documentos.\n\nAcá podemos buscar:\n\n• 🔍 Por palabra clave — Decime qué tema te interesa\n• 📄 Fuentes por categoría — Convenios, historia sindical, legislación laboral\n• 📚 Académicos — Artículos y papers de investigación\n• 📰 Multimedia — Notas periodísticas, audio, video\n\nPreguntame lo que buscás y te guío.' }], tags: ['archivo', 'greeting'], persona: 'historiador', time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Historiadora — en el archivo del sindicato encontrás convenios, referentes, fuentes y documentos. Preguntame lo que buscás y te guío.' }], tags: ['archivo', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
   // ===== Handle audio message =====
