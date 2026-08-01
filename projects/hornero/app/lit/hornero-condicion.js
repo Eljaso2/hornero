@@ -905,28 +905,6 @@ class HorneroCondicion extends HoComponent {
       this.emit('screen-change', { screen: target.screen, persona: target.persona || targetPersona });
     }
   }
-
-  _renderPersonaBar() {
-    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'sociologo'];
-    const personaConfig = {
-      'companero':   { name: 'Compañero/a',    img: 'assets/personajes/a02.png' },
-      'abogado':     { name: 'Derecho',         img: 'assets/personajes/a03.png' },
-      'periodista':  { name: 'Periodista',      img: 'assets/personajes/a04.png' },
-      'historiador': { name: 'Historiadora',     img: 'assets/personajes/a01.png' },
-      'sociologo':   { name: 'Investigador/a',   img: 'assets/personajes/a05.png' },
-    };
-    return allPersonas.map(p => {
-      const cfg = personaConfig[p];
-      const isActive = p === this._activePersona;
-      const imgClass = p === 'periodista' ? 'periodista-full' : '';
-      return `<button class="hero-persona-icon${isActive ? ' active' : ''}" data-persona="${p}">
-        <span class="hero-persona-icon-inner">
-          <img src="${cfg.img}" alt="${cfg.name}" class="${imgClass}" onerror="this.style.display='none'">
-        </span>
-        <span class="hero-persona-icon-label">${cfg.name}</span>
-      </button>`;
-    }).join('');
-  }
 }
 
 customElements.define('hornero-condicion', HorneroCondicion);
