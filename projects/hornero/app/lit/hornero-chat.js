@@ -943,8 +943,8 @@ class HorneroChat extends HoComponent {
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
         gap: 2px; background: none; border: none; cursor: pointer;
         padding: 4px 2px; transition: opacity .2s; position: relative;
-        flex-shrink: 0; scroll-snap-align: center; }
-      .chat-persona-icon:hover { opacity: .8; }
+        flex-shrink: 0; scroll-snap-align: center; opacity: .45; }
+      .chat-persona-icon:hover { opacity: .75; }
       .chat-persona-icon.active { opacity: 1; }
       .persona-icon-inner { width: 28px; height: 28px;
         display: flex; align-items: center; justify-content: center;
