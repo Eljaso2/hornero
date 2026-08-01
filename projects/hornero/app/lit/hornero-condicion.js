@@ -375,7 +375,7 @@ class HorneroCondicion extends HoComponent {
 
     let introText;
     if (this.initialSection === 'comportamiento') {
-      introText = '¡Hola! Soy la Investigadora. Vamos a hablar del Comportamiento Empresarial.\n\nEl Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones de violencia empresarial: salarial, contractual, ambiental y sindical. Es una radiografía de cómo las empresas tratan a los trabajadores.\n\nPreguntame lo que quieras sobre el ICE o cualquier dimensión de la violencia empresarial.';
+      introText = '¡Hola! Soy la Investigadora. Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos: quiénes somos, cómo nos trata el empresariado, cuánto vale nuestro trabajo y qué tan "felices" somos en el laburo.\n\nHoy vamos a hablar del **Comportamiento Empresarial**. El Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones de violencia empresarial: salarial, contractual, ambiental y sindical. Es una radiografía de cómo las empresas tratan a los trabajadores — no es opinión, es dato duro.\n\n¿Qué querés investigar? Preguntame sobre el ICE, cualquier dimensión de la violencia empresarial o lo que te interese.';
     } else if (this.initialSection === 'smvm') {
       introText = '¡Hola! Soy la Investigadora. Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos: quiénes somos, cómo nos trata el empresariado, cuánto vale nuestro trabajo y qué tan "felices" somos en el laburo.\n\nHoy vamos a hablar del **SMVM**: el Salario Mínimo Vital y Móvil. No es solo un número que publica el gobierno — es la frontera entre lo que la ley reconoce y lo que el trabajador necesita realmente. Acá analizamos la brecha entre ese salario mínimo y el valor real de la fuerza de trabajo, la canasta básica, y la superexplotación que queda expuesta cuando los números no cierran.\n\n¿Qué querés investigar? Preguntame sobre el SMVM, la canasta básica, la brecha salarial o lo que te interese.';
     } else if (this.initialSection === 'felicidad') {
@@ -453,8 +453,27 @@ class HorneroCondicion extends HoComponent {
     this._saveChatHistory();
     this.render();
 
-    this._callBackendStream(text).catch((err) => {
-      console.warn('Stream failed, falling back to non-streaming:', err);
+    // Race: backend stream vs timeout → fallback to local if too slow
+    const STREAM_TIMEOUT = 20000; // 20s max wait for first token
+    let streamStarted = false;
+
+    const streamPromise = this._callBackendStream(text).then(() => {
+      streamStarted = true;
+    });
+
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => {
+        if (!streamStarted) reject(new Error('STREAM_TIMEOUT'));
+      }, STREAM_TIMEOUT);
+    });
+
+    Promise.race([streamPromise, timeoutPromise]).catch((err) => {
+      // Stream failed or timed out — try non-streaming, then local
+      if (err.message === 'STREAM_TIMEOUT') {
+        console.warn('Stream timed out after', STREAM_TIMEOUT, 'ms — falling back');
+      } else {
+        console.warn('Stream failed:', err);
+      }
       this._callBackend(text).catch((err2) => {
         if (err2.message === 'FETCH_TIMEOUT') {
           this.messages = [...this.messages, {
@@ -837,6 +856,18 @@ class HorneroCondicion extends HoComponent {
     const p = this._activePersona;
     if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {
       return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: p, time: this._timeNow() };
+    }
+    if (lower.match(/smvm|salario mínimo|salario minimo|canasta|brecha|superexplotación|superexplotacion/)) {
+      return { role: 'hornero', sections: [{ title: 'SMVM', body: 'El Salario Mínimo Vital y Móvil es la frontera entre lo que la ley reconoce y lo que el trabajador necesita. La brecha entre el SMVM y la canasta básica revela la superexplotación: el trabajador no gana lo que necesita para vivir. ¿Querés que profundice en la canasta básica, la brecha salarial o el valor de la fuerza de trabajo?' }], tags: ['panorama', 'smvm'], persona: p, time: this._timeNow() };
+    }
+    if (lower.match(/ice|comportamiento empresarial|violencia empresarial|dimensión/)) {
+      return { role: 'hornero', sections: [{ title: 'Comportamiento Empresarial', body: 'El Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones de violencia: salarial (¿paga lo justo?), contractual (¿estabiliza el empleo?), ambiental (¿cuida el territorio?), sindical (¿respeta la organización?). ¿Qué dimensión te interesa?' }], tags: ['panorama', 'ice'], persona: p, time: this._timeNow() };
+    }
+    if (lower.match(/felicidad|ift|felicidad laboral|índice de felicidad/)) {
+      return { role: 'hornero', sections: [{ title: 'Índice de Felicidad Laboral', body: 'El IFT = SMVM × ICE. Cruza lo que ganás con la violencia que sufrís. No es bienestar subjetivo — es un indicador material. Cuando el salario no alcanza y la violencia empresarial sube, el IFT baja. ¿Querés profundizar?' }], tags: ['panorama', 'felicidad'], persona: p, time: this._timeNow() };
+    }
+    if (lower.match(/cómo somos|como somos|clase trabajadora|datos|composición/)) {
+      return { role: 'hornero', sections: [{ title: 'Cómo Somos', body: 'Datos duros de la clase trabajadora argentina: composición sectorial, empleo, informalidad, desigualdad. ¿Qué aspecto te interesa?' }], tags: ['panorama', 'como-somos'], persona: p, time: this._timeNow() };
     }
     return { role: 'hornero', sections: [{ title: 'Investigador/a', body: 'No tengo datos específicos sobre eso, pero puedo ayudarte con: condición obrera, índice ICE, comportamiento empresarial, SMVM, felicidad laboral, datos de la clase trabajadora. ¿Qué te interesa?' }], tags: ['panorama'], persona: p, time: this._timeNow() };
   }
