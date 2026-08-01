@@ -124,12 +124,12 @@ function initDB() {
 // ===== One-time cleanup: clear chatHistory + informes + correcciones (local + backend) =====
 // Runs only once (flag in localStorage), then auto-removes itself
 // Bumping version triggers re-run for all users on next load
-// v15: nuclear clear-all — borra TODOS los datos de TODOS los usuarios piloto
+// v16: clear-all para desarrollo de chats — borra TODOS los datos de TODOS los usuarios piloto
 // Usa clear-user por cada usuario (endpoints que sí existen en el backend deployado)
 var PILOT_USERS = ['eljaso', 'test4', 'test3', 'test1c', 'test_guaycuru', 'test1a', 'test2', 'test1b'];
 var _cleanupJustRan = false;
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v15') return Promise.resolve(false);
+  if (localStorage.getItem('hornero-chats-cleared') === 'v16') return Promise.resolve(false);
   console.log('DB: one-time cleanup — clearing chatHistory + informes + correcciones for ALL pilot users (local + backend)');
   var baseUrl = _getChatSyncBaseUrl();
   return dbClearStore('chatHistory').then(function() {
@@ -164,7 +164,7 @@ function limpiarChatsYReportes() {
     );
     return Promise.all(backendPromises);
   }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v15');
+    localStorage.setItem('hornero-chats-cleared', 'v16');
     _cleanupJustRan = true;
     console.log('DB: cleanup complete — chatHistory + informes + correcciones cleared (ALL pilot users, local + backend)');
     return true;
