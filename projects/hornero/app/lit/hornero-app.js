@@ -877,7 +877,7 @@ class HorneroApp extends HoComponent {
                   : 'assets/hornero-logo-nobg.png';
                 const logoClass = this.theme === 'light' ? 'sections-logo sections-logo-light' : 'sections-logo';
                 const labelHtml = s.id === 'ecosistema'
-                  ? 'ECO<img src="' + logoSrc + '" alt="Hornero" class="' + logoClass + '">'
+                  ? 'ECO <img src="' + logoSrc + '" alt="Hornero" class="' + logoClass + '">'
                   : s.label;
                 return '<button class="sections-btn' + (s.id === activeSection ? ' active' : '') + '" data-screen="' + s.id + '">' + labelHtml + badgeHtml + '</button>';
               }).join('') +
