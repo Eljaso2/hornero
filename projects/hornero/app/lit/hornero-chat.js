@@ -816,7 +816,7 @@ class HorneroChat extends HoComponent {
 
       .msg-content { max-width: 90%; animation: msgin .35s ease; }
 
-      .msg-avatar-row { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-bottom: 2px; }
+      .msg-avatar-row { display: flex; flex-direction: column; align-items: center; gap: 0; margin-bottom: 0; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
       .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
@@ -1060,7 +1060,7 @@ class HorneroChat extends HoComponent {
         color: var(--ho-text-mid, #6E6A60); margin-top: 5px; font-style: normal; }
 
       /* Tags */
-      .msg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+      .msg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
       .msg-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
