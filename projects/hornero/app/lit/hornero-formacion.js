@@ -301,7 +301,7 @@ class HorneroFormacion extends HoComponent {
         min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/Historia-Obrera_marca-.png') center/cover no-repeat;
-        opacity: .15; pointer-events: none; }
+        opacity: .10; pointer-events: none; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
