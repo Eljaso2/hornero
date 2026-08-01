@@ -297,8 +297,8 @@ class HorneroFormacion extends HoComponent {
       /* ===== Hero banner — imagen de fondo opaca + texto ===== */
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
-        padding: 20px 16px 14px; display: flex; flex-direction: column;
-        align-items: flex-start; gap: 10px;
+        padding: 14px 16px 10px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 2px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
         min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;

@@ -99,8 +99,8 @@ class HorneroContenido extends HoComponent {
       /* ===== Hero banner — imagen de fondo opaca ===== */
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
-        padding: 20px 16px 14px; display: flex; flex-direction: column;
-        align-items: flex-start; gap: 10px;
+        padding: 14px 16px 10px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 2px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/periodista.jpg') center/cover no-repeat;
