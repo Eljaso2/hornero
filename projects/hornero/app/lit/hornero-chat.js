@@ -827,16 +827,19 @@ class HorneroChat extends HoComponent {
       /* === Typing avatar: persona-aware === */
       .typing-avatar-emoji { font-size: .72rem; line-height: 1; }
 
-      /* === Chat top bar (cintillo) — persona icons + action buttons === */
+      /* === Chat top bar (cintillo) — tira scrolleable de actores + acciones === */
       .chat-top-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 20;
-        height: 48px; display: flex; align-items: center; justify-content: space-between;
-        padding: 0 8px; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
+        height: 56px; display: flex; align-items: center;
+        padding: 0; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .chat-top-bar-left { display: flex; align-items: center; gap: 4px; }
-      .chat-top-bar-center { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 4px; }
+      .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 2; }
+      .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
+        scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; gap: 0; padding: 0 4px; }
+      .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
-      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; }
+      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; }
 
       /* Back button inside top bar */
       .chat-back-btn { width: 32px; height: 32px; border-radius: 50%;
@@ -850,24 +853,27 @@ class HorneroChat extends HoComponent {
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
-      /* Persona icons — inside top bar */
-      .chat-persona-icon { width: 32px; height: 32px; border-radius: 50%;
-        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: transform .15s, opacity .2s, background .2s, border-color .2s;
-        overflow: hidden; opacity: .55; padding: 0; }
-      .chat-persona-icon:hover { transform: scale(1.08); opacity: .85;
-        background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green-light, #80CCA0); }
-      .chat-persona-icon.active { transform: scale(1.06);
-        opacity: 1; border-color: var(--ho-green, #4E9978); }
-      .persona-icon-inner { width: 100%; height: 100%;
+      /* Persona icons — cintillo scrolleable (tira como home) */
+      .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
+        gap: 2px; background: none; border: none; cursor: pointer;
+        padding: 4px 6px; transition: opacity .2s; position: relative;
+        flex-shrink: 0; scroll-snap-align: center; }
+      .chat-persona-icon:not(:last-child)::after {
+        content: ''; position: absolute; right: 0; top: 6px;
+        width: 1px; height: 40px;
+        background: var(--ho-green-pale, #E0F0EB); }
+      .chat-persona-icon:hover { opacity: .8; }
+      .chat-persona-icon.active { opacity: 1; }
+      .persona-icon-inner { width: 40px; height: 40px;
         display: flex; align-items: center; justify-content: center; }
-      .persona-icon-inner img { width: 100%; height: 100%;
-        object-fit: cover; object-position: center 25%;
-        filter: var(--ho-persona-filter, none); }
+      .persona-icon-inner img { width: 40px; height: 40px; object-fit: contain;
+        object-position: center; filter: var(--ho-persona-filter, none); }
       .persona-icon-inner img.periodista-full { object-fit: contain; object-position: center; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
+      .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
+        font-size: .58rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+        white-space: nowrap; }
+      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); }
 
       /* === Redirect derivation button in message === */
       .msg-redirect-btn { display: inline-flex; align-items: center; gap: 6px;
