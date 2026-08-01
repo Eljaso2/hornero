@@ -96,7 +96,7 @@ class HorneroArchivo extends HoComponent {
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
         padding: 14px 16px 10px; display: flex; flex-direction: column;
-        align-items: flex-start; gap: 2px;
+        align-items: flex-start; gap: 8px;
         flex-shrink: 0; min-height: 110px; }
       .hero-icon { font-size: 2.2rem; margin-bottom: 2px; }
       .hero-title { font-family: 'Archivo', sans-serif; font-weight: 700;

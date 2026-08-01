@@ -31,7 +31,6 @@ class HorneroChat extends HoComponent {
       centerLogo: String,      // URL for a small logo in the top bar center (when persona bar is hidden)
       noAutoScroll: Boolean,   // Disable auto-scroll (e.g. when banner is visible above)
       topBarAccent: Boolean,   // Light mode: colored top bar (only Historia Obrera when banner hidden)
-      hideTopBar: Boolean,     // Hide top bar when parent renders its own (collapsed banner)
     };
   }
 
@@ -57,7 +56,6 @@ class HorneroChat extends HoComponent {
     this.hideRecibidosBtn = false;
     this.centerLogo = '';
     this.noAutoScroll = false;
-    this.hideTopBar = false;
     this.topBarAccent = false;
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
@@ -770,7 +768,7 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: var(--chat-scroll-top, 64px); /* 56px top bar + 8px gap; override to 16px when hideTopBar */
+        padding-top: 64px; /* 56px top bar + 8px gap */
         -webkit-overflow-scrolling: touch; }
 
       /* Animations */
@@ -1517,7 +1515,6 @@ class HorneroChat extends HoComponent {
     const isHigherGrade = this.grade === 'B.b' || this.grade === 'B.c' || this.grade === 'B.d';
 
     return html`
-      ${!this.hideTopBar ? html`
       <div class="chat-top-bar">
         <div class="chat-top-bar-left">
           <button class="chat-back-btn" id="chatBackBtn" title="Volver">
@@ -1560,7 +1557,6 @@ class HorneroChat extends HoComponent {
           `}
         </div>
       </div>
-      ` : ''}
 
       ${progressFill}
 
@@ -2032,12 +2028,6 @@ class HorneroChat extends HoComponent {
       this.classList.add('topbar-accent');
     } else {
       this.classList.remove('topbar-accent');
-    }
-
-    // === Adjust scroll padding when top bar is hidden (collapsed banner mode) ===
-    const chatScroll = this.shadowRoot.querySelector('.chat-scroll');
-    if (chatScroll) {
-      chatScroll.style.setProperty('--chat-scroll-top', this.hideTopBar ? '16px' : '64px');
     }
 
     // === Mark drawers as stable after first render (prevent slideIn replay) ===

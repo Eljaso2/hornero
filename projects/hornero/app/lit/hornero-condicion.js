@@ -98,7 +98,7 @@ class HorneroCondicion extends HoComponent {
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
         padding: 14px 16px 10px; display: flex; flex-direction: column;
-        align-items: flex-start; gap: 2px;
+        align-items: flex-start; gap: 8px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
         min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
@@ -122,23 +122,6 @@ class HorneroCondicion extends HoComponent {
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
-
-      /* ===== Collapsed banner: persona bar ===== */
-      .hero-persona-bar { display: flex; gap: 0; overflow-x: auto;
-        scrollbar-width: none; padding: 2px 0; justify-content: center; }
-      .hero-persona-bar::-webkit-scrollbar { width: 0; }
-      .hero-persona-icon { display: flex; flex-direction: column; align-items: center;
-        gap: 2px; background: none; border: none; cursor: pointer;
-        padding: 4px 6px; opacity: .45; flex-shrink: 0;
-        transition: opacity .2s; }
-      .hero-persona-icon:hover { opacity: .75; }
-      .hero-persona-icon.active { opacity: 1; }
-      .hero-persona-icon-inner { width: 24px; height: 24px; display: flex;
-        align-items: center; justify-content: center; overflow: hidden; }
-      .hero-persona-icon-inner img { width: 24px; height: 24px; object-fit: contain; }
-      .hero-persona-icon-label { font-family: 'Archivo', sans-serif; font-size: .46rem;
-        font-weight: 600; color: var(--ho-text-mid, #6E6A60); white-space: nowrap; }
-      .hero-persona-icon.active .hero-persona-icon-label { color: var(--ho-green, #4E9978); }
 
       /* ===== Explorar dropdown ===== */
       .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
