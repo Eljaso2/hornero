@@ -409,7 +409,7 @@ class HorneroApp extends HoComponent {
       /* ===== Sections bar — horizontal scrollable ===== */
       .sections-bar { background: var(--ho-bg, #1E2321);
         flex: none; display: flex; overflow-x: auto;
-        padding: 8px 12px 0px; gap: 0;
+        padding: 8px 8px 0px; gap: 0;
         scrollbar-width: none; border-bottom: 1px solid var(--ho-text-mid, #7A766C); }
       .sections-bar::-webkit-scrollbar { width: 0; }
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
@@ -422,7 +422,7 @@ class HorneroApp extends HoComponent {
       .sections-btn.active { color: var(--ho-green, #4E9978);
         border-bottom-color: var(--ho-green, #4E9978); }
       .sections-logo { width: 30px; height: 30px; object-fit: contain; vertical-align: middle; }
-      :host(.theme-light) .sections-logo { filter: brightness(0.3); }
+      :host(.theme-light) .sections-logo { filter: invert(1) brightness(0.3); }
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
