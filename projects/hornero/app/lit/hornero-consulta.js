@@ -152,7 +152,7 @@ class HorneroConsulta extends HoComponent {
       <div class="hero-banner">
         <div class="hero-banner-title">Derecho</div>
         <div class="hero-bajada">
-          Legislación laboral, convenios colectivos, derechos y obligaciones. Asesoramiento legal para trabajadores y delegados.
+          Legislación laboral, convenios colectivos. Asesoramiento legal para trabajadores y delegados.
         </div>
         <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
         ${this._exploreOpen ? html`

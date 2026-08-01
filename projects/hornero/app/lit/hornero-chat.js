@@ -2032,6 +2032,12 @@ class HorneroChat extends HoComponent {
       this.classList.remove('topbar-accent');
     }
 
+    // === Adjust scroll padding when top bar is hidden (collapsed banner mode) ===
+    const chatScroll = this.shadowRoot.querySelector('.chat-scroll');
+    if (chatScroll) {
+      chatScroll.style.setProperty('--chat-scroll-top', this.hideTopBar ? '16px' : '64px');
+    }
+
     // === Mark drawers as stable after first render (prevent slideIn replay) ===
     if (this._showHistory) this._historyDrawerStable = true;
     if (this._showInformes) this._informesDrawerStable = true;

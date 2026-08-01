@@ -103,6 +103,11 @@ class HorneroCondicion extends HoComponent {
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/panorama-bg.png') center/cover no-repeat;
         opacity: .18; pointer-events: none; }
+      .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
+        gap: 6px; }
+      .hero-banner.collapsed::before { opacity: 0; }
+      .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
+      .hero-banner.collapsed .hero-explore-link { font-size: .64rem; padding: 2px 8px; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
@@ -116,6 +121,23 @@ class HorneroCondicion extends HoComponent {
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
+
+      /* ===== Collapsed banner: persona bar ===== */
+      .hero-persona-bar { display: flex; gap: 0; overflow-x: auto;
+        scrollbar-width: none; padding: 2px 0; justify-content: center; }
+      .hero-persona-bar::-webkit-scrollbar { width: 0; }
+      .hero-persona-icon { display: flex; flex-direction: column; align-items: center;
+        gap: 2px; background: none; border: none; cursor: pointer;
+        padding: 4px 6px; opacity: .45; flex-shrink: 0;
+        transition: opacity .2s; }
+      .hero-persona-icon:hover { opacity: .75; }
+      .hero-persona-icon.active { opacity: 1; }
+      .hero-persona-icon-inner { width: 24px; height: 24px; display: flex;
+        align-items: center; justify-content: center; overflow: hidden; }
+      .hero-persona-icon-inner img { width: 24px; height: 24px; object-fit: contain; }
+      .hero-persona-icon-label { font-family: 'Archivo', sans-serif; font-size: .46rem;
+        font-weight: 600; color: var(--ho-text-mid, #6E6A60); white-space: nowrap; }
+      .hero-persona-icon.active .hero-persona-icon-label { color: var(--ho-green, #4E9978); }
 
       /* ===== Explorar dropdown ===== */
       .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
@@ -153,12 +175,13 @@ class HorneroCondicion extends HoComponent {
 
   _render() {
     return html`
-      ${this._bannerVisible ? html`
-      <div class="hero-banner">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Panorama</div>
+        ${this._bannerVisible ? html`
         <div class="hero-bajada" style="position:relative">
           Condición obrera, comportamiento empresarial, Salario Mínimo, Vital y Móvil real, felicidad laboral.
         </div>
+        ` : ''}
         <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
         ${this._exploreOpen ? html`
         <div class="hero-explore-panel">
@@ -168,8 +191,12 @@ class HorneroCondicion extends HoComponent {
           <button class="hero-explore-option" data-explore="Índice de Felicidad">Índice de Felicidad</button>
         </div>
         ` : ''}
+        ${!this._bannerVisible ? html`
+        <div class="hero-persona-bar">
+          ${this._renderPersonaBar()}
+        </div>
+        ` : ''}
       </div>
-      ` : ''}
 
       <div class="chat-container">
         <hornero-chat
