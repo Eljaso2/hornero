@@ -841,6 +841,29 @@ class HorneroChat extends HoComponent {
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
       .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; }
 
+      /* History/Informes/Recibidos as cintillo items — inside scrollable center */
+      .chat-cintillo-action { display: flex; flex-direction: column; align-items: center;
+        gap: 2px; background: none; border: none; cursor: pointer;
+        padding: 4px 6px; transition: opacity .2s; position: relative;
+        flex-shrink: 0; scroll-snap-align: center; }
+      .chat-cintillo-action:hover { opacity: .8; }
+      .chat-cintillo-action .cintillo-action-inner { width: 28px; height: 28px;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .chat-cintillo-action .cintillo-action-inner svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-cintillo-action:hover .cintillo-action-inner { border-color: var(--ho-green-light, #80CCA0); }
+      .chat-cintillo-action:hover .cintillo-action-inner svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-cintillo-action .cintillo-action-label { font-family: 'Archivo', sans-serif;
+        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+        white-space: nowrap; }
+      .chat-cintillo-action:hover .cintillo-action-label { color: var(--ho-green, #4E9978); }
+      .chat-cintillo-action .cintillo-action-inner.badge { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green, #4E9978); border-width: 1.5px; }
+      .chat-cintillo-action .cintillo-action-inner.badge svg { stroke: var(--ho-green-dark, #3D6B56);
+        stroke-width: 2.6; }
+
       /* Back button inside top bar */
       .chat-back-btn { width: 32px; height: 32px; border-radius: 50%;
         background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
@@ -1426,10 +1449,6 @@ class HorneroChat extends HoComponent {
 
     // Show recibidos icon only for grades B.b, B.c, B.d (not B.a or A) and not hidden
     const isHigherGrade = this.grade === 'B.b' || this.grade === 'B.c' || this.grade === 'B.d';
-    const recibidosBtnHtml = (isHigherGrade && !this.hideRecibidosBtn) ?
-      `<button class="chat-recibidos-btn${this._recibidosBadge ? ' badge' : ''}" id="chatRecibidosBtn" title="Reportes recibidos">
-        <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
-      </button>` : '';
 
     return html`
       <div class="chat-top-bar">
@@ -1440,15 +1459,22 @@ class HorneroChat extends HoComponent {
         </div>
         <div class="chat-top-bar-center">
           ${this.hidePersonaBar ? (this.centerLogo ? html`<img class="chat-top-bar-logo" src="${this.centerLogo}" alt="">` : '') : personaIconsHtml}
+          ${!this.hidePersonaBar ? html`
+            ${this.persona === 'companero' && isHigherGrade && !this.hideRecibidosBtn ? html`<button class="chat-cintillo-action" id="chatRecibidosBtn" title="Reportes recibidos">
+              <span class="cintillo-action-inner${this._recibidosBadge ? ' badge' : ''}" style="border-color:var(--ho-gold,#B0863F)"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
+              <span class="cintillo-action-label">Recibidos</span>
+            </button>` : ''}
+            ${this.persona === 'companero' && !this.hideInformesBtn ? html`<button class="chat-cintillo-action" id="chatInformesBtn" title="Mis Reportes">
+              <span class="cintillo-action-inner${this.informeBadge ? ' badge' : ''}"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
+              <span class="cintillo-action-label">Reportes</span>
+            </button>` : ''}
+            <button class="chat-cintillo-action" id="chatHistoryBtn" title="Mis Conversaciones">
+              <span class="cintillo-action-inner"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+              <span class="cintillo-action-label">Historial</span>
+            </button>
+          ` : ''}
         </div>
         <div class="chat-top-bar-right">
-          ${this.persona === 'companero' ? recibidosBtnHtml : ''}
-          ${this.persona === 'companero' && !this.hideInformesBtn ? html`<button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Mis Reportes">
-            <svg viewBox="0 0 24 24">${informeSvg}</svg>
-          </button>` : ''}
-          <button class="chat-history-btn" id="chatHistoryBtn" title="Mis Conversaciones">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </button>
         </div>
       </div>
 
