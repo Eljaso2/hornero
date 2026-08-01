@@ -420,7 +420,7 @@ class HorneroApp extends HoComponent {
         border-bottom-color: var(--ho-green, #4E9978); }
 
       /* ===== Body scroll — white background covers content area ===== */
-      .body-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+      .body-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
         scrollbar-width: none; background: var(--ho-bg, #1E2321); position: relative; }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
