@@ -812,11 +812,11 @@ class HorneroChat extends HoComponent {
       .msg-download-label { font-size: .70rem; color: var(--ho-text-muted, #8A8A74); }
 
       /* === HORNERO message: NO bubble — plain text block === */
-      .msg-row.hornero { display: flex; flex-direction: column; align-items: flex-start; }
+      .msg-row.hornero { display: flex; flex-direction: row; align-items: flex-start; gap: 8px; }
 
-      .msg-content { max-width: 90%; animation: msgin .35s ease; }
+      .msg-content { flex: 1; min-width: 0; max-width: calc(100% - 44px); animation: msgin .35s ease; }
 
-      .msg-avatar-row { display: flex; flex-direction: column; align-items: center; gap: 3px; margin-bottom: 0; }
+      .msg-avatar-row { display: flex; flex-direction: column; align-items: center; gap: 3px; margin-bottom: 0; flex-shrink: 0; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; }
       .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
@@ -824,7 +824,8 @@ class HorneroChat extends HoComponent {
       .msg-avatar img.periodista-full { object-fit: contain; object-position: center; }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .72rem; }
+        font-size: .62rem; white-space: nowrap; max-width: 36px; overflow: hidden;
+        text-overflow: ellipsis; text-align: center; }
 
       /* === Typing avatar: persona-aware === */
       .typing-avatar-emoji { font-size: .72rem; line-height: 1; }
