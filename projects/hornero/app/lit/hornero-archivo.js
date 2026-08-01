@@ -140,8 +140,6 @@ class HorneroArchivo extends HoComponent {
           username="${this._username}"
           grade="${this.grade}"
           hide-persona-bar
-          hide-informes-btn
-          hide-recibidos-btn
           center-logo="${this._bannerVisible ? '' : '📚'}"
           no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>

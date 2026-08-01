@@ -140,8 +140,6 @@ class HorneroCondicion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          hide-informes-btn
-          hide-recibidos-btn
           no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
@@ -235,8 +233,6 @@ class HorneroCondicion extends HoComponent {
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
       chatEl.hidePersonaBar = false;
-      chatEl.hideInformesBtn = true;
-      chatEl.hideRecibidosBtn = true;
       chatEl.centerLogo = '';
       chatEl.noAutoScroll = this._bannerVisible;
       chatEl.topBarAccent = false;

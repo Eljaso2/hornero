@@ -14,6 +14,7 @@ class HorneroContenido extends HoComponent {
       sessionId: String, // Session ID — if set, load existing session instead of greeting
       messages: Array,
       iaStep: Number,
+      _bannerVisible: Boolean,
     };
   }
 
@@ -59,6 +60,7 @@ class HorneroContenido extends HoComponent {
     this.iaStep = 0;
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
+    this._bannerVisible = true;
     this._sessionId = ''; // Current session ID — new on each visit
     this._activePersona = 'periodista'; // Default persona for contenido section
     this._username = ''; // login username for per-user data isolation
@@ -91,12 +93,36 @@ class HorneroContenido extends HoComponent {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); }
+
+      /* ===== Hero banner — sin imagen de fondo ===== */
+      .hero-banner { position: relative; width: 100%;
+        background: var(--ho-dark, #1E2321);
+        padding: 20px 16px 14px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 10px;
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; position: relative; }
+      :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
+      .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        text-align: left; position: relative; }
+
       .chat-container { display: flex; flex-direction: column; height: 100%; }
     `;
   }
 
   _render() {
     return html`
+      ${this._bannerVisible ? html`
+      <div class="hero-banner">
+        <div class="hero-banner-title">Contenido</div>
+        <div class="hero-bajada">
+          Prensa, podcasts, reels, entrevistas, comunicados. Producción de contenido y comunicación sindical.
+        </div>
+      </div>
+      ` : ''}
+
       <div class="chat-container">
         <hornero-chat
           title="Producción de contenido"
@@ -106,6 +132,7 @@ class HorneroContenido extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
+          no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
     `;
@@ -174,6 +201,13 @@ class HorneroContenido extends HoComponent {
       chatEl.addEventListener('chat-export', (e) => {
         this._handleChatExport(e.detail);
       });
+      // Hide banner when user focuses input
+      chatEl.addEventListener('chat-input-focus', () => {
+        if (this._bannerVisible) {
+          this._bannerVisible = false;
+          this.render();
+        }
+      });
     }
 
     // Show format suggestions after greeting
@@ -213,6 +247,7 @@ class HorneroContenido extends HoComponent {
         const saved = await obtenerChatSessionMessages(sessionId);
         if (saved && saved.length > 0) {
           this._sessionId = sessionId;
+          this._bannerVisible = false;
           this.messages = saved;
           this._historyLoaded = true;
           this.render();
@@ -230,6 +265,7 @@ class HorneroContenido extends HoComponent {
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
+      chatEl.noAutoScroll = this._bannerVisible;
       chatEl.render();
     }
   }
@@ -297,6 +333,9 @@ class HorneroContenido extends HoComponent {
 
   _handleUserMessage(text) {
     this._stopProgressiveReveal();
+    if (this._bannerVisible) {
+      this._bannerVisible = false;
+    }
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
     this.messages = [...this.messages, userMsg];
     this._typing = true;

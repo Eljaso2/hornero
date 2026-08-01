@@ -1535,14 +1535,14 @@ class HorneroChat extends HoComponent {
                   <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
                   <span class="item-label">Historial</span>
                 </button>
-                ${this.persona === 'companero' && !this.hideInformesBtn ? html`
+                ${!this.hideInformesBtn ? html`
                   <button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
                     <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
                     <span class="item-label">Reportes</span>
                     ${this.informeBadge ? html`<span class="item-badge"></span>` : ''}
                   </button>
                 ` : ''}
-                ${this.persona === 'companero' && isHigherGrade && !this.hideRecibidosBtn ? html`
+                ${isHigherGrade && !this.hideRecibidosBtn ? html`
                   <button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
                     <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
                     <span class="item-label">Recibidos</span>

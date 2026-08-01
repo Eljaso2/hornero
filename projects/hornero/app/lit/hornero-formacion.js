@@ -292,15 +292,19 @@ class HorneroFormacion extends HoComponent {
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); position: relative; }
 
-      /* ===== Hero banner with bajada overlay ===== */
+      /* ===== Hero banner — imagen de fondo opaca + texto ===== */
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
         padding: 20px 16px 14px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 10px;
-        flex-shrink: 0; box-sizing: border-box; }
-      .hero-banner-img { width: 100%; max-width: 280px; height: auto;
-        display: block; }
-      :host(.theme-light) .hero-banner-img { filter: brightness(0.85); }
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
+      .hero-banner::before { content: ''; position: absolute; inset: 0;
+        background: url('assets/ho.jpg') center/cover no-repeat;
+        opacity: .15; pointer-events: none; }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; position: relative; }
+      :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         text-align: left; }
@@ -319,8 +323,8 @@ class HorneroFormacion extends HoComponent {
     return html`
       ${this._bannerVisible ? html`
       <div class="hero-banner">
-        <img class="hero-banner-img" src="assets/Historia-Obrera_marca-.png" alt="Historia Obrera">
-        <div class="hero-bajada">
+        <div class="hero-banner-title">Historia Obrera</div>
+        <div class="hero-bajada" style="position:relative">
           Efemérides de la clase trabajadora, ensayos en el Mitín, la colección La Argentina Peronista y retazos de historia en audio, video e ilustración.
           Todo desde abajo — la historia que nos cuentan los que la hicieron.
           <a class="hero-bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗ historiaobrera.com.ar</a>

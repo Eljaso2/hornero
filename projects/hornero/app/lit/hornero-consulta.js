@@ -14,6 +14,7 @@ class HorneroConsulta extends HoComponent {
       sessionId: String, // Session ID — if set, load existing session instead of greeting
       messages: Array,
       iaStep: Number,
+      _bannerVisible: Boolean,
     };
   }
 
@@ -57,6 +58,7 @@ class HorneroConsulta extends HoComponent {
     this._chatSection = 'consulta'; // Section key for history
     this.messages = [];
     this.iaStep = 0;
+    this._bannerVisible = true;
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
     this._sessionId = ''; // Current session ID — new on each visit
@@ -89,13 +91,37 @@ class HorneroConsulta extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #1E2321); }
+        background: var(--ho-bg, #1E2321); position: relative; }
+
+      /* ===== Hero banner — texto sin imagen ===== */
+      .hero-banner { position: relative; width: 100%;
+        background: var(--ho-dark, #1E2321);
+        padding: 20px 16px 14px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 10px;
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; position: relative; }
+      :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
+      .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        text-align: left; position: relative; }
+
       .chat-container { display: flex; flex-direction: column; height: 100%; }
     `;
   }
 
   _render() {
     return html`
+      ${this._bannerVisible ? html`
+      <div class="hero-banner">
+        <div class="hero-banner-title">Derecho</div>
+        <div class="hero-bajada">
+          Legislación laboral, convenios colectivos, derechos y obligaciones. Asesoramiento legal para trabajadores y delegados.
+        </div>
+      </div>
+      ` : ''}
+
       <div class="chat-container">
         <hornero-chat
           title="Chateá con tu interlocutor/a"
@@ -105,6 +131,7 @@ class HorneroConsulta extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
+          no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
     `;
@@ -161,6 +188,12 @@ class HorneroConsulta extends HoComponent {
       // Listen for back button → go to chat landing
       chatEl.addEventListener('chat-back', () => {
         this.emit('screen-change', { screen: 'chat' });
+      });
+      chatEl.addEventListener('chat-input-focus', () => {
+        if (this._bannerVisible) {
+          this._bannerVisible = false;
+          this.render();
+        }
       });
       // Listen for audio message from mic recording
       chatEl.addEventListener('chat-audio', (e) => {
@@ -224,6 +257,7 @@ class HorneroConsulta extends HoComponent {
         const saved = await obtenerChatSessionMessages(sessionId);
         if (saved && saved.length > 0) {
           this._sessionId = sessionId;
+          this._bannerVisible = false; // Hide banner when restoring session
           this.messages = saved;
           this._historyLoaded = true;
           this.render();
@@ -241,6 +275,7 @@ class HorneroConsulta extends HoComponent {
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
+      chatEl.noAutoScroll = this._bannerVisible;
       chatEl.render();
     }
   }
@@ -384,6 +419,10 @@ class HorneroConsulta extends HoComponent {
   _handleUserMessage(text) {
     // Stop any ongoing progressive reveal
     this._stopProgressiveReveal();
+    // Hide banner when user starts chatting
+    if (this._bannerVisible) {
+      this._bannerVisible = false;
+    }
     // Detect export keywords — download current chat as document
     // Only match explicit export requests, not incidental words in normal conversation
     const lower = text.toLowerCase().trim();
