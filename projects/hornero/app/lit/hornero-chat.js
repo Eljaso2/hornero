@@ -859,27 +859,31 @@ class HorneroChat extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); }
       .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); transform: rotate(45deg); transition: transform .2s; }
 
-      /* Dropdown menu from + button */
-      .chat-plus-dropdown { position: absolute; top: 100%; right: 8px; margin-top: 4px;
-        background: var(--ho-dark-surface, #2A2F2D); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 12px; padding: 4px 0; min-width: 180px; z-index: 30;
-        box-shadow: 0 8px 24px rgba(0,0,0,.3);
+      /* Dropdown menu from + button — vertical column below the +/× */
+      .chat-plus-dropdown { position: absolute; top: 44px; right: 0;
+        background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        border-radius: 12px; padding: 8px 6px; z-index: 30;
+        display: flex; flex-direction: column; align-items: center; gap: 2px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.35);
         animation: dropdownSlideIn .15s ease; }
-      :host(.theme-light) .chat-plus-dropdown { background: var(--ho-bg, #F8F6F0);
+      :host(.theme-light) .chat-plus-dropdown {
+        background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 8px 24px rgba(0,0,0,.12); }
       @keyframes dropdownSlideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
       .chat-plus-item { display: flex; flex-direction: column; align-items: center;
-        gap: 3px; padding: 10px 14px; background: none; border: none; cursor: pointer;
-        width: 100%; text-align: center; font-family: 'Archivo', sans-serif;
-        font-size: .68rem; font-weight: 600; color: var(--ho-text-off, #F2F1EC);
+        gap: 3px; padding: 8px 10px; background: none; border: none; cursor: pointer;
+        border-radius: 8px; text-align: center; font-family: 'Archivo', sans-serif;
+        font-size: .62rem; font-weight: 600; color: var(--ho-text-off, #F2F1EC);
         transition: background .15s; position: relative; }
       .chat-plus-item:hover { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
       :host(.theme-light) .chat-plus-item { color: var(--ho-text-dark, #1E2321); }
-      .chat-plus-item svg { width: 18px; height: 18px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+      .chat-plus-item svg { width: 20px; height: 20px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
       .chat-plus-item:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .chat-plus-item .item-badge { position: absolute; top: 6px; right: 10px;
-        width: 8px; height: 8px; border-radius: 50%;
+      .chat-plus-item .item-badge { position: absolute; top: 4px; right: 4px;
+        width: 7px; height: 7px; border-radius: 50%;
         background: var(--ho-green, #4E9978); flex-shrink: 0; }
       .chat-plus-item .item-badge.gold { background: var(--ho-gold, #B0863F); }
 
