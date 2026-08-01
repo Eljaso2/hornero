@@ -34,8 +34,9 @@ class HorneroEcosistema extends HoComponent {
       .chat-container { flex: 1; display: flex; flex-direction: column;
         min-height: 0; }
       /* Bigger avatar for Hornero persona */
-      .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar { width: 44px; height: 44px; }
-      .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar img { width: 44px; height: 44px; }
+      .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar { width: 52px; height: 52px; }
+      .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar img { width: 52px; height: 52px; filter: brightness(0.55); }
+      :host(.theme-light) .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar img { filter: brightness(0.25); }
     `;
   }
 
