@@ -859,32 +859,49 @@ class HorneroChat extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); }
       .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); transform: rotate(45deg); transition: transform .2s; }
 
-      /* Dropdown menu from + button — vertical column below the +/× */
-      .chat-plus-dropdown { position: absolute; top: 44px; right: 0;
+      /* Dropdown container — rectangular frame that wraps + and items below */
+      .chat-plus-menu { position: absolute; top: 0; right: 0;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
-        border-radius: 12px; padding: 8px 6px; z-index: 30;
-        display: flex; flex-direction: column; align-items: center; gap: 2px;
-        box-shadow: 0 8px 24px rgba(0,0,0,.35);
-        animation: dropdownSlideIn .15s ease; }
-      :host(.theme-light) .chat-plus-dropdown {
+        border-radius: 12px; padding: 6px; z-index: 30;
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        box-shadow: 0 4px 16px rgba(0,0,0,.3);
+        animation: menuSlideDown .15s ease; }
+      :host(.theme-light) .chat-plus-menu {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
-        box-shadow: 0 8px 24px rgba(0,0,0,.12); }
-      @keyframes dropdownSlideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+      @keyframes menuSlideDown { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+      .chat-plus-menu .chat-plus-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s; }
+      .chat-plus-menu .chat-plus-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .chat-plus-menu .chat-plus-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-plus-menu .chat-plus-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-menu .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); transform: rotate(45deg); }
+      .chat-plus-divider { width: 24px; height: 1px; background: var(--ho-border, rgba(255,255,255,.08)); }
       .chat-plus-item { display: flex; flex-direction: column; align-items: center;
-        gap: 3px; padding: 8px 10px; background: none; border: none; cursor: pointer;
-        border-radius: 8px; text-align: center; font-family: 'Archivo', sans-serif;
-        font-size: .62rem; font-weight: 600; color: var(--ho-text-off, #F2F1EC);
-        transition: background .15s; position: relative; }
-      .chat-plus-item:hover { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
-      :host(.theme-light) .chat-plus-item { color: var(--ho-text-dark, #1E2321); }
-      .chat-plus-item svg { width: 20px; height: 20px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-      .chat-plus-item:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .chat-plus-item .item-badge { position: absolute; top: 4px; right: 4px;
+        gap: 2px; padding: 4px 0; background: none; border: none; cursor: pointer;
+        text-align: center; font-family: 'Archivo', sans-serif;
+        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+        transition: opacity .2s; position: relative; }
+      .chat-plus-item:hover { opacity: .8; }
+      .chat-plus-item .item-icon { width: 32px; height: 32px;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .chat-plus-item .item-icon svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-plus-item:hover .item-icon { border-color: var(--ho-green-light, #80CCA0); }
+      .chat-plus-item:hover .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-item:hover { color: var(--ho-green, #4E9978); }
+      .chat-plus-item .item-label { white-space: nowrap; }
+      .chat-plus-item .item-badge { position: absolute; top: 2px; right: 0;
         width: 7px; height: 7px; border-radius: 50%;
-        background: var(--ho-green, #4E9978); flex-shrink: 0; }
+        background: var(--ho-green, #4E9978); }
       .chat-plus-item .item-badge.gold { background: var(--ho-gold, #B0863F); }
 
       /* History/Informes/Recibidos as cintillo items — inside scrollable center (legacy, kept for reference) */
@@ -1508,31 +1525,36 @@ class HorneroChat extends HoComponent {
         </div>
         <div class="chat-top-bar-right">
           ${!this.hidePersonaBar ? html`
-            <button class="chat-plus-btn${this._plusMenuOpen ? ' open' : ''}" id="chatPlusBtn" title="Más opciones">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
             ${this._plusMenuOpen ? html`
-              <div class="chat-plus-dropdown" id="chatPlusDropdown">
+              <div class="chat-plus-menu" id="chatPlusMenu">
+                <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
+                  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+                <div class="chat-plus-divider"></div>
                 <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  Historial
+                  <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                  <span class="item-label">Historial</span>
                 </button>
                 ${this.persona === 'companero' && !this.hideInformesBtn ? html`
                   <button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
-                    <svg viewBox="0 0 24 24">${informeSvg}</svg>
-                    Mis Reportes
+                    <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
+                    <span class="item-label">Reportes</span>
                     ${this.informeBadge ? html`<span class="item-badge"></span>` : ''}
                   </button>
                 ` : ''}
                 ${this.persona === 'companero' && isHigherGrade && !this.hideRecibidosBtn ? html`
                   <button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
-                    <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
-                    Reportes Recibidos
+                    <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
+                    <span class="item-label">Recibidos</span>
                     ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
                   </button>
                 ` : ''}
               </div>
-            ` : ''}
+            ` : html`
+              <button class="chat-plus-btn" id="chatPlusBtn" title="Más opciones">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            `}
           ` : ''}
         </div>
       </div>
@@ -2070,14 +2092,13 @@ class HorneroChat extends HoComponent {
     }
     if (this._plusMenuOpen) {
       this._plusMenuCloseHandler = (e) => {
-        const dropdown = this.shadowRoot.querySelector('#chatPlusDropdown');
-        if (dropdown && !dropdown.contains(e.target) && e.target !== plusBtn && !plusBtn.contains(e.target)) {
+        const menu = this.shadowRoot.querySelector('#chatPlusMenu');
+        if (menu && !menu.contains(e.target)) {
           this._plusMenuOpen = false;
           this._plusMenuCloseHandler = null;
           this.render();
         }
       };
-      // Use setTimeout to avoid the current click event triggering close immediately
       setTimeout(() => document.addEventListener('click', this._plusMenuCloseHandler), 0);
     }
 
