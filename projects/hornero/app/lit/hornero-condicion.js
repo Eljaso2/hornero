@@ -332,10 +332,6 @@ class HorneroCondicion extends HoComponent {
             persona="${this._activePersona}"
             username="${this._username}"
             grade="${this.grade}"
-            hide-persona-bar
-            hide-informes-btn
-            hide-recibidos-btn
-            center-logo="assets/Historia-Obrera_marca-.png"
           ></hornero-chat>
         </div>
       `;

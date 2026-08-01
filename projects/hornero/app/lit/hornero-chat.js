@@ -766,7 +766,7 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 56px; /* 48px top bar + 8px gap */
+        padding-top: 64px; /* 56px top bar + 8px gap */
         -webkit-overflow-scrolling: touch; }
 
       /* Animations */
@@ -1233,8 +1233,12 @@ class HorneroChat extends HoComponent {
         ? `<img src="${cfg.img}" alt="${cfg.name}" class="${p === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
+      // Short label for cintillo
+      const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiadora', 'sociologo': 'Investigador/a' };
+      const label = shortLabels[p] || cfg.name;
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
         <span class="persona-icon-inner">${inner}</span>
+        <span class="persona-cintillo-label">${label}</span>
       </button>`;
     }).join('');
 
@@ -1440,10 +1444,10 @@ class HorneroChat extends HoComponent {
           ${this.hidePersonaBar ? (this.centerLogo ? html`<img class="chat-top-bar-logo" src="${this.centerLogo}" alt="">` : '') : personaIconsHtml}
         </div>
         <div class="chat-top-bar-right">
-          ${recibidosBtnHtml}
-          ${this.hideInformesBtn ? '' : html`<button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Mis Reportes">
+          ${this.persona === 'companero' ? recibidosBtnHtml : ''}
+          ${this.persona === 'companero' && !this.hideInformesBtn ? html`<button class="chat-informes-btn${this.informeBadge ? ' badge' : ''}" id="chatInformesBtn" title="Mis Reportes">
             <svg viewBox="0 0 24 24">${informeSvg}</svg>
-          </button>`}
+          </button>` : ''}
           <button class="chat-history-btn" id="chatHistoryBtn" title="Mis Conversaciones">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </button>
@@ -2139,6 +2143,10 @@ class HorneroChat extends HoComponent {
           this.emit('persona-navigate', { persona, screen });
         }
       });
+      // Scroll active persona into view
+      if (btn.classList.contains('active')) {
+        btn.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
+      }
     });
 
     // === Redirect derivation buttons → switch persona / navigate ===
