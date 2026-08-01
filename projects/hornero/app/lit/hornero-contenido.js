@@ -94,13 +94,15 @@ class HorneroContenido extends HoComponent {
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); }
 
-      /* ===== Hero banner — sin imagen de fondo ===== */
+      /* ===== Hero banner — imagen de fondo opaca ===== */
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
         padding: 20px 16px 14px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 10px;
-        flex-shrink: 0; box-sizing: border-box; overflow: hidden;
-        min-height: 110px; }
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
+      .hero-banner::before { content: ''; position: absolute; inset: 0;
+        background: url('assets/periodista.jpg') center/cover no-repeat;
+        opacity: .15; pointer-events: none; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
