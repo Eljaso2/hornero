@@ -311,7 +311,7 @@ class HorneroFormacion extends HoComponent {
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         text-align: left; position: relative; min-height: 5.2em; }
-      .hero-bajada-link { display: inline-block; margin-top: 4px;
+      .hero-banner-title .hero-bajada-link { margin-left: 6px; font-size: .7rem; }
         font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
         color: var(--ho-green, #4E9978); }
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
@@ -326,11 +326,10 @@ class HorneroFormacion extends HoComponent {
     return html`
       ${this._bannerVisible ? html`
       <div class="hero-banner">
-        <div class="hero-banner-title">Historia Obrera</div>
+        <div class="hero-banner-title">Historia Obrera <a class="hero-bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗</a></div>
         <div class="hero-bajada">
-          Efemérides de la clase trabajadora, ensayos en el Mitín, la colección La Argentina Peronista y retazos de historia en audio, video e ilustración.
+          Efemérides, ensayos en el Mitín, la colección La Argentina Peronista y retazos de historia en audio, video e ilustración.
           Todo desde abajo — la historia que nos cuentan los que la hicieron.
-          <a class="hero-bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗ historiaobrera.com.ar</a>
         </div>
       </div>
       ` : ''}
