@@ -872,7 +872,7 @@ class HorneroApp extends HoComponent {
                 const badgeHtml = (this.newClippingAvailable && s.id === 'clipping') ? '<span class="sections-badge"></span>' : '';
                 const activeSection = this._sectionParentMap[this.screen] || this.screen;
                 const labelHtml = s.id === 'ecosistema'
-                  ? '<img src="assets/hornero-logo-nobg.png" alt="Hornero" class="sections-logo">'
+                  ? '<img src="assets/hornero-logo-nobg.png" alt="Hornero" class="sections-logo"> ECO'
                   : s.label;
                 return '<button class="sections-btn' + (s.id === activeSection ? ' active' : '') + '" data-screen="' + s.id + '">' + labelHtml + badgeHtml + '</button>';
               }).join('') +
