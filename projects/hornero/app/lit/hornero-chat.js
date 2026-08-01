@@ -78,6 +78,7 @@ class HorneroChat extends HoComponent {
     this._showRecibidos = false; // recibidos drawer state
     this._recibidosDrawerStable = false; // prevent slideIn replay on re-render
     this._recibidosBadge = false; // badge on recibidos icon
+    this._plusMenuOpen = false; // + dropdown menu state
     this.streamingText = ''; // Live streaming text — when non-empty, shows as "in progress" message
     this._streamingPersona = ''; // Persona for the streaming message
   }
@@ -839,9 +840,47 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
-      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; }
+      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; position: relative; }
 
-      /* History/Informes/Recibidos as cintillo items — inside scrollable center */
+      /* + button in cintillo right side */
+      .chat-plus-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .chat-plus-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .chat-plus-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-plus-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-btn.open { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); transform: rotate(45deg); transition: transform .2s; }
+
+      /* Dropdown menu from + button */
+      .chat-plus-dropdown { position: absolute; top: 100%; right: 8px; margin-top: 4px;
+        background: var(--ho-dark-surface, #2A2F2D); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        border-radius: 12px; padding: 4px 0; min-width: 180px; z-index: 30;
+        box-shadow: 0 8px 24px rgba(0,0,0,.3);
+        animation: dropdownSlideIn .15s ease; }
+      :host(.theme-light) .chat-plus-dropdown { background: var(--ho-bg, #F8F6F0);
+        box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+      @keyframes dropdownSlideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+      .chat-plus-item { display: flex; align-items: center; gap: 10px;
+        padding: 10px 14px; background: none; border: none; cursor: pointer;
+        width: 100%; text-align: left; font-family: 'Archivo', sans-serif;
+        font-size: .78rem; font-weight: 600; color: var(--ho-text-off, #F2F1EC);
+        transition: background .15s; }
+      .chat-plus-item:hover { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .chat-plus-item { color: var(--ho-text-dark, #1E2321); }
+      .chat-plus-item svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+      .chat-plus-item:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-item .item-badge { width: 8px; height: 8px; border-radius: 50%;
+        background: var(--ho-green, #4E9978); margin-left: auto; flex-shrink: 0; }
+      .chat-plus-item .item-badge.gold { background: var(--ho-gold, #B0863F); }
+
+      /* History/Informes/Recibidos as cintillo items — inside scrollable center (legacy, kept for reference) */
       .chat-cintillo-action { display: flex; flex-direction: column; align-items: center;
         gap: 2px; background: none; border: none; cursor: pointer;
         padding: 4px 6px; transition: opacity .2s; position: relative;
@@ -1459,22 +1498,35 @@ class HorneroChat extends HoComponent {
         </div>
         <div class="chat-top-bar-center">
           ${this.hidePersonaBar ? (this.centerLogo ? html`<img class="chat-top-bar-logo" src="${this.centerLogo}" alt="">` : '') : personaIconsHtml}
-          ${!this.hidePersonaBar ? html`
-            ${this.persona === 'companero' && isHigherGrade && !this.hideRecibidosBtn ? html`<button class="chat-cintillo-action" id="chatRecibidosBtn" title="Reportes recibidos">
-              <span class="cintillo-action-inner${this._recibidosBadge ? ' badge' : ''}" style="border-color:var(--ho-gold,#B0863F)"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
-              <span class="cintillo-action-label">Recibidos</span>
-            </button>` : ''}
-            ${this.persona === 'companero' && !this.hideInformesBtn ? html`<button class="chat-cintillo-action" id="chatInformesBtn" title="Mis Reportes">
-              <span class="cintillo-action-inner${this.informeBadge ? ' badge' : ''}"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
-              <span class="cintillo-action-label">Reportes</span>
-            </button>` : ''}
-            <button class="chat-cintillo-action" id="chatHistoryBtn" title="Mis Conversaciones">
-              <span class="cintillo-action-inner"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-              <span class="cintillo-action-label">Historial</span>
-            </button>
-          ` : ''}
         </div>
         <div class="chat-top-bar-right">
+          ${!this.hidePersonaBar ? html`
+            <button class="chat-plus-btn${this._plusMenuOpen ? ' open' : ''}" id="chatPlusBtn" title="Más opciones">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            ${this._plusMenuOpen ? html`
+              <div class="chat-plus-dropdown" id="chatPlusDropdown">
+                <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  Historial
+                </button>
+                ${this.persona === 'companero' && !this.hideInformesBtn ? html`
+                  <button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
+                    <svg viewBox="0 0 24 24">${informeSvg}</svg>
+                    Mis Reportes
+                    ${this.informeBadge ? html`<span class="item-badge"></span>` : ''}
+                  </button>
+                ` : ''}
+                ${this.persona === 'companero' && isHigherGrade && !this.hideRecibidosBtn ? html`
+                  <button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
+                    <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
+                    Reportes Recibidos
+                    ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
+                  </button>
+                ` : ''}
+              </div>
+            ` : ''}
+          ` : ''}
         </div>
       </div>
 
@@ -1993,6 +2045,29 @@ class HorneroChat extends HoComponent {
       });
     }
 
+    // === + button (cintillo right) → toggle dropdown menu ===
+    const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
+    if (plusBtn) {
+      plusBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this._plusMenuOpen = !this._plusMenuOpen;
+        this.requestUpdate();
+      });
+    }
+
+    // === Close dropdown on outside click ===
+    const closeDropdown = (e) => {
+      if (this._plusMenuOpen) {
+        const dropdown = this.shadowRoot.querySelector('#chatPlusDropdown');
+        if (dropdown && !dropdown.contains(e.target) && e.target !== plusBtn) {
+          this._plusMenuOpen = false;
+          this.requestUpdate();
+        }
+      }
+    };
+    this.removeEventListener('click', closeDropdown);
+    this.addEventListener('click', closeDropdown);
+
     // === Input focus → emit event (parent can hide banner etc) ===
     if (inputField) {
       inputField.addEventListener('focus', () => {
@@ -2000,27 +2075,30 @@ class HorneroChat extends HoComponent {
       });
     }
 
-    // === History button (top-right corner) → open drawer ===
+    // === History button (dropdown menu item) → open drawer ===
     const historyBtn = this.shadowRoot.querySelector('#chatHistoryBtn');
     if (historyBtn) {
       historyBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
         this._openHistoryDrawer();
       });
     }
 
-    // === Informes button (top-right, left of history) → open drawer ===
+    // === Informes button (dropdown menu item) → open drawer ===
     const informesBtn = this.shadowRoot.querySelector('#chatInformesBtn');
     if (informesBtn) {
       informesBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
         this._openInformesDrawer();
         this.emit('informes-open', {});
       });
     }
 
-    // === Recibidos button (top-right, left of informes) → open drawer ===
+    // === Recibidos button (dropdown menu item) → open drawer ===
     const recibidosBtn = this.shadowRoot.querySelector('#chatRecibidosBtn');
     if (recibidosBtn) {
       recibidosBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
         this._openRecibidosDrawer();
       });
     }
