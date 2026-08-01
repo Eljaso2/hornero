@@ -673,19 +673,19 @@ def get_greeting_hint(section: str, grade: str = 'A', days_since_last_chat: int 
         time_context = " CONTEXTO: Hace tiempo que no charlan — saluda reconociendo la ausencia. Ejemplo: '¡Qué bueno verte! Hace tiempo que no hablamos.'"
 
     greetings = {
-        'debate': 'Saluda brevemente (2-3 líneas). Di que sos un compañero del gremio aceitero con años de experiencia en planta. Preguntá qué tema quiere debatir. NO cites datos, NO列举 temas, NO expliques todo. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy el Compañero", "body": "..."}], "tags": ["debate", "saludo"]}',
+        'debate': 'Saluda en 1-2 líneas, sin negrita, sin títulos. Decí "Soy el compañero del gremio aceitero" y preguntá qué tema quiere debatir. NO cites datos, NO列举 temas, NO expliques todo. MODO CHARLA — {"text": "...", "tags": ["debate", "saludo"]}',
 
-        'consulta': 'Saluda brevemente (2-3 líneas). Di que sos abogado laboralista del gremio aceitero. Preguntá qué consulta legal tiene. NO cites fallos, NO expliques el marco legal, NO列举 derechos. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy el Abogado", "body": "..."}], "tags": ["consulta", "saludo"]}',
+        'consulta': 'Saluda en 1-2 líneas, sin negrita, sin títulos. Decí "Soy el abogado laboralista del gremio aceitero" y preguntá qué consulta tiene. NO cites fallos, NO expliques el marco legal, NO列举 derechos. MODO CHARLA — {"text": "...", "tags": ["consulta", "saludo"]}',
 
-        'contenido': 'Saluda brevemente (2-3 lines). Di que sos periodista, asesora del gremio en comunicacion. Pregunta que formato le interesa o que tema quiere comunicar. NO lista formatos detallados, NO expliques todo lo que puedes hacer. Solo saluda + quien sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy la Periodista", "body": "..."}], "tags": ["contenido", "saludo"]}',
+        'contenido': 'Saluda en 1-2 líneas, sin negrita, sin títulos. Decí "Soy la periodista del gremio" y preguntá qué formato le interesa o qué tema quiere comunicar. NO lista formatos detallados, NO expliques todo. MODO CHARLA — {"text": "...", "tags": ["contenido", "saludo"]}',
 
-        'reporte': 'Saluda brevemente (2-3 lines). Pregunta como andaron los ultimos dias, si hay alguna situacion que quiera reportar — condiciones, seguridad, ritmo, algo que le paso o que vio. NO expliques el sistema de informes, NO lista temas. Solo saluda + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy el Compañero", "body": "..."}], "tags": ["reporte", "saludo"]}',
+        'reporte': 'Saluda en 1-2 líneas, sin negrita, sin títulos. Preguntá cómo anduvo todo, si hay algo para reportar. NO expliques el sistema de informes, NO lista temas. MODO CHARLA — {"text": "...", "tags": ["reporte", "saludo"]}',
 
-        'historia': 'Saluda brevemente (2-3 líneas). Di que sos historiadora del movimiento obrero argentino — conoces La Forestal, las masacres, los lockouts, los referentes que nadie recuerda. Preguntá qué tema histórico quiere explorar. NO cites datos, NO列举 eventos, NO quotes en el saludo. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy la Historiadora", "body": "..."}], "tags": ["historia", "saludo"]}',
+        'historia': 'Saluda en 1-2 líneas, sin negrita, sin títulos. Decí "Soy la historiadora del movimiento obrero" y preguntá qué tema quiere explorar. NO cites datos, NO列举 eventos, NO quotes en el saludo. MODO CHARLA — {"text": "...", "tags": ["historia", "saludo"]}',
 
-        'panorama': 'Saluda brevemente (2-3 líneas). Di que sos investigador/a de la clase obrera — estudiás cómo se forma la clase trabajadora, qué la compone, qué la daña y qué la sostiene. Preguntá qué quiere explorar. NO cites datos, NO列举 índices, NO expliques todo. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy el Investigador", "body": "..."}], "tags": ["panorama", "saludo"]}',
+        'panorama': 'Saluda en 1-2 líneas, sin negrita, sin títulos. Decí "Soy la investigadora de la clase obrera" y preguntá qué quiere explorar. NO cites datos, NO列举 índices, NO expliques todo. MODO CHARLA — {"text": "...", "tags": ["panorama", "saludo"]}',
 
-        'ecosistema': 'Saluda brevemente (2-3 líneas). Di que sos Hornero — el pájaro que construye su propio nido. La organización no consume IA corporativa, crea su propia herramienta. Preguntá qué quiere saber sobre el ecosistema. NO expliques los 6 eslabones, NO列举 temas, NO cites datos en el saludo. Solo saludá + quién sos + una pregunta. MODO CHARLA — {"sections": [{"title": "¡Hola! Soy Hornero", "body": "..."}], "tags": ["ecosistema", "saludo"]}',
+        'ecosistema': 'Saluda en 1-2 líneas, sin negrita, sin títulos. Decí "Soy Hornero" y preguntá qué quiere saber sobre el ecosistema. NO expliques los 6 eslabones, NO列举 temas. MODO CHARLA — {"text": "...", "tags": ["ecosistema", "saludo"]}',
     }
 
     # For higher grades in reporte: primary function is reviewing incoming reports
@@ -693,6 +693,6 @@ def get_greeting_hint(section: str, grade: str = 'A', days_since_last_chat: int 
         role_names = {'G2': 'delegado/a', 'G3': 'secretario/a', 'G4': 'de la federación'}
         role_name = role_names.get(grade_code, 'delegado/a')
         reports_mention = f" Tenés {incoming_reports_count} reportes de compañeros pendientes de revisión." if incoming_reports_count > 0 else ""
-        greetings['reporte'] = f'Saluda brevemente (2-3 lines). Como {role_name}, tu función principal es revisar los reportes de los compañeros.{reports_mention} Pregunta si ya reviso los reportes entrantes o si quiere revisarlos ahora para elaborar su informe. Si no tiene reportes para revisar, pregunta si quiere reportar algo propio. NO expliques el sistema, NO lista temas. Solo saluda + pregunta sobre reportes entrantes. MODO CHARLA — {{"sections": [{{"title": "¡Hola! Soy el Compañero", "body": "..."}}], "tags": ["reporte", "saludo", "grado-superior"]}}'
+        greetings['reporte'] = f'Saluda en 1-2 líneas, sin negrita, sin títulos. Como {role_name}, preguntá si quiere revisar los reportes entrantes.{reports_mention} Si no tiene reportes para revisar, pregunta si quiere reportar algo propio. NO expliques el sistema, NO lista temas. MODO CHARLA — {{"text": "...", "tags": ["reporte", "saludo", "grado-superior"]}}'
 
     return greetings.get(section, greetings['consulta']) + time_context

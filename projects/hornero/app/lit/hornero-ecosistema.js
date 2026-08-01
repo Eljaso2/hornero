@@ -125,7 +125,7 @@ class HorneroEcosistema extends HoComponent {
   _showGreeting() {
     this._sessionId = this._genId();
 
-    const introText = '¡Hola! Soy **Hornero** — el pájaro nacional de Argentina. Construyo mi nido con **mis propios materiales** en **mi propio territorio**. No uso nidos de otros.\n\nEsa es toda la filosofía de esta app: la organización no **consume** IA corporativa — **crea** su propia herramienta. Con sus propios datos. En su propia infraestructura. Con sus propias categorías.\n\nLa **APPO** — Autonomía Popular en Producción de Organización — es la filosofía que guía todo el ecosistema: **soberanía tecnológica** del movimiento obrero. No depender de herramientas ajenas, sino construir las propias. No adaptar categorías empresariales, sino definir las nuestras. No alquilar infraestructura, sino poseerla.\n\nRevisá el botón **Explorar** 👆 para conocer cada núcleo del ecosistema.';
+    const introText = 'Soy Hornero — el pájaro que construye su nido con sus propios materiales, en su propio territorio. No usa nidos de otros.\n\nEsa es toda la filosofía de esta app: la organización no consume IA corporativa — crea su propia herramienta. Con sus propios datos. En su propia infraestructura. Con sus propias categorías.\n\nLa APPO — Autonomía Popular en Producción de Organización — es la filosofía que guía todo el ecosistema: soberanía tecnológica del movimiento obrero. No depender de herramientas ajenas, sino construir las propias. No adaptar categorías empresariales, sino definir las nuestras. No alquilar infraestructura, sino poseerla.\n\nRevisá el botón Explorar 👆 para conocer cada núcleo del ecosistema.';
 
     // 1. Show typing dots for 1s
     this._typing = true;
