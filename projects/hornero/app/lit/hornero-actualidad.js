@@ -349,7 +349,7 @@ class HorneroActualidad extends HoComponent {
 
       /* ===== Feed (sin sub-vista) ===== */
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        padding: 0; scrollbar-width: none; }
+        padding: 0; scrollbar-width: none; background: #2A3230; }
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* Feed card — foto de fondo con overlay semi-opaco, full-width cuadrado */
@@ -390,6 +390,7 @@ class HorneroActualidad extends HoComponent {
       :host(.theme-light) .feed-card-sublabel { color: rgba(30,35,33,.55); }
       :host(.theme-light) .feed-card-first-title { color: rgba(30,35,33,.85); }
       :host(.theme-light) .photo-tag { background: rgba(78,153,120,.25); color: #3D6B56; backdrop-filter: none; }
+      :host(.theme-light) .scroll { background: #D5D0C8; }
       .noticia-list { margin-top: 8px; padding: 0 14px 10px; }
       .noticia-line { display: flex; align-items: baseline; gap: 4px; padding: 3px 0; }
       .noticia-emoji { font-size: .78rem; }

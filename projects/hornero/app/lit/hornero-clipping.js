@@ -35,7 +35,19 @@ class HorneroClipping extends HoComponent {
 
   async connectedCallback() {
     super.connectedCallback();
+    this._applyThemeClass();
+    this._themeHandler = () => { this._applyThemeClass(); this.render(); };
+    window.addEventListener('storage', this._themeHandler);
     await this._loadIndex();
+  }
+
+  _applyThemeClass() {
+    const theme = localStorage.getItem('hornero-theme') || 'dark';
+    if (theme === 'light') {
+      this.classList.add('theme-light');
+    } else {
+      this.classList.remove('theme-light');
+    }
   }
 
   // ===== Data loading =====
@@ -174,7 +186,7 @@ class HorneroClipping extends HoComponent {
         background: var(--ho-bg, #1E2321); }
 
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        padding: 0; scrollbar-width: none; }
+        padding: 0; scrollbar-width: none; background: #2A3230; }
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Cintillo — navegación (mismo patrón que Actualidad) ===== */
@@ -226,6 +238,8 @@ class HorneroClipping extends HoComponent {
         color: var(--ho-text, #E8E6E0); background: none;
         border: none; padding: 0; cursor: pointer; position: relative; }
       :host(.theme-light) .hero-explore-link { color: #000; }
+      :host(.theme-light) .scroll { background: #D5D0C8; }
+      :host(.theme-light) .feed-card { background: #FFFFFF; }
       .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
       .hero-explore-link.open::after { content: '▴'; }
       .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
@@ -288,7 +302,7 @@ class HorneroClipping extends HoComponent {
 
       /* Feed card — noticia */
       .feed-card { border-radius: 0; margin-bottom: 8px; overflow: hidden;
-        border: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        border: none;
         background: var(--ho-card, #2A3230); cursor: pointer;
         transition: background .2s; }
       .feed-card:hover { background: var(--ho-dark-surface, #3F4E4A); }
