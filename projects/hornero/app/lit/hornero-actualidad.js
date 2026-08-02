@@ -40,12 +40,10 @@ class HorneroActualidad extends HoComponent {
 
   async connectedCallback() {
     super.connectedCallback();
-    // Apply theme class
-    if (this.theme === 'light') {
-      this.classList.add('theme-light');
-    } else {
-      this.classList.remove('theme-light');
-    }
+    // Apply theme class from localStorage (parent doesn't pass theme prop)
+    this._applyThemeClass();
+    this._themeHandler = () => { this._applyThemeClass(); this.render(); };
+    window.addEventListener('storage', this._themeHandler);
     await this._loadAllSources();
 
     // If an initial sub-view was set, activate it
@@ -454,13 +452,18 @@ class HorneroActualidad extends HoComponent {
 
   // ===== Render =====
 
-  _render() {
-    // Update theme class on every render
-    if (this.theme === 'light') {
+  _applyThemeClass() {
+    const theme = localStorage.getItem('hornero-theme') || 'dark';
+    if (theme === 'light') {
       this.classList.add('theme-light');
     } else {
       this.classList.remove('theme-light');
     }
+  }
+
+  _render() {
+    // Update theme class on every render
+    this._applyThemeClass();
     return html`
       <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Actualidad</div>
