@@ -1071,16 +1071,14 @@ class HorneroApp extends HoComponent {
           this._navigateTo('condicion');
           return;
         }
-        // Clipping section → navigate to actualidad with clipping sub-view
+        // Clipping section → navigate to standalone clipping screen
         if (btn.dataset.screen === 'clipping') {
-          this._actualidadSubView = 'clipping';
-          this._navigateTo('actualidad');
+          this._navigateTo('clipping');
           return;
         }
-        // InfoMate section → navigate to actualidad with infomate sub-view
+        // InfoMate section → navigate to standalone infomate screen
         if (btn.dataset.screen === 'infomate') {
-          this._actualidadSubView = 'infomate';
-          this._navigateTo('actualidad');
+          this._navigateTo('infomate');
           return;
         }
         // Contenido section → navigate to contenido with periodista persona
@@ -1453,6 +1451,13 @@ class HorneroApp extends HoComponent {
       }
     });
 
+    // Listen for ho-navigate from child components (e.g., Explorar in Actualidad)
+    this.shadowRoot.addEventListener('ho-navigate', (e) => {
+      if (e.detail && e.detail.screen) {
+        this._navigateTo(e.detail.screen);
+      }
+    });
+
     // Listen for push notification click messages from service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.removeEventListener('message', this._swMessageHandler);
@@ -1475,13 +1480,12 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
     if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') this._misConvLoaded = false;
     if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
-    // If navigating to same screen but with a new initialSection or actualidadSubView, force re-render
-    if (this.screen === screen && (this._initialSection || this._actualidadSubView)) {
-      history.pushState({ screen: screen }, '', '#' + screen);
+    // If navigating to same screen, force re-render to reset component state (e.g., expanded banner)
+    if (this.screen === screen) {
       this.set('screen', ''); // Clear first to force change
-      this.set('screen', screen); // Re-render with new params
-      this._initialSection = ''; // Reset after render consumed it
-      this._actualidadSubView = ''; // Reset after render consumed it
+      this.set('screen', screen); // Re-render with fresh state
+      this._initialSection = '';
+      this._actualidadSubView = '';
       return;
     }
     // Only push state if screen actually changes (avoid duplicate history entries)

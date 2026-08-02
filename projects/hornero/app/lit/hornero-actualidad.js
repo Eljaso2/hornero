@@ -263,10 +263,10 @@ class HorneroActualidad extends HoComponent {
         background: var(--ho-dark, #1E2321);
         padding: 14px 16px 10px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 8px;
-        flex-shrink: 0; box-sizing: border-box; }
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
       .hero-banner::before { content: ''; position: absolute; top: 0; left: 0;
         width: 100%; height: 100%;
-        background: url('assets/actualidad-bg.png') top center/cover no-repeat;
+        background: url('assets/actualidad-bg.png') top center/100% auto no-repeat;
         opacity: .12; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0; gap: 6px; }
       .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
@@ -440,7 +440,7 @@ class HorneroActualidad extends HoComponent {
         <div class="hero-banner-title">Actualidad</div>
         ${this._bannerVisible ? html`
         <div class="hero-bajada" style="position:relative">
-          Noticias, datos e informes sindicales para la organización y la lucha.
+          Periódico relevamiento de noticias sindicales, datos e informes de consultoras, curados para la organización y la lucha.
         </div>
         ` : ''}
         <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
@@ -749,6 +749,15 @@ class HorneroActualidad extends HoComponent {
       btn.addEventListener('click', () => {
         const explore = btn.dataset.explore;
         this._exploreOpen = false;
+        // Clipping and InfoMate navigate to their standalone screens
+        if (explore === 'clipping' || explore === 'infomate') {
+          this.dispatchEvent(new CustomEvent('ho-navigate', {
+            detail: { screen: explore },
+            bubbles: true,
+            composed: true
+          }));
+          return;
+        }
         this._activateSubView(explore);
         this.render();
       });
