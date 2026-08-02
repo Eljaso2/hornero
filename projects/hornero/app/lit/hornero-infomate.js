@@ -164,8 +164,8 @@ class HorneroInfomate extends HoComponent {
         transition: background .2s; }
       .feed-card:hover { background: var(--ho-dark-surface, #3F4E4A); }
 
-      .feed-card-img { width: 100%; height: 280px; object-fit: cover; object-position: center; display: block; }
-      .feed-card-img-placeholder { width: 100%; height: 280px; background: var(--ho-dark-surface, #3F4E4A);
+      .feed-card-img { width: 100%; height: 140px; object-fit: cover; object-position: top center; display: block; }
+      .feed-card-img-placeholder { width: 100%; height: 140px; background: var(--ho-dark-surface, #3F4E4A);
         display: flex; align-items: center; justify-content: center; }
       .feed-card-img-placeholder span { font-size: 2.4rem; opacity: .5; }
       .feed-card-body { padding: 12px 14px 6px; }
@@ -211,7 +211,7 @@ class HorneroInfomate extends HoComponent {
         cursor: pointer; font-size: .85rem; z-index: 10;
         display: flex; align-items: center; justify-content: center; }
 
-      .popup-img { width: 100%; height: 420px; object-fit: cover; object-position: center; display: block; }
+      .popup-img { width: 100%; height: 180px; object-fit: cover; object-position: top center; display: block; }
       .popup-body { padding: 14px 16px 32px; }
       .popup-title-line { display: flex; align-items: baseline; gap: 6px; }
       .popup-emoji { font-size: 1rem; }
