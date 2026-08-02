@@ -20,6 +20,7 @@
   "secciones": [
     {
       "titulo": "Inflación",
+      "foto": "assets/infomate-2026-06.png",
       "bajada": "Un año de inflación elevada. 2.1% mensual en mayo, 33.2% acumulado en el año. La inflación obrera real duplica la oficial.",
       "datos": ["INDEC: 2.1% mensual (mayo)", "Acumulado anual: 33.2%", "Mayo 2025 era 1.5%"]
     },
