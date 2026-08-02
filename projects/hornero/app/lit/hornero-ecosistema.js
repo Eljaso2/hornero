@@ -36,6 +36,29 @@ class HorneroEcosistema extends HoComponent {
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); }
 
+      /* ===== Cintillo con flecha atrás ===== */
+      .eco-cintillo { display: flex; align-items: center; gap: 8px;
+        padding: 8px 12px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        flex-shrink: 0; background: var(--ho-bg, #1E2321); }
+      .cintillo-back-btn { width: 28px; height: 28px; border-radius: 50%;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        background: none; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; flex-shrink: 0;
+        transition: background .2s, border-color .2s; }
+      .cintillo-back-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .cintillo-back-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .cintillo-center { flex: 1; text-align: center; }
+      .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
+        letter-spacing: .04em; }
+      :host(.theme-light) .eco-cintillo { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .cintillo-back-btn { border-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .cintillo-back-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
+
       /* ===== Hero banner — logo grande de Hornero de fondo ===== */
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
@@ -97,6 +120,14 @@ class HorneroEcosistema extends HoComponent {
 
   _render() {
     return html`
+      <div class="eco-cintillo">
+        <button class="cintillo-back-btn" id="cintilloBack" title="Volver">
+          <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
+        <div class="cintillo-center">
+          <div class="cintillo-title">Ecosistema Hornero</div>
+        </div>
+      </div>
       <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Ecosistema Hornero</div>
         ${this._bannerVisible ? html`
@@ -210,6 +241,15 @@ class HorneroEcosistema extends HoComponent {
       exploreToggle.addEventListener('click', () => {
         this._exploreOpen = !this._exploreOpen;
         this.render();
+      });
+    }
+
+    // Cintillo back button
+    const cintilloBack = this.shadowRoot.getElementById('cintilloBack');
+    if (cintilloBack && !cintilloBack._bound) {
+      cintilloBack._bound = true;
+      cintilloBack.addEventListener('click', () => {
+        this.emit('screen-change', { screen: 'home' });
       });
     }
 
