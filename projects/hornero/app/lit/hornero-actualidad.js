@@ -674,20 +674,6 @@ class HorneroActualidad extends HoComponent {
       tagsHtml = shownTags.map(t => '<span class="photo-tag">' + t + '</span>').join('');
     }
 
-    let noticiaList = '';
-    const totalNoticias = (data && data.noticias) ? data.noticias.length : 0;
-    if (totalNoticias > 0) {
-      noticiaList = '<div class="noticia-list" style="display:none">';
-      for (const n of data.noticias) {
-        noticiaList += '<div class="noticia-line">' +
-          (n.emoji ? '<span class="noticia-emoji">' + n.emoji + '</span>' : '') +
-          '<span class="noticia-title">' + (n.titulo || '') + '</span>' +
-        '</div>';
-      }
-      noticiaList += '</div>';
-    }
-
-    const toggleText = totalNoticias > 0 ? '▾ Ver ' + totalNoticias + ' títulos' : '';
     const noPhotoClass = hasFoto ? '' : ' feed-card-no-photo';
 
     return '<div class="feed-card' + noPhotoClass + '" data-screen="clipping" data-clip-edicion="' + ed.numero + '">' +
@@ -698,8 +684,6 @@ class HorneroActualidad extends HoComponent {
         (firstTitle ? '<div class="feed-card-first-title">' + firstTitle + '</div>' : '') +
         (tagsHtml ? '<div class="feed-card-tags">' + tagsHtml + '</div>' : '') +
       '</div>' +
-      noticiaList +
-      (toggleText ? '<div class="noticia-toggle" data-expanded="false" data-card-type="clipping" data-clip-edicion="' + ed.numero + '">' + toggleText + '</div>' : '') +
     '</div>';
   }
 
