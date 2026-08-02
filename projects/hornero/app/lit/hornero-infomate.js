@@ -154,13 +154,13 @@ class HorneroInfomate extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
 
       /* Feed card — idéntico a Clipping */
-      .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
+      .feed-card { border-radius: 13px; margin: 5px 0; overflow: hidden;
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         background: var(--ho-card, #2A3230); cursor: pointer;
         transition: border-color .2s; }
       .feed-card:hover { border-color: var(--ho-green, #4E9978); }
 
-      .feed-card-img { width: 100%; height: 140px; object-fit: cover; display: block; }
+      .feed-card-img { width: 100%; height: 140px; object-fit: cover; display: block; opacity: .85; }
       .feed-card-body { padding: 12px 14px; }
 
       .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
