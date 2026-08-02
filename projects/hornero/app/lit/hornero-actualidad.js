@@ -378,6 +378,14 @@ class HorneroActualidad extends HoComponent {
       .feed-card-no-photo .photo-tag {
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         backdrop-filter: none; }
+      /* Light mode: imagen clara, texto oscuro */
+      :host(.theme-light) .feed-card-img { opacity: 1; }
+      :host(.theme-light) .feed-card-dim { background: rgba(255,255,255,.3); }
+      :host(.theme-light) .feed-card-overlay { color: #1E2321; }
+      :host(.theme-light) .feed-card-label { color: #1E2321; }
+      :host(.theme-light) .feed-card-sublabel { color: rgba(30,35,33,.55); }
+      :host(.theme-light) .feed-card-first-title { color: rgba(30,35,33,.85); }
+      :host(.theme-light) .photo-tag { background: rgba(78,153,120,.25); color: #3D6B56; backdrop-filter: none; }
       .noticia-list { margin-top: 8px; padding: 0 14px 10px; }
       .noticia-line { display: flex; align-items: baseline; gap: 4px; padding: 3px 0; }
       .noticia-emoji { font-size: .78rem; }
