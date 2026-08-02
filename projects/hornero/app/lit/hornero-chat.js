@@ -859,10 +859,11 @@ class HorneroChat extends HoComponent {
       .chat-plus-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .chat-plus-btn.open { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
-      .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); transform: rotate(45deg); transition: transform .2s; }
+      .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-btn.open svg line:last-child { display: none; }
 
-      /* Dropdown container — rectangular frame that wraps + and items below */
-      .chat-plus-menu { position: absolute; top: 0; right: 0;
+      /* Dropdown container — items below the + button */
+      .chat-plus-menu { position: absolute; top: 100%; right: 0;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
@@ -874,18 +875,6 @@ class HorneroChat extends HoComponent {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
       @keyframes menuSlideDown { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-      .chat-plus-menu .chat-plus-btn { width: 32px; height: 32px; border-radius: 50%;
-        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s; }
-      .chat-plus-menu .chat-plus-btn:hover { background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green-light, #80CCA0); }
-      .chat-plus-menu .chat-plus-btn svg { width: 16px; height: 16px;
-        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .chat-plus-menu .chat-plus-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .chat-plus-menu .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); transform: rotate(45deg); }
-      .chat-plus-divider { width: 24px; height: 1px; background: var(--ho-border, rgba(255,255,255,.08)); }
       .chat-plus-item { display: flex; flex-direction: column; align-items: center;
         gap: 2px; padding: 4px 0; background: none; border: none; cursor: pointer;
         text-align: center; font-family: 'Archivo', sans-serif;
@@ -1529,12 +1518,12 @@ class HorneroChat extends HoComponent {
           ${this.hidePersonaBar ? (this.centerLogo ? html`<img class="chat-top-bar-logo" src="${this.centerLogo}" alt="">` : '') : personaIconsHtml}
         </div>
         <div class="chat-top-bar-right">
-          ${this.hidePersonaBar ? '' : this._plusMenuOpen ? html`
+          ${this.hidePersonaBar ? '' : html`
+            <button class="chat-plus-btn${this._plusMenuOpen ? ' open' : ''}" id="chatPlusBtn" title="${this._plusMenuOpen ? 'Cerrar' : 'Más opciones'}">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            ${this._plusMenuOpen ? html`
             <div class="chat-plus-menu" id="chatPlusMenu">
-              <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
-                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <div class="chat-plus-divider"></div>
               <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
                 <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
                 <span class="item-label">Historial</span>
@@ -1554,10 +1543,7 @@ class HorneroChat extends HoComponent {
                 </button>
               ` : ''}
             </div>
-          ` : html`
-            <button class="chat-plus-btn" id="chatPlusBtn" title="Más opciones">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
+            ` : ''}
           `}
         </div>
       </div>
@@ -2278,9 +2264,13 @@ class HorneroChat extends HoComponent {
           this.emit('persona-navigate', { persona, screen });
         }
       });
-      // Scroll active persona into view
+      // Scroll active persona into view (horizontal only — avoid vertical body-scroll shift)
       if (btn.classList.contains('active')) {
-        btn.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
+        const center = btn.closest('.chat-top-bar-center');
+        if (center) {
+          const btnLeft = btn.offsetLeft + btn.offsetWidth / 2;
+          center.scrollLeft = btnLeft - center.offsetWidth / 2;
+        }
       }
     });
 
