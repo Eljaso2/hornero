@@ -384,7 +384,7 @@ class HorneroActualidad extends HoComponent {
         backdrop-filter: none; }
       /* Light mode: imagen clara, texto oscuro */
       :host(.theme-light) .feed-card-img { opacity: 1; }
-      :host(.theme-light) .feed-card-dim { background: rgba(255,255,255,.6); }
+      :host(.theme-light) .feed-card-dim { background: rgba(255,255,255,.8); }
       :host(.theme-light) .feed-card-overlay { color: #1E2321; }
       :host(.theme-light) .feed-card-label { color: #1E2321; }
       :host(.theme-light) .feed-card-sublabel { color: rgba(30,35,33,.55); }
