@@ -192,7 +192,8 @@ class HorneroClipping extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .cintillo-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .cintillo-center { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .cintillo-spacer { flex: 1; }
       .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; text-align: center; }
@@ -372,12 +373,14 @@ class HorneroClipping extends HoComponent {
       '<button class="cintillo-back-btn" id="cintilloBack" title="Volver">' +
         '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
       '</button>' +
+      '<div class="cintillo-spacer"></div>' +
       '<button class="cintillo-nav-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + ' title="Anterior">' + chevLeft + '</button>' +
       '<div class="cintillo-center">' +
         '<div class="cintillo-title">CLIPPING N°' + numero + '</div>' +
         '<div class="cintillo-date" id="edFecha">' + fechaLong + '</div>' +
       '</div>' +
       '<button class="cintillo-nav-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + ' title="Siguiente">' + chevRight + '</button>' +
+      '<div class="cintillo-spacer"></div>' +
     '</div>';
 
     // Calendar popup (if open)

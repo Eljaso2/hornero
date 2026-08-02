@@ -322,7 +322,8 @@ class HorneroActualidad extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .cintillo-center { flex: 1; text-align: center; }
+      .cintillo-center { flex: none; text-align: center; }
+      .cintillo-spacer { flex: 1; }
       .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; }
@@ -461,6 +462,7 @@ class HorneroActualidad extends HoComponent {
         <button class="cintillo-back-btn" id="cintilloBack" title="Volver">
           <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         </button>
+        <div class="cintillo-spacer"></div>
         <button class="cintillo-nav-btn" id="cintilloPrev" ${!this._hasPrevEdition() ? 'disabled' : ''} title="Anterior">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
@@ -471,6 +473,7 @@ class HorneroActualidad extends HoComponent {
         <button class="cintillo-nav-btn" id="cintilloNext" ${!this._hasNextEdition() ? 'disabled' : ''} title="Siguiente">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
+        <div class="cintillo-spacer"></div>
       </div>
       ` : ''}
 
