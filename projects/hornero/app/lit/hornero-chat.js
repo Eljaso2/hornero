@@ -944,8 +944,9 @@ class HorneroChat extends HoComponent {
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
         gap: 4px; background: none; border: none; cursor: pointer;
-        padding: 4px 2px; transition: opacity .2s; position: relative;
-        flex-shrink: 0; scroll-snap-align: center; opacity: .45; }
+        padding: 4px 0; transition: opacity .2s; position: relative;
+        flex-shrink: 0; scroll-snap-align: center; opacity: .45;
+        width: 56px; }
       .chat-persona-icon:hover { opacity: .75; }
       .chat-persona-icon.active { opacity: 1; }
       .persona-icon-inner { width: 28px; height: 28px;
