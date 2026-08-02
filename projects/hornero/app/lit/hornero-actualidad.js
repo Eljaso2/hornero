@@ -40,6 +40,12 @@ class HorneroActualidad extends HoComponent {
 
   async connectedCallback() {
     super.connectedCallback();
+    // Apply theme class
+    if (this.theme === 'light') {
+      this.classList.add('theme-light');
+    } else {
+      this.classList.remove('theme-light');
+    }
     await this._loadAllSources();
 
     // If an initial sub-view was set, activate it
@@ -449,6 +455,12 @@ class HorneroActualidad extends HoComponent {
   // ===== Render =====
 
   _render() {
+    // Update theme class on every render
+    if (this.theme === 'light') {
+      this.classList.add('theme-light');
+    } else {
+      this.classList.remove('theme-light');
+    }
     return html`
       <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Actualidad</div>
