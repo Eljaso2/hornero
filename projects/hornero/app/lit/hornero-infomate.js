@@ -108,7 +108,7 @@ class HorneroInfomate extends HoComponent {
       .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; text-align: center; }
-      .cintillo-title .hero-bajada-link { margin-left: 6px; font-size: .82rem;
+      .cintillo-title .hero-bajada-link { margin-left: 6px; font-size: .72rem;
         font-family: 'Archivo', sans-serif; font-weight: 800;
         color: var(--ho-green, #4E9978); text-decoration: none; }
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
