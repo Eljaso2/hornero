@@ -88,8 +88,8 @@ class HorneroInfomate extends HoComponent {
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Cintillo — navegación (mismo patrón que Actualidad) ===== */
-      .act-cintillo { display: flex; align-items: center; gap: 8px;
-        padding: 8px 12px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
+      .act-cintillo { display: flex; align-items: center;
+        padding: 8px 16px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         flex-shrink: 0; background: var(--ho-bg, #1E2321); }
       .cintillo-back-btn { width: 28px; height: 28px; border-radius: 50%;
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
@@ -102,10 +102,10 @@ class HorneroInfomate extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .cintillo-center { flex: 1; text-align: center; }
+      .cintillo-center { flex: 1; display: flex; align-items: center; justify-content: center; gap: 2px; }
       .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
-        letter-spacing: .04em; }
+        letter-spacing: .04em; text-align: center; }
       .cintillo-title .hero-bajada-link { margin-left: 6px; font-size: .82rem;
         font-family: 'Archivo', sans-serif; font-weight: 800;
         color: var(--ho-green, #4E9978); text-decoration: none; }

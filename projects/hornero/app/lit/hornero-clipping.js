@@ -174,12 +174,12 @@ class HorneroClipping extends HoComponent {
         background: var(--ho-bg, #1E2321); }
 
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        padding: 12px 16px 16px; scrollbar-width: none; }
+        padding: 12px 0 16px; scrollbar-width: none; }
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Cintillo — navegación (mismo patrón que Actualidad) ===== */
-      .act-cintillo { display: flex; align-items: center; gap: 8px;
-        padding: 8px 12px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
+      .act-cintillo { display: flex; align-items: center;
+        padding: 8px 16px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         flex-shrink: 0; background: var(--ho-bg, #1E2321); }
       .cintillo-back-btn { width: 28px; height: 28px; border-radius: 50%;
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
@@ -192,10 +192,10 @@ class HorneroClipping extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .cintillo-center { flex: 1; text-align: center; }
+      .cintillo-center { flex: 1; display: flex; align-items: center; justify-content: center; gap: 2px; }
       .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
-        letter-spacing: .04em; }
+        letter-spacing: .04em; text-align: center; }
       .cintillo-date { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em; margin-top: 2px; }
       .cintillo-nav-btn { background: none; border: none; cursor: pointer;
@@ -285,7 +285,7 @@ class HorneroClipping extends HoComponent {
       .cal-legend-marked { color: var(--ho-green, #4E9978); font-size: .72rem; }
 
       /* Feed card — noticia */
-      .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
+      .feed-card { border-radius: 0; margin-bottom: 10px; overflow: hidden;
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         background: var(--ho-card, #2A3230); cursor: pointer;
         transition: border-color .2s; }
@@ -308,7 +308,7 @@ class HorneroClipping extends HoComponent {
         font-size: 1.32rem; color: var(--ho-text, #E8E6E0); margin-top: 4px;
         line-height: 1.2; }
 
-      .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: 1.29rem;
+      .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.35;
         margin-top: 3px; }
 
@@ -324,7 +324,7 @@ class HorneroClipping extends HoComponent {
         padding: 16px 16px 40px; overflow-y: auto; -webkit-overflow-scrolling: touch;
         animation: popfade .25s ease; }
 
-      .popup-content { background: var(--ho-card, #2A3230); border-radius: 16px;
+      .popup-content { background: var(--ho-card, #2A3230); border-radius: 0;
         border: 1px solid var(--ho-border, rgba(255,255,255,.12));
         max-width: 100%; width: 380px; position: relative;
         overflow: hidden; margin-bottom: 24px; }
