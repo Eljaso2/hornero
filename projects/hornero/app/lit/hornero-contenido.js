@@ -104,7 +104,7 @@ class HorneroContenido extends HoComponent {
         flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/periodista.jpg') top center/100% auto no-repeat;
-        opacity: .22; pointer-events: none; }
+        opacity: .12; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
         gap: 6px; }
       .hero-banner.collapsed::before { opacity: .12; }

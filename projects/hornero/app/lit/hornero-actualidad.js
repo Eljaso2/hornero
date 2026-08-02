@@ -263,12 +263,11 @@ class HorneroActualidad extends HoComponent {
         background: var(--ho-dark, #1E2321);
         padding: 14px 16px 10px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 8px;
-        flex-shrink: 0; box-sizing: border-box; overflow: hidden;
-        min-height: 110px; }
+        flex-shrink: 0; box-sizing: border-box; }
       .hero-banner::before { content: ''; position: absolute; top: 0; left: 0;
-        width: 100%; height: 110px;
-        background: url('assets/actualidad-bg.png') center/cover no-repeat;
-        opacity: .22; pointer-events: none; }
+        width: 100%; height: 100%;
+        background: url('assets/actualidad-bg.png') top center/cover no-repeat;
+        opacity: .12; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0; gap: 6px; }
       .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
       .hero-banner.collapsed .hero-explore-link { font-size: .64rem; }

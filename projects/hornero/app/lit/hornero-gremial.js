@@ -109,7 +109,7 @@ class HorneroGremial extends HoComponent {
         min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/IMG-20240506-WA0028.jpg') top center/100% auto no-repeat;
-        opacity: .22; pointer-events: none; }
+        opacity: .12; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
         gap: 6px; }
       .hero-banner.collapsed::before { opacity: .12; }
