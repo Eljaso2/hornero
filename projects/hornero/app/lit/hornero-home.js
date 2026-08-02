@@ -531,8 +531,8 @@ class HorneroHome extends HoComponent {
               <span class="icon-label">Periodista</span>
             </button>
             <button class="icon-btn" data-screen="formacion" data-persona="historiador">
-              <img src="assets/personajes/a01.png" alt="Historiadora" class="persona-home-img">
-              <span class="icon-label">Historiadora</span>
+              <img src="assets/personajes/a01.png" alt="Historiador/a" class="persona-home-img">
+              <span class="icon-label">Historiador/a</span>
             </button>
             <button class="icon-btn" data-screen="condicion" data-persona="sociologo">
               <img src="assets/personajes/a05.png" alt="Investigador/a" class="persona-home-img">

@@ -147,6 +147,7 @@ class HorneroApp extends HoComponent {
       { id: 'felicidad', label: 'Felicidad' },
       { id: 've', label: 'Comp. Empre.' },
       { id: 'formacion', label: 'H. Obrera' },
+      { id: 'archivo', label: 'Archivo' },
       { id: 'ecosistema', label: 'ECO' },
     ];
 
@@ -173,7 +174,7 @@ class HorneroApp extends HoComponent {
       clipping: 'Clipping de noticias',
       infomate: 'InfoMate',
       gremial: 'Reporte Gremial',
-      historiador: 'Historiadora',
+      historiador: 'Historiador/a',
       misConversaciones: 'Mis Conversaciones',
       misReportes: 'Mis Reportes',
     };
@@ -201,7 +202,7 @@ class HorneroApp extends HoComponent {
       formacion: 'home',
       argumento: 'home',
       comunicador: 'home',
-      archivo: 'home',
+      archivo: 'archivo',
       misConversaciones: 'chat',
       misReportes: 'home',
     };
@@ -228,7 +229,7 @@ class HorneroApp extends HoComponent {
       ecosistema: 'home',
       formacion: 'home',
       is: 'misReportes',
-      archivo: 'home',
+      archivo: 'archivo',
       argumento: 'home',
       comunicador: 'home',
     };
@@ -252,7 +253,7 @@ class HorneroApp extends HoComponent {
       ve: 've',
       ecosistema: 'ecosistema',
       formacion: 'formacion',
-      archivo: 'home',
+      archivo: 'archivo',
       argumento: 'home',
       comunicador: 'home',
     };
@@ -782,7 +783,7 @@ class HorneroApp extends HoComponent {
         { screen: 'gremial', persona: 'companero', img: 'assets/personajes/a02.png', alt: 'Compañero/a', emoji: '✊', name: 'Compañero/a', desc: 'Te ayudo a elaborar un reporte gremial', periodistaFull: false },
         { screen: 'consulta', persona: 'abogado', img: 'assets/personajes/a03.png', alt: 'Abogado/a', emoji: '📖', name: 'Abogado/a', desc: 'Derechos, convenios, legislación laboral', periodistaFull: false },
         { screen: 'contenido', persona: 'periodista', img: 'assets/personajes/a04.png', alt: 'Periodista', emoji: '🎙️', name: 'Periodista', desc: 'Prensa, podcasts, reels, entrevistas', periodistaFull: true },
-        { screen: 'formacion', persona: 'historiador', img: 'assets/personajes/a01.png', alt: 'Historiadora', emoji: '📜', name: 'Historiadora', desc: 'Historia obrera, formación, archivos', periodistaFull: false },
+        { screen: 'formacion', persona: 'historiador', img: 'assets/personajes/a01.png', alt: 'Historiador/a', emoji: '📜', name: 'Historiador/a', desc: 'Historia obrera, formación, archivos', periodistaFull: false },
         { screen: 'condicion', persona: 'sociologo', img: 'assets/personajes/a05.png', alt: 'Investigador/a', emoji: '🔬', name: 'Investigador/a', desc: 'Condición obrera, índices, clase trabajadora', periodistaFull: false },
       ];
 
@@ -1102,6 +1103,13 @@ class HorneroApp extends HoComponent {
           this._initialPersona = 'historiador';
           this._initialSessionId = '';
           this._navigateTo('formacion');
+          return;
+        }
+        // Archivo section → navigate to archivo with historiador persona
+        if (btn.dataset.screen === 'archivo') {
+          this._initialPersona = 'historiador';
+          this._initialSessionId = '';
+          this._navigateTo('archivo');
           return;
         }
         // Reset initial section for other navigations

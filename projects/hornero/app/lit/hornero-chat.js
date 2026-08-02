@@ -1305,7 +1305,7 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     // Persona icons — top-left corner (all 5 always visible, active one highlighted)
-    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'archivo', 'sociologo'];
+    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'sociologo'];
     // Screen mapping for navigation
     const personaScreenMap = {
       'abogado': { screen: 'consulta', persona: 'abogado' },
@@ -1323,7 +1323,7 @@ class HorneroChat extends HoComponent {
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
       // Short label for cintillo
-      const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Derecho', 'periodista': 'Periodista', 'historiador': 'H. Obrera', 'archivo': 'Archivo', 'sociologo': 'Investigador/a' };
+      const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiador/a', 'sociologo': 'Investigador/a' };
       const label = shortLabels[p] || cfg.name;
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
         <span class="persona-icon-inner">${inner}</span>
@@ -1801,7 +1801,7 @@ class HorneroChat extends HoComponent {
       'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: 'assets/personajes/a03.png' },
       'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/a02.png' },
       'periodista':   { emoji: '🎙️', name: 'Periodista',   bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/a04.png' },
-      'historiador':  { emoji: '📜', name: 'Historiadora',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png' },
+      'historiador':  { emoji: '📜', name: 'Historiador/a',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png' },
       'archivo':      { emoji: '📚', name: 'Archivo',        bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png' },
       'sociologo':    { emoji: '🔬', name: 'Investigador/a', bg: '#D4E8D7', color: '#2D5A3D', img: 'assets/personajes/a05.png' },
       'hornero':      { emoji: '🪶', name: 'Hornero',        bg: '#D4E8D7', color: '#4E9978', img: 'assets/hornero-logo-nobg.png' },
