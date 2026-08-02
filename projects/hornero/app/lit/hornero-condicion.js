@@ -66,6 +66,7 @@ class HorneroCondicion extends HoComponent {
     this._sessionId = '';
     this._activePersona = 'sociologo';
     this._username = '';
+    this._revealTimer = null;
     this._progressiveRevealTimer = null;
     this._progressiveRevealFull = '';
     this._progressiveRevealIndex = 0;
@@ -325,6 +326,14 @@ class HorneroCondicion extends HoComponent {
       return;
     }
 
+    // If entering via section bar with a specific sub-section (SMVM, Felicidad, Comportamiento),
+    // always start fresh with contextual greeting — don't restore old session
+    if (this.initialSection && this.initialSection.length > 0) {
+      this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+      this._showGreeting();
+      return;
+    }
+
     // Try to restore the most recent session for this section + username
     if (typeof obtenerChatSessions === 'function' && this._username) {
       try {
@@ -375,13 +384,13 @@ class HorneroCondicion extends HoComponent {
 
     let introText;
     if (this.initialSection === 'comportamiento') {
-      introText = '¡Hola! Soy la Investigadora. Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos: quiénes somos, cómo nos trata el empresariado, cuánto vale nuestro trabajo y qué tan "felices" somos en el laburo.\n\nHoy vamos a hablar del **Comportamiento Empresarial**. El Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones de violencia empresarial: salarial, contractual, ambiental y sindical. Es una radiografía de cómo las empresas tratan a los trabajadores — no es opinión, es dato duro.\n\n¿Qué querés investigar? Preguntame sobre el ICE, cualquier dimensión de la violencia empresarial o lo que te interese.';
+      introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\nHoy vamos a hablar del **Comportamiento Empresarial**. El Índice ICE mide 4 dimensiones de violencia: salarial, contractual, ambiental y sindical. Una radiografía de cómo las empresas tratan a los trabajadores — no es opinión, es dato duro.\n\n¿Qué querés investigar? Preguntame sobre el ICE o cualquier dimensión.';
     } else if (this.initialSection === 'smvm') {
-      introText = '¡Hola! Soy la Investigadora. Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos: quiénes somos, cómo nos trata el empresariado, cuánto vale nuestro trabajo y qué tan "felices" somos en el laburo.\n\nHoy vamos a hablar del **SMVM**: el Salario Mínimo Vital y Móvil. No es solo un número que publica el gobierno — es la frontera entre lo que la ley reconoce y lo que el trabajador necesita realmente. Acá analizamos la brecha entre ese salario mínimo y el valor real de la fuerza de trabajo, la canasta básica, y la superexplotación que queda expuesta cuando los números no cierran.\n\n¿Qué querés investigar? Preguntame sobre el SMVM, la canasta básica, la brecha salarial o lo que te interese.';
+      introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\nHoy vamos a hablar del **SMVM** — el Salario Mínimo Vital y Móvil. No es solo un número que publica el gobierno: es la frontera entre lo que la ley reconoce y lo que el trabajador necesita. La brecha entre ese salario y la canasta básica revela la superexplotación.\n\n¿Qué querés investigar? Preguntame sobre el SMVM, la canasta básica o la brecha salarial.';
     } else if (this.initialSection === 'felicidad') {
-      introText = '¡Hola! Soy la Investigadora. Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos: quiénes somos, cómo nos trata el empresariado, cuánto vale nuestro trabajo y qué tan "felices" somos en el laburo.\n\nHoy vamos a hablar del **Índice de Felicidad Laboral**. El IFT cruza el SMVM con el ICE: mide cuánto gana el trabajador frente a cuánta violencia empresarial sufre. No es bienestar subjetivo — es un indicador material de la calidad de vida laboral. Cuando el salario no alcanza y la violencia empresarial sube, el IFT lo registra.\n\n¿Qué querés investigar? Preguntame sobre el IFT, el SMVM, el Comportamiento Empresarial o lo que te interese.';
+      introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\nHoy vamos a hablar del **Índice de Felicidad Laboral**. El IFT cruza el SMVM con el ICE: cuánto ganás vs. cuánta violencia empresarial sufrís. No es bienestar subjetivo — es un indicador material de la calidad de vida laboral.\n\n¿Qué querés investigar? Preguntame sobre el IFT, el SMVM o el Comportamiento Empresarial.';
     } else {
-      introText = '¡Hola! Soy la Investigadora. Acá tenemos cuatro lecturas de la misma realidad:\n\n• 👥 Cómo Somos — Datos duros de la clase trabajadora argentina\n• 🏭 Comportamiento Empresarial — Índice ICE, 4 dimensiones de violencia\n• 💰 SMVM — Salario mínimo vs. valor real, brecha de superexplotación\n• 🌿 Felicidad Laboral — IFT = SMVM × ICE\n\nPreguntame lo que quieras sobre cualquier tema.';
+      introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **Explorar** 👆';
     }
 
     // 1. Show typing dots for 1s
@@ -395,36 +404,55 @@ class HorneroCondicion extends HoComponent {
   }
 
   // ===== Progressive reveal =====
-  _revealMessage(text, persona, tags, callback) {
-    this._progressiveRevealFull = text;
-    this._progressiveRevealIndex = 0;
-    const chunkSize = 1;
-    const interval = 25;
-    this._progressiveRevealTimer = setInterval(() => {
-      this._progressiveRevealIndex += chunkSize;
-      if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
-        this._stopProgressiveReveal();
+  _revealMessage(fullText, persona, tags, onComplete) {
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (!chatEl) {
+      this.messages = [...this.messages, {
+        role: 'hornero', text: fullText, tags: tags || ['panorama', 'greeting'],
+        persona: persona || this._activePersona, time: this._timeNow(),
+      }];
+      this.render();
+      if (onComplete) onComplete();
+      return;
+    }
+
+    // Start streaming
+    chatEl.streamingText = '';
+    chatEl._streamingPersona = persona;
+    chatEl.render();
+
+    let index = 0;
+    const chunkSize = 4;
+    const interval = 12;
+
+    this._revealTimer = setInterval(() => {
+      index += chunkSize;
+      if (index >= fullText.length) {
+        clearInterval(this._revealTimer);
+        this._revealTimer = null;
         this.messages = [...this.messages, {
-          role: 'hornero',
-          text: this._progressiveRevealFull,
-          tags: tags || ['panorama', 'greeting'],
-          persona: persona || this._activePersona,
-          time: this._timeNow(),
+          role: 'hornero', text: fullText, tags: tags || ['panorama', 'greeting'],
+          persona: persona || this._activePersona, time: this._timeNow(),
         }];
-        this._saveChatHistory();
+        chatEl.streamingText = '';
+        chatEl._streamingPersona = '';
         this.render();
-        if (callback) callback();
+        if (onComplete) onComplete();
         return;
       }
-      const chatEl = this.shadowRoot.querySelector('hornero-chat');
-      if (chatEl) {
-        chatEl._streamingPersona = persona;
-        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex));
-      }
+      chatEl.streamingText = fullText.substring(0, index);
+      chatEl._streamingPersona = persona;
+      chatEl.updateStreamingText(fullText.substring(0, index));
     }, interval);
   }
 
   _stopProgressiveReveal() {
+    // Clear greeting reveal timer
+    if (this._revealTimer) {
+      clearInterval(this._revealTimer);
+      this._revealTimer = null;
+    }
+    // Clear streaming reveal timer
     if (this._progressiveRevealTimer) {
       clearInterval(this._progressiveRevealTimer);
       this._progressiveRevealTimer = null;
