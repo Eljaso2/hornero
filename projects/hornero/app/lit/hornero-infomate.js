@@ -165,6 +165,9 @@ class HorneroInfomate extends HoComponent {
       .feed-card:hover { background: var(--ho-dark-surface, #3F4E4A); }
 
       .feed-card-img { width: 100%; height: 140px; object-fit: cover; object-position: top center; display: block; }
+      .feed-card-img-placeholder { width: 100%; height: 140px; background: var(--ho-dark-surface, #3F4E4A);
+        display: flex; align-items: center; justify-content: center; }
+      .feed-card-img-placeholder span { font-size: 2.4rem; opacity: .5; }
       .feed-card-body { padding: 12px 14px 6px; }
 
       .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -208,7 +211,7 @@ class HorneroInfomate extends HoComponent {
         cursor: pointer; font-size: .85rem; z-index: 10;
         display: flex; align-items: center; justify-content: center; }
 
-      .popup-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+      .popup-img { width: 100%; height: 180px; object-fit: cover; object-position: top center; display: block; }
       .popup-body { padding: 14px 16px 32px; }
       .popup-title-line { display: flex; align-items: baseline; gap: 6px; }
       .popup-emoji { font-size: 1rem; }
@@ -280,15 +283,18 @@ class HorneroInfomate extends HoComponent {
         '<span class="tag">' + d + '</span>'
       ).join('');
       const sId = s.id || ('sec-' + idx);
+      const imgHtml = s.foto
+        ? '<img class="feed-card-img" src="' + s.foto + '" alt="" loading="lazy">'
+        : '<div class="feed-card-img-placeholder"><span>' + (s.emoji || '📊') + '</span></div>';
       return '<div class="feed-card" data-id="' + sId + '">' +
-        (s.foto ? '<img class="feed-card-img" src="' + s.foto + '" alt="" loading="lazy">' : '') +
+        imgHtml +
         '<div class="feed-card-body">' +
           '<span class="feed-card-fecha">' + this._formatMes(meta.mes) + '</span>' +
           '<span class="source-badge">📊</span>' +
           (s.emoji ? '<span class="feed-card-emoji">' + s.emoji + '</span>' : '') +
           '<div class="feed-card-titulo">' + (s.titulo || '') + '</div>' +
           '<div class="feed-card-bajada">' + (s.bajada || '') + '</div>' +
-          (tagsHtml ? '<div class="feed-card-tags">' + tagsHtml + '</div>' : '') +
+          '<div class="feed-card-tags">' + tagsHtml + '</div>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -321,10 +327,14 @@ class HorneroInfomate extends HoComponent {
       '<span class="tag">' + d + '</span>'
     ).join('');
 
+    const popupImgHtml = item.foto
+      ? '<img class="popup-img" src="' + item.foto + '" alt="" loading="lazy">'
+      : '<div class="feed-card-img-placeholder" style="height:180px"><span style="font-size:3rem">' + (item.emoji || '📊') + '</span></div>';
+
     return '<div class="popup-overlay" id="popupOverlay">' +
       '<div class="popup-content">' +
         '<button class="popup-close" id="popupClose">✕</button>' +
-        (item.foto ? '<img class="popup-img" src="' + item.foto + '" alt="" loading="lazy">' : '') +
+        popupImgHtml +
         '<div class="popup-body">' +
           '<div class="popup-title-line">' +
           (item.emoji ? '<span class="popup-emoji">' + item.emoji + '</span>' : '') +
