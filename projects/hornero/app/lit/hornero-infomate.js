@@ -85,7 +85,7 @@ class HorneroInfomate extends HoComponent {
         background: var(--ho-bg, #1E2321); }
 
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        padding: 12px 16px 16px; scrollbar-width: none; }
+        padding: 0; scrollbar-width: none; }
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Cintillo — navegación (mismo patrón que Actualidad) ===== */
@@ -103,7 +103,8 @@ class HorneroInfomate extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .cintillo-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .cintillo-center { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .cintillo-spacer { flex: 1; }
       .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; text-align: center; }
@@ -129,7 +130,7 @@ class HorneroInfomate extends HoComponent {
         flex-shrink: 0; box-sizing: border-box; overflow: hidden; cursor: pointer; }
       .hero-banner::before { content: ''; position: absolute; top: 0; left: 0;
         width: 100%; height: 100%;
-        background: url('assets/actualidad-bg.png') top center/100% auto no-repeat;
+        background: url('assets/infomate-bg.png') top center/100% auto no-repeat;
         opacity: .12; pointer-events: none; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.2rem; color: var(--ho-text, #E8E6E0);
@@ -154,14 +155,14 @@ class HorneroInfomate extends HoComponent {
       .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
 
-      /* Feed card — idéntico a Clipping */
-      .feed-card { border-radius: 13px; margin: 5px 0; overflow: hidden;
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+      /* Feed card — idéntico a Clipping: full-width, cuadrado */
+      .feed-card { border-radius: 0; margin-bottom: 0; overflow: hidden;
+        border: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         background: var(--ho-card, #2A3230); cursor: pointer;
-        transition: border-color .2s; }
-      .feed-card:hover { border-color: var(--ho-green, #4E9978); }
+        transition: background .2s; }
+      .feed-card:hover { background: var(--ho-dark-surface, #3F4E4A); }
 
-      .feed-card-img { width: 100%; height: 140px; object-fit: cover; display: block; opacity: .85; }
+      .feed-card-img { width: 100%; height: 140px; object-fit: cover; object-position: top center; display: block; }
       .feed-card-body { padding: 12px 14px; }
 
       .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -178,7 +179,7 @@ class HorneroInfomate extends HoComponent {
         font-size: 1.32rem; color: var(--ho-text, #E8E6E0); margin-top: 4px;
         line-height: 1.2; }
 
-      .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: 1.29rem;
+      .feed-card-bajada { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.35;
         margin-top: 3px; }
 
@@ -194,7 +195,7 @@ class HorneroInfomate extends HoComponent {
         padding: 16px 16px 40px; overflow-y: auto; -webkit-overflow-scrolling: touch;
         animation: popfade .25s ease; }
 
-      .popup-content { background: var(--ho-card, #2A3230); border-radius: 16px;
+      .popup-content { background: var(--ho-card, #2A3230); border-radius: 0;
         border: 1px solid var(--ho-border, rgba(255,255,255,.12));
         max-width: 100%; width: 380px; position: relative;
         overflow: hidden; margin-bottom: 24px; }
@@ -229,13 +230,13 @@ class HorneroInfomate extends HoComponent {
 
       /* Show more */
       .show-more-btn { display: block; width: 100%; padding: 12px;
-        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 13px; color: var(--ho-green, #4E9978);
+        background: var(--ho-card, #2A3230); border: none;
+        border-top: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        color: var(--ho-green, #4E9978);
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .86rem;
-        cursor: pointer; text-align: center; margin: 5px 0;
-        transition: border-color .2s, background .2s; }
-      .show-more-btn:hover { border-color: var(--ho-green, #4E9978);
-        background: rgba(78,153,120,.08); }
+        cursor: pointer; text-align: center; margin: 0;
+        transition: background .2s; }
+      .show-more-btn:hover { background: var(--ho-dark-surface, #3F4E4A); }
     `;
   }
 
@@ -259,12 +260,14 @@ class HorneroInfomate extends HoComponent {
       '<button class="cintillo-back-btn" id="cintilloBack" title="Volver">' +
         '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
       '</button>' +
+      '<div class="cintillo-spacer"></div>' +
       '<button class="cintillo-nav-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + ' title="Anterior">' + chevLeft + '</button>' +
       '<div class="cintillo-center">' +
         '<div class="cintillo-title">INFOMATE <a class="hero-bajada-link" href="https://mateconomia.com.ar/infomate" target="_blank" rel="noopener">↗</a></div>' +
         '<div class="cintillo-date">' + this._formatMes(meta.mes) + '</div>' +
       '</div>' +
       '<button class="cintillo-nav-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + ' title="Siguiente">' + chevRight + '</button>' +
+      '<div class="cintillo-spacer"></div>' +
     '</div>';
 
     // Section cards — paginate: show _visibleCount, then "mostrar más"
