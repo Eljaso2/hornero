@@ -1082,6 +1082,28 @@ class HorneroApp extends HoComponent {
           this._navigateTo('actualidad');
           return;
         }
+        // Contenido section → navigate to contenido with periodista persona
+        if (btn.dataset.screen === 'contenido') {
+          this._initialPersona = 'periodista';
+          this._initialSessionId = '';
+          this._navigateTo('contenido');
+          return;
+        }
+        // Condicion section → navigate to condicion with sociologo persona
+        if (btn.dataset.screen === 'condicion') {
+          this._initialPersona = 'sociologo';
+          this._initialSection = '';
+          this._initialSessionId = '';
+          this._navigateTo('condicion');
+          return;
+        }
+        // Formacion section → navigate to formacion with historiador persona
+        if (btn.dataset.screen === 'formacion') {
+          this._initialPersona = 'historiador';
+          this._initialSessionId = '';
+          this._navigateTo('formacion');
+          return;
+        }
         // Reset initial section for other navigations
         this._initialSection = '';
         this._navigateTo(btn.dataset.screen);
@@ -1105,6 +1127,14 @@ class HorneroApp extends HoComponent {
         if (screen === 'misReportes') {
           this._initialPersona = 'companero';
           this._navigateTo('gremial');
+          return;
+        }
+        // Panorama button → navigate to condicion with sociologo persona
+        if (screen === 'condicion') {
+          this._initialPersona = 'sociologo';
+          this._initialSection = '';
+          this._initialSessionId = '';
+          this._navigateTo('condicion');
           return;
         }
         this._navigateTo(screen);
@@ -1437,12 +1467,13 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
     if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') this._misConvLoaded = false;
     if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
-    // If navigating to same screen but with a new initialSection, force re-render
-    if (this.screen === screen && this._initialSection) {
+    // If navigating to same screen but with a new initialSection or actualidadSubView, force re-render
+    if (this.screen === screen && (this._initialSection || this._actualidadSubView)) {
       history.pushState({ screen: screen }, '', '#' + screen);
       this.set('screen', ''); // Clear first to force change
-      this.set('screen', screen); // Re-render with new initialSection
+      this.set('screen', screen); // Re-render with new params
       this._initialSection = ''; // Reset after render consumed it
+      this._actualidadSubView = ''; // Reset after render consumed it
       return;
     }
     // Only push state if screen actually changes (avoid duplicate history entries)

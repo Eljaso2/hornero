@@ -266,7 +266,7 @@ class HorneroActualidad extends HoComponent {
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
         min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
-        background: url('assets/actualidad-bg.png') top center/100% auto no-repeat;
+        background: url('assets/actualidad-bg.png') center/cover no-repeat;
         opacity: .22; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0; gap: 6px; }
       .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
