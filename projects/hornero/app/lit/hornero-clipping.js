@@ -174,7 +174,7 @@ class HorneroClipping extends HoComponent {
         background: var(--ho-bg, #1E2321); }
 
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-        padding: 12px 0 16px; scrollbar-width: none; }
+        padding: 0; scrollbar-width: none; }
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Cintillo — navegación (mismo patrón que Actualidad) ===== */
@@ -285,11 +285,11 @@ class HorneroClipping extends HoComponent {
       .cal-legend-marked { color: var(--ho-green, #4E9978); font-size: .72rem; }
 
       /* Feed card — noticia */
-      .feed-card { border-radius: 0; margin-bottom: 10px; overflow: hidden;
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+      .feed-card { border-radius: 0; margin-bottom: 0; overflow: hidden;
+        border: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         background: var(--ho-card, #2A3230); cursor: pointer;
-        transition: border-color .2s; }
-      .feed-card:hover { border-color: var(--ho-green, #4E9978); }
+        transition: background .2s; }
+      .feed-card:hover { background: var(--ho-dark-surface, #3F4E4A); }
 
       .feed-card-img { width: 100%; height: 140px; object-fit: cover; object-position: top center; display: block; }
       .feed-card-body { padding: 12px 14px; }
