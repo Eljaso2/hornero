@@ -235,7 +235,10 @@ class HorneroHome extends HoComponent {
         margin-left: -16px; margin-right: -16px; min-height: 260px;
         background: var(--ho-dark, #1E2321); cursor: pointer; overflow: hidden; }
       .infomate-home-bg { position: absolute; inset: 0;
-        background: linear-gradient(135deg, #1E2321 0%, #2A3230 40%, #1E2321 100%); }
+        background: url('assets/infomate-bg.png') top center/100% auto no-repeat;
+        opacity: .18; }
+      .infomate-home-bg::after { content: ''; position: absolute; inset: 0;
+        background: linear-gradient(180deg, rgba(30,35,33,.3) 0%, rgba(30,35,33,.9) 100%); }
       .infomate-home-content { position: relative; z-index: 2;
         padding: 28px 16px 16px; }
       .infomate-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
