@@ -73,7 +73,7 @@ class HorneroEcosistema extends HoComponent {
         gap: 6px; }
       .hero-banner.collapsed::before { opacity: .08; }
       .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
-      .hero-banner.collapsed .hero-explore-link { font-size: .64rem; padding: 2px 8px; }
+      .hero-banner.collapsed .hero-explore-link { font-size: .64rem; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
@@ -86,12 +86,10 @@ class HorneroEcosistema extends HoComponent {
       .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
         font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
-        color: var(--ho-green-dark, #3D6B56); background: var(--ho-green-pale, #E0F0EB);
-        border: 1px solid var(--ho-green, #4E9978); border-radius: 6px;
-        padding: 4px 10px; cursor: pointer; position: relative;
-        transition: background .2s, border-color .2s; }
-      .hero-explore-link:hover { background: var(--ho-green-light, #D4DCC0);
-        border-color: var(--ho-green-dark, #3D6B56); }
+        color: var(--ho-green, #4E9978); background: none;
+        border: none; padding: 0; cursor: pointer; position: relative;
+        transition: color .2s; }
+      .hero-explore-link:hover { color: var(--ho-green-dark, #3D6B56); }
       .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
       .hero-explore-link.open::after { content: '▴'; }
       .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
@@ -120,14 +118,6 @@ class HorneroEcosistema extends HoComponent {
 
   _render() {
     return html`
-      <div class="eco-cintillo">
-        <button class="cintillo-back-btn" id="cintilloBack" title="Volver">
-          <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        </button>
-        <div class="cintillo-center">
-          <div class="cintillo-title">Ecosistema Hornero</div>
-        </div>
-      </div>
       <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Ecosistema Hornero</div>
         ${this._bannerVisible ? html`
@@ -147,6 +137,14 @@ class HorneroEcosistema extends HoComponent {
           <button class="hero-explore-option" data-explore="Reporte Gremial">Reporte Gremial</button>
         </div>
         ` : ''}
+      </div>
+      <div class="eco-cintillo">
+        <button class="cintillo-back-btn" id="cintilloBack" title="Volver">
+          <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
+        <div class="cintillo-center">
+          <div class="cintillo-title">Ecosistema Hornero</div>
+        </div>
       </div>
       <div class="chat-container">
         <hornero-chat
