@@ -2081,26 +2081,56 @@ class HorneroChat extends HoComponent {
       plusBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this._plusMenuOpen = !this._plusMenuOpen;
-        this.render();
+        // Toggle menu visibility without full re-render (avoids flash + layout shift)
+        const rightArea = this.shadowRoot.querySelector('.chat-top-bar-right');
+        if (rightArea) {
+          if (this._plusMenuOpen) {
+            // Build menu HTML
+            const informeSvg = '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>';
+            const recibidosSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
+            const isHigherGrade = ['B.b','B.c','B.d'].includes(this.grade);
+            let menuHtml = `<div class="chat-plus-menu" id="chatPlusMenu">
+              <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <div class="chat-plus-divider"></div>
+              <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
+                <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                <span class="item-label">Historial</span>
+              </button>
+              ${!this.hideInformesBtn ? `<button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
+                <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
+                <span class="item-label">Reportes</span>
+                ${this.informeBadge ? '<span class="item-badge"></span>' : ''}
+              </button>` : ''}
+              ${isHigherGrade && !this.hideRecibidosBtn ? `<button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
+                <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
+                <span class="item-label">Recibidos</span>
+                ${this._recibidosBadge ? '<span class="item-badge gold"></span>' : ''}
+              </button>` : ''}
+            </div>`;
+            rightArea.innerHTML = menuHtml;
+            // Re-bind the close button
+            const closeBtn = this.shadowRoot.querySelector('#chatPlusBtn');
+            if (closeBtn) {
+              closeBtn.addEventListener('click', (e2) => {
+                e2.stopPropagation();
+                this._plusMenuOpen = false;
+                this._closePlusMenu(rightArea);
+              });
+            }
+            this._bindPlusMenuItems();
+            this._setupPlusMenuCloseHandler();
+          } else {
+            this._closePlusMenu(rightArea);
+          }
+        }
       });
     }
 
-    // === Close dropdown on outside click (persistent handler) ===
-    // Remove previous handler if any
-    if (this._plusMenuCloseHandler) {
-      document.removeEventListener('click', this._plusMenuCloseHandler);
-      this._plusMenuCloseHandler = null;
-    }
+    // === Close dropdown on outside click (only bind if menu rendered by _afterRender) ===
     if (this._plusMenuOpen) {
-      this._plusMenuCloseHandler = (e) => {
-        const menu = this.shadowRoot.querySelector('#chatPlusMenu');
-        if (menu && !menu.contains(e.target)) {
-          this._plusMenuOpen = false;
-          this._plusMenuCloseHandler = null;
-          this.render();
-        }
-      };
-      setTimeout(() => document.addEventListener('click', this._plusMenuCloseHandler), 0);
+      this._setupPlusMenuCloseHandler();
     }
 
     // === Input focus → emit event (parent can hide banner etc) ===
@@ -2115,6 +2145,7 @@ class HorneroChat extends HoComponent {
     if (historyBtn) {
       historyBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
+        this._closePlusMenu(this.shadowRoot.querySelector('.chat-top-bar-right'));
         this._openHistoryDrawer();
       });
     }
@@ -2124,6 +2155,7 @@ class HorneroChat extends HoComponent {
     if (informesBtn) {
       informesBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
+        this._closePlusMenu(this.shadowRoot.querySelector('.chat-top-bar-right'));
         this._openInformesDrawer();
         this.emit('informes-open', {});
       });
@@ -2134,6 +2166,7 @@ class HorneroChat extends HoComponent {
     if (recibidosBtn) {
       recibidosBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
+        this._closePlusMenu(this.shadowRoot.querySelector('.chat-top-bar-right'));
         this._openRecibidosDrawer();
       });
     }
@@ -2892,6 +2925,108 @@ ${msgs.map(m => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     this._showDownloadToast(filename || title || 'chat-hornero');
+  }
+
+  // ===== Plus menu helpers — DOM manipulation without full re-render =====
+  _closePlusMenu(rightArea) {
+    if (!rightArea) rightArea = this.shadowRoot.querySelector('.chat-top-bar-right');
+    if (!rightArea) return;
+    rightArea.innerHTML = `<button class="chat-plus-btn" id="chatPlusBtn" title="Más opciones">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>`;
+    // Re-bind the + button
+    const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
+    if (plusBtn) {
+      plusBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this._plusMenuOpen = true;
+        // Re-open menu — same logic as initial toggle
+        const ra = this.shadowRoot.querySelector('.chat-top-bar-right');
+        if (ra) {
+          const informeSvg = '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>';
+          const recibidosSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
+          const isHigherGrade = ['B.b','B.c','B.d'].includes(this.grade);
+          let menuHtml = `<div class="chat-plus-menu" id="chatPlusMenu">
+            <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="chat-plus-divider"></div>
+            <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
+              <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+              <span class="item-label">Historial</span>
+            </button>
+            ${!this.hideInformesBtn ? `<button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
+              <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
+              <span class="item-label">Reportes</span>
+              ${this.informeBadge ? '<span class="item-badge"></span>' : ''}
+            </button>` : ''}
+            ${isHigherGrade && !this.hideRecibidosBtn ? `<button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
+              <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
+              <span class="item-label">Recibidos</span>
+              ${this._recibidosBadge ? '<span class="item-badge gold"></span>' : ''}
+            </button>` : ''}
+          </div>`;
+          ra.innerHTML = menuHtml;
+          const closeBtn = this.shadowRoot.querySelector('#chatPlusBtn');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', (e2) => {
+              e2.stopPropagation();
+              this._plusMenuOpen = false;
+              this._closePlusMenu(ra);
+            });
+          }
+          this._bindPlusMenuItems();
+          this._setupPlusMenuCloseHandler();
+        }
+      });
+    }
+    // Remove outside click handler
+    if (this._plusMenuCloseHandler) {
+      document.removeEventListener('click', this._plusMenuCloseHandler);
+      this._plusMenuCloseHandler = null;
+    }
+  }
+
+  _bindPlusMenuItems() {
+    const historyBtn = this.shadowRoot.querySelector('#chatHistoryBtn');
+    if (historyBtn) {
+      historyBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this._closePlusMenu();
+        this._openHistoryDrawer();
+      });
+    }
+    const informesBtn = this.shadowRoot.querySelector('#chatInformesBtn');
+    if (informesBtn) {
+      informesBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this._closePlusMenu();
+        this._openInformesDrawer();
+        this.emit('informes-open', {});
+      });
+    }
+    const recibidosBtn = this.shadowRoot.querySelector('#chatRecibidosBtn');
+    if (recibidosBtn) {
+      recibidosBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this._closePlusMenu();
+        this._openRecibidosDrawer();
+      });
+    }
+  }
+
+  _setupPlusMenuCloseHandler() {
+    if (this._plusMenuCloseHandler) {
+      document.removeEventListener('click', this._plusMenuCloseHandler);
+    }
+    this._plusMenuCloseHandler = (e) => {
+      const menu = this.shadowRoot.querySelector('#chatPlusMenu');
+      if (menu && !menu.contains(e.target)) {
+        this._plusMenuOpen = false;
+        this._closePlusMenu();
+      }
+    };
+    setTimeout(() => document.addEventListener('click', this._plusMenuCloseHandler), 0);
   }
 
   // ===== Export confirmation popup =====

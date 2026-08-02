@@ -318,9 +318,10 @@ class HorneroFormacion extends HoComponent {
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         text-align: left; position: relative; min-height: 3.2em; }
-      .hero-banner-title .hero-bajada-link { margin-left: 6px; font-size: 1rem; }
-        font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
-        color: var(--ho-green, #4E9978); }
+      .hero-banner-title .hero-bajada-link { margin-left: 6px; font-size: 1rem;
+        font-family: 'Archivo', sans-serif; font-weight: 600;
+        color: var(--ho-green, #4E9978); text-decoration: none; }
+      :host(.theme-light) .hero-banner-title .hero-bajada-link { color: var(--ho-green, #4E9978); }
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
 
       /* ===== Explorar dropdown ===== */
