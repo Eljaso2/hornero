@@ -102,7 +102,7 @@ class HorneroConsulta extends HoComponent {
         align-items: flex-start; gap: 8px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
-        background: url('assets/Aniversario-Noche-de-las-corbatas_IG--1024x1024 copy.png') center/cover no-repeat;
+        background: url('assets/Aniversario-Noche-de-las-corbatas_IG--1024x1024 copy.png') top center/100% auto no-repeat;
         opacity: .18; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
         gap: 6px; }
