@@ -345,7 +345,7 @@ class HorneroActualidad extends HoComponent {
 
       /* ===== Content area ===== */
       .content-area { flex: 1; display: flex; flex-direction: column; min-height: 0;
-        overflow: hidden; }
+        overflow: hidden; background: var(--ho-card, #2A3230); }
 
       /* ===== Feed (sin sub-vista) ===== */
       .scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
