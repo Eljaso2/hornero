@@ -290,6 +290,8 @@ class HorneroHistoriador extends HoComponent {
         tags: data.tags || ['historia', 'greeting'],
         persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       }];
       // Don't update _activePersona from backend — keep original
@@ -458,6 +460,8 @@ class HorneroHistoriador extends HoComponent {
                   tags: data.tags || ['historia'],
                   persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
                   redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 }];
                 // Clear streaming state
@@ -563,6 +567,8 @@ class HorneroHistoriador extends HoComponent {
       tags: data.tags || ['historia'],
       persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     // Don't update _activePersona from backend — keep original
@@ -607,6 +613,8 @@ class HorneroHistoriador extends HoComponent {
         tags: data.tags || ['historia', 'audio'],
         persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       }];
       // Don't update _activePersona from backend — keep original

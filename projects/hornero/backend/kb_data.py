@@ -305,6 +305,8 @@ Jasinski reinterpretó el fenómeno: las luchas sociales (huelgas, rebeliones, s
         ],
         "grade_access": "open",
         "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg/800px-La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/La_Forestal_Argentina",
     },
 
     {
@@ -326,6 +328,8 @@ El Departamento Provincial del Trabajo solicitaba informes sobre la posibilidad 
         ],
         "grade_access": "open",
         "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg/800px-La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/La_Forestal_Argentina",
     },
 
     {
@@ -349,6 +353,8 @@ La "Forestal Benefactora" — la versión hegemónica — se construyó sobre es
         ],
         "grade_access": "open",
         "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg/800px-La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/La_Forestal_Argentina",
     },
 
     {
@@ -389,6 +395,8 @@ Rogelio Lamazón — Dirigente yrigoyenista. La Forestal le inculpaba tener part
         "quotes": [],
         "grade_access": "open",
         "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg/800px-La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/La_Forestal_Argentina",
     },
 ]
 
@@ -457,6 +465,11 @@ def get_chunks_text(chunk_ids: list) -> str:
             lines.append(f"— {q['author']}")
             lines.append(f"Fuente: {q['source']}")
         lines.append(f"Fuente: {', '.join(chunk['sources'])}")
+        # Include image and source URL if available
+        if chunk.get("image"):
+            lines.append(f"Imagen: {chunk['image']}")
+        if chunk.get("imageSource"):
+            lines.append(f"Link: {chunk['imageSource']}")
         lines.append("")
 
     return "\n".join(lines)

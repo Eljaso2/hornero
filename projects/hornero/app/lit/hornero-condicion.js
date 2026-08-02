@@ -597,6 +597,8 @@ class HorneroCondicion extends HoComponent {
         tags: data.tags || ['panorama', 'greeting'],
         persona: this._activePersona,
         redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       }];
       this._typing = false; this._greetingRequested = false;
@@ -710,6 +712,8 @@ class HorneroCondicion extends HoComponent {
                   tags: data.tags || ['panorama'],
                   persona: this._activePersona,
                   redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 }];
                 this._stopProgressiveReveal();
@@ -788,6 +792,8 @@ class HorneroCondicion extends HoComponent {
       tags: data.tags || ['panorama'],
       persona: this._activePersona,
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     this._typing = false; this._greetingRequested = false;
@@ -848,6 +854,8 @@ class HorneroCondicion extends HoComponent {
       tags: data.tags || ['panorama', 'audio'],
       persona: this._activePersona,
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     this._typing = false;

@@ -222,6 +222,8 @@ class GreetingResponse(BaseModel):
     raw: str = ""
     persona: str = "abogado"
     redirect_persona: str = ""  # Derivation: persona to redirect to (empty = no redirect)
+    image: str = ""  # Image URL for CHARLA mode
+    source_url: str = ""  # Source URL for the image
 
 
 class ChatRequest(BaseModel):
@@ -243,6 +245,8 @@ class ChatResponse(BaseModel):
     raw: str = ""  # Raw LLM response for debugging
     persona: str = "abogado"  # Who responded: companero|abogado|periodista|historiador
     redirect_persona: str = ""  # Derivation: persona to redirect to (empty = no redirect)
+    image: str = ""  # Image URL for CHARLA mode (from FUENTES or clipping)
+    source_url: str = ""  # Source URL for the image
 
 
 class PushSubscriptionRequest(BaseModel):
@@ -336,6 +340,8 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
         raw=raw_response,
         persona=final_persona,
         redirect_persona=validated_redirect(parsed.get("redirect_persona", "")),
+        image=parsed.get("image", ""),
+        source_url=parsed.get("source_url", ""),
     )
 
 
@@ -420,6 +426,8 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
         raw=raw_response,
         persona=final_persona,
         redirect_persona=validated_redirect(parsed.get("redirect_persona", "")),
+        image=parsed.get("image", ""),
+        source_url=parsed.get("source_url", ""),
     )
 
 
@@ -496,6 +504,8 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
                             "time": time_str,
                             "persona": final_persona,
                             "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                            "image": parsed.get("image", ""),
+                            "source_url": parsed.get("source_url", ""),
                         }
                         yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
             else:
@@ -533,6 +543,8 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
                     "time": time_str,
                     "persona": final_persona,
                     "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                    "image": parsed.get("image", ""),
+                    "source_url": parsed.get("source_url", ""),
                 }
                 yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
 
@@ -650,6 +662,8 @@ async def audio_chat_endpoint(
         raw=raw_response,
         persona=final_persona,
         redirect_persona=validated_redirect(parsed.get("redirect_persona", "")),
+        image=parsed.get("image", ""),
+        source_url=parsed.get("source_url", ""),
     )
 
 
@@ -988,6 +1002,11 @@ def _get_chat_db():
     """)
     conn.execute("CREATE INDEX IF NOT EXISTS idx_chat_username ON chat_messages(username)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_chat_session ON chat_messages(session_id, username)")
+    # Add image and source_url columns (additive, safe to re-run)
+    try: conn.execute("ALTER TABLE chat_messages ADD COLUMN image TEXT DEFAULT ''")
+    except: pass
+    try: conn.execute("ALTER TABLE chat_messages ADD COLUMN source_url TEXT DEFAULT ''")
+    except: pass
     conn.commit()
     return conn
 
@@ -1010,8 +1029,8 @@ async def chat_sync(req: ChatSyncRequest):
                 continue
             conn.execute("""
                 INSERT INTO chat_messages (id, session_id, username, section, role, persona,
-                    text, sections, tags, time_str, timestamp, title, redirect_persona)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    text, sections, tags, time_str, timestamp, title, redirect_persona, image, source_url)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(id) DO UPDATE SET
                     session_id=excluded.session_id,
                     username=excluded.username,
@@ -1024,7 +1043,9 @@ async def chat_sync(req: ChatSyncRequest):
                     time_str=excluded.time_str,
                     timestamp=excluded.timestamp,
                     title=excluded.title,
-                    redirect_persona=excluded.redirect_persona
+                    redirect_persona=excluded.redirect_persona,
+                    image=excluded.image,
+                    source_url=excluded.source_url
                 WHERE excluded.timestamp > chat_messages.timestamp
             """, (
                 msg.get("id"),
@@ -1040,6 +1061,8 @@ async def chat_sync(req: ChatSyncRequest):
                 msg.get("timestamp", 0),
                 msg.get("title", ""),
                 msg.get("redirect_persona", ""),
+                msg.get("image", ""),
+                msg.get("source_url", ""),
             ))
             synced += 1
         conn.commit()
@@ -1112,6 +1135,8 @@ async def chat_messages(username: str = "", sessionId: str = ""):
                 "timestamp": r["timestamp"],
                 "title": r["title"],
                 "redirect_persona": r["redirect_persona"],
+                "image": r["image"] if "image" in r.keys() else "",
+                "source_url": r["source_url"] if "source_url" in r.keys() else "",
             })
         return messages
     finally:

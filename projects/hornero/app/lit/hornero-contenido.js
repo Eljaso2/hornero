@@ -367,6 +367,8 @@ class HorneroContenido extends HoComponent {
         tags: data.tags || ['contenido', 'greeting'],
         persona: data.persona || 'periodista',
         redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       }];
       this._activePersona = data.persona || 'periodista';
@@ -540,6 +542,8 @@ class HorneroContenido extends HoComponent {
                   tags: data.tags || ['contenido'],
                   persona: data.persona || this._activePersona,
                   redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 }];
                 this._activePersona = data.persona || this._activePersona;
@@ -646,6 +650,8 @@ class HorneroContenido extends HoComponent {
       tags: data.tags || ['contenido'],
       persona: data.persona || this._activePersona,
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     this._activePersona = data.persona || this._activePersona;

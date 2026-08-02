@@ -799,6 +799,14 @@ class HorneroChat extends HoComponent {
       .msg-media img { width: 100%; display: block; border-radius: 12px; }
       .msg-media video { width: 100%; display: block; border-radius: 12px; }
 
+      /* AI image in messages — inline markdown images and section images */
+      .msg-md-img { max-width: 100%; border-radius: 12px; margin: 8px 0; display: block; }
+      .msg-section-image { max-width: 280px; margin: 8px 0 4px; border-radius: 12px; overflow: hidden; }
+      .msg-section-image img { width: 100%; display: block; border-radius: 12px; }
+      .msg-section-source { display: inline-block; font-size: .72rem; color: var(--ho-green, #4E9978);
+        font-weight: 600; text-decoration: none; margin-top: 4px; padding: 2px 8px;
+        border: 1px solid var(--ho-green, #4E9978); border-radius: 8px; }
+
       /* AI file download card — clickable file attachment in chat */
       .msg-download-card {
         display: flex; align-items: center; padding: 12px 16px;
@@ -1755,8 +1763,10 @@ class HorneroChat extends HoComponent {
     return html;
   }
 
-  // Inline formatting: **bold**, *italic*, `code`
+  // Inline formatting: **bold**, *italic*, `code`, ![alt](url)
   _formatInline(text) {
+    // Images: ![alt](url) → <img> inline (must be BEFORE links regex)
+    text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img class="msg-md-img" src="$2" alt="$1" loading="lazy">');
     // Links: [text](url) → <a href="url" target="_blank">text</a>
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--ho-green,#4E9978);font-weight:600;text-decoration:none">$1</a>');
     // Bold: **text** → <strong>text</strong>
@@ -1922,6 +1932,15 @@ class HorneroChat extends HoComponent {
     if (m.text) {
       // Render with markdown formatting
       contentHtml = `<div class="msg-text">${this._formatMarkdown(m.text)}</div>`;
+      // Top-level image (CHARLA mode) — show after text
+      if (m.image) {
+        contentHtml += `<div class="msg-section-image">`;
+        contentHtml += `<img src="${m.image}" alt="" loading="lazy">`;
+        if (m.source_url) {
+          contentHtml += `<a href="${m.source_url}" target="_blank" rel="noopener" class="msg-section-source">📷 Ver fuente</a>`;
+        }
+        contentHtml += `</div>`;
+      }
     } else if (m.sections) {
       contentHtml = m.sections.map((s, i, arr) => {
         let content = '';
@@ -1934,6 +1953,15 @@ class HorneroChat extends HoComponent {
           content += `<p>${s.quote}</p>`;
           if (s.quoteSource) content += `<div class="msg-quote-source">${s.quoteSource}</div>`;
           content += '</div>';
+        }
+        // Section image + source link
+        if (s.image) {
+          content += `<div class="msg-section-image">`;
+          content += `<img src="${s.image}" alt="${s.title || ''}" loading="lazy">`;
+          if (s.source_url) {
+            content += `<a href="${s.source_url}" target="_blank" rel="noopener" class="msg-section-source">📷 Ver fuente</a>`;
+          }
+          content += `</div>`;
         }
         const divider = (i < arr.length - 1) ? '<div class="msg-divider"></div>' : '';
         return `<div class="msg-section">${content}</div>${divider}`;

@@ -372,11 +372,15 @@ Ejemplo de MALA respuesta (NO hacer esto):
    JSON: {"text": "...", "tags": [...]}
    - NO pongas sections en modo charla
    - Texto con párrafos separados (doble \n\n)
+   - Si hay una imagen disponible en la FUENTE (campo "Imagen:"), incluí la URL en el campo "image" del JSON: {"text": "...", "image": "url_imagen", "source_url": "url_fuente", "tags": [...]}
+   - Si hay un link disponible (campo "Link:"), incluílo en el campo "source_url"
    - Terminá con pregunta específica
 
 2. MODO CONTENIDO: Para producción (podcast, reel, columna, entrevista).
    JSON: {"sections": [...], "tags": [...], "persona": "periodista"}
-   - Sections con title, body, quote, quoteAuthor, quoteSource
+   - Sections con title, body, quote, quoteAuthor, quoteSource, image, source_url
+   - image: URL de la imagen si está disponible en las FUENTES (campo "Imagen:"). Si no hay, omitilo o "".
+   - source_url: URL de la fuente si está disponible (campo "Link:"). Si no hay, omitilo o "".
    - Vacíos: quote fields como "" si no hay quote
 
 Ante duda → MODO CHARLA.
@@ -607,10 +611,18 @@ def get_clipping_text(items: list) -> str:
         entry += f". Fuente: {fuente}, Fecha: {fecha}]"
         if tags:
             entry += f" Tags: {tags}"
+        # Include image and source URL if available
+        foto = item.get("foto", "").strip()
+        fuente_url = item.get("fuente_url", "").strip()
+        if foto:
+            entry += f" Foto: {foto}"
+        if fuente_url:
+            entry += f" URL: {fuente_url}"
         lines.append(entry)
 
     lines.append("")
     lines.append("REGLA DE CITACIÓN: Si usás datos de estas noticias, SIEMPRE citá la fuente visible: \"Fuente: Sonido Gremial, 2 de julio\" o \"Según InfoGremiales del 30 de junio\". Si la noticia no está en esta lista, no la mencionás.")
+    lines.append("REGLA DE IMAGEN: Si la noticia que estás comentando tiene Foto, incluí SIEMPRE la URL en el campo \"image\" de tu JSON o section. Si tiene URL, incluíla en \"source_url\". El trabajador ve la imagen directamente en el chat.")
 
     return "\n".join(lines)
 

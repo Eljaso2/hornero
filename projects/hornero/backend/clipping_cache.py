@@ -82,6 +82,8 @@ def _normalize_daily(noticia: dict) -> dict:
         "fecha": noticia.get("fecha", ""),
         "tags": noticia.get("tags", []),
         "tipo": "diario",
+        "foto": noticia.get("foto", ""),
+        "fuente_url": noticia.get("fuente_url", ""),
     }
 
 
@@ -96,4 +98,6 @@ def _normalize_weekly(item: dict) -> dict:
         "tags": item.get("tags", []),
         "keywords": item.get("keywords", []),
         "tipo": "semanal",
+        "foto": item.get("foto", ""),
+        "fuente_url": item.get("fuente_url", ""),
     }

@@ -770,6 +770,8 @@ class HorneroFormacion extends HoComponent {
                   tags: data.tags || ['historia'],
                   persona: 'historiador',
                   redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 }];
                 this._stopProgressiveReveal();
@@ -861,6 +863,8 @@ class HorneroFormacion extends HoComponent {
       tags: data.tags || ['historia'],
       persona: 'historiador',
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     this._typing = false;
@@ -909,6 +913,8 @@ class HorneroFormacion extends HoComponent {
         tags: data.tags || ['historia', 'greeting'],
         persona: 'historiador',
         redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       }];
       this._typing = false; this._greetingRequested = false;
@@ -961,6 +967,8 @@ class HorneroFormacion extends HoComponent {
         tags: data.tags || ['historia', 'audio'],
         persona: 'historiador',
         redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       }];
       this._typing = false;

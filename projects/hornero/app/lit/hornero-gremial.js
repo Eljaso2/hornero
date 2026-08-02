@@ -790,6 +790,8 @@ class HorneroGremial extends HoComponent {
         tags: data.tags || ['reporte', 'greeting'],
         persona: 'companero', // Force: gremial screen ALWAYS uses compañero — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       }];
       this._typing = false;
@@ -1110,6 +1112,8 @@ class HorneroGremial extends HoComponent {
                       tags: responseTags,
                       persona: 'companero', // Force: gremial screen ALWAYS uses compañero
                       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
                       time: data.time || this._timeNow(),
                     }];
                     this._stopProgressiveReveal();
@@ -1131,6 +1135,8 @@ class HorneroGremial extends HoComponent {
                   tags: responseTags,
                   persona: 'companero', // Force: gremial screen ALWAYS uses compañero
                   redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 }];
                 // Clear streaming state
@@ -1247,6 +1253,8 @@ class HorneroGremial extends HoComponent {
       tags: responseTags,
       persona: 'companero', // Force: gremial screen ALWAYS uses compañero — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     this._typing = false;
@@ -1776,6 +1784,8 @@ class HorneroGremial extends HoComponent {
       tags: data.tags || ['reporte', 'audio'],
       persona: 'companero', // Force: gremial screen ALWAYS uses compañero — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     this._activePersona = data.persona || 'companero';

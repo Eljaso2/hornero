@@ -405,6 +405,8 @@ class HorneroConsulta extends HoComponent {
         tags: data.tags || ['consulta', 'greeting'],
         persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
         redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       }];
       // Don't update _activePersona from backend response — keep the original choice
@@ -653,6 +655,8 @@ class HorneroConsulta extends HoComponent {
                   tags: data.tags || ['consulta'],
                   persona: this._activePersona, // Force: consulta screen keeps its original persona
                   redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 }];
                 // Clear streaming state
@@ -759,6 +763,8 @@ class HorneroConsulta extends HoComponent {
       tags: data.tags || ['consulta'],
       persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     // Don't update _activePersona from backend response — keep the original choice
@@ -830,6 +836,8 @@ class HorneroConsulta extends HoComponent {
       tags: data.tags || ['consulta', 'audio'],
       persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     // Don't update _activePersona from backend response — keep the original choice
