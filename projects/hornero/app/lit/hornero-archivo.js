@@ -233,6 +233,7 @@ class HorneroArchivo extends HoComponent {
       chatEl.addEventListener('chat-input-focus', () => {
         if (this._bannerVisible) {
           this._bannerVisible = false;
+          this._exploreOpen = false;
           this.render();
         }
       });
@@ -428,6 +429,7 @@ class HorneroArchivo extends HoComponent {
     // Hide banner when user starts chatting
     if (this._bannerVisible) {
       this._bannerVisible = false;
+      this._exploreOpen = false;
     }
     this.messages = [...this.messages, { role: 'user', text, tags: ['archivo'], time: this._timeNow() }];
     this._typing = true;
