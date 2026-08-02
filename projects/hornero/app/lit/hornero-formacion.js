@@ -299,8 +299,7 @@ class HorneroFormacion extends HoComponent {
         background: var(--ho-dark, #1E2321);
         padding: 14px 16px 10px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 8px;
-        flex-shrink: 0; box-sizing: border-box; overflow: hidden;
-        min-height: 110px; }
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/ho-banner.png') top center/100% auto no-repeat;
         opacity: .12; pointer-events: none; }
@@ -317,7 +316,7 @@ class HorneroFormacion extends HoComponent {
       :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; position: relative; min-height: 3.2em; }
+        text-align: left; position: relative; }
       .hero-banner-title .hero-bajada-link { margin-left: 6px; font-size: 1rem;
         font-family: 'Archivo', sans-serif; font-weight: 600;
         color: var(--ho-green, #4E9978); text-decoration: none; }
