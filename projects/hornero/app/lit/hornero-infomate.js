@@ -26,6 +26,7 @@ class HorneroInfomate extends HoComponent {
     this._popupItem = null;
     this._exploreOpen = false;
     this._savedScrollTop = null;
+    this._visibleCount = 10;
   }
 
   async connectedCallback() {
@@ -225,6 +226,16 @@ class HorneroInfomate extends HoComponent {
       /* Empty state */
       .empty { text-align: center; color: var(--ho-text-light, #9C988D);
         font-family: 'Archivo', sans-serif; padding: 40px 20px; }
+
+      /* Show more */
+      .show-more-btn { display: block; width: 100%; padding: 12px;
+        background: var(--ho-card, #2A3230); border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        border-radius: 13px; color: var(--ho-green, #4E9978);
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .86rem;
+        cursor: pointer; text-align: center; margin: 5px 0;
+        transition: border-color .2s, background .2s; }
+      .show-more-btn:hover { border-color: var(--ho-green, #4E9978);
+        background: rgba(78,153,120,.08); }
     `;
   }
 
@@ -256,8 +267,10 @@ class HorneroInfomate extends HoComponent {
       '<button class="cintillo-nav-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + ' title="Siguiente">' + chevRight + '</button>' +
     '</div>';
 
-    // Section cards — idéntico a Clipping (fecha, source-badge, emoji, título, bajada, tags)
-    const cardsHtml = secciones.map((s, idx) => {
+    // Section cards — paginate: show _visibleCount, then "mostrar más"
+    const visibleSecciones = secciones.slice(0, this._visibleCount);
+    const hasMore = secciones.length > this._visibleCount;
+    const cardsHtml = visibleSecciones.map((s, idx) => {
       const tagsHtml = (s.datos || []).map(d =>
         '<span class="tag">' + d + '</span>'
       ).join('');
@@ -292,6 +305,7 @@ class HorneroInfomate extends HoComponent {
       ${cintilloHtml}
       <div class="scroll" id="mateScroll">
         ${cardsHtml}
+        ${hasMore ? '<button class="show-more-btn" id="showMoreBtn">Mostrar más</button>' : ''}
       </div>
       ${popupHtml}
     `;
@@ -393,6 +407,13 @@ class HorneroInfomate extends HoComponent {
         if (e.target === overlay) this._closePopup();
       });
     }
+
+    // Show more button
+    const showMoreBtn = this.shadowRoot.querySelector('#showMoreBtn');
+    if (showMoreBtn) showMoreBtn.addEventListener('click', () => {
+      this._visibleCount += 10;
+      this.render();
+    });
   }
 
   _goEdition(delta) {
@@ -400,6 +421,7 @@ class HorneroInfomate extends HoComponent {
     if (newIdx < 0 || newIdx >= this._ediciones.length) return;
     this._edicionIdx = newIdx;
     this._popupItem = null;
+    this._visibleCount = 10;
     this._loadEdition(this._ediciones[newIdx].archivo);
   }
 
