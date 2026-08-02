@@ -153,6 +153,7 @@ class HorneroCondicion extends HoComponent {
       /* ===== Chat container ===== */
       .chat-container { flex: 1; display: flex; flex-direction: column;
         min-height: 0; }
+      .chat-container > hornero-chat { flex: 1; min-height: 0; }
     `;
   }
 
@@ -306,9 +307,9 @@ class HorneroCondicion extends HoComponent {
       chatEl.centerLogo = '';
       chatEl.noAutoScroll = this._bannerVisible;
       chatEl.topBarAccent = false;
-      chatEl.style.flex = '1';
-      chatEl.style.minHeight = '0';
-      chatEl.render();
+      // Do NOT call chatEl.render() here — the chat re-renders itself
+      // when its attributes change (from condicion render) or from drawer open/close.
+      // Double render was causing the layout shift on banner.
     }
   }
 

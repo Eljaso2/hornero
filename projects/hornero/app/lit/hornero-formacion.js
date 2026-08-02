@@ -512,10 +512,9 @@ class HorneroFormacion extends HoComponent {
       chatEl.centerLogo = '';
       chatEl.noAutoScroll = this._bannerVisible;
       chatEl.topBarAccent = false;
-      // Force chat to fill flex container instead of height:100%
-      chatEl.style.flex = '1';
-      chatEl.style.minHeight = '0';
-      chatEl.render();
+      // Do NOT call chatEl.render() here — the chat re-renders itself
+      // when its attributes change (from formacion render) or from drawer open/close.
+      // Double render was causing the layout shift on banner.
     }
   }
 
