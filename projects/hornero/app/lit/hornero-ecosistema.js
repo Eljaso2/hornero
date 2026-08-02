@@ -38,7 +38,7 @@ class HorneroEcosistema extends HoComponent {
 
       /* ===== Cintillo con flecha atrás ===== */
       .eco-cintillo { display: flex; align-items: center; gap: 8px;
-        padding: 8px 12px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        padding: 6px 12px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         flex-shrink: 0; background: var(--ho-bg, #1E2321); }
       .cintillo-back-btn { width: 28px; height: 28px; border-radius: 50%;
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
@@ -51,10 +51,6 @@ class HorneroEcosistema extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .cintillo-center { flex: 1; text-align: center; }
-      .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
-        letter-spacing: .04em; }
       :host(.theme-light) .eco-cintillo { background: var(--ho-mid-gray, #ECEAE3); }
       :host(.theme-light) .cintillo-back-btn { border-color: rgba(0,0,0,.08); }
       :host(.theme-light) .cintillo-back-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
@@ -110,8 +106,8 @@ class HorneroEcosistema extends HoComponent {
       .chat-container { flex: 1; display: flex; flex-direction: column;
         min-height: 0; }
       /* Bigger avatar for Hornero persona — zoom para recortar borde claro */
-      .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; }
-      .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar img { width: 100px; height: 100px; margin: -26px; object-fit: cover; object-position: center 25%; }
+      .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; }
+      .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar img { width: 120px; height: 120px; margin: -32px; object-fit: cover; object-position: center 25%; }
       :host(.theme-light) .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar img { filter: brightness(0.25); }
     `;
   }
@@ -142,9 +138,6 @@ class HorneroEcosistema extends HoComponent {
         <button class="cintillo-back-btn" id="cintilloBack" title="Volver">
           <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         </button>
-        <div class="cintillo-center">
-          <div class="cintillo-title">Ecosistema Hornero</div>
-        </div>
       </div>
       <div class="chat-container">
         <hornero-chat
