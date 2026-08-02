@@ -64,7 +64,7 @@ class HorneroArchivo extends HoComponent {
     this._bannerVisible = true;
     this._exploreOpen = false;
     this._sessionId = '';
-    this._activePersona = 'historiador';
+    this._activePersona = 'archivo';
     this._username = '';
     this._progressiveRevealTimer = null;
     this._progressiveRevealFull = '';
@@ -359,7 +359,7 @@ class HorneroArchivo extends HoComponent {
     this._historyLoaded = true;
     this._greetingRequested = false;
     this._exploreOpen = false;
-    this._activePersona = 'historiador';
+    this._activePersona = 'archivo';
     this._requestGreeting();
   }
 
@@ -785,6 +785,8 @@ class HorneroArchivo extends HoComponent {
       'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'historiador': { screen: 'formacion', persona: 'historiador' },
+      'archivo': { screen: 'archivo', persona: 'archivo' },
+      'sociologo': { screen: 'condicion', persona: 'sociologo' },
     };
     const target = screenMap[targetPersona];
     if (target) {
