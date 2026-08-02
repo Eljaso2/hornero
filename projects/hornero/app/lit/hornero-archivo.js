@@ -122,11 +122,11 @@ class HorneroArchivo extends HoComponent {
       /* ===== Explorar dropdown ===== */
       .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
         font-family: 'Archivo', sans-serif; font-size: .72rem;
-        font-weight: 700; letter-spacing: .04em;
-        color: #000; background: none;
+        font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+        color: var(--ho-green, #4E9978); background: none;
         border: none; padding: 0; cursor: pointer; position: relative;
         transition: color .2s; }
-      .hero-explore-link:hover { color: #333; }
+      .hero-explore-link:hover { color: var(--ho-green-dark, #3D6B56); }
       .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
       .hero-explore-link.open::after { content: '▴'; }
       .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
