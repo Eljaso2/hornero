@@ -355,7 +355,7 @@ class HorneroActualidad extends HoComponent {
       .feed-card-dim { position: absolute; inset: 0; z-index: 1;
         background: rgba(30,35,33,.6); }
       .feed-card-overlay { position: relative; z-index: 2;
-        padding: 14px 16px 6px; color: #F2F1EC;
+        padding: 12px 16px; color: #F2F1EC;
         display: flex; flex-direction: column; min-height: 160px; }
       .feed-card-label { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; letter-spacing: .02em; text-transform: uppercase; }
@@ -715,15 +715,8 @@ class HorneroActualidad extends HoComponent {
 
     let mateSectionsHtml = '';
     const totalSections = mateRaw && mateRaw.secciones ? mateRaw.secciones.length : 0;
-    if (totalSections > 0) {
-      mateSectionsHtml = '<div class="mate-sections noticia-list" style="display:none">';
-      for (const s of mateRaw.secciones) {
-        mateSectionsHtml += '<div class="noticia-line"><span class="noticia-title">' + s.titulo + '</span></div>';
-      }
-      mateSectionsHtml += '</div>';
-    }
+    // No secciones list or toggle — InfoMate sub-screen handles full content
 
-    const mateToggleText = totalSections > 0 ? '▾ Ver ' + totalSections + ' secciones' : '';
     const noPhotoClass = hasFoto ? '' : ' feed-card-no-photo';
 
     return '<div class="feed-card' + noPhotoClass + '" data-screen="infomate" data-mate-mes="' + ed.mes + '">' +
@@ -734,8 +727,6 @@ class HorneroActualidad extends HoComponent {
         (firstTitle ? '<div class="feed-card-first-title">' + firstTitle + '</div>' : '') +
         (tagsHtml ? '<div class="feed-card-tags">' + tagsHtml + '</div>' : '') +
       '</div>' +
-      mateSectionsHtml +
-      (mateToggleText ? '<div class="noticia-toggle" data-expanded="false" data-card-type="infomate" data-mate-mes="' + ed.mes + '">' + mateToggleText + '</div>' : '') +
     '</div>';
   }
 
