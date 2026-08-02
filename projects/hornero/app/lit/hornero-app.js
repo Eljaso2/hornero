@@ -212,8 +212,8 @@ class HorneroApp extends HoComponent {
     // Map sub-screens to their parent bottom-nav button
     this._navParentMap = {
       actualidad: 'actualidad',
-      clipping: 'actualidad',
-      infomate: 'actualidad',
+      clipping: 'clipping',
+      infomate: 'infomate',
       chat: 'chat',
       consulta: 'chat',
       contenido: 'chat',
@@ -236,8 +236,8 @@ class HorneroApp extends HoComponent {
     // Map sub-screens to their parent section in the sections bar
     this._sectionParentMap = {
       actualidad: 'actualidad',
-      clipping: 'actualidad',
-      infomate: 'actualidad',
+      clipping: 'clipping',
+      infomate: 'infomate',
       chat: 'chat',
       consulta: 'derecho',
       contenido: 'contenido',

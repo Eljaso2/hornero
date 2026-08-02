@@ -195,6 +195,26 @@ class HorneroClipping extends HoComponent {
         margin-top: 2px; cursor: pointer; transition: color .2s; }
       .edicion-fecha:hover { color: var(--ho-green-dark, #3D6B56); }
 
+      /* ===== Collapsed Actualidad banner ===== */
+      .hero-banner { position: relative; width: 100%;
+        background: var(--ho-dark, #1E2321);
+        padding: 10px 16px 8px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 6px;
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; cursor: pointer; }
+      .hero-banner::before { content: ''; position: absolute; top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: url('assets/actualidad-bg.png') top center/100% auto no-repeat;
+        opacity: .12; pointer-events: none; }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.2rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; position: relative; }
+      .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
+        font-family: 'Archivo', sans-serif; font-size: .64rem;
+        font-weight: 700; letter-spacing: .04em;
+        color: #000; background: none;
+        border: none; padding: 0; cursor: pointer; position: relative; }
+      .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
+
       /* ===== Calendar overlay ===== */
       .cal-overlay { position: fixed; inset: 0;
         background: rgba(33,31,29,.55); z-index: 40;
@@ -359,6 +379,10 @@ class HorneroClipping extends HoComponent {
     const popupHtml = this._popupItem ? this._renderPopup(this._popupItem) : '';
 
     return html`
+      <div class="hero-banner" id="actBanner">
+        <div class="hero-banner-title">Actualidad</div>
+        <button class="hero-explore-link" id="actExplore">Explorar</button>
+      </div>
       <div class="scroll" id="clipScroll">
         ${edicionHeader}
         ${cardsHtml}
@@ -406,6 +430,23 @@ class HorneroClipping extends HoComponent {
   // ===== After-render =====
 
   _afterRender() {
+    // Collapsed Actualidad banner → navigate to Actualidad
+    const actBanner = this.shadowRoot.querySelector('#actBanner');
+    const actExplore = this.shadowRoot.querySelector('#actExplore');
+    if (actBanner) actBanner.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('ho-navigate', {
+        detail: { screen: 'actualidad' },
+        bubbles: true, composed: true
+      }));
+    });
+    if (actExplore) actExplore.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.dispatchEvent(new CustomEvent('ho-navigate', {
+        detail: { screen: 'actualidad' },
+        bubbles: true, composed: true
+      }));
+    });
+
     // Edition navigation buttons
     const prevBtn = this.shadowRoot.querySelector('#edPrev');
     const nextBtn = this.shadowRoot.querySelector('#edNext');

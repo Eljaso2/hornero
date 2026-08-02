@@ -88,7 +88,7 @@ class HorneroInfomate extends HoComponent {
 
       /* Edition header — same pattern as Clipping */
       .edicion-header { margin-bottom: 12px; }
-      .edicion-row { display: flex; align-items: center; gap: 8px; }
+      .edicion-row { display: flex; align-items: center; justify-content: center; gap: 2px; }
       .edicion-btn { background: none; border: none; cursor: pointer;
         color: var(--ho-text-mid, #6E6A60); padding: 6px;
         transition: color .2s, opacity .2s; display: flex;
@@ -100,21 +100,33 @@ class HorneroInfomate extends HoComponent {
       .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; }
+      .edicion-numero .hero-bajada-link { margin-left: 6px; font-size: 1rem;
+        font-family: 'Archivo', sans-serif; font-weight: 600;
+        color: var(--ho-green, #4E9978); text-decoration: none; }
+      .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
       .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
         margin-top: 2px; }
 
-      /* datosMacro grid — resumen arriba */
-      .macro-block { margin-bottom: 14px; }
-      .macro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-      .macro-card { background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 10px; padding: 10px 12px; }
-      .macro-key { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-green-dark, #3D6B56); font-weight: 600;
-        text-transform: uppercase; letter-spacing: .08em; }
-      .macro-val { font-family: 'Public Sans', sans-serif; font-size: .86rem;
-        color: var(--ho-text, #E8E6E0); font-weight: 700; margin-top: 2px; }
+      /* ===== Collapsed Actualidad banner ===== */
+      .hero-banner { position: relative; width: 100%;
+        background: var(--ho-dark, #1E2321);
+        padding: 10px 16px 8px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 6px;
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden; cursor: pointer; }
+      .hero-banner::before { content: ''; position: absolute; top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: url('assets/actualidad-bg.png') top center/100% auto no-repeat;
+        opacity: .12; pointer-events: none; }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.2rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; position: relative; }
+      .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
+        font-family: 'Archivo', sans-serif; font-size: .64rem;
+        font-weight: 700; letter-spacing: .04em;
+        color: #000; background: none;
+        border: none; padding: 0; cursor: pointer; position: relative; }
+      .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
 
       /* Feed card — idéntico a Clipping */
       .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
@@ -211,44 +223,12 @@ class HorneroInfomate extends HoComponent {
       '<div class="edicion-row">' +
         '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>' + chevLeft + '</button>' +
         '<div class="edicion-center">' +
-          '<div class="edicion-numero">INFOMATE</div>' +
+          '<div class="edicion-numero">INFOMATE <a class="hero-bajada-link" href="https://mateconomia.com.ar/infomate" target="_blank" rel="noopener">↗</a></div>' +
           '<div class="edicion-fecha">' + this._formatMes(meta.mes) + '</div>' +
         '</div>' +
         '<button class="edicion-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + '>' + chevRight + '</button>' +
       '</div>' +
     '</div>';
-
-    // datosMacro grid — pick key indicators from whatever is available
-    const macroKeys = Object.keys(macro);
-    const macroCards = macroKeys.map(key => {
-      const val = macro[key] || '';
-      // Friendly key labels
-      const labels = {
-        inflacionOficial: 'Inflación oficial',
-        inflacionAcumulada: 'Inflación acumulada',
-        inflacionObrera: 'Inflación obrera',
-        smvm: 'SMVM',
-        canastaBasicaTotal: 'Canasta básica',
-        empleoTotal: 'Empleo total',
-        salarioMedioRegistrado: 'Salario medio',
-        salarioEstatal: 'Salario estatal',
-        salarioPrivado: 'Salario privado',
-        transferenciaIngresos: 'Transferencia',
-        empleosFormalesPerdidos: 'Empleos perdidos',
-        desocupadosUrbanos: 'Desocupados',
-        informalidad: 'Informalidad',
-        recortesAcumulados: 'Recortes',
-        ejercitoActivo: 'Ejército activo',
-        reservaFlotante: 'Reserva flotante',
-        reservaLatente: 'Reserva latente',
-        pauperizacion: 'Pauperización',
-      };
-      const label = labels[key] || key;
-      return '<div class="macro-card">' +
-        '<div class="macro-key">' + label + '</div>' +
-        '<div class="macro-val">' + val + '</div>' +
-      '</div>';
-    }).join('');
 
     // Section cards — idéntico a Clipping (fecha, source-badge, emoji, título, bajada, tags)
     const cardsHtml = secciones.map((s, idx) => {
@@ -272,11 +252,12 @@ class HorneroInfomate extends HoComponent {
     const popupHtml = this._popupItem ? this._renderPopup(this._popupItem) : '';
 
     return html`
+      <div class="hero-banner" id="actBanner">
+        <div class="hero-banner-title">Actualidad</div>
+        <button class="hero-explore-link" id="actExplore">Explorar</button>
+      </div>
       <div class="scroll" id="mateScroll">
         ${edicionHeader}
-        <div class="macro-block">
-          <div class="macro-grid">${macroCards}</div>
-        </div>
         ${cardsHtml}
       </div>
       ${popupHtml}
@@ -319,6 +300,23 @@ class HorneroInfomate extends HoComponent {
   // ===== After-render =====
 
   _afterRender() {
+    // Collapsed Actualidad banner → navigate to Actualidad
+    const actBanner = this.shadowRoot.querySelector('#actBanner');
+    const actExplore = this.shadowRoot.querySelector('#actExplore');
+    if (actBanner) actBanner.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('ho-navigate', {
+        detail: { screen: 'actualidad' },
+        bubbles: true, composed: true
+      }));
+    });
+    if (actExplore) actExplore.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.dispatchEvent(new CustomEvent('ho-navigate', {
+        detail: { screen: 'actualidad' },
+        bubbles: true, composed: true
+      }));
+    });
+
     // Edition navigation buttons
     const prevBtn = this.shadowRoot.querySelector('#edPrev');
     const nextBtn = this.shadowRoot.querySelector('#edNext');
