@@ -12,6 +12,8 @@ class HorneroEcosistema extends HoComponent {
       theme: String,
       messages: Array,
       _typing: Boolean,
+      _bannerVisible: Boolean,
+      _exploreOpen: Boolean,
     };
   }
 
@@ -21,6 +23,8 @@ class HorneroEcosistema extends HoComponent {
     this.sector = 'aceitero';
     this.messages = [];
     this._typing = false;
+    this._bannerVisible = true;
+    this._exploreOpen = false;
     this._greetingPushed = false;
     this._eventsBound = false;
     this._revealTimer = null;
@@ -31,6 +35,57 @@ class HorneroEcosistema extends HoComponent {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); }
+
+      /* ===== Hero banner — logo grande de Hornero de fondo ===== */
+      .hero-banner { position: relative; width: 100%;
+        background: var(--ho-dark, #1E2321);
+        padding: 14px 16px 10px; display: flex; flex-direction: column;
+        align-items: flex-start; gap: 8px;
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden;
+        min-height: 110px; }
+      .hero-banner::before { content: ''; position: absolute; inset: 0;
+        background: url('assets/hornero-logo-nobg.png') center/contain no-repeat;
+        opacity: .12; pointer-events: none; }
+      .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
+        gap: 6px; }
+      .hero-banner.collapsed::before { opacity: .08; }
+      .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
+      .hero-banner.collapsed .hero-explore-link { font-size: .64rem; padding: 2px 8px; }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; position: relative; }
+      :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .hero-banner { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
+      .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        text-align: left; min-height: 3.2em; position: relative; }
+      .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
+        font-family: 'Archivo', sans-serif; font-size: .72rem;
+        font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+        color: var(--ho-green-dark, #3D6B56); background: var(--ho-green-pale, #E0F0EB);
+        border: 1px solid var(--ho-green, #4E9978); border-radius: 6px;
+        padding: 4px 10px; cursor: pointer; position: relative;
+        transition: background .2s, border-color .2s; }
+      .hero-explore-link:hover { background: var(--ho-green-light, #D4DCC0);
+        border-color: var(--ho-green-dark, #3D6B56); }
+      .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
+      .hero-explore-link.open::after { content: '▴'; }
+      .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
+        margin-top: 2px; animation: exploreFade .2s ease;
+        position: relative; }
+      @keyframes exploreFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+      .hero-explore-option { font-family: 'Archivo', sans-serif; font-size: .76rem;
+        font-weight: 600; color: var(--ho-text, #E8E6E0);
+        background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+        border-radius: 8px; padding: 6px 12px; cursor: pointer;
+        transition: background .2s, border-color .2s; }
+      .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .hero-explore-option { background: rgba(0,0,0,.04);
+        border-color: rgba(0,0,0,.08); color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB); }
+
       .chat-container { flex: 1; display: flex; flex-direction: column;
         min-height: 0; }
       /* Bigger avatar for Hornero persona — zoom para recortar borde claro */
@@ -42,6 +97,26 @@ class HorneroEcosistema extends HoComponent {
 
   _render() {
     return html`
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
+        <div class="hero-banner-title">Ecosistema Hornero</div>
+        ${this._bannerVisible ? html`
+        <div class="hero-bajada">
+          IA Sindical: inteligencia artificial desde la clase trabajadora. Datos propios, categorías propias, infraestructura propia.
+        </div>
+        ` : ''}
+        <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
+        ${this._exploreOpen ? html`
+        <div class="hero-explore-panel">
+          <button class="hero-explore-option" data-explore="Laboratorio">Laboratorio</button>
+          <button class="hero-explore-option" data-explore="Coyuntura">Coyuntura</button>
+          <button class="hero-explore-option" data-explore="Panorama">Panorama</button>
+          <button class="hero-explore-option" data-explore="Historia Obrera">Historia Obrera</button>
+          <button class="hero-explore-option" data-explore="Derecho">Derecho</button>
+          <button class="hero-explore-option" data-explore="Contenido">Contenido</button>
+          <button class="hero-explore-option" data-explore="Reporte Gremial">Reporte Gremial</button>
+        </div>
+        ` : ''}
+      </div>
       <div class="chat-container">
         <hornero-chat
           title="Ecosistema Hornero"
@@ -55,6 +130,7 @@ class HorneroEcosistema extends HoComponent {
           hide-persona-bar
           section="ecosistema"
           history-title="Historial"
+          no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
     `;
@@ -119,7 +195,35 @@ class HorneroEcosistema extends HoComponent {
       chatEl.addEventListener('chat-feedback', (e) => {
         this._sendFeedback(e.detail);
       });
+      chatEl.addEventListener('chat-input-focus', () => {
+        if (this._bannerVisible) {
+          this._bannerVisible = false;
+          this.render();
+        }
+      });
     }
+
+    // Explore toggle
+    const exploreToggle = this.shadowRoot.getElementById('exploreToggle');
+    if (exploreToggle && !exploreToggle._bound) {
+      exploreToggle._bound = true;
+      exploreToggle.addEventListener('click', () => {
+        this._exploreOpen = !this._exploreOpen;
+        this.render();
+      });
+    }
+
+    // Explore options
+    this.shadowRoot.querySelectorAll('.hero-explore-option').forEach(btn => {
+      if (btn._bound) return;
+      btn._bound = true;
+      btn.addEventListener('click', () => {
+        const topic = btn.getAttribute('data-explore');
+        this._bannerVisible = false;
+        this._exploreOpen = false;
+        this._handleUserMessage('Contame sobre el núcleo ' + topic + ' del ecosistema');
+      });
+    });
   }
 
   // ===== Show greeting: Hornero se presenta + cuenta algo =====
@@ -192,6 +296,10 @@ class HorneroEcosistema extends HoComponent {
   // ===== Handle user message =====
   _handleUserMessage(text) {
     this._stopProgressiveReveal();
+    if (this._bannerVisible) {
+      this._bannerVisible = false;
+      this._exploreOpen = false;
+    }
     this.messages = [...this.messages, { role: 'user', text, tags: ['ecosistema'], time: this._timeNow() }];
     this._typing = true;
     this._saveChatHistory();
@@ -396,6 +504,8 @@ class HorneroEcosistema extends HoComponent {
     this.messages = [];
     this._sessionId = this._genId();
     this._greetingPushed = false;
+    this._bannerVisible = true;
+    this._exploreOpen = false;
     this._showGreeting();
   }
 
