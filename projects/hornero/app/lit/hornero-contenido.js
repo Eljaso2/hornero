@@ -118,7 +118,7 @@ class HorneroContenido extends HoComponent {
       :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; position: relative; min-height: 3.2em; }
+        text-align: left; position: relative; }
 
       /* ===== Explorar dropdown ===== */
       .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
