@@ -382,16 +382,37 @@ class HorneroCondicion extends HoComponent {
   _showGreeting() {
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
-    let introText;
-    if (this.initialSection === 'comportamiento') {
-      introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\nHoy vamos a hablar del **Comportamiento Empresarial**. El Índice ICE mide 4 dimensiones de violencia: salarial, contractual, ambiental y sindical. Una radiografía de cómo las empresas tratan a los trabajadores — no es opinión, es dato duro.\n\n¿Qué querés investigar? Preguntame sobre el ICE o cualquier dimensión.';
-    } else if (this.initialSection === 'smvm') {
-      introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\nHoy vamos a hablar del **SMVM** — el Salario Mínimo Vital y Móvil. No es solo un número que publica el gobierno: es la frontera entre lo que la ley reconoce y lo que el trabajador necesita. La brecha entre ese salario y la canasta básica revela la superexplotación.\n\n¿Qué querés investigar? Preguntame sobre el SMVM, la canasta básica o la brecha salarial.';
-    } else if (this.initialSection === 'felicidad') {
-      introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\nHoy vamos a hablar del **Índice de Felicidad Laboral**. El IFT cruza el SMVM con el ICE: cuánto ganás vs. cuánta violencia empresarial sufrís. No es bienestar subjetivo — es un indicador material de la calidad de vida laboral.\n\n¿Qué querés investigar? Preguntame sobre el IFT, el SMVM o el Comportamiento Empresarial.';
-    } else {
-      introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **Explorar** 👆';
+    // If coming from section bar (SMVM, Felicidad, Comp. Empre.), treat as a question
+    const topicMap = {
+      'comportamiento': 'Comportamiento Empresarial',
+      'smvm': 'SMVM',
+      'felicidad': 'Índice de Felicidad',
+    };
+    const topic = topicMap[this.initialSection];
+
+    if (topic) {
+      // Brief greeting + auto user question + Investigador response
+      const greetingText = '¡Hola! Soy la Investigadora. Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos.';
+
+      this._typing = true;
+      this.render();
+      setTimeout(() => {
+        this._typing = false;
+        this._revealMessage(greetingText, 'sociologo', ['panorama', 'greeting'], () => {
+          // After greeting completes, auto-add user question + response
+          this._bannerVisible = false;
+          const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
+          this.messages = [...this.messages, userMsg];
+          this._addWithProgressiveReveal(this._exploreResponse(topic));
+          this._saveChatHistory();
+          this.render();
+        });
+      }, 1000);
+      return;
     }
+
+    // Default greeting (no specific topic)
+    const introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **Explorar** 👆';
 
     // 1. Show typing dots for 1s
     this._typing = true;
