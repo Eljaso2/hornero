@@ -24,6 +24,7 @@ class HorneroInfomate extends HoComponent {
     this._ediciones = [];    // mate-index.ediciones[]
     this._edicionIdx = 0;    // current index in _ediciones (0 = latest)
     this._popupItem = null;
+    this._exploreOpen = false;
     this._savedScrollTop = null;
   }
 
@@ -127,6 +128,19 @@ class HorneroInfomate extends HoComponent {
         color: #000; background: none;
         border: none; padding: 0; cursor: pointer; position: relative; }
       .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
+      .hero-explore-link.open::after { content: '▴'; }
+      .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
+        margin-top: 2px; animation: exploreFade .2s ease;
+        position: relative; }
+      @keyframes exploreFade { from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: none; } }
+      .hero-explore-option { font-family: 'Archivo', sans-serif; font-size: .76rem;
+        font-weight: 600; color: var(--ho-text, #E8E6E0);
+        background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+        border-radius: 8px; padding: 6px 12px; cursor: pointer;
+        transition: background .2s, border-color .2s; }
+      .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
 
       /* Feed card — idéntico a Clipping */
       .feed-card { border-radius: 13px; margin-bottom: 10px; overflow: hidden;
@@ -221,6 +235,7 @@ class HorneroInfomate extends HoComponent {
 
     const edicionHeader = '<div class="edicion-header">' +
       '<div class="edicion-row">' +
+        '<button class="edicion-btn" id="edBack" title="Volver">' + chevLeft + '</button>' +
         '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>' + chevLeft + '</button>' +
         '<div class="edicion-center">' +
           '<div class="edicion-numero">INFOMATE <a class="hero-bajada-link" href="https://mateconomia.com.ar/infomate" target="_blank" rel="noopener">↗</a></div>' +
@@ -254,7 +269,14 @@ class HorneroInfomate extends HoComponent {
     return html`
       <div class="hero-banner" id="actBanner">
         <div class="hero-banner-title">Actualidad</div>
-        <button class="hero-explore-link" id="actExplore">Explorar</button>
+        <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="actExplore">Explorar</button>
+        ${this._exploreOpen ? html`
+        <div class="hero-explore-panel">
+          <button class="hero-explore-option" data-explore="clipping">Clipping</button>
+          <button class="hero-explore-option" data-explore="infomate">InfoMate</button>
+          <button class="hero-explore-option" data-explore="sindical">Informe Sindical</button>
+        </div>
+        ` : ''}
       </div>
       <div class="scroll" id="mateScroll">
         ${edicionHeader}
@@ -300,17 +322,35 @@ class HorneroInfomate extends HoComponent {
   // ===== After-render =====
 
   _afterRender() {
-    // Collapsed Actualidad banner → navigate to Actualidad
+    // Collapsed Actualidad banner
     const actBanner = this.shadowRoot.querySelector('#actBanner');
-    const actExplore = this.shadowRoot.querySelector('#actExplore');
     if (actBanner) actBanner.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('ho-navigate', {
         detail: { screen: 'actualidad' },
         bubbles: true, composed: true
       }));
     });
+    const actExplore = this.shadowRoot.querySelector('#actExplore');
     if (actExplore) actExplore.addEventListener('click', (e) => {
       e.stopPropagation();
+      this._exploreOpen = !this._exploreOpen;
+      this.render();
+    });
+    this.shadowRoot.querySelectorAll('.hero-explore-option').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const target = btn.dataset.explore;
+        this._exploreOpen = false;
+        this.dispatchEvent(new CustomEvent('ho-navigate', {
+          detail: { screen: target },
+          bubbles: true, composed: true
+        }));
+      });
+    });
+
+    // Back button → navigate to Actualidad
+    const edBack = this.shadowRoot.querySelector('#edBack');
+    if (edBack) edBack.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('ho-navigate', {
         detail: { screen: 'actualidad' },
         bubbles: true, composed: true
