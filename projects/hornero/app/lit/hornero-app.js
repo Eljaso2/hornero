@@ -1454,6 +1454,8 @@ class HorneroApp extends HoComponent {
     // Listen for ho-navigate from child components (e.g., Explorar in Actualidad)
     this.shadowRoot.addEventListener('ho-navigate', (e) => {
       if (e.detail && e.detail.screen) {
+        if (e.detail.mateMes) this._mateMes = e.detail.mateMes;
+        if (e.detail.clipEdicion) this._clipEdicion = e.detail.clipEdicion;
         this._navigateTo(e.detail.screen);
       }
     });

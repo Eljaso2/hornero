@@ -792,9 +792,11 @@ class HorneroActualidad extends HoComponent {
           this._activateSubView('clipping');
           this.render();
         } else if (screen === 'infomate' && mateMes) {
-          this.mateMes = mateMes;
-          this._activateSubView('infomate');
-          this.render();
+          this.dispatchEvent(new CustomEvent('ho-navigate', {
+            detail: { screen: 'infomate', mateMes: mateMes },
+            bubbles: true,
+            composed: true
+          }));
         }
       });
     });
