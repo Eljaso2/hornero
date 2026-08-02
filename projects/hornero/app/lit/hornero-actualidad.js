@@ -813,9 +813,11 @@ class HorneroActualidad extends HoComponent {
         const clipEdicion = card.dataset.clipEdicion;
         const mateMes = card.dataset.mateMes;
         if (screen === 'clipping' && clipEdicion) {
-          this.clipEdicion = parseInt(clipEdicion);
-          this._activateSubView('clipping');
-          this.render();
+          this.dispatchEvent(new CustomEvent('ho-navigate', {
+            detail: { screen: 'clipping', clipEdicion: parseInt(clipEdicion) },
+            bubbles: true,
+            composed: true
+          }));
         } else if (screen === 'infomate' && mateMes) {
           this.dispatchEvent(new CustomEvent('ho-navigate', {
             detail: { screen: 'infomate', mateMes: mateMes },
