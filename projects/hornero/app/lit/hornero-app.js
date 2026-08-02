@@ -39,6 +39,7 @@ class HorneroApp extends HoComponent {
     this._initialPersona = 'abogado'; // Persona selected from landing page
     this._initialSessionId = ''; // Session ID from Mis Conversaciones — load existing chat
     this._initialSection = ''; // Initial section/topic for condicion (e.g. 'comportamiento')
+    this._actualidadSubView = ''; // Sub-view for actualidad: 'clipping' | 'infomate' | 'sindical'
     this._clipEdicion = null;
     this._clipExpandId = null;
     this._mateMes = null;
@@ -234,8 +235,8 @@ class HorneroApp extends HoComponent {
     // Map sub-screens to their parent section in the sections bar
     this._sectionParentMap = {
       actualidad: 'actualidad',
-      clipping: 'clipping',
-      infomate: 'infomate',
+      clipping: 'actualidad',
+      infomate: 'actualidad',
       chat: 'chat',
       consulta: 'derecho',
       contenido: 'contenido',
@@ -748,7 +749,11 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'is') {
       screenContent = '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>';
     } else if (this.screen === 'actualidad') {
-      screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-actualidad>';
+      const subViewAttr = this._actualidadSubView ? ' active-sub-view="' + this._actualidadSubView + '"' : '';
+      const clipEdAttr = this._clipEdicion ? ' clip-edicion="' + this._clipEdicion + '"' : '';
+      const mateMesAttr = this._mateMes ? ' mate-mes="' + this._mateMes + '"' : '';
+      screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"' + subViewAttr + clipEdAttr + mateMesAttr + '></hornero-actualidad>';
+      this._actualidadSubView = '';
     } else if (this.screen === 'clipping') {
       const edicionAttr = this._clipEdicion ? ' edicion="' + this._clipEdicion + '"' : '';
       const expandAttr = this._clipExpandId ? ' expand-id="' + this._clipExpandId + '"' : '';
@@ -1063,6 +1068,18 @@ class HorneroApp extends HoComponent {
           this._initialPersona = 'sociologo';
           this._initialSection = 'felicidad';
           this._navigateTo('condicion');
+          return;
+        }
+        // Clipping section → navigate to actualidad with clipping sub-view
+        if (btn.dataset.screen === 'clipping') {
+          this._actualidadSubView = 'clipping';
+          this._navigateTo('actualidad');
+          return;
+        }
+        // InfoMate section → navigate to actualidad with infomate sub-view
+        if (btn.dataset.screen === 'infomate') {
+          this._actualidadSubView = 'infomate';
+          this._navigateTo('actualidad');
           return;
         }
         // Reset initial section for other navigations
