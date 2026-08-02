@@ -163,7 +163,7 @@ class HorneroInfomate extends HoComponent {
       .feed-card:hover { background: var(--ho-dark-surface, #3F4E4A); }
 
       .feed-card-img { width: 100%; height: 140px; object-fit: cover; object-position: top center; display: block; }
-      .feed-card-body { padding: 12px 14px; }
+      .feed-card-body { padding: 12px 14px 6px; }
 
       .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text-mid, #6E6A60);

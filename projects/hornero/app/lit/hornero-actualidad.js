@@ -356,7 +356,7 @@ class HorneroActualidad extends HoComponent {
       .feed-card-dim { position: absolute; inset: 0; z-index: 1;
         background: rgba(30,35,33,.6); }
       .feed-card-overlay { position: relative; z-index: 2;
-        padding: 12px 16px 8px; color: #F2F1EC;
+        padding: 12px 16px 6px; color: #F2F1EC;
         display: flex; flex-direction: column; min-height: 160px; }
       .feed-card-label { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; letter-spacing: .02em; text-transform: uppercase; }
@@ -397,7 +397,7 @@ class HorneroActualidad extends HoComponent {
         transition: border-color .2s; }
       .clip-card:hover { border-color: var(--ho-green, #4E9978); }
       .clip-card-img { width: 100%; height: 140px; object-fit: cover; display: block; }
-      .clip-card-body { padding: 10px 12px; }
+      .clip-card-body { padding: 10px 12px 6px; }
       .clip-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .06em; }
       .clip-card-source { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
