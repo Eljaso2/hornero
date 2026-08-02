@@ -63,7 +63,7 @@ class HorneroEcosistema extends HoComponent {
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
         min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
-        background: url('assets/horneros ECo.png') center 10%/auto 220% no-repeat;
+        background: url('assets/horneros ECo.png') center top/100% auto no-repeat;
         opacity: .16; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
         gap: 6px; }
@@ -445,6 +445,8 @@ class HorneroEcosistema extends HoComponent {
                   tags: data.tags || ['ecosistema'],
                   persona: 'hornero',
                   redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 }];
                 if (chatEl) {
@@ -513,6 +515,8 @@ class HorneroEcosistema extends HoComponent {
       tags: data.tags || ['ecosistema'],
       persona: 'hornero',
       redirect_persona: data.redirect_persona || '',
+        image: data.image || '',
+        source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     }];
     this._typing = false;
