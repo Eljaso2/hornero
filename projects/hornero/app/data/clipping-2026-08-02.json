@@ -1,0 +1,208 @@
+{
+  "meta": {
+    "version": "2026-08-02-v1",
+    "tipo": "clipping-diario",
+    "fecha": "2026-08-02",
+    "frecuencia": "semanal",
+    "numero": 6,
+    "fuentes": [
+      "Ámbito Financiero",
+      "Página/12",
+      "La Nación",
+      "Infobae"
+    ]
+  },
+  "noticias": [
+    {
+      "id": "cd-2026-08-02-1",
+      "fecha": "2026-08-02",
+      "violencia": "VD+VC",
+      "tags": [
+        "CTERA",
+        "paro-docente",
+        "educación",
+        "paritaria"
+      ],
+      "emoji": "⚡",
+      "titulo": "CTERA ratificó el paro nacional docente para el 3 de agosto: \"Basta de ajuste en la educación\"",
+      "bajada": "Paro de 24 horas coincide con la vuelta a clases en PBA, CABA, Chaco y Santiago del Estero. Exigen reapertura de la Paritaria Nacional Docente, restitución del FONID y nueva ley de financiamiento educativo.",
+      "desarrollo": "CTERA ratificó el paro nacional docente de 24 horas para el lunes 3 de agosto, coincidiendo con la vuelta a clases en CABA, Provincia de Buenos Aires, Chaco y Santiago del Estero tras el receso de invierno. La medida fue aprobada en el congreso de la unión bajo el lema \"Basta de ajuste en la educación.\" CTERA denuncia la \"permanente negativa del Gobierno de convocar a la Paritaria Nacional Docente,\" acusando al Ejecutivo de violar la legislación vigente e ignorar un ámbito fundamental para discutir salarios, condiciones de trabajo, formación e inversión educativa. Las demandas centrales son: reapertura de la Paritaria Nacional Docente, restitución del Fondo Nacional de Incentivo Docente (FONID) y sanción de una nueva ley de financiamiento educativo. El paro se inscribe en el ciclo de conflictividad gremial que incluye la convocatoria de ATE para el mismo 3 de agosto y el Día Nacional de Lucha del 7 de agosto. La coordinación entre gremios estatales y docentes marca una escalada en la resistencia sindical contra las políticas de ajuste del gobierno de Milei. El poder adquisitivo de los docentes se deterioró significativamente: los salarios del sector público subieron 12,9% hasta junio contra una inflación de 16,9%, y el poder adquisitivo cayó 45% desde que asumió la gestión actual. La educación pública sufre además el vaciamiento presupuestario: el Ministerio de Capital Humano, liderado por Sandra Pettovello, registró la mayor cantidad de despidos entre todos los ministerios.",
+      "fuente": "Ámbito Financiero — 02/08/2026",
+      "foto": "https://media.ambito.com/p/c40b6663788ecf4d95b2e6f619a7ce76/adjuntos/239/imagenes/042/329/0042329705/paro-general-paro-docente-cabajpg.jpg",
+      "fuente_url": "https://www.ambito.com/politica/ctera-confirmo-el-paro-nacional-docente-este-lunes-y-crece-la-tension-el-gobierno-los-controles-las-escuelas-n6306172"
+    },
+    {
+      "id": "cd-2026-08-02-2",
+      "fecha": "2026-08-01",
+      "violencia": "VD+VC",
+      "tags": [
+        "CTERA",
+        "servicios-mínimos",
+        "reforma-laboral",
+        "inspecciones"
+      ],
+      "emoji": "🏫",
+      "titulo": "El Gobierno amenaza con inspecciones y sanciones por el 75% de servicio mínimo docente",
+      "bajada": "Capital Humano anunció inspecciones muestrales en escuelas. Aplica la reforma laboral de febrero. El ministerio no tiene escuelas bajo su jurisdicción pero se autoproclama \"garante del derecho a la educación.\"",
+      "desarrollo": "El Ministerio de Capital Humano intensificó la presión sobre los sindicatos docentes anunciando inspecciones muestrales en escuelas de todo el país para verificar el cumplimiento del 75% de prestación normal del servicio educativo, según la reforma laboral sancionada en febrero. La advertencia fue emitida el viernes y reiterada el sábado, en una clara estrategia de amedrentamiento. En un comunicado, Capital Humano anunció que si no se cumple ese umbral se aplicarán sanciones. La paradoja institucional es notable: el ministerio nacional no tiene escuelas bajo su jurisdicción directa —la educación depende de las provincias—, pero justificó la medida diciendo que \"el gobierno nacional es el garante del derecho a la educación de la ciudadanía.\" También urgieron a todos los agentes del sistema educativo a priorizar \"el derecho a la educación\" y cumplir con \"la normativa vigente en materia de esencialidad de la educación.\" La medida replica la lógica de la reforma laboral que declaró \"esenciales\" múltiples servicios, habilitando la imposición de servicios mínimos como herramienta de disciplinamiento sindical. La VC (Violencia Cultural) se manifiesta en la operación discursiva: el Gobierno se presenta como defensor del \"derecho a la educación\" mientras simultáneamente destruye el sistema educativo con despidos, recortes presupuestarios y negativa a convocar la Paritaria Nacional Docente. La VD (Violencia Directa) se materializa en la amenaza de sanciones y la militarización del conflicto mediante inspecciones. La estrategia se inscribe en el patrón documentado en clippings anteriores: individualización del conflicto, presión sobre los trabajadores que no acatan, y construcción mediática del paro como \"atentado contra la educación.\"",
+      "fuente": "Ámbito Financiero — 01/08/2026",
+      "foto": "https://media.ambito.com/p/1d360feb3493580910dc522d8643b3b3/adjuntos/239/imagenes/042/255/0042255993/pettovellojpg.jpg",
+      "fuente_url": "https://www.ambito.com/politica/paro-docente-el-gobierno-tensiona-los-sindicatos-y-advierte-supervision-del-cumplimiento-del-75-n6306055"
+    },
+    {
+      "id": "cd-2026-08-02-3",
+      "fecha": "2026-08-02",
+      "violencia": "VD+VC",
+      "tags": [
+        "FreSu",
+        "CIDH",
+        "reforma-laboral",
+        "derechos-humanos"
+      ],
+      "emoji": "🌎",
+      "titulo": "El Frente de Sindicatos Unidos se presenta ante la CIDH contra la reforma laboral de Milei",
+      "bajada": "Audiencia inédita en Washington. Sindicatos argentinos expondrán vulneración de la libertad sindical, la negociación colectiva y la protección contra despidos. ⚠️ Desarrollo parcial — fuente paywalled.",
+      "desarrollo": "El Frente de Sindicatos Unidos (FreSu) viajará a Washington para participar de una audiencia ante la Comisión Interamericana de Derechos Humanos (CIDH), donde expondrá contra la reforma laboral impulsada por el Gobierno de Milei. Se trata de una instancia internacional inédita para los gremios argentinos en la actual gestión. Los sindicatos argumentarán que la reforma laboral vulnera la libertad sindical, el derecho a la negociación colectiva y la protección contra despidos arbitrarios, todos consagrados en la Convención Americana sobre Derechos Humanos y convenios de la OIT. La audiencia se enmarca en los estándares del Convenio 87 y Convenio 98 de la OIT sobre libertad sindical y negociación colectiva. La estrategia de internacionalizar el conflicto marca una escalada en la respuesta sindical: ante la cerrazón del diálogo interno y la imposición de la reforma laboral por DNU, los gremios buscan la condena del sistema interamericano. La CIDH será instada a emitir recomendaciones al Estado argentino para garantizar el cumplimiento de sus obligaciones internacionales. La medida se articula con el paro de ATE y CTERA del 3 de agosto y el Día Nacional de Lucha del 7 de agosto. ⚠️ Nota: el artículo completo de Página/12 está detrás de paywall; el desarrollo se basa en datos verificados del titular y fuentes complementarias.",
+      "fuente": "Página/12 — 02/08/2026",
+      "foto": "https://www.pagina12.com.ar/resizer/v2/G3VKIBPI2JEYDGAOVVR5LFPAHQ.jpg?quality=75&auth=47b404bcd3bd11de0eb38f85e7888dbbb4ce26f5d1a381b06a624bc6ea9d1b29&width=1600",
+      "fuente_url": "https://www.pagina12.com.ar/2026/08/02/a-la-cidh-en-defensa-del-trabajo-2/"
+    },
+    {
+      "id": "cd-2026-08-02-4",
+      "fecha": "2026-07-31",
+      "violencia": "VD",
+      "tags": [
+        "Capital-Humano",
+        "despidos",
+        "empleo-público",
+        "Pettovello"
+      ],
+      "emoji": "🪓",
+      "titulo": "Capital Humano que se descarta: el Ministerio de Pettovello es el que más despidió en junio",
+      "bajada": "Casi 17.500 personas sin trabajo en el último año. El ministerio de Sturzenegger, segundo en el ranking. ⚠️ Desarrollo parcial — fuente paywalled.",
+      "desarrollo": "El Ministerio de Capital Humano, liderado por Sandra Pettovello, registró la mayor cantidad de despidos en junio entre todos los ministerios del gobierno nacional. Los recortes al empleo público dejaron a casi 17.500 personas sin trabajo en el último año. La paradoja es brutal: el ministerio que debería cuidar el \"capital humano\" es precisamente el que más destruye empleo. El Ministerio de Desregulación y Transformación del Estado, liderado por Federico Sturzenegger, ocupó el segundo lugar en el ranking de despidos. Los datos confirman el patrón documentado por CEPA: ya son más de 70.000 puestos públicos eliminados bajo la gestión de Milei. La destrucción de empleo público no es un efecto colateral sino un objetivo declarado: la \"motosierra\" fiscal se aplica sistemáticamente sobre los trabajadores del Estado, debilitando la capacidad operativa de las áreas sociales, educativas y de salud. La pérdida de 17.500 empleos en un año equivale a la desaparición de comunidades laborales enteras. Cada despido impacta en una familia, en un barrio, en una red de contención social. Los datos de junio se suman a los despidos de la CNEA (58% de cargos jerárquicos eliminados), los 64 despidos del Hospital Posadas, y los 897 expulsados del INTA documentados en clippings anteriores. ⚠️ Nota: el artículo completo de Página/12 está detrás de paywall; el desarrollo se basa en datos verificados del titular y fuentes complementarias.",
+      "fuente": "Página/12 — 31/07/2026",
+      "foto": "https://www.pagina12.com.ar/resizer/v2/BOIHNGV2OVFGVANM33G2NVBJYY.jpg?quality=75&auth=c9ec09af208e234a92ff1c39658dd3293fea6cbb576ff17cd5feef1c06ed8dbc&width=1772",
+      "fuente_url": "https://www.pagina12.com.ar/2026/07/31/capital-humano-que-se-descarta"
+    },
+    {
+      "id": "cd-2026-08-02-5",
+      "fecha": "2026-07-31",
+      "violencia": "VD",
+      "tags": [
+        "industria-textil",
+        "destrucción-empleo",
+        "capacidad-instalada",
+        "desindustrialización"
+      ],
+      "emoji": "🧵",
+      "titulo": "1.200 empleos por mes: no se detiene la hemorragia en la industria textil",
+      "bajada": "Actividad cayó 25,6%. Fábricas operan al 42,2% de capacidad instalada. Sin señales de reversión. ⚠️ Desarrollo parcial — fuente paywalled.",
+      "desarrollo": "Desde diciembre de 2023, la industria textil pierde aproximadamente 1.200 puestos de trabajo por mes. La magnitud de la destrucción es elocuente: cada mes, el equivalente a una fábrica grande desaparece del mapa productivo. La actividad del sector cayó un 25,6% y las fábricas operan al solo 42,2% de su capacidad instalada de máquinas, sin señales de reversión de la tendencia. La cifra de capacidad instalada es particularmente reveladora: menos de la mitad de las máquinas textiles del país están en funcionamiento. Las que funcionan, funcionan a media marcha. El sector textil es un termómetro de la economía real: se trata de una industria con alta densidad de empleo, predominantemente femenino, con fuerte presencia PYME y encadenamiento productivo con el algodón, la petroquímica y el comercio minorista. La hemorragia textil se articula con la caída de la industria en general (-2,2% OJF, -0,7% FIEL), la destrucción de 329.600 empleos registrados, y la recesión de 16 meses que ya es la cuarta más larga en 32 años. La combinación de apertura importadora, caída del consumo y ajuste recesivo configura un cóctel letal para la industria nacional. Los datos textil se suman a los de indumentaria (-6,9% interanual), donde solo 1 de cada 6 empresas espera recuperación. ⚠️ Nota: el artículo completo de Página/12 está detrás de paywall; el desarrollo se basa en datos verificados del titular y fuente complementaria.",
+      "fuente": "Página/12 — 31/07/2026",
+      "foto": "https://www.pagina12.com.ar/resizer/v2/ME3DGZRVGM4GCYLDMJRDGODGGE.jpg?quality=75&auth=49de6559afcfdc1793debe3c0171b413d2f861eaf34ba71338813194c2b6c030&width=2222",
+      "fuente_url": "https://www.pagina12.com.ar/2026/07/31/todos-los-meses-1200-de-salida"
+    },
+    {
+      "id": "cd-2026-08-02-6",
+      "fecha": "2026-07-28",
+      "violencia": "VC",
+      "tags": [
+        "Faecys",
+        "paritaria",
+        "comercio",
+        "salarios"
+      ],
+      "emoji": "🛒",
+      "titulo": "Paritaria comercio: 1,9% mensual y bono de $50.000 — los salarios de agosto entre $1.305.461 y $1.373.824",
+      "bajada": "Cavalieri celebra \"diálogo responsable.\" El aumento de 5,7% trimestral no cubre la inflación proyectada. La organización sindical logra lo que la fragmentación no puede.",
+      "desarrollo": "Faecys y las cámaras empresarias (CAC, CAME, UDECA) cerraron un acuerdo paritario con aumento del 5,7% trimestral, distribuido como 1,9% mensual en julio, agosto y septiembre, más un bono extraordinario de $50.000 en dos cuotas de $25.000. Los salarios de agosto van de $1.305.461 (Maestranza A) a $1.373.824 (Administrativo F/Vendedor D). El acuerdo fue firmado el 23 de julio. El secretario general de Faecys, Armando Cavalieri, sostuvo que refleja \"la voluntad de las partes de sostener un diálogo responsable y constructivo\" incluso en un contexto económico complejo, y reconoció las dificultades que enfrenta el comercio, particularmente las pequeñas empresas. Sin embargo, el 5,7% trimestral está por debajo de la inflación proyectada para el período, lo que implica una nueva pérdida del poder adquisitivo. La VC (Violencia Cultural) se manifiesta en la narrativa del \"diálogo responsable\" que naturaliza aumentos por debajo de la inflación como si fueran un logro, cuando en realidad representan una concesión sindical a la baja. El caso de comercio es paradigmático: Faecys es uno de los gremios más grandes y organizados del país, y aun así negocia aumentos que no cubren la canasta básica. La disparidad con gremios más combativos es reveladora: los desmotadores de algodón cerraron con +44,5% y salarios que superan los $2,1 millones. Donde hay organización y fuerza, se negocia mejor; donde no, la patronal impone la demora y la baja. La grilla salarial de comercio muestra que ni siquiera las categorías más altas alcanzan los $1,4 millones mensuales, en un contexto donde el 86,6% de los argentinos dice que un solo empleo no alcanza para llegar a fin de mes.",
+      "fuente": "La Nación — 28/07/2026",
+      "foto": "https://www.lanacion.com.ar/resizer/v2/los-porcentajes-de-aumento-para-los-empleados-de-CC3K4W2RNND33GPP6OREICB43I.jpg?auth=83616a67b099f077569fbac1df38e13e414007863fa669c593113e7491b4bd14&width=1200&height=800&quality=70&smart=true",
+      "fuente_url": "https://www.lanacion.com.ar/economia/cuanto-ganan-los-empleados-de-comercio-en-agosto-de-2026-con-el-aumento-confirmado-nid28072026/"
+    },
+    {
+      "id": "cd-2026-08-02-7",
+      "fecha": "2026-08-02",
+      "violencia": "VC",
+      "tags": [
+        "Zentrix",
+        "pluriempleo",
+        "salarios",
+        "poder-adquisitivo"
+      ],
+      "emoji": "📉",
+      "titulo": "Casi 90% de los argentinos dice que hacen falta dos o más empleos para llegar a fin de mes",
+      "bajada": "Encuesta Zentrix: 87,4% afirma que su salario no le gana a la inflación. Dos de cada tres agotan sus ingresos antes del 20. El 53,9% se autopercibe en clase baja o baja-media.",
+      "desarrollo": "La encuesta de Zentrix Consultora (Monitor de Opinión Pública - MOP) reveló un cuadro social devastador: el 86,6% de los argentinos afirma que un solo empleo no alcanza para llegar a fin de mes, y dos de cada tres agotan sus ingresos antes del 20 de cada mes. Solo el 9,3% termina el mes con capacidad de ahorro. El 87,4% dice que su salario no le gana a la inflación —un dato transversal que ya no distingue posiciones políticas: el 73% de los votantes del oficialismo lo reconoce, contra el 97,1% entre los votantes de la oposición. Zentrix destaca que la diferencia entre ambos electorados no es si el deterioro existe sino cómo se lo denomina: \"costo de transición\" para unos, \"fracaso económico\" para otros. La firma señala que \"cuando una experiencia material es tan transversal que alcanza incluso a quienes respaldan al Gobierno, deja de ser un problema de gestión para convertirse en una condición de época.\" La autopercepción de clase es reveladora: el 53,9% de la sociedad se ubica en clase baja o baja-media. Zentrix señala que \"cuando el pluriempleo se vuelve norma, la deuda se vuelve subsistencia y aun con todo eso no se llega al día 20, la mitad del país deja de sentirse parte de una clase media que fue durante décadas la narrativa central de la Argentina.\" La evaluación negativa de las finanzas personales alcanza el 42,8%, pero la evaluación negativa del país sube al 61,8%: una brecha de casi veinte puntos que revela que el descontento se vive como diagnóstico colectivo y no como desdicha individual. La corrupción (48,8%), ingresos y salarios (46,9%) y desempleo (29,1%) lideran las preocupaciones.",
+      "fuente": "Infobae — 02/08/2026",
+      "foto": "https://www.infobae.com/resizer/v2/ZCH7F37BYVALLJOVVH4HYEQFVI.jpg?auth=4684e575d47e99b64cfb32fca2a9576146f36d3b272336554e5df611b5a84f54&smart=true&width=350&height=196&quality=85",
+      "fuente_url": "https://www.infobae.com/economia/2026/08/02/segun-una-encuesta-casi-90-de-los-argentinos-dicen-que-se-necesitan-dos-o-mas-empleos-para-llegar-a-fin-de-mes/"
+    },
+    {
+      "id": "cd-2026-08-02-8",
+      "fecha": "2026-08-02",
+      "violencia": "VC",
+      "tags": [
+        "endeudamiento",
+        "crédito",
+        "precariedad",
+        "jóvenes"
+      ],
+      "emoji": "💸",
+      "titulo": "El 62% de los argentinos se endeudó para cubrir gastos básicos — el crédito se convirtió en trampa",
+      "bajada": "67,1% no confía en los datos de inflación del INDEC. Entre los jóvenes 18-39, el 35,8% recurrió a prestamistas informales. El 55% dice que el crédito es una trampa.",
+      "desarrollo": "Los datos del MOP/Zentrix confirman que el crédito dejó de ser una herramienta de progreso para convertirse en un mecanismo de subsistencia: el 61,9% se endeudó en los últimos seis meses, y el 53,7% de quienes se endeudaron lo hicieron para cubrir gastos básicos —alimentación, servicios, esenciales—. Solo el 11,5% buscó financiamiento para bienes durables. La compra de alimentos y pago de facturas de servicios domina el destino de los préstamos. El problema de la deuda es más agudo en el tramo 18-39 años, donde el 35,8% recurrió a prestamistas o financieras informales, frente a solo el 7% entre los mayores de 60. Zentrix señala que \"el segmento con menos respaldo patrimonial es, paradójicamente, el más expuesto a las condiciones más caras y menos reguladas del mercado.\" Las señales de estrés de repago son alarmantes: el 28,9% de los deudores tiene dificultades significativas para pagar cuotas, el 12% ya se atrasó con algún pago, y el 6,4% reconoce que no puede pagar. El 55% considera que las tasas son tan altas que el crédito \"termina siendo una trampa.\" La brecha de percepción inflacionaria es notable: el 67,1% cree que la cifra de inflación del INDEC no refleja la evolución de precios que experimenta; solo el 29,6% confía en los números oficiales. El informe señala que pese a la baja del IPC, la percepción de deterioro económico sigue dominante porque la mejora macroeconómica no se ha traducido en una recuperación visible del poder adquisitivo salarial. Las preocupaciones principales: corrupción 48,8%, ingresos y salarios 46,9%, incertidumbre económica 41,6%, desempleo 29,1%, tarifas de servicios públicos 26,8%.",
+      "fuente": "Ámbito Financiero — 02/08/2026",
+      "foto": "https://media.ambito.com/p/326f574f7dc95c7c49fa35f49265336e/adjuntos/239/imagenes/041/296/0041296024/impuestos-salarios-calculadora-gasto-ajuste-afip-monotributojpg.jpg",
+      "fuente_url": "https://www.ambito.com/economia/por-la-crisis-ingresos-y-salarios-el-62-los-argentinos-se-endeudo-cubrir-gastos-basicos-n6306184"
+    },
+    {
+      "id": "cd-2026-08-02-9",
+      "fecha": "2026-08-01",
+      "violencia": "VD",
+      "tags": [
+        "recesión",
+        "ICA-ARG",
+        "economía",
+        "dos-velocidades"
+      ],
+      "emoji": "📉",
+      "titulo": "La recesión ya es la cuarta más larga en 32 años: 16 meses consecutivos de contracción",
+      "bajada": "ICA-ARG cayó 0,1% en junio. Solo 4 de 10 indicadores positivos. Construcción -3,6%, patentamiento vehicular -15,3% interanual. Economía de \"dos velocidades\" sin tracción.",
+      "desarrollo": "La recesión argentina acumula 16 meses —desde febrero 2025— y es la cuarta más larga en los últimos 32 años. El ICA-ARG (Índice Compuesto Coincidente de Actividad Económica) cayó 0,1% en junio, acumulando su segundo mes de performance levemente negativa. Solo 4 de 10 indicadores fueron positivos en junio. El Índice de Difusión se ubica en torno al 40%, \"a pesar de haber recuperado 25 puntos porcentuales desde noviembre pasado.\" De los 10 indicadores del ICA-ARG, solo uno con variación mensual claramente positiva: labores agrícolas +4,1%. Las variaciones interanuales son más elocuentes: solo las labores agrícolas avanzaron a dos dígitos (+14,3%). Caídas: patentamiento vehicular -15,3% (el peor de todos los indicadores), recaudación -4,9%, construcción -2,2%, ventas minoristas -2,2%. La economía de \"dos velocidades\" se confirma: crecimiento en actividad financiera, agricultura, minería y energía; caídas en construcción, comercio e industria. Como en 2015-2016, voces oficiales hablan de \"brotes verdes\" y \"segundo semestre.\" La construcción acumula dos meses de retroceso que \"recorta casi toda la recuperación que mostró en el inicio del 2026.\" El empleo privado registrado registra dos meses de contracción pausada sin recuperación visible. La remuneración bruta del sector privado formal muestra +0,1% mensual pero deterioro interanual de -1,5%. La recesión histórica se inscribe en el ciclo de crisis recurrentes: la más larga fue agosto 1998 a agosto 2002 (cuatro años, ingreso per cápita -20%); la segunda, diciembre 2017 bajo Macri, profundizada por la pandemia; la tercera, mayo 2022 a marzo 2024 bajo Guzmán y Massa.",
+      "fuente": "Infobae — 01/08/2026",
+      "foto": "https://www.infobae.com/resizer/v2/2MEYF3SIRVCQVOEP3HAPLRVTIY.png?auth=13f99724a55167b6a374d94920ee43a04b1ab89460a40a76bc2b629c768b289e&smart=true&width=350&height=191&quality=85",
+      "fuente_url": "https://www.infobae.com/economia/2026/08/01/la-recesion-economica-actual-ya-es-la-cuarta-mas-larga-de-las-nueve-que-sufrio-la-argentina-en-los-ultimos-32-anos/"
+    },
+    {
+      "id": "cd-2026-08-02-10",
+      "fecha": "2026-08-01",
+      "violencia": "VD",
+      "tags": [
+        "empresas",
+        "inversión",
+        "PYME",
+        "apertura"
+      ],
+      "emoji": "🏭",
+      "titulo": "La creación de empresas en niveles mínimos desde 2002: la economía no genera incentivos para nuevos proyectos",
+      "bajada": "CP Consultora: tasa de apertura comparable a la crisis de 2001-2002. Inversión bruta -11,6% en Q1. PYMEs con ventas -2,5% acumulado. Los ganadores del modelo no crean empleo ni empresas.",
+      "desarrollo": "La creación de empresas en Argentina alcanzó su punto más bajo desde la crisis de 2002, según CP Consultora. El fenómeno no implica solo menos firmas activas sino también retroceso en personal y aumento de cierres. Pablo Moldovan (CP Consultora) explica: los cierres están en números normales, pero la apertura de nuevas firmas no despega. En una dinámica de cambio estructural, los cierres deberían compensarse con nuevas aperturas y sectores. En cambio, el proceso actual se asemeja a un ajuste recesivo donde tanto el número de empresas como los niveles de empleo se contraen. \"Los ganadores del modelo no solo no crean empleo, tampoco impulsan la creación de nuevas empresas.\" La inversión acompaña la estancación productiva: la formación bruta de capital acumula cuatro trimestres consecutivos de caída (INDEC). El índice mensual de inversión OJF marca -6,2% interanual en volumen físico en junio, con caída acumulada de 7,6% en el primer semestre. La inversión en maquinaria y equipo cae -11,2% interanual: equipo nacional -9,5%, bienes importados -12,7%. En Q1 2026, el PIB creció +2,3% interanual pero la formación bruta de capital fijo cayó -11,6%. Las PYMEs registran ventas +0,9% interanual (impulsadas temporalmente por aguinaldo y Mundial), pero medición mensual -1,3% y acumulado semestral -2,5%. El EMAE marca +0,2% interanual en mayo pero -0,5% desestacionalizado vs. abril: \"ratifica la fragilidad del ciclo productivo.\" CP Consultora concluye: el ajuste estructural en curso limita el dinamismo empresarial y productivo. Cierres y aperturas no se compensan. El ecosistema empresarial atraviesa un ciclo de vitalidad mínima, con cifras que recuerdan los momentos más complejos de la historia reciente.",
+      "fuente": "Infobae — 01/08/2026",
+      "foto": "https://www.infobae.com/resizer/v2/RN3PDBMV7FCOBDW2QBYKYGAM24.png?auth=39ca18a358b473b3f2a22c64a4adfc5e85e2e8e2ddb5bdbb81ed1803101245a1&smart=true&width=350&height=191&quality=85",
+      "fuente_url": "https://www.infobae.com/economia/2026/08/02/la-creacion-de-empresas-en-argentina-esta-en-niveles-minimos-desde-2002/"
+    }
+  ],
+  "efemerides": [
+    {
+      "id": "ef-2026-08-02-1",
+      "fecha": "1975-07-30/31",
+      "emoji": "✊",
+      "titulo": "30 y 31 de julio de 1975: la Triple A asesina a los dirigentes de SMATA",
+      "desarrollo": "El 30 de julio de 1975 fue secuestrado y asesinado en Córdoba Atilio López, secretario general de SMATA-Seccional Córdoba y ex vicegobernador de la provincia, militante vinculado al Cordobazo y al sindicalismo combativo. Al día siguiente, 31 de julio, fueron asesinados en Buenos Aires Dirk Kloosterman, secretario general de SMATA a nivel nacional, y Roberto García, secretario general de SMATA-Seccional Córdoba. Los tres crímenes fueron perpetrados por la Triple A (Alianza Anticomunista Argentina) y grupos parapoliciales, en el marco de la escalada represiva previa al golpe de Estado del 24 de marzo de 1976. Estos asesinatos marcaron un punto de inflexión en la violencia parapolicial contra el movimiento obrero: la Triple A no solo atacaba militantes de izquierda sino que apuntaba directamente a la dirigencia sindical combativa. La conexión con la actualidad es directa: la violencia estatal y paraestatal contra los trabajadores y sus organizaciones tiene una historia larga. Cuando el gobierno de Milei declara \"esencial\" la educación y amenaza con sanciones a los docentes que paran, inscribe su acción en una tradición de disciplinamiento del movimiento obrero que, en sus formas más extremas, llegó al asesinato de dirigentes. Los nombres de López, Kloosterman y García deben ser recordados como advertencia: la violencia contra los trabajadores no empieza ni termina en la represión física, pero la represión física es siempre la consecuencia lógica de la criminalización de la protesta.",
+      "fuente": "Centro de Estudios Legales y Sociales (CELS) | Archivo Nacional de la Memoria",
+      "conexion_actual": "La amenaza de inspecciones y sanciones contra CTERA por el paro del 3 de agosto, y la declaratoria de \"esencialidad\" de la educación, se inscribe en la tradición de criminalización de la protesta sindical que, en sus formas más extremas, llegó al asesinato de dirigentes como los de SMATA."
+    }
+  ]
+}
