@@ -62,9 +62,10 @@ class HorneroEcosistema extends HoComponent {
         align-items: flex-start; gap: 8px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
         min-height: 110px; }
-      .hero-banner::before { content: ''; position: absolute; inset: 0;
+      .hero-banner::before { content: ''; position: absolute;
+        top: 0; left: 0; right: 0; height: 320px;
         background: url('assets/horneros ECo.png') top center/100% auto no-repeat;
-        opacity: .12; pointer-events: none; }
+        opacity: .22; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
         gap: 6px; }
       .hero-banner.collapsed::before { opacity: .12; }
@@ -105,6 +106,8 @@ class HorneroEcosistema extends HoComponent {
 
       .chat-container { flex: 1; display: flex; flex-direction: column;
         min-height: 0; }
+      /* Reduce top padding — banner+cintillo replace chat top bar */
+      .chat-container >>> .chat-scroll { padding-top: 8px; }
       /* Bigger avatar for Hornero persona — zoom para recortar borde claro */
       .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; }
       .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar img { width: 120px; height: 120px; margin: -32px; object-fit: cover; object-position: center 25%; }
