@@ -398,6 +398,176 @@ Rogelio Lamazón — Dirigente yrigoyenista. La Forestal le inculpaba tener part
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg/800px-La_Forestal_Argentina._F%C3%A1brica_de_tanino._Villa_Guillermina.jpg",
         "imageSource": "https://es.wikipedia.org/wiki/La_Forestal_Argentina",
     },
+
+    # ===== EFEMÉRIDES DE HISTORIA OBRERA =====
+
+    {
+        "id": "kb-efem-1-mayo",
+        "tipo": "academico",
+        "category": "efemeride",
+        "tags": ["1° de Mayo", "Día Internacional de los Trabajadores", "Chicago", "ocho horas", "mártires de Chicago", "1886", "1889", "Segunda Internacional", "huelga", "anarquismo", "socialismo"],
+        "title": "Efeméride: 1° de Mayo — Día Internacional de los Trabajadores",
+        "text": """1° DE MAYO — DÍA INTERNACIONAL DE LOS TRABAJADORES
+
+El 1° de mayo conmemora a los mártires de Chicago (1886), cuando los trabajadores que protestaban por la jornada de ocho horas — "ocho horas de trabajo, ocho horas de descanso y ocho horas de ocio" — fueron brutalmente reprimidos y varios dirigentes fueron ahorcados. La Segunda Internacional, en su Congreso de París de 1889, declaró el 1° de mayo como Día Internacional de los Trabajadores. Los anarquistas adhirieron a la resolución.
+
+Los trabajadores en Argentina se sumaron a la protesta global a partir del 1° de mayo de 1890. Las conmemoraciones originales estaban enraizadas en conceptos de clase de emancipación y revolución, inspirados en la Comuna de París de 1871. El objetivo era terminar con el capitalismo y su Estado, apuntando a una sociedad sin clases — "socialismo, comunismo o comunismo anárquico." Con el tiempo, los significados y contenidos de la conmemoración se fueron transformando, con nuevas significaciones que convivieron con las originales.
+
+Autor: Gustavo N. Contreras. Fuente: Historia Obrera — Efemérides.""",
+        "sources": ["historiaobrera.com.ar/efemerides", "Contreras, Gustavo N. — Historia Obrera, Efemérides"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Manifestacio_barcelona_primer_de_maig_alternatiu_2009.JPG",
+        "imageSource": "https://es.wikipedia.org/wiki/D%C3%ADa_Internacional_de_los_Trabajadores",
+    },
+
+    {
+        "id": "kb-efem-cgta",
+        "tipo": "academico",
+        "category": "efemeride",
+        "tags": ["CGT de los Argentinos", "Ongaro", "1968", "vandorismo", "anti-dictatorial", "anti-burocrática", "anti-imperialista", "Programa de Luchas", "Tosco", "Cordobazo"],
+        "title": "Efeméride: La CGT de los Argentinos — 28 de marzo de 1968",
+        "text": """LA CGT DE LOS ARGENTINOS — 28 DE MARZO DE 1968
+
+El 28 de marzo de 1968, en el Congreso Normalizador de la CGT en Buenos Aires, el gráfico Raimundo Ongaro fue electo secretario general, fracturando la central sindical. Con 293 delegados sobre 457 habilitados, la CGT de los Argentinos se declaró anti-dictatorial, anti-burocrática y anti-imperialista. Su lema: "Más vale honra sin sindicatos que sindicatos sin honra." Su Programa de Luchas sintetizaba las demandas de toda la clase trabajadora. La CGT Azopardo (vandorista/participacionista) quedó como un apéndice del poder.
+
+La CGT de los Argentinos fue precursora directa del Cordobazo: sus militantes — Tosco, Ongaro, Torres — protagonizaron las luchas del 69. Alentó la rebelión antiburocrática, antidictatorial y antiimperialista. Contribuyó al Cordobazo un año después.
+
+Autor: Pablo Ghigliani. Fuente: Historia Obrera — Efemérides. Recursos: afiche de Ricardo Carpani, documental sobre Carpani.""",
+        "sources": ["historiaobrera.com.ar/efemerides", "Ghigliani, Pablo — La CGT de los Argentinos y la resistencia obrera", "Soneira, Ignacio (2017)"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Logo_cgtra.png",
+        "imageSource": "https://es.wikipedia.org/wiki/CGT_de_los_Argentinos",
+    },
+
+    {
+        "id": "kb-efem-cordobazo",
+        "tipo": "academico",
+        "category": "efemeride",
+        "tags": ["Cordobazo", "1969", "Onganía", "Tosco", "Torres", "Máximo Mena", "azos", "Córdoba", "huelga", "dictadura", "sábado inglés", "Luz y Fuerza", "SMATA"],
+        "title": "Efeméride: El Cordobazo — 29 de mayo de 1969",
+        "text": """EL CORDOBAZO — 29 DE MAYO DE 1969
+
+El 29 de mayo de 1969, Córdoba se convirtió en el epicentro de la resistencia obrera y popular contra la dictadura de Onganía. La revocación del "sábado inglés" — un descanso ganado por los metalúrgicos — y el aumento del costo de vida detonaron la rebelión. Sindicatos como Luz y Fuerza (Agustín Tosco) y SMATA (Elpidio Torres) convocaron a paro y marchas. Las dos CGT regionales coordinaron la revuelta.
+
+Cuando el obrero Máximo Mena fue asesinado por la policía, la ciudad se incendió. Barrios populares, estudiantes y trabajadores ocuparon las calles durante más de 20 horas. El balance oficial: 34 muertos, 400 heridos, 2000 detenidos. El Cordobazo inauguró un ciclo de "azos" — Rosariazo, Viborazo, Tucumanazo — que sacudió la dictadura hasta su caída.
+
+Autor: Laura Ortiz. Fuente: Historia Obrera — Efemérides. Bibliografía: Brennan y Gordillo (1994), Ortiz (2019).""",
+        "sources": ["historiaobrera.com.ar/efemerides", "Brennan, James — El Cordobazo. Las guerras obreras en Córdoba 1955-1976", "Ortiz, Laura — El Cordobazo"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Cordobazo3.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/Cordobazo",
+    },
+
+    {
+        "id": "kb-efem-viborazo",
+        "tipo": "academico",
+        "category": "efemeride",
+        "tags": ["Viborazo", "1971", "Córdoba", "Uriburu", "Levingston", "SITRAC-SITRAM", "Fiat", "clasista", "Atilio López", "Tosco", "azos"],
+        "title": "Efeméride: El Viborazo — 15 de marzo de 1971",
+        "text": """EL VIBORAZO — 15 DE MARZO DE 1971
+
+El 15 de marzo de 1971, Córdoba volvió a estallar. El nuevo gobernador militar José Camilo Uriburu declaró que "hay que cortar la cabeza de la víbora venenosa" — refiriéndose al movimiento obrero. SITRAC-SITRAM, los sindicatos clasistas de Fiat, respondieron con un paro activo y ocupación de la planta. Más de un centenar de fábricas fueron ocupadas pacíficamente el 12 de marzo. La zona de combate se extendió por 600 manzanas — cuatro veces el Cordobazo.
+
+Más de 300 detenidos; dos obreros muertos (Adolfo Cepeda y Pablo Javier Basualdo). Uriburu y el presidente de facto Levingston tuvieron que renunciar. Participaron SITRAC-SITRAM, el peronismo combativo de Atilio López y el sindicalismo de liberación de Tosco. El Viborazo demostró que el Cordobazo no era un evento aislado sino el inicio de un proceso revolucionario.
+
+Autor: Rodolfo Laufer. Fuente: Historia Obrera — Efemérides. Bibliografía: Balvé, Murmis, Marín et al. (1973).""",
+        "sources": ["historiaobrera.com.ar/efemerides", "Laufer, Rodolfo — El Viborazo. Córdoba 1971", "Brennan, James — El Cordobazo y el Viborazo"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Viborazo._C%C3%B3rdoba%2C_15-3-1971.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/Viborazo",
+    },
+
+    {
+        "id": "kb-efem-tampierazo",
+        "tipo": "academico",
+        "category": "efemeride",
+        "tags": ["Tampierazo", "1973", "San Francisco", "Córdoba", "Tampieri", "Liwacki", "CGT", "ocupación", "fábrica", "Cordobacito", "Sanfranciscazo"],
+        "title": "Efeméride: El Tampierazo — 3 de julio de 1973",
+        "text": """EL TAMPIERAZO — 3 DE JULIO DE 1973
+
+El 3 de julio de 1973, los obreros de la fábrica Tampieri en San Francisco, Córdoba, ocuparon la planta por salarios impagos. La CGT local declaró un paro general ciudadano: 430 fábricas y 2500 comercios cerraron. La Guardia de Infantería reprimió — un adolescente fue asesinado. También llamado "Cordobacito" o "Sanfranciscazo."
+
+Oscar Liwacki, secretario general de la CGT local, fue secuestrado y desaparecido el 12 de mayo de 1976; el diario "La Voz de San Justo" había pedido al gobierno militar que "limpiara la ciudad de subversivos." El Tampierazo mostró la combatividad de la clase obrera en el interior del país.
+
+Autor: Laura Ortiz. Fuente: Historia Obrera — Efemérides. Bibliografía: Gómez (2006), Tampieri (2000).""",
+        "sources": ["historiaobrera.com.ar/efemerides", "Ortiz, Laura — El Tampierazo. Obreros en lucha, San Francisco 1973", "Gómez (2006)"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+        "image": "",
+        "imageSource": "https://historiaobrera.com.ar/efemerides/",
+    },
+
+    {
+        "id": "kb-efem-tosco-rucci",
+        "tipo": "academico",
+        "category": "efemeride",
+        "tags": ["Tosco", "Rucci", "debate", "1973", "Canal 11", "Las dos campanas", "CGT de los Argentinos", "CGT Azopardo", "sindicalismo de liberación", "peronismo ortodoxo", "verticalismo"],
+        "title": "Efeméride: El debate Tosco-Rucci — 13 de febrero de 1973",
+        "text": """EL DEBATE TOSCO-RUCCI — 13 DE FEBRERO DE 1973
+
+El 13 de febrero de 1973, Canal 11 emitió "Las dos campanas" — un debate televisado entre Agustín Tosco y José Ignacio Rucci. Tosco representaba el sindicalismo independiente, clasista, anti-burocrático; Rucci, el peronismo ortodoxo, alineado con Perón desde la CGT Azopardo. Dos proyectos sindicales y políticos contrapuestos se enfrentaron en vivo.
+
+Rucci representaba el peronismo ortodoxo y el verticalismo sindical; Tosco defendía la democracia de base y un "sindicalismo de liberación" con perspectiva socialista y antiimperialista. El debate expuso "dos proyectos contrapuestos respecto de la organización y el rol de los sindicatos." El debate sintetizó la tensión entre clase y movimiento que definió el peronismo obrero.
+
+Autor: Rodolfo Laufer. Fuente: Historia Obrera — Efemérides. Bibliografía: Iñigo Carrera, Grau y Martí (2006).""",
+        "sources": ["historiaobrera.com.ar/efemerides", "Laufer, Rodolfo — El debate Tosco-Rucci. Dos proyectos sindicales", "James, Daniel — Resistencia e integración"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/0/0d/ATosco.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/Agust%C3%ADn_Tosco",
+    },
+
+    {
+        "id": "kb-efem-santiagueñazo",
+        "tipo": "academico",
+        "category": "efemeride",
+        "tags": ["Santiagueñazo", "1993", "Santiago del Estero", "Menem", "Cavallo", "neoliberalismo", "ajuste", "Casa de Gobierno", "estallido social", "Cutral Có"],
+        "title": "Efeméride: El Santiagueñazo — 16 de diciembre de 1993",
+        "text": """EL SANTIAGUEÑAZO — 16 DE DICIEMBRE DE 1993
+
+El 16 de diciembre de 1993, Santiago del Estero estalló. Ajuste neoliberal, corrupción, despidos — el pueblo se rebeló. Los manifestantes incendiaron la Casa de Gobierno, el Palacio de Justicia, la Legislatura y el Archivo Provincial. Al menos cuatro muertos y centenares de heridos. El gobierno nacional retrocedió en el ajuste.
+
+El Santiagueñazo fue la primera gran fisura en la hegemonía neoliberal, precediendo los cortes de ruta de Cutral Có (1996) y el Argentinazo de 2001. Demostró que la clase trabajadora y el pueblo no eran pasivos frente al modelo. Se lo califica como un "estallido social contra el ajuste" que marcó el inicio de la resistencia al neoliberalismo.
+
+Autor: Gonzalo Pérez Álvarez. Fuente: Historia Obrera — Efemérides. Bibliografía: Cotarelo (1999), Dargoltz/Gerez/Cao (2006), Auyero (2002).""",
+        "sources": ["historiaobrera.com.ar/efemerides", "Pérez Álvarez, Gonzalo — El Santiagueñazo. Pueblo en armas contra el ajuste", "Cotarelo (1999)"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Santiague%C3%B1azo.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/Santiague%C3%B1azo",
+    },
+
+    {
+        "id": "kb-efem-argentinazo",
+        "tipo": "academico",
+        "category": "efemeride",
+        "tags": ["Argentinazo", "2001", "De la Rúa", "Cavallo", "corralito", "cacerolazo", "19 y 20", "piqueteros", "neoliberalismo", "que se vayan todos"],
+        "title": "Efeméride: El Argentinazo — 19 de diciembre de 2001",
+        "text": """EL ARGENTINAZO — 19 Y 20 DE DICIEMBRE DE 2001
+
+El 19 y 20 de diciembre de 2001, Argentina estalló. El freeze de depósitos ("corralito") de Cavallo detonó la rebelión. Los piqueteros ya cortaban rutas desde 1996; el paro general del 13 de diciembre fue el detonante. El 19, Plaza de Mayo y todo el país se llenó de cacerolazos. De la Rúa huyó en helicóptero a las 19:56 del 20. La consigna: "que se vayan todos."
+
+La narrativa dominante lo redujo a una rebelión "middle-class" — pero la protagonistía obrera y popular fue central. El Argentinazo fue el clímax de diez años de resistencia al modelo neoliberal. Los piqueteros y la huelga general del 13 de diciembre fueron los precursores. La clase trabajadora y el pueblo fueron protagonistas centrales.
+
+Autor: Gonzalo Pérez Álvarez. Fuente: Historia Obrera — Efemérides. Bibliografía: Iñigo Carrera y Cotarelo (2003), Bonnet (2002).""",
+        "sources": ["historiaobrera.com.ar/efemerides", "Pérez Álvarez, Gonzalo — El Argentinazo. Clase obrera y pueblo rebelde", "Seoane, María — El Argentinazo. Crónica de un país colapsado"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/26/Obelisco_20Dic01.jpg",
+        "imageSource": "https://es.wikipedia.org/wiki/Protestas_de_diciembre_de_2001_en_Argentina",
+    },
 ]
 
 
@@ -486,6 +656,7 @@ KB_CATEGORY_META = {
     "condiciones": {"label": "Condiciones", "icon": "📄", "desc": "EPP, accidentes, enfermería, ritmo"},
     "referentes": {"label": "Referentes", "icon": "📰", "desc": "Discursos, posiciones, quotes"},
     "violencia-empresarial": {"label": "Violencia empresarial", "icon": "📚", "desc": "Lockout, represión, masacre, enclave"},
+    "efemeride": {"label": "Efemérides", "icon": "📅", "desc": "Fechas históricas del movimiento obrero"},
 }
 
 

@@ -123,6 +123,7 @@ CATEGORY_KEYWORDS = {
     "SMVM": ["smvm", "salario minimo", "piso legal", "minimo vital"],
     "organizacion sindical": ["sindicato", "organizacion", "asamblea", "delegado", "huelga"],
     "historia obrera": ["forestal", "masacre", "lockout", "historia", "referente", "lafuente"],
+    "efemeride": ["cordobazo", "viborazo", "tampierazo", "argentinazo", "santiagueñazo", "cgta", "efeméride", "efemeride", "aniversario", "conmemoración", "1° de mayo", "1 de mayo", "tosco", "rucci", "ongaro"],
     "salud laboral": ["art", "seguridad", "enfermeria", "accidente", "salud"],
     "condicion obrera": ["clase obrera", "clase trabajadora", "ejercito", "reserva", "ice", "ift", "panorama", "condicion", "como somos", "felicidad", "distribucion", "cremonte", "canasta"],
 }
