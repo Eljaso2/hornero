@@ -844,7 +844,7 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
-      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; position: relative; }
+      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; position: relative; min-width: 48px; justify-content: flex-end; }
 
       /* + button in cintillo right side */
       .chat-plus-btn { width: 32px; height: 32px; border-radius: 50%;
