@@ -87,27 +87,38 @@ class HorneroInfomate extends HoComponent {
         padding: 12px 16px 16px; scrollbar-width: none; }
       .scroll::-webkit-scrollbar { width: 0; }
 
-      /* Edition header — same pattern as Clipping */
-      .edicion-header { margin-bottom: 12px; }
-      .edicion-row { display: flex; align-items: center; justify-content: center; gap: 2px; }
-      .edicion-btn { background: none; border: none; cursor: pointer;
-        color: var(--ho-text-mid, #6E6A60); padding: 6px;
-        transition: color .2s, opacity .2s; display: flex;
-        align-items: center; justify-content: center; }
-      .edicion-btn:hover { color: var(--ho-text, #E8E6E0); }
-      .edicion-btn:disabled { opacity: .2; cursor: default; }
-      .edicion-btn svg { width: 20px; height: 20px; }
-      .edicion-center { flex: 1; text-align: center; }
-      .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
+      /* ===== Cintillo — navegación (mismo patrón que Actualidad) ===== */
+      .act-cintillo { display: flex; align-items: center; gap: 8px;
+        padding: 8px 12px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        flex-shrink: 0; background: var(--ho-bg, #1E2321); }
+      .cintillo-back-btn { width: 28px; height: 28px; border-radius: 50%;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        background: none; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; flex-shrink: 0;
+        transition: background .2s, border-color .2s; }
+      .cintillo-back-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .cintillo-back-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .cintillo-center { flex: 1; text-align: center; }
+      .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
         letter-spacing: .04em; }
-      .edicion-numero .hero-bajada-link { margin-left: 6px; font-size: 1rem;
+      .cintillo-title .hero-bajada-link { margin-left: 6px; font-size: 1rem;
         font-family: 'Archivo', sans-serif; font-weight: 600;
         color: var(--ho-green, #4E9978); text-decoration: none; }
       .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
-      .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-        color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
-        margin-top: 2px; }
+      .cintillo-date { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+        color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em; margin-top: 2px; }
+      .cintillo-nav-btn { background: none; border: none; cursor: pointer;
+        color: var(--ho-text-mid, #6E6A60); padding: 6px;
+        transition: color .2s, opacity .2s; display: flex; align-items: center;
+        justify-content: center; flex-shrink: 0; }
+      .cintillo-nav-btn:hover { color: var(--ho-text, #E8E6E0); }
+      .cintillo-nav-btn:disabled { opacity: .2; cursor: default; }
+      .cintillo-nav-btn svg { width: 20px; height: 20px; }
 
       /* ===== Collapsed Actualidad banner ===== */
       .hero-banner { position: relative; width: 100%;
@@ -230,19 +241,19 @@ class HorneroInfomate extends HoComponent {
     const hasPrev = this._edicionIdx < this._ediciones.length - 1;
     const hasNext = this._edicionIdx > 0;
 
+    // Cintillo: ←back | ←prev | INFOMATE | →next  (same pattern as Actualidad)
     const chevLeft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const chevRight = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
-
-    const edicionHeader = '<div class="edicion-header">' +
-      '<div class="edicion-row">' +
-        '<button class="edicion-btn" id="edBack" title="Volver">' + chevLeft + '</button>' +
-        '<button class="edicion-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + '>' + chevLeft + '</button>' +
-        '<div class="edicion-center">' +
-          '<div class="edicion-numero">INFOMATE <a class="hero-bajada-link" href="https://mateconomia.com.ar/infomate" target="_blank" rel="noopener">↗</a></div>' +
-          '<div class="edicion-fecha">' + this._formatMes(meta.mes) + '</div>' +
-        '</div>' +
-        '<button class="edicion-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + '>' + chevRight + '</button>' +
+    const cintilloHtml = '<div class="act-cintillo">' +
+      '<button class="cintillo-back-btn" id="cintilloBack" title="Volver">' +
+        '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+      '</button>' +
+      '<button class="cintillo-nav-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + ' title="Anterior">' + chevLeft + '</button>' +
+      '<div class="cintillo-center">' +
+        '<div class="cintillo-title">INFOMATE <a class="hero-bajada-link" href="https://mateconomia.com.ar/infomate" target="_blank" rel="noopener">↗</a></div>' +
+        '<div class="cintillo-date">' + this._formatMes(meta.mes) + '</div>' +
       '</div>' +
+      '<button class="cintillo-nav-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + ' title="Siguiente">' + chevRight + '</button>' +
     '</div>';
 
     // Section cards — idéntico a Clipping (fecha, source-badge, emoji, título, bajada, tags)
@@ -278,8 +289,8 @@ class HorneroInfomate extends HoComponent {
         </div>
         ` : ''}
       </div>
+      ${cintilloHtml}
       <div class="scroll" id="mateScroll">
-        ${edicionHeader}
         ${cardsHtml}
       </div>
       ${popupHtml}
@@ -348,9 +359,9 @@ class HorneroInfomate extends HoComponent {
       });
     });
 
-    // Back button → navigate to Actualidad
-    const edBack = this.shadowRoot.querySelector('#edBack');
-    if (edBack) edBack.addEventListener('click', () => {
+    // Cintillo back button → navigate to Actualidad
+    const cintilloBack = this.shadowRoot.querySelector('#cintilloBack');
+    if (cintilloBack) cintilloBack.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('ho-navigate', {
         detail: { screen: 'actualidad' },
         bubbles: true, composed: true
