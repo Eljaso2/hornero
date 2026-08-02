@@ -362,7 +362,7 @@ class HorneroActualidad extends HoComponent {
       .feed-card-dim { position: absolute; inset: 0; z-index: 1;
         background: rgba(30,35,33,.5); }
       .feed-card-overlay { position: relative; z-index: 2;
-        padding: 12px 16px 4px; color: #F2F1EC;
+        padding: 12px 16px 10px; color: #F2F1EC;
         display: flex; flex-direction: column; min-height: 80px; }
       .feed-card-label { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; letter-spacing: .02em; text-transform: uppercase; }
