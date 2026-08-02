@@ -354,9 +354,9 @@ class HorneroActualidad extends HoComponent {
         transition: border-color .2s; position: relative; }
       .feed-card:hover { border-color: var(--ho-green, #4E9978); }
       .feed-card-img { position: absolute; inset: 0;
-        width: 100%; height: 100%; object-fit: cover; display: block; z-index: 0; }
+        width: 100%; height: 100%; object-fit: cover; display: block; z-index: 0; opacity: .35; }
       .feed-card-dim { position: absolute; inset: 0; z-index: 1;
-        background: rgba(30,35,33,.3); }
+        background: rgba(30,35,33,.15); }
       .feed-card-overlay { position: relative; z-index: 2;
         padding: 12px 16px 6px; color: #F2F1EC;
         display: flex; flex-direction: column; min-height: 160px; }
