@@ -293,18 +293,20 @@ class HorneroClipping extends HoComponent {
         transition: background .2s; }
       .feed-card:hover { background: var(--ho-dark-surface, #3F4E4A); }
 
-      .feed-card-img { width: 100%; height: 140px; object-fit: cover; object-position: top center; display: block; }
+      .feed-card-img-wrap { position: relative; width: 100%; height: 140px; overflow: hidden; }
+      .feed-card-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+      .feed-card-img-overlay { position: absolute; bottom: 8px; left: 10px; display: flex; align-items: center; gap: 6px; z-index: 1; }
       .feed-card-body { padding: 12px 14px 6px; }
 
       .feed-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: var(--ho-mid-gray, #ECEAE3); color: var(--ho-text-mid, #6E6A60);
-        padding: 2px 8px; border-radius: 6px; font-weight: 500; }
+        background: rgba(0,0,0,.5); color: #F2F1EC;
+        padding: 2px 8px; border-radius: 6px; font-weight: 500; backdrop-filter: blur(4px); }
 
       .source-badge { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        font-weight: 600; padding: 2px 8px; border-radius: 6px; margin-left: 4px;
-        background: var(--ho-green, #4E9978); color: #F2F1EC; }
+        font-weight: 600; padding: 2px 8px; border-radius: 6px;
+        background: rgba(78,153,120,.7); color: #F2F1EC; backdrop-filter: blur(4px); }
 
-      .feed-card-emoji { font-size: 1rem; margin-left: 4px; }
+      .feed-card-emoji { font-size: 1rem; }
 
       .feed-card-titulo { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: 1.32rem; color: var(--ho-text, #E8E6E0); margin-top: 4px;
@@ -392,11 +394,13 @@ class HorneroClipping extends HoComponent {
         '<span class="tag">' + t + '</span>'
       ).join('');
       return '<div class="feed-card" data-id="' + (n.id || '') + '">' +
-        (n.foto ? '<img class="feed-card-img" src="' + n.foto + '" alt="" loading="lazy">' : '') +
+        (n.foto ? '<div class="feed-card-img-wrap"><img class="feed-card-img" src="' + n.foto + '" alt="" loading="lazy">' +
+          '<div class="feed-card-img-overlay">' +
+            '<span class="feed-card-fecha">' + this._formatFecha(n.fecha || this._meta.fecha) + '</span>' +
+            '<span class="source-badge">📰</span>' +
+            (n.emoji ? '<span class="feed-card-emoji">' + n.emoji + '</span>' : '') +
+          '</div></div>' : '') +
         '<div class="feed-card-body">' +
-          '<span class="feed-card-fecha">' + this._formatFecha(n.fecha || this._meta.fecha) + '</span>' +
-          '<span class="source-badge">📰</span>' +
-          (n.emoji ? '<span class="feed-card-emoji">' + n.emoji + '</span>' : '') +
           '<div class="feed-card-titulo">' + (n.titulo || '') + '</div>' +
           '<div class="feed-card-bajada">' + (n.bajada || '') + '</div>' +
           '<div class="feed-card-tags">' + tagsHtml + '</div>' +
