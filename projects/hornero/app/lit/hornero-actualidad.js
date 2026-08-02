@@ -743,16 +743,6 @@ class HorneroActualidad extends HoComponent {
 
     let mateSectionsHtml = '';
     const totalSections = mateRaw && mateRaw.secciones ? mateRaw.secciones.length : 0;
-    if (totalSections > 0) {
-      mateSectionsHtml = '<div class="noticia-list" style="display:none">';
-      for (const s of mateRaw.secciones) {
-        mateSectionsHtml += '<div class="noticia-line">' +
-          '<span class="noticia-title">' + (s.titulo || '') + '</span>' +
-        '</div>';
-      }
-      mateSectionsHtml += '</div>';
-    }
-    const mateToggleText = totalSections > 0 ? '▾ Ver ' + totalSections + ' secciones' : '';
 
     const noPhotoClass = hasFoto ? '' : ' feed-card-no-photo';
 
@@ -764,8 +754,6 @@ class HorneroActualidad extends HoComponent {
         (firstTitle ? '<div class="feed-card-first-title">' + firstTitle + '</div>' : '') +
         (tagsHtml ? '<div class="feed-card-tags">' + tagsHtml + '</div>' : '') +
       '</div>' +
-      mateSectionsHtml +
-      (mateToggleText ? '<div class="noticia-toggle" data-expanded="false" data-card-type="infomate" data-mate-mes="' + ed.mes + '">' + mateToggleText + '</div>' : '') +
     '</div>';
   }
 
