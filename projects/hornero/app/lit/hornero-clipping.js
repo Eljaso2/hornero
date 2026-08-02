@@ -178,18 +178,18 @@ class HorneroClipping extends HoComponent {
 
       /* Edition header — centrality: label in center, arrows on sides */
       .edicion-header { margin-bottom: 12px; }
-      .edicion-row { display: flex; align-items: center; gap: 8px; }
+      .edicion-row { display: flex; align-items: center; justify-content: center; gap: 2px; }
       .edicion-btn { background: none; border: none; cursor: pointer;
-        color: var(--ho-text-mid, #6E6A60); padding: 6px;
+        color: var(--ho-text-mid, #6E6A60); padding: 4px;
         transition: color .2s, opacity .2s; display: flex;
         align-items: center; justify-content: center; }
       .edicion-btn:hover { color: var(--ho-text, #E8E6E0); }
       .edicion-btn:disabled { opacity: .2; cursor: default; }
       .edicion-btn svg { width: 20px; height: 20px; }
-      .edicion-center { flex: 1; text-align: center; }
+      .edicion-center { text-align: center; }
       .edicion-numero { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
-        letter-spacing: .04em; }
+        letter-spacing: .04em; padding: 0 8px; }
       .edicion-fecha { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .08em;
         margin-top: 2px; cursor: pointer; transition: color .2s; }
