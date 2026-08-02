@@ -839,7 +839,7 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 2; }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 0; padding: 0 4px;
+        scrollbar-width: none; gap: 4px; padding: 0 4px;
         justify-content: center; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
