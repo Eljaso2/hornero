@@ -1985,6 +1985,7 @@ class HorneroGremial extends HoComponent {
       'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'historiador': { screen: 'formacion' },
+      'archivo': { screen: 'archivo' },
     };
     const target = screenMap[targetPersona] || (targetScreen ? { screen: targetScreen, persona: targetPersona } : null);
     if (target) {

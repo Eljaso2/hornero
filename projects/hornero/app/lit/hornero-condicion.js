@@ -1004,6 +1004,7 @@ class HorneroCondicion extends HoComponent {
       'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'historiador': { screen: 'formacion', persona: 'historiador' },
+      'archivo': { screen: 'archivo', persona: 'archivo' },
       'sociologo': { screen: 'condicion', persona: 'sociologo' },
     };
     const target = screenMap[targetPersona];

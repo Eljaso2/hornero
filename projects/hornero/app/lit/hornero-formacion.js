@@ -372,6 +372,7 @@ class HorneroFormacion extends HoComponent {
           <button class="hero-explore-option" data-explore="Mitín">Mitín</button>
           <button class="hero-explore-option" data-explore="Colección">Colección</button>
           <button class="hero-explore-option" data-explore="Retazos">Retazos</button>
+          <button class="hero-explore-option" data-explore="Archivo">Archivo</button>
         </div>
         ` : ''}
       </div>
@@ -467,6 +468,11 @@ class HorneroFormacion extends HoComponent {
       btn.addEventListener('click', () => {
         const topic = btn.dataset.explore;
         this._exploreOpen = false;
+        // Archivo: navigate to Archivo screen instead of local response
+        if (topic === 'Archivo') {
+          this.emit('screen-change', { screen: 'archivo', persona: 'archivo' });
+          return;
+        }
         this._bannerVisible = false;
         // Add user message + brief local IA response
         const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
@@ -1001,6 +1007,7 @@ class HorneroFormacion extends HoComponent {
       'companero': { screen: 'gremial', persona: 'companero' },
       'periodista': { screen: 'contenido', persona: 'periodista' },
       'historiador': { screen: 'formacion', persona: 'historiador' },
+      'archivo': { screen: 'archivo', persona: 'archivo' },
       'sociologo': { screen: 'condicion', persona: 'sociologo' },
     };
     const target = screenMap[targetPersona];
@@ -1073,6 +1080,7 @@ class HorneroFormacion extends HoComponent {
       'Mitín': { title: 'Mitín', body: 'Ensayos y relatos sobre historia obrera: textos largos, análisis, testimonios. ¿Sobre qué tema querés leer?' },
       'Colección': { title: 'Colección', body: 'La Argentina Peronista: 18 volúmenes que cuentan la historia desde la clase trabajadora. ¿Qué volumen o tema te interesa?' },
       'Retazos': { title: 'Retazos', body: 'Docuficción, podcast, ilustraciones, música: historias obreras en otros formatos. ¿Qué formato te atrae?' },
+      'Archivo': { title: 'Archivo', body: 'El archivo del sindicato: convenios, referentes, fuentes sindicales, documentos académicos. Te derivo al Archivo para que puedas buscar.' },
     };
     const section = map[topic] || { title: topic, body: 'Preguntame lo que quieras sobre ' + topic + '.' };
     return { role: 'hornero', sections: [section], tags: ['historia', 'explore'], persona: 'historiador', time: this._timeNow() };
