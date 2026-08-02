@@ -1,64 +1,64 @@
 {
   "meta": {
-    "version": "2026-06-v2",
+    "version": "2026-06-v3",
     "tipo": "mate",
     "mes": "2026-06",
     "fuente": "MATE — Mirador de la Actualidad del Trabajo y la Economía",
     "urlInforme": "https://mateconomia.com.ar/infomate"
   },
   "datosMacro": {
-    "inflacionOficial": "2.1% mensual (mayo)",
-    "inflacionAcumulada": "33.2% anual (mayo 2025-mayo 2026)",
+    "inflacionOficial": "2,6% mensual (abril)",
+    "inflacionAcumulada": "12,3% acumulado ene-abr 2026",
     "salarioEstatal": "-22% real vs asunción Milei",
-    "salarioPrivado": "-8% real vs asunción Milei",
-    "transferenciaIngresos": "93.5 billones de pesos",
-    "empleosFormalesPerdidos": "-319.444",
+    "salarioPrivado": "-9% real vs asunción Milei",
+    "transferenciaIngresos": "85,9 billones de pesos",
+    "empleosFormalesPerdidos": "-295.324",
     "desocupadosUrbanos": "1.145.000",
-    "informalidad": "44.2%",
-    "recortesAcumulados": "149 billones de pesos"
+    "informalidad": "44,2%",
+    "recortesAcumulados": "144 billones de pesos"
   },
   "secciones": [
     {
       "id": "inf-2026-06-1",
       "titulo": "Inflación",
       "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-3.jpg",
-      "bajada": "Un año de inflación elevada. 2.1% mensual en mayo, 33.2% acumulado en el año. La inflación obrera real duplica la oficial.",
-      "datos": ["INDEC: 2.1% mensual (mayo)", "Acumulado anual: 33.2%", "Mayo 2025 era 1.5%"]
+      "bajada": "2,6% mensual en abril. En 4 meses se acumuló 12,3% de incremento de precios. El pronóstico oficial anunciaba 10,1% para todo 2026.",
+      "datos": ["INDEC: 2,6% mensual (abril)", "Acumulado ene-abr: 12,3%", "Pronóstico oficial: 10,1% para todo 2026"]
     },
     {
       "id": "inf-2026-06-2",
       "titulo": "Salario",
       "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-4.jpg",
-      "bajada": "Salario estatal -22% real, pérdida de $14.1M por trabajador. Privado -8%, pérdida de $2.5M. Jubilaciones -24%, mínima -30%.",
-      "datos": ["Estatal: -22% real, -$14.115.381", "Privado: -8% real, -$2.512.694", "Jubilación media: -24%, -$6.951.926", "Mínima: -30% poder de compra"]
+      "bajada": "Salario estatal -22% real, pérdida de $13,3M por trabajador. Privado -9%, pérdida de $2,4M. Jubilaciones -24%, mínima -30%.",
+      "datos": ["Estatal: -22% real, -$13.294.824", "Privado: -9% real, -$2.399.595", "Jubilación media: -24%, -$6.588.400", "Mínima: -30% poder de compra"]
     },
     {
       "id": "inf-2026-06-3",
       "titulo": "Transferencia y ganancias",
       "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-7.jpg",
-      "bajada": "93.5 billones de transferencia de ingresos por caída del costo salarial. Morosidad histórica: crédito personal 14.2%, tarjetas 11.7%, fintech 58.4%.",
-      "datos": ["Bolsillo asalariados: -67.1 billones", "Recaudación seguridad social: -17.4 billones", "Obras sociales/sindicatos: -7.3 billones", "Mora fintech: 58.4%", "Mora tarjetas no bancarias: 44.3%"]
+      "bajada": "85,9 billones de transferencia de ingresos por caída del costo salarial. Deuda familiar +36 billones. Morosidad: personal 14,2%, tarjetas 11,7%.",
+      "datos": ["Bolsillo asalariados: -61,8 billones", "Recaudación seguridad social: -15,9 billones", "Obras sociales/sindicatos: -6,7 billones", "Deuda familiar: +36 billones", "Mora personal: 14,2%", "Mora tarjetas: 11,7%"]
     },
     {
       "id": "inf-2026-06-4",
       "titulo": "Empleo",
       "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-13-1.jpg",
-      "bajada": "350 empleos formales perdidos por día. Sector privado -216.643, público -82.752. Informalidad 44.2%. 1.145.000 desocupados urbanos.",
-      "datos": ["Privado: -216.643", "Público: -82.752", "Casas particulares: -20.049", "Total: -319.444", "Informalidad: 44.2%", "Desocupados: 1.145.000"]
+      "bajada": "Privado -205.680, público -79.077. La industria y la construcción son los sectores que más puestos destruyeron. Consumo 10 puntos debajo de 2023.",
+      "datos": ["Privado: -205.680", "Público: -79.077", "Casas particulares: -10.567", "Total: -295.324", "Industria: -71.473", "Construcción: -59.944"]
     },
     {
       "id": "inf-2026-06-5",
       "titulo": "Ajuste",
       "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-15-1.jpg",
-      "bajada": "El Estado se achica cada vez más. Recaudación -18%, pérdida acumulada 44.2 billones. Recortes totalizan 149 billones: obra pública, jubilaciones, salarios, educación.",
-      "datos": ["Obra pública: -37.2 billones", "Jubilaciones: -26.0 billones", "Subsidios energía: -22.5 billones", "Salarios: -17.5 billones", "Programas sociales: -15.5 billones", "Educación: -9.8 billones"]
+      "bajada": "El Estado se achica cada vez más. Recaudación -19,2%, pérdida acumulada $40,7 billones. Recortes totalizan 144 billones: obra pública, jubilaciones, salarios, educación.",
+      "datos": ["Obra pública: -34,5 billones", "Programas sociales: -22,7 billones", "Jubilaciones: -15,9 billones", "Salarios: -15,2 billones", "Subsidios energía: -10,2 billones", "Educación: -9,8 billones"]
     },
     {
       "id": "inf-2026-06-6",
       "titulo": "Fuga de capitales",
       "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-18.jpg",
-      "bajada": "Giros de utilidades al exterior: 2.022M USD en 6 meses. Petróleo lidera con 734M. El modelo solo cierra por la deuda: 40.984M USD de nueva deuda.",
-      "datos": ["Giros 6 meses: 2.022M USD", "Petróleo: 734M", "Metales: 279M", "Oleaginosos: 176M", "Nueva deuda acumulada: 40.984M USD", "Economía real: 52.223M USD vs 81.215M USD financiera"]
+      "bajada": "Giros de utilidades al exterior: 1.546M USD en 5 meses. Petróleo lidera con 581M. El modelo solo cierra por la deuda: economía real 48.088M vs financiera 76.304M USD.",
+      "datos": ["Giros 5 meses: 1.546M USD", "Petróleo: 581M", "Metales: 279M", "Alimentos: 162M", "Economía real: 48.088M USD", "Economía financiera: 76.304M USD"]
     }
   ],
   "routing": { "n9": true, "n6": true, "n11": true }
