@@ -130,7 +130,7 @@ class HorneroInfomate extends HoComponent {
         flex-shrink: 0; box-sizing: border-box; overflow: hidden; cursor: pointer; }
       .hero-banner::before { content: ''; position: absolute; top: 0; left: 0;
         width: 100%; height: 100%;
-        background: url('assets/infomate-bg.png') top center/100% auto no-repeat;
+        background: url('assets/actualidad-bg.png') top center/100% auto no-repeat;
         opacity: .12; pointer-events: none; }
       .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.2rem; color: var(--ho-text, #E8E6E0);
