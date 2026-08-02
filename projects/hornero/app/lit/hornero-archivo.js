@@ -14,6 +14,7 @@ class HorneroArchivo extends HoComponent {
       sessionId: String,   // Session ID — if set, load existing session
       messages: Array,
       _bannerVisible: Boolean,
+      _exploreOpen: Boolean,
     };
   }
 
@@ -61,6 +62,7 @@ class HorneroArchivo extends HoComponent {
     this._greetingRequested = false;
     this._historyLoaded = false;
     this._bannerVisible = true;
+    this._exploreOpen = false;
     this._sessionId = '';
     this._activePersona = 'historiador';
     this._username = '';
@@ -90,43 +92,85 @@ class HorneroArchivo extends HoComponent {
   _styles() {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
-        background: var(--ho-bg, #1E2321); overflow-x: hidden; }
+        background: var(--ho-bg, #1E2321); overflow-x: hidden; position: relative; }
 
-      /* ===== Hero banner ===== */
+      /* ===== Hero banner — imagen de fondo opaca ===== */
       .hero-banner { position: relative; width: 100%;
         background: var(--ho-dark, #1E2321);
         padding: 14px 16px 10px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 8px;
-        flex-shrink: 0; min-height: 110px; }
-      .hero-icon { font-size: 2.2rem; margin-bottom: 2px; }
-      .hero-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: 1.1rem; color: var(--ho-text, #E8E6E0); }
+        flex-shrink: 0; box-sizing: border-box; overflow: hidden;
+        min-height: 110px; }
+      .hero-banner::before { content: ''; position: absolute; inset: 0;
+        background: url('assets/archivo-bg.jpg') top center/100% auto no-repeat;
+        opacity: .12; pointer-events: none; }
+      .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
+        gap: 6px; }
+      .hero-banner.collapsed::before { opacity: .12; }
+      .hero-banner.collapsed .hero-banner-title { font-size: 1.2rem; }
+      .hero-banner.collapsed .hero-explore-link { font-size: .64rem; }
+      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
+        letter-spacing: .02em; text-transform: uppercase; position: relative; }
+      :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .hero-banner { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        text-align: left; min-height: 3.2em; }
-      .hero-bajada-link { display: inline-block; margin-top: 4px;
-        font-family: 'Archivo', sans-serif; font-size: .76rem; font-weight: 600;
-        color: var(--ho-green, #4E9978); }
-      .hero-bajada-link:hover { color: var(--ho-green-dark, #3D6B56); }
+        text-align: left; position: relative; min-height: 3.2em; }
+
+      /* ===== Explorar dropdown ===== */
+      .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
+        font-family: 'Archivo', sans-serif; font-size: .72rem;
+        font-weight: 700; letter-spacing: .04em;
+        color: #000; background: none;
+        border: none; padding: 0; cursor: pointer; position: relative;
+        transition: color .2s; }
+      .hero-explore-link:hover { color: #333; }
+      .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
+      .hero-explore-link.open::after { content: '▴'; }
+      .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
+        margin-top: 2px; animation: exploreFade .2s ease;
+        position: relative; }
+      @keyframes exploreFade { from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: none; } }
+      .hero-explore-option { font-family: 'Archivo', sans-serif; font-size: .76rem;
+        font-weight: 600; color: var(--ho-text, #E8E6E0);
+        background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+        border-radius: 8px; padding: 6px 12px; cursor: pointer;
+        transition: background .2s, border-color .2s; }
+      .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .hero-explore-option { background: rgba(0,0,0,.04);
+        border-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB); }
 
       /* ===== Chat container ===== */
       .chat-container { flex: 1; display: flex; flex-direction: column;
-        min-height: 0; overflow: hidden; }
+        min-height: 0; }
     `;
   }
 
   _render() {
     return html`
-      ${this._bannerVisible ? html`
-      <div class="hero-banner">
-        <div class="hero-icon">📚</div>
-        <div class="hero-title">Archivo del sindicato</div>
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
+        <div class="hero-banner-title">Archivo</div>
+        ${this._bannerVisible ? html`
         <div class="hero-bajada">
-          Convenios, referentes, fuentes sindicales, documentos académicos.
-          La Historiadora te guía para buscar y explorar la memoria del sindicato.
+          Convenios, referentes, fuentes sindicales, documentos académicos. La memoria del sindicato.
         </div>
+        ` : ''}
+        <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
+        ${this._exploreOpen ? html`
+        <div class="hero-explore-panel">
+          <button class="hero-explore-option" data-explore="Convenios">Convenios</button>
+          <button class="hero-explore-option" data-explore="Referentes">Referentes</button>
+          <button class="hero-explore-option" data-explore="Académicos">Académicos</button>
+          <button class="hero-explore-option" data-explore="Legislación">Legislación</button>
+          <button class="hero-explore-option" data-explore="Multimedia">Multimedia</button>
+        </div>
+        ` : ''}
       </div>
-      ` : ''}
 
       <div class="chat-container">
         <hornero-chat
@@ -139,8 +183,6 @@ class HorneroArchivo extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          hide-persona-bar
-          center-logo="${this._bannerVisible ? '' : '📚'}"
           no-auto-scroll="${this._bannerVisible}"
         ></hornero-chat>
       </div>
@@ -212,6 +254,41 @@ class HorneroArchivo extends HoComponent {
     if (!this._historyLoaded) {
       this._loadChatHistory();
     }
+
+    // Bind Explorar toggle + option buttons
+    const exploreToggle = this.shadowRoot.querySelector('#exploreToggle');
+    if (exploreToggle && !exploreToggle._bound) {
+      exploreToggle._bound = true;
+      exploreToggle.addEventListener('click', () => {
+        this._exploreOpen = !this._exploreOpen;
+        this.render();
+      });
+    }
+    this.shadowRoot.querySelectorAll('.hero-explore-option').forEach(btn => {
+      if (btn._bound) return;
+      btn._bound = true;
+      btn.addEventListener('click', () => {
+        const topic = btn.dataset.explore;
+        this._exploreOpen = false;
+        this._bannerVisible = false;
+        // Add user message + brief local IA response
+        const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
+        this.messages = [...this.messages, userMsg];
+        this._addWithProgressiveReveal(this._exploreResponse(topic));
+        this._saveChatHistory();
+        this.render();
+      });
+    });
+
+    // Apply light mode class to host for banner overlay
+    try {
+      const theme = localStorage.getItem('hornero-theme') || 'dark';
+      if (theme === 'light') {
+        this.classList.add('theme-light');
+      } else {
+        this.classList.remove('theme-light');
+      }
+    } catch(e) {}
   }
 
   _syncChatMessages(chatEl) {
@@ -223,10 +300,7 @@ class HorneroArchivo extends HoComponent {
       chatEl.username = this._username;
       chatEl.persona = this._activePersona;
       chatEl.grade = this.grade;
-      chatEl.hidePersonaBar = true;
-      chatEl.centerLogo = this._bannerVisible ? '' : '📚';
       chatEl.noAutoScroll = this._bannerVisible;
-      chatEl.topBarAccent = !this._bannerVisible;
       chatEl.render();
     }
   }
@@ -283,6 +357,7 @@ class HorneroArchivo extends HoComponent {
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
     this._historyLoaded = true;
     this._greetingRequested = false;
+    this._exploreOpen = false;
     this._activePersona = 'historiador';
     this._requestGreeting();
   }
@@ -770,6 +845,47 @@ class HorneroArchivo extends HoComponent {
         }
       }
     } catch(e) { console.warn('Archivo: chat history save failed', e); }
+  }
+
+  // Brief local response when user clicks an explore button
+  _exploreResponse(topic) {
+    const map = {
+      'Convenios': { title: 'Convenios', body: 'Convenios colectivos de trabajo, CCT aceitero, escalas salariales, cláusulas. ¿Qué aspecto del convenio te interesa?' },
+      'Referentes': { title: 'Referentes', body: 'Dirigentes sindicales, delegados, luchadores históricos del movimiento obrero aceitero. ¿Sobre quién querés saber?' },
+      'Académicos': { title: 'Académicos', body: 'Artículos, papers y documentos de investigación sobre el mundo del trabajo. ¿Qué tema académico te interesa?' },
+      'Legislación': { title: 'Legislación', body: 'Leyes laborales, reformas, jurisprudencia, normativa sindical. ¿Qué aspecto legal buscás?' },
+      'Multimedia': { title: 'Multimedia', body: 'Notas periodísticas, audio, video, documentos visuales del archivo sindical. ¿Qué formato preferís?' },
+    };
+    const section = map[topic] || { title: topic, body: 'Preguntame lo que quieras sobre ' + topic + '.' };
+    return { role: 'hornero', sections: [section], tags: ['archivo', 'explore'], persona: 'historiador', time: this._timeNow() };
+  }
+
+  // Add a message with progressive reveal (typing effect)
+  _addWithProgressiveReveal(msg) {
+    if (!msg.text || msg.text.length <= 50) {
+      this.messages = [...this.messages, msg];
+      this._typing = false;
+      this._saveChatHistory();
+      this.render();
+      return;
+    }
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    this._typing = false;
+    this._startProgressiveReveal(msg.text, chatEl, msg.persona || 'historiador');
+    const revealDone = new Promise((resolve) => {
+      const check = setInterval(() => {
+        if (!this._progressiveRevealTimer) { clearInterval(check); resolve(); }
+      }, 50);
+    });
+    const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
+    Promise.race([revealDone, timeout]).then(() => {
+      this._stopProgressiveReveal();
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
+      this.messages = [...this.messages, msg];
+      this._saveChatHistory();
+      this.render();
+    });
   }
 
   _timeNow() {
