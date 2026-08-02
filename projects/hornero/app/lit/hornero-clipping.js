@@ -287,7 +287,7 @@ class HorneroClipping extends HoComponent {
       .cal-legend-marked { color: var(--ho-green, #4E9978); font-size: .72rem; }
 
       /* Feed card — noticia */
-      .feed-card { border-radius: 0; margin-bottom: 0; overflow: hidden;
+      .feed-card { border-radius: 0; margin-bottom: 8px; overflow: hidden;
         border: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         background: var(--ho-card, #2A3230); cursor: pointer;
         transition: background .2s; }

@@ -353,7 +353,7 @@ class HorneroActualidad extends HoComponent {
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* Feed card — foto de fondo con overlay semi-opaco, full-width cuadrado */
-      .feed-card { border-radius: 0; margin-bottom: 2px; overflow: hidden;
+      .feed-card { border-radius: 0; margin-bottom: 8px; overflow: hidden;
         background: var(--ho-card, #2A3230); cursor: pointer;
         transition: border-color .2s; position: relative; }
       .feed-card:hover { border-color: var(--ho-green, #4E9978); }

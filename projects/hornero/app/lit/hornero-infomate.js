@@ -158,7 +158,7 @@ class HorneroInfomate extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
 
       /* Feed card — idéntico a Clipping: full-width, cuadrado */
-      .feed-card { border-radius: 0; margin-bottom: 0; overflow: hidden;
+      .feed-card { border-radius: 0; margin-bottom: 8px; overflow: hidden;
         border: none; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
         background: var(--ho-card, #2A3230); cursor: pointer;
         transition: background .2s; }
