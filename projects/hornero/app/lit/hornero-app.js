@@ -1420,6 +1420,14 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
     if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') this._misConvLoaded = false;
     if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
+    // If navigating to same screen but with a new initialSection, force re-render
+    if (this.screen === screen && this._initialSection) {
+      history.pushState({ screen: screen }, '', '#' + screen);
+      this.set('screen', ''); // Clear first to force change
+      this.set('screen', screen); // Re-render with new initialSection
+      this._initialSection = ''; // Reset after render consumed it
+      return;
+    }
     // Only push state if screen actually changes (avoid duplicate history entries)
     if (this.screen !== screen) {
       history.pushState({ screen: screen }, '', '#' + screen);
