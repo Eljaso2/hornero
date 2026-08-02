@@ -61,7 +61,7 @@ class HorneroEcosistema extends HoComponent {
         padding: 14px 16px 10px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 8px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
-        min-height: 220px; }
+        min-height: 110px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
         background: url('assets/horneros ECo.png') center 30%/100% auto no-repeat;
         opacity: .16; pointer-events: none; }
