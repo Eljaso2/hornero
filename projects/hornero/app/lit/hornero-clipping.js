@@ -223,8 +223,9 @@ class HorneroClipping extends HoComponent {
       .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
         font-family: 'Archivo', sans-serif; font-size: .64rem;
         font-weight: 700; letter-spacing: .04em;
-        color: #000; background: none;
+        color: var(--ho-text, #E8E6E0); background: none;
         border: none; padding: 0; cursor: pointer; position: relative; }
+      :host(.theme-light) .hero-explore-link { color: #000; }
       .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
       .hero-explore-link.open::after { content: '▴'; }
       .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
