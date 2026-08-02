@@ -61,9 +61,9 @@ class HorneroEcosistema extends HoComponent {
         padding: 14px 16px 10px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 8px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
-        min-height: 110px; }
+        min-height: 220px; }
       .hero-banner::before { content: ''; position: absolute; inset: 0;
-        background: url('assets/horneros ECo.png') center 50%/100% auto no-repeat;
+        background: url('assets/horneros ECo.png') center 30%/100% auto no-repeat;
         opacity: .16; pointer-events: none; }
       .hero-banner.collapsed { padding: 10px 16px 8px; min-height: 0;
         gap: 6px; }
@@ -105,8 +105,6 @@ class HorneroEcosistema extends HoComponent {
 
       .chat-container { flex: 1; display: flex; flex-direction: column;
         min-height: 0; }
-      /* Reduce top padding — banner+cintillo replace chat top bar */
-      .chat-container >>> .chat-scroll { padding-top: 8px; }
       /* Bigger avatar for Hornero persona — zoom para recortar borde claro */
       .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; }
       .chat-container >>> .msg-avatar-row.persona-hornero .msg-avatar img { width: 120px; height: 120px; margin: -32px; object-fit: cover; object-position: center 25%; }
@@ -152,6 +150,7 @@ class HorneroEcosistema extends HoComponent {
           grade="${this.grade}"
           theme="${this.theme || ''}"
           hide-persona-bar
+          reduce-top-pad
           section="ecosistema"
           history-title="Historial"
           no-auto-scroll="${this._bannerVisible}"
