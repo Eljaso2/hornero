@@ -1413,16 +1413,7 @@ class HorneroApp extends HoComponent {
           if (target) this._navigateTo(target);
         });
       });
-      // Close menu on outside click
-      const closeMenu = (e) => {
-        if (!listPlusMenu.contains(e.target) && e.target !== listPlusBtn) {
-          listPlusMenu.style.display = 'none';
-          listPlusBtn.classList.remove('open');
-        }
-      };
-      this.shadowRoot.removeEventListener('click', this._listPlusMenuClose);
-      this._listPlusMenuClose = closeMenu;
-      this.shadowRoot.addEventListener('click', closeMenu);
+      // Menu only closes via the +/| button, not on outside click
     }
     // Bind update banner
     const updateBanner = this.shadowRoot.querySelector('#updateBanner');

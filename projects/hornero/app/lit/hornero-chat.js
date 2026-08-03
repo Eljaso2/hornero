@@ -81,7 +81,6 @@ class HorneroChat extends HoComponent {
     this._recibidosDrawerStable = false; // prevent slideIn replay on re-render
     this._recibidosBadge = false; // badge on recibidos icon
     this._plusMenuOpen = false; // + dropdown menu state
-    this._plusMenuCloseHandler = null; // persistent outside-click handler
     this.streamingText = ''; // Live streaming text — when non-empty, shows as "in progress" message
     this._streamingPersona = ''; // Persona for the streaming message
   }
@@ -2143,10 +2142,7 @@ class HorneroChat extends HoComponent {
       });
     }
 
-    // === Close dropdown on outside click ===
-    if (this._plusMenuOpen) {
-      this._setupPlusMenuCloseHandler();
-    }
+
 
     // === Input focus → emit event (parent can hide banner etc) ===
     if (inputField) {
@@ -2966,7 +2962,6 @@ ${msgs.map(m => {
     `;
     wrapper.appendChild(menu);
     this._bindPlusMenuItems();
-    this._setupPlusMenuCloseHandler();
   }
 
   _removePlusMenu() {
@@ -2975,10 +2970,6 @@ ${msgs.map(m => {
     // Remove open class from + button
     const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
     if (plusBtn) plusBtn.classList.remove('open');
-    if (this._plusMenuCloseHandler) {
-      document.removeEventListener('click', this._plusMenuCloseHandler);
-      this._plusMenuCloseHandler = null;
-    }
   }
 
   _bindPlusMenuItems() {
@@ -3006,19 +2997,7 @@ ${msgs.map(m => {
     }
   }
 
-  _setupPlusMenuCloseHandler() {
-    if (this._plusMenuCloseHandler) {
-      document.removeEventListener('click', this._plusMenuCloseHandler);
-    }
-    this._plusMenuCloseHandler = (e) => {
-      const wrapper = this.shadowRoot.querySelector('.chat-plus-wrapper');
-      if (wrapper && !wrapper.contains(e.target)) {
-        this._plusMenuOpen = false;
-        this.render();
-      }
-    };
-    setTimeout(() => document.addEventListener('click', this._plusMenuCloseHandler), 0);
-  }
+  // Plus menu only closes via the +/| button, not on outside click
 
   // ===== Export confirmation popup =====
   // Custom modal: "¿Descargar la conversación?" → Descargar TXT / Cancelar
