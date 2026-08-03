@@ -663,6 +663,32 @@ class HorneroApp extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); }
       .informes-action-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .informes-action-btn:disabled { opacity: .3; pointer-events: none; }
+      /* Share menu overlay — for compartir button in Mis Reportes */
+      .share-menu-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 900; background: rgba(43,42,38,.5); display: flex;
+        align-items: center; justify-content: center; }
+      .share-menu { background: var(--ho-card, #2A3230); border-radius: 16px;
+        padding: 20px; width: 260px; box-shadow: 0 8px 32px rgba(43,42,38,.2); }
+      .share-menu-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .92rem; color: var(--ho-text, #E8E6E0); margin-bottom: 12px; }
+      .share-menu-item { display: flex; align-items: center; gap: 10px;
+        padding: 10px 14px; border: none; background: none; cursor: pointer;
+        border-radius: 10px; font-family: 'Archivo', sans-serif; font-weight: 600;
+        font-size: .86rem; color: var(--ho-text, #E8E6E0); width: 100%;
+        transition: background .2s; }
+      .share-menu-item:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .share-menu-icon { font-size: 1.1rem; }
+      .share-menu-cancel { display: block; margin-top: 8px; padding: 8px;
+        border: none; background: none; cursor: pointer;
+        font-family: 'Archivo', sans-serif; font-size: .82rem;
+        color: var(--ho-text-light, #9C988D); width: 100%; text-align: center; }
+      .share-toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+        background: var(--ho-green-dark, #3D6B56); color: var(--ho-text, #E8E6E0);
+        font-family: 'Archivo', sans-serif; font-size: .82rem; font-weight: 600;
+        padding: 8px 20px; border-radius: 20px; z-index: 999;
+        box-shadow: 0 4px 16px rgba(0,0,0,.2); animation: shareToastIn .3s ease; }
+      @keyframes shareToastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); } }
       .informes-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
       .informes-item-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
@@ -1261,7 +1287,9 @@ class HorneroApp extends HoComponent {
               }
             }).catch(err => console.warn('App: download informe failed', err));
           }
-        } else if (action === 'reenviar' || action === 'corregir') {
+        } else if (action === 'compartir') {
+          this._showShareMenuInforme(infId);
+        } else if (action === 'corregir') {
           if (btn.disabled) return;
           // Navigate to gremial screen and open the informe for editing
           this._initialPersona = 'companero';
@@ -1909,8 +1937,8 @@ class HorneroApp extends HoComponent {
             '<button class="informes-action-btn" data-action="download" data-informe-id="' + inf.id + '" title="Descargar">' +
               '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
             '</button>' +
-            '<button class="informes-action-btn" data-action="reenviar" data-informe-id="' + inf.id + '" title="Reenviar">' +
-              '<svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>' +
+            '<button class="informes-action-btn" data-action="compartir" data-informe-id="' + inf.id + '" title="Compartir">' +
+              '<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
             '</button>' +
             '<button class="informes-action-btn" data-action="corregir" data-informe-id="' + inf.id + '" title="Corregir"' + corregirDisabled + '>' +
               '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
@@ -1940,6 +1968,102 @@ class HorneroApp extends HoComponent {
       console.warn('App: misReportes load failed', e);
       this.misReportesList = [];
     }
+  }
+
+  _generateInformeTxt(inf) {
+    const title = inf.sections && inf.sections.length > 0
+      ? inf.sections[0].title || 'Informe Gremial' : 'Informe Gremial';
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+    const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
+    let content = '';
+    if (inf.sections && inf.sections.length > 0) {
+      content = inf.sections.map((s, i) => {
+        let sec = '';
+        if (s.title) sec += s.title + '\n';
+        if (s.body) sec += s.body;
+        if (s.quote) sec += `\n"${s.quote}"`;
+        if (s.quoteAuthor) sec += ` — ${s.quoteAuthor}`;
+        if (s.quoteSource) sec += ` (${s.quoteSource})`;
+        return sec;
+      }).join('\n---\n');
+    } else if (inf.contenido) {
+      content = inf.contenido;
+    }
+    return `${title}\n${dateStr} — ${timeStr}\n${'─'.repeat(60)}\n\n${content}\n\n${'─'.repeat(60)}\nCompartido de Hornero`;
+  }
+
+  _showShareMenuInforme(infId) {
+    if (typeof obtenerInforme !== 'function') return;
+    obtenerInforme(infId).then(inf => {
+      if (!inf) return;
+      const txtContent = this._generateInformeTxt(inf);
+      const title = inf.sections && inf.sections.length > 0
+        ? inf.sections[0].title || 'Informe Gremial' : 'Informe Gremial';
+
+      // Remove existing menu if any
+      const existingMenu = this.shadowRoot.querySelector('.share-menu-overlay');
+      if (existingMenu) existingMenu.remove();
+
+      const overlay = document.createElement('div');
+      overlay.className = 'share-menu-overlay';
+      overlay.innerHTML = `
+        <div class="share-menu">
+          <div class="share-menu-title">Compartir informe</div>
+          <button class="share-menu-item" data-share-action="whatsapp">
+            <span class="share-menu-icon">💬</span> WhatsApp
+          </button>
+          <button class="share-menu-item" data-share-action="email">
+            <span class="share-menu-icon">📧</span> Email
+          </button>
+          <button class="share-menu-item" data-share-action="copy">
+            <span class="share-menu-icon">📋</span> Copiar texto
+          </button>
+          <button class="share-menu-cancel">Cancelar</button>
+        </div>
+      `;
+      this.shadowRoot.appendChild(overlay);
+
+      // Handle share actions
+      overlay.querySelectorAll('.share-menu-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const shareAction = btn.dataset.shareAction;
+          if (shareAction === 'whatsapp') {
+            const whatsappText = encodeURIComponent(txtContent.substring(0, 1000));
+            window.open(`https://wa.me/?text=${whatsappText}`, '_blank');
+          } else if (shareAction === 'email') {
+            const subject = encodeURIComponent(title);
+            const body = encodeURIComponent(txtContent);
+            window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+          } else if (shareAction === 'copy') {
+            navigator.clipboard.writeText(txtContent).then(() => {
+              this._showShareToast('Texto copiado');
+            }).catch(() => {
+              this._showShareToast('No se pudo copiar');
+            });
+          }
+          overlay.remove();
+        });
+      });
+
+      overlay.querySelector('.share-menu-cancel').addEventListener('click', () => {
+        overlay.remove();
+      });
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.remove();
+      });
+    }).catch(err => console.warn('App: share informe failed', err));
+  }
+
+  _showShareToast(msg) {
+    const existing = this.shadowRoot.querySelector('.share-toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'share-toast';
+    toast.textContent = msg;
+    this.shadowRoot.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 2000);
   }
 
   async _handleLogout() {
