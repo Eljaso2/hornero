@@ -1668,6 +1668,10 @@ class HorneroGremial extends HoComponent {
             }
           }
         }
+        // Refresh cached incoming reports so the backend knows about the updated estado
+        this._loadIncomingReports().catch(e => {
+          console.warn('Gremial: incoming reports refresh failed', e);
+        });
       }
     } else if (detail.action === 'corregir') {
       // Mark current draft as needing correction and prompt worker
