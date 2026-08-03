@@ -674,8 +674,15 @@ class HorneroChat extends HoComponent {
         font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 4px;
         text-transform: uppercase; letter-spacing: .06em; }
       .reporte-card-section-body { font-family: 'Public Sans', sans-serif;
-        font-size: .84rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
+        font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .reporte-card-section-body strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
+      /* No internal boxes or underlines in reporte sections */
+      .reporte-card-section-body .msg-md-heading { border-bottom: none; padding-bottom: 0; }
+      .reporte-card-section-body .msg-quote { border-left: none; padding-left: 0; border-radius: 0; }
+      /* Only transcript body is italic — no other section uses italics */
+      .reporte-card-section-body.transcript-body { font-style: italic; }
+      .reporte-card-section-body em { font-style: normal; font-weight: 600; color: var(--ho-text, #E8E6E0); }
+      .reporte-card-section-body.transcript-body em { font-style: italic; }
       .reporte-card-section-subtitle { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .78rem; color: var(--ho-text-mid, #6E6A60); margin-top: 6px;
         margin-bottom: 2px; text-transform: uppercase; letter-spacing: .04em; }
@@ -689,7 +696,7 @@ class HorneroChat extends HoComponent {
         padding: 10px 14px; border-top: 1px solid var(--ho-green-pale, #E0F0EB);
         background: var(--ho-bg, #1E2321); }
       .reporte-card-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .reporte-card-actions { display: flex; gap: 6px;
         padding: 8px 12px 4px; justify-content: flex-end; }
@@ -722,8 +729,8 @@ class HorneroChat extends HoComponent {
       .reporte-btn-aprobar-inline { display: inline; border: none; cursor: pointer;
         background: none; color: var(--ho-green, #4E9978);
         font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: inherit; padding: 0; text-decoration: underline;
-        text-underline-offset: 2px; transition: color .2s; }
+        font-size: inherit; padding: 0;
+        transition: color .2s; }
       .reporte-btn-aprobar-inline:hover { color: var(--ho-green-dark, #3D6B56); }
       .reporte-card.estado-aceptado { border-color: rgba(43,42,38,.2);
         opacity: .85; }
@@ -739,10 +746,10 @@ class HorneroChat extends HoComponent {
       .correccion-badge.grado-3 { background: #D7E8F3; color: #2C5A8A; }
       .correccion-badge.grado-4 { background: #E8DCF0; color: #5A3D7A; }
 
-      /* Section with grade-colored left border */
-      .reporte-card-section.modificado-grado-2 .reporte-card-section-body { border-left: 3px solid #4E9978; padding-left: 10px; }
-      .reporte-card-section.modificado-grado-3 .reporte-card-section-body { border-left: 3px solid #2C5A8A; padding-left: 10px; }
-      .reporte-card-section.modificado-grado-4 .reporte-card-section-body { border-left: 3px solid #5A3D7A; padding-left: 10px; }
+      /* Section with grade-colored indicator — no border-left, no internal boxes */
+      .reporte-card-section.modificado-grado-2 .reporte-card-section-body { }
+      .reporte-card-section.modificado-grado-3 .reporte-card-section-body { }
+      .reporte-card-section.modificado-grado-4 .reporte-card-section-body { }
 
       /* Historial de cambios section */
       .reporte-card-historial { margin-top: 12px; padding: 10px 12px;
@@ -1707,6 +1714,18 @@ class HorneroChat extends HoComponent {
     return `${day}/${month}/${year} ${hours}:${mins}`;
   }
 
+  // Add subsection numbering (2.a, 2.b, etc.) to bold text at start of lines
+  _addSubsectionNumbers(bodyHtml, sectionNum) {
+    if (!sectionNum || !bodyHtml) return bodyHtml;
+    let letterIndex = 0;
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    // Detect <strong> tags at the start of a paragraph (after <br> or at beginning)
+    return bodyHtml.replace(/((?:^|<br>))\s*(<strong>)/g, (match, prefix, strong) => {
+      const letter = letters[letterIndex++] || '';
+      return `${prefix}${sectionNum}.${letter} ${strong}`;
+    });
+  }
+
   _formatMarkdown(text) {
     if (!text) return '';
     const lines = text.split('\n');
@@ -1896,15 +1915,29 @@ class HorneroChat extends HoComponent {
       const sectionsHtml = m.sections.map((s, i) => {
         const sectionTitle = (s.title || '').toLowerCase();
         const isClasif = sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta');
+        const isTranscript = sectionTitle.includes('transcript') || sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo');
+        let sectionNum = '';
+        if (sectionTitle.includes('relato')) sectionNum = '1';
+        else if (isClasif) sectionNum = '2';
+        else if (isTranscript) sectionNum = '3';
+        else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionNum = '4';
         let content = '';
-        if (s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
+        if (s.title) {
+          const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
+          content += `<div class="reporte-card-section-title">${numberedTitle}</div>`;
+        }
         if (s.body) {
           let bodyHtml = this._formatMarkdown(s.body);
           // Convert #tag patterns to clasif-tag badges only in clasificación section
           if (isClasif) {
             bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="clasif-tag">#$1</span>');
           }
-          content += `<div class="reporte-card-section-body">${bodyHtml}</div>`;
+          // Add subsection numbering (2.a, 2.b, etc.) to bold text at start of lines
+          if (sectionNum) {
+            bodyHtml = this._addSubsectionNumbers(bodyHtml, sectionNum);
+          }
+          const bodyClass = isTranscript ? 'reporte-card-section-body transcript-body' : 'reporte-card-section-body';
+          content += `<div class="${bodyClass}">${bodyHtml}</div>`;
         }
         const divider = (i < sectionCount - 1) ? '<div class="reporte-card-divider"></div>' : '';
         return `<div class="reporte-card-section">${content}</div>${divider}`;

@@ -202,8 +202,12 @@ class HorneroGremial extends HoComponent {
       .inform-popup-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .inform-popup-section-body strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
+      /* Only transcript body is italic — no internal boxes or underlines */
+      .inform-popup-section-body.transcript-body { font-style: italic; }
+      .inform-popup-section-body em { font-style: normal; font-weight: 600; color: var(--ho-text, #E8E6E0); }
+      .inform-popup-section-body.transcript-body em { font-style: italic; }
       .clasif-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-green-dark, #3D6B56);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
       .inform-popup-section-divider { height: 1px; background: rgba(43,42,38,.10);
@@ -211,7 +215,7 @@ class HorneroGremial extends HoComponent {
       .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
         padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
       .inform-popup-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-green-dark, #3D6B56);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       /* Section 5 comentarios entries */
       .inform-popup-comentario-entry { padding: 8px 0;
@@ -408,8 +412,12 @@ class HorneroGremial extends HoComponent {
       .inform-popup-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .inform-popup-section-body strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
+      /* Only transcript body is italic — no internal boxes or underlines */
+      .inform-popup-section-body.transcript-body { font-style: italic; }
+      .inform-popup-section-body em { font-style: normal; font-weight: 600; color: var(--ho-text, #E8E6E0); }
+      .inform-popup-section-body.transcript-body em { font-style: italic; }
       .clasif-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-green-dark, #3D6B56);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
       .inform-popup-section-divider { height: 1px; background: rgba(43,42,38,.10);
@@ -417,7 +425,7 @@ class HorneroGremial extends HoComponent {
       .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
         padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
       .inform-popup-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-green-dark, #3D6B56);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .inform-popup-comentario-entry { padding: 8px 0;
         border-bottom: 1px solid rgba(255,255,255,.05); }
@@ -492,11 +500,11 @@ class HorneroGremial extends HoComponent {
       let content = '';
       const sectionTitle = (s.title || '').toLowerCase();
       const isClasif = sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta');
-      const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3', 'ficha': '4' };
+      const isTranscript = sectionTitle.includes('transcript') || sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo');
       let sectionNum = '';
       if (sectionTitle.includes('relato')) sectionNum = '1';
       else if (isClasif) sectionNum = '2';
-      else if (sectionTitle.includes('transcript') || sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionNum = '3';
+      else if (isTranscript) sectionNum = '3';
       else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionNum = '4';
       if (s.title) {
         const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
@@ -513,7 +521,12 @@ class HorneroGremial extends HoComponent {
         if (isClasif) {
           bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="clasif-tag">#$1</span>');
         }
-        content += `<div class="inform-popup-section-body">${bodyHtml}</div>`;
+        // Add subsection numbering (2.a, 2.b, etc.) to bold text at start of lines
+        if (sectionNum) {
+          bodyHtml = this._addSubsectionNumbers(bodyHtml, sectionNum);
+        }
+        const bodyClass = isTranscript ? 'inform-popup-section-body transcript-body' : 'inform-popup-section-body';
+        content += `<div class="${bodyClass}">${bodyHtml}</div>`;
       }
       const divider = (i < (inf.sections || []).length - 1) ?
         '<div class="inform-popup-section-divider"></div>' : '';
@@ -688,6 +701,18 @@ class HorneroGremial extends HoComponent {
       console.warn('Gremial: reporte draft auto-save failed', e);
       // Non-critical — the report can still be approved and saved later
     }
+  }
+
+  // Add subsection numbering (2.a, 2.b, etc.) to bold text at start of lines
+  _addSubsectionNumbers(bodyHtml, sectionNum) {
+    if (!sectionNum || !bodyHtml) return bodyHtml;
+    let letterIndex = 0;
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    // Detect <strong> tags at the start of a paragraph (after <br> or at beginning)
+    return bodyHtml.replace(/((?:^|<br>))\s*(<strong>)/g, (match, prefix, strong) => {
+      const letter = letters[letterIndex++] || '';
+      return `${prefix}${sectionNum}.${letter} ${strong}`;
+    });
   }
 
   // Simple markdown formatter for informe viewer
