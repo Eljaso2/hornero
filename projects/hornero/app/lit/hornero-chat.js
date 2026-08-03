@@ -1016,9 +1016,9 @@ class HorneroChat extends HoComponent {
         font-size: 1rem; color: var(--ho-green-dark, #3D6B56); margin: 14px 0 6px;
         border-bottom: 2px solid var(--ho-green-pale, #E0F0EB); padding-bottom: 4px; }
       .msg-section-body .msg-md-heading, .reporte-card-section-body .msg-md-heading
-        { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1rem; color: var(--ho-green-dark, #3D6B56); margin: 14px 0 6px;
-        border-bottom: 2px solid var(--ho-green-pale, #E0F0EB); padding-bottom: 4px; }
+        { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .78rem; color: var(--ho-text-mid, #6E6A60); margin: 10px 0 4px;
+        text-transform: uppercase; letter-spacing: .04em; }
       .msg-text .msg-md-ul { margin: 6px 0 10px; padding-left: 18px;
         list-style: none; }
       .msg-text .msg-md-ul li, .msg-section-body .msg-md-ul li, .reporte-card-section-body .msg-md-ul li
