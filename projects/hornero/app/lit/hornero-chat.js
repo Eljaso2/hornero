@@ -1875,6 +1875,10 @@ class HorneroChat extends HoComponent {
     // Fallback: detect reportes without 'reporte-generado' tag (IA didn't include it)
     const looksLikeReporte = !isReporteGenerado && m.sections && m.sections.length >= 2 &&
       m.sections.some(s => (s.title || '').toLowerCase().includes('relato'));
+    // Fallback 2: detect reporte in plain text (no structured sections) — show APROBAR button
+    const textHasRelato = m.text && /\bRelato\b/.test(m.text);
+    const textHasClasif = m.text && /\bClasificaci[oó]n\b|\bEtiqueta\b/.test(m.text);
+    const looksLikeTextReporte = !isReporteGenerado && !looksLikeReporte && textHasRelato && textHasClasif && !isReporteAprobado;
 
     if ((isReporteGenerado || looksLikeReporte) && m.sections && m.sections.length > 0) {
       // Render as expandable report card
@@ -1965,6 +1969,20 @@ class HorneroChat extends HoComponent {
             </div>
           </div>
           ${promptText}
+          ${timeHtml}
+        </div>
+      </div>`;
+    }
+
+    // === FALLBACK: Plain-text reporte without structured sections — show APROBAR button ===
+    if (looksLikeTextReporte) {
+      const textBefore = m.text ? `<div class="msg-text">${this._formatMarkdown(m.text)}</div>` : '';
+      const approvePrompt = '<div class="reporte-card-prompt">Revisá el informe de arriba. Si está todo bien, tocá el siguiente botón <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">APROBAR</button> para guardarlo.</div>';
+      return `<div class="msg-row hornero">
+        ${avatarRow}
+        <div class="msg-content">
+          ${textBefore}
+          ${approvePrompt}
           ${timeHtml}
         </div>
       </div>`;

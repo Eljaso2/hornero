@@ -1315,10 +1315,39 @@ class HorneroGremial extends HoComponent {
   async _handleReporteAction(detail) {
     if (detail.action === 'aprobar') {
       // Find the last reporte-generado message
-      const reportMsg = [...this.messages].reverse().find(m =>
+      let reportMsg = [...this.messages].reverse().find(m =>
         m.role === 'hornero' && m.tags && m.tags.includes('reporte-generado') && !m.tags.includes('reporte-aprobado')
       );
+      // Fallback: also detect reportes without 'reporte-generado' tag (e.g. IA didn't include it)
+      if (!reportMsg) {
+        reportMsg = [...this.messages].reverse().find(m =>
+          m.role === 'hornero' && m.sections && m.sections.length >= 2 &&
+          m.sections.some(s => (s.title || '').toLowerCase().includes('relato')) &&
+          !m.tags?.includes('reporte-aprobado') && !m.tags?.includes('informe-guardado') &&
+          !m.tags?.includes('informe-error')
+        );
+      }
+      // Fallback 2: detect reporte from text content (plain text without sections)
+      if (!reportMsg) {
+        reportMsg = [...this.messages].reverse().find(m => {
+          if (m.role !== 'hornero') return false;
+          if (m.tags?.includes('reporte-aprobado') || m.tags?.includes('informe-guardado') || m.tags?.includes('informe-error')) return false;
+          if (!m.text || m.text.length < 100) return false;
+          return /\bRelato\b/.test(m.text) && /\bClasificaci[oó]n\b|\bEtiqueta\b/.test(m.text);
+        });
+      }
       if (reportMsg) {
+        // Ensure reporte-generado tag is present (for UI detection + save flow)
+        if (!reportMsg.tags?.includes('reporte-generado')) {
+          reportMsg.tags = [...(reportMsg.tags || []), 'reporte-generado', 'reporte'];
+        }
+        // If text-based fallback detected, parse sections from text
+        if ((!reportMsg.sections || reportMsg.sections.length === 0) && reportMsg.text) {
+          const parsed = this._parseReporteFromText(reportMsg.text);
+          if (parsed.isReporte) {
+            reportMsg.sections = parsed.sections;
+          }
+        }
         // Mark the original as approved
         const idx = this.messages.indexOf(reportMsg);
         if (idx >= 0) {
