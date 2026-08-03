@@ -39,6 +39,8 @@ class HorneroApp extends HoComponent {
     this._initialPersona = 'abogado'; // Persona selected from landing page
     this._initialSessionId = ''; // Session ID from Mis Conversaciones — load existing chat
     this._initialSection = ''; // Initial section/topic for condicion (e.g. 'comportamiento')
+    this._viewInformeId = ''; // Informe ID — open popup viewer on gremial mount
+    this._editInformeId = ''; // Informe ID — open correction chat on gremial mount
     this._actualidadSubView = ''; // Sub-view for actualidad: 'clipping' | 'infomate' | 'sindical'
     this._clipEdicion = null;
     this._clipExpandId = null;
@@ -844,7 +846,9 @@ class HorneroApp extends HoComponent {
       const mateMesAttr = this._mateMes ? ' mate-mes="' + this._mateMes + '"' : '';
       screenContent = '<hornero-infomate grade="' + this.userGrade + '" sector="' + this.userSector + '"' + mateMesAttr + '></hornero-infomate>';
     } else if (this.screen === 'gremial') {
-      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'companero') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-gremial>';
+      const viewInfAttr = this._viewInformeId ? ' view-informe="' + this._viewInformeId + '"' : '';
+      const editInfAttr = this._editInformeId ? ' edit-informe="' + this._editInformeId + '"' : '';
+      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'companero') + '" session-id="' + (this._initialSessionId || '') + '"' + viewInfAttr + editInfAttr + '></hornero-gremial>';
     } else if (this.screen === 'historiador') {
       screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
@@ -1128,6 +1132,8 @@ class HorneroApp extends HoComponent {
         // Reporte section → navigate to gremial with companero persona
         if (btn.dataset.screen === 'misReportes') {
           this._initialPersona = 'companero';
+          this._viewInformeId = '';
+          this._editInformeId = '';
           this._navigateTo('gremial');
           return;
         }
@@ -1213,6 +1219,8 @@ class HorneroApp extends HoComponent {
         // Reporte button → navigate to Compañero chat (same as sections bar)
         if (screen === 'misReportes') {
           this._initialPersona = 'companero';
+          this._viewInformeId = '';
+          this._editInformeId = '';
           this._navigateTo('gremial');
           return;
         }
@@ -1239,29 +1247,43 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'misReportes' && !this._misRepLoaded) {
       this._loadMisReportes().then(() => { this._misRepLoaded = true; this.render(); });
     }
-    // Bind recibidos review buttons (aprobar/corregir) — subtle icon-only
+    // Bind recibidos review buttons (aprobar/corregir) — navigate to gremial
     this.shadowRoot.querySelectorAll('.recibidos-review-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation(); // Don't trigger parent list-item click
         const infId = btn.dataset.reviewInforme;
         const action = btn.dataset.reviewAction;
         if (!infId || !action) return;
-        if (typeof actualizarEstadoInforme !== 'function') return;
-        const newState = action === 'aprobar' ? 'aprobado-delegado' : 'corregido-delegado';
-        actualizarEstadoInforme(infId, newState).then(() => {
-          this._recibidosLoaded = false;
-          this._loadRecibidos().then(() => { this.render(); });
-        });
+        if (action === 'aprobar') {
+          // Aprobar sin cambios: update estado directly
+          if (typeof actualizarEstadoInforme !== 'function') return;
+          actualizarEstadoInforme(infId, 'aprobado-delegado').then(() => {
+            this._recibidosLoaded = false;
+            this._loadRecibidos().then(() => { this.render(); });
+          });
+        } else if (action === 'corregir') {
+          // Corregir: navigate to gremial chat with compañero for AI-assisted correction
+          this._initialPersona = 'companero';
+          this._initialSessionId = '';
+          this._viewInformeId = '';
+          this._editInformeId = infId;
+          this._navigateTo('gremial');
+        }
       });
     });
-    // Bind expandable informe items (click to show/hide content)
+    // Bind recibidos informe items (click to view in popup) — navigate to gremial
     this.shadowRoot.querySelectorAll('[data-expand-informe]').forEach(item => {
       item.addEventListener('click', (e) => {
-        // Don't expand if action button was clicked
+        // Don't trigger if action button was clicked
         if (e.target.closest('.informes-action-btn') || e.target.closest('.recibidos-review-btn')) return;
-        const contentEl = item.querySelector('.informes-expand-content');
-        if (contentEl) {
-          contentEl.style.display = contentEl.style.display === 'none' ? 'block' : 'none';
+        const infId = item.dataset.expandInforme;
+        if (infId) {
+          // Navigate to gremial and open the informe popup
+          this._initialPersona = 'companero';
+          this._initialSessionId = '';
+          this._viewInformeId = infId;
+          this._editInformeId = '';
+          this._navigateTo('gremial');
         }
       });
     });
@@ -1301,14 +1323,10 @@ class HorneroApp extends HoComponent {
           if (btn.disabled) return;
           // Navigate to gremial screen and open the informe for editing
           this._initialPersona = 'companero';
+          this._initialSessionId = '';
+          this._viewInformeId = '';
+          this._editInformeId = infId;
           this._navigateTo('gremial');
-          // After navigation, trigger edit
-          setTimeout(() => {
-            const comp = this.shadowRoot.querySelector('hornero-gremial');
-            if (comp && typeof comp._handleInformeEdit === 'function') {
-              comp._handleInformeEdit(infId);
-            }
-          }, 500);
         }
       });
     });
@@ -1754,18 +1772,6 @@ class HorneroApp extends HoComponent {
       const usernameTag = inf.username ? '@' + inf.username : '';
       const empresaTag = inf.empresa || '';
       const gradoTag = inf.grado ? 'G' + inf.grado : '';
-      let contentHtml = '';
-      if (inf.sections && inf.sections.length > 0) {
-        contentHtml = inf.sections.map((s, i) => {
-          let sec = '';
-          if (s.title) sec += '<div class="informes-expand-section-title">' + s.title + '</div>';
-          if (s.body) sec += '<div class="informes-expand-section-body">' + s.body.substring(0, 300) + (s.body.length > 300 ? '...' : '') + '</div>';
-          const divider = (i < inf.sections.length - 1) ? '<div class="informes-expand-divider"></div>' : '';
-          return sec + divider;
-        }).join('');
-      } else if (inf.contenido) {
-        contentHtml = '<div class="informes-expand-section-body">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
-      }
       return '<div class="informes-item' + statusClass + '" data-expand-informe="' + inf.id + '">' +
         '<div class="informes-item-title" style="' + titleStyle + '">' + (title || 'Informe gremial') + '</div>' +
         '<div class="informes-item-meta">' +
@@ -1775,7 +1781,6 @@ class HorneroApp extends HoComponent {
           (empresaTag ? '<span class="informes-item-tag">' + empresaTag + '</span>' : '') +
           '<span class="informes-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
         '</div>' +
-        '<div class="informes-expand-content" style="display:none">' + contentHtml + '</div>' +
         (isPending ? '<div style="display:flex;gap:6px;margin-top:6px">' +
           '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24">' + approveSvg + '</svg></button>' +
           '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24">' + editSvg + '</svg></button>' +
@@ -2125,13 +2130,10 @@ class HorneroApp extends HoComponent {
         } else if (action === 'modificar' && infId) {
           this._closeInformePopupPortal();
           this._initialPersona = 'companero';
+          this._initialSessionId = '';
+          this._viewInformeId = '';
+          this._editInformeId = infId;
           this._navigateTo('gremial');
-          setTimeout(() => {
-            const comp = this.shadowRoot.querySelector('hornero-gremial');
-            if (comp && typeof comp._handleInformeEdit === 'function') {
-              comp._handleInformeEdit(infId);
-            }
-          }, 500);
         } else if (action === 'descargar' && this._viewingInforme) {
           this._downloadInformeFromViewer();
         }

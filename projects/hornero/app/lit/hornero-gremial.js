@@ -11,6 +11,8 @@ class HorneroGremial extends HoComponent {
       sector: String,
       persona: String,  // Initial persona from Mesa de Trabajo landing
       sessionId: String, // Session ID — if set, load existing session instead of greeting
+      viewInforme: String, // Informe ID — if set, open popup viewer on mount
+      editInforme: String, // Informe ID — if set, open correction chat on mount
       messages: Array,
       _bannerVisible: Boolean,
       _exploreOpen: Boolean,
@@ -185,6 +187,7 @@ class HorneroGremial extends HoComponent {
       .inform-popup-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
       .inform-popup-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .inform-popup-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
+      .inform-popup-header-estado.estado-visto { background: #D4E4F7; color: #2B5278; }
       .inform-popup-header-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
       .inform-popup-scroll { flex: 1; overflow-y: auto; padding: 16px; }
       .inform-popup-section { margin-bottom: 16px; }
@@ -420,6 +423,7 @@ class HorneroGremial extends HoComponent {
       .inform-popup-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
       .inform-popup-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .inform-popup-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
+      .inform-popup-header-estado.estado-visto { background: #D4E4F7; color: #2B5278; }
       .inform-popup-header-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
       .inform-popup-scroll { flex: 1; overflow-y: auto; padding: 16px; }
       .inform-popup-section { margin-bottom: 16px; }
@@ -511,7 +515,7 @@ class HorneroGremial extends HoComponent {
       'aprobado-con-cambios': '📝 Aprobado con cambios',
       'aprobado-delegado': '✅ Aprobado sin cambios',
       'corregido-delegado': '📝 Aprobado con cambios',
-      'visto': '⏳ Pendiente de revisión',
+      'visto': '👁 Visto por superior — no modificable',
       'aceptado': '✅ Aprobado sin cambios',
     };
     const estadoClassMap = {
@@ -520,7 +524,7 @@ class HorneroGremial extends HoComponent {
       'aprobado-con-cambios': 'estado-con-cambios',
       'aprobado-delegado': 'estado-aprobado',
       'corregido-delegado': 'estado-con-cambios',
-      'visto': 'estado-pendiente',
+      'visto': 'estado-visto',
       'aceptado': 'estado-aprobado',
     };
     const estadoLabel = estadoLabelMap[estado] || estado;
@@ -885,6 +889,17 @@ class HorneroGremial extends HoComponent {
     }
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
+    }
+    // Handle viewInforme / editInforme attributes (from Recibidos screen navigation)
+    if (this.viewInforme) {
+      const infId = this.viewInforme;
+      this.viewInforme = ''; // Clear so it doesn't re-trigger on re-render
+      // Small delay to ensure chat is rendered
+      setTimeout(() => this._handleInformeView(infId), 300);
+    } else if (this.editInforme) {
+      const infId = this.editInforme;
+      this.editInforme = ''; // Clear so it doesn't re-trigger on re-render
+      setTimeout(() => this._handleInformeEdit(infId), 300);
     }
   }
 
@@ -1924,6 +1939,7 @@ class HorneroGremial extends HoComponent {
 
   _closeInformeViewer() {
     this._viewingInforme = null;
+    this._informeFullyRead = false;  // Regla 1: reset scroll state on close
     this._closeInformePopupPortal();
   }
 
@@ -1962,6 +1978,27 @@ class HorneroGremial extends HoComponent {
 
   async _deleteInformeFromViewer(informeId) {
     if (typeof dbDelete !== 'function') return;
+    // Regla 2: autor NO puede eliminar si un superior ya vio el informe
+    if (typeof obtenerInforme === 'function') {
+      const informe = await obtenerInforme(informeId);
+      if (informe) {
+        const session = this._getSession();
+        const isOwnInforme = informe.username === (session.username || this._username);
+        const superiorVio = ['visto','aprobado','aprobado-con-cambios','aprobado-delegado','corregido-delegado','corregido'].includes(informe.estado);
+        if (isOwnInforme && superiorVio) {
+          this.messages = [...this.messages, {
+            role: 'hornero',
+            text: '🔒 No podés eliminar este informe porque ya fue visto por un superior.',
+            tags: ['reporte', 'informe-bloqueado'],
+            persona: 'companero',
+            time: this._timeNow(),
+          }];
+          this._saveChatHistory();
+          this.render();
+          return;
+        }
+      }
+    }
     await dbDelete('informes', informeId);
     this._closeInformeViewer();
   }
@@ -1992,12 +2029,28 @@ class HorneroGremial extends HoComponent {
       const informe = await obtenerInforme(informeId);
       if (!informe) return;
 
+      // Regla 2: autor NO puede corregir si un superior ya vio el informe
+      const session = this._getSession();
+      const isOwnInforme = informe.username === (session.username || this._username);
+      const superiorVio = ['visto','aprobado','aprobado-con-cambios','aprobado-delegado','corregido-delegado','corregido'].includes(informe.estado);
+      if (isOwnInforme && superiorVio) {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: '🔒 No podés modificar este informe porque ya fue visto por un superior. Si necesitás hacer un cambio, contactá a tu delegada.',
+          tags: ['reporte', 'informe-bloqueado'],
+          persona: 'companero',
+          time: this._timeNow(),
+        }];
+        this._saveChatHistory();
+        this.render();
+        return;
+      }
+
       // Save original sections before correction (for diff later)
       this._originalSectionsBeforeCorrection = JSON.parse(JSON.stringify(informe.sections || []));
       this._correctingInformeId = informeId;
 
       // Detect if this is a superior correcting an incoming report
-      const session = this._getSession();
       const isSuperior = informe.username !== (session.username || this._username);
 
       // Re-inject the informe content as a new reporte-generado message
@@ -2036,6 +2089,23 @@ class HorneroGremial extends HoComponent {
       if (typeof obtenerInforme !== 'function') return;
       const informe = await obtenerInforme(informeId);
       if (!informe) return;
+
+      // Regla 2: autor NO puede modificar si un superior ya vio el informe
+      const session = this._getSession();
+      const isOwnInforme = informe.username === (session.username || this._username);
+      const superiorVio = ['visto','aprobado','aprobado-con-cambios','aprobado-delegado','corregido-delegado','corregido'].includes(informe.estado);
+      if (isOwnInforme && superiorVio) {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: '🔒 No podés modificar este informe porque ya fue visto por un superior. Si necesitás hacer un cambio, contactá a tu delegada.',
+          tags: ['reporte', 'informe-bloqueado'],
+          persona: 'companero',
+          time: this._timeNow(),
+        }];
+        this._saveChatHistory();
+        this.render();
+        return;
+      }
 
       // Save original sections before modification (for diff later)
       this._originalSectionsBeforeCorrection = JSON.parse(JSON.stringify(informe.sections || []));
@@ -2097,6 +2167,19 @@ class HorneroGremial extends HoComponent {
   // Superior approves a received informe without changes
   async _handleInformeApprove(informeId) {
     try {
+      // Regla 1: defender que el informe fue leído completo antes de aprobar
+      if (!this._informeFullyRead) {
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: '🔒 Tenés que leer el informe completo antes de poder aprobarlo. Abrilo desde el listado y scrolleá hasta el final.',
+          tags: ['reporte', 'informe-bloqueado'],
+          persona: 'companero',
+          time: this._timeNow(),
+        }];
+        this._saveChatHistory();
+        this.render();
+        return;
+      }
       if (typeof actualizarEstadoInforme !== 'function') return;
       const session = this._getSession();
       const gradoMap = { 'B.a': 1, 'B.b': 2, 'B.c': 3, 'B.d': 4 };

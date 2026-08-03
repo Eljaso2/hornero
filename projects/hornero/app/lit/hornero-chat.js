@@ -1467,7 +1467,7 @@ class HorneroChat extends HoComponent {
       // Legacy compat
       'aprobado-delegado': '✅ Aprobado sin cambios',
       'corregido-delegado': '📝 Aprobado con cambios',
-      'visto': '⏳ Pendiente de revisión',
+      'visto': '👁 Visto por superior',
       'aceptado': '✅ Aprobado sin cambios',
       'corregido': '📝 Aprobado con cambios',
     };
@@ -1478,7 +1478,7 @@ class HorneroChat extends HoComponent {
       // Legacy compat
       'aprobado-delegado': 'estado-aprobado',
       'corregido-delegado': 'estado-con-cambios',
-      'visto': 'estado-pendiente',
+      'visto': 'estado-visto',
       'aceptado': 'estado-aprobado',
       'corregido': 'estado-con-cambios',
     };
@@ -1666,7 +1666,7 @@ class HorneroChat extends HoComponent {
                     'aprobado-con-cambios': '📝 Aprobado con cambios',
                     'aprobado-delegado': '✅ Aprobado sin cambios',
                     'corregido-delegado': '📝 Aprobado con cambios',
-                    'visto': '⏳ Pendiente',
+                    'visto': '👁 Visto por superior',
                   };
                   const estadoClassMap = {
                     'pendiente': 'estado-pendiente',
@@ -1674,7 +1674,7 @@ class HorneroChat extends HoComponent {
                     'aprobado-con-cambios': 'estado-con-cambios',
                     'aprobado-delegado': 'estado-aprobado',
                     'corregido-delegado': 'estado-con-cambios',
-                    'visto': 'estado-pendiente',
+                    'visto': 'estado-visto',
                   };
                   const estadoLabel = estadoLabelMap[inf.estado] || inf.estado;
                   const estadoClass = estadoClassMap[inf.estado] || '';
