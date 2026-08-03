@@ -485,7 +485,12 @@ class HorneroChat extends HoComponent {
         padding: 8px 16px 4px; border-top: 2px solid var(--ho-border, rgba(43,42,38,.18));
         margin-top: 6px; letter-spacing: .04em; text-transform: uppercase; }
 
-      .informes-item-reviewed { opacity: .55; }
+      .informes-item-reviewed { opacity: 1; }
+      .informes-item-reviewed .informes-item-title { font-weight: 400; }
+      .informes-item-pending { border-left: 3px solid var(--ho-gold, #B0863F);
+        background: rgba(240,228,204,.08); }
+      .informes-item-pending .informes-item-title { font-weight: 800; }
+      :host(.theme-light) .informes-item-pending { background: rgba(240,228,204,.18); }
 
       /* Informes item review buttons (aprobar/corregir for incoming G1) — subtle, icon-only */
       .informes-review-actions { display: flex; gap: 6px; margin-top: 6px; }
@@ -1613,8 +1618,8 @@ class HorneroChat extends HoComponent {
             </div>
             <div class="informes-list">
               ${(() => {
-                const pendientes = this._informesEntrantes.filter(inf => inf.estado === 'pendiente');
-                const revisados = this._informesEntrantes.filter(inf => inf.estado !== 'pendiente');
+                const pendientes = this._informesEntrantes.filter(inf => inf.estado === 'pendiente' || inf.estado === 'visto' || inf.estado === 'aceptado');
+                const revisados = this._informesEntrantes.filter(inf => inf.estado !== 'pendiente' && inf.estado !== 'visto' && inf.estado !== 'aceptado');
                 if (this._informesEntrantes.length === 0) return '<div class="informes-empty">No hay reportes recibidos</div>';
 
                 const renderItem = (inf, isReviewed) => {
@@ -1647,12 +1652,12 @@ class HorneroChat extends HoComponent {
                   };
                   const estadoLabel = estadoLabelMap[inf.estado] || inf.estado;
                   const estadoClass = estadoClassMap[inf.estado] || '';
-                  const fadeClass = isReviewed ? ' informes-item-reviewed' : '';
+                  const statusClass = isReviewed ? ' informes-item-reviewed' : ' informes-item-pending';
                   const reviewBtnHtml = !isReviewed ? `<div class="informes-review-actions">
                     <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><polyline points="20 6 9 17 4 12"/></svg></button>
                     <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
                   </div>` : '';
-                  return `<div class="informes-item${fadeClass}" data-informe-id="${inf.id}">
+                  return `<div class="informes-item${statusClass}" data-informe-id="${inf.id}">
                     <div class="informes-item-title">${titleText || 'Informe gremial'}</div>
                     <div class="informes-item-meta">
                       <span>${dateStr}</span>

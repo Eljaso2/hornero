@@ -319,49 +319,46 @@ function obtenerInformesEntrantes(userGrade, territorio, empresa) {
       if (!infEmp) return false;
       return infEmp === userEmp || infEmp.toLowerCase().trim() === userEmp.toLowerCase().trim();
     }
-    // Show informes that are not yet fully resolved (pendiente, visto, aceptado)
-    // Exclude aprobado-delegado, corregido-delegado (already resolved)
-    var unresolvedEstados = ['pendiente', 'visto', 'aceptado'];
+    // Show ALL informes from lower grade — not just unresolved.
+    // Approved/revised informes stay in the list with different visual treatment.
+    // Sort: pendientes first (by timestamp desc), then revisados (by timestamp desc)
     var lowerGrade;
     if (userGrade === 'B.b') {
-      // Delegate sees G1 unresolved from their territory + empresa (flexible matching)
+      // Delegate sees G1 from their territory + empresa (flexible matching)
       lowerGrade = 1;
       return all.filter(function(inf) {
         return inf.grado === lowerGrade &&
-               unresolvedEstados.indexOf(inf.estado) >= 0 &&
                terrMatch(inf.territorio, territorio) &&
                empMatch(inf.empresa, empresa) &&
                inf.username !== '';
       }).sort(function(a, b) {
-        var aPend = a.estado === 'pendiente' ? 0 : 1;
-        var bPend = b.estado === 'pendiente' ? 0 : 1;
+        var aPend = (a.estado === 'pendiente' || a.estado === 'visto' || a.estado === 'aceptado') ? 0 : 1;
+        var bPend = (b.estado === 'pendiente' || b.estado === 'visto' || b.estado === 'aceptado') ? 0 : 1;
         if (aPend !== bPend) return aPend - bPend;
         return (b.timestamp || 0) - (a.timestamp || 0);
       });
     }
     if (userGrade === 'B.c') {
-      // Secretary sees G2 unresolved from their territory (all empresas, flexible matching)
+      // Secretary sees G2 from their territory (all empresas, flexible matching)
       lowerGrade = 2;
       return all.filter(function(inf) {
         return inf.grado === lowerGrade &&
-               unresolvedEstados.indexOf(inf.estado) >= 0 &&
                terrMatch(inf.territorio, territorio);
       }).sort(function(a, b) {
-        var aPend = a.estado === 'pendiente' ? 0 : 1;
-        var bPend = b.estado === 'pendiente' ? 0 : 1;
+        var aPend = (a.estado === 'pendiente' || a.estado === 'visto' || a.estado === 'aceptado') ? 0 : 1;
+        var bPend = (b.estado === 'pendiente' || b.estado === 'visto' || b.estado === 'aceptado') ? 0 : 1;
         if (aPend !== bPend) return aPend - bPend;
         return (b.timestamp || 0) - (a.timestamp || 0);
       });
     }
     if (userGrade === 'B.d') {
-      // Federation sees G3 unresolved from all territories
+      // Federation sees G3 from all territories
       lowerGrade = 3;
       return all.filter(function(inf) {
-        return inf.grado === lowerGrade &&
-               unresolvedEstados.indexOf(inf.estado) >= 0;
+        return inf.grado === lowerGrade;
       }).sort(function(a, b) {
-        var aPend = a.estado === 'pendiente' ? 0 : 1;
-        var bPend = b.estado === 'pendiente' ? 0 : 1;
+        var aPend = (a.estado === 'pendiente' || a.estado === 'visto' || a.estado === 'aceptado') ? 0 : 1;
+        var bPend = (b.estado === 'pendiente' || b.estado === 'visto' || b.estado === 'aceptado') ? 0 : 1;
         if (aPend !== bPend) return aPend - bPend;
         return (b.timestamp || 0) - (a.timestamp || 0);
       });

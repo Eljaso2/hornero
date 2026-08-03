@@ -615,6 +615,12 @@ class HorneroApp extends HoComponent {
       .informes-item-estado.estado-visto { background: #D7E8F3; color: #2C5A8A; }
       .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .informes-item-estado.estado-corregido { background: #D7E8F3; color: #2C5A8A; }
+      .informes-item-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
+      .informes-item-pending { border-left: 3px solid var(--ho-gold, #B0863F);
+        background: rgba(240,228,204,.08); }
+      .informes-item-pending .informes-item-title { font-weight: 800; }
+      .informes-item-reviewed .informes-item-title { font-weight: 400; }
+      :host(.theme-light) .informes-item-pending { background: rgba(240,228,204,.18); }
       .informes-item-footer { display: flex; align-items: center;
         gap: 8px; margin-top: 4px; }
       .informes-item-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -1623,6 +1629,10 @@ class HorneroApp extends HoComponent {
       'pendiente': 'Pendiente',
       'visto': 'Visto',
       'aceptado': 'Aprobado por trabajador',
+      'aprobado': 'Aprobado sin cambios',
+      'aprobado-con-cambios': 'Aprobado con cambios',
+      'aprobado-delegado': 'Aprobado sin cambios',
+      'corregido-delegado': 'Aprobado con cambios',
     };
     const approveSvg = '<polyline points="20 6 9 17 4 12"/>';
     const editSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
@@ -1638,7 +1648,19 @@ class HorneroApp extends HoComponent {
       const dateStr = inf.fecha || '';
       const estado = inf.estado || 'pendiente';
       const estadoLabel = estadoLabelMap[estado] || estado;
-      const estadoClass = estado === 'pendiente' ? 'estado-pendiente' : estado === 'visto' ? 'estado-visto' : estado === 'aceptado' ? 'estado-aceptado' : '';
+      const estadoClassMap = {
+        'pendiente': 'estado-pendiente',
+        'visto': 'estado-visto',
+        'aceptado': 'estado-aceptado',
+        'aprobado': 'estado-aprobado',
+        'aprobado-con-cambios': 'estado-con-cambios',
+        'aprobado-delegado': 'estado-aprobado',
+        'corregido-delegado': 'estado-con-cambios',
+      };
+      const estadoClass = estadoClassMap[estado] || '';
+      const isPending = estado === 'pendiente' || estado === 'visto' || estado === 'aceptado';
+      const statusClass = isPending ? ' informes-item-pending' : ' informes-item-reviewed';
+      const titleStyle = isPending ? 'font-weight:800' : 'font-weight:400';
       const usernameTag = inf.username ? '@' + inf.username : '';
       const empresaTag = inf.empresa || '';
       const gradoTag = inf.grado ? 'G' + inf.grado : '';
@@ -1654,8 +1676,8 @@ class HorneroApp extends HoComponent {
       } else if (inf.contenido) {
         contentHtml = '<div class="informes-expand-section-body">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
       }
-      return '<div class="informes-item" data-expand-informe="' + inf.id + '">' +
-        '<div class="informes-item-title">' + (title || 'Informe gremial') + '</div>' +
+      return '<div class="informes-item' + statusClass + '" data-expand-informe="' + inf.id + '">' +
+        '<div class="informes-item-title" style="' + titleStyle + '">' + (title || 'Informe gremial') + '</div>' +
         '<div class="informes-item-meta">' +
           '<span>' + dateStr + '</span>' +
           '<span class="history-item-user">' + usernameTag + '</span>' +
@@ -1664,7 +1686,7 @@ class HorneroApp extends HoComponent {
           '<span class="informes-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
         '</div>' +
         '<div class="informes-expand-content" style="display:none">' + contentHtml + '</div>' +
-        (estado === 'pendiente' || estado === 'visto' ? '<div style="display:flex;gap:6px;margin-top:6px">' +
+        (isPending ? '<div style="display:flex;gap:6px;margin-top:6px">' +
           '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24">' + approveSvg + '</svg></button>' +
           '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24">' + editSvg + '</svg></button>' +
         '</div>' : '') +
@@ -1672,7 +1694,7 @@ class HorneroApp extends HoComponent {
     }).join('');
     return '<div class="list-screen">' +
       '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Reportes Recibidos</div>' + headerRight + '</div>' +
-      '<div class="list-screen-desc">Informes de trabajadores bajo tu responsabilidad que necesitan revision. Toca un informe para leerlo.</div>' +
+      '<div class="list-screen-desc">Informes de trabajadores bajo tu responsabilidad. Los pendientes figuran en negrita.</div>' +
       '<div class="list-scroll">' + items + '</div>' +
     '</div>';
   }
@@ -1789,17 +1811,21 @@ class HorneroApp extends HoComponent {
       'pendiente': 'Pendiente de revision',
       'aceptado': 'Aprobado por trabajador',
       'visto': 'Visto por delegado',
-      'aprobado': 'Aprobado por delegado',
-      'aprobado-delegado': 'Aprobado por delegado',
+      'aprobado': 'Aprobado sin cambios',
+      'aprobado-con-cambios': 'Aprobado con cambios',
+      'aprobado-delegado': 'Aprobado sin cambios',
       'corregido': 'Modificado',
-      'corregido-delegado': 'Corregido por delegado',
+      'corregido-delegado': 'Aprobado con cambios',
     };
     const estadoClassMap = {
       'pendiente': 'estado-pendiente',
       'aceptado': 'estado-aceptado',
       'visto': 'estado-visto',
       'aprobado': 'estado-aprobado',
+      'aprobado-con-cambios': 'estado-con-cambios',
+      'aprobado-delegado': 'estado-aprobado',
       'corregido': 'estado-corregido',
+      'corregido-delegado': 'estado-con-cambios',
     };
     if (list.length === 0) {
       return '<div class="list-screen">' +
@@ -1819,6 +1845,9 @@ class HorneroApp extends HoComponent {
       const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
       const gradoBadge = inf.grado ? '<span class="informes-item-grado">G' + inf.grado + '</span>' : '';
       const canEdit = displayEstado === 'pendiente' || displayEstado === 'aceptado';
+      const isPending = displayEstado === 'pendiente' || displayEstado === 'visto' || displayEstado === 'aceptado';
+      const statusClass = isPending ? ' informes-item-pending' : ' informes-item-reviewed';
+      const titleStyle = isPending ? 'font-weight:800' : 'font-weight:400';
       const corregirDisabled = canEdit ? '' : ' disabled';
       let contentHtml = '';
       if (inf.sections && inf.sections.length > 0) {
@@ -1832,8 +1861,8 @@ class HorneroApp extends HoComponent {
       } else if (inf.contenido) {
         contentHtml = '<div class="informes-expand-section-body">' + inf.contenido.substring(0, 300) + (inf.contenido.length > 300 ? '...' : '') + '</div>';
       }
-      return '<div class="informes-item" data-expand-informe="' + inf.id + '">' +
-        '<div class="informes-item-title">' + (titleText || 'Informe gremial') + '</div>' +
+      return '<div class="informes-item' + statusClass + '" data-expand-informe="' + inf.id + '">' +
+        '<div class="informes-item-title" style="' + titleStyle + '">' + (titleText || 'Informe gremial') + '</div>' +
         '<div class="informes-item-meta">' +
           (inf.username ? '<span class="informes-item-user">@' + inf.username + '</span>' : '') +
           gradoBadge +
