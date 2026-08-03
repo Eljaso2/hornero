@@ -1636,9 +1636,12 @@ class HorneroGremial extends HoComponent {
         }
 
         // Brief confirmation message — just notify, no link/button needed
+        const isSuperiorApproval = isReEdit && this._originalSectionsBeforeCorrection === null && reportMsg.tags?.includes('correccion-modificado');
         const confirmMsg = {
           role: 'hornero',
-          text: '✅ Informe guardado en tu archivo.',
+          text: isSuperiorApproval
+            ? '✅ Informe aprobado con cambios. Va a aparecer resaltado en el listado de reportes recibidos.'
+            : '✅ Informe guardado en tu archivo.',
           tags: ['reporte', 'informe-guardado'],
           time: this._timeNow(),
         };
@@ -1901,10 +1904,16 @@ class HorneroGremial extends HoComponent {
       this._originalSectionsBeforeCorrection = JSON.parse(JSON.stringify(informe.sections || []));
       this._correctingInformeId = informeId;
 
+      // Detect if this is a superior correcting an incoming report
+      const session = this._getSession();
+      const isSuperior = informe.username !== (session.username || this._username);
+
       // Re-inject the informe content as a new reporte-generado message
       const reportMsg = {
         role: 'hornero',
-        text: 'Abrimos tu informe para que lo puedas corregir. Lee el contenido y decime qué querés cambiar.',
+        text: isSuperior
+          ? 'Abrimos el reporte para que lo puedas corregir. Lee el contenido y decime qué querés cambiar. Cuando esté listo, te lo leo y preguntó si lo aprobás.'
+          : 'Abrimos tu informe para que lo puedas corregir. Lee el contenido y decime qué querés cambiar.',
         sections: informe.sections || [],
         tags: ['reporte', 'reporte-generado'],
         persona: 'companero',
@@ -1914,7 +1923,9 @@ class HorneroGremial extends HoComponent {
 
       this.messages = [...this.messages, reportMsg, {
         role: 'hornero',
-        text: '¿Qué querés corregir? Decime qué cambiar y lo ajusto.',
+        text: isSuperior
+          ? '¿Qué querés corregir? Decime qué cambiar y lo ajusto. Después te lo leo para que lo apruebes.'
+          : '¿Qué querés corregir? Decime qué cambiar y lo ajusto.',
         tags: ['reporte', 'correccion-pendiente'],
         persona: 'companero',
         time: this._timeNow(),
