@@ -541,48 +541,79 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
 def get_incoming_reports_text(reports: list) -> str:
     """Format incoming reports from lower grades for system prompt injection.
 
-    Each report formatted with: ID, title, estado, source grade, summary.
-    Includes rules for the Compañero to work with these reports.
+    Each report formatted with FULL section content + correcciones.
+    Includes rules for the Compañero to synthesize these reports.
     """
     if not reports:
         return ""
 
     lines = ["=== REPORTES ENTRANTES (para revisión) ===", ""]
+    lines.append("Tenés acceso al contenido COMPLETO de estos reportes. Podés citarlos, referenciarlos, y hacer síntesis de ellos.")
+    lines.append("")
 
     for report in reports:
         report_id = report.get("id", "sin-id")
         numero = report.get("numero", "")
-        title = report.get("titulo", "")
-        # Get summary from sections
-        sections = report.get("sections", [])
-        summary = ""
-        if sections:
-            first_section = sections[0] if sections else {}
-            body = first_section.get("body", "")
-            summary = body[:150] + "..." if len(body) > 150 else body
         estado = report.get("estado", "pendiente")
         source_grade = report.get("grado", "")
         username = report.get("username", "")
         fecha = report.get("fecha", "")
 
-        entry = f"[REPORTE {report_id}"
+        # Header
+        header = f"--- REPORTE {report_id}"
         if numero:
-            entry += f" N°{numero}"
-        entry += f": {title}"
-        if summary:
-            entry += f". Resumen: {summary}"
-        entry += f". Estado: {estado}"
+            header += f" N°{numero}"
+        header += f" | Estado: {estado}"
         if source_grade:
-            entry += f". Grado origen: G{source_grade}"
+            header += f" | Grado origen: G{source_grade}"
         if username:
-            entry += f". Usuario: @{username}"
+            header += f" | Autor: @{username}"
         if fecha:
-            entry += f". Fecha: {fecha}"
-        entry += "]"
-        lines.append(entry)
+            header += f" | Fecha: {fecha}"
+        header += " ---"
+        lines.append(header)
 
-    lines.append("")
-    lines.append("REGLA: Tu función principal es revisar estos reportes. Preguntá si los leyó y trabajá sobre ellos para elaborar el reporte de su grado. Si el usuario no quiere revisar estos reportes e insiste en reportar algo propio, marcá que es ad hoc y procedé con el flujo normal.")
+        # Full sections
+        sections = report.get("sections", [])
+        for sec in sections:
+            sec_title = sec.get("title", "")
+            sec_body = sec.get("body", "")
+            if sec_title:
+                lines.append(f"  [{sec_title}]")
+            if sec_body:
+                # Indent body for readability
+                for body_line in sec_body.split("\n"):
+                    lines.append(f"    {body_line}")
+
+        # Correcciones (modifications)
+        correcciones = report.get("correcciones", [])
+        if correcciones:
+            lines.append("  [Correcciones]")
+            for corr in correcciones:
+                corr_tipo = corr.get("tipo", "")
+                corr_grado = corr.get("correctorGrado", "")
+                corr_user = corr.get("correctorUsername", "")
+                corr_seccion = corr.get("seccionTitle", "")
+                corr_resumen = corr.get("resumen", "")
+                corr_texto = corr.get("textoNuevo", "")
+                corr_line = f"    - G{corr_grado} (@{corr_user}): {corr_tipo}"
+                if corr_seccion:
+                    corr_line += f" en '{corr_seccion}'"
+                if corr_resumen:
+                    corr_line += f" — {corr_resumen}"
+                lines.append(corr_line)
+                if corr_texto and corr_tipo in ("modificado", "agregado"):
+                    # Show the new text (truncated if very long)
+                    texto_display = corr_texto[:300] + "..." if len(corr_texto) > 300 else corr_texto
+                    lines.append(f"      Texto nuevo: {texto_display}")
+
+        lines.append("")  # blank line between reports
+
+    lines.append("REGLAS DE SÍNTESIS:")
+    lines.append("1. Tu función principal es revisar estos reportes y elaborar un reporte de tu grado (G2/G3/G4) basado en ellos.")
+    lines.append("2. Para elaborar el reporte, sintetizá los reportes entrantes: identificá temas comunes, patrones, situaciones que se repiten, y elaborá un informe consolidado.")
+    lines.append("3. Si hay correcciones/modificaciones en los reportes, tenélas en cuenta para la síntesis — el texto modificado reemplaza al original.")
+    lines.append("4. Preguntá si el usuario los leyó y trabajá sobre ellos. Si insiste en reportar algo propio, marcá que es ad hoc y procedé con el flujo normal.")
 
     return "\n".join(lines)
 

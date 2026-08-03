@@ -945,7 +945,7 @@ class HorneroGremial extends HoComponent {
 
   async _loadIncomingReports() {
     // Load incoming reports from lower grades for G2+ users.
-    // Caches the reports so they can be sent with each chat request.
+    // Caches the reports (with correcciones) so they can be sent with each chat request.
     const gradeMap = {'A': 'G1', 'B.a': 'G1', 'B.b': 'G2', 'B.c': 'G3', 'B.d': 'G4'};
     const gradeCode = gradeMap[this.grade] || 'G1';
     if (gradeCode === 'G1') {
@@ -958,6 +958,18 @@ class HorneroGremial extends HoComponent {
       const userEmpresa = (session.agremiacion && session.agremiacion.empresa) || '';
       if (typeof obtenerInformesEntrantes === 'function') {
         this._cachedIncomingReports = await obtenerInformesEntrantes(this.grade, userTerritory, userEmpresa);
+        // Load correcciones for each incoming report
+        if (typeof obtenerCorrecciones === 'function' && this._cachedIncomingReports.length > 0) {
+          const corrPromises = this._cachedIncomingReports.map(async (inf) => {
+            try {
+              const corrs = await obtenerCorrecciones(inf.id);
+              inf._correcciones = corrs || [];
+            } catch(e) {
+              inf._correcciones = [];
+            }
+          });
+          await Promise.all(corrPromises);
+        }
       } else {
         this._cachedIncomingReports = [];
       }
@@ -970,21 +982,36 @@ class HorneroGremial extends HoComponent {
 
   _formatIncomingReportsForBackend() {
     // Format cached incoming reports for sending to backend.
-    // Only sends essential fields to keep payload small.
+    // Sends FULL section content + correcciones so Compañero can synthesize.
     if (!this._cachedIncomingReports || this._cachedIncomingReports.length === 0) return [];
-    return this._cachedIncomingReports.map(inf => ({
-      id: inf.id || '',
-      numero: inf.numero || '',
-      titulo: inf.titulo || '',
-      sections: (inf.sections || []).map(s => ({
-        title: s.title || '',
-        body: (s.body || '').substring(0, 300), // Truncate for token efficiency
-      })),
-      estado: inf.estado || 'pendiente',
-      grado: inf.grado || '',
-      username: inf.username || '',
-      fecha: inf.fecha || '',
-    }));
+    return this._cachedIncomingReports.map(inf => {
+      const formatted = {
+        id: inf.id || '',
+        numero: inf.numero || '',
+        titulo: inf.titulo || '',
+        sections: (inf.sections || []).map(s => ({
+          title: s.title || '',
+          body: s.body || '', // Full body — no truncation
+        })),
+        estado: inf.estado || 'pendiente',
+        grado: inf.grado || '',
+        username: inf.username || '',
+        fecha: inf.fecha || '',
+      };
+      // Include correcciones (modifications) for each report
+      const corrs = inf._correcciones || [];
+      if (corrs.length > 0) {
+        formatted.correcciones = corrs.map(c => ({
+          correctorGrado: c.correctorGrado || '',
+          correctorUsername: c.correctorUsername || '',
+          tipo: c.tipo || '',
+          seccionTitle: c.seccionTitle || '',
+          resumen: c.resumen || '',
+          textoNuevo: c.textoNuevo || '',
+        }));
+      }
+      return formatted;
+    });
   }
 
   async _requestGreeting() {
