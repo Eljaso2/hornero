@@ -212,6 +212,7 @@ class GreetingRequest(BaseModel):
     days_since_last_chat: int = 999  # Days since last chat session — affects greeting tone
     incoming_reports: list = []  # Reports from lower grades (for G2+ users)
     incoming_reports_count: int = 0  # Count of incoming reports (for greeting hint)
+    recipient_chain: str = ""  # Chain of recipients for the Ficha section
 
 
 class GreetingResponse(BaseModel):
@@ -235,6 +236,7 @@ class ChatRequest(BaseModel):
     requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
     incoming_reports: list = []  # Reports from lower grades (for G2+ users)
+    recipient_chain: str = ""  # Chain of recipients for the Ficha section (e.g. "Delegada → Secretaria → Federación")
 
 
 class ChatResponse(BaseModel):
@@ -289,7 +291,7 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
         effective_persona = PERSONA_MAP.get(req.requested_persona, 'abogado')
     else:
         effective_persona = PERSONA_MAP.get(req.section, 'abogado')
-    system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping(), requested_persona=req.requested_persona, grade=req.grade, incoming_reports=req.incoming_reports)
+    system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping(), requested_persona=req.requested_persona, grade=req.grade, incoming_reports=req.incoming_reports, recipient_chain=req.recipient_chain)
     # Resolve effective section for greeting hint (requested_persona may override)
     greeting_section = req.section
     if req.requested_persona and req.requested_persona in PERSONA_NAME_MAP:
@@ -374,6 +376,7 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
         requested_persona=req.requested_persona,
         grade=req.grade,
         incoming_reports=req.incoming_reports,
+        recipient_chain=req.recipient_chain,
     )
     # Determine effective persona string for fallback
     effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
@@ -460,6 +463,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
         requested_persona=req.requested_persona,
         grade=req.grade,
         incoming_reports=req.incoming_reports,
+        recipient_chain=req.recipient_chain,
     )
     effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
     if req.requested_persona:
@@ -608,6 +612,7 @@ async def audio_chat_endpoint(
         query=transcript,
         requested_persona=requested_persona,
         grade=grade,
+        recipient_chain="",
     )
     effective_persona = PERSONA_MAP.get(formato, 'abogado')
     if requested_persona:

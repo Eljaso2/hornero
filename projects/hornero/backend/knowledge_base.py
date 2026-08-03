@@ -462,7 +462,7 @@ def get_system_prompt(formato: str, clipping_items: list = None) -> str:
     return prompt
 
 
-def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "", requested_persona: str = "", grade: str = "A", incoming_reports: list = None) -> str:
+def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "", requested_persona: str = "", grade: str = "A", incoming_reports: list = None, recipient_chain: str = "") -> str:
     """Return system prompt with selective KB injection based on RAG retrieval.
 
     Only includes KB chunks relevant to the user's query, not the entire KB.
@@ -508,6 +508,8 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
         }
         grade_role = grade_role_map.get(grade_code, grade_role_map['G1'])
         prompt += f"\n\n=== CONTEXTO DEL USUARIO ===\nGrado: {grade} ({grade_code})\nRol: {grade_role}"
+        if recipient_chain:
+            prompt += f"\nCadena de destinatarios: {recipient_chain}"
 
     # Inject incoming reports ONLY for Compañero persona (debate/reporte)
     # CRITICAL PRIVACY: reporte gremial content is CONFIDENTIAL — never expose to other personas
