@@ -454,7 +454,7 @@ class HorneroChat extends HoComponent {
         color: var(--ho-green-dark, #3D6B56); }
       .informes-item-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
       .informes-item-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
-      .informes-item-estado.estado-visto { background: #F0E4CC; color: #856404; }
+      .informes-item-estado.estado-visto { background: #D4E4F7; color: #2B5278; }
       .informes-item-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .informes-item-estado.estado-corregido { background: #D4E4F7; color: #2B5278; }
       .informes-item-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
