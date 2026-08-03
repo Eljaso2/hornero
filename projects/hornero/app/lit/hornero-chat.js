@@ -2958,8 +2958,21 @@ ${msgs.map(m => {
   _removePlusMenu() {
     const menu = this.shadowRoot.querySelector('#chatPlusMenu');
     if (menu) menu.remove();
-    const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
-    if (plusBtn) plusBtn.classList.remove('open');
+    // If no standalone + button exists, recreate it
+    const rightArea = this.shadowRoot.querySelector('.chat-top-bar-right');
+    if (rightArea && !rightArea.querySelector('#chatPlusBtn')) {
+      const btn = document.createElement('button');
+      btn.className = 'chat-plus-btn';
+      btn.id = 'chatPlusBtn';
+      btn.title = 'Más opciones';
+      btn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this._plusMenuOpen = true;
+        this.render();
+      });
+      rightArea.appendChild(btn);
+    }
     if (this._plusMenuCloseHandler) {
       document.removeEventListener('click', this._plusMenuCloseHandler);
       this._plusMenuCloseHandler = null;
