@@ -1556,7 +1556,7 @@ class HorneroChat extends HoComponent {
               ${this._plusMenuOpen ? html`
               <div class="chat-plus-menu" id="chatPlusMenu">
                 <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
                   ${this.informeBadge ? '' : ''}
                 </button>
                 ${!this.hideInformesBtn ? html`
@@ -2953,7 +2953,7 @@ ${msgs.map(m => {
     menu.id = 'chatPlusMenu';
     menu.innerHTML = `
       <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       </button>
       ${!this.hideInformesBtn ? `<button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
         <svg viewBox="0 0 24 24">${informeSvg}</svg>
