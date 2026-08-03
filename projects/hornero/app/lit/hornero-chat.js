@@ -1901,31 +1901,88 @@ class HorneroChat extends HoComponent {
     const looksLikeTextReporte = !isReporteGenerado && !looksLikeReporte && textHasRelato && textHasClasif && !isReporteAprobado;
 
     if ((isReporteGenerado || looksLikeReporte) && m.sections && m.sections.length > 0) {
-      // Render as simple chat message — no card, no document pasted in dialogue
-      // Full report is viewable in Mis Reportes (popup)
+      // Render as full reporte card with all sections visible in the chat
       const isModificado = tags.includes('correccion-modificado');
-      const msgText = isReporteAprobado
-        ? '✅ Informe guardado en tu archivo.'
+      const headerTitle = isModificado ? 'Reporte Gremial (corregido)' : 'Reporte Gremial';
+      const sectionCount = m.sections.length;
+
+      // Render all sections inline — user reads the full report before approving
+      const sectionsHtml = m.sections.map((s, i) => {
+        const sectionTitle = (s.title || '').toLowerCase();
+        let sectionType = 'default';
+        if (sectionTitle.includes('relato')) sectionType = 'relato';
+        else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
+        else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
+        else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'transcript';
+        else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
+        let content = '';
+        if (s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
+        if (s.body) {
+          let bodyHtml = this._formatMarkdown(s.body);
+          if (sectionType === 'clasificacion') {
+            bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="clasif-tag">#$1</span>');
+          }
+          content += `<div class="reporte-card-section-body">${bodyHtml}</div>`;
+        }
+        const divider = (i < sectionCount - 1) ? '<div class="reporte-card-divider"></div>' : '';
+        return `<div class="reporte-card-section" data-section-type="${sectionType}">${content}</div>${divider}`;
+      }).join('');
+
+      // Action buttons
+      const aprobarBtn = isReporteAprobado ? ''
+        : `<button class="reporte-btn reporte-btn-aprobar" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">✓ Aprobar</button>`;
+      const corregirBtn = isReporteAprobado ? ''
+        : `<button class="reporte-btn reporte-btn-corregir" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Corregir">✎ Corregir</button>`;
+
+      const promptText = isReporteAprobado ? '✅ Informe guardado en tu archivo.'
         : (isModificado
-          ? 'Armé tu Reporte Gremial con las correcciones. Revisalo y si está todo bien, tocá <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="' + msgIndex + '" title="Aprobar">aprobar</button> para guardarlo.'
-          : 'Armé tu Reporte Gremial. Revisalo y si está todo bien, tocá <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="' + msgIndex + '" title="Aprobar">aprobar</button> para guardarlo.');
+          ? 'Armé tu Reporte Gremial con las correcciones. Revisalo y si está todo bien, aprobalo.'
+          : 'Armé tu Reporte Gremial. Revisalo y si está todo bien, aprobalo.');
 
       return `<div class="msg-row hornero">
         ${avatarRow}
         <div class="msg-content">
-          <div class="msg-text">${msgText}</div>
+          <div class="reporte-card" data-report-key="report-${msgIndex}" data-open-reporte-popup="${msgIndex}">
+            <div class="reporte-card-header">
+              <span class="reporte-card-icon">📋</span>
+              <span class="reporte-card-title">${headerTitle}</span>
+              <span class="reporte-card-section-count">${sectionCount} secciones</span>
+            </div>
+            <div class="reporte-card-body expanded">
+              ${sectionsHtml}
+            </div>
+          </div>
+          <div class="reporte-card-actions">
+            ${aprobarBtn}${corregirBtn}
+          </div>
+          <div class="reporte-card-prompt">${promptText}</div>
           ${timeHtml}
         </div>
       </div>`;
     }
 
-    // === FALLBACK: Plain-text reporte without structured sections — show APROBAR button ===
+    // === FALLBACK: Plain-text reporte without structured sections — show full text + APROBAR button ===
     if (looksLikeTextReporte) {
-      const msgText = 'Armé tu Reporte Gremial. Revisalo y si está todo bien, tocá <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="' + msgIndex + '" title="Aprobar">aprobar</button> para guardarlo.';
+      const promptText = 'Armé tu Reporte Gremial. Revisalo y si está todo bien, aprobalo.';
       return `<div class="msg-row hornero">
         ${avatarRow}
         <div class="msg-content">
-          <div class="msg-text">${msgText}</div>
+          <div class="reporte-card" data-report-key="report-${msgIndex}" data-open-reporte-popup="${msgIndex}">
+            <div class="reporte-card-header">
+              <span class="reporte-card-icon">📋</span>
+              <span class="reporte-card-title">Reporte Gremial</span>
+            </div>
+            <div class="reporte-card-body expanded">
+              <div class="reporte-card-section">
+                <div class="reporte-card-section-body">${this._formatMarkdown(m.text)}</div>
+              </div>
+            </div>
+          </div>
+          <div class="reporte-card-actions">
+            <button class="reporte-btn reporte-btn-aprobar" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">✓ Aprobar</button>
+            <button class="reporte-btn reporte-btn-corregir" data-reporte-action="corregir" data-msg-index="${msgIndex}" title="Corregir">✎ Corregir</button>
+          </div>
+          <div class="reporte-card-prompt">${promptText}</div>
           ${timeHtml}
         </div>
       </div>`;
