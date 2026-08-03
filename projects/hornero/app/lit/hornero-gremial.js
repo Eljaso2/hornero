@@ -164,20 +164,17 @@ class HorneroGremial extends HoComponent {
         animation: popupIn .25s ease; overflow: hidden; }
       @keyframes popupIn { from { opacity: 0; transform: scale(.95) translateY(10px); }
         to { opacity: 1; transform: none; } }
-      .inform-popup-header { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
+      .inform-popup-header { padding: 16px; display: flex; flex-direction: column; gap: 0;
         flex: none; background: transparent;
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .inform-popup-header-row { display: flex; align-items: center; justify-content: space-between; }
       .inform-popup-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .92rem; color: var(--ho-text-off, #F2F1EC);
         letter-spacing: .04em; text-transform: uppercase; flex: 1; }
-      .inform-popup-header-close { width: 28px; height: 28px; border-radius: 8px;
-        background: rgba(255,255,255,.1); border: none; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        color: rgba(255,255,255,.7); font-size: .82rem;
-        transition: background .2s; }
-      .inform-popup-header-close:hover { background: rgba(255,255,255,.2); color: #fff; }
-      .inform-popup-header-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      .inform-popup-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: rgba(255,255,255,.5); margin-top: 6px; }
+      .inform-popup-header-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        margin-top: 12px; }
       .inform-popup-header-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-off, #F2F1EC); letter-spacing: .06em;
         background: rgba(255,255,255,.15); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
@@ -189,19 +186,6 @@ class HorneroGremial extends HoComponent {
       .inform-popup-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .inform-popup-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .inform-popup-header-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
-      .inform-popup-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: rgba(255,255,255,.6); }
-      .inform-popup-header-actions { display: flex; gap: 4px; }
-      .inform-popup-header-btn { width: 28px; height: 28px; border-radius: 8px;
-        background: none; border: 1px solid rgba(255,255,255,.15);
-        cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s; }
-      .inform-popup-header-btn svg { width: 14px; height: 14px;
-        stroke: rgba(255,255,255,.7); stroke-width: 2;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .inform-popup-header-btn:hover { background: rgba(255,255,255,.15);
-        border-color: rgba(255,255,255,.3); }
-      .inform-popup-header-btn:hover svg { stroke: #fff; }
       .inform-popup-scroll { flex: 1; overflow-y: auto; padding: 16px; }
       .inform-popup-section { margin-bottom: 16px; }
       .inform-popup-section:last-child { margin-bottom: 0; }
@@ -260,17 +244,26 @@ class HorneroGremial extends HoComponent {
       .inform-popup-comentario-grado.grado-4 { color: #5A3D7A; }
       .inform-popup-comentario-desc { font-family: 'Public Sans', sans-serif;
         font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
-      /* Footer action buttons */
+      /* Footer action buttons — all same size */
       .inform-popup-footer { padding: 12px 16px; display: flex; gap: 8px;
-        justify-content: flex-end; flex: none;
+        justify-content: center; flex: none;
         border-top: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .inform-popup-btn { border-radius: 10px; padding: 10px 18px;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
-        cursor: pointer; transition: background .2s, border-color .2s; }
+        cursor: pointer; transition: background .2s, border-color .2s;
+        display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
       .inform-popup-btn-cerrar { background: none;
         border: 1px solid rgba(255,255,255,.15);
         color: var(--ho-text-light, #9C988D); }
       .inform-popup-btn-cerrar:hover { background: rgba(255,255,255,.08); }
+      .inform-popup-btn-descargar { background: none;
+        border: 1px solid rgba(255,255,255,.15);
+        color: var(--ho-text-light, #9C988D); }
+      .inform-popup-btn-descargar:hover { background: rgba(255,255,255,.08); }
+      .inform-popup-btn-compartir { background: none;
+        border: 1px solid rgba(255,255,255,.15);
+        color: var(--ho-text-light, #9C988D); }
+      .inform-popup-btn-compartir:hover { background: rgba(255,255,255,.08); }
       .inform-popup-btn-modificar { background: none;
         border: 1.5px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
       .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
@@ -350,6 +343,25 @@ class HorneroGremial extends HoComponent {
         if (e.target === overlay) this._closeInformeViewer();
       });
     }
+    // Regla 1: scroll tracking — habilitar Aprobar solo si se leyó hasta el final
+    const scrollEl = container.querySelector('#informPopupScroll');
+    if (scrollEl) {
+      this._informeFullyRead = false;
+      const checkScrollEnd = () => {
+        const atBottom = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight < 40;
+        if (atBottom && !this._informeFullyRead) {
+          this._informeFullyRead = true;
+          // Habilitar botón Aprobar y ocultar hint
+          const aprobarBtn = container.querySelector('[data-popup-action="aprobar"]');
+          if (aprobarBtn) { aprobarBtn.disabled = false; aprobarBtn.title = ''; }
+          const hint = container.querySelector('.inform-popup-scroll-hint');
+          if (hint) hint.style.display = 'none';
+        }
+      };
+      scrollEl.addEventListener('scroll', checkScrollEnd, { passive: true });
+      // Check si el contenido cabe sin scroll (informe corto)
+      requestAnimationFrame(() => { checkScrollEnd(); });
+    }
     // Action buttons
     container.querySelectorAll('[data-popup-action]').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -360,12 +372,14 @@ class HorneroGremial extends HoComponent {
           this._closeInformeViewer();
         } else if (action === 'modificar' && infId) {
           this._closeInformeViewer();
-          this._handleInformeEdit(infId);
+          this._handleInformeModify(infId);
         } else if (action === 'aprobar' && infId) {
           this._closeInformeViewer();
           this._handleInformeApprove(infId);
         } else if (action === 'descargar' && this._viewingInforme) {
           this._downloadInformeFromViewer();
+        } else if (action === 'compartir' && this._viewingInforme) {
+          this._shareInformeFromViewer();
         }
       });
     });
@@ -385,20 +399,17 @@ class HorneroGremial extends HoComponent {
       @keyframes hoPopIn { from { opacity: 0; transform: scale(.95) translateY(10px); }
         to { opacity: 1; transform: none; } }
       @keyframes hoPopFadeIn { from { opacity: 0; } to { opacity: 1; } }
-      .inform-popup-header { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
+      .inform-popup-header { padding: 16px; display: flex; flex-direction: column; gap: 0;
         flex: none; background: transparent;
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .inform-popup-header-row { display: flex; align-items: center; justify-content: space-between; }
       .inform-popup-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .92rem; color: var(--ho-text-off, #F2F1EC);
         letter-spacing: .04em; text-transform: uppercase; flex: 1; }
-      .inform-popup-header-close { width: 28px; height: 28px; border-radius: 8px;
-        background: rgba(255,255,255,.1); border: none; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        color: rgba(255,255,255,.7); font-size: .82rem;
-        transition: background .2s; }
-      .inform-popup-header-close:hover { background: rgba(255,255,255,.2); color: #fff; }
-      .inform-popup-header-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      .inform-popup-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: rgba(255,255,255,.5); margin-top: 6px; }
+      .inform-popup-header-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        margin-top: 12px; }
       .inform-popup-header-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-off, #F2F1EC); letter-spacing: .06em;
         background: rgba(255,255,255,.15); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
@@ -410,19 +421,6 @@ class HorneroGremial extends HoComponent {
       .inform-popup-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
       .inform-popup-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
       .inform-popup-header-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
-      .inform-popup-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: rgba(255,255,255,.6); }
-      .inform-popup-header-actions { display: flex; gap: 4px; }
-      .inform-popup-header-btn { width: 28px; height: 28px; border-radius: 8px;
-        background: none; border: 1px solid rgba(255,255,255,.15);
-        cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s; }
-      .inform-popup-header-btn svg { width: 14px; height: 14px;
-        stroke: rgba(255,255,255,.7); stroke-width: 2;
-        fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .inform-popup-header-btn:hover { background: rgba(255,255,255,.15);
-        border-color: rgba(255,255,255,.3); }
-      .inform-popup-header-btn:hover svg { stroke: #fff; }
       .inform-popup-scroll { flex: 1; overflow-y: auto; padding: 16px; }
       .inform-popup-section { margin-bottom: 16px; }
       .inform-popup-section:last-child { margin-bottom: 0; }
@@ -496,6 +494,10 @@ class HorneroGremial extends HoComponent {
         color: var(--ho-text-off, #F2F1EC); }
       .inform-popup-btn-aprobar:hover { background: #3D6B56; }
       .inform-popup-btn:disabled { opacity: .4; pointer-events: none; }
+      .inform-popup-scroll-hint { padding: 8px 16px; text-align: center;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .74rem;
+        color: var(--ho-gold, #B0863F); background: rgba(176,134,63,.08);
+        border-top: 1px solid rgba(176,134,63,.15); flex: none; }
     `;
   }
 
@@ -575,39 +577,40 @@ class HorneroGremial extends HoComponent {
 
     // Context-aware footer buttons
     const isOwnInforme = inf.username === this._username;
-    const canModify = !isOwnInforme || (isOwnInforme && (estado === 'pendiente' || estado === 'aceptado'));
+    // Regla 2: autor NO puede modificar/eliminar si un superior ya vio el informe
+    const superiorVio = ['visto','aprobado','aprobado-con-cambios','aprobado-delegado','corregido-delegado','corregido'].includes(estado);
+    const canModify = !isOwnInforme ? true : (isOwnInforme && !superiorVio && (estado === 'pendiente' || estado === 'aceptado'));
     const canApprove = !isOwnInforme;
+    // Regla 1: aprobar solo si se leyó hasta el final (scroll tracking)
+    const needsScrollRead = canApprove && !this._informeFullyRead;
 
-    // Download icon SVG
-    const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
+    // Share icon SVG
+    const shareIcon = '<path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>';
 
     return html`
       <div class="inform-popup-overlay">
         <div class="inform-popup">
           <div class="inform-popup-header">
-            <div class="inform-popup-header-row">
-              <div class="inform-popup-header-title">${titleText}</div>
-              <button class="inform-popup-header-close" data-popup-action="close" title="Cerrar">✕</button>
-            </div>
+            <div class="inform-popup-header-title">${titleText}</div>
+            <div class="inform-popup-header-date">${dateStr}</div>
             <div class="inform-popup-header-meta">
               ${inf.username ? '<span class="inform-popup-header-user">@' + inf.username + '</span>' : ''}
               ${inf.grado ? '<span class="inform-popup-header-grado">G' + inf.grado + '</span>' : ''}
               <span class="inform-popup-header-estado ${estadoClass}">${estadoLabel}</span>
-              <span class="inform-popup-header-date">${dateStr}</span>
-              <button class="inform-popup-header-btn" data-popup-action="descargar" title="Descargar">
-                <svg viewBox="0 0 24 24">${downloadIcon}</svg>
-              </button>
             </div>
           </div>
-          <div class="inform-popup-scroll">
+          <div class="inform-popup-scroll" id="informPopupScroll">
             ${sectionsHtml}
             ${section5Html}
             ${tagsHtml}
           </div>
+          ${needsScrollRead ? '<div class="inform-popup-scroll-hint">↓ Leé el informe completo para poder aprobar</div>' : ''}
           <div class="inform-popup-footer">
-            <button class="inform-popup-btn inform-popup-btn-cerrar" data-popup-action="close">Cerrar</button>
-            ${canModify ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar">Modificar</button>' : ''}
-            ${canApprove ? '<button class="inform-popup-btn inform-popup-btn-aprobar" data-popup-action="aprobar">Aprobar</button>' : ''}
+            <button class="inform-popup-btn inform-popup-btn-cerrar" data-popup-action="close">✕ Cerrar</button>
+            <button class="inform-popup-btn inform-popup-btn-descargar" data-popup-action="descargar">↓ Descargar</button>
+            <button class="inform-popup-btn inform-popup-btn-compartir" data-popup-action="compartir">↗ Compartir</button>
+            ${canModify ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar">✎ Modificar</button>' : ''}
+            ${canApprove ? `<button class="inform-popup-btn inform-popup-btn-aprobar" data-popup-action="aprobar" ${needsScrollRead ? 'disabled title="Leé el informe completo primero"' : ''}>✓ Aprobar</button>` : ''}
           </div>
         </div>
       </div>
@@ -2024,6 +2027,70 @@ class HorneroGremial extends HoComponent {
       this.render();
     } catch(e) {
       console.warn('Gremial: informe edit load failed', e);
+    }
+  }
+
+  // Modify from popup: close popup, return to chat, ask if user wants to add or correct
+  async _handleInformeModify(informeId) {
+    try {
+      if (typeof obtenerInforme !== 'function') return;
+      const informe = await obtenerInforme(informeId);
+      if (!informe) return;
+
+      // Save original sections before modification (for diff later)
+      this._originalSectionsBeforeCorrection = JSON.parse(JSON.stringify(informe.sections || []));
+      this._correctingInformeId = informeId;
+
+      // Re-inject the informe content as a reporte-generado message
+      const reportMsg = {
+        role: 'hornero',
+        text: 'Abrimos tu Reporte Gremial N°' + (informe.numero || '') + ' para modificar. ¿Querés agregar o corregir algo? Decime qué cambiar y lo ajusto. Cuando esté listo, te lo leo y pregunto si lo aprobás.',
+        sections: informe.sections || [],
+        tags: ['reporte', 'reporte-generado'],
+        persona: 'companero',
+        time: this._timeNow(),
+        informe_id: informeId,
+      };
+
+      this.messages = [...this.messages, reportMsg, {
+        role: 'hornero',
+        text: '¿Qué querés agregar o corregir? Decime y lo ajusto.',
+        tags: ['reporte', 'correccion-pendiente'],
+        persona: 'companero',
+        time: this._timeNow(),
+      }];
+
+      this._saveChatHistory();
+      this.render();
+    } catch(e) {
+      console.warn('Gremial: informe modify failed', e);
+    }
+  }
+
+  // Share informe from popup — native Web Share API or fallback to clipboard
+  _shareInformeFromViewer() {
+    const inf = this._viewingInforme;
+    if (!inf) return;
+    const title = inf.numero ? 'Reporte Gremial N°' + inf.numero : 'Reporte Gremial';
+    const sections = (inf.sections || []).map(s => {
+      if (s.title) return `**${s.title}**\n${s.body || ''}`;
+      return s.body || '';
+    }).join('\n\n');
+    const text = `${title}\n\n${sections}`;
+
+    if (navigator.share) {
+      navigator.share({ title, text }).catch(() => {});
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(text).then(() => {
+        // Brief toast
+        const toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1000;background:#3D6B56;color:#fff;padding:12px 24px;border-radius:12px;font-family:Archivo,sans-serif;font-weight:700;font-size:.86rem;opacity:0;transition:opacity .3s;pointer-events:none;';
+        toast.textContent = 'Copiado al portapapeles';
+        document.body.appendChild(toast);
+        requestAnimationFrame(() => { toast.style.opacity = '1'; });
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 1500);
+      }).catch(() => {});
     }
   }
 

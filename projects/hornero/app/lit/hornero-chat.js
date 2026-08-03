@@ -883,7 +883,7 @@ class HorneroChat extends HoComponent {
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
       .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; position: relative; min-width: 48px; justify-content: flex-end; }
 
-      /* + button in cintillo right side */
+      /* + button inside panel or standalone */
       .chat-plus-btn { width: 32px; height: 32px; border-radius: 50%;
         background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
@@ -899,19 +899,19 @@ class HorneroChat extends HoComponent {
       .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); }
       .chat-plus-btn.open svg line:last-child { display: none; }
 
-      /* Dropdown container — items below the + button */
-      .chat-plus-menu { position: absolute; top: 100%; right: 0;
-        background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
+      /* Vertical panel — includes + button and items */
+      .chat-plus-menu { position: absolute; top: 0; right: 0;
+        background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
-        border-radius: 12px; padding: 6px; z-index: 30;
+        border-radius: 14px; padding: 8px; z-index: 30;
         display: flex; flex-direction: column; align-items: center; gap: 4px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
-        animation: menuSlideDown .15s ease; }
+        animation: menuFadeIn .15s ease; }
       :host(.theme-light) .chat-plus-menu {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
-      @keyframes menuSlideDown { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes menuFadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
       .chat-plus-item { display: flex; flex-direction: column; align-items: center;
         gap: 2px; padding: 4px 0; background: none; border: none; cursor: pointer;
         text-align: center; font-family: 'Archivo', sans-serif;
@@ -1565,11 +1565,11 @@ class HorneroChat extends HoComponent {
         </div>
         <div class="chat-top-bar-right">
           ${this.hidePersonaBar ? '' : html`
-            <button class="chat-plus-btn${this._plusMenuOpen ? ' open' : ''}" id="chatPlusBtn" title="${this._plusMenuOpen ? 'Cerrar' : 'Más opciones'}">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
             ${this._plusMenuOpen ? html`
             <div class="chat-plus-menu" id="chatPlusMenu">
+              <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
               <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
                 <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
                 <span class="item-label">Historial</span>
@@ -1589,7 +1589,11 @@ class HorneroChat extends HoComponent {
                 </button>
               ` : ''}
             </div>
-            ` : ''}
+            ` : html`
+            <button class="chat-plus-btn" id="chatPlusBtn" title="Más opciones">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            `}
           `}
         </div>
       </div>
@@ -2912,10 +2916,16 @@ ${msgs.map(m => {
     const informeSvg = '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>';
     const recibidosSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
     const isHigherGrade = ['B.b','B.c','B.d'].includes(this.grade);
+    // Remove standalone + button, replace with panel that includes it
+    const standalonePlus = rightArea.querySelector('#chatPlusBtn:not(.chat-plus-menu #chatPlusBtn)');
+    if (standalonePlus) standalonePlus.remove();
     const menu = document.createElement('div');
     menu.className = 'chat-plus-menu';
     menu.id = 'chatPlusMenu';
     menu.innerHTML = `
+      <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
       <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
         <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
         <span class="item-label">Historial</span>
@@ -2932,9 +2942,15 @@ ${msgs.map(m => {
       </button>` : ''}
     `;
     rightArea.appendChild(menu);
-    // Style the + button as open
-    const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
-    if (plusBtn) plusBtn.classList.add('open');
+    // Re-bind the + button click inside the panel
+    const plusBtn = menu.querySelector('#chatPlusBtn');
+    if (plusBtn) {
+      plusBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this._plusMenuOpen = false;
+        this.render();
+      });
+    }
     this._bindPlusMenuItems();
     this._setupPlusMenuCloseHandler();
   }
@@ -2981,8 +2997,7 @@ ${msgs.map(m => {
     }
     this._plusMenuCloseHandler = (e) => {
       const menu = this.shadowRoot.querySelector('#chatPlusMenu');
-      const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
-      if (menu && !menu.contains(e.target) && plusBtn && !plusBtn.contains(e.target)) {
+      if (menu && !menu.contains(e.target)) {
         this._plusMenuOpen = false;
         this.render();
       }
