@@ -886,7 +886,7 @@ class HorneroChat extends HoComponent {
       .chat-plus-btn.open svg line:last-child { display: none; }
 
       /* Dropdown container — items below the + button */
-      .chat-plus-menu { position: absolute; top: 100%; right: 16px;
+      .chat-plus-menu { position: absolute; top: 100%; right: 0;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));

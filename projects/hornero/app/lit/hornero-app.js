@@ -554,7 +554,7 @@ class HorneroApp extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); }
       .list-screen-plus.open svg { stroke: var(--ho-green-dark, #3D6B56); }
       .list-screen-plus.open svg line:last-child { display: none; }
-      .list-screen-menu { position: absolute; top: 100%; right: 16px;
+      .list-screen-menu { position: absolute; top: 100%; right: 0;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));

@@ -1814,8 +1814,14 @@ class HorneroGremial extends HoComponent {
         if (s.title) lines.push(s.title);
         if (s.body) lines.push(s.body);
       });
-    } else {
-      lines.push(reportMsg.text || '');
+    }
+    // Fallback: use contenido field if sections are empty
+    if (lines.length === 0 && reportMsg.contenido) {
+      lines.push(reportMsg.contenido);
+    }
+    // Fallback: use text field
+    if (lines.length === 0 && reportMsg.text) {
+      lines.push(reportMsg.text);
     }
     return lines.join('\n\n---\n\n');
   }
