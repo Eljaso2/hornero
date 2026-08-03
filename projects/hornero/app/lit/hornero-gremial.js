@@ -170,6 +170,10 @@ class HorneroGremial extends HoComponent {
         flex: none; background: transparent;
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .inform-popup-header-row { display: flex; align-items: center; justify-content: space-between; }
+      .inform-popup-header-close { background: none; border: none; cursor: pointer;
+        font-size: 1.1rem; color: var(--ho-text-light, #9C988D); padding: 2px 6px;
+        border-radius: 6px; transition: background .2s; }
+      .inform-popup-header-close:hover { background: rgba(255,255,255,.08); }
       .inform-popup-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .92rem; color: var(--ho-text-off, #F2F1EC);
         letter-spacing: .04em; text-transform: uppercase; flex: 1; }
@@ -247,33 +251,26 @@ class HorneroGremial extends HoComponent {
       .inform-popup-comentario-grado.grado-4 { color: #5A3D7A; }
       .inform-popup-comentario-desc { font-family: 'Public Sans', sans-serif;
         font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
-      /* Footer action buttons — all same size */
-      .inform-popup-footer { padding: 12px 16px; display: flex; gap: 8px;
-        justify-content: center; flex: none;
+      /* Footer action buttons — icon-only, no text */
+      .inform-popup-footer { padding: 10px 16px; display: flex; gap: 6px;
+        justify-content: flex-end; flex: none;
         border-top: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .inform-popup-btn { border-radius: 10px; padding: 10px 18px;
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
-        cursor: pointer; transition: background .2s, border-color .2s;
-        display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-      .inform-popup-btn-cerrar { background: none;
-        border: 1px solid rgba(255,255,255,.15);
-        color: var(--ho-text-light, #9C988D); }
-      .inform-popup-btn-cerrar:hover { background: rgba(255,255,255,.08); }
-      .inform-popup-btn-descargar { background: none;
-        border: 1px solid rgba(255,255,255,.15);
-        color: var(--ho-text-light, #9C988D); }
-      .inform-popup-btn-descargar:hover { background: rgba(255,255,255,.08); }
-      .inform-popup-btn-compartir { background: none;
-        border: 1px solid rgba(255,255,255,.15);
-        color: var(--ho-text-light, #9C988D); }
-      .inform-popup-btn-compartir:hover { background: rgba(255,255,255,.08); }
-      .inform-popup-btn-modificar { background: none;
-        border: 1.5px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
+      .inform-popup-btn { width: 32px; height: 32px; border-radius: 8px;
+        background: none; border: none; cursor: pointer;
+        display: inline-flex; align-items: center; justify-content: center;
+        transition: background .2s; padding: 0; }
+      .inform-popup-btn svg { width: 16px; height: 16px; fill: none;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
+        stroke-linecap: round; stroke-linejoin: round; }
+      .inform-popup-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .inform-popup-btn-modificar svg { stroke: var(--ho-gold, #B0863F); }
       .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
-      .inform-popup-btn-aprobar { background: var(--ho-green, #4E9978); border: none;
-        color: var(--ho-text-off, #F2F1EC); }
-      .inform-popup-btn-aprobar:hover { background: #3D6B56; }
-      .inform-popup-btn:disabled { opacity: .4; pointer-events: none; }
+      .inform-popup-btn-modificar:hover svg { stroke: var(--ho-gold, #B0863F); }
+      .inform-popup-btn-aprobar svg { stroke: var(--ho-green, #4E9978); }
+      .inform-popup-btn-aprobar:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .inform-popup-btn-aprobar:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .inform-popup-btn:disabled { opacity: .3; pointer-events: none; }
 
       @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     `;
@@ -406,6 +403,10 @@ class HorneroGremial extends HoComponent {
         flex: none; background: transparent;
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .inform-popup-header-row { display: flex; align-items: center; justify-content: space-between; }
+      .inform-popup-header-close { background: none; border: none; cursor: pointer;
+        font-size: 1.1rem; color: var(--ho-text-light, #9C988D); padding: 2px 6px;
+        border-radius: 6px; transition: background .2s; }
+      .inform-popup-header-close:hover { background: rgba(255,255,255,.08); }
       .inform-popup-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .92rem; color: var(--ho-text-off, #F2F1EC);
         letter-spacing: .04em; text-transform: uppercase; flex: 1; }
@@ -481,23 +482,25 @@ class HorneroGremial extends HoComponent {
       .inform-popup-comentario-grado.grado-4 { color: #5A3D7A; }
       .inform-popup-comentario-desc { font-family: 'Public Sans', sans-serif;
         font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
-      .inform-popup-footer { padding: 12px 16px; display: flex; gap: 8px;
+      .inform-popup-footer { padding: 10px 16px; display: flex; gap: 6px;
         justify-content: flex-end; flex: none;
         border-top: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .inform-popup-btn { border-radius: 10px; padding: 10px 18px;
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
-        cursor: pointer; transition: background .2s, border-color .2s; }
-      .inform-popup-btn-cerrar { background: none;
-        border: 1px solid rgba(255,255,255,.15);
-        color: var(--ho-text-light, #9C988D); }
-      .inform-popup-btn-cerrar:hover { background: rgba(255,255,255,.08); }
-      .inform-popup-btn-modificar { background: none;
-        border: 1.5px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
+      .inform-popup-btn { width: 32px; height: 32px; border-radius: 8px;
+        background: none; border: none; cursor: pointer;
+        display: inline-flex; align-items: center; justify-content: center;
+        transition: background .2s; padding: 0; }
+      .inform-popup-btn svg { width: 16px; height: 16px; fill: none;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
+        stroke-linecap: round; stroke-linejoin: round; }
+      .inform-popup-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .inform-popup-btn-modificar svg { stroke: var(--ho-gold, #B0863F); }
       .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
-      .inform-popup-btn-aprobar { background: var(--ho-green, #4E9978); border: none;
-        color: var(--ho-text-off, #F2F1EC); }
-      .inform-popup-btn-aprobar:hover { background: #3D6B56; }
-      .inform-popup-btn:disabled { opacity: .4; pointer-events: none; }
+      .inform-popup-btn-modificar:hover svg { stroke: var(--ho-gold, #B0863F); }
+      .inform-popup-btn-aprobar svg { stroke: var(--ho-green, #4E9978); }
+      .inform-popup-btn-aprobar:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .inform-popup-btn-aprobar:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .inform-popup-btn:disabled { opacity: .3; pointer-events: none; }
       .inform-popup-scroll-hint { padding: 8px 16px; text-align: center;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .74rem;
         color: var(--ho-gold, #B0863F); background: rgba(176,134,63,.08);
@@ -595,7 +598,10 @@ class HorneroGremial extends HoComponent {
       <div class="inform-popup-overlay">
         <div class="inform-popup">
           <div class="inform-popup-header">
-            <div class="inform-popup-header-title">${titleText}</div>
+            <div class="inform-popup-header-row">
+              <div class="inform-popup-header-title">${titleText}</div>
+              <button class="inform-popup-header-close" data-popup-action="close" title="Cerrar">✕</button>
+            </div>
             <div class="inform-popup-header-date">${dateStr}</div>
             <div class="inform-popup-header-meta">
               ${inf.username ? '<span class="inform-popup-header-user">@' + inf.username + '</span>' : ''}
@@ -610,11 +616,10 @@ class HorneroGremial extends HoComponent {
           </div>
           ${needsScrollRead ? '<div class="inform-popup-scroll-hint">↓ Leé el informe completo para poder aprobar</div>' : ''}
           <div class="inform-popup-footer">
-            <button class="inform-popup-btn inform-popup-btn-cerrar" data-popup-action="close">✕ Cerrar</button>
-            <button class="inform-popup-btn inform-popup-btn-descargar" data-popup-action="descargar">↓ Descargar</button>
-            <button class="inform-popup-btn inform-popup-btn-compartir" data-popup-action="compartir">↗ Compartir</button>
-            ${canModify ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar">✎ Modificar</button>' : ''}
-            ${canApprove ? `<button class="inform-popup-btn inform-popup-btn-aprobar" data-popup-action="aprobar" ${needsScrollRead ? 'disabled title="Leé el informe completo primero"' : ''}>✓ Aprobar</button>` : ''}
+            <button class="inform-popup-btn" data-popup-action="descargar" title="Descargar"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+            <button class="inform-popup-btn" data-popup-action="compartir" title="Compartir"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+            ${canModify ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar" title="Modificar"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' : ''}
+            ${canApprove ? `<button class="inform-popup-btn inform-popup-btn-aprobar" data-popup-action="aprobar" title="Aprobar" ${needsScrollRead ? 'disabled' : ''}><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>` : ''}
           </div>
         </div>
       </div>

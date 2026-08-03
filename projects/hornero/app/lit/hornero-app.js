@@ -2269,19 +2269,21 @@ class HorneroApp extends HoComponent {
       .inform-popup-comentario-grado.grado-4 { color: #5A3D7A; }
       .inform-popup-comentario-desc { font-family: 'Public Sans', sans-serif;
         font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
-      .inform-popup-footer { padding: 12px 16px; display: flex; gap: 8px;
+      .inform-popup-footer { padding: 10px 16px; display: flex; gap: 6px;
         justify-content: flex-end; flex: none;
         border-top: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .inform-popup-btn { border-radius: 10px; padding: 10px 18px;
-        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
-        cursor: pointer; transition: background .2s, border-color .2s; }
-      .inform-popup-btn-cerrar { background: none;
-        border: 1px solid rgba(255,255,255,.15);
-        color: var(--ho-text-light, #9C988D); }
-      .inform-popup-btn-cerrar:hover { background: rgba(255,255,255,.08); }
-      .inform-popup-btn-modificar { background: none;
-        border: 1.5px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
+      .inform-popup-btn { width: 32px; height: 32px; border-radius: 8px;
+        background: none; border: none; cursor: pointer;
+        display: inline-flex; align-items: center; justify-content: center;
+        transition: background .2s; padding: 0; }
+      .inform-popup-btn svg { width: 16px; height: 16px; fill: none;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
+        stroke-linecap: round; stroke-linejoin: round; }
+      .inform-popup-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .inform-popup-btn-modificar svg { stroke: var(--ho-gold, #B0863F); }
       .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
+      .inform-popup-btn-modificar:hover svg { stroke: var(--ho-gold, #B0863F); }
     `;
   }
 
@@ -2451,8 +2453,7 @@ class HorneroApp extends HoComponent {
             ${tagsHtml}
           </div>
           <div class="inform-popup-footer">
-            <button class="inform-popup-btn inform-popup-btn-cerrar" data-popup-action="close">Cerrar</button>
-            ${canEdit ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar">Modificar</button>' : ''}
+            ${canEdit ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar" title="Modificar"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' : ''}
           </div>
         </div>
       </div>
