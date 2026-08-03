@@ -697,21 +697,17 @@ class HorneroChat extends HoComponent {
         background: rgba(78,153,120,.06); border: 1px solid rgba(78,153,120,.12); }
       .clasif-family:last-child { margin-bottom: 0; }
       .clasif-family-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
-        padding: 7px 10px 5px 10px; cursor: pointer; display: flex;
-        align-items: center; gap: 6px; user-select: none;
-        transition: background .15s; }
-      .clasif-family-name:hover { background: rgba(78,153,120,.10); }
-      .clasif-family-chevron { font-size: .6rem; transition: transform .2s;
-        display: inline-block; flex-shrink: 0; }
-      .clasif-family-name.open .clasif-family-chevron { transform: rotate(90deg); }
-      .clasif-family-body { padding: 0 10px 8px 10px; }
-      .clasif-family-body.closed { display: none; }
+        font-size: .82rem; color: var(--ho-green-dark, #3D6B56);
+        padding: 8px 10px 4px 10px; display: flex;
+        align-items: center; gap: 6px;
+        border-left: 3px solid var(--ho-green, #4E9978); border-radius: 8px 8px 0 0; }
+      .clasif-family-body { padding: 2px 10px 8px 14px; }
       .clasif-family-just { font-family: 'Public Sans', sans-serif; font-style: italic;
         font-size: .76rem; color: var(--ho-text-mid, #8A8680);
-        margin-bottom: 5px; padding-left: 8px; line-height: 1.45; }
-      .clasif-entry { display: flex; align-items: baseline; gap: 4px;
-        margin-bottom: 3px; padding-left: 8px;
+        margin-bottom: 6px; line-height: 1.45;
+        border-left: 2px solid rgba(78,153,120,.25); padding-left: 8px; }
+      .clasif-entry { display: flex; align-items: baseline; gap: 6px;
+        margin-bottom: 4px; padding-left: 4px;
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text, #E8E6E0); line-height: 1.5; }
       .clasif-entry:last-child { margin-bottom: 0; }
@@ -764,6 +760,41 @@ class HorneroChat extends HoComponent {
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="aprobar"],
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="corregir"],
       .reporte-card.estado-aceptado + .reporte-card-prompt { display: none; }
+
+      /* ===== Light theme overrides for Reporte card + Clasificación tree ===== */
+      :host(.theme-light) .reporte-card { background: #FFFFFF; border-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .reporte-card-header { background: #F0EDE5; color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .reporte-card-title { color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .reporte-card-section-count { color: var(--ho-text-mid, #5A5650); background: rgba(0,0,0,.06); }
+      :host(.theme-light) .reporte-card-toggle { background: rgba(0,0,0,.06); color: var(--ho-green, #2E6B4E); }
+      :host(.theme-light) .reporte-card-summary-text { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .reporte-card-body .msg-fade { background: linear-gradient(transparent, #FFFFFF); }
+      :host(.theme-light) .reporte-card-section-body { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .reporte-card-section-body strong { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .reporte-card-section-body em { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .reporte-card-section-subtitle { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .reporte-card-divider { background: rgba(0,0,0,.08); }
+      :host(.theme-light) .reporte-card-tags { background: #F8F6F0; border-top-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .reporte-card-prompt { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .reporte-card-prompt em { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .reporte-btn { border-color: rgba(0,0,0,.1); color: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .reporte-btn:hover { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .reporte-btn-delete:hover { color: #D32F2F; border-color: rgba(211,47,47,.2); background: #FDECEA; }
+      :host(.theme-light) .reporte-btn-corregir { border-color: #B0863F; color: #B0863F; }
+      :host(.theme-light) .reporte-btn-corregir:hover { background: #F0E4CC; }
+      :host(.theme-light) .reporte-btn-aprobar { border-color: var(--ho-green, #2E6B4E); color: var(--ho-green, #2E6B4E); }
+      :host(.theme-light) .reporte-btn-aprobar:hover { background: var(--ho-green-pale, #E0F0EB); }
+      /* Clasificación tree light */
+      :host(.theme-light) .clasif-family { background: rgba(78,153,120,.06); border-color: rgba(78,153,120,.14); }
+      :host(.theme-light) .clasif-family-name { color: var(--ho-green-dark, #3D6B56); border-left-color: var(--ho-green, #2E6B4E); }
+      :host(.theme-light) .clasif-family-just { color: var(--ho-text-mid, #7A766C); border-left-color: rgba(78,153,120,.2); }
+      :host(.theme-light) .clasif-entry { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .clasif-entry-desc { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .clasif-tag { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .reporte-card-historial { background: rgba(0,0,0,.03); border-top-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .reporte-card-historial-entry { border-bottom-color: rgba(0,0,0,.06); }
+      :host(.theme-light) .reporte-card-historial-resumen { color: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .reporte-card.estado-aceptado { border-color: rgba(0,0,0,.08); }
 
       /* Correccion badges — grade-colored indicators */
       .correccion-badge { display: inline-block; font-family: 'JetBrains Mono', monospace;
@@ -1813,10 +1844,10 @@ class HorneroChat extends HoComponent {
     let familyIndex = 0;
     return '<div class="clasif-tree">' + families.map(f => {
       const familyLabel = f.name
-        ? `<div class="clasif-family-name open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('closed')"><span class="clasif-family-chevron">▶</span>2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
+        ? `<div class="clasif-family-name">2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
         : '';
       const justHtml = f.justification
-        ? `<div class="clasif-family-just">→ ${f.justification}</div>`
+        ? `<div class="clasif-family-just">${f.justification}</div>`
         : '';
       const entriesHtml = f.entries.map(e => {
         const tagBadge = `<span class="clasif-tag">#${e.tag}</span>`;

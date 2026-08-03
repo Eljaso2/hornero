@@ -217,21 +217,17 @@ class HorneroGremial extends HoComponent {
         background: rgba(78,153,120,.06); border: 1px solid rgba(78,153,120,.12); }
       .clasif-family:last-child { margin-bottom: 0; }
       .clasif-family-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
-        padding: 7px 10px 5px 10px; cursor: pointer; display: flex;
-        align-items: center; gap: 6px; user-select: none;
-        transition: background .15s; }
-      .clasif-family-name:hover { background: rgba(78,153,120,.10); }
-      .clasif-family-chevron { font-size: .6rem; transition: transform .2s;
-        display: inline-block; flex-shrink: 0; }
-      .clasif-family-name.open .clasif-family-chevron { transform: rotate(90deg); }
-      .clasif-family-body { padding: 0 10px 8px 10px; }
-      .clasif-family-body.closed { display: none; }
+        font-size: .82rem; color: var(--ho-green-dark, #3D6B56);
+        padding: 8px 10px 4px 10px; display: flex;
+        align-items: center; gap: 6px;
+        border-left: 3px solid var(--ho-green, #4E9978); border-radius: 8px 8px 0 0; }
+      .clasif-family-body { padding: 2px 10px 8px 14px; }
       .clasif-family-just { font-family: 'Public Sans', sans-serif; font-style: italic;
         font-size: .76rem; color: var(--ho-text-mid, #8A8680);
-        margin-bottom: 5px; padding-left: 8px; line-height: 1.45; }
-      .clasif-entry { display: flex; align-items: baseline; gap: 4px;
-        margin-bottom: 3px; padding-left: 8px;
+        margin-bottom: 6px; line-height: 1.45;
+        border-left: 2px solid rgba(78,153,120,.25); padding-left: 8px; }
+      .clasif-entry { display: flex; align-items: baseline; gap: 6px;
+        margin-bottom: 4px; padding-left: 4px;
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text, #E8E6E0); line-height: 1.5; }
       .clasif-entry:last-child { margin-bottom: 0; }
@@ -269,6 +265,36 @@ class HorneroGremial extends HoComponent {
       .inform-popup-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
       .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .inform-popup-btn:disabled { opacity: .3; pointer-events: none; }
+
+      /* ===== Light theme overrides for Informe popup + Clasificación tree ===== */
+      :host(.theme-light) .inform-popup-overlay { background: rgba(0,0,0,.25); }
+      :host(.theme-light) .inform-popup { background: var(--ho-card, #FFFFFF); box-shadow: 0 8px 32px rgba(0,0,0,.12); }
+      :host(.theme-light) .inform-popup-header { border-bottom-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .inform-popup-header-close { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-header-close:hover { background: rgba(0,0,0,.06); }
+      :host(.theme-light) .inform-popup-header-title { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-header-date { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .inform-popup-header-user { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .inform-popup-header-grado { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .inform-popup-section-title { color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .inform-popup-section-body { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-section-body strong { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-section-body em { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-section-divider { background: rgba(0,0,0,.08); }
+      :host(.theme-light) .inform-popup-tags { border-top-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .inform-popup-tag { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .inform-popup-comentario-entry { border-bottom-color: rgba(0,0,0,.06); }
+      :host(.theme-light) .inform-popup-comentario-desc { color: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .inform-popup-footer { border-top-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .inform-popup-btn svg { stroke: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      /* Clasificación tree light */
+      :host(.theme-light) .clasif-family { background: rgba(78,153,120,.06); border-color: rgba(78,153,120,.14); }
+      :host(.theme-light) .clasif-family-name { color: var(--ho-green-dark, #3D6B56); border-left-color: var(--ho-green, #2E6B4E); }
+      :host(.theme-light) .clasif-family-just { color: var(--ho-text-mid, #7A766C); border-left-color: rgba(78,153,120,.2); }
+      :host(.theme-light) .clasif-entry { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .clasif-entry-desc { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .clasif-tag { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
 
       @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     `;
@@ -448,21 +474,17 @@ class HorneroGremial extends HoComponent {
         background: rgba(78,153,120,.06); border: 1px solid rgba(78,153,120,.12); }
       .clasif-family:last-child { margin-bottom: 0; }
       .clasif-family-name { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
-        padding: 7px 10px 5px 10px; cursor: pointer; display: flex;
-        align-items: center; gap: 6px; user-select: none;
-        transition: background .15s; }
-      .clasif-family-name:hover { background: rgba(78,153,120,.10); }
-      .clasif-family-chevron { font-size: .6rem; transition: transform .2s;
-        display: inline-block; flex-shrink: 0; }
-      .clasif-family-name.open .clasif-family-chevron { transform: rotate(90deg); }
-      .clasif-family-body { padding: 0 10px 8px 10px; }
-      .clasif-family-body.closed { display: none; }
+        font-size: .82rem; color: var(--ho-green-dark, #3D6B56);
+        padding: 8px 10px 4px 10px; display: flex;
+        align-items: center; gap: 6px;
+        border-left: 3px solid var(--ho-green, #4E9978); border-radius: 8px 8px 0 0; }
+      .clasif-family-body { padding: 2px 10px 8px 14px; }
       .clasif-family-just { font-family: 'Public Sans', sans-serif; font-style: italic;
         font-size: .76rem; color: var(--ho-text-mid, #8A8680);
-        margin-bottom: 5px; padding-left: 8px; line-height: 1.45; }
-      .clasif-entry { display: flex; align-items: baseline; gap: 4px;
-        margin-bottom: 3px; padding-left: 8px;
+        margin-bottom: 6px; line-height: 1.45;
+        border-left: 2px solid rgba(78,153,120,.25); padding-left: 8px; }
+      .clasif-entry { display: flex; align-items: baseline; gap: 6px;
+        margin-bottom: 4px; padding-left: 4px;
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text, #E8E6E0); line-height: 1.5; }
       .clasif-entry:last-child { margin-bottom: 0; }
@@ -498,6 +520,36 @@ class HorneroGremial extends HoComponent {
       .inform-popup-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
       .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .inform-popup-btn:disabled { opacity: .3; pointer-events: none; }
+
+      /* ===== Light theme overrides for Informe popup + Clasificación tree ===== */
+      :host(.theme-light) .inform-popup-overlay { background: rgba(0,0,0,.25); }
+      :host(.theme-light) .inform-popup { background: var(--ho-card, #FFFFFF); box-shadow: 0 8px 32px rgba(0,0,0,.12); }
+      :host(.theme-light) .inform-popup-header { border-bottom-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .inform-popup-header-close { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-header-close:hover { background: rgba(0,0,0,.06); }
+      :host(.theme-light) .inform-popup-header-title { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-header-date { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .inform-popup-header-user { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .inform-popup-header-grado { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .inform-popup-section-title { color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .inform-popup-section-body { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-section-body strong { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-section-body em { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .inform-popup-section-divider { background: rgba(0,0,0,.08); }
+      :host(.theme-light) .inform-popup-tags { border-top-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .inform-popup-tag { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .inform-popup-comentario-entry { border-bottom-color: rgba(0,0,0,.06); }
+      :host(.theme-light) .inform-popup-comentario-desc { color: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .inform-popup-footer { border-top-color: rgba(0,0,0,.08); }
+      :host(.theme-light) .inform-popup-btn svg { stroke: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      /* Clasificación tree light */
+      :host(.theme-light) .clasif-family { background: rgba(78,153,120,.06); border-color: rgba(78,153,120,.14); }
+      :host(.theme-light) .clasif-family-name { color: var(--ho-green-dark, #3D6B56); border-left-color: var(--ho-green, #2E6B4E); }
+      :host(.theme-light) .clasif-family-just { color: var(--ho-text-mid, #7A766C); border-left-color: rgba(78,153,120,.2); }
+      :host(.theme-light) .clasif-entry { color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .clasif-entry-desc { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .clasif-tag { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56); }
       .inform-popup-scroll-hint { padding: 8px 16px; text-align: center;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .74rem;
         color: var(--ho-gold, #B0863F); background: rgba(176,134,63,.08);
@@ -812,10 +864,10 @@ class HorneroGremial extends HoComponent {
     let familyIndex = 0;
     return '<div class="clasif-tree">' + families.map(f => {
       const familyLabel = f.name
-        ? `<div class="clasif-family-name open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('closed')"><span class="clasif-family-chevron">▶</span>2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
+        ? `<div class="clasif-family-name">2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
         : '';
       const justHtml = f.justification
-        ? `<div class="clasif-family-just">→ ${f.justification}</div>`
+        ? `<div class="clasif-family-just">${f.justification}</div>`
         : '';
       const entriesHtml = f.entries.map(e => {
         const tagBadge = `<span class="clasif-tag">#${e.tag}</span>`;
