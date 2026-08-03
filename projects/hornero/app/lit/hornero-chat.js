@@ -1476,7 +1476,7 @@ class HorneroChat extends HoComponent {
                   (inf.sections && inf.sections.length > 0 ?
                     (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
                     (inf.contenido || '').substring(0, 80));
-                const dateStr = inf.fecha || '';
+                const dateStr = inf.timestamp ? this._formatInformeTimestamp(inf.timestamp) : (inf.fecha || '');
                 const displayEstado = inf.estado || 'pendiente';
                 const estadoClass = estadoClassMap[displayEstado] || '';
                 const estadoLabel = estadoLabelMap[displayEstado] || displayEstado;
@@ -1623,7 +1623,7 @@ class HorneroChat extends HoComponent {
                     (inf.sections && inf.sections.length > 0 ?
                       (inf.sections[0].title || inf.sections[0].body || '').substring(0, 80) :
                       (inf.contenido || '').substring(0, 80));
-                  const dateStr = inf.fecha || '';
+                  const dateStr = inf.timestamp ? this._formatInformeTimestamp(inf.timestamp) : (inf.fecha || '');
                   const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
                   const tagsHtml = tags.length > 0 ?
                     `<div class="informes-item-tags">${tags.map(t => `<span class="informes-item-tag">${t}</span>`).join('')}</div>` : '';
@@ -1685,6 +1685,17 @@ class HorneroChat extends HoComponent {
 
   // ===== Markdown → HTML formatter =====
   // Converts AI markdown responses into styled Hornero HTML
+  _formatInformeTimestamp(ts) {
+    if (!ts) return '';
+    const d = new Date(ts);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const mins = String(d.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${mins}`;
+  }
+
   _formatMarkdown(text) {
     if (!text) return '';
     const lines = text.split('\n');
@@ -2439,7 +2450,6 @@ class HorneroChat extends HoComponent {
     if (informesBackBtn) {
       informesBackBtn.addEventListener('click', () => {
         this._closeInformesDrawer();
-        this.emit('chat-back', {});
       });
     }
     if (informesDrawerEl) {
