@@ -883,11 +883,13 @@ class HorneroChat extends HoComponent {
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
       .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; position: relative; min-width: 48px; justify-content: flex-end; }
 
-      /* + button inside panel or standalone */
+      /* Wrapper: + button stays in place, panel is absolutely positioned behind it */
+      .chat-plus-wrapper { position: relative; }
       .chat-plus-btn { width: 32px; height: 32px; border-radius: 50%;
         background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s, transform .15s; }
+        transition: background .2s, border-color .2s, transform .15s;
+        position: relative; z-index: 2; }
       .chat-plus-btn:hover { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
       .chat-plus-btn svg { width: 16px; height: 16px;
@@ -899,12 +901,13 @@ class HorneroChat extends HoComponent {
       .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); }
       .chat-plus-btn.open svg line:last-child { display: none; }
 
-      /* Vertical panel — includes + button and items */
-      .chat-plus-menu { position: absolute; top: 0; right: 0;
+      /* Vertical panel — extends behind and below the + button */
+      .chat-plus-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
-        border-radius: 14px; padding: 8px; z-index: 30;
+        border-radius: 14px; padding: 8px;
+        padding-top: 44px; /* 8px padding + 32px + button + 4px gap */
         display: flex; flex-direction: column; align-items: center; gap: 4px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
         animation: menuFadeIn .15s ease; }
@@ -1565,35 +1568,33 @@ class HorneroChat extends HoComponent {
         </div>
         <div class="chat-top-bar-right">
           ${this.hidePersonaBar ? '' : html`
-            ${this._plusMenuOpen ? html`
-            <div class="chat-plus-menu" id="chatPlusMenu">
-              <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
+            <div class="chat-plus-wrapper">
+              <button class="chat-plus-btn${this._plusMenuOpen ? ' open' : ''}" id="chatPlusBtn" title="${this._plusMenuOpen ? 'Cerrar' : 'Más opciones'}">
                 <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </button>
-              <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
-                <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                <span class="item-label">Historial</span>
-              </button>
-              ${!this.hideInformesBtn ? html`
-                <button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
-                  <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
-                  <span class="item-label">Reportes</span>
-                  ${this.informeBadge ? html`<span class="item-badge"></span>` : ''}
+              ${this._plusMenuOpen ? html`
+              <div class="chat-plus-menu" id="chatPlusMenu">
+                <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
+                  <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                  <span class="item-label">Historial</span>
                 </button>
-              ` : ''}
-              ${isHigherGrade && !this.hideRecibidosBtn ? html`
-                <button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
-                  <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
-                  <span class="item-label">Recibidos</span>
-                  ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
-                </button>
+                ${!this.hideInformesBtn ? html`
+                  <button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
+                    <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
+                    <span class="item-label">Reportes</span>
+                    ${this.informeBadge ? html`<span class="item-badge"></span>` : ''}
+                  </button>
+                ` : ''}
+                ${isHigherGrade && !this.hideRecibidosBtn ? html`
+                  <button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
+                    <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
+                    <span class="item-label">Recibidos</span>
+                    ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
+                  </button>
+                ` : ''}
+              </div>
               ` : ''}
             </div>
-            ` : html`
-            <button class="chat-plus-btn" id="chatPlusBtn" title="Más opciones">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-            `}
           `}
         </div>
       </div>
