@@ -886,7 +886,7 @@ class HorneroChat extends HoComponent {
       .chat-plus-btn.open svg line:last-child { display: none; }
 
       /* Dropdown container — items below the + button */
-      .chat-plus-menu { position: absolute; top: 100%; right: 0;
+      .chat-plus-menu { position: absolute; top: 100%; right: 16px;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
@@ -917,6 +917,14 @@ class HorneroChat extends HoComponent {
         width: 7px; height: 7px; border-radius: 50%;
         background: var(--ho-green, #4E9978); }
       .chat-plus-item .item-badge.gold { background: var(--ho-gold, #B0863F); }
+      /* Active section highlight in plus menu */
+      .chat-plus-item-active { color: var(--ho-green, #4E9978); }
+      .chat-plus-item-active .item-icon { border-color: var(--ho-green, #4E9978);
+        background: var(--ho-green-pale, #E0F0EB); }
+      .chat-plus-item-active .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-item-active::after { content: ''; position: absolute;
+        left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 2px;
+        background: var(--ho-green, #4E9978); }
 
       /* History/Informes/Recibidos as cintillo items — inside scrollable center (legacy, kept for reference) */
       .chat-cintillo-action { display: flex; flex-direction: column; align-items: center;

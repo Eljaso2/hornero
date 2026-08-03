@@ -581,6 +581,14 @@ class HorneroApp extends HoComponent {
       .list-screen-menu-item:hover .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
       .list-screen-menu-item:hover { color: var(--ho-green, #4E9978); }
       .list-screen-menu-item .item-label { white-space: nowrap; }
+      /* Active section highlight in plus menu */
+      .list-screen-menu-item-active { color: var(--ho-green, #4E9978); }
+      .list-screen-menu-item-active .item-icon { border-color: var(--ho-green, #4E9978);
+        background: var(--ho-green-pale, #E0F0EB); }
+      .list-screen-menu-item-active .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .list-screen-menu-item-active::after { content: ''; position: absolute;
+        left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 2px;
+        background: var(--ho-green, #4E9978); }
       .list-screen-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #7A766C); padding: 12px 16px 0; line-height: 1.4; }
       .list-scroll { overflow-y: auto; padding: 8px 0; }
@@ -1401,6 +1409,8 @@ class HorneroApp extends HoComponent {
           const target = item.dataset.screen;
           listPlusMenu.style.display = 'none';
           listPlusBtn.classList.remove('open');
+          // Skip navigation if already on the target screen
+          if (item.classList.contains('list-screen-menu-item-active')) return;
           if (target) this._navigateTo(target);
         });
       });
@@ -1674,20 +1684,37 @@ class HorneroApp extends HoComponent {
     }
   }
 
+  // ===== Shared plus menu builder for list screens (Mis Conversaciones, Mis Reportes, Recibidos) =====
+  _buildListPlusMenu(activeScreen) {
+    const plusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+    const plusBtn = '<button class="list-screen-plus" id="listPlusBtn">' + plusSvg + '</button>';
+    const chatSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
+    const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
+    const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
+    const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+    const isHigherGrade = ['B.b','B.c','B.d'].includes(session.grade || 'A');
+    const items = [
+      { screen: 'misConversaciones', svg: chatSvg, label: 'Historial' },
+      { screen: 'misReportes', svg: reportSvg, label: 'Reportes' },
+    ];
+    if (isHigherGrade) {
+      items.push({ screen: 'recibidos', svg: inboxSvg, label: 'Recibidos' });
+    }
+    const menuItems = items.map(it => {
+      const isActive = it.screen === activeScreen;
+      const activeClass = isActive ? ' list-screen-menu-item-active' : '';
+      return '<button class="list-screen-menu-item' + activeClass + '" data-screen="' + it.screen + '"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + it.svg + '</svg></span><span class="item-label">' + it.label + '</span></button>';
+    }).join('');
+    const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' + menuItems + '</div>';
+    return plusBtn + menuHtml;
+  }
+
   // ===== Recibidos screen: incoming reports from lower grades =====
   _renderRecibidos() {
     const list = this.recibidosList || [];
     const backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const backBtn = '<button class="list-screen-back" id="listBackBtn">' + backSvg + '</button>';
-    const plusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
-    const plusBtn = '<button class="list-screen-plus" id="listPlusBtn">' + plusSvg + '</button>';
-    const chatSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
-    const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
-    const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' +
-      '<button class="list-screen-menu-item" data-screen="misConversaciones"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + chatSvg + '</svg></span><span class="item-label">Historial</span></button>' +
-      '<button class="list-screen-menu-item" data-screen="misReportes"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + reportSvg + '</svg></span><span class="item-label">Reportes</span></button>' +
-    '</div>';
-    const headerRight = plusBtn + menuHtml;
+    const headerRight = this._buildListPlusMenu('recibidos');
     const estadoLabelMap = {
       'pendiente': 'Pendiente',
       'visto': 'Visto',
@@ -1784,15 +1811,7 @@ class HorneroApp extends HoComponent {
     const list = this.misConversacionesList || [];
     const backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const backBtn = '<button class="list-screen-back" id="listBackBtn">' + backSvg + '</button>';
-    const plusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
-    const plusBtn = '<button class="list-screen-plus" id="listPlusBtn">' + plusSvg + '</button>';
-    const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
-    const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
-    const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' +
-      '<button class="list-screen-menu-item" data-screen="misReportes"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + reportSvg + '</svg></span><span class="item-label">Reportes</span></button>' +
-      '<button class="list-screen-menu-item" data-screen="recibidos"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + inboxSvg + '</svg></span><span class="item-label">Recibidos</span></button>' +
-    '</div>';
-    const headerRight = plusBtn + menuHtml;
+    const headerRight = this._buildListPlusMenu('misConversaciones');
     const sectionConfig = {
       consulta:  { emoji: '♣', label: 'Consulta',  color: '#2B5278', persona: 'abogado', img: 'assets/personajes/a03.png' },
       contenido: { emoji: '♪', label: 'Contenido', color: '#5A4A3A', persona: 'periodista', img: 'assets/personajes/a04.png' },
@@ -1861,15 +1880,7 @@ class HorneroApp extends HoComponent {
     const list = this.misReportesList || [];
     const backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const backBtn = '<button class="list-screen-back" id="listBackBtn">' + backSvg + '</button>';
-    const plusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
-    const plusBtn = '<button class="list-screen-plus" id="listPlusBtn">' + plusSvg + '</button>';
-    const chatSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
-    const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
-    const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' +
-      '<button class="list-screen-menu-item" data-screen="misConversaciones"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + chatSvg + '</svg></span><span class="item-label">Historial</span></button>' +
-      '<button class="list-screen-menu-item" data-screen="recibidos"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + inboxSvg + '</svg></span><span class="item-label">Recibidos</span></button>' +
-    '</div>';
-    const headerRight = plusBtn + menuHtml;
+    const headerRight = this._buildListPlusMenu('misReportes');
     const estadoLabelMap = {
       'pendiente': 'Pendiente de revision',
       'aceptado': 'Aprobado por trabajador',
