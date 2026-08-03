@@ -1680,8 +1680,8 @@ class HorneroChat extends HoComponent {
                   const estadoClass = estadoClassMap[inf.estado] || '';
                   const isConCambios = inf.estado === 'aprobado-con-cambios' || inf.estado === 'corregido-delegado' || inf.estado === 'corregido';
                   const statusClass = isConCambios ? ' informes-item-con-cambios' : (isReviewed ? ' informes-item-reviewed' : ' informes-item-pending');
+                  // Regla 1: Aprobar solo desde popup (después de leer completo), no desde drawer
                   const reviewBtnHtml = !isReviewed ? `<div class="informes-review-actions">
-                    <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><polyline points="20 6 9 17 4 12"/></svg></button>
                     <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
                   </div>` : '';
                   return `<div class="informes-item${statusClass}" data-informe-id="${inf.id}">
@@ -2439,18 +2439,14 @@ class HorneroChat extends HoComponent {
       this._setupDrawerSwipe(recibidosDrawerEl, () => this._closeRecibidosDrawer());
     }
 
-    // === Recibidos drawer: approve / correct actions ===
+    // === Recibidos drawer: correct action (aprobar solo desde popup con scroll leído) ===
     this.shadowRoot.querySelectorAll('[data-review-informe]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const infId = btn.dataset.reviewInforme;
         const action = btn.dataset.reviewAction;
         if (!infId) return;
-        if (action === 'aprobar') {
-          // Aprobar sin cambios: emitir evento al parent
-          this.emit('informes-approve', { informeId: infId });
-          this._closeRecibidosDrawer();
-        } else if (action === 'corregir') {
+        if (action === 'corregir') {
           // Corregir: abrir informe en chat para edición con IA
           this.emit('informes-edit', { informeId: infId });
           this._closeRecibidosDrawer();
