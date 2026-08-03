@@ -392,7 +392,7 @@ class HorneroCondicion extends HoComponent {
 
     if (topic) {
       // Brief greeting + auto user question + Investigador response
-      const greetingText = '¡Hola! Soy la Investigadora. Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos.';
+      const greetingText = '¡Hola! Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos.';
 
       this._typing = true;
       this.render();
@@ -412,7 +412,7 @@ class HorneroCondicion extends HoComponent {
     }
 
     // Default greeting (no specific topic)
-    const introText = '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **Explorar** 👆';
+    const introText = '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **Explorar** 👆';
 
     // 1. Show typing dots for 1s
     this._typing = true;
@@ -616,7 +616,7 @@ class HorneroCondicion extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '', body: '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Qué querés explorar?' },
+        { title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Qué querés explorar?' },
       ],
       tags: ['panorama', 'greeting'],
       persona: this._activePersona,
@@ -912,7 +912,7 @@ class HorneroCondicion extends HoComponent {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
     if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {
-      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Investigadora — investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: p, time: this._timeNow() };
+      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: p, time: this._timeNow() };
     }
     if (lower.match(/smvm|salario mínimo|salario minimo|canasta|brecha|superexplotación|superexplotacion/)) {
       return { role: 'hornero', sections: [{ title: 'SMVM', body: 'El Salario Mínimo Vital y Móvil es la frontera entre lo que la ley reconoce y lo que el trabajador necesita. La brecha entre el SMVM y la canasta básica revela la superexplotación: el trabajador no gana lo que necesita para vivir. ¿Querés que profundice en la canasta básica, la brecha salarial o el valor de la fuerza de trabajo?' }], tags: ['panorama', 'smvm'], persona: p, time: this._timeNow() };
