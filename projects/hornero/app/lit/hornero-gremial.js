@@ -232,13 +232,6 @@ class HorneroGremial extends HoComponent {
         border-left: 3px solid var(--ho-green, #4E9978);
         padding-left: 14px; background: rgba(78,153,120,.06);
         border-radius: 0 8px 8px 0; }
-      .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body {
-        font-family: 'JetBrains Mono', monospace; font-size: .74rem;
-        color: var(--ho-text-light, #9C988D); line-height: 1.7;
-        background: var(--ho-bg, #1E2321); border-radius: 8px;
-        padding: 10px 14px; }
-      .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body strong {
-        color: var(--ho-text-mid, #6E6A60); font-weight: 600; }
       .inform-popup-section[data-section-type="comentarios"] .inform-popup-section-body {
         background: rgba(255,255,255,.03); border-radius: 8px;
         padding: 10px 14px; }
@@ -445,9 +438,17 @@ class HorneroGremial extends HoComponent {
     `;
   }
 
-  // Section 5: Comentarios y modificaciones — built from correcciones data
+  // Section 5: Comentarios y modificaciones — always shown, built from correcciones data
   _renderSection5Comentarios(correcciones) {
-    if (!correcciones || correcciones.length === 0) return '';
+    if (!correcciones || correcciones.length === 0) {
+      return `<div class="inform-popup-section-divider"></div>
+        <div class="inform-popup-section" data-section-type="comentarios">
+          <div class="inform-popup-section-title">5) Comentarios y modificaciones</div>
+          <div class="inform-popup-section-body">
+            <div class="inform-popup-comentario-desc">Sin comentarios ni modificaciones aún.</div>
+          </div>
+        </div>`;
+    }
     const sorted = [...correcciones].sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
     const entriesHtml = sorted.map(c => {
       const gradoLabel = 'G' + (c.correctorGrado || '?');
