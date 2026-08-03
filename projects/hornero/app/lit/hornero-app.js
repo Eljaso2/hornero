@@ -541,20 +541,46 @@ class HorneroApp extends HoComponent {
       .list-screen-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
       .list-screen-plus { width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-green, #2E6B4E); border: none; cursor: pointer;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; flex: none; }
+      .list-screen-plus:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .list-screen-plus svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .list-screen-plus:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .list-screen-plus.open { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .list-screen-plus.open svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .list-screen-plus.open svg line:last-child { display: none; }
+      .list-screen-menu { position: absolute; top: 100%; right: 16px;
+        background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        border-radius: 12px; padding: 6px; z-index: 30;
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        box-shadow: 0 4px 16px rgba(0,0,0,.3);
+        animation: listMenuSlideDown .15s ease; }
+      .theme-light .list-screen-menu {
+        background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
+        box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+      @keyframes listMenuSlideDown { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+      .list-screen-menu-item { display: flex; flex-direction: column; align-items: center;
+        gap: 2px; padding: 4px 0; background: none; border: none; cursor: pointer;
+        text-align: center; font-family: 'Archivo', sans-serif;
+        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+        transition: opacity .2s; position: relative; }
+      .list-screen-menu-item:hover { opacity: .8; }
+      .list-screen-menu-item .item-icon { width: 32px; height: 32px;
         display: flex; align-items: center; justify-content: center;
-        color: var(--ho-text-off, #F2F1EC); flex: none; }
-      .list-screen-plus svg { width: 18px; height: 18px; }
-      .list-screen-menu { position: absolute; right: 16px; top: 52px;
-        background: var(--ho-card, #1E2321); border: 1px solid var(--ho-border, rgba(255,255,255,.12));
-        border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.3); z-index: 20;
-        min-width: 180px; overflow: hidden; }
-      .list-screen-menu-item { display: flex; align-items: center; gap: 8px;
-        padding: 10px 14px; font-family: 'Public Sans', sans-serif; font-size: .84rem;
-        color: var(--ho-text, #E8E6E0); cursor: pointer; border: none; background: none;
-        width: 100%; text-align: left; }
-      .list-screen-menu-item:hover { background: var(--ho-green-pale, #E0F0EB); }
-      .list-screen-menu-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .list-screen-menu-item .item-icon svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .list-screen-menu-item:hover .item-icon { border-color: var(--ho-green-light, #80CCA0); }
+      .list-screen-menu-item:hover .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .list-screen-menu-item:hover { color: var(--ho-green, #4E9978); }
+      .list-screen-menu-item .item-label { white-space: nowrap; }
       .list-screen-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #7A766C); padding: 12px 16px 0; line-height: 1.4; }
       .list-scroll { overflow-y: auto; padding: 8px 0; }
@@ -1334,11 +1360,19 @@ class HorneroApp extends HoComponent {
       listPlusBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         const isVisible = listPlusMenu.style.display !== 'none';
-        listPlusMenu.style.display = isVisible ? 'none' : 'block';
+        if (isVisible) {
+          listPlusMenu.style.display = 'none';
+          listPlusBtn.classList.remove('open');
+        } else {
+          listPlusMenu.style.display = 'flex';
+          listPlusBtn.classList.add('open');
+        }
       });
       listPlusMenu.querySelectorAll('.list-screen-menu-item').forEach(item => {
         item.addEventListener('click', () => {
           const target = item.dataset.screen;
+          listPlusMenu.style.display = 'none';
+          listPlusBtn.classList.remove('open');
           if (target) this._navigateTo(target);
         });
       });
@@ -1346,6 +1380,7 @@ class HorneroApp extends HoComponent {
       const closeMenu = (e) => {
         if (!listPlusMenu.contains(e.target) && e.target !== listPlusBtn) {
           listPlusMenu.style.display = 'none';
+          listPlusBtn.classList.remove('open');
         }
       };
       this.shadowRoot.removeEventListener('click', this._listPlusMenuClose);
@@ -1621,8 +1656,8 @@ class HorneroApp extends HoComponent {
     const chatSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
     const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
     const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' +
-      '<button class="list-screen-menu-item" data-screen="misConversaciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + chatSvg + '</svg>Mis Conversaciones</button>' +
-      '<button class="list-screen-menu-item" data-screen="misReportes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + reportSvg + '</svg>Mis Reportes</button>' +
+      '<button class="list-screen-menu-item" data-screen="misConversaciones"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + chatSvg + '</svg></span><span class="item-label">Historial</span></button>' +
+      '<button class="list-screen-menu-item" data-screen="misReportes"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + reportSvg + '</svg></span><span class="item-label">Reportes</span></button>' +
     '</div>';
     const headerRight = plusBtn + menuHtml;
     const estadoLabelMap = {
@@ -1726,8 +1761,8 @@ class HorneroApp extends HoComponent {
     const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
     const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
     const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' +
-      '<button class="list-screen-menu-item" data-screen="misReportes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + reportSvg + '</svg>Mis Reportes</button>' +
-      '<button class="list-screen-menu-item" data-screen="recibidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + inboxSvg + '</svg>Reportes Recibidos</button>' +
+      '<button class="list-screen-menu-item" data-screen="misReportes"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + reportSvg + '</svg></span><span class="item-label">Reportes</span></button>' +
+      '<button class="list-screen-menu-item" data-screen="recibidos"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + inboxSvg + '</svg></span><span class="item-label">Recibidos</span></button>' +
     '</div>';
     const headerRight = plusBtn + menuHtml;
     const sectionConfig = {
@@ -1803,8 +1838,8 @@ class HorneroApp extends HoComponent {
     const chatSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
     const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
     const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' +
-      '<button class="list-screen-menu-item" data-screen="misConversaciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + chatSvg + '</svg>Mis Conversaciones</button>' +
-      '<button class="list-screen-menu-item" data-screen="recibidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + inboxSvg + '</svg>Reportes Recibidos</button>' +
+      '<button class="list-screen-menu-item" data-screen="misConversaciones"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + chatSvg + '</svg></span><span class="item-label">Historial</span></button>' +
+      '<button class="list-screen-menu-item" data-screen="recibidos"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + inboxSvg + '</svg></span><span class="item-label">Recibidos</span></button>' +
     '</div>';
     const headerRight = plusBtn + menuHtml;
     const estadoLabelMap = {
