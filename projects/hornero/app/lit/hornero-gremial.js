@@ -152,117 +152,132 @@ class HorneroGremial extends HoComponent {
         border-color: rgba(0,0,0,.08); }
       :host(.theme-light) .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB); }
 
-      /* === Full-screen informe viewer overlay === */
-      .inform-view-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-        background: var(--ho-bg, #1E2321); z-index: 100; display: flex;
-        flex-direction: column; animation: fadeIn .25s ease; }
-      .inform-view-header { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
-        flex: none; background: transparent; }
-      .inform-view-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+      /* === Informe popup modal === */
+      .inform-popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 100; background: rgba(43,42,38,.55); display: flex;
+        align-items: center; justify-content: center;
+        animation: fadeIn .25s ease; }
+      .inform-popup { background: var(--ho-card, #2A3230); border-radius: 18px;
+        width: 92%; max-width: 480px; max-height: 85vh;
+        display: flex; flex-direction: column;
+        box-shadow: 0 8px 32px rgba(43,42,38,.25);
+        animation: popupIn .25s ease; overflow: hidden; }
+      @keyframes popupIn { from { opacity: 0; transform: scale(.95) translateY(10px); }
+        to { opacity: 1; transform: none; } }
+      .inform-popup-header { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
+        flex: none; background: transparent;
+        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .inform-popup-header-row { display: flex; align-items: center; justify-content: space-between; }
+      .inform-popup-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .92rem; color: var(--ho-text-off, #F2F1EC);
-        letter-spacing: .04em; text-transform: uppercase; }
-      .inform-view-header-meta { display: flex; align-items: center; gap: 8px; }
-      .inform-view-header-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        letter-spacing: .04em; text-transform: uppercase; flex: 1; }
+      .inform-popup-header-close { width: 28px; height: 28px; border-radius: 8px;
+        background: rgba(255,255,255,.1); border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        color: rgba(255,255,255,.7); font-size: .82rem;
+        transition: background .2s; }
+      .inform-popup-header-close:hover { background: rgba(255,255,255,.2); color: #fff; }
+      .inform-popup-header-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      .inform-popup-header-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-off, #F2F1EC); letter-spacing: .06em;
         background: rgba(255,255,255,.15); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
-      .inform-view-header-grado { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+      .inform-popup-header-grado { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: #D4E4F7; color: #2B5278; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
-      .inform-view-header-estado { font-family: 'JetBrains Mono', monospace;
+      .inform-popup-header-estado { font-family: 'JetBrains Mono', monospace;
         font-size: .62rem; padding: 2px 8px; border-radius: 6px; font-weight: 700; }
-      .inform-view-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
-      .inform-view-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
-      .inform-view-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
-      .inform-view-header-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
-      /* Historial de cambios in viewer */
-      .inform-view-historial { margin-top: 16px; padding: 12px;
-        background: rgba(255,255,255,.03); border-radius: 8px;
-        border-top: 2px dashed rgba(255,255,255,.1); }
-      .inform-view-historial-title { font-family: 'Archivo', sans-serif; font-weight: 700;
-        font-size: .78rem; color: var(--ho-text-mid, #6E6A60); margin-bottom: 8px; }
-      .inform-view-historial-entry { padding: 6px 0;
-        border-bottom: 1px solid rgba(255,255,255,.05); }
-      .inform-view-historial-entry:last-child { border-bottom: none; }
-      .inform-view-historial-grado { font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; font-weight: 700; margin-bottom: 2px; }
-      .inform-view-historial-grado.grado-2 { color: #4E9978; }
-      .inform-view-historial-grado.grado-3 { color: #2C5A8A; }
-      .inform-view-historial-grado.grado-4 { color: #5A3D7A; }
-      .inform-view-historial-resumen { font-family: 'Public Sans', sans-serif;
-        font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
-      .inform-view-historial-secciones { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-      .inform-view-historial-seccion { font-family: 'JetBrains Mono', monospace;
-        font-size: .56rem; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-      .inform-view-historial-seccion.grado-2 { background: #E0F0EB; color: #3D6B56; }
-      .inform-view-historial-seccion.grado-3 { background: #D7E8F3; color: #2C5A8A; }
-      .inform-view-historial-seccion.grado-4 { background: #E8DCF0; color: #5A3D7A; }
-      .inform-view-header-footer { display: flex; align-items: center;
-        justify-content: space-between; }
-      .inform-view-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+      .inform-popup-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
+      .inform-popup-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
+      .inform-popup-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
+      .inform-popup-header-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
+      .inform-popup-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: rgba(255,255,255,.6); }
-      .inform-view-header-actions { display: flex; gap: 4px; }
-      .inform-view-header-btn { width: 28px; height: 28px; border-radius: 8px;
+      .inform-popup-header-actions { display: flex; gap: 4px; }
+      .inform-popup-header-btn { width: 28px; height: 28px; border-radius: 8px;
         background: none; border: 1px solid rgba(255,255,255,.15);
         cursor: pointer; display: flex; align-items: center; justify-content: center;
         transition: background .2s, border-color .2s; }
-      .inform-view-header-btn svg { width: 14px; height: 14px;
+      .inform-popup-header-btn svg { width: 14px; height: 14px;
         stroke: rgba(255,255,255,.7); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .inform-view-header-btn:hover { background: rgba(255,255,255,.15);
+      .inform-popup-header-btn:hover { background: rgba(255,255,255,.15);
         border-color: rgba(255,255,255,.3); }
-      .inform-view-header-btn:hover svg { stroke: #fff; }
-      .inform-view-header-btn:disabled { opacity: .3; pointer-events: none; }
-      .inform-view-header-btn[data-inform-view-action="borrar"]:hover { background: #FDECEA;
-        border-color: #D32F2F; }
-      .inform-view-header-btn[data-inform-view-action="borrar"]:hover svg { stroke: #D32F2F; }
-      .inform-view-close-btn { width: auto; padding: 0 6px; font-size: .82rem;
-        color: rgba(255,255,255,.7); border: none; background: rgba(255,255,255,.1);
-        border-radius: 6px; }
-      .inform-view-close-btn:hover { background: rgba(255,255,255,.2); color: #fff; }
-      .inform-view-scroll { flex: 1; overflow-y: auto; padding: 20px 16px; }
-      .inform-view-section { margin-bottom: 16px; }
-      .inform-view-section:last-child { margin-bottom: 0; }
-      .inform-view-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+      .inform-popup-header-btn:hover svg { stroke: #fff; }
+      .inform-popup-scroll { flex: 1; overflow-y: auto; padding: 16px; }
+      .inform-popup-section { margin-bottom: 16px; }
+      .inform-popup-section:last-child { margin-bottom: 0; }
+      .inform-popup-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 6px;
         text-transform: uppercase; letter-spacing: .06em; }
-      .inform-view-section-body { font-family: 'Public Sans', sans-serif;
+      .inform-popup-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
-
-      /* Section-type-aware styles for the 4 report sections */
-      .inform-view-section[data-section-type="relato"] .inform-view-section-body {
+      /* Section-type-aware styles */
+      .inform-popup-section[data-section-type="relato"] .inform-popup-section-body {
         font-size: .88rem; color: var(--ho-text, #E8E6E0); line-height: 1.65; }
-      .inform-view-section[data-section-type="clasificacion"] .inform-view-section-body {
+      .inform-popup-section[data-section-type="clasificacion"] .inform-popup-section-body {
         font-size: .84rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.55; }
-      .inform-view-section[data-section-type="clasificacion"] .inform-view-section-body strong {
+      .inform-popup-section[data-section-type="clasificacion"] .inform-popup-section-body strong {
         color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
-      .inform-view-section[data-section-type="clasificacion"] .clasif-tag {
+      .inform-popup-section[data-section-type="clasificacion"] .clasif-tag {
         display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: #EDEAE3; color: var(--ho-text, #E8E6E0);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
-      .inform-view-section[data-section-type="extractos"] .inform-view-section-body {
+      .inform-popup-section[data-section-type="extractos"] .inform-popup-section-body {
         font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
         padding-left: 14px; background: rgba(78,153,120,.06);
         border-radius: 0 8px 8px 0; }
-      .inform-view-section[data-section-type="transcript"] .inform-view-section-body {
+      .inform-popup-section[data-section-type="transcript"] .inform-popup-section-body {
         font-size: .84rem; color: var(--ho-text, #E8E6E0); line-height: 1.6;
         border-left: 3px solid var(--ho-green, #4E9978);
         padding-left: 14px; background: rgba(78,153,120,.06);
         border-radius: 0 8px 8px 0; }
-      .inform-view-section[data-section-type="ficha"] .inform-view-section-body {
+      .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body {
         font-family: 'JetBrains Mono', monospace; font-size: .74rem;
         color: var(--ho-text-light, #9C988D); line-height: 1.7;
         background: var(--ho-bg, #1E2321); border-radius: 8px;
         padding: 10px 14px; }
-      .inform-view-section[data-section-type="ficha"] .inform-view-section-body strong {
+      .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body strong {
         color: var(--ho-text-mid, #6E6A60); font-weight: 600; }
-      .inform-view-section-divider { height: 1px; background: rgba(43,42,38,.10);
+      .inform-popup-section[data-section-type="comentarios"] .inform-popup-section-body {
+        background: rgba(255,255,255,.03); border-radius: 8px;
+        padding: 10px 14px; }
+      .inform-popup-section-divider { height: 1px; background: rgba(43,42,38,.10);
         margin: 16px 0; }
-      .inform-view-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
+      .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
         padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
-      .inform-view-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+      .inform-popup-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: #EDEAE3; color: var(--ho-text, #E8E6E0);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      /* Section 5 comentarios entries */
+      .inform-popup-comentario-entry { padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,.05); }
+      .inform-popup-comentario-entry:last-child { border-bottom: none; }
+      .inform-popup-comentario-grado { font-family: 'JetBrains Mono', monospace;
+        font-size: .62rem; font-weight: 700; margin-bottom: 2px; }
+      .inform-popup-comentario-grado.grado-2 { color: #4E9978; }
+      .inform-popup-comentario-grado.grado-3 { color: #2C5A8A; }
+      .inform-popup-comentario-grado.grado-4 { color: #5A3D7A; }
+      .inform-popup-comentario-desc { font-family: 'Public Sans', sans-serif;
+        font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
+      /* Footer action buttons */
+      .inform-popup-footer { padding: 12px 16px; display: flex; gap: 8px;
+        justify-content: flex-end; flex: none;
+        border-top: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .inform-popup-btn { border-radius: 10px; padding: 10px 18px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
+        cursor: pointer; transition: background .2s, border-color .2s; }
+      .inform-popup-btn-cerrar { background: none;
+        border: 1px solid rgba(255,255,255,.15);
+        color: var(--ho-text-light, #9C988D); }
+      .inform-popup-btn-cerrar:hover { background: rgba(255,255,255,.08); }
+      .inform-popup-btn-modificar { background: none;
+        border: 1.5px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
+      .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
+      .inform-popup-btn-aprobar { background: var(--ho-green, #4E9978); border: none;
+        color: var(--ho-text-off, #F2F1EC); }
+      .inform-popup-btn-aprobar:hover { background: #3D6B56; }
+      .inform-popup-btn:disabled { opacity: .4; pointer-events: none; }
 
       @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     `;
@@ -304,12 +319,12 @@ class HorneroGremial extends HoComponent {
         ></hornero-chat>
       </div>
 
-      ${this._viewingInforme ? this._renderInformeViewer() : ''}
+      ${this._viewingInforme ? this._renderInformePopup() : ''}
     `;
   }
 
-  // === Full-screen informe viewer overlay ===
-  _renderInformeViewer() {
+  // === Informe popup modal ===
+  _renderInformePopup() {
     const inf = this._viewingInforme;
     const numero = inf.numero || '';
     const estado = inf.estado || 'pendiente';
@@ -338,117 +353,141 @@ class HorneroGremial extends HoComponent {
       (inf.sections && inf.sections.length > 0 ?
         (inf.sections[0].title || 'Informe Gremial') : 'Informe Gremial')) + (isModificado ? ' (Modificado)' : '');
 
-    // Sections — all expanded, no collapse; section-type-aware styling
+    // Date+time formatting
+    const dateStr = inf.timestamp ? this._formatInformeTimestamp(inf.timestamp) : (inf.fecha || '');
+
+    // Sections 1-4 — all expanded, section-type-aware styling
     const sectionsHtml = (inf.sections || []).map((s, i) => {
       let content = '';
-      // Detect section type for styling based on title
       const sectionTitle = (s.title || '').toLowerCase();
       let sectionType = 'default';
       if (sectionTitle.includes('relato')) sectionType = 'relato';
       else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
       else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
-      else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'extractos';
+      else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'transcript';
       else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
-      if (s.title) content += `<div class="inform-view-section-title">${s.title}</div>`;
-      else if (i > 0) content += `<div class="inform-view-section-title">Detalle</div>`;
+      const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3', 'ficha': '4' };
+      const sectionNum = sectionNumberMap[sectionType] || '';
+      if (s.title) {
+        const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
+        content += `<div class="inform-popup-section-title">${numberedTitle}</div>`;
+      }
+      else if (i > 0) content += `<div class="inform-popup-section-title">Detalle</div>`;
       if (s.body) {
-        // Clean AI confirmation text from section body (not part of the informe)
         let cleanBody = s.body
           .replace(/\n*---\s*\n.*$/s, '')
           .replace(/\n*¿Es esto lo que querías.*$/s, '')
           .replace(/\n*respuesta-libre\s*$/s, '')
           .replace(/[\s\n]+$/, '');
         let bodyHtml = this._formatMarkdown(cleanBody);
-        // In Clasificación section: convert #tag patterns into visual tag badges
         if (sectionType === 'clasificacion') {
-          bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="inform-view-tag clasif-tag">#$1</span>');
+          bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="inform-popup-tag clasif-tag">#$1</span>');
         }
-        content += `<div class="inform-view-section-body">${bodyHtml}</div>`;
+        content += `<div class="inform-popup-section-body">${bodyHtml}</div>`;
       }
       const divider = (i < (inf.sections || []).length - 1) ?
-        '<div class="inform-view-section-divider"></div>' : '';
-      return `<div class="inform-view-section" data-section-type="${sectionType}">${content}</div>${divider}`;
+        '<div class="inform-popup-section-divider"></div>' : '';
+      return `<div class="inform-popup-section" data-section-type="${sectionType}">${content}</div>${divider}`;
     }).join('');
+
+    // Section 5: Comentarios y modificaciones (from correcciones)
+    const section5Html = this._renderSection5Comentarios(inf._correcciones);
 
     // Tags
     const tags = inf.etiquetas && inf.etiquetas.temas ? inf.etiquetas.temas : [];
     const tagsHtml = tags.length > 0 ?
-      `<div class="inform-view-tags">${tags.map(t => `<span class="inform-view-tag">${t}</span>`).join('')}</div>` : '';
+      `<div class="inform-popup-tags">${tags.map(t => `<span class="inform-popup-tag">${t}</span>`).join('')}</div>` : '';
 
-    // Meta (date + user + grade)
-    const dateStr = inf.fecha || '';
-    const metaHtml = `<div class="inform-view-meta">
-      <span>${dateStr}</span>
-      ${inf.username ? '<span class="inform-view-meta-user">@' + inf.username + '</span>' : ''}
-      ${inf.grado ? '<span>G' + inf.grado + '</span>' : ''}
-    </div>`;
+    // Context-aware footer buttons
+    const isOwnInforme = inf.username === this._username;
+    const canModify = !isOwnInforme || (isOwnInforme && (estado === 'pendiente' || estado === 'aceptado'));
+    const canApprove = !isOwnInforme;
 
-    // Action buttons — corregir/reenviar disabled for visto+
-    const canEdit = estado === 'pendiente' || estado === 'aceptado';
+    // Download icon SVG
+    const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
 
     return html`
-      <div class="inform-view-overlay">
-        <div class="inform-view-header">
-          <div class="inform-view-header-title">${titleText}</div>
-          <div class="inform-view-header-meta">
-            ${inf.username ? '<span class="inform-view-header-user">@' + inf.username + '</span>' : ''}
-            ${inf.grado ? '<span class="inform-view-header-grado">G' + inf.grado + '</span>' : ''}
-            <span class="inform-view-header-estado ${estadoClass}">${estadoLabel}</span>
-          </div>
-          <div class="inform-view-header-footer">
-            <span class="inform-view-header-date">${dateStr}</span>
-            <div class="inform-view-header-actions">
-              <button class="inform-view-header-btn" data-inform-view-action="descargar" title="Descargar">
-                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <div class="inform-popup-overlay">
+        <div class="inform-popup">
+          <div class="inform-popup-header">
+            <div class="inform-popup-header-row">
+              <div class="inform-popup-header-title">${titleText}</div>
+              <button class="inform-popup-header-close" data-popup-action="close" title="Cerrar">✕</button>
+            </div>
+            <div class="inform-popup-header-meta">
+              ${inf.username ? '<span class="inform-popup-header-user">@' + inf.username + '</span>' : ''}
+              ${inf.grado ? '<span class="inform-popup-header-grado">G' + inf.grado + '</span>' : ''}
+              <span class="inform-popup-header-estado ${estadoClass}">${estadoLabel}</span>
+              <span class="inform-popup-header-date">${dateStr}</span>
+              <button class="inform-popup-header-btn" data-popup-action="descargar" title="Descargar">
+                <svg viewBox="0 0 24 24">${downloadIcon}</svg>
               </button>
-              <button class="inform-view-header-btn" data-inform-view-action="reenviar" title="Reenviar"${canEdit ? '' : ' disabled'}>
-                <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-              </button>
-              <button class="inform-view-header-btn" data-inform-view-action="editar" title="Corregir"${canEdit ? '' : ' disabled'}>
-                <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              </button>
-              <button class="inform-view-header-btn" data-inform-view-action="borrar" title="Borrar">
-                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-              </button>
-              <button class="inform-view-header-btn inform-view-close-btn" data-inform-view-action="close" title="Cerrar">✕</button>
             </div>
           </div>
-        </div>
-        <div class="inform-view-scroll">
-          ${sectionsHtml}
-          ${tagsHtml}
-          ${this._renderViewerHistorial(inf._correcciones)}
+          <div class="inform-popup-scroll">
+            ${sectionsHtml}
+            ${section5Html}
+            ${tagsHtml}
+          </div>
+          <div class="inform-popup-footer">
+            <button class="inform-popup-btn inform-popup-btn-cerrar" data-popup-action="close">Cerrar</button>
+            ${canModify ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar">Modificar</button>' : ''}
+            ${canApprove ? '<button class="inform-popup-btn inform-popup-btn-aprobar" data-popup-action="aprobar">Aprobar</button>' : ''}
+          </div>
         </div>
       </div>
     `;
   }
 
-  // Render historial de cambios in viewer overlay
-  _renderViewerHistorial(correcciones) {
+  // Section 5: Comentarios y modificaciones — built from correcciones data
+  _renderSection5Comentarios(correcciones) {
     if (!correcciones || correcciones.length === 0) return '';
-    // Group by grado
-    const byGrado = {};
-    correcciones.forEach(c => {
-      const g = c.correctorGrado || 2;
-      if (!byGrado[g]) byGrado[g] = [];
-      byGrado[g].push(c);
-    });
-    const entries = Object.entries(byGrado).sort((a, b) => a[0] - b[0]);
-    const entriesHtml = entries.map(([grado, corrs]) => {
-      const gradoLabel = 'G' + grado;
-      const gradoClass = 'grado-' + grado;
-      const secciones = corrs.map(c => `<span class="inform-view-historial-seccion ${gradoClass}">${c.seccionTitle || c.resumen || 'Cambio'}</span>`).join('');
-      const resumen = corrs.length === 1 ? corrs[0].resumen : corrs.length + ' cambios realizados';
-      return `<div class="inform-view-historial-entry">
-        <div class="inform-view-historial-grado ${gradoClass}">${gradoLabel} — ${corrs[0].correctorUsername || ''} — ${corrs[0].fecha || ''}</div>
-        <div class="inform-view-historial-resumen">${resumen}</div>
-        <div class="inform-view-historial-secciones">${secciones}</div>
+    const sorted = [...correcciones].sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+    const entriesHtml = sorted.map(c => {
+      const gradoLabel = 'G' + (c.correctorGrado || '?');
+      const username = c.correctorUsername || '';
+      const fechaFormatted = c.timestamp ? this._formatInformeTimestamp(c.timestamp) : (c.fecha || '');
+      let description = '';
+      if (c.tipo === 'aprobacion-sin-cambios') {
+        description = 'Aprobado sin cambios';
+      } else if (c.tipo === 'modificado' || c.tipo === 'agregado' || c.tipo === 'eliminado') {
+        const sectionName = c.seccionTitle || 'Sección ' + ((c.seccionIndex || 0) + 1);
+        const action = c.tipo === 'modificado' ? 'Modificó' : c.tipo === 'agregado' ? 'Agregó' : 'Eliminó';
+        description = `${action} sección ${sectionName}.`;
+        if (c.textoOriginal && c.tipo === 'modificado') {
+          const orig = c.textoOriginal.length > 100 ? c.textoOriginal.substring(0, 100) + '...' : c.textoOriginal;
+          description += ` Original: "${orig}".`;
+        }
+        if (c.textoNuevo && (c.tipo === 'modificado' || c.tipo === 'agregado')) {
+          const nuevo = c.textoNuevo.length > 100 ? c.textoNuevo.substring(0, 100) + '...' : c.textoNuevo;
+          description += ` Nuevo: "${nuevo}".`;
+        }
+      } else {
+        description = c.resumen || 'Cambio registrado';
+      }
+      const gradoClass = 'grado-' + (c.correctorGrado || 2);
+      return `<div class="inform-popup-comentario-entry">
+        <div class="inform-popup-comentario-grado ${gradoClass}">${gradoLabel} (${username}) — ${fechaFormatted}</div>
+        <div class="inform-popup-comentario-desc">${description}</div>
       </div>`;
     }).join('');
-    return `<div class="inform-view-historial">
-      <div class="inform-view-historial-title">📝 Historial de cambios</div>
-      ${entriesHtml}
-    </div>`;
+    return `<div class="inform-popup-section-divider"></div>
+      <div class="inform-popup-section" data-section-type="comentarios">
+        <div class="inform-popup-section-title">5) Comentarios y modificaciones</div>
+        <div class="inform-popup-section-body">${entriesHtml}</div>
+      </div>`;
+  }
+
+  // Timestamp formatting helper
+  _formatInformeTimestamp(ts) {
+    if (!ts) return '';
+    const d = new Date(ts);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const mins = String(d.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${mins}`;
   }
 
   // ===== Auto-detect reporte from text content =====
@@ -599,27 +638,35 @@ class HorneroGremial extends HoComponent {
       });
     }
 
-    // === Informe viewer overlay action buttons ===
-    this.shadowRoot.querySelectorAll('[data-inform-view-action]').forEach(btn => {
+    // === Informe popup action buttons ===
+    this.shadowRoot.querySelectorAll('[data-popup-action]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const action = btn.dataset.informViewAction;
+        const action = btn.dataset.popupAction;
         const infId = this._viewingInforme ? this._viewingInforme.id : null;
         if (action === 'close') {
           this._closeInformeViewer();
-        } else if (action === 'editar' && infId) {
+        } else if (action === 'modificar' && infId) {
           this._closeInformeViewer();
           this._handleInformeEdit(infId);
-        } else if (action === 'reenviar' && infId) {
+        } else if (action === 'aprobar' && infId) {
           this._closeInformeViewer();
-          this._handleInformeEdit(infId);
-        } else if (action === 'borrar' && infId) {
-          this._deleteInformeFromViewer(infId);
+          this._handleInformeApprove(infId);
         } else if (action === 'descargar' && this._viewingInforme) {
           this._downloadInformeFromViewer();
         }
       });
     });
+
+    // Backdrop click to close popup
+    const popupOverlay = this.shadowRoot.querySelector('.inform-popup-overlay');
+    if (popupOverlay) {
+      popupOverlay.addEventListener('click', (e) => {
+        if (e.target === popupOverlay) {
+          this._closeInformeViewer();
+        }
+      });
+    }
 
     // Bind Explorar toggle + option buttons
     const exploreToggle = this.shadowRoot.querySelector('#exploreToggle');
@@ -1033,6 +1080,7 @@ class HorneroGremial extends HoComponent {
         requested_persona: 'companero',
         session_id: this._sessionId,
         incoming_reports: this._formatIncomingReportsForBackend(),
+        recipient_chain: this._getRecipientChain(),
       }),
     });
 
@@ -1963,11 +2011,39 @@ class HorneroGremial extends HoComponent {
           empresa: session.agremiacion ? session.agremiacion.empresa : 'Piloto',
           puesto: session.agremiacion ? session.agremiacion.puesto : '',
           username: session.username || '',
+          grade: session.grade || 'A',
           trabajador: { nombre: session.nombre || 'Trabajador', funcion: rolMap[session.grade] || 'Base', seccion: '' },
         };
       }
     } catch(e) {}
     this._username = '';
+    return { nombre: 'Trabajador', funcion: 'Base', territorio: '', empresa: 'Piloto', puesto: '', username: '', grade: 'A', trabajador: { nombre: 'Trabajador', funcion: 'Base', seccion: '' } };
+  }
+
+  // Build recipient chain string for the Ficha section
+  _getRecipientChain() {
+    const session = this._getSession();
+    const grade = session.grade || 'A';
+    const empresa = session.empresa || 'Piloto';
+    const territorio = session.territorio || '';
+    // Build chain based on grade: G1→G2→G3→G4
+    const chain = [];
+    if (grade === 'B.a') {
+      chain.push('Delegada responsable del sector');
+      chain.push('Secretaria');
+      chain.push('Federación');
+    } else if (grade === 'B.b') {
+      chain.push('Secretaria');
+      chain.push('Federación');
+    } else if (grade === 'B.c') {
+      chain.push('Federación');
+    }
+    // If no chain (G4 or higher), report goes to archive
+    if (chain.length === 0) {
+      return 'Archivo central';
+    }
+    return chain.join(' → ');
+  }
     return { nombre: 'Trabajador', funcion: 'Base', territorio: '', empresa: 'Piloto', puesto: '', username: '', trabajador: { nombre: 'Trabajador', funcion: 'Base', seccion: '' } };
   }
 
