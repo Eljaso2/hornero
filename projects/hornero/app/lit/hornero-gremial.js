@@ -356,8 +356,11 @@ class HorneroGremial extends HoComponent {
     // Date+time formatting
     const dateStr = inf.timestamp ? this._formatInformeTimestamp(inf.timestamp) : (inf.fecha || '');
 
-    // Sections 1-4 — all expanded, section-type-aware styling
-    const sectionsHtml = (inf.sections || []).map((s, i) => {
+    // Sections 1-3 — skip Ficha (section 4) — all expanded, section-type-aware styling
+    const sectionsHtml = (inf.sections || []).filter((s) => {
+      const sectionTitle = (s.title || '').toLowerCase();
+      return !sectionTitle.includes('ficha') && !sectionTitle.includes('reportante');
+    }).map((s, i) => {
       let content = '';
       const sectionTitle = (s.title || '').toLowerCase();
       let sectionType = 'default';
@@ -365,8 +368,7 @@ class HorneroGremial extends HoComponent {
       else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
       else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
       else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'transcript';
-      else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
-      const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3', 'ficha': '4' };
+      const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3' };
       const sectionNum = sectionNumberMap[sectionType] || '';
       if (s.title) {
         const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
@@ -385,7 +387,11 @@ class HorneroGremial extends HoComponent {
         }
         content += `<div class="inform-popup-section-body">${bodyHtml}</div>`;
       }
-      const divider = (i < (inf.sections || []).length - 1) ?
+      const filteredSections = (inf.sections || []).filter((s2) => {
+        const t = (s2.title || '').toLowerCase();
+        return !t.includes('ficha') && !t.includes('reportante');
+      });
+      const divider = (i < filteredSections.length - 1) ?
         '<div class="inform-popup-section-divider"></div>' : '';
       return `<div class="inform-popup-section" data-section-type="${sectionType}">${content}</div>${divider}`;
     }).join('');
