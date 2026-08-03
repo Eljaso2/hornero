@@ -2122,6 +2122,15 @@ class HorneroApp extends HoComponent {
           this._viewInformeId = '';
           this._editInformeId = infId;
           this._navigateTo('gremial');
+        } else if (action === 'aprobar' && infId) {
+          // Aprobar sin cambios: update estado directly
+          this._closeInformePopupPortal();
+          if (typeof actualizarEstadoInforme === 'function') {
+            actualizarEstadoInforme(infId, 'aprobado-delegado').then(() => {
+              this._recibidosLoaded = false;
+              this._loadRecibidos().then(() => { this.render(); });
+            });
+          }
         } else if (action === 'descargar' && this._viewingInforme) {
           this._downloadInformeFromViewer();
         }
@@ -2272,6 +2281,9 @@ class HorneroApp extends HoComponent {
       .inform-popup-btn-modificar svg { stroke: var(--ho-gold, #B0863F); }
       .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
       .inform-popup-btn-modificar:hover svg { stroke: var(--ho-gold, #B0863F); }
+      .inform-popup-btn-aprobar svg { stroke: var(--ho-green, #4E9978); }
+      .inform-popup-btn-aprobar:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .inform-popup-btn-aprobar:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
     `;
   }
 
@@ -2414,8 +2426,14 @@ class HorneroApp extends HoComponent {
     // Download icon SVG
     const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
 
-    // Context-aware footer buttons
-    const canEdit = estado === 'pendiente' || estado === 'aceptado';
+    // Context-aware footer buttons — same logic as gremial popup
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem('hornero-session')); } catch(e) {}
+    const currentUsername = session ? (session.username || '') : '';
+    const isOwnInforme = inf.username === currentUsername;
+    const superiorVio = ['visto','aprobado','aprobado-con-cambios','aprobado-delegado','corregido-delegado','corregido'].includes(estado);
+    const canModify = !isOwnInforme ? true : (isOwnInforme && !superiorVio && (estado === 'pendiente' || estado === 'aceptado'));
+    const canApprove = !isOwnInforme;
 
     return `
       <div class="inform-popup-overlay">
@@ -2441,7 +2459,8 @@ class HorneroApp extends HoComponent {
             ${tagsHtml}
           </div>
           <div class="inform-popup-footer">
-            ${canEdit ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar" title="Modificar"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' : ''}
+            ${canModify ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar" title="Modificar"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' : ''}
+            ${canApprove ? '<button class="inform-popup-btn inform-popup-btn-aprobar" data-popup-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>' : ''}
           </div>
         </div>
       </div>
