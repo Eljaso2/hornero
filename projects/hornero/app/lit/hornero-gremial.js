@@ -1249,6 +1249,7 @@ class HorneroGremial extends HoComponent {
         sector: this.sector,
         requested_persona: 'companero',
         incoming_reports: this._formatIncomingReportsForBackend(),
+        recipient_chain: this._getRecipientChain(),
       }),
     });
 
@@ -2043,8 +2044,6 @@ class HorneroGremial extends HoComponent {
       return 'Archivo central';
     }
     return chain.join(' → ');
-  }
-    return { nombre: 'Trabajador', funcion: 'Base', territorio: '', empresa: 'Piloto', puesto: '', username: '', trabajador: { nombre: 'Trabajador', funcion: 'Base', seccion: '' } };
   }
 
   _getCurrentWeek() {
