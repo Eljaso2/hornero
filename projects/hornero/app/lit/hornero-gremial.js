@@ -784,6 +784,10 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('informes-approve', (e) => {
         this._handleInformeApprove(e.detail.informeId);
       });
+      // Listen for reporte-view-popup: open popup from inline chat card
+      chatEl.addEventListener('reporte-view-popup', (e) => {
+        this._handleReporteViewPopup(e.detail.msgIndex);
+      });
       // After chat self-renders (drawer close/delete), re-sync messages without chat render
       chatEl.addEventListener('chat-state-changed', () => {
         this._syncChatMessages(chatEl);
@@ -1876,6 +1880,39 @@ class HorneroGremial extends HoComponent {
   _closeInformeViewer() {
     this._viewingInforme = null;
     this._closeInformePopupPortal();
+  }
+
+  // Open popup from inline reporte card in chat — build informe from message data
+  _handleReporteViewPopup(msgIndex) {
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (!chatEl || !chatEl.messages || msgIndex < 0 || msgIndex >= chatEl.messages.length) return;
+    const m = chatEl.messages[msgIndex];
+    if (!m) return;
+    // Build informe object from message data
+    const informe = {
+      id: m.informeId || ('inline-' + msgIndex),
+      sections: m.sections || [],
+      etiquetas: m.etiquetas || {},
+      estado: (m.tags || []).includes('reporte-aprobado') ? 'aprobado' : 'pendiente',
+      username: this._username,
+      grado: this.grade,
+      timestamp: m.timestamp || Date.now(),
+      _correcciones: [],
+    };
+    // Try to load correcciones from DB if this is a saved informe
+    if (m.informeId && typeof obtenerCorrecciones === 'function') {
+      obtenerCorrecciones(m.informeId).then(correcciones => {
+        informe._correcciones = correcciones || [];
+        this._viewingInforme = informe;
+        this._openInformePopupPortal();
+      }).catch(() => {
+        this._viewingInforme = informe;
+        this._openInformePopupPortal();
+      });
+    } else {
+      this._viewingInforme = informe;
+      this._openInformePopupPortal();
+    }
   }
 
   async _deleteInformeFromViewer(informeId) {

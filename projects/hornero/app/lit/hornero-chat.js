@@ -75,7 +75,7 @@ class HorneroChat extends HoComponent {
     this._informesDrawerStable = false; // prevent slideIn replay on re-render
     this._informesList = [];    // cached informes list (own informes)
     this._informesEntrantes = []; // incoming informes from lower grades (cross-user)
-    this._expandedReports = {}; // message index → boolean (expanded/collapsed)
+    this._reportePopupOpen = false; // reporte popup state for inline cards
     this._exportInProgress = false; // debounce guard for export button
     this._showRecibidos = false; // recibidos drawer state
     this._recibidosDrawerStable = false; // prevent slideIn replay on re-render
@@ -634,10 +634,19 @@ class HorneroChat extends HoComponent {
       .reporte-card-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .88rem; color: var(--ho-green-dark, #3D6B56); flex: 1;
         letter-spacing: .04em; text-transform: uppercase; }
+      .reporte-card-section-count { font-family: 'JetBrains Mono', monospace;
+        font-size: .56rem; color: var(--ho-text-mid, #6E6A60);
+        background: rgba(0,0,0,.08); padding: 2px 6px; border-radius: 4px; }
       .reporte-card-toggle { font-family: 'JetBrains Mono', monospace;
-        font-size: .62rem; color: var(--ho-text-mid, #6E6A60);
+        font-size: .62rem; color: var(--ho-green, #4E9978);
         background: rgba(255,255,255,.25); border-radius: 6px; border: none;
-        cursor: pointer; flex: none; padding: 2px 8px; }
+        cursor: pointer; flex: none; padding: 2px 8px; font-weight: 700; }
+      .reporte-card-toggle:hover { color: var(--ho-green-dark, #3D6B56); }
+      .reporte-card-summary { padding: 0 14px 10px; cursor: pointer; }
+      .reporte-card-summary-text { font-family: 'Public Sans', sans-serif;
+        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.4;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        overflow: hidden; }
       .reporte-card-body { max-height: 60px; overflow: hidden;
         position: relative; transition: max-height .4s ease;
         padding: 14px; }
@@ -1895,74 +1904,24 @@ class HorneroChat extends HoComponent {
     const looksLikeTextReporte = !isReporteGenerado && !looksLikeReporte && textHasRelato && textHasClasif && !isReporteAprobado;
 
     if ((isReporteGenerado || looksLikeReporte) && m.sections && m.sections.length > 0) {
-      // Render as expandable report card
+      // Render as compact preview card → always opens popup to view full report
       const estadoClass = isReporteAprobado ? 'estado-aceptado' : '';
-      const expandedKey = 'report-' + msgIndex;
-      // New (unapproved) reports are expanded by default; approved ones are collapsed
-      const isExpanded = this._expandedReports[expandedKey] !== undefined ? this._expandedReports[expandedKey] : !isReporteAprobado;
-
       const titleSection = m.sections[0];
       const isModificado = tags.includes('correccion-modificado');
       const cardTitle = (titleSection.title || 'Informe Gremial') + (isModificado ? ' (Modificado)' : '');
-      const summary = titleSection.body ? titleSection.body.substring(0, 120) : '';
+      const summary = titleSection.body ? titleSection.body.substring(0, 140) + (titleSection.body.length > 140 ? '...' : '') : '';
 
-      const sectionsHtml = m.sections.map((s, i) => {
-        let content = '';
-        // Detect section type for styling based on title
-        const sectionTitle = (s.title || '').toLowerCase();
-        let sectionType = 'default';
-        if (sectionTitle.includes('relato')) sectionType = 'relato';
-        else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
-        else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
-        else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'transcript';
-        else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
-        // Numbered section titles: 1) Relato, 2) Clasificación, 2.a) / 2.b) sub-sections, 3) Transcript, 4) Ficha
-        const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3', 'ficha': '4' };
-        const sectionNum = sectionNumberMap[sectionType] || '';
-        if (i > 0 && s.title) {
-          const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
-          content += `<div class="reporte-card-section-title">${numberedTitle}</div>`;
-        } else if (i > 0) {
-          content += `<div class="reporte-card-section-title">Detalle</div>`;
-        } else if (s.title) {
-          // First section (Relato) — also numbered
-          const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
-          content += `<div class="reporte-card-section-title">${numberedTitle}</div>`;
-        }
-        if (s.body) {
-          // Clean AI confirmation text from section body (not part of the informe)
-          let cleanBody = s.body
-            .replace(/\n*---\s*\n.*$/s, '')
-            .replace(/\n*¿Es esto lo que querías.*$/s, '')
-            .replace(/\n*respuesta-libre\s*$/s, '')
-            .replace(/[\s\n]+$/, '');
-          let bodyHtml = this._formatMarkdown(cleanBody);
-          // In Clasificación section: convert #tag patterns into visual tag badges
-          if (sectionType === 'clasificacion') {
-            bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="reporte-card-tag clasif-tag">#$1</span>');
-          }
-          content += `<div class="reporte-card-section-body">${bodyHtml}</div>`;
-        }
-        const divider = (i < m.sections.length - 1) ? '<div class="reporte-card-divider"></div>' : '';
-        return `<div class="reporte-card-section" data-section-type="${sectionType}">${content}</div>${divider}`;
-      }).join('');
+      // Section count badge: show "5 secciones" to indicate full report
+      const sectionCount = m.sections.length;
 
       // Tags inside card (excluding system tags)
       const visibleTags = tags.filter(t => t !== 'reporte-generado' && t !== 'reporte' && t !== 'reporte-aprobado' && t !== 'respuesta-libre');
       const tagsHtml = visibleTags.length > 0 ?
         `<div class="reporte-card-tags">${visibleTags.map(t => `<span class="reporte-card-tag">${t}</span>`).join('')}</div>` : '';
 
-      // Action buttons — icon-only, subtle SVGs; aprobado shares same card with different actions
-      const trashSvg = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>';
-      const shareSvg = '<path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>';
-      const approveSvg = '<polyline points="20 6 9 17 4 12"/>';
-      const editSvg = '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>';
-      const shareBtn = `<button class="reporte-btn reporte-btn-share" data-reporte-action="compartir" data-msg-index="${msgIndex}" title="Compartir"><svg viewBox="0 0 24 24">${shareSvg}</svg></button>`;
-      const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" title="Borrar"><svg viewBox="0 0 24 24">${trashSvg}</svg></button>`;
       const promptText = isReporteAprobado
         ? '' // No prompt for already-approved reports
-        : '<div class="reporte-card-prompt">Revisá el informe de arriba. Si está todo bien, tocá el siguiente botón <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">APROBAR</button> para guardarlo.</div>';
-      const actionsHtml = '';
+        : '<div class="reporte-card-prompt">Revisá el informe. Si está todo bien, tocá <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">APROBAR</button> para guardarlo.</div>';
 
       // Text before the card (like "Leelo con cuidado...")
       const textBefore = m.text ? `<div class="msg-text">${this._formatMarkdown(m.text)}</div>` : '';
@@ -1971,16 +1930,16 @@ class HorneroChat extends HoComponent {
         ${avatarRow}
         <div class="msg-content">
           ${textBefore}
-          <div class="reporte-card ${estadoClass}" data-report-key="${expandedKey}">
-            <div class="reporte-card-header" data-toggle-report="${expandedKey}">
+          <div class="reporte-card ${estadoClass}" data-report-key="report-${msgIndex}">
+            <div class="reporte-card-header" data-open-reporte-popup="${msgIndex}">
               <span class="reporte-card-icon">📄</span>
               <span class="reporte-card-title">${cardTitle}</span>
-              <button class="reporte-card-toggle">${isExpanded ? '▼ Cerrar' : '▶ Expandir'}</button>
+              <span class="reporte-card-section-count">${sectionCount} secciones</span>
+              <button class="reporte-card-toggle">Ver reporte →</button>
             </div>
-            <div class="reporte-card-body${isExpanded ? ' expanded' : ''}">
-              ${sectionsHtml}
+            <div class="reporte-card-summary" data-open-reporte-popup="${msgIndex}">
+              <div class="reporte-card-summary-text">${summary}</div>
               ${tagsHtml}
-              ${!isExpanded ? '<div class="msg-fade"></div>' : ''}
             </div>
           </div>
           ${promptText}
@@ -2170,19 +2129,12 @@ class HorneroChat extends HoComponent {
     if (plusBtn) {
       plusBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (this._plusMenuOpen) {
-          // Close menu
-          this._plusMenuOpen = false;
-          this._removePlusMenu();
-        } else {
-          // Open menu — append menu div without changing the button
-          this._plusMenuOpen = true;
-          this._appendPlusMenu();
-        }
+        this._plusMenuOpen = !this._plusMenuOpen;
+        this.render();
       });
     }
 
-    // === Close dropdown on outside click (only bind if menu rendered by _afterRender) ===
+    // === Close dropdown on outside click ===
     if (this._plusMenuOpen) {
       this._setupPlusMenuCloseHandler();
     }
@@ -2199,7 +2151,6 @@ class HorneroChat extends HoComponent {
     if (historyBtn) {
       historyBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
-        this._removePlusMenu();
         this._openHistoryDrawer();
       });
     }
@@ -2209,7 +2160,6 @@ class HorneroChat extends HoComponent {
     if (informesBtn) {
       informesBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
-        this._removePlusMenu();
         this._openInformesDrawer();
         this.emit('informes-open', {});
       });
@@ -2220,7 +2170,6 @@ class HorneroChat extends HoComponent {
     if (recibidosBtn) {
       recibidosBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
-        this._removePlusMenu();
         this._openRecibidosDrawer();
       });
     }
@@ -2722,28 +2671,28 @@ class HorneroChat extends HoComponent {
     });
 
     // === Reporte card: expand/collapse toggle ===
-    this.shadowRoot.querySelectorAll('[data-toggle-report]').forEach(header => {
-      header.addEventListener('click', () => {
-        const key = header.dataset.toggleReport;
-        this._expandedReports[key] = !this._expandedReports[key];
-        // Re-render the card only (not full render to avoid scroll reset)
-        const card = this.shadowRoot.querySelector(`[data-report-key="${key}"]`);
-        if (card) {
-          const body = card.querySelector('.reporte-card-body');
-          const toggleBtn = card.querySelector('.reporte-card-toggle');
-          const fade = card.querySelector('.msg-fade');
-          if (body) {
-            if (this._expandedReports[key]) {
-              body.classList.add('expanded');
-              if (toggleBtn) toggleBtn.textContent = '▼ Cerrar';
-              if (fade) fade.style.display = 'none';
-            } else {
-              body.classList.remove('expanded');
-              if (toggleBtn) toggleBtn.textContent = '▶ Expandir';
-              if (fade) fade.style.display = '';
-            }
-          }
+    // === Reporte card: open popup to view full report ===
+    this.shadowRoot.querySelectorAll('[data-open-reporte-popup]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        // Don't trigger if the toggle button itself was clicked (it has its own handler)
+        if (e.target.closest('.reporte-card-toggle')) {
+          const msgIndex = Number(el.dataset.openReportePopup);
+          this.emit('reporte-view-popup', { msgIndex });
+          return;
         }
+        const msgIndex = Number(el.dataset.openReportePopup);
+        this.emit('reporte-view-popup', { msgIndex });
+      });
+    });
+    // Also bind the toggle button directly
+    this.shadowRoot.querySelectorAll('.reporte-card-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('[data-report-key]');
+        if (!card) return;
+        const key = card.dataset.reportKey;
+        const msgIndex = Number(key.replace('report-', ''));
+        this.emit('reporte-view-popup', { msgIndex });
       });
     });
 
@@ -3034,7 +2983,6 @@ ${msgs.map(m => {
     if (historyBtn) {
       historyBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
-        this._removePlusMenu();
         this._openHistoryDrawer();
       });
     }
@@ -3042,7 +2990,6 @@ ${msgs.map(m => {
     if (informesBtn) {
       informesBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
-        this._removePlusMenu();
         this._openInformesDrawer();
         this.emit('informes-open', {});
       });
@@ -3051,7 +2998,6 @@ ${msgs.map(m => {
     if (recibidosBtn) {
       recibidosBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
-        this._removePlusMenu();
         this._openRecibidosDrawer();
       });
     }
@@ -3066,7 +3012,7 @@ ${msgs.map(m => {
       const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
       if (menu && !menu.contains(e.target) && plusBtn && !plusBtn.contains(e.target)) {
         this._plusMenuOpen = false;
-        this._removePlusMenu();
+        this.render();
       }
     };
     setTimeout(() => document.addEventListener('click', this._plusMenuCloseHandler), 0);
