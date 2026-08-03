@@ -943,9 +943,15 @@ class HorneroGremial extends HoComponent {
     }
   }
 
-  async _loadIncomingReports() {
+  async _loadIncomingReports(forceRefresh = false) {
     // Load incoming reports from lower grades for G2+ users.
     // Caches the reports (with correcciones) so they can be sent with each chat request.
+    // Refreshes if cache is older than 60s or forceRefresh is true.
+    const now = Date.now();
+    const cacheAge = now - (this._incomingReportsCacheTime || 0);
+    if (!forceRefresh && this._cachedIncomingReports && cacheAge < 60000) {
+      return this._cachedIncomingReports; // Cache is fresh
+    }
     const gradeMap = {'A': 'G1', 'B.a': 'G1', 'B.b': 'G2', 'B.c': 'G3', 'B.d': 'G4'};
     const gradeCode = gradeMap[this.grade] || 'G1';
     if (gradeCode === 'G1') {
@@ -977,6 +983,7 @@ class HorneroGremial extends HoComponent {
       console.warn('Gremial: incoming reports load failed', e);
       this._cachedIncomingReports = [];
     }
+    this._incomingReportsCacheTime = Date.now();
     return this._cachedIncomingReports;
   }
 
@@ -1352,6 +1359,9 @@ class HorneroGremial extends HoComponent {
   }
 
   async _callBackendStream(text) {
+    // Refresh incoming reports cache (reports may have changed since last message)
+    await this._loadIncomingReports();
+
     const history = this.messages.map(m => ({
       role: m.role,
       text: m.text || '',

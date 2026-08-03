@@ -603,9 +603,8 @@ def get_incoming_reports_text(reports: list) -> str:
                     corr_line += f" — {corr_resumen}"
                 lines.append(corr_line)
                 if corr_texto and corr_tipo in ("modificado", "agregado"):
-                    # Show the new text (truncated if very long)
-                    texto_display = corr_texto[:300] + "..." if len(corr_texto) > 300 else corr_texto
-                    lines.append(f"      Texto nuevo: {texto_display}")
+                    # Full text needed for synthesis — no truncation
+                    lines.append(f"      Texto nuevo: {corr_texto}")
 
         lines.append("")  # blank line between reports
 
