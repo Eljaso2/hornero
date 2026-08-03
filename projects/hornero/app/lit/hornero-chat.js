@@ -699,6 +699,9 @@ class HorneroChat extends HoComponent {
         font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
         margin-bottom: 4px; padding-left: 4px;
         border-left: 2px solid var(--ho-green, #4E9978); }
+      .clasif-family-just { font-family: 'Public Sans', sans-serif; font-style: italic;
+        font-size: .76rem; color: var(--ho-text-mid, #8A8680);
+        margin-bottom: 5px; padding-left: 16px; line-height: 1.45; }
       .clasif-entry { display: flex; align-items: baseline; gap: 4px;
         margin-bottom: 3px; padding-left: 16px;
         font-family: 'Public Sans', sans-serif; font-size: .82rem;

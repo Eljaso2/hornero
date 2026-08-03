@@ -219,6 +219,9 @@ class HorneroGremial extends HoComponent {
         font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
         margin-bottom: 4px; padding-left: 4px;
         border-left: 2px solid var(--ho-green, #4E9978); }
+      .clasif-family-just { font-family: 'Public Sans', sans-serif; font-style: italic;
+        font-size: .76rem; color: var(--ho-text-mid, #8A8680);
+        margin-bottom: 5px; padding-left: 16px; line-height: 1.45; }
       .clasif-entry { display: flex; align-items: baseline; gap: 4px;
         margin-bottom: 3px; padding-left: 16px;
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
@@ -439,6 +442,9 @@ class HorneroGremial extends HoComponent {
         font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
         margin-bottom: 4px; padding-left: 4px;
         border-left: 2px solid var(--ho-green, #4E9978); }
+      .clasif-family-just { font-family: 'Public Sans', sans-serif; font-style: italic;
+        font-size: .76rem; color: var(--ho-text-mid, #8A8680);
+        margin-bottom: 5px; padding-left: 16px; line-height: 1.45; }
       .clasif-entry { display: flex; align-items: baseline; gap: 4px;
         margin-bottom: 3px; padding-left: 16px;
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
@@ -748,13 +754,19 @@ class HorneroGremial extends HoComponent {
       const part = parts[i].trim();
       if (!part) continue;
       if (i % 2 === 1) {
-        currentFamily = { name: part, entries: [] };
+        currentFamily = { name: part, justification: '', entries: [] };
         families.push(currentFamily);
       } else if (currentFamily) {
         const lines = part.split(/\n/);
         for (const line of lines) {
           const trimmed = line.trim();
           if (!trimmed) continue;
+          // Match justification line: → text
+          const justMatch = trimmed.match(/^→\s*(.+)/);
+          if (justMatch) {
+            currentFamily.justification = justMatch[1];
+            continue;
+          }
           const tagMatch = trimmed.match(/^#([a-záéíóúñ_]+)\s*(?:[—–:-]\s*)?(.*)/);
           if (tagMatch) {
             currentFamily.entries.push({ tag: tagMatch[1], desc: tagMatch[2] || '' });
@@ -772,7 +784,7 @@ class HorneroGremial extends HoComponent {
           const tagMatch = trimmed.match(/^#([a-záéíóúñ_]+)\s*(?:[—–:-]\s*)?(.*)/);
           if (tagMatch) {
             if (!currentFamily) {
-              currentFamily = { name: '', entries: [] };
+              currentFamily = { name: '', justification: '', entries: [] };
               families.push(currentFamily);
             }
             currentFamily.entries.push({ tag: tagMatch[1], desc: tagMatch[2] || '' });
@@ -786,12 +798,15 @@ class HorneroGremial extends HoComponent {
       const familyLabel = f.name
         ? `<div class="clasif-family-name">2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
         : '';
+      const justHtml = f.justification
+        ? `<div class="clasif-family-just">→ ${f.justification}</div>`
+        : '';
       const entriesHtml = f.entries.map(e => {
         const tagBadge = `<span class="clasif-tag">#${e.tag}</span>`;
         const descHtml = e.desc ? `<span class="clasif-entry-desc">— ${e.desc}</span>` : '';
         return `<div class="clasif-entry">${tagBadge}${descHtml}</div>`;
       }).join('');
-      return `<div class="clasif-family">${familyLabel}${entriesHtml}</div>`;
+      return `<div class="clasif-family">${familyLabel}${justHtml}${entriesHtml}</div>`;
     }).join('') + '</div>';
   }
 
