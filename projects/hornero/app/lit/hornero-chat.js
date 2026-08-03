@@ -903,42 +903,36 @@ class HorneroChat extends HoComponent {
 
       /* Vertical panel — extends behind and below the + button */
       .chat-plus-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
+        width: 48px;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         border-radius: 14px; padding: 8px;
         padding-top: 44px; /* 8px padding + 32px + button + 4px gap */
-        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        display: flex; flex-direction: column; align-items: center; gap: 6px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
         animation: menuFadeIn .15s ease; }
       :host(.theme-light) .chat-plus-menu {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
       @keyframes menuFadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
-      .chat-plus-item { display: flex; flex-direction: column; align-items: center;
-        gap: 2px; padding: 4px 0; background: none; border: none; cursor: pointer;
-        text-align: center; font-family: 'Archivo', sans-serif;
-        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        transition: opacity .2s; position: relative; }
-      .chat-plus-item:hover { opacity: .8; }
-      .chat-plus-item .item-icon { width: 32px; height: 32px;
+      .chat-plus-item { width: 32px; height: 32px;
         display: flex; align-items: center; justify-content: center;
-        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .chat-plus-item .item-icon svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        background: none; border: none; cursor: pointer;
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        transition: opacity .2s, border-color .2s; position: relative; }
+      .chat-plus-item:hover { opacity: .8; border-color: var(--ho-green-light, #80CCA0); }
+      .chat-plus-item svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .chat-plus-item:hover .item-icon { border-color: var(--ho-green-light, #80CCA0); }
-      .chat-plus-item:hover .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .chat-plus-item:hover { color: var(--ho-green, #4E9978); }
-      .chat-plus-item .item-label { white-space: nowrap; }
-      .chat-plus-item .item-badge { position: absolute; top: 2px; right: 0;
+      .chat-plus-item:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-item .item-badge { position: absolute; top: 1px; right: 1px;
         width: 7px; height: 7px; border-radius: 50%;
         background: var(--ho-green, #4E9978); }
       .chat-plus-item .item-badge.gold { background: var(--ho-gold, #B0863F); }
       /* Active section highlight in plus menu */
-      .chat-plus-item-active { color: var(--ho-green, #4E9978); }
-      .chat-plus-item-active .item-icon { border-color: var(--ho-green, #4E9978);
+      .chat-plus-item-active { border-color: var(--ho-green, #4E9978);
         background: var(--ho-green-pale, #E0F0EB); }
-      .chat-plus-item-active .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-item-active svg { stroke: var(--ho-green-dark, #3D6B56); }
       .chat-plus-item-active::after { content: ''; position: absolute;
         left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 2px;
         background: var(--ho-green, #4E9978); }
@@ -1575,20 +1569,18 @@ class HorneroChat extends HoComponent {
               ${this._plusMenuOpen ? html`
               <div class="chat-plus-menu" id="chatPlusMenu">
                 <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
-                  <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                  <span class="item-label">Historial</span>
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  ${this.informeBadge ? '' : ''}
                 </button>
                 ${!this.hideInformesBtn ? html`
                   <button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
-                    <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
-                    <span class="item-label">Reportes</span>
+                    <svg viewBox="0 0 24 24">${informeSvg}</svg>
                     ${this.informeBadge ? html`<span class="item-badge"></span>` : ''}
                   </button>
                 ` : ''}
                 ${isHigherGrade && !this.hideRecibidosBtn ? html`
                   <button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
-                    <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
-                    <span class="item-label">Recibidos</span>
+                    <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
                     ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
                   </button>
                 ` : ''}
@@ -2921,17 +2913,14 @@ ${msgs.map(m => {
     menu.id = 'chatPlusMenu';
     menu.innerHTML = `
       <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
-        <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-        <span class="item-label">Historial</span>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       </button>
       ${!this.hideInformesBtn ? `<button class="chat-plus-item" id="chatInformesBtn" title="Mis Reportes">
-        <span class="item-icon"><svg viewBox="0 0 24 24">${informeSvg}</svg></span>
-        <span class="item-label">Reportes</span>
+        <svg viewBox="0 0 24 24">${informeSvg}</svg>
         ${this.informeBadge ? '<span class="item-badge"></span>' : ''}
       </button>` : ''}
       ${isHigherGrade && !this.hideRecibidosBtn ? `<button class="chat-plus-item" id="chatRecibidosBtn" title="Reportes recibidos">
-        <span class="item-icon"><svg viewBox="0 0 24 24">${recibidosSvg}</svg></span>
-        <span class="item-label">Recibidos</span>
+        <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
         ${this._recibidosBadge ? '<span class="item-badge gold"></span>' : ''}
       </button>` : ''}
     `;
