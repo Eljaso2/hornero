@@ -907,7 +907,7 @@ class HorneroChat extends HoComponent {
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         border-radius: 14px; padding: 8px;
-        padding-top: 44px; /* 8px padding + 32px + button + 4px gap */
+        padding-top: 46px; /* 8px padding + 32px btn + 6px gap (same as gap between items) */
         display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
         animation: menuFadeIn .15s ease; }
@@ -916,12 +916,13 @@ class HorneroChat extends HoComponent {
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
       @keyframes menuFadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
       .chat-plus-item { width: 32px; height: 32px; box-sizing: border-box;
-        display: flex; align-items: center; justify-content: center;
-        background: none; border: none; cursor: pointer;
-        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        transition: opacity .2s, border-color .2s; position: relative; }
-      .chat-plus-item:hover { opacity: .8; border-color: var(--ho-green-light, #80CCA0); }
-      .chat-plus-item svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        border-radius: 50%; background: transparent;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; position: relative; }
+      .chat-plus-item:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .chat-plus-item svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-plus-item:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .chat-plus-item .item-badge { position: absolute; top: 1px; right: 1px;
