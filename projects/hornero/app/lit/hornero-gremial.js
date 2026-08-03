@@ -1636,10 +1636,10 @@ class HorneroGremial extends HoComponent {
         }
 
         // Brief confirmation message — just notify, no link/button needed
-        const isSuperiorApproval = isReEdit && this._originalSectionsBeforeCorrection === null && reportMsg.tags?.includes('correccion-modificado');
+        const isConCambios = reportMsg.tags?.includes('correccion-modificado');
         const confirmMsg = {
           role: 'hornero',
-          text: isSuperiorApproval
+          text: isConCambios
             ? '✅ Informe aprobado con cambios. Va a aparecer resaltado en el listado de reportes recibidos.'
             : '✅ Informe guardado en tu archivo.',
           tags: ['reporte', 'informe-guardado'],
@@ -1651,11 +1651,21 @@ class HorneroGremial extends HoComponent {
 
         // Force-refresh the informes drawer if it's open — ensures new informe appears
         const chatEl = this.shadowRoot.querySelector('hornero-chat');
-        if (chatEl && chatEl._showInformes) {
-          try {
-            await chatEl._openInformesDrawer();
-          } catch(e) {
-            console.warn('Gremial: drawer refresh failed', e);
+        if (chatEl) {
+          if (chatEl._showInformes) {
+            try {
+              await chatEl._openInformesDrawer();
+            } catch(e) {
+              console.warn('Gremial: drawer refresh failed', e);
+            }
+          }
+          // Also refresh the recibidos drawer if it's open — shows updated estado
+          if (chatEl._showRecibidos) {
+            try {
+              await chatEl._openRecibidosDrawer();
+            } catch(e) {
+              console.warn('Gremial: recibidos drawer refresh failed', e);
+            }
           }
         }
       }
