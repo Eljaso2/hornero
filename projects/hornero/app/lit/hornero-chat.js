@@ -572,8 +572,6 @@ class HorneroChat extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .history-close-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .history-close-btn svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60);
-        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
       .history-list { flex: 1; overflow-y: auto; padding: 8px 0; }
 
@@ -677,47 +675,15 @@ class HorneroChat extends HoComponent {
         font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 4px;
         text-transform: uppercase; letter-spacing: .06em; }
       .reporte-card-section-body { font-family: 'Public Sans', sans-serif;
-        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
-
-      /* Relato section — narrative style */
-      .reporte-card-section[data-section-type="relato"] .reporte-card-section-body {
-        font-family: 'Public Sans', sans-serif; font-size: .84rem;
-        color: var(--ho-text, #E8E6E0); line-height: 1.6; }
-
-      /* Clasificación section — structured labels with inline tag badges */
-      .reporte-card-section[data-section-type="clasificacion"] .reporte-card-section-body {
-        font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
-      .reporte-card-section[data-section-type="clasificacion"] .reporte-card-section-body strong {
-        color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
-      .reporte-card-section[data-section-type="clasificacion"] .clasif-tag {
-        display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        font-size: .84rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
+      .reporte-card-section-body strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
+      .reporte-card-section-subtitle { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .78rem; color: var(--ho-text-mid, #6E6A60); margin-top: 6px;
+        margin-bottom: 2px; text-transform: uppercase; letter-spacing: .04em; }
+      .clasif-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
-
-      /* Extractos del diálogo section — quote style */
-      .reporte-card-section[data-section-type="extractos"] .reporte-card-section-body {
-        font-family: 'Public Sans', sans-serif; font-size: .80rem;
-        color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
-        padding-left: 12px; background: rgba(78,153,120,.06);
-        border-radius: 0 8px 8px 0; }
-      .reporte-card-section[data-section-type="transcript"] .reporte-card-section-body {
-        font-family: 'Public Sans', sans-serif; font-size: .82rem;
-        color: var(--ho-text, #E8E6E0); line-height: 1.6;
-        border-left: 3px solid var(--ho-green, #4E9978);
-        padding-left: 12px; background: rgba(78,153,120,.06);
-        border-radius: 0 8px 8px 0; }
-
-      /* Ficha del reportante section — compact card style */
-      .reporte-card-section[data-section-type="ficha"] .reporte-card-section-body {
-        font-family: 'JetBrains Mono', monospace; font-size: .74rem;
-        color: var(--ho-text-light, #9C988D); line-height: 1.7;
-        background: var(--ho-bg, #1E2321); border-radius: 8px;
-        padding: 10px 14px; }
-      .reporte-card-section[data-section-type="ficha"] .reporte-card-section-body strong {
-        color: var(--ho-text-mid, #6E6A60); font-weight: 600; }
       .reporte-card-divider { height: 1px; background: rgba(255,255,255,.06);
         margin: 10px 0; }
       .reporte-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
@@ -1925,23 +1891,19 @@ class HorneroChat extends HoComponent {
       // Render all sections inline — user reads the full report before approving
       const sectionsHtml = m.sections.map((s, i) => {
         const sectionTitle = (s.title || '').toLowerCase();
-        let sectionType = 'default';
-        if (sectionTitle.includes('relato')) sectionType = 'relato';
-        else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
-        else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
-        else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'transcript';
-        else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
+        const isClasif = sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta');
         let content = '';
         if (s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
         if (s.body) {
           let bodyHtml = this._formatMarkdown(s.body);
-          if (sectionType === 'clasificacion') {
+          // Convert #tag patterns to clasif-tag badges only in clasificación section
+          if (isClasif) {
             bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="clasif-tag">#$1</span>');
           }
           content += `<div class="reporte-card-section-body">${bodyHtml}</div>`;
         }
         const divider = (i < sectionCount - 1) ? '<div class="reporte-card-divider"></div>' : '';
-        return `<div class="reporte-card-section" data-section-type="${sectionType}">${content}</div>${divider}`;
+        return `<div class="reporte-card-section">${content}</div>${divider}`;
       }).join('');
 
       // Action buttons
