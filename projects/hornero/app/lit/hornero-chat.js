@@ -693,17 +693,25 @@ class HorneroChat extends HoComponent {
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
       /* Clasificación tree structure */
       .clasif-tree { margin: 0; padding: 0; }
-      .clasif-family { margin-bottom: 10px; }
+      .clasif-family { margin-bottom: 8px; border-radius: 8px;
+        background: rgba(78,153,120,.06); border: 1px solid rgba(78,153,120,.12); }
       .clasif-family:last-child { margin-bottom: 0; }
       .clasif-family-name { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
-        margin-bottom: 4px; padding-left: 4px;
-        border-left: 2px solid var(--ho-green, #4E9978); }
+        padding: 7px 10px 5px 10px; cursor: pointer; display: flex;
+        align-items: center; gap: 6px; user-select: none;
+        transition: background .15s; }
+      .clasif-family-name:hover { background: rgba(78,153,120,.10); }
+      .clasif-family-chevron { font-size: .6rem; transition: transform .2s;
+        display: inline-block; flex-shrink: 0; }
+      .clasif-family-name.open .clasif-family-chevron { transform: rotate(90deg); }
+      .clasif-family-body { padding: 0 10px 8px 10px; }
+      .clasif-family-body.closed { display: none; }
       .clasif-family-just { font-family: 'Public Sans', sans-serif; font-style: italic;
         font-size: .76rem; color: var(--ho-text-mid, #8A8680);
-        margin-bottom: 5px; padding-left: 16px; line-height: 1.45; }
+        margin-bottom: 5px; padding-left: 8px; line-height: 1.45; }
       .clasif-entry { display: flex; align-items: baseline; gap: 4px;
-        margin-bottom: 3px; padding-left: 16px;
+        margin-bottom: 3px; padding-left: 8px;
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text, #E8E6E0); line-height: 1.5; }
       .clasif-entry:last-child { margin-bottom: 0; }
@@ -1805,7 +1813,7 @@ class HorneroChat extends HoComponent {
     let familyIndex = 0;
     return '<div class="clasif-tree">' + families.map(f => {
       const familyLabel = f.name
-        ? `<div class="clasif-family-name">2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
+        ? `<div class="clasif-family-name open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('closed')"><span class="clasif-family-chevron">▶</span>2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
         : '';
       const justHtml = f.justification
         ? `<div class="clasif-family-just">→ ${f.justification}</div>`
@@ -1815,7 +1823,7 @@ class HorneroChat extends HoComponent {
         const descHtml = e.desc ? `<span class="clasif-entry-desc">— ${e.desc}</span>` : '';
         return `<div class="clasif-entry">${tagBadge}${descHtml}</div>`;
       }).join('');
-      return `<div class="clasif-family">${familyLabel}${justHtml}${entriesHtml}</div>`;
+      return `<div class="clasif-family">${familyLabel}<div class="clasif-family-body">${justHtml}${entriesHtml}</div></div>`;
     }).join('') + '</div>';
   }
 
