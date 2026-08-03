@@ -229,7 +229,8 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
     2. Keyword search with TF-IDF scoring
     3. Grade-based filtering (remove chunks user shouldn't see)
     4. Vigencia filtering (remove derogated content)
-    5. Return top 5 chunks for selective prompt injection
+    5. Formato-based filtering (avoid cross-persona contamination)
+    6. Return top 5 chunks for selective prompt injection
 
     If no chunks match, return empty (the persona + principles are always included).
     """
@@ -250,6 +251,28 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
     filtered = [c for c in candidates if grade_satisfies(grade, c.get("grade_access", "open"))]
 
     # Step 4: Vigencia filtering — only show vigente content
+    filtered = [c for c in filtered if c.get("vigencia", "vigente") == "vigente"]
+
+    # Step 5: Formato-based filtering — avoid cross-persona contamination
+    # Each persona has its own domain. Chunks from other domains can confuse the LLM
+    # and cause it to switch personas mid-conversation.
+    FORMATO_CATEGORY_MAP = {
+        'panorama': {'condiciones', 'smvm', 'violencia-empresarial', 'referentes'},  # Sociólogo: data, indices, research
+        'consulta': {'convenio', 'paritaria', 'reforma', 'organizacion'},  # Abogado: legal, CCT, rights
+        'debate': {'organizacion', 'condiciones', 'referentes'},  # Compañero: org, struggle, reports
+        'reporte': {'organizacion', 'condiciones', 'referentes'},  # Compañero (report mode)
+        'historia': {'referentes'},  # Historiador: history, referents
+        'contenido': {'organizacion', 'condiciones', 'referentes'},  # Periodista: content production
+        'ecosistema': set(),  # Hornero: no KB chunks needed (its own philosophy)
+    }
+    allowed_categories = FORMATO_CATEGORY_MAP.get(formato)
+    if allowed_categories is not None:
+        # If formato has a defined category set, filter chunks to only those categories
+        # Empty set means no KB chunks should be injected (ecosistema)
+        if allowed_categories:
+            filtered = [c for c in filtered if c.get("category", "") in allowed_categories]
+        else:
+            filtered = []
     filtered = [c for c in filtered if c.get("vigencia", "vigente") == "vigente"]
 
     # Return top 5 after filtering (increased from 3 for better context)

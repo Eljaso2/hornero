@@ -1755,14 +1755,20 @@ class HorneroChat extends HoComponent {
       if (!part) continue;
       if (i % 2 === 1) {
         // This is a family name (inside ** **)
-        currentFamily = { name: part, entries: [] };
+        currentFamily = { name: part, justification: '', entries: [] };
         families.push(currentFamily);
       } else if (currentFamily) {
-        // This is the body under a family — extract tags
+        // This is the body under a family — extract justification and tags
         const lines = part.split(/\n/);
         for (const line of lines) {
           const trimmed = line.trim();
           if (!trimmed) continue;
+          // Match justification line: → text
+          const justMatch = trimmed.match(/^→\s*(.+)/);
+          if (justMatch) {
+            currentFamily.justification = justMatch[1];
+            continue;
+          }
           // Match: #tag_name — description  OR  #tag_name: description  OR  just #tag_name
           const tagMatch = trimmed.match(/^#([a-záéíóúñ_]+)\s*(?:[—–:-]\s*)?(.*)/);
           if (tagMatch) {
@@ -1783,7 +1789,7 @@ class HorneroChat extends HoComponent {
           const tagMatch = trimmed.match(/^#([a-záéíóúñ_]+)\s*(?:[—–:-]\s*)?(.*)/);
           if (tagMatch) {
             if (!currentFamily) {
-              currentFamily = { name: '', entries: [] };
+              currentFamily = { name: '', justification: '', entries: [] };
               families.push(currentFamily);
             }
             currentFamily.entries.push({ tag: tagMatch[1], desc: tagMatch[2] || '' });
@@ -1798,12 +1804,15 @@ class HorneroChat extends HoComponent {
       const familyLabel = f.name
         ? `<div class="clasif-family-name">2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
         : '';
+      const justHtml = f.justification
+        ? `<div class="clasif-family-just">→ ${f.justification}</div>`
+        : '';
       const entriesHtml = f.entries.map(e => {
         const tagBadge = `<span class="clasif-tag">#${e.tag}</span>`;
         const descHtml = e.desc ? `<span class="clasif-entry-desc">— ${e.desc}</span>` : '';
         return `<div class="clasif-entry">${tagBadge}${descHtml}</div>`;
       }).join('');
-      return `<div class="clasif-family">${familyLabel}${entriesHtml}</div>`;
+      return `<div class="clasif-family">${familyLabel}${justHtml}${entriesHtml}</div>`;
     }).join('') + '</div>';
   }
 
