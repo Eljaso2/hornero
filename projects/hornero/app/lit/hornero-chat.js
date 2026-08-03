@@ -1904,45 +1904,19 @@ class HorneroChat extends HoComponent {
     const looksLikeTextReporte = !isReporteGenerado && !looksLikeReporte && textHasRelato && textHasClasif && !isReporteAprobado;
 
     if ((isReporteGenerado || looksLikeReporte) && m.sections && m.sections.length > 0) {
-      // Render as compact preview card → always opens popup to view full report
-      const estadoClass = isReporteAprobado ? 'estado-aceptado' : '';
-      const titleSection = m.sections[0];
+      // Render as simple chat message — no card, no document pasted in dialogue
+      // Full report is viewable in Mis Reportes (popup)
       const isModificado = tags.includes('correccion-modificado');
-      const cardTitle = (titleSection.title || 'Informe Gremial') + (isModificado ? ' (Modificado)' : '');
-      const summary = titleSection.body ? titleSection.body.substring(0, 140) + (titleSection.body.length > 140 ? '...' : '') : '';
-
-      // Section count badge: show "5 secciones" to indicate full report
-      const sectionCount = m.sections.length;
-
-      // Tags inside card (excluding system tags)
-      const visibleTags = tags.filter(t => t !== 'reporte-generado' && t !== 'reporte' && t !== 'reporte-aprobado' && t !== 'respuesta-libre');
-      const tagsHtml = visibleTags.length > 0 ?
-        `<div class="reporte-card-tags">${visibleTags.map(t => `<span class="reporte-card-tag">${t}</span>`).join('')}</div>` : '';
-
-      const promptText = isReporteAprobado
-        ? '' // No prompt for already-approved reports
-        : '<div class="reporte-card-prompt">Revisá el informe. Si está todo bien, tocá <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">APROBAR</button> para guardarlo.</div>';
-
-      // Text before the card (like "Leelo con cuidado...")
-      const textBefore = m.text ? `<div class="msg-text">${this._formatMarkdown(m.text)}</div>` : '';
+      const msgText = isReporteAprobado
+        ? '✅ Informe guardado en tu archivo.'
+        : (isModificado
+          ? 'Armé tu Reporte Gremial con las correcciones. Revisalo y si está todo bien, tocá <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="' + msgIndex + '" title="Aprobar">aprobar</button> para guardarlo.'
+          : 'Armé tu Reporte Gremial. Revisalo y si está todo bien, tocá <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="' + msgIndex + '" title="Aprobar">aprobar</button> para guardarlo.');
 
       return `<div class="msg-row hornero">
         ${avatarRow}
         <div class="msg-content">
-          ${textBefore}
-          <div class="reporte-card ${estadoClass}" data-report-key="report-${msgIndex}">
-            <div class="reporte-card-header" data-open-reporte-popup="${msgIndex}">
-              <span class="reporte-card-icon">📄</span>
-              <span class="reporte-card-title">${cardTitle}</span>
-              <span class="reporte-card-section-count">${sectionCount} secciones</span>
-              <button class="reporte-card-toggle">Ver reporte →</button>
-            </div>
-            <div class="reporte-card-summary" data-open-reporte-popup="${msgIndex}">
-              <div class="reporte-card-summary-text">${summary}</div>
-              ${tagsHtml}
-            </div>
-          </div>
-          ${promptText}
+          <div class="msg-text">${msgText}</div>
           ${timeHtml}
         </div>
       </div>`;
@@ -1950,13 +1924,11 @@ class HorneroChat extends HoComponent {
 
     // === FALLBACK: Plain-text reporte without structured sections — show APROBAR button ===
     if (looksLikeTextReporte) {
-      const textBefore = m.text ? `<div class="msg-text">${this._formatMarkdown(m.text)}</div>` : '';
-      const approvePrompt = '<div class="reporte-card-prompt">Revisá el informe de arriba. Si está todo bien, tocá el siguiente botón <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">APROBAR</button> para guardarlo.</div>';
+      const msgText = 'Armé tu Reporte Gremial. Revisalo y si está todo bien, tocá <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="' + msgIndex + '" title="Aprobar">aprobar</button> para guardarlo.';
       return `<div class="msg-row hornero">
         ${avatarRow}
         <div class="msg-content">
-          ${textBefore}
-          ${approvePrompt}
+          <div class="msg-text">${msgText}</div>
           ${timeHtml}
         </div>
       </div>`;

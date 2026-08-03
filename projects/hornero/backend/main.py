@@ -622,7 +622,7 @@ async def audio_chat_endpoint(
             effective_persona = requested_persona
     format_hint = get_format_hint(formato, grade)
 
-    full_message = f"{format_hint}\n\nPregunta del trabajador (mensaje de audio): {transcript}"
+    full_message = f"{format_hint}\n\nTRANSCRIPCIÓN LITERAL DEL AUDIO DEL TRABAJADOR (conservar palabra por palabra en sección 3 Transcript del informe):\n{transcript}"
 
     # 5. Call LLM with transcribed text
     try:

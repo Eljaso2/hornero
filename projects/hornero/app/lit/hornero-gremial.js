@@ -219,7 +219,7 @@ class HorneroGremial extends HoComponent {
         color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
       .inform-popup-section[data-section-type="clasificacion"] .clasif-tag {
         display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        background: #EDEAE3; color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
       .inform-popup-section[data-section-type="extractos"] .inform-popup-section-body {
@@ -247,7 +247,7 @@ class HorneroGremial extends HoComponent {
       .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
         padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
       .inform-popup-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        background: #EDEAE3; color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       /* Section 5 comentarios entries */
       .inform-popup-comentario-entry { padding: 8px 0;
@@ -439,7 +439,7 @@ class HorneroGremial extends HoComponent {
         color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
       .inform-popup-section[data-section-type="clasificacion"] .clasif-tag {
         display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        background: #EDEAE3; color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
       .inform-popup-section[data-section-type="extractos"] .inform-popup-section-body {
@@ -467,7 +467,7 @@ class HorneroGremial extends HoComponent {
       .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
         padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
       .inform-popup-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        background: #EDEAE3; color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .inform-popup-comentario-entry { padding: 8px 0;
         border-bottom: 1px solid rgba(255,255,255,.05); }
@@ -715,6 +715,21 @@ class HorneroGremial extends HoComponent {
     }
 
     return { sections, isReporte: true };
+  }
+
+  // Auto-save reporte as draft (pendiente) when generated — allows user to view in Mis Reportes before approving
+  async _autoSaveReporteDraft(reportMsg) {
+    try {
+      const result = await this._saveInforme(reportMsg);
+      if (result && result.id) {
+        reportMsg.informe_id = result.id;
+        this._informeBadge = true;
+        console.log('Gremial: reporte draft auto-saved', result.id);
+      }
+    } catch(e) {
+      console.warn('Gremial: reporte draft auto-save failed', e);
+      // Non-critical — the report can still be approved and saved later
+    }
   }
 
   // Simple markdown formatter for informe viewer
@@ -1379,7 +1394,7 @@ class HorneroGremial extends HoComponent {
                   if (parsed.isReporte) {
                     responseTags = [...responseTags, 'reporte-generado'];
                     if (!responseTags.includes('reporte')) responseTags.push('reporte');
-                    this.messages = [...this.messages, {
+                    const reportMsg = {
                       role: 'hornero',
                       text: responseText,
                       sections: parsed.sections,
@@ -1389,7 +1404,8 @@ class HorneroGremial extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
                       time: data.time || this._timeNow(),
-                    }];
+                    };
+                    this.messages = [...this.messages, reportMsg];
                     this._stopProgressiveReveal();
                     if (chatEl) {
                       chatEl.streamingText = '';
@@ -1398,11 +1414,13 @@ class HorneroGremial extends HoComponent {
                     this._typing = false;
                     this._saveChatHistory();
                     this.render();
+                    // Auto-save as draft so user can view in Mis Reportes
+                    this._autoSaveReporteDraft(reportMsg);
                     return;
                   }
                 }
 
-                this.messages = [...this.messages, {
+                const reportMsg = {
                   role: 'hornero',
                   text: responseText,
                   sections: responseSections,
@@ -1412,7 +1430,8 @@ class HorneroGremial extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
-                }];
+                };
+                this.messages = [...this.messages, reportMsg];
                 // Clear streaming state
                 this._stopProgressiveReveal();
                 if (chatEl) {
@@ -1422,6 +1441,10 @@ class HorneroGremial extends HoComponent {
                 this._typing = false;
                 this._saveChatHistory();
                 this.render();
+                // Auto-save as draft if this is a reporte-generado
+                if (responseTags.includes('reporte-generado')) {
+                  this._autoSaveReporteDraft(reportMsg);
+                }
                 return;
               }
               if (data.message) {
@@ -1521,7 +1544,7 @@ class HorneroGremial extends HoComponent {
       }
     }
 
-    this.messages = [...this.messages, {
+    const reportMsg = {
       role: 'hornero',
       text: responseText,
       sections: responseSections,
@@ -1531,10 +1554,15 @@ class HorneroGremial extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
       time: data.time || this._timeNow(),
-    }];
+    };
+    this.messages = [...this.messages, reportMsg];
     this._typing = false;
     this._saveChatHistory();
     this.render();
+    // Auto-save as draft if this is a reporte-generado
+    if (responseTags.includes('reporte-generado')) {
+      this._autoSaveReporteDraft(reportMsg);
+    }
   }
 
   async _handleReporteAction(detail) {
@@ -1584,22 +1612,36 @@ class HorneroGremial extends HoComponent {
           this.messages[idx] = reportMsg;
         }
 
-        // Check if this is a re-edit of an existing informe
-        const isReEdit = reportMsg.informe_id;
+        // Check if this is a re-edit of an existing informe or auto-saved draft
+        const isReEdit = reportMsg.informe_id && this._originalSectionsBeforeCorrection !== null;
+        const isAutoSavedDraft = reportMsg.informe_id && !isReEdit;
         let savedInformeId;
         let numero;
 
         // Save or update the informe — AWAIT to catch errors
         try {
           if (isReEdit) {
+            // Re-edit of existing informe (superior correction)
             const result = await this._updateInforme(reportMsg.informe_id, reportMsg);
             savedInformeId = reportMsg.informe_id;
             numero = result ? result.numero : 1;
-            // If this was a superior correction, attach correcciones to the message
             if (result && result._correcciones && result._correcciones.length > 0) {
               reportMsg._correcciones = result._correcciones;
             }
+          } else if (isAutoSavedDraft) {
+            // Auto-saved draft — just change estado to 'aprobado'
+            savedInformeId = reportMsg.informe_id;
+            if (typeof actualizarEstadoInforme === 'function') {
+              await actualizarEstadoInforme(savedInformeId, 'aprobado');
+            }
+            if (typeof obtenerInforme === 'function') {
+              const inf = await obtenerInforme(savedInformeId);
+              numero = inf ? inf.numero : 1;
+            } else {
+              numero = 1;
+            }
           } else {
+            // Legacy: no auto-saved draft, save new informe
             const result = await this._saveInforme(reportMsg);
             savedInformeId = result ? result.id : '';
             numero = result ? result.numero : 1;

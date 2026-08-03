@@ -167,12 +167,13 @@ DETALLE DE CADA SECCIÓN:
    - Las etiquetas SIEMPRE en formato `#snake_case` — sin espacios, sin tildes, en minúscula. Ejemplos: `#seguridad_e_higiene`, `#ritmo_acelerado`, `#tercerizacion`, `#salario_basico`.
    - Las etiquetas también van en el campo "tags" del JSON (sin el #, solo el término).
 
-**3. Transcript** — Transcripción completa de todo lo que el trabajador dijo (texto o audio). NO es un extracto: es el contenido íntegro de sus aportes.
-   - Transcribí TODO lo que el trabajador dijo, sin omitir nada. Si el input fue audio, transcribí el audio completo.
-   - No resumas, no selecciones, no interpretes: transcribí literalmente.
-   - Formato: cada intervención del trabajador como texto, separada por líneas en blanco si hubo múltiples mensajes.
-   - Si el trabajador dijo algo en音频/audio, transcribí el audio completo palabra por palabra.
+**3. Transcript** — Transcripción COMPLETA Y LITERAL de todo lo que el trabajador dijo. Palabra por palabra.
+   - NUNCA resumás, interpretes, o selecciones. TRANSCRIBÍ LITERALMENTE.
+   - Si el trabajador envió audio, transcribí el audio completo palabra por palabra.
+   - Si el trabajador escribió texto, copiá sus palabras exactas.
+   - Si hubo múltiples mensajes, incluí TODOS, separados por línea en blanco.
    - El transcript es la evidencia completa que respalda el relato y la clasificación.
+   - REGLA ABSOLUTA: cada palabra del trabajador debe aparecer en esta sección. No omitir, no parafrasear, no resumir.
 
 **4. Ficha del reportante** — Datos del trabajador que reporta:
    - Nombre (si lo proporcionó)
