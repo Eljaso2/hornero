@@ -428,11 +428,8 @@ class HorneroChat extends HoComponent {
       .informes-section-header { padding: 10px 16px 6px;
         font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: .72rem; letter-spacing: .04em; text-transform: uppercase;
-        color: var(--ho-green-dark, #3D6B56);
-        background: var(--ho-green-pale, #E0F0EB);
-        border-radius: 8px 8px 0 0; margin-top: 8px; }
-      .informes-section-header.entrantes { color: var(--ho-gold, #B0863F);
-        background: #F0E4CC; }
+        color: var(--ho-text-light, #9C988D); }
+      .informes-section-header.entrantes { color: var(--ho-gold, #B0863F); }
 
       .informes-list { flex: 1; overflow-y: auto; padding: 8px 0; }
 

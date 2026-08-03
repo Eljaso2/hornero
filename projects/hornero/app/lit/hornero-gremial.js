@@ -319,12 +319,187 @@ class HorneroGremial extends HoComponent {
         ></hornero-chat>
       </div>
 
-      ${this._viewingInforme ? this._renderInformePopup() : ''}
+      ${''/* popup rendered via portal to document.body to avoid overflow:hidden clipping */}
     `;
   }
 
-  // === Informe popup modal ===
-  _renderInformePopup() {
+  // === Portal: render popup in document.body to escape overflow:hidden ===
+  _openInformePopupPortal() {
+    this._closeInformePopupPortal(); // remove any existing
+    const container = document.createElement('div');
+    container.id = 'hornero-informe-popup-portal';
+    // Inject popup styles (they won't apply from Shadow DOM)
+    const styleEl = document.createElement('style');
+    styleEl.textContent = this._getPopupStyles();
+    container.appendChild(styleEl);
+    container.innerHTML += this._renderInformePopupHTML();
+    document.body.appendChild(container);
+    this._bindPopupActions(container);
+  }
+
+  _closeInformePopupPortal() {
+    const existing = document.getElementById('hornero-informe-popup-portal');
+    if (existing) existing.remove();
+  }
+
+  _bindPopupActions(container) {
+    // Backdrop click
+    const overlay = container.querySelector('.inform-popup-overlay');
+    if (overlay) {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) this._closeInformeViewer();
+      });
+    }
+    // Action buttons
+    container.querySelectorAll('[data-popup-action]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = btn.dataset.popupAction;
+        const infId = this._viewingInforme ? this._viewingInforme.id : null;
+        if (action === 'close') {
+          this._closeInformeViewer();
+        } else if (action === 'modificar' && infId) {
+          this._closeInformeViewer();
+          this._handleInformeEdit(infId);
+        } else if (action === 'aprobar' && infId) {
+          this._closeInformeViewer();
+          this._handleInformeApprove(infId);
+        } else if (action === 'descargar' && this._viewingInforme) {
+          this._downloadInformeFromViewer();
+        }
+      });
+    });
+  }
+
+  _getPopupStyles() {
+    return `
+      .inform-popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 100; background: rgba(43,42,38,.55); display: flex;
+        align-items: center; justify-content: center;
+        animation: hoPopFadeIn .25s ease; }
+      .inform-popup { background: var(--ho-card, #2A3230); border-radius: 18px;
+        width: 92%; max-width: 480px; max-height: 85vh;
+        display: flex; flex-direction: column;
+        box-shadow: 0 8px 32px rgba(43,42,38,.25);
+        animation: hoPopIn .25s ease; overflow: hidden; }
+      @keyframes hoPopIn { from { opacity: 0; transform: scale(.95) translateY(10px); }
+        to { opacity: 1; transform: none; } }
+      @keyframes hoPopFadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .inform-popup-header { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;
+        flex: none; background: transparent;
+        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .inform-popup-header-row { display: flex; align-items: center; justify-content: space-between; }
+      .inform-popup-header-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: .92rem; color: var(--ho-text-off, #F2F1EC);
+        letter-spacing: .04em; text-transform: uppercase; flex: 1; }
+      .inform-popup-header-close { width: 28px; height: 28px; border-radius: 8px;
+        background: rgba(255,255,255,.1); border: none; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        color: rgba(255,255,255,.7); font-size: .82rem;
+        transition: background .2s; }
+      .inform-popup-header-close:hover { background: rgba(255,255,255,.2); color: #fff; }
+      .inform-popup-header-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      .inform-popup-header-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: var(--ho-text-off, #F2F1EC); letter-spacing: .06em;
+        background: rgba(255,255,255,.15); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      .inform-popup-header-grado { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: #D4E4F7; color: #2B5278; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      .inform-popup-header-estado { font-family: 'JetBrains Mono', monospace;
+        font-size: .62rem; padding: 2px 8px; border-radius: 6px; font-weight: 700; }
+      .inform-popup-header-estado.estado-pendiente { background: #F0E4CC; color: #856404; }
+      .inform-popup-header-estado.estado-aceptado { background: #E0F0EB; color: #3D6B56; }
+      .inform-popup-header-estado.estado-aprobado { background: #C5D9A0; color: #3D6B1A; }
+      .inform-popup-header-estado.estado-con-cambios { background: #D4E4F7; color: #2B5278; }
+      .inform-popup-header-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        color: rgba(255,255,255,.6); }
+      .inform-popup-header-actions { display: flex; gap: 4px; }
+      .inform-popup-header-btn { width: 28px; height: 28px; border-radius: 8px;
+        background: none; border: 1px solid rgba(255,255,255,.15);
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s; }
+      .inform-popup-header-btn svg { width: 14px; height: 14px;
+        stroke: rgba(255,255,255,.7); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .inform-popup-header-btn:hover { background: rgba(255,255,255,.15);
+        border-color: rgba(255,255,255,.3); }
+      .inform-popup-header-btn:hover svg { stroke: #fff; }
+      .inform-popup-scroll { flex: 1; overflow-y: auto; padding: 16px; }
+      .inform-popup-section { margin-bottom: 16px; }
+      .inform-popup-section:last-child { margin-bottom: 0; }
+      .inform-popup-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 6px;
+        text-transform: uppercase; letter-spacing: .06em; }
+      .inform-popup-section-body { font-family: 'Public Sans', sans-serif;
+        font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
+      .inform-popup-section[data-section-type="relato"] .inform-popup-section-body {
+        font-size: .88rem; color: var(--ho-text, #E8E6E0); line-height: 1.65; }
+      .inform-popup-section[data-section-type="clasificacion"] .inform-popup-section-body {
+        font-size: .84rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.55; }
+      .inform-popup-section[data-section-type="clasificacion"] .inform-popup-section-body strong {
+        color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
+      .inform-popup-section[data-section-type="clasificacion"] .clasif-tag {
+        display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        padding: 2px 8px; border-radius: 6px; font-weight: 600;
+        vertical-align: middle; margin: 0 2px; line-height: 1.4; }
+      .inform-popup-section[data-section-type="extractos"] .inform-popup-section-body {
+        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
+        font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
+        padding-left: 14px; background: rgba(78,153,120,.06);
+        border-radius: 0 8px 8px 0; }
+      .inform-popup-section[data-section-type="transcript"] .inform-popup-section-body {
+        font-size: .84rem; color: var(--ho-text, #E8E6E0); line-height: 1.6;
+        border-left: 3px solid var(--ho-green, #4E9978);
+        padding-left: 14px; background: rgba(78,153,120,.06);
+        border-radius: 0 8px 8px 0; }
+      .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body {
+        font-family: 'JetBrains Mono', monospace; font-size: .74rem;
+        color: var(--ho-text-light, #9C988D); line-height: 1.7;
+        background: var(--ho-bg, #1E2321); border-radius: 8px;
+        padding: 10px 14px; }
+      .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body strong {
+        color: var(--ho-text-mid, #6E6A60); font-weight: 600; }
+      .inform-popup-section[data-section-type="comentarios"] .inform-popup-section-body {
+        background: rgba(255,255,255,.03); border-radius: 8px;
+        padding: 10px 14px; }
+      .inform-popup-section-divider { height: 1px; background: rgba(43,42,38,.10);
+        margin: 16px 0; }
+      .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
+        padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
+      .inform-popup-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      .inform-popup-comentario-entry { padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,.05); }
+      .inform-popup-comentario-entry:last-child { border-bottom: none; }
+      .inform-popup-comentario-grado { font-family: 'JetBrains Mono', monospace;
+        font-size: .62rem; font-weight: 700; margin-bottom: 2px; }
+      .inform-popup-comentario-grado.grado-2 { color: #4E9978; }
+      .inform-popup-comentario-grado.grado-3 { color: #2C5A8A; }
+      .inform-popup-comentario-grado.grado-4 { color: #5A3D7A; }
+      .inform-popup-comentario-desc { font-family: 'Public Sans', sans-serif;
+        font-size: .78rem; color: var(--ho-text-light, #9C988D); line-height: 1.4; }
+      .inform-popup-footer { padding: 12px 16px; display: flex; gap: 8px;
+        justify-content: flex-end; flex: none;
+        border-top: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .inform-popup-btn { border-radius: 10px; padding: 10px 18px;
+        font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .84rem;
+        cursor: pointer; transition: background .2s, border-color .2s; }
+      .inform-popup-btn-cerrar { background: none;
+        border: 1px solid rgba(255,255,255,.15);
+        color: var(--ho-text-light, #9C988D); }
+      .inform-popup-btn-cerrar:hover { background: rgba(255,255,255,.08); }
+      .inform-popup-btn-modificar { background: none;
+        border: 1.5px solid var(--ho-gold, #B0863F); color: var(--ho-gold, #B0863F); }
+      .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
+      .inform-popup-btn-aprobar { background: var(--ho-green, #4E9978); border: none;
+        color: var(--ho-text-off, #F2F1EC); }
+      .inform-popup-btn-aprobar:hover { background: #3D6B56; }
+      .inform-popup-btn:disabled { opacity: .4; pointer-events: none; }
+    `;
+  }
+
+  _renderInformePopupHTML() {
     const inf = this._viewingInforme;
     const numero = inf.numero || '';
     const estado = inf.estado || 'pendiente';
@@ -646,33 +821,7 @@ class HorneroGremial extends HoComponent {
       });
     }
 
-    // === Informe popup action buttons ===
-    this.shadowRoot.querySelectorAll('[data-popup-action]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const action = btn.dataset.popupAction;
-        const infId = this._viewingInforme ? this._viewingInforme.id : null;
-        if (action === 'close') {
-          this._closeInformeViewer();
-        } else if (action === 'modificar' && infId) {
-          this._closeInformeViewer();
-          this._handleInformeEdit(infId);
-        } else if (action === 'aprobar' && infId) {
-          this._closeInformeViewer();
-          this._handleInformeApprove(infId);
-        } else if (action === 'descargar' && this._viewingInforme) {
-          this._downloadInformeFromViewer();
-        }
-      });
-    });
-
-    // Backdrop click to close popup
-    const popupOverlay = this.shadowRoot.querySelector('.inform-popup-overlay');
-    if (popupOverlay) {
-      popupOverlay.addEventListener('click', (e) => {
-        if (e.target === popupOverlay) {
-          this._closeInformeViewer();
-        }
+    // Popup actions are now bound via _bindPopupActions() in portal
       });
     }
 
@@ -1637,7 +1786,7 @@ class HorneroGremial extends HoComponent {
         informe._correcciones = correcciones || [];
       }
       this._viewingInforme = informe;
-      this.render();
+      this._openInformePopupPortal();
     } catch(e) {
       console.warn('Gremial: informe view failed', e);
     }
@@ -1645,7 +1794,7 @@ class HorneroGremial extends HoComponent {
 
   _closeInformeViewer() {
     this._viewingInforme = null;
-    this.render();
+    this._closeInformePopupPortal();
   }
 
   async _deleteInformeFromViewer(informeId) {
