@@ -2908,21 +2908,18 @@ ${msgs.map(m => {
 
   // ===== Plus menu helpers — DOM manipulation without full re-render =====
   _appendPlusMenu() {
-    const rightArea = this.shadowRoot.querySelector('.chat-top-bar-right');
-    if (!rightArea) return;
+    const wrapper = this.shadowRoot.querySelector('.chat-plus-wrapper');
+    if (!wrapper) return;
     const informeSvg = '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>';
     const recibidosSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
     const isHigherGrade = ['B.b','B.c','B.d'].includes(this.grade);
-    // Remove standalone + button, replace with panel that includes it
-    const standalonePlus = rightArea.querySelector('#chatPlusBtn:not(.chat-plus-menu #chatPlusBtn)');
-    if (standalonePlus) standalonePlus.remove();
+    // Style the + button as open
+    const plusBtn = wrapper.querySelector('#chatPlusBtn');
+    if (plusBtn) plusBtn.classList.add('open');
     const menu = document.createElement('div');
     menu.className = 'chat-plus-menu';
     menu.id = 'chatPlusMenu';
     menu.innerHTML = `
-      <button class="chat-plus-btn open" id="chatPlusBtn" title="Cerrar">
-        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      </button>
       <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
         <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
         <span class="item-label">Historial</span>
@@ -2938,16 +2935,7 @@ ${msgs.map(m => {
         ${this._recibidosBadge ? '<span class="item-badge gold"></span>' : ''}
       </button>` : ''}
     `;
-    rightArea.appendChild(menu);
-    // Re-bind the + button click inside the panel
-    const plusBtn = menu.querySelector('#chatPlusBtn');
-    if (plusBtn) {
-      plusBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this._plusMenuOpen = false;
-        this.render();
-      });
-    }
+    wrapper.appendChild(menu);
     this._bindPlusMenuItems();
     this._setupPlusMenuCloseHandler();
   }
@@ -2955,21 +2943,9 @@ ${msgs.map(m => {
   _removePlusMenu() {
     const menu = this.shadowRoot.querySelector('#chatPlusMenu');
     if (menu) menu.remove();
-    // If no standalone + button exists, recreate it
-    const rightArea = this.shadowRoot.querySelector('.chat-top-bar-right');
-    if (rightArea && !rightArea.querySelector('#chatPlusBtn')) {
-      const btn = document.createElement('button');
-      btn.className = 'chat-plus-btn';
-      btn.id = 'chatPlusBtn';
-      btn.title = 'Más opciones';
-      btn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this._plusMenuOpen = true;
-        this.render();
-      });
-      rightArea.appendChild(btn);
-    }
+    // Remove open class from + button
+    const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
+    if (plusBtn) plusBtn.classList.remove('open');
     if (this._plusMenuCloseHandler) {
       document.removeEventListener('click', this._plusMenuCloseHandler);
       this._plusMenuCloseHandler = null;
@@ -3006,8 +2982,8 @@ ${msgs.map(m => {
       document.removeEventListener('click', this._plusMenuCloseHandler);
     }
     this._plusMenuCloseHandler = (e) => {
-      const menu = this.shadowRoot.querySelector('#chatPlusMenu');
-      if (menu && !menu.contains(e.target)) {
+      const wrapper = this.shadowRoot.querySelector('.chat-plus-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
         this._plusMenuOpen = false;
         this.render();
       }
