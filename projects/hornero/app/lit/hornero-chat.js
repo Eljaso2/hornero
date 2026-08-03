@@ -718,11 +718,18 @@ class HorneroChat extends HoComponent {
         justify-content: center;
         transition: background .2s; }
       .reporte-btn-aprobar:hover { background: var(--ho-green-pale, #E0F0EB); }
+      /* Inline APROBAR button — inside prompt text, not a separate tag */
+      .reporte-btn-aprobar-inline { display: inline; border: none; cursor: pointer;
+        background: none; color: var(--ho-green, #4E9978);
+        font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: inherit; padding: 0; text-decoration: underline;
+        text-underline-offset: 2px; transition: color .2s; }
+      .reporte-btn-aprobar-inline:hover { color: var(--ho-green-dark, #3D6B56); }
       .reporte-card.estado-aceptado { border-color: rgba(43,42,38,.2);
         opacity: .85; }
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="aprobar"],
       .reporte-card.estado-aceptado .reporte-btn[data-reporte-action="corregir"],
-      .reporte-card.estado-aceptado .reporte-card-prompt { display: none; }
+      .reporte-card.estado-aceptado + .reporte-card-prompt { display: none; }
 
       /* Correccion badges — grade-colored indicators */
       .correccion-badge { display: inline-block; font-family: 'JetBrains Mono', monospace;
@@ -1384,7 +1391,7 @@ class HorneroChat extends HoComponent {
                 const sectionClass = s.section ? `section-${s.section}` : 'section-default';
                 const isActive = s.sessionId === this.sessionId;
                 const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
-                const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }) : '';
+                const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
                 // Use persona from session data (if available), fallback to sectionConfig
                 const personaKey = s.persona || sec.persona;
                 const personaCfg = this._getPersonaConfig(personaKey);
@@ -1872,10 +1879,21 @@ class HorneroChat extends HoComponent {
         if (sectionTitle.includes('relato')) sectionType = 'relato';
         else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
         else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
-        else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'extractos';
+        else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'transcript';
         else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
-        if (i > 0 && s.title) content += `<div class="reporte-card-section-title">${s.title}</div>`;
-        else if (i > 0) content += `<div class="reporte-card-section-title">Detalle</div>`;
+        // Numbered section titles: 1) Relato, 2) Clasificación, 2.a) / 2.b) sub-sections, 3) Transcript, 4) Ficha
+        const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3', 'ficha': '4' };
+        const sectionNum = sectionNumberMap[sectionType] || '';
+        if (i > 0 && s.title) {
+          const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
+          content += `<div class="reporte-card-section-title">${numberedTitle}</div>`;
+        } else if (i > 0) {
+          content += `<div class="reporte-card-section-title">Detalle</div>`;
+        } else if (s.title) {
+          // First section (Relato) — also numbered
+          const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
+          content += `<div class="reporte-card-section-title">${numberedTitle}</div>`;
+        }
         if (s.body) {
           // Clean AI confirmation text from section body (not part of the informe)
           let cleanBody = s.body
@@ -1908,10 +1926,8 @@ class HorneroChat extends HoComponent {
       const deleteBtn = `<button class="reporte-btn reporte-btn-delete" data-reporte-action="borrar" data-msg-index="${msgIndex}" title="Borrar"><svg viewBox="0 0 24 24">${trashSvg}</svg></button>`;
       const promptText = isReporteAprobado
         ? '' // No prompt for already-approved reports
-        : '<div class="reporte-card-prompt">Revisá el informe. Si está todo bien, tocá <strong>Aprobar</strong>.</div>';
-      const actionsHtml = isReporteAprobado ?
-        '' :
-        `<button class="reporte-btn-aprobar" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">Aprobar</button>`;
+        : '<div class="reporte-card-prompt">Revisá el informe de arriba. Si está todo bien, tocá el siguiente botón <button class="reporte-btn-aprobar-inline" data-reporte-action="aprobar" data-msg-index="${msgIndex}" title="Aprobar">APROBAR</button> para guardarlo.</div>';
+      const actionsHtml = '';
 
       // Text before the card (like "Leelo con cuidado...")
       const textBefore = m.text ? `<div class="msg-text">${this._formatMarkdown(m.text)}</div>` : '';
@@ -1920,14 +1936,19 @@ class HorneroChat extends HoComponent {
         ${avatarRow}
         <div class="msg-content">
           ${textBefore}
-          ${promptText}
           <div class="reporte-card ${estadoClass}" data-report-key="${expandedKey}">
-            <div class="reporte-card-header">
+            <div class="reporte-card-header" data-toggle-report="${expandedKey}">
               <span class="reporte-card-icon">📄</span>
               <span class="reporte-card-title">${cardTitle}</span>
+              <button class="reporte-card-toggle">${isExpanded ? '▼ Cerrar' : '▶ Expandir'}</button>
             </div>
-            ${actionsHtml}
+            <div class="reporte-card-body${isExpanded ? ' expanded' : ''}">
+              ${sectionsHtml}
+              ${tagsHtml}
+              ${!isExpanded ? '<div class="msg-fade"></div>' : ''}
+            </div>
           </div>
+          ${promptText}
           ${timeHtml}
         </div>
       </div>`;
@@ -2679,7 +2700,7 @@ class HorneroChat extends HoComponent {
     });
 
     // === Reporte card: approve/correct/export buttons ===
-    this.shadowRoot.querySelectorAll('.reporte-btn, .reporte-btn-aprobar').forEach(btn => {
+    this.shadowRoot.querySelectorAll('.reporte-btn, .reporte-btn-aprobar, .reporte-btn-aprobar-inline').forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.reporteAction;
         const msgIndex = Number(btn.dataset.msgIndex);
@@ -2717,7 +2738,7 @@ class HorneroChat extends HoComponent {
     const chatTitle = title || this.title || 'Chat Hornero';
     const now = new Date();
     const dateStr = now.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
-    const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
 
     const lines = msgs.map(m => {
       const role = m.role === 'user' ? '→ Trabajador' : '← Hornero';
@@ -2870,7 +2891,7 @@ ${msgs.map(m => {
     const chatTitle = title || this.title || 'Chat Hornero';
     const now = new Date();
     const dateStr = now.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
-    const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    const timeStr = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false });
 
     const lines = msgs.map(m => {
       const role = m.role === 'user' ? '→ Trabajador' : '← Hornero';
