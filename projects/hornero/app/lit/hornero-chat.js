@@ -419,10 +419,15 @@ class HorneroChat extends HoComponent {
       .informes-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
       .informes-back-btn { width: 32px; height: 32px; border-radius: 50%;
-        background: var(--ho-dark-mid, #3A4340); border: none; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        color: var(--ho-text-off, #F2F1EC); flex: none; }
-      .informes-back-btn svg { width: 18px; height: 18px; }
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .informes-back-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .informes-back-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .informes-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
       /* Informes drawer section headers */
       .informes-section-header { padding: 10px 16px 6px;
@@ -514,13 +519,16 @@ class HorneroChat extends HoComponent {
         font-family: 'Archivo', sans-serif; font-size: .82rem;
         color: var(--ho-text-light, #9C988D); }
 
-      .informes-close-btn { background: none; border: none; cursor: pointer;
-        width: 28px; height: 28px; border-radius: 50%; display: flex;
-        align-items: center; justify-content: center;
-        transition: background .2s; }
-      .informes-close-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
-      .informes-close-btn svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60);
-        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .informes-close-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .informes-close-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .informes-close-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .informes-close-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
 
       /* History drawer overlay */
@@ -544,18 +552,26 @@ class HorneroChat extends HoComponent {
         border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
       .history-header-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .92rem; color: var(--ho-text, #E8E6E0); flex: 1; }
-      .history-new-btn { background: none; border: none;
-        border-radius: 8px; padding: 4px 10px; cursor: pointer; display: flex;
-        align-items: center; justify-content: center; transition: background .2s;
-        margin-left: 8px; }
-      .history-new-btn svg { width: 14px; height: 14px; stroke: var(--ho-text, #E8E6E0);
-        stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .history-new-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
-      .history-close-btn { background: none; border: none; cursor: pointer;
-        width: 28px; height: 28px; border-radius: 50%; display: flex;
-        align-items: center; justify-content: center;
-        transition: background .2s; }
-      .history-close-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .history-new-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .history-new-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .history-new-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .history-new-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .history-close-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .history-close-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .history-close-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .history-close-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .history-close-btn svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60);
         stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
