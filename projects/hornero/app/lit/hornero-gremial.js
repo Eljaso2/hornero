@@ -821,10 +821,6 @@ class HorneroGremial extends HoComponent {
       });
     }
 
-    // Popup actions are now bound via _bindPopupActions() in portal
-      });
-    }
-
     // Bind Explorar toggle + option buttons
     const exploreToggle = this.shadowRoot.querySelector('#exploreToggle');
     if (exploreToggle) {
