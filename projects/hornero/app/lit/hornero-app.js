@@ -1262,28 +1262,20 @@ class HorneroApp extends HoComponent {
             this._loadRecibidos().then(() => { this.render(); });
           });
         } else if (action === 'corregir') {
-          // Corregir: navigate to gremial chat with compañero for AI-assisted correction
-          this._initialPersona = 'companero';
-          this._initialSessionId = '';
-          this._viewInformeId = '';
-          this._editInformeId = infId;
-          this._navigateTo('gremial');
+          // Corregir: open popup viewer — only navigate to chat when "modificar" is pressed
+          this._openInformePopup(infId);
         }
       });
     });
-    // Bind recibidos informe items (click to view in popup) — navigate to gremial
+    // Bind recibidos informe items (click to view in popup) — open popup, NO navigate
     this.shadowRoot.querySelectorAll('[data-expand-informe]').forEach(item => {
       item.addEventListener('click', (e) => {
         // Don't trigger if action button was clicked
         if (e.target.closest('.informes-action-btn') || e.target.closest('.recibidos-review-btn')) return;
         const infId = item.dataset.expandInforme;
         if (infId) {
-          // Navigate to gremial and open the informe popup
-          this._initialPersona = 'companero';
-          this._initialSessionId = '';
-          this._viewInformeId = infId;
-          this._editInformeId = '';
-          this._navigateTo('gremial');
+          // Open popup viewer on current screen — only navigate to chat when "modificar" is pressed
+          this._openInformePopup(infId);
         }
       });
     });
@@ -1321,12 +1313,8 @@ class HorneroApp extends HoComponent {
           this._showShareMenuInforme(infId);
         } else if (action === 'corregir') {
           if (btn.disabled) return;
-          // Navigate to gremial screen and open the informe for editing
-          this._initialPersona = 'companero';
-          this._initialSessionId = '';
-          this._viewInformeId = '';
-          this._editInformeId = infId;
-          this._navigateTo('gremial');
+          // Open popup viewer — only navigate to chat when "modificar" is pressed
+          this._openInformePopup(infId);
         }
       });
     });

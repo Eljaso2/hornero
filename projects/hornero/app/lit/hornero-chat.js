@@ -956,23 +956,28 @@ class HorneroChat extends HoComponent {
 
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
-        gap: 4px; background: none; border: none; cursor: pointer;
-        padding: 4px 0; transition: opacity .2s; position: relative;
-        flex-shrink: 0; scroll-snap-align: center; opacity: .45;
-        width: 56px; }
-      .chat-persona-icon:hover { opacity: .75; }
+        gap: 2px; background: none; border: none; cursor: pointer;
+        padding: 0; transition: opacity .2s, transform .15s; position: relative;
+        flex-shrink: 0; scroll-snap-align: center; }
+      .chat-persona-icon:hover { opacity: .8; transform: scale(1.08); }
       .chat-persona-icon.active { opacity: 1; }
-      .persona-icon-inner { width: 28px; height: 28px;
+      .persona-icon-inner { width: 32px; height: 32px; box-sizing: border-box;
         display: flex; align-items: center; justify-content: center;
-        overflow: hidden; }
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        overflow: hidden; background: transparent;
+        transition: background .2s, border-color .2s; }
+      .chat-persona-icon:hover .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
       .persona-icon-inner img { width: 28px; height: 28px; object-fit: contain;
         object-position: center; filter: var(--ho-persona-filter, none); }
       .persona-icon-inner img.periodista-full { object-fit: contain; object-position: center; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
-      .chat-persona-icon.active .persona-icon-inner { }
+      .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green, #4E9978); }
       .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
         font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
         white-space: nowrap; }
+      .chat-persona-icon:hover .persona-cintillo-label { color: var(--ho-green, #4E9978); }
       .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); }
 
       /* === Redirect derivation button in message === */
