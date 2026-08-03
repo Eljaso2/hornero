@@ -545,8 +545,9 @@ class HorneroApp extends HoComponent {
       .list-screen-plus { width: 32px; height: 32px; border-radius: 50%;
         background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s, transform .15s; flex: none; }
-      .list-screen-plus:hover { background: var(--ho-green-pale, #E0F0EB);
+        transition: background .2s, border-color .2s, transform .15s; flex: none;
+        position: relative; z-index: 2; }
+      .list-screen-plus:hover { background: var(--ho-green-pale, #E0F0F0);
         border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
       .list-screen-plus svg { width: 16px; height: 16px;
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
@@ -556,41 +557,33 @@ class HorneroApp extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); }
       .list-screen-plus.open svg { stroke: var(--ho-green-dark, #3D6B56); }
       .list-screen-plus.open svg line:last-child { display: none; }
-      .list-screen-menu { position: absolute; top: 100%; right: 0;
-        background: color-mix(in srgb, var(--ho-dark-surface, #2A2F2D) 92%, transparent);
+      .list-screen-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
+        background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
-        border-radius: 12px; padding: 6px; z-index: 30;
-        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        border-radius: 14px; padding: 8px;
+        padding-top: 46px; /* 8px + 32px btn + 6px gap */
+        display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
-        animation: listMenuSlideDown .15s ease; }
+        animation: listMenuFadeIn .15s ease; }
       .theme-light .list-screen-menu {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
-      @keyframes listMenuSlideDown { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-      .list-screen-menu-item { display: flex; flex-direction: column; align-items: center;
-        gap: 2px; padding: 4px 0; background: none; border: none; cursor: pointer;
-        text-align: center; font-family: 'Archivo', sans-serif;
-        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        transition: opacity .2s; position: relative; }
-      .list-screen-menu-item:hover { opacity: .8; }
-      .list-screen-menu-item .item-icon { width: 32px; height: 32px;
-        display: flex; align-items: center; justify-content: center;
-        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .list-screen-menu-item .item-icon svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+      @keyframes listMenuFadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
+      .list-screen-menu-item { width: 32px; height: 32px; box-sizing: border-box;
+        border-radius: 50%; background: transparent;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; position: relative; }
+      .list-screen-menu-item:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .list-screen-menu-item svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .list-screen-menu-item:hover .item-icon { border-color: var(--ho-green-light, #80CCA0); }
-      .list-screen-menu-item:hover .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .list-screen-menu-item:hover { color: var(--ho-green, #4E9978); }
-      .list-screen-menu-item .item-label { white-space: nowrap; }
+      .list-screen-menu-item:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       /* Active section highlight in plus menu */
-      .list-screen-menu-item-active { color: var(--ho-green, #4E9978); }
-      .list-screen-menu-item-active .item-icon { border-color: var(--ho-green, #4E9978);
+      .list-screen-menu-item-active { border-color: var(--ho-green, #4E9978);
         background: var(--ho-green-pale, #E0F0EB); }
-      .list-screen-menu-item-active .item-icon svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .list-screen-menu-item-active::after { content: ''; position: absolute;
-        left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 2px;
-        background: var(--ho-green, #4E9978); }
+      .list-screen-menu-item-active svg { stroke: var(--ho-green-dark, #3D6B56); }
       .list-screen-desc { font-family: 'Public Sans', sans-serif; font-size: .82rem;
         color: var(--ho-text-mid, #7A766C); padding: 12px 16px 0; line-height: 1.4; }
       .list-scroll { overflow-y: auto; padding: 8px 0; }
@@ -1709,10 +1702,10 @@ class HorneroApp extends HoComponent {
     const menuItems = items.map(it => {
       const isActive = it.screen === activeScreen;
       const activeClass = isActive ? ' list-screen-menu-item-active' : '';
-      return '<button class="list-screen-menu-item' + activeClass + '" data-screen="' + it.screen + '"><span class="item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + it.svg + '</svg></span><span class="item-label">' + it.label + '</span></button>';
+      return '<button class="list-screen-menu-item' + activeClass + '" data-screen="' + it.screen + '" title="' + it.label + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' + it.svg + '</svg></button>';
     }).join('');
     const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' + menuItems + '</div>';
-    return plusBtn + menuHtml;
+    return '<div style="position:relative">' + plusBtn + menuHtml + '</div>';
   }
 
   // ===== Recibidos screen: incoming reports from lower grades =====
