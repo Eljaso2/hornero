@@ -1257,12 +1257,10 @@ class HorneroApp extends HoComponent {
     // Bind expandable informe items (click to show/hide content)
     this.shadowRoot.querySelectorAll('[data-expand-informe]').forEach(item => {
       item.addEventListener('click', (e) => {
-        // Don't expand if action button was clicked
-        if (e.target.closest('.informes-action-btn')) return;
-        const contentEl = item.querySelector('.informes-expand-content');
-        if (contentEl) {
-          contentEl.style.display = contentEl.style.display === 'none' ? 'block' : 'none';
-        }
+        // Don't open popup if action button was clicked
+        if (e.target.closest('.informes-action-btn') || e.target.closest('.recibidos-review-btn')) return;
+        const infId = item.dataset.expandInforme;
+        if (infId) this._openInformePopup(infId);
       });
     });
     // Bind action buttons in Mis Reportes items (download, reenviar, corregir)
@@ -1775,7 +1773,6 @@ class HorneroApp extends HoComponent {
           (empresaTag ? '<span class="informes-item-tag">' + empresaTag + '</span>' : '') +
           '<span class="informes-item-estado ' + estadoClass + '">' + estadoLabel + '</span>' +
         '</div>' +
-        '<div class="informes-expand-content" style="display:none">' + contentHtml + '</div>' +
         (isPending ? '<div style="display:flex;gap:6px;margin-top:6px">' +
           '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24">' + approveSvg + '</svg></button>' +
           '<button class="recibidos-review-btn" data-review-informe="' + inf.id + '" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24">' + editSvg + '</svg></button>' +
@@ -1956,7 +1953,6 @@ class HorneroApp extends HoComponent {
             '</button>' +
           '</div>' +
         '</div>' +
-        '<div class="informes-expand-content" style="display:none">' + contentHtml + '</div>' +
       '</div>';
     }).join('');
     return '<div class="list-screen">' +

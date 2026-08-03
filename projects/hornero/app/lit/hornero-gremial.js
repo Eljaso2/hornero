@@ -1124,6 +1124,74 @@ class HorneroGremial extends HoComponent {
       }
     }
 
+    // Detect correction of a specific incoming report by natural language
+    // e.g. "quiero corregir el reporte de @trabajador1", "corregir el reporte número 3"
+    const isCorrectIncoming = lower.match(/\b(correg[ií]r|modificar|revisar|cambiar)\b.*\b(reporte|informe)\b/) ||
+      lower.match(/\b(reporte|informe)\b.*\b(correg[ií]r|modificar|revisar|cambiar)\b/) ||
+      lower.match(/\bquiero corregir\b/) ||
+      lower.match(/\bcorreg[ií]r el reporte\b/) ||
+      lower.match(/\bcorreg[ií]r el informe\b/) ||
+      lower.match(/\bmodificar el reporte\b/) ||
+      lower.match(/\bmodificar el informe\b/);
+    if (isCorrectIncoming && !pendingReporte) {
+      // Try to match an incoming report by username or number
+      const incomingReports = this._cachedIncomingReports || [];
+      const pendingIncoming = incomingReports.filter(inf =>
+        inf.estado === 'pendiente' || inf.estado === 'visto' || inf.estado === 'aceptado'
+      );
+      if (pendingIncoming.length > 0) {
+        let matchedInforme = null;
+        // Match by @username
+        const usernameMatch = lower.match(/@?(\w+)/);
+        if (usernameMatch) {
+          const uname = usernameMatch[1].toLowerCase();
+          matchedInforme = pendingIncoming.find(inf =>
+            (inf.username || '').toLowerCase() === uname
+          );
+        }
+        // Match by number "número 3", "n°3", "num 3"
+        if (!matchedInforme) {
+          const numMatch = lower.match(/(?:n[uú]mero|n[uú]m|n°)\s*(\d+)/);
+          if (numMatch) {
+            const num = parseInt(numMatch[1], 10);
+            matchedInforme = pendingIncoming.find(inf => inf.numero === num);
+          }
+        }
+        // Fallback: if only one pending, use it
+        if (!matchedInforme && pendingIncoming.length === 1) {
+          matchedInforme = pendingIncoming[0];
+        }
+        // If still no match but there are pending, list them
+        if (!matchedInforme && pendingIncoming.length > 1) {
+          this.messages = [...this.messages, { role: 'user', text: text, time: this._timeNow() }];
+          const listText = 'Tenés estos reportes pendientes de revisión:\n' +
+            pendingIncoming.map(inf => {
+              const num = inf.numero || '?';
+              const user = inf.username || 'sin nombre';
+              return `- Reporte N°${num} de @${user}`;
+            }).join('\n') +
+            '\n¿Cuál querés corregir? Decime el número o el usuario.';
+          this.messages = [...this.messages, {
+            role: 'hornero',
+            text: listText,
+            tags: ['reporte', 'correccion-seleccion'],
+            persona: 'companero',
+            time: this._timeNow(),
+          }];
+          this._saveChatHistory();
+          this.render();
+          return;
+        }
+        if (matchedInforme) {
+          this.messages = [...this.messages, { role: 'user', text: text, time: this._timeNow() }];
+          this._saveChatHistory();
+          this.render();
+          this._handleInformeEdit(matchedInforme.id);
+          return;
+        }
+      }
+    }
+
     // Detect rejection/correction of a pending reporte
     const isCorrection = lower.match(/^(no|correg[ií]|correg[ií]r|cambiar|modificar|ajustar|editar|algo est[aá] mal|no es as[ií])$/) ||
       lower.match(/\b(no est[aá] bien|no es eso|algo para corregir|quiero cambiar|modificar algo)\b/);

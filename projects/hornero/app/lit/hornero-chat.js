@@ -491,6 +491,11 @@ class HorneroChat extends HoComponent {
         background: rgba(240,228,204,.08); }
       .informes-item-pending .informes-item-title { font-weight: 800; }
       :host(.theme-light) .informes-item-pending { background: rgba(240,228,204,.18); }
+      .informes-item-con-cambios { border-left: 3px solid #5B8DB8;
+        background: rgba(90,141,184,.08); }
+      .informes-item-con-cambios .informes-item-title { font-weight: 700; }
+      .informes-item-con-cambios .informes-item-estado { animation: con-cambios-pulse 2s ease-in-out infinite; }
+      @keyframes con-cambios-pulse { 0%,100%{ opacity:1; } 50%{ opacity:.7; } }
 
       /* Informes item review buttons (aprobar/corregir for incoming G1) — subtle, icon-only */
       .informes-review-actions { display: flex; gap: 6px; margin-top: 6px; }
@@ -1645,9 +1650,9 @@ class HorneroChat extends HoComponent {
                   const estadoLabelMap = {
                     'pendiente': '⏳ Pendiente',
                     'aprobado': '✅ Aprobado sin cambios',
-                    'aprobado-con-cambios': '📝 Con cambios',
+                    'aprobado-con-cambios': '📝 Aprobado con cambios',
                     'aprobado-delegado': '✅ Aprobado sin cambios',
-                    'corregido-delegado': '📝 Con cambios',
+                    'corregido-delegado': '📝 Aprobado con cambios',
                     'visto': '⏳ Pendiente',
                   };
                   const estadoClassMap = {
@@ -1660,7 +1665,8 @@ class HorneroChat extends HoComponent {
                   };
                   const estadoLabel = estadoLabelMap[inf.estado] || inf.estado;
                   const estadoClass = estadoClassMap[inf.estado] || '';
-                  const statusClass = isReviewed ? ' informes-item-reviewed' : ' informes-item-pending';
+                  const isConCambios = inf.estado === 'aprobado-con-cambios' || inf.estado === 'corregido-delegado' || inf.estado === 'corregido';
+                  const statusClass = isConCambios ? ' informes-item-con-cambios' : (isReviewed ? ' informes-item-reviewed' : ' informes-item-pending');
                   const reviewBtnHtml = !isReviewed ? `<div class="informes-review-actions">
                     <button class="informes-review-btn aprobar" data-review-informe="${inf.id}" data-review-action="aprobar" title="Aprobar"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><polyline points="20 6 9 17 4 12"/></svg></button>
                     <button class="informes-review-btn corregir" data-review-informe="${inf.id}" data-review-action="corregir" title="Corregir"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
