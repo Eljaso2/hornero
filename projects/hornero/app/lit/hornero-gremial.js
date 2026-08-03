@@ -199,6 +199,7 @@ class HorneroGremial extends HoComponent {
       .inform-popup-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 6px;
         text-transform: uppercase; letter-spacing: .06em; }
+      .inform-popup-section-title.clasif-title { margin-bottom: 12px; }
       .inform-popup-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .inform-popup-section-body strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
@@ -210,6 +211,21 @@ class HorneroGremial extends HoComponent {
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
+      /* Clasificación tree structure */
+      .clasif-tree { margin: 0; padding: 0; }
+      .clasif-family { margin-bottom: 10px; }
+      .clasif-family:last-child { margin-bottom: 0; }
+      .clasif-family-name { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
+        margin-bottom: 4px; padding-left: 4px;
+        border-left: 2px solid var(--ho-green, #4E9978); }
+      .clasif-entry { display: flex; align-items: baseline; gap: 4px;
+        margin-bottom: 3px; padding-left: 16px;
+        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text, #E8E6E0); line-height: 1.5; }
+      .clasif-entry:last-child { margin-bottom: 0; }
+      .clasif-entry .clasif-tag { flex-shrink: 0; }
+      .clasif-entry-desc { color: var(--ho-text-mid, #6E6A60); }
       .inform-popup-section-divider { height: 1px; background: rgba(43,42,38,.10);
         margin: 16px 0; }
       .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
@@ -241,12 +257,6 @@ class HorneroGremial extends HoComponent {
         stroke-linecap: round; stroke-linejoin: round; }
       .inform-popup-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
       .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .inform-popup-btn-modificar svg { stroke: var(--ho-gold, #B0863F); }
-      .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
-      .inform-popup-btn-modificar:hover svg { stroke: var(--ho-gold, #B0863F); }
-      .inform-popup-btn-aprobar svg { stroke: var(--ho-green, #4E9978); }
-      .inform-popup-btn-aprobar:hover { background: var(--ho-green-pale, #E0F0EB); }
-      .inform-popup-btn-aprobar:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .inform-popup-btn:disabled { opacity: .3; pointer-events: none; }
 
       @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -409,6 +419,7 @@ class HorneroGremial extends HoComponent {
       .inform-popup-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 6px;
         text-transform: uppercase; letter-spacing: .06em; }
+      .inform-popup-section-title.clasif-title { margin-bottom: 12px; }
       .inform-popup-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .inform-popup-section-body strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
@@ -420,6 +431,21 @@ class HorneroGremial extends HoComponent {
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
+      /* Clasificación tree structure */
+      .clasif-tree { margin: 0; padding: 0; }
+      .clasif-family { margin-bottom: 10px; }
+      .clasif-family:last-child { margin-bottom: 0; }
+      .clasif-family-name { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
+        margin-bottom: 4px; padding-left: 4px;
+        border-left: 2px solid var(--ho-green, #4E9978); }
+      .clasif-entry { display: flex; align-items: baseline; gap: 4px;
+        margin-bottom: 3px; padding-left: 16px;
+        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text, #E8E6E0); line-height: 1.5; }
+      .clasif-entry:last-child { margin-bottom: 0; }
+      .clasif-entry .clasif-tag { flex-shrink: 0; }
+      .clasif-entry-desc { color: var(--ho-text-mid, #6E6A60); }
       .inform-popup-section-divider { height: 1px; background: rgba(43,42,38,.10);
         margin: 16px 0; }
       .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
@@ -449,12 +475,6 @@ class HorneroGremial extends HoComponent {
         stroke-linecap: round; stroke-linejoin: round; }
       .inform-popup-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
       .inform-popup-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .inform-popup-btn-modificar svg { stroke: var(--ho-gold, #B0863F); }
-      .inform-popup-btn-modificar:hover { background: rgba(176,134,63,.12); }
-      .inform-popup-btn-modificar:hover svg { stroke: var(--ho-gold, #B0863F); }
-      .inform-popup-btn-aprobar svg { stroke: var(--ho-green, #4E9978); }
-      .inform-popup-btn-aprobar:hover { background: var(--ho-green-pale, #E0F0EB); }
-      .inform-popup-btn-aprobar:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .inform-popup-btn:disabled { opacity: .3; pointer-events: none; }
       .inform-popup-scroll-hint { padding: 8px 16px; text-align: center;
         font-family: 'Archivo', sans-serif; font-weight: 700; font-size: .74rem;
@@ -508,7 +528,8 @@ class HorneroGremial extends HoComponent {
       else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionNum = '4';
       if (s.title) {
         const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
-        content += `<div class="inform-popup-section-title">${numberedTitle}</div>`;
+        const titleClass = isClasif ? 'inform-popup-section-title clasif-title' : 'inform-popup-section-title';
+        content += `<div class="${titleClass}">${numberedTitle}</div>`;
       }
       else if (i > 0) content += `<div class="inform-popup-section-title">Detalle</div>`;
       if (s.body) {
@@ -517,12 +538,15 @@ class HorneroGremial extends HoComponent {
           .replace(/\n*¿Es esto lo que querías.*$/s, '')
           .replace(/\n*respuesta-libre\s*$/s, '')
           .replace(/[\s\n]+$/, '');
-        let bodyHtml = this._formatMarkdown(cleanBody);
+        let bodyHtml = '';
         if (isClasif) {
-          bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="clasif-tag">#$1</span>');
+          // Clasificación → tree structure with families and tags
+          bodyHtml = this._formatClasifTree(cleanBody);
+        } else {
+          bodyHtml = this._formatMarkdown(cleanBody);
         }
         // Add subsection numbering (2.a, 2.b, etc.) to bold text at start of lines
-        if (sectionNum) {
+        if (sectionNum && !isClasif) {
           bodyHtml = this._addSubsectionNumbers(bodyHtml, sectionNum);
         }
         const bodyClass = isTranscript ? 'inform-popup-section-body transcript-body' : 'inform-popup-section-body';
@@ -577,8 +601,8 @@ class HorneroGremial extends HoComponent {
           <div class="inform-popup-footer">
             <button class="inform-popup-btn" data-popup-action="descargar" title="Descargar"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
             <button class="inform-popup-btn" data-popup-action="compartir" title="Compartir"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-            ${canModify ? '<button class="inform-popup-btn inform-popup-btn-modificar" data-popup-action="modificar" title="Modificar"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' : ''}
-            ${canApprove ? `<button class="inform-popup-btn inform-popup-btn-aprobar" data-popup-action="aprobar" title="Aprobar" ${needsScrollRead ? 'disabled' : ''}><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>` : ''}
+            ${canModify ? '<button class="inform-popup-btn" data-popup-action="modificar" title="Modificar"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' : ''}
+            ${canApprove ? `<button class="inform-popup-btn inform-popup-btn-aprobar" data-popup-action="aprobar" title="Aprobar" ${needsScrollRead ? 'disabled' : ''}><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/><polyline points="16 9 11 14 8 11" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>` : ''}
           </div>
         </div>
       </div>
@@ -708,11 +732,67 @@ class HorneroGremial extends HoComponent {
     if (!sectionNum || !bodyHtml) return bodyHtml;
     let letterIndex = 0;
     const letters = 'abcdefghijklmnopqrstuvwxyz';
-    // Detect <strong> tags at the start of a paragraph (after <br> or at beginning)
     return bodyHtml.replace(/((?:^|<br>))\s*(<strong>)/g, (match, prefix, strong) => {
       const letter = letters[letterIndex++] || '';
       return `${prefix}${sectionNum}.${letter} ${strong}`;
     });
+  }
+
+  // Parse Clasificación body into tree structure with families and tag entries
+  _formatClasifTree(bodyText) {
+    if (!bodyText) return '';
+    const families = [];
+    const parts = bodyText.split(/\*\*(.+?)\*\*/g);
+    let currentFamily = null;
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i].trim();
+      if (!part) continue;
+      if (i % 2 === 1) {
+        currentFamily = { name: part, entries: [] };
+        families.push(currentFamily);
+      } else if (currentFamily) {
+        const lines = part.split(/\n/);
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          const tagMatch = trimmed.match(/^#([a-záéíóúñ_]+)\s*(?:[—–:-]\s*)?(.*)/);
+          if (tagMatch) {
+            currentFamily.entries.push({ tag: tagMatch[1], desc: tagMatch[2] || '' });
+          } else if (trimmed.startsWith('#')) {
+            const tag = trimmed.replace(/^#/, '').split(/[\s—–:]/)[0];
+            const desc = trimmed.replace(/^#[a-záéíóúñ_]+\s*(?:[—–:-]\s*)?/, '');
+            currentFamily.entries.push({ tag, desc });
+          }
+        }
+      } else {
+        const lines = part.split(/\n/);
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          const tagMatch = trimmed.match(/^#([a-záéíóúñ_]+)\s*(?:[—–:-]\s*)?(.*)/);
+          if (tagMatch) {
+            if (!currentFamily) {
+              currentFamily = { name: '', entries: [] };
+              families.push(currentFamily);
+            }
+            currentFamily.entries.push({ tag: tagMatch[1], desc: tagMatch[2] || '' });
+          }
+        }
+      }
+    }
+    const subLetter = 'abcdefghijklmnopqrstuvwxyz';
+    let familyIndex = 0;
+    return '<div class="clasif-tree">' + families.map(f => {
+      const familyLabel = f.name
+        ? `<div class="clasif-family-name">2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
+        : '';
+      const entriesHtml = f.entries.map(e => {
+        const tagBadge = `<span class="clasif-tag">#${e.tag}</span>`;
+        const descHtml = e.desc ? `<span class="clasif-entry-desc">— ${e.desc}</span>` : '';
+        return `<div class="clasif-entry">${tagBadge}${descHtml}</div>`;
+      }).join('');
+      return `<div class="clasif-family">${familyLabel}${entriesHtml}</div>`;
+    }).join('') + '</div>';
   }
 
   // Simple markdown formatter for informe viewer

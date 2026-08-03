@@ -673,6 +673,7 @@ class HorneroChat extends HoComponent {
       .reporte-card-section-title { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .84rem; color: var(--ho-green-dark, #3D6B56); margin-bottom: 4px;
         text-transform: uppercase; letter-spacing: .06em; }
+      .reporte-card-section-title.clasif-title { margin-bottom: 10px; }
       .reporte-card-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .reporte-card-section-body strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
@@ -690,6 +691,21 @@ class HorneroChat extends HoComponent {
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         vertical-align: middle; margin: 0 2px; line-height: 1.4; }
+      /* Clasificación tree structure */
+      .clasif-tree { margin: 0; padding: 0; }
+      .clasif-family { margin-bottom: 10px; }
+      .clasif-family:last-child { margin-bottom: 0; }
+      .clasif-family-name { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
+        margin-bottom: 4px; padding-left: 4px;
+        border-left: 2px solid var(--ho-green, #4E9978); }
+      .clasif-entry { display: flex; align-items: baseline; gap: 4px;
+        margin-bottom: 3px; padding-left: 16px;
+        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: var(--ho-text, #E8E6E0); line-height: 1.5; }
+      .clasif-entry:last-child { margin-bottom: 0; }
+      .clasif-entry .clasif-tag { flex-shrink: 0; }
+      .clasif-entry-desc { color: var(--ho-text-mid, #6E6A60); }
       .reporte-card-divider { height: 1px; background: rgba(255,255,255,.06);
         margin: 10px 0; }
       .reporte-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
@@ -1726,6 +1742,71 @@ class HorneroChat extends HoComponent {
     });
   }
 
+  // Parse Clasificación body into tree structure with families and tag entries
+  _formatClasifTree(bodyText) {
+    if (!bodyText) return '';
+    // Split by bold family headers: **Family Name**
+    const families = [];
+    const parts = bodyText.split(/\*\*(.+?)\*\*/g);
+    // parts alternates: [before, family1_name, family1_body, family2_name, family2_body, ...]
+    let currentFamily = null;
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i].trim();
+      if (!part) continue;
+      if (i % 2 === 1) {
+        // This is a family name (inside ** **)
+        currentFamily = { name: part, entries: [] };
+        families.push(currentFamily);
+      } else if (currentFamily) {
+        // This is the body under a family — extract tags
+        const lines = part.split(/\n/);
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          // Match: #tag_name — description  OR  #tag_name: description  OR  just #tag_name
+          const tagMatch = trimmed.match(/^#([a-záéíóúñ_]+)\s*(?:[—–:-]\s*)?(.*)/);
+          if (tagMatch) {
+            currentFamily.entries.push({ tag: tagMatch[1], desc: tagMatch[2] || '' });
+          } else if (trimmed.startsWith('#')) {
+            // Fallback: tag without description
+            const tag = trimmed.replace(/^#/, '').split(/[\s—–:]/)[0];
+            const desc = trimmed.replace(/^#[a-záéíóúñ_]+\s*(?:[—–:-]\s*)?/, '');
+            currentFamily.entries.push({ tag, desc });
+          }
+        }
+      } else {
+        // Content before first family — might be standalone tags
+        const lines = part.split(/\n/);
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          const tagMatch = trimmed.match(/^#([a-záéíóúñ_]+)\s*(?:[—–:-]\s*)?(.*)/);
+          if (tagMatch) {
+            if (!currentFamily) {
+              currentFamily = { name: '', entries: [] };
+              families.push(currentFamily);
+            }
+            currentFamily.entries.push({ tag: tagMatch[1], desc: tagMatch[2] || '' });
+          }
+        }
+      }
+    }
+    // Render as tree HTML
+    const subLetter = 'abcdefghijklmnopqrstuvwxyz';
+    let familyIndex = 0;
+    return '<div class="clasif-tree">' + families.map(f => {
+      const familyLabel = f.name
+        ? `<div class="clasif-family-name">2.${subLetter[familyIndex++] || ''}) ${f.name}</div>`
+        : '';
+      const entriesHtml = f.entries.map(e => {
+        const tagBadge = `<span class="clasif-tag">#${e.tag}</span>`;
+        const descHtml = e.desc ? `<span class="clasif-entry-desc">— ${e.desc}</span>` : '';
+        return `<div class="clasif-entry">${tagBadge}${descHtml}</div>`;
+      }).join('');
+      return `<div class="clasif-family">${familyLabel}${entriesHtml}</div>`;
+    }).join('') + '</div>';
+  }
+
   _formatMarkdown(text) {
     if (!text) return '';
     const lines = text.split('\n');
@@ -1924,16 +2005,19 @@ class HorneroChat extends HoComponent {
         let content = '';
         if (s.title) {
           const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
-          content += `<div class="reporte-card-section-title">${numberedTitle}</div>`;
+          const titleClass = isClasif ? 'reporte-card-section-title clasif-title' : 'reporte-card-section-title';
+          content += `<div class="${titleClass}">${numberedTitle}</div>`;
         }
         if (s.body) {
-          let bodyHtml = this._formatMarkdown(s.body);
-          // Convert #tag patterns to clasif-tag badges only in clasificación section
+          let bodyHtml = '';
           if (isClasif) {
-            bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="clasif-tag">#$1</span>');
+            // Clasificación → tree structure with families and tags
+            bodyHtml = this._formatClasifTree(s.body);
+          } else {
+            bodyHtml = this._formatMarkdown(s.body);
           }
           // Add subsection numbering (2.a, 2.b, etc.) to bold text at start of lines
-          if (sectionNum) {
+          if (sectionNum && !isClasif) {
             bodyHtml = this._addSubsectionNumbers(bodyHtml, sectionNum);
           }
           const bodyClass = isTranscript ? 'reporte-card-section-body transcript-body' : 'reporte-card-section-body';
