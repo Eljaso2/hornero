@@ -903,20 +903,19 @@ class HorneroChat extends HoComponent {
 
       /* Vertical panel — extends behind and below the + button */
       .chat-plus-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
-        width: 48px;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         border-radius: 14px; padding: 8px;
         padding-top: 44px; /* 8px padding + 32px + button + 4px gap */
-        display: flex; flex-direction: column; align-items: center; gap: 6px;
+        display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
         animation: menuFadeIn .15s ease; }
       :host(.theme-light) .chat-plus-menu {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
       @keyframes menuFadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
-      .chat-plus-item { width: 32px; height: 32px;
+      .chat-plus-item { width: 32px; height: 32px; box-sizing: border-box;
         display: flex; align-items: center; justify-content: center;
         background: none; border: none; cursor: pointer;
         border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
