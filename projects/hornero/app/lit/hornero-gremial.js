@@ -232,6 +232,13 @@ class HorneroGremial extends HoComponent {
         border-left: 3px solid var(--ho-green, #4E9978);
         padding-left: 14px; background: rgba(78,153,120,.06);
         border-radius: 0 8px 8px 0; }
+      .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body {
+        font-family: 'JetBrains Mono', monospace; font-size: .74rem;
+        color: var(--ho-text-light, #9C988D); line-height: 1.7;
+        background: var(--ho-bg, #1E2321); border-radius: 8px;
+        padding: 10px 14px; }
+      .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body strong {
+        color: var(--ho-text-mid, #6E6A60); font-weight: 600; }
       .inform-popup-section[data-section-type="comentarios"] .inform-popup-section-body {
         background: rgba(255,255,255,.03); border-radius: 8px;
         padding: 10px 14px; }
@@ -349,11 +356,8 @@ class HorneroGremial extends HoComponent {
     // Date+time formatting
     const dateStr = inf.timestamp ? this._formatInformeTimestamp(inf.timestamp) : (inf.fecha || '');
 
-    // Sections 1-3 — skip Ficha (section 4) — all expanded, section-type-aware styling
-    const sectionsHtml = (inf.sections || []).filter((s) => {
-      const sectionTitle = (s.title || '').toLowerCase();
-      return !sectionTitle.includes('ficha') && !sectionTitle.includes('reportante');
-    }).map((s, i) => {
+    // Sections 1-4 — all expanded, section-type-aware styling
+    const sectionsHtml = (inf.sections || []).map((s, i) => {
       let content = '';
       const sectionTitle = (s.title || '').toLowerCase();
       let sectionType = 'default';
@@ -361,7 +365,8 @@ class HorneroGremial extends HoComponent {
       else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
       else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
       else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'transcript';
-      const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3' };
+      else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
+      const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3', 'ficha': '4' };
       const sectionNum = sectionNumberMap[sectionType] || '';
       if (s.title) {
         const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
@@ -380,11 +385,7 @@ class HorneroGremial extends HoComponent {
         }
         content += `<div class="inform-popup-section-body">${bodyHtml}</div>`;
       }
-      const filteredSections = (inf.sections || []).filter((s2) => {
-        const t = (s2.title || '').toLowerCase();
-        return !t.includes('ficha') && !t.includes('reportante');
-      });
-      const divider = (i < filteredSections.length - 1) ?
+      const divider = (i < (inf.sections || []).length - 1) ?
         '<div class="inform-popup-section-divider"></div>' : '';
       return `<div class="inform-popup-section" data-section-type="${sectionType}">${content}</div>${divider}`;
     }).join('');

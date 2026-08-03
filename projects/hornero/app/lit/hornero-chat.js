@@ -1892,7 +1892,8 @@ class HorneroChat extends HoComponent {
       // Render as expandable report card
       const estadoClass = isReporteAprobado ? 'estado-aceptado' : '';
       const expandedKey = 'report-' + msgIndex;
-      const isExpanded = this._expandedReports[expandedKey] || false;
+      // New (unapproved) reports are expanded by default; approved ones are collapsed
+      const isExpanded = this._expandedReports[expandedKey] !== undefined ? this._expandedReports[expandedKey] : !isReporteAprobado;
 
       const titleSection = m.sections[0];
       const isModificado = tags.includes('correccion-modificado');
