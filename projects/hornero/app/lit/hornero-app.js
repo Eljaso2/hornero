@@ -2202,43 +2202,35 @@ class HorneroApp extends HoComponent {
         text-transform: uppercase; letter-spacing: .06em; }
       .inform-popup-section-body { font-family: 'Public Sans', sans-serif;
         font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
+      .inform-popup-section-body strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
+      /* Only transcript body is italic — no internal boxes or underlines */
+      .inform-popup-section-body.transcript-body { font-style: italic; }
+      .inform-popup-section-body em { font-style: normal; font-weight: 600; color: var(--ho-text, #E8E6E0); }
+      .inform-popup-section-body.transcript-body em { font-style: italic; }
       .inform-popup-section[data-section-type="relato"] .inform-popup-section-body {
-        font-size: .88rem; color: var(--ho-text, #E8E6E0); line-height: 1.65; }
+        font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .inform-popup-section[data-section-type="clasificacion"] .inform-popup-section-body {
-        font-size: .84rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.55; }
+        font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .inform-popup-section[data-section-type="clasificacion"] .inform-popup-section-body strong {
         color: var(--ho-green-dark, #3D6B56); font-weight: 700; }
-      .inform-popup-section[data-section-type="clasificacion"] .clasif-tag {
-        display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
-        padding: 2px 8px; border-radius: 6px; font-weight: 600;
-        vertical-align: middle; margin: 0 2px; line-height: 1.4; }
       .inform-popup-section[data-section-type="extractos"] .inform-popup-section-body {
-        font-size: .82rem; color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
-        font-style: italic; border-left: 3px solid var(--ho-green, #4E9978);
-        padding-left: 14px; background: rgba(78,153,120,.06);
-        border-radius: 0 8px 8px 0; }
+        font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6;
+        font-style: italic; }
       .inform-popup-section[data-section-type="transcript"] .inform-popup-section-body {
-        font-size: .84rem; color: var(--ho-text, #E8E6E0); line-height: 1.6;
-        border-left: 3px solid var(--ho-green, #4E9978);
-        padding-left: 14px; background: rgba(78,153,120,.06);
-        border-radius: 0 8px 8px 0; }
+        font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6;
+        font-style: italic; }
       .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body {
-        font-family: 'JetBrains Mono', monospace; font-size: .74rem;
-        color: var(--ho-text-light, #9C988D); line-height: 1.7;
-        background: var(--ho-bg, #1E2321); border-radius: 8px;
-        padding: 10px 14px; }
+        font-size: .85rem; color: var(--ho-text, #E8E6E0); line-height: 1.6; }
       .inform-popup-section[data-section-type="ficha"] .inform-popup-section-body strong {
-        color: var(--ho-text-mid, #6E6A60); font-weight: 600; }
+        color: var(--ho-text, #E8E6E0); font-weight: 600; }
       .inform-popup-section[data-section-type="comentarios"] .inform-popup-section-body {
-        background: rgba(255,255,255,.03); border-radius: 8px;
-        padding: 10px 14px; }
+        }
       .inform-popup-section-divider { height: 1px; background: rgba(43,42,38,.10);
         margin: 16px 0; }
       .inform-popup-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px;
         padding-top: 12px; border-top: 1px solid var(--ho-green-pale, #E0F0EB); }
       .inform-popup-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        background: #EDEAE3; color: var(--ho-text, #E8E6E0);
+        background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
       .inform-popup-comentario-entry { padding: 8px 0;
         border-bottom: 1px solid rgba(255,255,255,.05); }
@@ -2287,6 +2279,18 @@ class HorneroApp extends HoComponent {
     let html = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\n/g, '<br>');
     return html;
+  }
+
+  // Add subsection numbering (2.a, 2.b, etc.) to bold text at start of lines
+  _addSubsectionNumbers(bodyHtml, sectionNum) {
+    if (!sectionNum || !bodyHtml) return bodyHtml;
+    let letterIndex = 0;
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    // Detect <strong> tags at the start of a paragraph (after <br> or at beginning)
+    return bodyHtml.replace(/((?:^|<br>))\s*(<strong>)/g, (match, prefix, strong) => {
+      const letter = letters[letterIndex++] || '';
+      return `${prefix}${sectionNum}.${letter} ${strong}`;
+    });
   }
 
   _renderSection5Comentarios(correcciones) {
@@ -2370,13 +2374,17 @@ class HorneroApp extends HoComponent {
       let content = '';
       const sectionTitle = (s.title || '').toLowerCase();
       let sectionType = 'default';
+      const isClasif = sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta');
+      const isTranscript = sectionTitle.includes('transcript') || sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo');
       if (sectionTitle.includes('relato')) sectionType = 'relato';
-      else if (sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta')) sectionType = 'clasificacion';
-      else if (sectionTitle.includes('transcript')) sectionType = 'transcript';
-      else if (sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo')) sectionType = 'transcript';
+      else if (isClasif) sectionType = 'clasificacion';
+      else if (isTranscript) sectionType = 'transcript';
       else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionType = 'ficha';
-      const sectionNumberMap = { 'relato': '1', 'clasificacion': '2', 'clasificación': '2', 'etiqueta': '2', 'transcript': '3', 'extractos': '3', 'ficha': '4' };
-      const sectionNum = sectionNumberMap[sectionType] || '';
+      let sectionNum = '';
+      if (sectionTitle.includes('relato')) sectionNum = '1';
+      else if (isClasif) sectionNum = '2';
+      else if (isTranscript) sectionNum = '3';
+      else if (sectionTitle.includes('ficha') || sectionTitle.includes('reportante')) sectionNum = '4';
       if (s.title) {
         const numberedTitle = sectionNum ? `${sectionNum}) ${s.title}` : s.title;
         content += `<div class="inform-popup-section-title">${numberedTitle}</div>`;
@@ -2389,10 +2397,15 @@ class HorneroApp extends HoComponent {
           .replace(/\n*respuesta-libre\s*$/s, '')
           .replace(/[\s\n]+$/, '');
         let bodyHtml = this._formatMarkdown(cleanBody);
-        if (sectionType === 'clasificacion') {
+        if (isClasif) {
           bodyHtml = bodyHtml.replace(/#([a-záéíóúñ_]+)/g, '<span class="inform-popup-tag clasif-tag">#$1</span>');
         }
-        content += `<div class="inform-popup-section-body">${bodyHtml}</div>`;
+        // Add subsection numbering (2.a, 2.b, etc.) to bold text at start of lines
+        if (sectionNum) {
+          bodyHtml = this._addSubsectionNumbers(bodyHtml, sectionNum);
+        }
+        const bodyClass = isTranscript ? 'inform-popup-section-body transcript-body' : 'inform-popup-section-body';
+        content += `<div class="${bodyClass}">${bodyHtml}</div>`;
       }
       const divider = (i < (inf.sections || []).length - 1) ?
         '<div class="inform-popup-section-divider"></div>' : '';
