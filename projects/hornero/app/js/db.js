@@ -298,12 +298,16 @@ function obtenerInformesPorTerritorio(territorio) { return dbGetByIndex('informe
 // B.c (secretario): G2 from delegates in same territory (all empresas, pendiente + visto)
 // B.d (federación): G3 from all territories (pendiente + visto)
 // Sync: pull remote incoming informes first, then apply local filter
-function obtenerInformesEntrantes(userGrade, territorio, empresa) {
+function obtenerInformesEntrantes(userGrade, territorio, empresa, currentUsername) {
   // Pull remote incoming informes from backend first
   var pullPromise = _fetchAndMergeRemoteIncomingInformes(userGrade, territorio, empresa);
   return pullPromise.then(function() {
   return dbGetAll('informes').then(function(all) {
     if (!all || all.length === 0) return [];
+    // Exclude current user's own informes (they belong in "Mis Reportes", not "Recibidos")
+    if (currentUsername) {
+      all = all.filter(function(inf) { return inf.username !== currentUsername; });
+    }
     // Helper: normalize territorio for flexible comparison (handle key vs display formats)
     // e.g., 'norte-santa-fe' matches 'Norte de Santa Fe'
     function terrMatch(infTerr, userTerr) {
@@ -406,7 +410,7 @@ function obtenerInformesTodos(username) {
         return (informes || []).sort(function(a, b) { return (b.fecha || '').localeCompare(a.fecha || ''); });
       });
     }
-    return dbGetAll('informes');
+    if (!username) return []; // No username → no informes (never leak all users' data)
   });
 }
 

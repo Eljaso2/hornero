@@ -1776,7 +1776,7 @@ class HorneroApp extends HoComponent {
     const userEmpresa = (session.agremiacion && session.agremiacion.empresa) || '';
     const userTerritory = session.territory || '';
     try {
-      this.recibidosList = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa);
+      this.recibidosList = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa, session.username || '');
     } catch(e) {
       console.warn('App: recibidos load failed', e);
       this.recibidosList = [];
@@ -2561,6 +2561,15 @@ class HorneroApp extends HoComponent {
   }
 
   async _handleLogout() {
+    // Clear user-specific data from IndexedDB before clearing session
+    const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
+    const username = session.username || '';
+    if (username) {
+      try {
+        if (typeof borrarChatsUsuario === 'function') await borrarChatsUsuario(username);
+        if (typeof borrarInformesUsuario === 'function') await borrarInformesUsuario(username);
+      } catch(e) { console.warn('Logout: user data cleanup failed', e); }
+    }
     // Clear session from IndexedDB
     if (typeof dbDelete === 'function') {
       try { await dbDelete('uiState', 'session'); } catch(e) { console.warn('Logout: IndexedDB delete failed', e); }

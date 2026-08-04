@@ -1097,7 +1097,7 @@ class HorneroGremial extends HoComponent {
       const userTerritory = session.territory || '';
       const userEmpresa = (session.agremiacion && session.agremiacion.empresa) || '';
       if (typeof obtenerInformesEntrantes === 'function') {
-        this._cachedIncomingReports = await obtenerInformesEntrantes(this.grade, userTerritory, userEmpresa);
+        this._cachedIncomingReports = await obtenerInformesEntrantes(this.grade, userTerritory, userEmpresa, this._username);
         // Load correcciones for each incoming report
         if (typeof obtenerCorrecciones === 'function' && this._cachedIncomingReports.length > 0) {
           const corrPromises = this._cachedIncomingReports.map(async (inf) => {

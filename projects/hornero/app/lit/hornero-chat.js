@@ -3334,7 +3334,7 @@ ${msgs.map(m => {
 
       // Load incoming informes from lower grades (for B.b/B.c/B.d)
       if (typeof obtenerInformesEntrantes === 'function' && userGrade !== 'B.a' && userGrade !== 'A') {
-        this._informesEntrantes = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa);
+        this._informesEntrantes = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa, this.username);
       } else {
         this._informesEntrantes = [];
       }
@@ -3372,7 +3372,7 @@ ${msgs.map(m => {
       const userEmpresa = (session.agremiacion && session.agremiacion.empresa) || '';
       const userTerritory = session.territory || '';
       if (typeof obtenerInformesEntrantes === 'function' && userGrade !== 'B.a' && userGrade !== 'A') {
-        this._informesEntrantes = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa);
+        this._informesEntrantes = await obtenerInformesEntrantes(userGrade, userTerritory, userEmpresa, this.username);
       } else {
         this._informesEntrantes = [];
       }
