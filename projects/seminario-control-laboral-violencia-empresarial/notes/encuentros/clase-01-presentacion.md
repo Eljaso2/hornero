@@ -10,62 +10,37 @@
 
 ---
 
-### Noticia 1 — Trabajo esclavo
+### Noticia 1 — Trabajo esclavo hoy
 
-**Caso:** Talleres textiles y explotación rural en Argentina.
-
-En Argentina, operativos periódicos del Ministerio de Trabajo y la Policía Federal rescatan trabajadores en condiciones de esclavitud. Los talleres textiles del AMBA (Flores, Villa Crespo, Once) operan con trabajadores migrantes —principalmente de Bolivia, Perú y Paraguay— que viven y trabajan en los mismos espacios, sin registro, sin obras sociales, sin libertades elementales. En zonas rurales, la explotación se reproduce en la cosecha de yerba mate (Misiones), tabaco (Salta, Jujuy) y ladrilleras (Santiago del Estero, Chaco, Formosa).
-
-**Marco legal:** Ley 26.842 (2012) de trata de personas; Art. 145 del Código Penal (reducción a servidumbre); RETAAT (Registro de Empleadores Sancionados por Trabajo Esclavo).
+En 2025, más de dos mil personas fueron rescatadas en Brasil de condiciones análogas a la esclavitud (Business & Human Rights Resource Centre, 2025; Sampaio, 2025). En el norte argentino, la policía federal liberó a veintiún jóvenes trabajadores sin contrato en una plantación de olivos (Argentina.gob.ar, 2025). En Colombia, el Ministerio de Trabajo clausuró buques atuneros por irregularidades laborales e indicios de trabajo forzado (Zapata Quinchía, 2025). Según la OIT, más de cincuenta millones de personas sufren esclavitud moderna en el mundo; más de cinco millones en América Latina, donde las víctimas generan un beneficio de alrededor de quince mil dólares anuales (OIT et al., 2022; OIT & IAO, 2024). **La violencia empresarial no es un fenómeno del pasado.**
 
 **Pregunta para discutir:** ¿Es esto "violencia"? ¿Qué tipo de violencia? ¿Quién la ejerce?
 
 ---
 
-### Noticia 2 — Contaminación empresarial y muerte
+### Noticia 2 — Memoria y justicia: la violencia que se repite y la que se busca reparar
 
-**Caso:** BHP/Vale — Colapso de la represa de Brumadinho, Brasil (2019).
+Al mismo tiempo, también en 2025, jóvenes indígenas en Perú presentaron un hábeas corpus ante el Juzgado Mixto de Nauta para exigir una Comisión de la Verdad que investigue los crímenes de la "era del caucho" en la Amazonía entre 1880 y 1920, invocando el derecho a la verdad reconocido por el Tribunal Constitucional peruano como principio fundamental de justicia y reparación. "La violencia es cíclica en la Amazonía", denunciaron, advirtiendo que los crímenes siguen ocurriendo y que, al mismo tiempo, la violencia se naturaliza con artefactos turísticos como el "Paseo del Caucho" de Iquitos, creado en 2024 (Pizarro, 2025).
 
-El 25 de enero de 2019, la represa de relaves de la mina Córrego do Feijão, operada por Vale y BHP en Brumadinho (Minas Gerais, Brasil), se derrumbó. **270 personas murieron**. Millones de toneladas de residuos tóxicos de minería contaminaron el río Paraopeba. Documentos internos revelados en 2025 demostraron que BHP y Vale tenían conocimiento previo de las debilidades estructurales de la represa. Una demanda colectiva en el Reino Unido agrupa a más de 600.000 reclamantes. Se esperan negociaciones de acuerdo en 2026.
-
-**Caso complementario:** Chevron/Texaco en la Amazonía ecuatoriana. Entre 1964 y 1992, Texaco vertió aproximadamente **16.000 millones de galones de aguas residuales tóxicas** en la Amazonía ecuatoriana. Las comunidades indígenas llevan décadas de lucha legal. En 2025, nuevas vías jurídicas en cortes internacionales reavivaron las esperanzas de las comunidades afectadas.
-
-**Pregunta para discutir:** ¿Contaminar es violencia? ¿Es lo mismo que el trabajo esclavo? ¿Qué tienen en común?
+**Pregunta para discutir:** ¿Qué significa que la violencia se naturalice? ¿Cómo se naturaliza? ¿Qué papel cumple el "Paseo del Caucho" como artefacto de naturalización?
 
 ---
 
-### Noticia 3 — Empresas y dictaduras: complicidad en delitos de lesa humanidad
+### Noticia 3 — Empresas y dictaduras: complicidad y condenas
 
-**Caso:** Juicios por complicidad empresarial con la última dictadura argentina (1976-1983).
+Ese mismo año, un tribunal federal brasileño condenó a Volkswagen por esclavitud en una estancia amazónica durante la dictadura (Junqueira, 2025). En Colombia, directivos de Chiquita Brands fueron condenados por financiar grupos paramilitares responsables de centenares de asesinatos (El Heraldo, 2025), luego de que la propia empresa fuera llamada a rendir cuentas en Estados Unidos (Valencia, 2024). Y el presidente Gustavo Petro participó por primera vez en la conmemoración de la Masacre de las Bananeras de 1928, anunciando un plan de reparación colectiva para el movimiento sindical. **"La United Fruit Company hoy se llama Chiquita Brands, y ha seguido matando trabajadores en Colombia"**, dijo (Jasinski, 2025).
 
-En 2025-2026, avanzan causas judiciales contra empresas por su complicidad con el terrorismo de Estado:
-
-- **Ford Motor Argentina**: ex ejecutivos de Ford enfrentan juicio por colaboración con el secuestro y tortura de delegados sindicales en la planta de General Pacheco.
-- **Mercedes-Benz**: cargos similares por identificación y desaparición de trabajadores.
-- **Papel Prensa**: investigación sobre la adquisición forzada de la empresa de pasta celulósica durante la dictadura por los grupos Clarín, La Nación y La Razón, como posible crimen de lesa humanidad (extorsión con desaparición forzada).
-- **Acindar (Villa Constitución)**: por su rol en facilitar la represión de trabajadores siderúrgicos, especialmente durante el operativo de Villa Constitución de 1975.
-- **Más de 30 empresas** documentadas por el CELS: Astarsa, Ledesma, Techint, La Cantábrica, Siam, entre otras.
-
-Los tribunales federales argentinos han reconocido que la "complicidad" empresarial constituye **coautoría o participación necesaria** en crímenes de lesa humanidad, no conducta accesoria.
-
-**Pregunta para discutir:** ¿Puede una empresa ejercer violencia política? ¿En qué sentido esto es distinto de la violencia estatal?
+**Pregunta para discutir:** ¿Puede una empresa ejercer violencia política? ¿Qué significa que Chiquita Brands sea la United Fruit Company?
 
 ---
 
-### Noticia 4 — Salud laboral y condiciones de trabajo
+### Noticia 4 — La simultaneidad como corazón del problema
 
-**Caso:** Enfermedades y muertes por condiciones laborales en América Latina.
+Esta simultaneidad no es una paradoja sino el corazón del problema. Ni la violencia empresarial es cosa del pasado ni la justicia o la reparación se limitan al presente. Ambas atraviesan el tiempo en direcciones que se cruzan: mientras la violencia se reproduce y actualiza, las demandas para una rendición de cuentas retroceden cada vez más lejos en la historia, alcanzando casos de hace cincuenta, cien, o incluso ciento cincuenta años.
 
-La OIT y la OMS documentan que más del **30% de los trabajadores** de América Latina están expuestos a niveles de contaminación superiores a los límites recomendados. Se registra un aumento de enfermedades respiratorias, dermatológicas y oncológicas asociadas a la exposición laboral a contaminantes industriales. La falta de equipos de protección adecuada y la informalidad son factores de riesgo críticos. Pocos países de la región han ratificado e implementado el Convenio 190 de la OIT sobre violencia y acoso en el mundo del trabajo.
+Lo que llamamos aquí el **umbral de la memoria** —ese momento en que la violencia deja de ser un hecho silenciado, negado o apenas rememorado de manera triste, y se convierte en objeto de justicia, verdad y reparación— no tiene una ubicación fija en el tiempo. Puede cruzarse décadas o siglos después de ocurridos los hechos, o no cruzarse nunca, aunque la evidencia esté disponible. ¿Qué hace posible ese cruce? Esa es una de las preguntas que organiza este seminario.
 
-**Pregunta para discutir:** ¿La exposición a condiciones que enferman y matan es violencia? ¿Quién tiene la responsabilidad?
-
----
-
-### Síntesis del Paso 1 — La pregunta que emerge
-
-De estos cuatro tipos de casos surgen preguntas comunes:
-
+**Preguntas para discutir:**
 - ¿Qué tipo de violencia estamos viendo? ¿Es siempre la misma?
 - ¿Quién la ejerce? (¿El Estado? ¿La empresa? ¿Ambos?)
 - ¿Contra quién? (¿Trabajadores? ¿Comunidades? ¿Poblaciones enteras?)
@@ -95,7 +70,7 @@ De estos cuatro tipos de casos surgen preguntas comunes:
 
 ### Unidad 3 — De la crisis de 1929 a la industrialización sustitutiva
 - **Mineros bolivianos** — masacres y revolución
-- **Petroleo** — Maracaibo (Venezuela)
+- **Petróleo** — Maracaibo (Venezuela)
 - **El encanto del tanino** — Puerto Casado a La Forestal (Paraguay y Argentina)
 - **Loma Negra** — paternalismo industrial (Argentina)
 - **Yarur** — control obrero y cordones industriales (Chile)
@@ -121,35 +96,61 @@ De estos cuatro tipos de casos surgen preguntas comunes:
 
 ## Paso 3 — Recorrido disciplinar
 
-**Objetivo:** Mostrar que distintas disciplinas han pensado estas violencias con conceptos diferentes —y que el seminario propone una perspectiva propia que dialoga con ellas pero no se reduce a ninguna.
+**Objetivo:** Mostrar cómo distintas disciplinas y campos han pensado estas violencias con conceptos diferentes —y que el seminario propone una perspectiva propia que dialoga con ellos pero no se reduce a ninguno.
 
-### 1. Administración / Negocios: Responsabilidad Social Empresaria (RSE) y Business and Human Rights
-- La RSE como marco voluntarista: la empresa "elige" ser responsable.
-- Business and Human Rights: de los Principios Rectores de la ONU (Ruggie, 2011) a la debida diligencia obligatoria.
-- Límites: la violencia como "incumplimiento" o "externalidad", no como categoría constitutiva del capital.
-- ¿Puede un marco de RSE dar cuenta de la violencia estructural?
+### 1. Responsabilidad Social Empresaria (RSE / CSR)
 
-### 2. Derecho laboral: Violencia laboral
+Aunque hay quienes identifican raíces en la edad moderna, la RSE aparece de manera reconocible con las primeras campañas contra las empresas beneficiarias del trabajo esclavo (Bush, 2015), los reclamos de concientización sobre el rol de las corporaciones en la sociedad y las prácticas filantrópicas orientadas al presente (Carroll, 2009; Latapí Agudelo et al., 2019), entre fines del XIX y comienzos del XX.
+
+La crisis de 1929 disparó el debate y lo que Carroll identifica como la **era de la filantropía**, asociada al final de la segunda guerra mundial con el llamamiento a combatir el comunismo, que entra en tensión con los profundos cambios del capitalismo de la década de 1970, con el llamamiento de Milton Friedman a dejar de lado cualquier política que no tenga como objetivo satisfacer el interés del accionista (Carroll, 2009; Deva, 2020).
+
+Desde entonces, el campo se volvió más exigente, pasando de las prácticas voluntarias, de naturaleza privada y las declaraciones de principios hacia su regulación por parte de los Estados, con punto de inflexión en la redefinición de la RSE por la Unión Europea en 2011 y su normativa de 2014 que obliga a divulgar información no financiera y sostenibilidad (Bijlmakers, 2018; Ramasastry, 2015).
+
+**Giro clave — Historic Corporate Social Responsibility:** Schrempf-Stirling, Palazzo y Phillips (2016) argumentan que las empresas son **actores morales intergeneracionales**: los daños causados por generaciones anteriores de directivos no se disuelven con el tiempo, sino que afectan la legitimidad presente de la corporación, amenazando su "licencia para operar" e incluso su "derecho a existir". Lo que comenzó como filantropía terminó tocando archivos, tribunales y políticas de memoria.
+
+Estos autores proponen un esquema para analizar la disputa de la narrativa histórica:
+- **Variables que determinan la legitimidad de una acusación histórica:** quién puede reclamar, cuál era la conciencia histórica del daño, bajo qué condiciones una demanda puede ser exitosa (emprendedores de memoria, estrategias de reconstrucción historiográfica, actitud corporativa, apertura de la sociedad).
+- **Respuestas empresariales:** desde estrategias defensivas (negar hechos, ignorar reclamos, destruir archivos) hasta estrategias dialógicas (investigaciones independientes, fondos de compensación, programas educativos y memoriales).
+
+Lo que se disputa no es solo la reputación corporativa sino **el control sobre la narrativa histórica misma**.
+
+**Límite de la RSE:** Se mantuvo dentro de los límites de la voluntariedad —como responsabilidad privada, no como obligación pública—, su potencial para generar una responsabilidad ética, histórica, política o legal fue siempre limitado.
+
+### 2. Business and Human Rights (BHR): no complemento, sino respuesta crítica
+
+BHR no debe entenderse como una extensión o complemento armónico de la RSE sino como una **respuesta crítica a sus insuficiencias** (Wettstein, 2020). No como campos complementarios, sino como opuestos (Schrempf-Stirling et al., 2022). Mientras la RSE opera dentro de una lógica de responsabilidad privada y voluntaria, el movimiento BHR reivindica la naturaleza inherentemente pública de esa responsabilidad y reclama mecanismos de obligatoriedad y rendición de cuentas, partiendo del derecho internacional de los derechos humanos. La diferencia no es de grado sino de lógica: una apela a la conciencia corporativa, la otra a la obligación jurídica.
+
+**Trayectoria:**
+- **Década de 1970:** emergencia de una protesta en los países dependientes frente al accionar de las multinacionales, primeros intentos de regulación en organismos internacionales (Wettstein, 2020).
+- **Década de 1990:** protestas visibilizando la violencia de grandes compañías (Nike, Wal-Mart), intentos de compromisos éticos (Pacto Global de la ONU, 2000; Principios Kimberley, Sierra Leona), inicio en 1998 de la discusión en la ONU de un borrador de normas regulatorias.
+- **2005-2011:** creación del Representante Especial de la ONU (John Ruggie), que cristalizó en los **Principios Rectores de Naciones Unidas de 2011**: esquema mixto que obliga a las empresas a respetar los derechos humanos, a los Estados a protegerlos y a ambos a remediarlos.
+- **Post-2011:** grupo de trabajo sobre Empresas y Derechos Humanos de la ONU, mecanismos oficiales, estrategias locales para regular la actividad de las corporaciones (Deva, 2020).
+
+**Aporte clave:** levantar los muros de la prevención, pero sobre todo aportar la pregunta por el **remedio**: no alcanza con identificar la responsabilidad, hay que garantizar el acceso de las víctimas a mecanismos concretos de justicia. Y en ese camino, las preocupaciones del presente también se trasladaron al pasado, escrutando los compromisos de las empresas con las violencias dictatoriales o los conflictos armados en América Latina.
+
+### 3. Derecho laboral: Violencia laboral
 - El concepto de "violencia laboral" o "acoso laboral" (mobbing, acoso moral).
 - Convenio 190 de la OIT (2019): violencia y acoso en el mundo del trabajo.
 - Límites: se centra en la violencia interpersonal en el lugar de trabajo. No alcanza la violencia estructural, la violencia estatal-empresarial, ni las masacres.
 
-### 3. Derecho penal económico: Crimen económico / delito de cuello blanco
+### 4. Derecho penal económico: Crimen económico / delito de cuello blanco
 - Tradición: Sutherland (1949) — white collar crime.
 - Crimen económico, crimen organizado, delitos contra el orden económico.
 - Avance: la empresa como sujeto de responsabilidad penal.
 - Límites: el delito como infracción a la norma jurídica. La violencia que no es delito (porque no está tipificada, porque está legitimada, porque es estructural) queda fuera del marco.
 
-### 4. Empresas y dictaduras: justicia transicional
+### 5. Empresas y dictaduras: justicia transicional
 - Complicidad empresarial en crímenes de lesa humanidad (Argentina, Brasil, Chile).
 - El debate sobre la responsabilidad civil y penal de las empresas.
 - Límites: se centra en el período dictatorial. ¿Qué pasa con la violencia empresarial en democracias?
 
 ### Síntesis del Paso 3
-Cada disciplina ilumina un aspecto, pero ninguna alcanza a pensar la violencia empresarial como categoría integral. El seminario propone una perspectiva que:
+
+Cada campo ilumina un aspecto, pero ninguno alcanza a pensar la violencia empresarial como categoría integral. El seminario propone una perspectiva que:
 - No reduce la violencia a lo delictivo
 - No la confina a lo interpersonal
 - No la limita a períodos autoritarios
+- No la disuelve en la voluntariedad corporativa
 - La piensa como constitutiva de las relaciones capital-trabajo
 
 **→ Transición:** Para construir esa perspectiva, necesitamos preguntarnos: ¿qué es la violencia en sí misma?
