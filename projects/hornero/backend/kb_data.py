@@ -26,6 +26,7 @@ KB_TIPOS = ["documento", "academico", "multimedia"]
 KB_CATEGORIES = [
     "organizacion", "convenio", "paritaria", "smvm",
     "reforma", "condiciones", "referentes", "violencia-empresarial",
+    "historia-obrera", "prensa-sindical",
 ]
 
 # ===== Chunks estructurados =====
@@ -657,6 +658,8 @@ KB_CATEGORY_META = {
     "referentes": {"label": "Referentes", "icon": "📰", "desc": "Discursos, posiciones, quotes"},
     "violencia-empresarial": {"label": "Violencia empresarial", "icon": "📚", "desc": "Lockout, represión, masacre, enclave"},
     "efemeride": {"label": "Efemérides", "icon": "📅", "desc": "Fechas históricas del movimiento obrero"},
+    "historia-obrera": {"label": "Historia obrera", "icon": "📚", "desc": "Investigaciones históricas, masacres, lockouts, referentes"},
+    "prensa-sindical": {"label": "Prensa sindical", "icon": "📰", "desc": "Periódico, comunicados, volantes del gremio"},
 }
 
 

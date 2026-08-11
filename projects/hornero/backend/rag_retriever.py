@@ -53,6 +53,24 @@ STEM_MAP = {
     "patronales": "patronal",
     "legislaciones": "legislacion", "legislación": "legislacion",
     "jurisprudencias": "jurisprudencia",
+    # Historia obrera / antropología
+    "investigaciones": "investigacion", "investigación": "investigacion",
+    "antropológicas": "antropologica", "antropologicas": "antropologica",
+    "concesiones": "concesion", "concesión": "concesion",
+    "testimonios": "testimonio",
+    "reparaciones": "reparacion", "reparación": "reparacion",
+    "genocidios": "genocidio",
+    "etnocidios": "etnocidio",
+    "territorios": "territorio",
+    "comunidades": "comunidad",
+    "despojos": "despojo",
+    # Prensa sindical
+    "periódicos": "periodico", "periodicos": "periodico",
+    "comunicados": "comunicado",
+    "volantes": "volante",
+    "editoriales": "editorial",
+    "posiciones": "posicion",
+    "gremiales": "gremial",
 }
 
 
@@ -122,10 +140,16 @@ CATEGORY_KEYWORDS = {
     "reforma laboral": ["reforma", "dnu", "ley bases", "flexibilizacion", "bancos de horas"],
     "SMVM": ["smvm", "salario minimo", "piso legal", "minimo vital"],
     "organizacion sindical": ["sindicato", "organizacion", "asamblea", "delegado", "huelga"],
-    "historia obrera": ["forestal", "masacre", "lockout", "historia", "referente", "lafuente"],
+    "historia obrera": ["forestal", "masacre", "lockout", "historia", "referente", "lafuente",
+                         "investigacion", "antropologica", "concesion", "masacre", "genocidio",
+                         "memoria", "verdad", "justicia", "reparacion", "testimonio",
+                         "pueblo originario", "despojo", "territorio"],
     "efemeride": ["cordobazo", "viborazo", "tampierazo", "argentinazo", "santiagueñazo", "cgta", "efeméride", "efemeride", "aniversario", "conmemoración", "1° de mayo", "1 de mayo", "tosco", "rucci", "ongaro"],
     "salud laboral": ["art", "seguridad", "enfermeria", "accidente", "salud"],
     "condicion obrera": ["clase obrera", "clase trabajadora", "ejercito", "reserva", "ice", "ift", "panorama", "condicion", "como somos", "felicidad", "distribucion", "cremonte", "canasta"],
+    "prensa sindical": ["periodico", "comunicado", "volante", "editorial", "trabajador aceitero",
+                         "el trabajador aceitero", "desmotador", "posicion", "gremial", "ftciod",
+                         "foeiap", "federacion aceitera"],
 }
 
 
@@ -261,8 +285,8 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
         'consulta': {'convenio', 'paritaria', 'reforma', 'organizacion'},  # Abogado: legal, CCT, rights
         'debate': {'organizacion', 'condiciones', 'referentes'},  # Compañero: org, struggle, reports
         'reporte': {'organizacion', 'condiciones', 'referentes'},  # Compañero (report mode)
-        'historia': {'referentes'},  # Historiador: history, referents
-        'contenido': {'organizacion', 'condiciones', 'referentes'},  # Periodista: content production
+        'historia': {'referentes', 'historia-obrera', 'prensa-sindical', 'violencia-empresarial'},  # Historiador: history, referents, press
+        'contenido': {'organizacion', 'condiciones', 'referentes', 'prensa-sindical'},  # Periodista: content production, union press
         'ecosistema': set(),  # Hornero: no KB chunks needed (its own philosophy)
     }
     allowed_categories = FORMATO_CATEGORY_MAP.get(formato)

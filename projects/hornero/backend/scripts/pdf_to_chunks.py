@@ -4,7 +4,22 @@ Reads a PDF, extracts all text, chunks by chapter/section (~300-500 words),
 preserves structure (chapter, section, pages), and outputs kb_chunks.json.
 
 Usage:
-  python scripts/pdf_to_chunks.py /path/to/book.pdf --bib "Jasinski, El encanto del tanino, Prometeo 2023, ISBN 978-987-816-561-5" --tipo academico --category violencia-empresarial --id-prefix jasinski
+  # Overwrite mode (default): replaces kb_chunks.json
+  python scripts/pdf_to_chunks.py /path/to/book.pdf \
+    --bib "Jasinski, El encanto del tanino, Prometeo 2023" \
+    --tipo academico --category violencia-empresarial --id-prefix jasinski
+
+  # Append mode: adds chunks to existing kb_chunks.json
+  python scripts/pdf_to_chunks.py /path/to/investigacion.pdf \
+    --bib "Autor, Título, Editorial Año" \
+    --tipo academico --category historia-obrera --id-prefix historia-01 \
+    --append
+
+  # Periódico/comunicado del gremio
+  python scripts/pdf_to_chunks.py /path/to/periodico.pdf \
+    --bib "El Trabajador Aceitero y Desmotador, N° XX, Mes Año" \
+    --tipo documento --category prensa-sindical --id-prefix prensa-01 \
+    --append
 
 Output: backend/kb_chunks.json (merged with existing chunks from kb_data.py)
 """
@@ -250,6 +265,16 @@ def extract_auto_tags(text: str) -> list:
         "Lafuente", "Vargas", "Lamazón", "Yofra",
         # General terms
         "derecho", "trabajo", "salario", "jornal", "condiciones",
+        # Historical/anthropological research terms
+        "masacre", "genocidio", "etnocidio", "pueblo originario",
+        "comunidad", "territorio", "despojo", "concesión",
+        "archaeologica", "patrimonio", "memoria", "verdad", "justicia",
+        "reparación", "impunidad", "juicio", "testimonio",
+        # Periódico/comunicado terms
+        "comunicado", "volante", "editorial", "asamblea",
+        "Federación Aceitera", "F.T.C.I.O.D", "FOEIAP",
+        "El Trabajador Aceitero", "aceitero", "desmotador",
+        "CIARA", "CIAVEC", "CARBIO",
     ]
 
     text_lower = text.lower()
@@ -257,11 +282,48 @@ def extract_auto_tags(text: str) -> list:
     return found
 
 
-def save_chunks_json(chunks: list, output_path: str):
-    """Save chunks to JSON file."""
+def save_chunks_json(chunks: list, output_path: str, append: bool = False, id_prefix: str = ""):
+    """Save chunks to JSON file.
+
+    If append=True, reads existing chunks and adds new ones (validating no ID conflicts).
+    If append=False (default), overwrites the file.
+    """
+    if append:
+        # Read existing chunks
+        existing = []
+        try:
+            with open(output_path, 'r', encoding='utf-8') as f:
+                existing = json.load(f)
+            print(f"Read {len(existing)} existing chunks from {output_path}")
+        except FileNotFoundError:
+            print(f"No existing {output_path} — creating new file")
+        except json.JSONDecodeError as e:
+            print(f"ERROR: Cannot parse existing {output_path}: {e}")
+            print("Use without --append to overwrite, or fix the JSON first.")
+            sys.exit(1)
+
+        # Validate no ID conflicts with the new prefix
+        existing_ids = {c["id"] for c in existing}
+        conflicting = [c for c in chunks if c["id"] in existing_ids]
+        if conflicting:
+            print(f"WARNING: {len(conflicting)} chunks with prefix 'kb-{id_prefix}-' already exist in {output_path}")
+            print("Skipping duplicate chunks. Use a different --id-prefix if you want to add new ones.")
+            # Filter out duplicates
+            chunks = [c for c in chunks if c["id"] not in existing_ids]
+
+        if not chunks:
+            print("No new chunks to add (all duplicates). Exiting.")
+            return
+
+        # Merge: existing + new
+        all_chunks = existing + chunks
+        print(f"Appending {len(chunks)} new chunks to {len(existing)} existing = {len(all_chunks)} total")
+    else:
+        all_chunks = chunks
+
     with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(chunks, f, ensure_ascii=False, indent=2)
-    print(f"Saved {len(chunks)} chunks to {output_path}")
+        json.dump(all_chunks, f, ensure_ascii=False, indent=2)
+    print(f"Saved {len(all_chunks)} chunks to {output_path}")
 
 
 # ===== CLI =====
@@ -276,6 +338,7 @@ if __name__ == "__main__":
     parser.add_argument("--tags", nargs="*", default=[], help="Extra tags for all chunks")
     parser.add_argument("--grade", default="open", help="Minimum grade access: open|B.a|B.b|B.c|B.d")
     parser.add_argument("--output", default=None, help="Output JSON path (default: backend/kb_chunks.json)")
+    parser.add_argument("--append", action="store_true", help="Append to existing kb_chunks.json instead of overwriting")
 
     args = parser.parse_args()
 
@@ -296,4 +359,4 @@ if __name__ == "__main__":
     )
 
     # Save
-    save_chunks_json(chunks, args.output)
+    save_chunks_json(chunks, args.output, append=args.append, id_prefix=args.id_prefix)
