@@ -440,7 +440,6 @@ class HorneroCondicion extends HoComponent {
     // Start streaming
     chatEl.streamingText = '';
     chatEl._streamingPersona = persona;
-    chatEl.render();
 
     let index = 0;
     const chunkSize = 4;
@@ -451,13 +450,11 @@ class HorneroCondicion extends HoComponent {
       if (index >= fullText.length) {
         clearInterval(this._revealTimer);
         this._revealTimer = null;
-        this.messages = [...this.messages, {
+        const reportMsg = {
           role: 'hornero', text: fullText, tags: tags || ['panorama', 'greeting'],
           persona: persona || this._activePersona, time: this._timeNow(),
-        }];
-        chatEl.streamingText = '';
-        chatEl._streamingPersona = '';
-        this.render();
+        };
+        chatEl.finalizeStreamingMessage(reportMsg);
         if (onComplete) onComplete();
         return;
       }

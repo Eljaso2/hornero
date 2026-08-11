@@ -615,7 +615,6 @@ class HorneroFormacion extends HoComponent {
     // Start streaming
     chatEl.streamingText = '';
     chatEl._streamingPersona = persona;
-    chatEl.render();
 
     let index = 0;
     const chunkSize = 4;
@@ -626,14 +625,12 @@ class HorneroFormacion extends HoComponent {
       if (index >= fullText.length) {
         clearInterval(this._revealTimer);
         this._revealTimer = null;
-        this.messages = [...this.messages, {
+        const reportMsg = {
           role: 'hornero', text: fullText, tags: tags,
           persona: persona, time: this._timeNow(),
-        }];
-        chatEl.streamingText = '';
-        chatEl._streamingPersona = '';
+        };
         // No guardar en historial aún — el chat se crea recién cuando el usuario envía su primer mensaje
-        this.render();
+        chatEl.finalizeStreamingMessage(reportMsg);
         if (onComplete) onComplete();
         return;
       }
