@@ -2932,18 +2932,25 @@ class HorneroChat extends HoComponent {
         const msgIndex = Number(card.dataset.msgIndex);
         const msg = this.messages[msgIndex];
         if (msg && msg.download && msg.download.content) {
+          const fname = msg.download.filename || 'chat-hornero.txt';
+          if (navigator.share && navigator.canShare) {
+            const file = new File([msg.download.content], fname, { type: 'text/plain' });
+            const shareData = { files: [file] };
+            if (navigator.canShare(shareData)) {
+              navigator.share(shareData).catch(() => {});
+              this._showDownloadToast(fname);
+              return;
+            }
+          }
           const blob = new Blob([msg.download.content], { type: 'text/plain;charset=utf-8' });
           const blobUrl = URL.createObjectURL(blob);
-          // Download as .txt
           const a = document.createElement('a');
           a.href = blobUrl;
-          a.download = msg.download.filename || 'chat-hornero.txt';
+          a.download = fname;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          // Also open in new tab so user can read immediately
-          window.open(blobUrl, '_blank');
-          this._showDownloadToast(msg.download.filename || 'chat-hornero');
+          this._showDownloadToast(fname);
         }
       });
     });
@@ -3095,25 +3102,32 @@ class HorneroChat extends HoComponent {
       });
     });
 
-    // Download cards
+    // Download cards — share via native menu if available, fallback to download
     this.shadowRoot.querySelectorAll(`.msg-download-card[data-action="download-file"]:not([${bindKey}])`).forEach(card => {
       card.setAttribute(bindKey, '');
       card.addEventListener('click', () => {
         const msgIndex = Number(card.dataset.msgIndex);
         const msg = this.messages[msgIndex];
         if (msg && msg.download && msg.download.content) {
+          const fname = msg.download.filename || 'chat-hornero.txt';
+          if (navigator.share && navigator.canShare) {
+            const file = new File([msg.download.content], fname, { type: 'text/plain' });
+            const shareData = { files: [file] };
+            if (navigator.canShare(shareData)) {
+              navigator.share(shareData).catch(() => {});
+              this._showDownloadToast(fname);
+              return;
+            }
+          }
           const blob = new Blob([msg.download.content], { type: 'text/plain;charset=utf-8' });
           const blobUrl = URL.createObjectURL(blob);
-          // Download as .txt
           const a = document.createElement('a');
           a.href = blobUrl;
-          a.download = msg.download.filename || 'chat-hornero.txt';
+          a.download = fname;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          // Also open in new tab so user can read immediately
-          window.open(blobUrl, '_blank');
-          this._showDownloadToast(msg.download.filename || 'chat-hornero');
+          this._showDownloadToast(fname);
         }
       });
     });
@@ -3301,17 +3315,28 @@ ${msgs.map(m => {
   // Download as .html file
   _downloadHtml(messages, title, filename) {
     const htmlContent = this._buildChatHtml(messages, title);
+    const fname = (filename || title || 'chat-hornero') + '.html';
+
+    // Try native share (mobile: opens share menu)
+    if (navigator.share && navigator.canShare) {
+      const file = new File([htmlContent], fname, { type: 'text/html' });
+      const shareData = { files: [file] };
+      if (navigator.canShare(shareData)) {
+        navigator.share(shareData).catch(() => {});
+        this._showDownloadToast(filename || title || 'chat-hornero');
+        return;
+      }
+    }
+
+    // Fallback: download as .html file
     const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-    // Download as .html file
     const a = document.createElement('a');
     a.href = url;
-    a.download = (filename || title || 'chat-hornero') + '.html';
+    a.download = fname;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    // Also open in new tab so user can read immediately
-    window.open(url, '_blank');
     this._showDownloadToast(filename || title || 'chat-hornero');
   }
 
@@ -3379,20 +3404,31 @@ ${msgs.map(m => {
     return `${chatTitle}\n${dateStr} — ${timeStr}\n${'─'.repeat(60)}\n\n${lines.join('\n\n' + '─'.repeat(40) + '\n\n')}\n\n${'─'.repeat(60)}\nExportado de Hornero`;
   }
 
-  // Download as plain .txt file
+  // Download as plain .txt file — share via native menu if available
   _downloadTxt(messages, title, filename) {
     const body = this._generateTxtContent(messages, title);
+    const fname = (filename || title || 'chat-hornero') + '.txt';
+
+    // Try native share (mobile: opens share menu → WhatsApp, mail, notes, etc.)
+    if (navigator.share && navigator.canShare) {
+      const file = new File([body], fname, { type: 'text/plain' });
+      const shareData = { files: [file] };
+      if (navigator.canShare(shareData)) {
+        navigator.share(shareData).catch(() => {});
+        this._showDownloadToast(filename || title || 'chat-hornero');
+        return;
+      }
+    }
+
+    // Fallback: download as .txt file (desktop / browsers without share)
     const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-    // Download as .txt file
     const a = document.createElement('a');
     a.href = url;
-    a.download = (filename || title || 'chat-hornero') + '.txt';
+    a.download = fname;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    // Also open in new tab so user can read immediately
-    window.open(url, '_blank');
     this._showDownloadToast(filename || title || 'chat-hornero');
   }
 
