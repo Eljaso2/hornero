@@ -1688,19 +1688,30 @@ if _pdfs_dir.is_dir():
 
 @app.get("/api/pdfs")
 async def list_pdfs():
-    """Lista los PDFs disponibles para consulta."""
+    """Lista los PDFs disponibles y leyes con enlace Infoleg para consulta."""
     pdfs = []
     base = _pl.Path(__file__).parent / "pdfs"
-    if not base.is_dir():
-        return {"pdfs": []}
-    for f in sorted(base.rglob("*.pdf")):
-        rel = f.relative_to(base)
-        category = rel.parts[0] if len(rel.parts) > 1 else "general"
+    if base.is_dir():
+        for f in sorted(base.rglob("*.pdf")):
+            rel = f.relative_to(base)
+            category = rel.parts[0] if len(rel.parts) > 1 else "general"
+            pdfs.append({
+                "name": f.stem,
+                "category": category,
+                "filename": rel.as_posix(),
+                "url": f"/pdfs/{rel.as_posix()}",
+                "size_kb": round(f.stat().st_size / 1024),
+                "source": "pdf",
+            })
+    # Agregar leyes laborales con enlace Infoleg (ya no usan PDF local)
+    from kb_data import DOCUMENTOS_CATALOG
+    for doc in DOCUMENTOS_CATALOG.get("leyes-laborales", []):
         pdfs.append({
-            "name": f.stem,
-            "category": category,
-            "filename": rel.as_posix(),
-            "url": f"/pdfs/{rel.as_posix()}",
-            "size_kb": round(f.stat().st_size / 1024),
+            "name": doc["name"],
+            "category": "leyes-laborales",
+            "filename": doc["url"],
+            "url": doc["url"],
+            "desc": doc["desc"],
+            "source": "infoleg",
         })
     return {"pdfs": pdfs, "total": len(pdfs)}

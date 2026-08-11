@@ -12,6 +12,7 @@
 | 🟡 En proceso | Buscando fuente / descargando |
 | 🟢 Subido | Disponible en el núcleo |
 | 🟢+PDF | Subido con PDF original descargado |
+| 🟢+Infoleg | Enlace directo a Infoleg (texto oficial online) |
 
 ---
 
@@ -35,13 +36,14 @@
 
 | # | Documento | Estado | Fuente | Notas |
 |---|-----------|--------|--------|-------|
-| 10 | **Ley 20.744** — Ley de Contrato de Trabajo (LCT) | 🟢+PDF | Federación Aceitera | [PDF original](leyes-laborales/pdf-originales/ley-20744-LCT.pdf) (360K). [Texto estructurado](leyes-laborales/ley-20744-lct.md) con artículos clave y impacto DNU. |
-| 11 | **Ley 24.013** — Ley de Empleo | 🟢+PDF | Federación Aceitera | [PDF original](leyes-laborales/pdf-originales/ley-24013-empleo.pdf) (248K). |
-| 12 | **Ley 23.551** — Ley de Asociaciones Sindicales + Dec. 487/88 | 🟢+PDF | Federación Aceitera | [PDF original](leyes-laborales/pdf-originales/ley-23551-asociaciones-sindicales.pdf) (280K). |
-| 13 | **Ley 14.250** — Ley de Convenciones Colectivas | 🟢+PDF | Federación Aceitera | [PDF original](leyes-laborales/pdf-originales/ley-14250-convenciones-colectivas.pdf) (60K). |
-| 14 | **Ley 19.587** — Higiene y Seguridad + Dec. 351/79 | 🟢+PDF | Federación Aceitera | [PDF original](leyes-laborales/pdf-originales/ley-19587-higiene-seguridad-Dec351-79.pdf) (676K). |
-| 15 | **Ley 24.557** — Accidentes de Trabajo (ART) | 🟢+PDF | Federación Aceitera | [PDF original](leyes-laborales/pdf-originales/ley-24557-accidentes-trabajo.pdf) (124K). |
-| 16 | **Ley 23.546** — Negociación Colectiva (procedimiento) | 🟢+PDF | Federación Aceitera | [PDF original](leyes-laborales/pdf-originales/ley-23546-negociacion-colectiva.pdf) (16K). |
+| 10 | **Ley 20.744** — Ley de Contrato de Trabajo (LCT) | 🟢+Infoleg | [Infoleg](https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/norma.htm) | [Texto estructurado](leyes-laborales/ley-20744-lct.md) con artículos clave y impacto DNU. |
+| 11 | **Ley 24.013** — Ley de Empleo | 🟢+Infoleg | [Infoleg](https://servicios.infoleg.gob.ar/infolegInternet/anexos/0-4999/412/texact.htm) | |
+| 12 | **Ley 23.551** — Ley de Asociaciones Sindicales | 🟢+Infoleg | [Infoleg](https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=20993) | |
+| 13 | **Ley 14.250** — Ley de Convenciones Colectivas | 🟢+Infoleg | [Infoleg](https://servicios.infoleg.gob.ar/infolegInternet/anexos/45000-49999/46379/norma.htm) | |
+| 14 | **Ley 19.587** — Higiene y Seguridad en el Trabajo | 🟢+Infoleg | [Infoleg](https://servicios.infoleg.gob.ar/infolegInternet/anexos/15000-19999/17612/norma.htm) | |
+| 14b | **Decreto 351/79** — Reglamentario de la Ley 19.587 | 🟢+Infoleg | [Infoleg](https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=32030) | Antes incluido en el PDF de la Ley 19.587, ahora separado con su propio enlace. |
+| 15 | **Ley 24.557** — Riesgos del Trabajo (LRT) | 🟢+Infoleg | [Infoleg](https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/27971/norma.htm) | |
+| 16 | **Ley 23.546** — Negociación Colectiva (procedimiento) | 🟢+Infoleg | [Infoleg](https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=21112) | |
 | 17 | **DNU 70/2023** — Decreto de Necesidad y Urgencia (reforma laboral Milei) | 🔴 | INFOLEG / Boletín Oficial | Artículos laborales del DNU. Crucial para entender el contexto actual. |
 | 18 | **Ley 27.742 (Ley Bases)** — Artículos laborales | 🔴 | INFOLEG / Boletín Oficial | Reforma laboral que parcialmente convirtió el DNU. |
 | 19 | **Catálogo leyes Federación Aceitera** | 🟢 | Federación Aceitera | [Catálogo creado](leyes-laborales/catalogo-leyes-federacion-aceitera.md) con 7 leyes + referencias CCT. |

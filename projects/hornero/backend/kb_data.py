@@ -664,13 +664,14 @@ DOCUMENTOS_CATALOG = {
         {"name": "Actas comités mixtos 2016", "desc": "Actas de comités mixtos de salud y seguridad", "pdf": "/pdfs/convenios-colectivos/actas-comites-mixtos-2016.pdf"},
     ],
     "leyes-laborales": [
-        {"name": "Ley 20744 — LCT", "desc": "Ley de Contrato de Trabajo", "pdf": "/pdfs/leyes-laborales/ley-20744-LCT.pdf"},
-        {"name": "Ley 14250 — Convenciones colectivas", "desc": "Régimen de convenciones colectivas de trabajo", "pdf": "/pdfs/leyes-laborales/ley-14250-convenciones-colectivas.pdf"},
-        {"name": "Ley 23551 — Asociaciones sindicales", "desc": "Régimen de asociaciones sindicales", "pdf": "/pdfs/leyes-laborales/ley-23551-asociaciones-sindicales.pdf"},
-        {"name": "Ley 23546 — Negociación colectiva", "desc": "Negociación colectiva laboral", "pdf": "/pdfs/leyes-laborales/ley-23546-negociacion-colectiva.pdf"},
-        {"name": "Ley 24013 — Empleo", "desc": "Ley Nacional de Empleo", "pdf": "/pdfs/leyes-laborales/ley-24013-empleo.pdf"},
-        {"name": "Ley 24557 — Accidentes de trabajo", "desc": "Riesgos del trabajo y accidentes laborales", "pdf": "/pdfs/leyes-laborales/ley-24557-accidentes-trabajo.pdf"},
-        {"name": "Ley 19587 + Dec 351/79 — Higiene y seguridad", "desc": "Higiene y seguridad en el trabajo", "pdf": "/pdfs/leyes-laborales/ley-19587-higiene-seguridad-Dec351-79.pdf"},
+        {"name": "Ley 20744 — LCT", "desc": "Ley de Contrato de Trabajo", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/norma.htm", "source": "infoleg"},
+        {"name": "Ley 14250 — Convenciones colectivas", "desc": "Régimen de convenciones colectivas de trabajo", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/45000-49999/46379/norma.htm", "source": "infoleg"},
+        {"name": "Ley 23551 — Asociaciones sindicales", "desc": "Régimen de asociaciones sindicales", "url": "https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=20993", "source": "infoleg"},
+        {"name": "Ley 23546 — Negociación colectiva", "desc": "Normas de procedimiento para negociaciones colectivas", "url": "https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=21112", "source": "infoleg"},
+        {"name": "Ley 24013 — Empleo", "desc": "Ley Nacional de Empleo", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/0-4999/412/texact.htm", "source": "infoleg"},
+        {"name": "Ley 24557 — Riesgos del trabajo", "desc": "Ley sobre Riesgos del Trabajo (LRT)", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/27971/norma.htm", "source": "infoleg"},
+        {"name": "Ley 19587 — Higiene y seguridad", "desc": "Ley de Higiene y Seguridad en el Trabajo", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/15000-19999/17612/norma.htm", "source": "infoleg"},
+        {"name": "Decreto 351/79 — Reglamentario Ley 19587", "desc": "Reglamentación de la Ley de Higiene y Seguridad", "url": "https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=32030", "source": "infoleg"},
     ],
     "prensa-sindical": [
         {"name": "El Trabajador Aceitero y Desmotador N°5", "desc": "Noviembre 2016 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_n05_noviembre_2016.pdf"},
@@ -699,10 +700,15 @@ def get_documentos_catalog_text() -> str:
         elif category == "prensa-sindical":
             lines.append("📰 PRENSA SINDICAL:")
         for doc in docs:
-            pdf_url = f"{backend_url}{doc['pdf']}"
-            lines.append(f"  • {doc['name']} — {doc['desc']} [Ver PDF]({pdf_url})")
+            if doc.get("source") == "infoleg":
+                # Leyes: link directo a Infoleg
+                lines.append(f"  • {doc['name']} — {doc['desc']} [Ver en Infoleg]({doc['url']})")
+            else:
+                # PDFs locales: link al backend
+                pdf_url = f"{backend_url}{doc['pdf']}"
+                lines.append(f"  • {doc['name']} — {doc['desc']} [Ver PDF]({pdf_url})")
         lines.append("")
-    lines.append("⚠️ REGLA OBLIGATORIA: Cuando un trabajador pregunte qué documentos o leyes hay disponibles, listá estos documentos con sus nombres y descripciones. PARA CADA DOCUMENTO, INCLUÍ SIEMPRE el enlace PDF como link markdown [Ver PDF](url) — el trabajador debe poder clickear y acceder al documento. NUNCA listes documentos sin el enlace PDF.")
+    lines.append("⚠️ REGLA OBLIGATORIA: Cuando un trabajador pregunte qué documentos o leyes hay disponibles, listá estos documentos con sus nombres y descripciones. PARA CADA DOCUMENTO, INCLUÍ SIEMPRE el enlace como link markdown — [Ver en Infoleg](url) para leyes o [Ver PDF](url) para convenios y prensa. El trabajador debe poder clickear y acceder al documento. NUNCA listes documentos sin el enlace.")
     return "\n".join(lines)
 
 

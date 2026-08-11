@@ -256,8 +256,8 @@ class HorneroArchivo extends HoComponent {
                 <div class="doc-name">${d.name}</div>
                 <div class="doc-desc">${d.desc}</div>
               </div>
-              <a class="doc-link" href="${HorneroArchivo.PDF_BASE_URL}${d.url}"
-                 target="_blank" rel="noopener">Ver PDF ↗</a>
+              <a class="doc-link" href="${d.isExternal ? d.url : HorneroArchivo.PDF_BASE_URL + d.url}"
+                 target="_blank" rel="noopener">${d.isExternal ? 'Infoleg ↗' : 'Ver PDF ↗'}</a>
             </div>
           `).join('')}
         `).join('')}
@@ -468,6 +468,7 @@ class HorneroArchivo extends HoComponent {
       const data = await response.json();
       // Map PDFs to our format with desc from catalog
       const catalogDescs = {
+        // Convenios y paritarias (PDFs locales)
         'CCT-420-05.pdf': 'Convenio Colectivo de Trabajo 420/05',
         'paritaria-acuerdo-2023-dic.pdf': 'Acuerdo paritario diciembre 2023',
         'paritaria-acuerdo-2024-sep.pdf': 'Acuerdo paritario septiembre 2024',
@@ -479,15 +480,22 @@ class HorneroArchivo extends HoComponent {
         'acuerdo-tercer-cuarto-turno-2010.pdf': 'Acuerdo de tercer y cuarto turno',
         'acta-clasificacion-categorias-2014.pdf': 'Clasificación de categorías laborales',
         'actas-comites-mixtos-2016.pdf': 'Actas de comités mixtos de salud y seguridad',
-        'ley-20744-LCT.pdf': 'Ley de Contrato de Trabajo',
-        'ley-14250-convenciones-colectivas.pdf': 'Régimen de convenciones colectivas de trabajo',
-        'ley-23551-asociaciones-sindicales.pdf': 'Régimen de asociaciones sindicales',
-        'ley-23546-negociacion-colectiva.pdf': 'Negociación colectiva laboral',
-        'ley-24013-empleo.pdf': 'Ley Nacional de Empleo',
-        'ley-24557-accidentes-trabajo.pdf': 'Riesgos del trabajo y accidentes laborales',
-        'ley-19587-higiene-seguridad-Dec351-79.pdf': 'Higiene y seguridad en el trabajo',
+      };
+      // Leyes laborales: descripciones por nombre (Infoleg, sin PDF local)
+      const leyesDescs = {
+        'Ley 20744 — LCT': 'Ley de Contrato de Trabajo',
+        'Ley 14250 — Convenciones colectivas': 'Régimen de convenciones colectivas de trabajo',
+        'Ley 23551 — Asociaciones sindicales': 'Régimen de asociaciones sindicales',
+        'Ley 23546 — Negociación colectiva': 'Negociación colectiva laboral',
+        'Ley 24013 — Empleo': 'Ley Nacional de Empleo',
+        'Ley 24557 — Riesgos del trabajo': 'Riesgos del trabajo y accidentes laborales',
+        'Ley 19587 — Higiene y seguridad': 'Higiene y seguridad en el trabajo',
+        'Decreto 351/79 — Reglamentario Ley 19587': 'Reglamentación de la Ley de Higiene y Seguridad',
       };
       this._docs = (data.pdfs || []).map(d => {
+        if (d.source === 'infoleg') {
+          return { ...d, desc: leyesDescs[d.name] || d.desc || d.category, isExternal: true };
+        }
         const filename = d.filename.split('/').pop();
         return {
           ...d,
