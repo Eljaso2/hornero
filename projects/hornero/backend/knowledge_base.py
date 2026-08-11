@@ -457,7 +457,7 @@ PERSONA_NAME_MAP = {
 }
 
 
-from kb_data import KB_CHUNKS, get_chunks_text, rebuild_knowledge_base_string
+from kb_data import KB_CHUNKS, get_chunks_text, rebuild_knowledge_base_string, get_documentos_catalog_text
 
 
 # ===== SYSTEM PROMPTS (persona + principios + knowledge base) =====
@@ -556,6 +556,19 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
         # No specific chunks matched — include topic guide so IA knows what it can discuss
         available_topics = ", ".join(set(c["category"] for c in KB_CHUNKS))
         prompt += f"\n\nTEMAS DISPONIBLES: {available_topics}. Si la pregunta no coincide con ninguno, respondé lo que puedas y sugerí temas relacionados."
+
+    # Inject documents catalog when query is about laws/convenios/documentos
+    # This lets the LLM list available documents when asked
+    if query:
+        doc_keywords = ["ley", "leyes", "convenio", "convenios", "cct", "paritaria",
+                        "paritarias", "documento", "documentos", "legislación",
+                        "legislacion", "laboral", "normativa", "reglamento",
+                        "estatuto", "código", "codigo", "acuerdo", "acta",
+                        "qué leyes", "que leyes", "qué documentos", "que documentos",
+                        "listado", "catálogo", "catalogo"]
+        query_lower = query.lower()
+        if any(kw in query_lower for kw in doc_keywords):
+            prompt += "\n\n" + get_documentos_catalog_text()
 
     # Add dynamic clipping if available
     if clipping_items:

@@ -639,8 +639,57 @@ def get_chunks_text(chunk_ids: list) -> str:
             lines.append(f"Imagen: {chunk['image']}")
         if chunk.get("imageSource"):
             lines.append(f"Link: {chunk['imageSource']}")
+        if chunk.get("pdf_url"):
+            lines.append(f"PDF: {chunk['pdf_url']}")
         lines.append("")
 
+    return "\n".join(lines)
+
+
+# ===== Available PDF documents catalog =====
+# Used to tell the LLM what documents exist, so it can list them when asked
+
+DOCUMENTOS_CATALOG = {
+    "convenios-colectivos": [
+        {"name": "CCT 420/05", "desc": "Convenio Colectivo de Trabajo 420/05", "pdf": "/pdfs/convenios-colectivos/CCT-420-05.pdf"},
+        {"name": "Paritaria acuerdo dic 2023", "desc": "Acuerdo paritario diciembre 2023", "pdf": "/pdfs/convenios-colectivos/paritaria-acuerdo-2023-dic.pdf"},
+        {"name": "Paritaria acuerdo sep 2024", "desc": "Acuerdo paritario septiembre 2024", "pdf": "/pdfs/convenios-colectivos/paritaria-acuerdo-2024-sep.pdf"},
+        {"name": "Paritaria revisión abr 2024", "desc": "Revisión paritaria abril 2024", "pdf": "/pdfs/convenios-colectivos/paritaria-revision-2024-abr.pdf"},
+        {"name": "Paritaria reajuste ene 2024", "desc": "Reajuste paritario enero 2024", "pdf": "/pdfs/convenios-colectivos/paritaria-reajuste-2024-jan.pdf"},
+        {"name": "Paritaria acuerdo abr 2025", "desc": "Acuerdo paritario abril 2025", "pdf": "/pdfs/convenios-colectivos/paritaria-acuerdo-2025-abr.pdf"},
+        {"name": "Paritaria acuerdo nov 2026", "desc": "Acuerdo paritario noviembre 2026", "pdf": "/pdfs/convenios-colectivos/paritaria-acuerdo-2026-nov.pdf"},
+        {"name": "Paritaria suma extraordinaria nov 2026", "desc": "Suma extraordinaria noviembre 2026", "pdf": "/pdfs/convenios-colectivos/paritaria-suma-extraordinaria-2026-nov.pdf"},
+        {"name": "Acuerdo tercer y cuarto turno 2010", "desc": "Acuerdo de tercer y cuarto turno", "pdf": "/pdfs/convenios-colectivos/acuerdo-tercer-cuarto-turno-2010.pdf"},
+        {"name": "Acta clasificación categorías 2014", "desc": "Clasificación de categorías laborales", "pdf": "/pdfs/convenios-colectivos/acta-clasificacion-categorias-2014.pdf"},
+        {"name": "Actas comités mixtos 2016", "desc": "Actas de comités mixtos de salud y seguridad", "pdf": "/pdfs/convenios-colectivos/actas-comites-mixtos-2016.pdf"},
+    ],
+    "leyes-laborales": [
+        {"name": "Ley 20744 — LCT", "desc": "Ley de Contrato de Trabajo", "pdf": "/pdfs/leyes-laborales/ley-20744-LCT.pdf"},
+        {"name": "Ley 14250 — Convenciones colectivas", "desc": "Régimen de convenciones colectivas de trabajo", "pdf": "/pdfs/leyes-laborales/ley-14250-convenciones-colectivas.pdf"},
+        {"name": "Ley 23551 — Asociaciones sindicales", "desc": "Régimen de asociaciones sindicales", "pdf": "/pdfs/leyes-laborales/ley-23551-asociaciones-sindicales.pdf"},
+        {"name": "Ley 23546 — Negociación colectiva", "desc": "Negociación colectiva laboral", "pdf": "/pdfs/leyes-laborales/ley-23546-negociacion-colectiva.pdf"},
+        {"name": "Ley 24013 — Empleo", "desc": "Ley Nacional de Empleo", "pdf": "/pdfs/leyes-laborales/ley-24013-empleo.pdf"},
+        {"name": "Ley 24557 — Accidentes de trabajo", "desc": "Riesgos del trabajo y accidentes laborales", "pdf": "/pdfs/leyes-laborales/ley-24557-accidentes-trabajo.pdf"},
+        {"name": "Ley 19587 + Dec 351/79 — Higiene y seguridad", "desc": "Higiene y seguridad en el trabajo", "pdf": "/pdfs/leyes-laborales/ley-19587-higiene-seguridad-Dec351-79.pdf"},
+    ],
+}
+
+
+def get_documentos_catalog_text() -> str:
+    """Format the documents catalog as text for system prompt injection.
+
+    Used when the user asks about available documents/leyes/convenios.
+    """
+    lines = ["=== DOCUMENTOS DISPONIBLES PARA CONSULTA ===", ""]
+    for category, docs in DOCUMENTOS_CATALOG.items():
+        if category == "convenios-colectivos":
+            lines.append("📋 CONVENIOS COLECTIVOS Y PARITARIAS:")
+        elif category == "leyes-laborales":
+            lines.append("⚖️ LEYES LABORALES:")
+        for doc in docs:
+            lines.append(f"  • {doc['name']} — {doc['desc']} (PDF: {doc['pdf']})")
+        lines.append("")
+    lines.append("Cuando un trabajador pregunte qué documentos o leyes hay disponibles, listá estos documentos con sus nombres y descripciones. Podés ofrecer el PDF para consulta directa.")
     return "\n".join(lines)
 
 
