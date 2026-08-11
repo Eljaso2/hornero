@@ -863,6 +863,7 @@ async def get_knowledge_base(category: str = None, tipo: str = None):
             "quotes_count": len(c.get("quotes", [])),
             "grade_access": c["grade_access"],
             "vigencia": c["vigencia"],
+            **({"pdf_url": c["pdf_url"]} if "pdf_url" in c else {}),
         })
 
     return {
