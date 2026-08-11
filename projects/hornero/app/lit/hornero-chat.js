@@ -2934,7 +2934,14 @@ class HorneroChat extends HoComponent {
         if (msg && msg.download && msg.download.content) {
           const blob = new Blob([msg.download.content], { type: 'text/plain;charset=utf-8' });
           const blobUrl = URL.createObjectURL(blob);
-          // Open in new tab so user can read immediately
+          // Download as .txt
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = msg.download.filename || 'chat-hornero.txt';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          // Also open in new tab so user can read immediately
           window.open(blobUrl, '_blank');
           this._showDownloadToast(msg.download.filename || 'chat-hornero');
         }
@@ -3097,7 +3104,14 @@ class HorneroChat extends HoComponent {
         if (msg && msg.download && msg.download.content) {
           const blob = new Blob([msg.download.content], { type: 'text/plain;charset=utf-8' });
           const blobUrl = URL.createObjectURL(blob);
-          // Open in new tab so user can read immediately
+          // Download as .txt
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = msg.download.filename || 'chat-hornero.txt';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          // Also open in new tab so user can read immediately
           window.open(blobUrl, '_blank');
           this._showDownloadToast(msg.download.filename || 'chat-hornero');
         }
@@ -3289,7 +3303,14 @@ ${msgs.map(m => {
     const htmlContent = this._buildChatHtml(messages, title);
     const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-    // Open HTML in new tab so user can read it immediately — no need to hunt for file
+    // Download as .html file
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (filename || title || 'chat-hornero') + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    // Also open in new tab so user can read immediately
     window.open(url, '_blank');
     this._showDownloadToast(filename || title || 'chat-hornero');
   }
@@ -3363,7 +3384,14 @@ ${msgs.map(m => {
     const body = this._generateTxtContent(messages, title);
     const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-    // Open in new tab so user can read immediately — no need to hunt for downloaded file
+    // Download as .txt file
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (filename || title || 'chat-hornero') + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    // Also open in new tab so user can read immediately
     window.open(url, '_blank');
     this._showDownloadToast(filename || title || 'chat-hornero');
   }
