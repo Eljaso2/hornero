@@ -21,6 +21,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import httpx
 
@@ -1673,3 +1674,32 @@ def _validate_parsed_response(parsed: dict) -> bool:
             return False
 
     return True
+
+
+# ===== PDFs estáticos — fuentes RAG accesibles =====
+# Sirve los PDFs de convenios y leyes para consulta directa
+import pathlib as _pl
+_pdfs_dir = _pl.Path(__file__).parent / "pdfs"
+if _pdfs_dir.is_dir():
+    app.mount("/pdfs", StaticFiles(directory=str(_pdfs_dir)), name="pdfs")
+    logger.info(f"PDFs served from {_pdfs_dir}")
+
+
+@app.get("/api/pdfs")
+async def list_pdfs():
+    """Lista los PDFs disponibles para consulta."""
+    pdfs = []
+    base = _pl.Path(__file__).parent / "pdfs"
+    if not base.is_dir():
+        return {"pdfs": []}
+    for f in sorted(base.rglob("*.pdf")):
+        rel = f.relative_to(base)
+        category = rel.parts[0] if len(rel.parts) > 1 else "general"
+        pdfs.append({
+            "name": f.stem,
+            "category": category,
+            "filename": rel.as_posix(),
+            "url": f"/pdfs/{rel.as_posix()}",
+            "size_kb": round(f.stat().st_size / 1024),
+        })
+    return {"pdfs": pdfs, "total": len(pdfs)}
