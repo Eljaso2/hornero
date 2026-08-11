@@ -672,6 +672,10 @@ DOCUMENTOS_CATALOG = {
         {"name": "Ley 24557 — Accidentes de trabajo", "desc": "Riesgos del trabajo y accidentes laborales", "pdf": "/pdfs/leyes-laborales/ley-24557-accidentes-trabajo.pdf"},
         {"name": "Ley 19587 + Dec 351/79 — Higiene y seguridad", "desc": "Higiene y seguridad en el trabajo", "pdf": "/pdfs/leyes-laborales/ley-19587-higiene-seguridad-Dec351-79.pdf"},
     ],
+    "prensa-sindical": [
+        {"name": "El Trabajador Aceitero y Desmotador N°5", "desc": "Noviembre 2016 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_n05_noviembre_2016.pdf"},
+        {"name": "El Trabajador Aceitero y Desmotador N°7", "desc": "Abril 2019 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_7_abril_2019.pdf"},
+    ],
 }
 
 
@@ -692,6 +696,8 @@ def get_documentos_catalog_text() -> str:
             lines.append("📋 CONVENIOS COLECTIVOS Y PARITARIAS:")
         elif category == "leyes-laborales":
             lines.append("⚖️ LEYES LABORALES:")
+        elif category == "prensa-sindical":
+            lines.append("📰 PRENSA SINDICAL:")
         for doc in docs:
             pdf_url = f"{backend_url}{doc['pdf']}"
             lines.append(f"  • {doc['name']} — {doc['desc']} [Ver PDF]({pdf_url})")
