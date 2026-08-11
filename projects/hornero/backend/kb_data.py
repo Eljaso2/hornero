@@ -679,7 +679,13 @@ def get_documentos_catalog_text() -> str:
     """Format the documents catalog as text for system prompt injection.
 
     Used when the user asks about available documents/leyes/convenios.
+    PDF URLs are absolute (pointing to the backend) so they work as clickable links in chat.
     """
+    import os
+    backend_url = os.getenv("APP_BACKEND_URL", "https://hornero-ia.onrender.com")
+    # Remove trailing slash
+    backend_url = backend_url.rstrip("/")
+
     lines = ["=== DOCUMENTOS DISPONIBLES PARA CONSULTA ===", ""]
     for category, docs in DOCUMENTOS_CATALOG.items():
         if category == "convenios-colectivos":
@@ -687,9 +693,10 @@ def get_documentos_catalog_text() -> str:
         elif category == "leyes-laborales":
             lines.append("⚖️ LEYES LABORALES:")
         for doc in docs:
-            lines.append(f"  • {doc['name']} — {doc['desc']} (PDF: {doc['pdf']})")
+            pdf_url = f"{backend_url}{doc['pdf']}"
+            lines.append(f"  • {doc['name']} — {doc['desc']} (PDF: {pdf_url})")
         lines.append("")
-    lines.append("Cuando un trabajador pregunte qué documentos o leyes hay disponibles, listá estos documentos con sus nombres y descripciones. Podés ofrecer el PDF para consulta directa.")
+    lines.append("Cuando un trabajador pregunte qué documentos o leyes hay disponibles, listá estos documentos con sus nombres y descripciones. Incluí el enlace PDF como link markdown: [Ver PDF](url). Podés ofrecer el PDF para consulta directa.")
     return "\n".join(lines)
 
 
