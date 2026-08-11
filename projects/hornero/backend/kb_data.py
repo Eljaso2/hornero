@@ -22,11 +22,9 @@ import os
 
 # ===== Taxonomía =====
 
-KB_TIPOS = ["documento", "academico", "multimedia"]
+KB_TIPOS = ["academico", "prensa", "noticias", "documentos", "audiovisual"]
 KB_CATEGORIES = [
-    "organizacion", "convenio", "paritaria", "smvm",
-    "reforma", "condiciones", "referentes", "violencia-empresarial",
-    "historia-obrera", "prensa-sindical",
+    "academico", "prensa", "noticias", "documentos", "audiovisual",
 ]
 
 # ===== Chunks estructurados =====
@@ -36,8 +34,8 @@ KB_CHUNKS = [
     {
         "id": "kb-org-federacion",
         "tipo": "documento",
-        "category": "organizacion",
-        "tags": ["federacion", "aceitera", "FOEIAP", "F.T.C.I.O.D", "paritaria", "huelga", "democracia sindical", "formacion", "salud laboral", "tercerizacion", "precarizacion", "neoliberalismo", "UOM", "ATE", "URGARA"],
+        "category": "documentos",
+        "tags": ["federacion", "aceitera", "FOEIAP", "F.T.C.I.O.D", "paritaria", "huelga", "democracia sindical", "formacion", "salud laboral", "tercerizacion", "precarizacion", "neoliberalismo", "UOM", "ATE", "URGARA", "organizacion"],
         "title": "Federación Aceitera — F.T.C.I.O.D y A.R.A.",
         "text": """FEDERACIÓN ACEITERA — F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina). Es la federación sindical que representa a los trabajadores aceiteros, desmotadores de algodón y afines de todo el país. Negocia paritarias salariales con las cámaras patronales (CIARA, CIAVEC, CARBIO). Organiza huelgas nacionales cuando las patronales no ofrecen aumentos dignos — en 2026 llamó a Huelga Nacional Aceitera tras recibir oferta de 0%. Defiende la democracia sindical — commemora la movilización del 17 de julio 2013 donde más de 500 trabajadores marcharon para defender la gestión democrática. Promueve formación sindical, salud laboral (Comités Mixtos en Salud y Seguridad Laboral), y acción social. Solidaria con otros sindicatos (UOM, ATE, URGARA, Dragado y Balizamiento). Combate la tercerización, la precarización laboral, y las políticas neoliberales. Tiene periódico propio: "El Trabajador Aceitero y Desmotador". Sede: México 1527/31, CABA. Tel: (011) 4382-7513. Web: federacionaceitera.com.ar. Twitter: @FTCIODyARA. Instagram: @aceiterosdesmotadores.
 Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual es F.T.C.I.O.D y A.R.A.""",
@@ -50,8 +48,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-org-yofra",
         "tipo": "documento",
-        "category": "referentes",
-        "tags": ["yofra", "Daniel Yofra", "secretario general", "paritaria", "huelga", "FreSU", "organizacion", "convenio", "referente sindical"],
+        "category": "academico",
+        "tags": ["yofra", "Daniel Yofra", "secretario general", "paritaria", "huelga", "FreSU", "organizacion", "convenio", "referente sindical", "referentes"],
         "title": "Daniel Yofra — Secretario General F.T.C.I.O.D y A.R.A.",
         "text": """DANIEL YOFRA — Secretario General de la F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines). Líder sindical aceitero argentino. Referente en paritaria aceitera 2025-2026, organización sindical, resistencia a la reforma laboral. Construyó FreSU (Frente Sindical Unitario) con 100 organizaciones. Condujo huelga de 7 días que forzó negociación paritaria 2025. Sus posiciones: defensa del convenio, organización como construcción, huelga como herramienta, "la propuesta patronal fue cero".""",
         "sources": ["Asamblea paritaria aceitera, junio 2026", "Gestión Sindical, diciembre 2025"],
@@ -65,8 +63,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-org-cremonte",
         "tipo": "academico",
-        "category": "referentes",
-        "tags": ["Cremonte", "investigador", "labour", "derecho laboral", "distribucion del ingreso", "salario minimo", "reforma laboral", "SMVM", "ALAL", "OIT", "LCT", "principio protector", "ultraactividad"],
+        "category": "academico",
+        "tags": ["Cremonte", "investigador", "labour", "derecho laboral", "distribucion del ingreso", "salario minimo", "reforma laboral", "SMVM", "ALAL", "OIT", "LCT", "principio protector", "ultraactividad", "referentes"],
         "title": "Cremonte — Investigador labour / ALAL / CIFRA",
         "text": """CREMONTE — Investigador labour (derecho laboral). Analista de distribución del ingreso, salario mínimo, reforma laboral. Autor de "Valor y precio de la fuerza de trabajo" (2023). Participa en ALAL (Asociación Americana de Juristas Laboralistas), audiencias congressional, conferencia OIT Geneva 2026. Sus posiciones: reforma laboral como retorno al siglo XIX, principio protector de la LCT, ultraactividad como red de negociación, básico del convenio debajo del SMVM como violación del piso legal, distribución del ingreso como relación de fuerzas.""",
         "sources": ["Valor y precio de la fuerza de trabajo, Cremonte 2023", "CIFRA 2025"],
@@ -81,8 +79,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-org-vicentin",
         "tipo": "documento",
-        "category": "condiciones",
-        "tags": ["Vicentín", "SAIC", "empresa aceitera", "concurso preventivo", "paritaria", "Reconquista", "Santa Fe", "expeller", "refinado", "retencion exportacion"],
+        "category": "documentos",
+        "tags": ["Vicentín", "SAIC", "empresa aceitera", "concurso preventivo", "paritaria", "Reconquista", "Santa Fe", "expeller", "refinado", "retencion exportacion", "condiciones"],
         "title": "Vicentín SAIC — Empresa aceitera",
         "text": """VICENTÍN SAIC — Empresa aceitera argentina. En concurso preventivo. Planta funcionando al 80% de capacidad. Argumenta que concurso limita posibilidades en paritaria. Prioriza expeller sobre refinado (menor retención exportación = empresa ahorra impuestos).""",
         "sources": ["Informe gremial FOEIAP, junio 2026"],
@@ -94,8 +92,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-org-guaycuru",
         "tipo": "documento",
-        "category": "condiciones",
-        "tags": ["Guaycurú", "desmotadora", "algodon", "planta auxiliar", "trabajadores temporales", "polvo algodon", "EPP", "Chaco"],
+        "category": "documentos",
+        "tags": ["Guaycurú", "desmotadora", "algodon", "planta auxiliar", "trabajadores temporales", "polvo algodon", "EPP", "Chaco", "condiciones"],
         "title": "Guaycurú — Desmotadora de algodón",
         "text": """GUAYCURÚ — Desmotadora de algodón (planta aceitera auxiliar). 1 línea de 2 operativa. Trabajadores temporales sin cobrar días no trabajados. Polvo de algodón sin máscaras adecuadas.""",
         "sources": ["Informe gremial FOEIAP, junio 2026"],
@@ -108,7 +106,7 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-cct-420",
         "tipo": "documento",
-        "category": "convenio",
+        "category": "documentos",
         "tags": ["CCT 420/05", "aceitero", "convenio", "Resolucion ST 343/2005", "categorias obreras", "nocturno", "extras", "antiguedad", "presentismo", "Dia del Aceitero", "enfermeria", "Art. 42", "contribucion solidaria", "basico"],
         "title": "CCT 420/05 — Aceiteros, Resolución ST 343/2005",
         "text": """CCT 420/05 homologado por Resolución ST 343/2005
@@ -132,7 +130,7 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-paritaria-2026",
         "tipo": "documento",
-        "category": "paritaria",
+        "category": "documentos",
         "tags": ["paritaria", "aceitera", "2026", "SOMU", "15%", "8%", "Caputo", "huelga", "basico", "SMVM", "convenio", "Yofra", "Vicentin", "concurso preventivo"],
         "title": "Paritaria aceitera 2026 — F.T.C.I.O.D y A.R.A./SOMU",
         "text": """Paritaria aceitera 2026:
@@ -154,8 +152,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-smvm-basico",
         "tipo": "academico",
-        "category": "smvm",
-        "tags": ["SMVM", "salario minimo", "basico convenio", "$2.344.000", "$340.000", "canasta basica", "inflacion obrera", "distribucion del ingreso", "Cremonte", "CIFRA", "piso legal", "violacion"],
+        "category": "documentos",
+        "tags": ["SMVM", "salario minimo", "basico convenio", "$2.344.000", "$340.000", "canasta basica", "inflacion obrera", "distribucion del ingreso", "Cremonte", "CIFRA", "piso legal", "violacion", "smvm"],
         "title": "SMVM y básico convenio — Cremonte 2023 / CIFRA 2025",
         "text": """SMVM y básico convenio:
 - SMVM julio 2026: $2.344.000
@@ -176,7 +174,7 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-condiciones-2026",
         "tipo": "documento",
-        "category": "condiciones",
+        "category": "documentos",
         "tags": ["condiciones laborales", "Vicentin", "80%", "EPP", "guantes", "botas", "enfermeria clausurada", "Art. 42", "accidentes", "prensa", "envasadora", "ritmo", "Guaycuru", "temporales", "polvo algodon", "barbijos", "informe gremial"],
         "title": "Condiciones laborales aceiteras — Informe gremial junio 2026",
         "text": """Condiciones laborales aceiteras, junio 2026:
@@ -200,8 +198,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-discursos-yofra",
         "tipo": "multimedia",
-        "category": "referentes",
-        "tags": ["yofra", "discursos", "organizacion", "paritaria", "huelga", "guerra", "cretino", "Quebracho", "FreSU", "asamblea"],
+        "category": "academico",
+        "tags": ["yofra", "discursos", "organizacion", "paritaria", "huelga", "guerra", "cretino", "Quebracho", "FreSU", "asamblea", "referentes"],
         "title": "Discursos de Daniel Yofra — Sec. Gral. F.T.C.I.O.D y A.R.A.",
         "text": """Discursos de Daniel Yofra, Sec. Gral. F.T.C.I.O.D y A.R.A.:
 
@@ -238,8 +236,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-discursos-cremonte",
         "tipo": "academico",
-        "category": "reforma",
-        "tags": ["Cremonte", "discursos", "reforma laboral", "principio protector", "LCT", "ultraactividad", "banco de horas", "responsabilidad internacional", "OIT", "distribucion del ingreso", "convenio", "ALAL", "bargaining"],
+        "category": "academico",
+        "tags": ["Cremonte", "discursos", "reforma laboral", "principio protector", "LCT", "ultraactividad", "banco de horas", "responsabilidad internacional", "OIT", "distribucion del ingreso", "convenio", "ALAL", "bargaining", "reforma-laboral"],
         "title": "Discursos de Cremonte — Investigador labour / ALAL / CIFRA",
         "text": """Discursos de Cremonte, investigador labour / ALAL / CIFRA:
 
@@ -289,8 +287,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-jasinski-forestal-fenomeno",
         "tipo": "academico",
-        "category": "violencia-empresarial",
-        "tags": ["La Forestal", "tanino", "quebracho", "empresa", "monopolio", "enclave", "Chaco santafesino", "Villa Ana", "Villa Guillermina", "Violencia empresarial", "lockout", "historia obrera", "masacre 1921", "Jasinski", "benefactora", "autoritarismo"],
+        "category": "academico",
+        "tags": ["La Forestal", "tanino", "quebracho", "empresa", "monopolio", "enclave", "Chaco santafesino", "Villa Ana", "Villa Guillermina", "Violencia empresarial", "lockout", "historia obrera", "masacre 1921", "Jasinski", "benefactora", "autoritarismo", "violencia-empresarial"],
         "title": "La Forestal: el fenómeno — Jasinski, El encanto del tanino (2023)",
         "text": """LA FORESTAL: EL FENÓMENO
 
@@ -313,8 +311,8 @@ Jasinski reinterpretó el fenómeno: las luchas sociales (huelgas, rebeliones, s
     {
         "id": "kb-jasinski-lockout",
         "tipo": "academico",
-        "category": "violencia-empresarial",
-        "tags": ["La Forestal", "lockout", "cierre fábricas", "paralización", "Tartagal", "Villa Ana", "Villa Guillermina", "La Gallareta", "migración obrera", "violencia empresarial", "presión despótica", "Jasinski", "Chaco santafesino", "tanino", "1920s"],
+        "category": "academico",
+        "tags": ["La Forestal", "lockout", "cierre fábricas", "paralización", "Tartagal", "Villa Ana", "Villa Guillermina", "La Gallareta", "migración obrera", "violencia empresarial", "presión despótica", "Jasinski", "Chaco santafesino", "tanino", "1920s", "violencia-empresarial"],
         "title": "La mordaza del lockout — Jasinski, El encanto del tanino, Cap. 6 (2023)",
         "text": """LA MORDAZA DEL LOCKOUT (La Forestal, 1920s-1930s)
 
@@ -336,8 +334,8 @@ El Departamento Provincial del Trabajo solicitaba informes sobre la posibilidad 
     {
         "id": "kb-jasinski-destruir-someter",
         "tipo": "academico",
-        "category": "violencia-empresarial",
-        "tags": ["La Forestal", "violencia empresarial", "Destruir someter depurar", "masacre", "1921", "represión", "Villa Ana", "Villa Guillermina", "pueblos forestales", "Jasinski", "expulsión", "depuración", "listas negras"],
+        "category": "academico",
+        "tags": ["La Forestal", "violencia empresarial", "Destruir someter depurar", "masacre", "1921", "represión", "Villa Ana", "Villa Guillermina", "pueblos forestales", "Jasinski", "expulsión", "depuración", "listas negras", "violencia-empresarial"],
         "title": "Destruir, someter, depurar — Jasinski, El encanto del tanino, Cap. 6 (2023)",
         "text": """DESTRUIR, SOMETER, DEPURAR (La Forestal, post-masacre 1921)
 
@@ -361,8 +359,8 @@ La "Forestal Benefactora" — la versión hegemónica — se construyó sobre es
     {
         "id": "kb-jasinski-sindicalismo",
         "tipo": "academico",
-        "category": "organizacion",
-        "tags": ["La Forestal", "sindicalismo", "anarquismo", "comunismo", "huelga", "1918", "1921", "Teófilo Lafuente", "Villa Ana", "Villa Guillermina", "La Gallareta", "organización obrera", "Jasinski", "centro social", "masacre", "rebelión"],
+        "category": "documentos",
+        "tags": ["La Forestal", "sindicalismo", "anarquismo", "comunismo", "huelga", "1918", "1921", "Teófilo Lafuente", "Villa Ana", "Villa Guillermina", "La Gallareta", "organización obrera", "Jasinski", "centro social", "masacre", "rebelión", "organizacion"],
         "title": "El sindicalismo metió la cola — Jasinski, El encanto del tanino, Cap. 7 (2023)",
         "text": """EL SINDICALISMO METIÓ LA COLA (La Forestal, 1918-1921)
 
@@ -382,8 +380,8 @@ Teófilo Lafuente fue el primer secretario general del tanino. Desde Villa Guill
     {
         "id": "kb-jasinski-referentes-forestal",
         "tipo": "academico",
-        "category": "referentes",
-        "tags": ["La Forestal", "Teófilo Lafuente", "José Bernabé Vargas", "Rogelio Lamazón", "secretario general", "sindicalismo", "tanino", "Villa Guillermina", "Villa Ana", "comunismo", "anarquismo", "Jasinski", "1918", "1921", "1930s", "obrero comunista", "huelga"],
+        "category": "academico",
+        "tags": ["La Forestal", "Teófilo Lafuente", "José Bernabé Vargas", "Rogelio Lamazón", "secretario general", "sindicalismo", "tanino", "Villa Guillermina", "Villa Ana", "comunismo", "anarquismo", "Jasinski", "1918", "1921", "1930s", "obrero comunista", "huelga", "referentes"],
         "title": "Referentes obreros de La Forestal — Jasinski, El encanto del tanino (2023)",
         "text": """REFERENTES OBREROS DE LA FORESTAL
 
@@ -405,8 +403,8 @@ Rogelio Lamazón — Dirigente yrigoyenista. La Forestal le inculpaba tener part
     {
         "id": "kb-efem-1-mayo",
         "tipo": "academico",
-        "category": "efemeride",
-        "tags": ["1° de Mayo", "Día Internacional de los Trabajadores", "Chicago", "ocho horas", "mártires de Chicago", "1886", "1889", "Segunda Internacional", "huelga", "anarquismo", "socialismo"],
+        "category": "academico",
+        "tags": ["1° de Mayo", "Día Internacional de los Trabajadores", "Chicago", "ocho horas", "mártires de Chicago", "1886", "1889", "Segunda Internacional", "huelga", "anarquismo", "socialismo", "efemeride"],
         "title": "Efeméride: 1° de Mayo — Día Internacional de los Trabajadores",
         "text": """1° DE MAYO — DÍA INTERNACIONAL DE LOS TRABAJADORES
 
@@ -426,8 +424,8 @@ Autor: Gustavo N. Contreras. Fuente: Historia Obrera — Efemérides.""",
     {
         "id": "kb-efem-cgta",
         "tipo": "academico",
-        "category": "efemeride",
-        "tags": ["CGT de los Argentinos", "Ongaro", "1968", "vandorismo", "anti-dictatorial", "anti-burocrática", "anti-imperialista", "Programa de Luchas", "Tosco", "Cordobazo"],
+        "category": "academico",
+        "tags": ["CGT de los Argentinos", "Ongaro", "1968", "vandorismo", "anti-dictatorial", "anti-burocrática", "anti-imperialista", "Programa de Luchas", "Tosco", "Cordobazo", "efemeride"],
         "title": "Efeméride: La CGT de los Argentinos — 28 de marzo de 1968",
         "text": """LA CGT DE LOS ARGENTINOS — 28 DE MARZO DE 1968
 
@@ -447,8 +445,8 @@ Autor: Pablo Ghigliani. Fuente: Historia Obrera — Efemérides. Recursos: afich
     {
         "id": "kb-efem-cordobazo",
         "tipo": "academico",
-        "category": "efemeride",
-        "tags": ["Cordobazo", "1969", "Onganía", "Tosco", "Torres", "Máximo Mena", "azos", "Córdoba", "huelga", "dictadura", "sábado inglés", "Luz y Fuerza", "SMATA"],
+        "category": "academico",
+        "tags": ["Cordobazo", "1969", "Onganía", "Tosco", "Torres", "Máximo Mena", "azos", "Córdoba", "huelga", "dictadura", "sábado inglés", "Luz y Fuerza", "SMATA", "efemeride"],
         "title": "Efeméride: El Cordobazo — 29 de mayo de 1969",
         "text": """EL CORDOBAZO — 29 DE MAYO DE 1969
 
@@ -468,8 +466,8 @@ Autor: Laura Ortiz. Fuente: Historia Obrera — Efemérides. Bibliografía: Bren
     {
         "id": "kb-efem-viborazo",
         "tipo": "academico",
-        "category": "efemeride",
-        "tags": ["Viborazo", "1971", "Córdoba", "Uriburu", "Levingston", "SITRAC-SITRAM", "Fiat", "clasista", "Atilio López", "Tosco", "azos"],
+        "category": "academico",
+        "tags": ["Viborazo", "1971", "Córdoba", "Uriburu", "Levingston", "SITRAC-SITRAM", "Fiat", "clasista", "Atilio López", "Tosco", "azos", "efemeride"],
         "title": "Efeméride: El Viborazo — 15 de marzo de 1971",
         "text": """EL VIBORAZO — 15 DE MARZO DE 1971
 
@@ -489,8 +487,8 @@ Autor: Rodolfo Laufer. Fuente: Historia Obrera — Efemérides. Bibliografía: B
     {
         "id": "kb-efem-tampierazo",
         "tipo": "academico",
-        "category": "efemeride",
-        "tags": ["Tampierazo", "1973", "San Francisco", "Córdoba", "Tampieri", "Liwacki", "CGT", "ocupación", "fábrica", "Cordobacito", "Sanfranciscazo"],
+        "category": "academico",
+        "tags": ["Tampierazo", "1973", "San Francisco", "Córdoba", "Tampieri", "Liwacki", "CGT", "ocupación", "fábrica", "Cordobacito", "Sanfranciscazo", "efemeride"],
         "title": "Efeméride: El Tampierazo — 3 de julio de 1973",
         "text": """EL TAMPIERAZO — 3 DE JULIO DE 1973
 
@@ -510,8 +508,8 @@ Autor: Laura Ortiz. Fuente: Historia Obrera — Efemérides. Bibliografía: Góm
     {
         "id": "kb-efem-tosco-rucci",
         "tipo": "academico",
-        "category": "efemeride",
-        "tags": ["Tosco", "Rucci", "debate", "1973", "Canal 11", "Las dos campanas", "CGT de los Argentinos", "CGT Azopardo", "sindicalismo de liberación", "peronismo ortodoxo", "verticalismo"],
+        "category": "academico",
+        "tags": ["Tosco", "Rucci", "debate", "1973", "Canal 11", "Las dos campanas", "CGT de los Argentinos", "CGT Azopardo", "sindicalismo de liberación", "peronismo ortodoxo", "verticalismo", "efemeride"],
         "title": "Efeméride: El debate Tosco-Rucci — 13 de febrero de 1973",
         "text": """EL DEBATE TOSCO-RUCCI — 13 DE FEBRERO DE 1973
 
@@ -531,8 +529,8 @@ Autor: Rodolfo Laufer. Fuente: Historia Obrera — Efemérides. Bibliografía: I
     {
         "id": "kb-efem-santiagueñazo",
         "tipo": "academico",
-        "category": "efemeride",
-        "tags": ["Santiagueñazo", "1993", "Santiago del Estero", "Menem", "Cavallo", "neoliberalismo", "ajuste", "Casa de Gobierno", "estallido social", "Cutral Có"],
+        "category": "academico",
+        "tags": ["Santiagueñazo", "1993", "Santiago del Estero", "Menem", "Cavallo", "neoliberalismo", "ajuste", "Casa de Gobierno", "estallido social", "Cutral Có", "efemeride"],
         "title": "Efeméride: El Santiagueñazo — 16 de diciembre de 1993",
         "text": """EL SANTIAGUEÑAZO — 16 DE DICIEMBRE DE 1993
 
@@ -552,8 +550,8 @@ Autor: Gonzalo Pérez Álvarez. Fuente: Historia Obrera — Efemérides. Bibliog
     {
         "id": "kb-efem-argentinazo",
         "tipo": "academico",
-        "category": "efemeride",
-        "tags": ["Argentinazo", "2001", "De la Rúa", "Cavallo", "corralito", "cacerolazo", "19 y 20", "piqueteros", "neoliberalismo", "que se vayan todos"],
+        "category": "academico",
+        "tags": ["Argentinazo", "2001", "De la Rúa", "Cavallo", "corralito", "cacerolazo", "19 y 20", "piqueteros", "neoliberalismo", "que se vayan todos", "efemeride"],
         "title": "Efeméride: El Argentinazo — 19 de diciembre de 2001",
         "text": """EL ARGENTINAZO — 19 Y 20 DE DICIEMBRE DE 2001
 
@@ -649,17 +647,11 @@ def get_chunks_text(chunk_ids: list) -> str:
 # ===== Categories metadata for UI =====
 
 KB_CATEGORY_META = {
-    "organizacion": {"label": "Organización", "icon": "📄", "desc": "Federación, sindicato, referentes"},
-    "convenio": {"label": "Convenio", "icon": "📄", "desc": "CCT, cláusulas, resoluciones"},
-    "paritaria": {"label": "Paritaria", "icon": "📄", "desc": "Negociación salarial, huelga"},
-    "smvm": {"label": "SMVM", "icon": "📚", "desc": "Salario mínimo, básico, canasta básica"},
-    "reforma": {"label": "Reforma laboral", "icon": "📚", "desc": "LCT, ultraactividad, banco de horas"},
-    "condiciones": {"label": "Condiciones", "icon": "📄", "desc": "EPP, accidentes, enfermería, ritmo"},
-    "referentes": {"label": "Referentes", "icon": "📰", "desc": "Discursos, posiciones, quotes"},
-    "violencia-empresarial": {"label": "Violencia empresarial", "icon": "📚", "desc": "Lockout, represión, masacre, enclave"},
-    "efemeride": {"label": "Efemérides", "icon": "📅", "desc": "Fechas históricas del movimiento obrero"},
-    "historia-obrera": {"label": "Historia obrera", "icon": "📚", "desc": "Investigaciones históricas, masacres, lockouts, referentes"},
-    "prensa-sindical": {"label": "Prensa sindical", "icon": "📰", "desc": "Periódico, comunicados, volantes del gremio"},
+    "academico": {"label": "Académico", "icon": "📚", "desc": "Libros, artículos, papers, efemérides de Historia Obrera"},
+    "prensa": {"label": "Prensa", "icon": "📰", "desc": "Discursos, notas de opinión, periódicos gremiales, comunicados"},
+    "noticias": {"label": "Noticias", "icon": "📋", "desc": "Recortes de noticias archivados"},
+    "documentos": {"label": "Documentos", "icon": "📄", "desc": "Convenios, paritarias, CCT, SMVM, condiciones, org sindical"},
+    "audiovisual": {"label": "Audiovisual", "icon": "🎬", "desc": "Podcasts, videos, docuficción, ilustraciones"},
 }
 
 

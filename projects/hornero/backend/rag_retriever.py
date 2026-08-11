@@ -135,21 +135,29 @@ def _get_idf() -> dict:
 # ===== Category boosting map =====
 # When query terms match these category keywords, boost chunks in that category
 CATEGORY_KEYWORDS = {
-    "paritaria": ["paritaria", "paritaria", "aumento", "negociacion", "oferta", "salarial"],
-    "CCT": ["convenio", "cct", "convenio colectivo", "basico", "categoria"],
-    "reforma laboral": ["reforma", "dnu", "ley bases", "flexibilizacion", "bancos de horas"],
-    "SMVM": ["smvm", "salario minimo", "piso legal", "minimo vital"],
-    "organizacion sindical": ["sindicato", "organizacion", "asamblea", "delegado", "huelga"],
-    "historia obrera": ["forestal", "masacre", "lockout", "historia", "referente", "lafuente",
-                         "investigacion", "antropologica", "concesion", "masacre", "genocidio",
-                         "memoria", "verdad", "justicia", "reparacion", "testimonio",
-                         "pueblo originario", "despojo", "territorio"],
-    "efemeride": ["cordobazo", "viborazo", "tampierazo", "argentinazo", "santiagueñazo", "cgta", "efeméride", "efemeride", "aniversario", "conmemoración", "1° de mayo", "1 de mayo", "tosco", "rucci", "ongaro"],
-    "salud laboral": ["art", "seguridad", "enfermeria", "accidente", "salud"],
-    "condicion obrera": ["clase obrera", "clase trabajadora", "ejercito", "reserva", "ice", "ift", "panorama", "condicion", "como somos", "felicidad", "distribucion", "cremonte", "canasta"],
-    "prensa sindical": ["periodico", "comunicado", "volante", "editorial", "trabajador aceitero",
-                         "el trabajador aceitero", "desmotador", "posicion", "gremial", "ftciod",
-                         "foeiap", "federacion aceitera"],
+    # --- Categorías por tipo de fuente ---
+    "academico": ["libro", "articulo", "paper", "investigacion", "academico", "universidad",
+                  "forestal", "masacre", "lockout", "historia", "referente", "lafuente",
+                  "antropologica", "concesion", "genocidio", "memoria", "verdad", "justicia",
+                  "reparacion", "testimonio", "pueblo originario", "despojo", "territorio",
+                  "cordobazo", "viborazo", "tampierazo", "argentinazo", "santiagueñazo",
+                  "cgta", "efemeride", "aniversario", "conmemoracion", "1 de mayo", "tosco",
+                  "rucci", "ongaro", "reforma", "dnu", "ley bases", "flexibilizacion"],
+    "prensa": ["periodico", "comunicado", "volante", "editorial", "discurso", "opinion",
+               "trabajador aceitero", "el trabajador aceitero", "desmotador", "posicion",
+               "gremial", "ftciod", "foeiap", "federacion aceitera", "nota", "columna"],
+    "noticias": ["noticia", "recorte", "medio", "prensa", "informacion", "actualidad",
+                 "sonido gremial", "infogremiales", "cronica", "diario"],
+    "documentos": ["convenio", "cct", "convenio colectivo", "basico", "categoria",
+                   "paritaria", "aumento", "negociacion", "oferta", "salarial",
+                   "smvm", "salario minimo", "piso legal", "minimo vital",
+                   "sindicato", "organizacion", "asamblea", "delegado", "huelga",
+                   "art", "seguridad", "enfermeria", "accidente", "salud",
+                   "clase obrera", "clase trabajadora", "ejercito", "reserva",
+                   "ice", "ift", "panorama", "condicion", "como somos",
+                   "cremonte", "canasta"],
+    "audiovisual": ["podcast", "video", "documental", "docuficcion", "ilustracion",
+                    "audio", "radio", "spotifi", "youtube", "multimedia"],
 }
 
 
@@ -281,13 +289,13 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
     # Each persona has its own domain. Chunks from other domains can confuse the LLM
     # and cause it to switch personas mid-conversation.
     FORMATO_CATEGORY_MAP = {
-        'panorama': {'condiciones', 'smvm', 'violencia-empresarial', 'referentes'},  # Sociólogo: data, indices, research
-        'consulta': {'convenio', 'paritaria', 'reforma', 'organizacion'},  # Abogado: legal, CCT, rights
-        'debate': {'organizacion', 'condiciones', 'referentes'},  # Compañero: org, struggle, reports
-        'reporte': {'organizacion', 'condiciones', 'referentes'},  # Compañero (report mode)
-        'historia': {'referentes', 'historia-obrera', 'prensa-sindical', 'violencia-empresarial'},  # Historiador: history, referents, press
-        'contenido': {'organizacion', 'condiciones', 'referentes', 'prensa-sindical'},  # Periodista: content production, union press
-        'ecosistema': set(),  # Hornero: no KB chunks needed (its own philosophy)
+        'panorama':   {'academico', 'documentos', 'noticias'},               # Investigador: data, indices, research
+        'consulta':   {'documentos', 'academico'},                           # Abogado: legal, CCT, rights
+        'debate':     {'documentos', 'academico', 'noticias'},               # Compañero: org, struggle, reports
+        'reporte':    {'documentos', 'academico', 'noticias'},               # Compañero (report mode)
+        'historia':   {'academico', 'prensa', 'audiovisual', 'documentos'},  # Historiador: history, referents, press
+        'contenido':  {'prensa', 'academico', 'noticias', 'audiovisual'},    # Periodista: content production, union press
+        'ecosistema': set(),                                                  # Hornero: no KB chunks needed (its own philosophy)
     }
     allowed_categories = FORMATO_CATEGORY_MAP.get(formato)
     if allowed_categories is not None:
