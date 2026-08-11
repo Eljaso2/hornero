@@ -3,23 +3,38 @@
 Reads a PDF, extracts all text, chunks by chapter/section (~300-500 words),
 preserves structure (chapter, section, pages), and outputs kb_chunks.json.
 
+Categorías por tipo de fuente:
+  academico   — Libros, artículos, papers, efemérides de Historia Obrera
+  prensa      — Prensa oficial de cada gremio: periódicos, comunicados, volantes
+  noticias    — Noticias de actualidad y clipping: prensa comercial, agencias
+  documentos  — Convenios, paritarias, CCT, SMVM, condiciones
+  audiovisual — Podcasts, videos, docuficción, ilustraciones
+
 Usage:
-  # Overwrite mode (default): replaces kb_chunks.json
+  # Libro académico
   python scripts/pdf_to_chunks.py /path/to/book.pdf \
     --bib "Jasinski, El encanto del tanino, Prometeo 2023" \
-    --tipo academico --category violencia-empresarial --id-prefix jasinski
+    --category academico --id-prefix jasinski
 
-  # Append mode: adds chunks to existing kb_chunks.json
-  python scripts/pdf_to_chunks.py /path/to/investigacion.pdf \
-    --bib "Autor, Título, Editorial Año" \
-    --tipo academico --category historia-obrera --id-prefix historia-01 \
-    --append
+  # Artículo/paper
+  python scripts/pdf_to_chunks.py /path/to/paper.pdf \
+    --bib "Autor, Título, Año" \
+    --category academico --id-prefix articulo-01 --append
 
-  # Periódico/comunicado del gremio
+  # Periódico oficial del gremio
   python scripts/pdf_to_chunks.py /path/to/periodico.pdf \
     --bib "El Trabajador Aceitero y Desmotador, N° XX, Mes Año" \
-    --tipo documento --category prensa-sindical --id-prefix prensa-01 \
-    --append
+    --category prensa --id-prefix prensa-01 --append
+
+  # Noticia de prensa comercial (archivada del clipping)
+  python scripts/pdf_to_chunks.py /path/to/noticia.pdf \
+    --bib "Sonido Gremial, 2 jul 2026" \
+    --category noticias --id-prefix noticia-01 --append
+
+  # Convenio/documento sindical
+  python scripts/pdf_to_chunks.py /path/to/convenio.pdf \
+    --bib "CCT 420/05" \
+    --category documentos --id-prefix doc-01 --append
 
 Output: backend/kb_chunks.json (merged with existing chunks from kb_data.py)
 """

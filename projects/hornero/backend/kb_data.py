@@ -648,8 +648,8 @@ def get_chunks_text(chunk_ids: list) -> str:
 
 KB_CATEGORY_META = {
     "academico": {"label": "Académico", "icon": "📚", "desc": "Libros, artículos, papers, efemérides de Historia Obrera"},
-    "prensa": {"label": "Prensa", "icon": "📰", "desc": "Discursos, notas de opinión, periódicos gremiales, comunicados"},
-    "noticias": {"label": "Noticias", "icon": "📋", "desc": "Recortes de noticias archivados"},
+    "prensa": {"label": "Prensa gremial", "icon": "📰", "desc": "Prensa oficial de cada gremio: periódicos, comunicados, volantes, editoriales, notas de opinión sindicales"},
+    "noticias": {"label": "Noticias", "icon": "📋", "desc": "Noticias de actualidad y clipping: prensa comercial, agencias, medios de información"},
     "documentos": {"label": "Documentos", "icon": "📄", "desc": "Convenios, paritarias, CCT, SMVM, condiciones, org sindical"},
     "audiovisual": {"label": "Audiovisual", "icon": "🎬", "desc": "Podcasts, videos, docuficción, ilustraciones"},
 }
