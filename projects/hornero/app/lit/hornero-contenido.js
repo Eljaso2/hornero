@@ -491,7 +491,6 @@ class HorneroContenido extends HoComponent {
     if (chatEl) {
       chatEl.streamingText = '';
       chatEl._streamingPersona = streamingPersona;
-      chatEl.render();
     }
 
     try {
@@ -536,8 +535,8 @@ class HorneroContenido extends HoComponent {
               if (data.text !== undefined) {
                 // This is the "done" event with full metadata
                 streamingPersona = data.persona || this._activePersona;
-                // Finalize: add the complete message to messages array
-                this.messages = [...this.messages, {
+                // Build the complete message
+                const reportMsg = {
                   role: 'hornero',
                   text: data.text || streamingText,
                   sections: data.sections || [],
@@ -547,18 +546,18 @@ class HorneroContenido extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
-                }];
+                };
                 this._activePersona = data.persona || this._activePersona;
-                // Clear streaming state
                 this._stopProgressiveReveal();
-                if (chatEl) {
-                  chatEl.streamingText = '';
-                  chatEl._streamingPersona = '';
-                }
                 this.iaStep++;
                 this._typing = false; this._greetingRequested = false;
                 this._saveChatHistory();
-                this.render();
+                if (chatEl) {
+                  chatEl.finalizeStreamingMessage(reportMsg);
+                } else {
+                  this.messages = [...this.messages, reportMsg];
+                  this.render();
+                }
                 return;
               }
               if (data.message) {
@@ -575,20 +574,23 @@ class HorneroContenido extends HoComponent {
       // Stream interrupted — if we have partial text, save it as a message
       this._stopProgressiveReveal();
       if (streamingText) {
-        this.messages = [...this.messages, {
+        const partialMsg = {
           role: 'hornero',
           text: streamingText,
           tags: ['contenido', 'stream-partial'],
           persona: this._activePersona,
           time: this._timeNow(),
-        }];
-      }
-      if (chatEl) {
-        chatEl.streamingText = '';
-        chatEl._streamingPersona = '';
+        };
+        if (chatEl) {
+          chatEl.finalizeStreamingMessage(partialMsg);
+        } else {
+          this.messages = [...this.messages, partialMsg];
+        }
+      } else {
+        if (chatEl) chatEl.hideTyping();
       }
       this._typing = false;
-      this.render();
+      if (!chatEl) this.render();
       throw e;
     }
   }
@@ -638,14 +640,10 @@ class HorneroContenido extends HoComponent {
         const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
         await Promise.race([revealDone, timeout]);
         this._stopProgressiveReveal();
-        if (chatEl) {
-          chatEl.streamingText = '';
-          chatEl._streamingPersona = '';
-        }
       }
     }
 
-    this.messages = [...this.messages, {
+    const reportMsg = {
       role: 'hornero',
       text: responseText,
       sections: responseSections,
@@ -655,12 +653,17 @@ class HorneroContenido extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
       time: data.time || this._timeNow(),
-    }];
+    };
     this._activePersona = data.persona || this._activePersona;
     this.iaStep++;
     this._typing = false; this._greetingRequested = false;
     this._saveChatHistory();
-    this.render();
+    if (chatEl) {
+      chatEl.finalizeStreamingMessage(reportMsg);
+    } else {
+      this.messages = [...this.messages, reportMsg];
+      this.render();
+    }
   }
 
   // ===== Audio message handling =====
@@ -747,10 +750,12 @@ class HorneroContenido extends HoComponent {
     Promise.race([revealDone, timeout]).then(() => {
       this._stopProgressiveReveal();
       const chatEl = this.shadowRoot.querySelector('hornero-chat');
-      if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
-      this.messages = [...this.messages, msg];
-      this._saveChatHistory();
-      this.render();
+      if (chatEl) {
+        chatEl.finalizeStreamingMessage(msg);
+      } else {
+        this.messages = [...this.messages, msg];
+        this.render();
+      }
     });
   }
 

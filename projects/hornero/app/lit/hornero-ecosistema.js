@@ -407,7 +407,6 @@ class HorneroEcosistema extends HoComponent {
     if (chatEl) {
       chatEl.streamingText = '';
       chatEl._streamingPersona = streamingPersona;
-      chatEl.render();
     }
 
     try {
@@ -439,7 +438,7 @@ class HorneroEcosistema extends HoComponent {
               const data = JSON.parse(line.slice(6));
               if (data.text !== undefined) {
                 streamingPersona = data.persona || 'hornero';
-                this.messages = [...this.messages, {
+                const reportMsg = {
                   role: 'hornero',
                   text: data.text || streamingText,
                   sections: data.sections || [],
@@ -449,14 +448,15 @@ class HorneroEcosistema extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
-                }];
-                if (chatEl) {
-                  chatEl.streamingText = '';
-                  chatEl._streamingPersona = '';
-                }
+                };
                 this._typing = false;
                 this._saveChatHistory();
-                this.render();
+                if (chatEl) {
+                  chatEl.finalizeStreamingMessage(reportMsg);
+                } else {
+                  this.messages = [...this.messages, reportMsg];
+                  this.render();
+                }
                 return;
               }
               if (data.message) throw new Error(data.message);
@@ -468,18 +468,21 @@ class HorneroEcosistema extends HoComponent {
       }
     } catch (e) {
       if (streamingText) {
-        this.messages = [...this.messages, {
+        const partialMsg = {
           role: 'hornero', text: streamingText,
           tags: ['ecosistema', 'stream-partial'],
           persona: 'hornero', time: this._timeNow(),
-        }];
-      }
-      if (chatEl) {
-        chatEl.streamingText = '';
-        chatEl._streamingPersona = '';
+        };
+        if (chatEl) {
+          chatEl.finalizeStreamingMessage(partialMsg);
+        } else {
+          this.messages = [...this.messages, partialMsg];
+        }
+      } else {
+        if (chatEl) chatEl.hideTyping();
       }
       this._typing = false;
-      this.render();
+      if (!chatEl) this.render();
       throw e;
     }
   }
@@ -509,7 +512,7 @@ class HorneroEcosistema extends HoComponent {
     if (!response.ok) throw new Error('Backend error: ' + response.status);
 
     const data = await response.json();
-    this.messages = [...this.messages, {
+    const reportMsg = {
       role: 'hornero',
       text: data.text || '',
       sections: data.sections || [],
@@ -519,10 +522,16 @@ class HorneroEcosistema extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
       time: data.time || this._timeNow(),
-    }];
+    };
     this._typing = false;
     this._saveChatHistory();
-    this.render();
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      chatEl.finalizeStreamingMessage(reportMsg);
+    } else {
+      this.messages = [...this.messages, reportMsg];
+      this.render();
+    }
   }
 
   _fetchWithTimeout(url, options, timeoutMs = 30000) {

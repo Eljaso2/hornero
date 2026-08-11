@@ -1465,20 +1465,20 @@ class HorneroGremial extends HoComponent {
     this._stopProgressiveReveal(); // Clear any existing timer
     this._progressiveRevealFull = fullText;
     this._progressiveRevealIndex = 0;
-    const chunkSize = 1; // Characters per tick
-    const interval = 25; // ms between ticks
+    const chunkSize = 3; // Characters per tick — faster reveal
+    const interval = 18; // ms between ticks — smoother pace
     this._progressiveRevealTimer = setInterval(() => {
       this._progressiveRevealIndex += chunkSize;
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
-        // Done — show full text
+        // Done — show full text with markdown formatting
         this._stopProgressiveReveal();
         if (chatEl) {
-          chatEl.updateStreamingText(this._progressiveRevealFull);
+          chatEl.updateStreamingText(this._progressiveRevealFull, false);
         }
         return;
       }
       if (chatEl) {
-        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex));
+        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex), true);
       }
     }, interval);
   }
@@ -1527,12 +1527,12 @@ class HorneroGremial extends HoComponent {
     let streamingText = '';
     let streamingPersona = 'companero';
 
-    // Start streaming — show typing indicator until first token
+    // Start streaming — typing indicator already shown by parent render()
+    // Just ensure streaming state is clean
     this._typing = true;
     if (chatEl) {
       chatEl.streamingText = '';
       chatEl._streamingPersona = streamingPersona;
-      chatEl.render();
     }
 
     try {
@@ -1599,15 +1599,15 @@ class HorneroGremial extends HoComponent {
         source_url: data.source_url || '',
                       time: data.time || this._timeNow(),
                     };
-                    this.messages = [...this.messages, reportMsg];
                     this._stopProgressiveReveal();
-                    if (chatEl) {
-                      chatEl.streamingText = '';
-                      chatEl._streamingPersona = '';
-                    }
                     this._typing = false;
                     this._saveChatHistory();
-                    this.render();
+                    if (chatEl) {
+                      chatEl.finalizeStreamingMessage(reportMsg);
+                    } else {
+                      this.messages = [...this.messages, reportMsg];
+                      this.render();
+                    }
                     // Auto-save as draft so user can view in Mis Reportes
                     this._autoSaveReporteDraft(reportMsg);
                     return;
@@ -1625,16 +1625,16 @@ class HorneroGremial extends HoComponent {
         source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 };
-                this.messages = [...this.messages, reportMsg];
                 // Clear streaming state
                 this._stopProgressiveReveal();
-                if (chatEl) {
-                  chatEl.streamingText = '';
-                  chatEl._streamingPersona = '';
-                }
                 this._typing = false;
                 this._saveChatHistory();
-                this.render();
+                if (chatEl) {
+                  chatEl.finalizeStreamingMessage(reportMsg);
+                } else {
+                  this.messages = [...this.messages, reportMsg];
+                  this.render();
+                }
                 // Auto-save as draft if this is a reporte-generado
                 if (responseTags.includes('reporte-generado')) {
                   this._autoSaveReporteDraft(reportMsg);
@@ -2555,10 +2555,13 @@ class HorneroGremial extends HoComponent {
     Promise.race([revealDone, timeout]).then(() => {
       this._stopProgressiveReveal();
       const chatEl = this.shadowRoot.querySelector('hornero-chat');
-      if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
-      this.messages = [...this.messages, msg];
+      if (chatEl) {
+        chatEl.finalizeStreamingMessage(msg);
+      } else {
+        this.messages = [...this.messages, msg];
+        this.render();
+      }
       this._saveChatHistory();
-      this.render();
     });
   }
 

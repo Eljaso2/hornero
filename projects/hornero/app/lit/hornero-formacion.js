@@ -735,7 +735,6 @@ class HorneroFormacion extends HoComponent {
     if (chatEl) {
       chatEl.streamingText = '';
       chatEl._streamingPersona = streamingPersona;
-      chatEl.render();
     }
 
     try {
@@ -770,7 +769,7 @@ class HorneroFormacion extends HoComponent {
               const data = JSON.parse(line.slice(6));
               if (data.text !== undefined) {
                 streamingPersona = data.persona || this._activePersona;
-                this.messages = [...this.messages, {
+                const reportMsg = {
                   role: 'hornero',
                   text: data.text || streamingText,
                   sections: data.sections || [],
@@ -780,15 +779,16 @@ class HorneroFormacion extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
-                }];
+                };
                 this._stopProgressiveReveal();
-                if (chatEl) {
-                  chatEl.streamingText = '';
-                  chatEl._streamingPersona = '';
-                }
                 this._typing = false;
                 this._saveChatHistory();
-                this.render();
+                if (chatEl) {
+                  chatEl.finalizeStreamingMessage(reportMsg);
+                } else {
+                  this.messages = [...this.messages, reportMsg];
+                  this.render();
+                }
                 return;
               }
               if (data.message) throw new Error(data.message);
@@ -801,20 +801,23 @@ class HorneroFormacion extends HoComponent {
     } catch (e) {
       this._stopProgressiveReveal();
       if (streamingText) {
-        this.messages = [...this.messages, {
+        const partialMsg = {
           role: 'hornero',
           text: streamingText,
           tags: ['historia', 'stream-partial'],
           persona: 'historiador',
           time: this._timeNow(),
-        }];
-      }
-      if (chatEl) {
-        chatEl.streamingText = '';
-        chatEl._streamingPersona = '';
+        };
+        if (chatEl) {
+          chatEl.finalizeStreamingMessage(partialMsg);
+        } else {
+          this.messages = [...this.messages, partialMsg];
+        }
+      } else {
+        if (chatEl) chatEl.hideTyping();
       }
       this._typing = false;
-      this.render();
+      if (!chatEl) this.render();
       throw e;
     }
   }
@@ -859,11 +862,10 @@ class HorneroFormacion extends HoComponent {
         const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
         await Promise.race([revealDone, timeout]);
         this._stopProgressiveReveal();
-        if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
       }
     }
 
-    this.messages = [...this.messages, {
+    const reportMsg = {
       role: 'hornero',
       text: data.text || '',
       sections: data.sections || [],
@@ -873,10 +875,15 @@ class HorneroFormacion extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
       time: data.time || this._timeNow(),
-    }];
+    };
     this._typing = false;
     this._saveChatHistory();
-    this.render();
+    if (chatEl) {
+      chatEl.finalizeStreamingMessage(reportMsg);
+    } else {
+      this.messages = [...this.messages, reportMsg];
+      this.render();
+    }
   }
 
   _fetchWithTimeout(url, options, timeoutMs = 30000) {

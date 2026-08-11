@@ -277,17 +277,108 @@ class HorneroChat extends HoComponent {
 
   // Public method: update streaming text WITHOUT full re-render
   // Only updates the DOM element — avoids flicker during progressive reveal
-  updateStreamingText(text) {
+  // When duringReveal=true, uses lightweight plain-text update (no markdown) for speed
+  updateStreamingText(text, duringReveal = false) {
+    const prevLength = this.streamingText.length;
     this.streamingText = text;
-    const streamingEl = this.shadowRoot.querySelector('.streaming-text');
+
+    // If we have streaming text, remove typing dots (they're no longer needed)
+    if (text && prevLength === 0) {
+      const typingRow = this.shadowRoot.querySelector('.typing-row');
+      if (typingRow) typingRow.remove();
+    }
+
+    let streamingEl = this.shadowRoot.querySelector('.streaming-text');
+
+    // If streaming element doesn't exist yet, create it (first token arrives)
+    if (!streamingEl && text) {
+      const scroll = this.shadowRoot.querySelector('.chat-scroll');
+      if (scroll) {
+        const persona = this._streamingPersona || this.persona;
+        const personaCfg = this._getPersonaConfig(persona);
+        const avatarInner = personaCfg.img
+          ? `<img src="${personaCfg.img}" alt="H" class="${persona === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
+          : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
+        const streamingRow = document.createElement('div');
+        streamingRow.className = `msg-row hornero streaming`;
+        streamingRow.innerHTML = `
+          <div class="msg-avatar-row persona-${persona}">
+            <div class="msg-avatar">${avatarInner}</div>
+            <div class="msg-avatar-name" style="color:${personaCfg.color}">${personaCfg.name}</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-text streaming-text"></div>
+            <div class="streaming-cursor"></div>
+          </div>`;
+        // Insert before typing row if it exists, otherwise append
+        const typingRow = scroll.querySelector('.typing-row');
+        if (typingRow) {
+          scroll.insertBefore(streamingRow, typingRow);
+        } else {
+          scroll.appendChild(streamingRow);
+        }
+        streamingEl = streamingRow.querySelector('.streaming-text');
+      }
+    }
+
     if (streamingEl) {
-      streamingEl.innerHTML = this._formatMarkdown(text);
+      if (duringReveal) {
+        // During progressive reveal: use lightweight plain-text rendering
+        // Convert newlines to <br> for basic formatting, skip full markdown
+        streamingEl.innerHTML = text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\n/g, '<br>');
+      } else {
+        // Full markdown rendering for real streaming tokens or final update
+        streamingEl.innerHTML = this._formatMarkdown(text);
+      }
+
       // Auto-scroll to bottom
       const scroll = this.shadowRoot.querySelector('.chat-scroll');
       if (scroll) {
         this._autoScroll();
       }
     }
+  }
+
+  // Public method: finalize streaming → replace streaming message with final message
+  // Avoids full re-render (no flash) by surgically updating the DOM
+  // msg = { role, text, sections, tags, persona, redirect_persona, image, source_url, time }
+  finalizeStreamingMessage(msg) {
+    // 1. Remove the streaming message from DOM
+    const streamingRow = this.shadowRoot.querySelector('.msg-row.streaming');
+    if (streamingRow) {
+      streamingRow.remove();
+    }
+
+    // 2. Add the message to the internal array
+    const current = this.messages || [];
+    current.push(msg);
+    this.messages = current;
+
+    // 3. Clear streaming state
+    this.streamingText = '';
+    this._streamingPersona = '';
+
+    // 4. Render just the new message and append it to chat-scroll
+    const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    if (scroll) {
+      const msgIndex = current.length - 1;
+      const msgHtml = this._renderMessage(msg, msgIndex);
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = msgHtml;
+      // Append the rendered message node(s)
+      while (tempDiv.firstChild) {
+        scroll.insertBefore(tempDiv.firstChild, scroll.querySelector('.typing-row'));
+      }
+      // Auto-scroll to bottom
+      this._autoScroll();
+    }
+
+    // 5. Re-bind action buttons for the new message (copy, like, etc.)
+    this._bindMessageActions();
   }
 
   // Public method: parent components call this when audio processing completes
@@ -1188,6 +1279,8 @@ class HorneroChat extends HoComponent {
 
       /* Streaming message — live text with cursor */
       .streaming-text { line-height: 1.5; }
+      .streaming-text .streaming-new { animation: streamFadeIn .3s ease; }
+      @keyframes streamFadeIn { from { opacity: 0.4; } to { opacity: 1; } }
       .streaming-cursor { display: inline-block; width: 2px; height: 1em;
         background: var(--ho-green-light, #80CCA0); margin-left: 2px;
         animation: blink 1s step-end infinite; vertical-align: text-bottom; }
@@ -2905,6 +2998,184 @@ class HorneroChat extends HoComponent {
     if (scroll) scroll.scrollTop = scroll.scrollHeight;
   }
 
+  // ===== Bind event listeners for newly added messages =====
+  // Called by finalizeStreamingMessage() to avoid full re-render
+  // Uses { once: true } pattern on unbinded elements to avoid double-binding
+  _bindMessageActions() {
+    // Only bind elements that haven't been bound yet
+    const bindKey = 'data-bound';
+
+    // Message action buttons (copy, forward, like/dislike)
+    this.shadowRoot.querySelectorAll(`.msg-action-btn:not([${bindKey}])`).forEach(btn => {
+      btn.setAttribute(bindKey, '');
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        const msgContent = btn.closest('.msg-content');
+
+        if (action === 'copy') {
+          const text = msgContent ? msgContent.textContent.trim() : '';
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+              const orig = btn.innerHTML;
+              btn.innerHTML = '✅ Copiado';
+              btn.style.color = 'var(--ho-green, #4E9978)';
+              btn.style.borderColor = 'var(--ho-green, #4E9978)';
+              setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 1500);
+            });
+          }
+        }
+
+        if (action === 'forward') {
+          const text = msgContent ? msgContent.textContent.trim() : '';
+          if (navigator.share) {
+            navigator.share({ title: 'Hornero', text: text }).catch(() => {});
+          } else {
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(text).then(() => {
+                const orig = btn.innerHTML;
+                btn.innerHTML = '✅ Copiado para reenviar';
+                btn.style.color = 'var(--ho-green, #4E9978)';
+                setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1500);
+              });
+            }
+          }
+        }
+
+        if (action === 'like') {
+          btn.classList.toggle('liked');
+          const dislikeBtn = btn.parentElement.querySelector('[data-action="dislike"]');
+          if (dislikeBtn) dislikeBtn.classList.remove('disliked');
+          const msgIndex = Number(btn.closest('.msg-row')?.querySelector('[data-msg-index]')?.dataset?.msgIndex || 0);
+          this.emit('chat-feedback', {
+            type: 'like',
+            liked: btn.classList.contains('liked'),
+            messageIndex: msgIndex,
+            persona: this.persona,
+            sessionId: this.sessionId,
+            messageText: (this.messages[msgIndex] || {}).text?.substring(0, 200) || '',
+          });
+        }
+
+        if (action === 'dislike') {
+          btn.classList.toggle('disliked');
+          const likeBtn = btn.parentElement.querySelector('[data-action="like"]');
+          if (likeBtn) likeBtn.classList.remove('liked');
+          const msgIndex = Number(btn.closest('.msg-row')?.querySelector('[data-msg-index]')?.dataset?.msgIndex || 0);
+          this.emit('chat-feedback', {
+            type: 'dislike',
+            disliked: btn.classList.contains('disliked'),
+            messageIndex: msgIndex,
+            persona: this.persona,
+            sessionId: this.sessionId,
+            messageText: (this.messages[msgIndex] || {}).text?.substring(0, 200) || '',
+          });
+        }
+      });
+    });
+
+    // Delete buttons
+    this.shadowRoot.querySelectorAll(`.msg-delete-btn[data-action="delete"]:not([${bindKey}])`).forEach(btn => {
+      btn.setAttribute(bindKey, '');
+      btn.addEventListener('click', () => {
+        const msgIndex = Number(btn.dataset.msgIndex);
+        if (msgIndex >= 0 && msgIndex < this.messages.length) {
+          if (confirm('¿Borrar este mensaje?')) {
+            this.deleteMessage(msgIndex);
+          }
+        }
+      });
+    });
+
+    // Download cards
+    this.shadowRoot.querySelectorAll(`.msg-download-card[data-action="download-file"]:not([${bindKey}])`).forEach(card => {
+      card.setAttribute(bindKey, '');
+      card.addEventListener('click', () => {
+        const msgIndex = Number(card.dataset.msgIndex);
+        const msg = this.messages[msgIndex];
+        if (msg && msg.download && msg.download.content) {
+          const blob = new Blob([msg.download.content], { type: 'text/plain;charset=utf-8' });
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = msg.download.filename || 'chat-hornero.txt';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 5000);
+          this._showDownloadToast(msg.download.filename || 'chat-hornero');
+        }
+      });
+    });
+
+    // Reporte card: open popup
+    this.shadowRoot.querySelectorAll(`[data-open-reporte-popup]:not([${bindKey}])`).forEach(el => {
+      el.setAttribute(bindKey, '');
+      el.addEventListener('click', (e) => {
+        if (e.target.closest('.reporte-card-toggle')) {
+          const msgIndex = Number(el.dataset.openReportePopup);
+          this.emit('reporte-view-popup', { msgIndex });
+          return;
+        }
+        const msgIndex = Number(el.dataset.openReportePopup);
+        this.emit('reporte-view-popup', { msgIndex });
+      });
+    });
+
+    // Reporte card toggle buttons
+    this.shadowRoot.querySelectorAll(`.reporte-card-toggle:not([${bindKey}])`).forEach(btn => {
+      btn.setAttribute(bindKey, '');
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('[data-report-key]');
+        if (!card) return;
+        const key = card.dataset.reportKey;
+        const msgIndex = Number(key.replace('report-', ''));
+        this.emit('reporte-view-popup', { msgIndex });
+      });
+    });
+
+    // Reporte approve/correct buttons
+    this.shadowRoot.querySelectorAll(`.reporte-btn:not([${bindKey}]), .reporte-btn-aprobar:not([${bindKey}]), .reporte-btn-aprobar-inline:not([${bindKey}])`).forEach(btn => {
+      btn.setAttribute(bindKey, '');
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.reporteAction;
+        const msgIndex = Number(btn.dataset.msgIndex);
+        if (action === 'aprobar') {
+          this.emit('reporte-action', { action: 'aprobar', msgIndex });
+        } else if (action === 'corregir') {
+          this.emit('reporte-action', { action: 'corregir', msgIndex });
+        } else if (action === 'compartir') {
+          this._showShareMenu(msgIndex);
+        } else if (action === 'borrar') {
+          if (msgIndex >= 0 && msgIndex < this.messages.length) {
+            if (confirm('¿Borrar este informe?')) {
+              this.deleteMessage(msgIndex);
+            }
+          }
+        }
+      });
+    });
+
+    // Redirect derivation buttons
+    this.shadowRoot.querySelectorAll(`.msg-redirect-btn:not([${bindKey}])`).forEach(btn => {
+      btn.setAttribute(bindKey, '');
+      btn.addEventListener('click', () => {
+        const targetPersona = btn.dataset.redirectPersona;
+        if (targetPersona) {
+          this.emit('persona-redirect', { persona: targetPersona });
+        }
+      });
+    });
+
+    // "Ver mis informes" buttons
+    this.shadowRoot.querySelectorAll(`.msg-informes-btn:not([${bindKey}])`).forEach(btn => {
+      btn.setAttribute(bindKey, '');
+      btn.addEventListener('click', () => {
+        this._openInformesDrawer();
+      });
+    });
+  }
+
   // ===== Export chat as downloadable text/HTML document =====
   _buildChatHtml(messages, title) {
     const msgs = messages || this.messages || [];
@@ -3280,8 +3551,32 @@ ${msgs.map(m => {
     }
   }
 
-  showTyping() { this.typing = true; this.render(); }
-  hideTyping() { this.typing = false; this.render(); }
+  showTyping() {
+    this.typing = true;
+    // Incremental: add typing dots to DOM without full re-render
+    const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    if (scroll && !scroll.querySelector('.typing-row')) {
+      const typingPersona = this._getPersonaConfig(this.persona);
+      const typingAvatarInner = typingPersona.img
+        ? `<img src="${typingPersona.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
+        : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
+      const typingDiv = document.createElement('div');
+      typingDiv.className = `typing-row persona-${this.persona}`;
+      typingDiv.innerHTML = `
+        <div class="typing-avatar">${typingAvatarInner}</div>
+        <div class="typing-dots">
+          <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+        </div>`;
+      scroll.appendChild(typingDiv);
+      this._autoScroll();
+    }
+  }
+  hideTyping() {
+    this.typing = false;
+    // Incremental: remove typing dots from DOM without full re-render
+    const typingRow = this.shadowRoot.querySelector('.typing-row');
+    if (typingRow) typingRow.remove();
+  }
   setProgress(pct) { this.progress = pct; this.render(); }
 
   setSuggestions(arr) {
