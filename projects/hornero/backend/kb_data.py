@@ -694,9 +694,9 @@ def get_documentos_catalog_text() -> str:
             lines.append("⚖️ LEYES LABORALES:")
         for doc in docs:
             pdf_url = f"{backend_url}{doc['pdf']}"
-            lines.append(f"  • {doc['name']} — {doc['desc']} (PDF: {pdf_url})")
+            lines.append(f"  • {doc['name']} — {doc['desc']} [Ver PDF]({pdf_url})")
         lines.append("")
-    lines.append("Cuando un trabajador pregunte qué documentos o leyes hay disponibles, listá estos documentos con sus nombres y descripciones. Incluí el enlace PDF como link markdown: [Ver PDF](url). Podés ofrecer el PDF para consulta directa.")
+    lines.append("⚠️ REGLA OBLIGATORIA: Cuando un trabajador pregunte qué documentos o leyes hay disponibles, listá estos documentos con sus nombres y descripciones. PARA CADA DOCUMENTO, INCLUÍ SIEMPRE el enlace PDF como link markdown [Ver PDF](url) — el trabajador debe poder clickear y acceder al documento. NUNCA listes documentos sin el enlace PDF.")
     return "\n".join(lines)
 
 
