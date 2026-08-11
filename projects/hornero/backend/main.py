@@ -291,7 +291,13 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
         effective_persona = PERSONA_MAP.get(req.requested_persona, 'abogado')
     else:
         effective_persona = PERSONA_MAP.get(req.section, 'abogado')
-    system_prompt = get_system_prompt_rag(req.section, chunk_ids=[], clipping_items=get_clipping(), requested_persona=req.requested_persona, grade=req.grade, incoming_reports=req.incoming_reports, recipient_chain=req.recipient_chain)
+    # Greeting: inject efeméride chunks for Historiador so they have real data to cite
+    greeting_chunk_ids = []
+    if effective_persona == 'historiador' or req.section == 'historia':
+        from rag_retriever import keyword_search
+        efem_results = keyword_search('efemeride aniversario conmemoracion', max_chunks=3)
+        greeting_chunk_ids = [c['id'] for c in efem_results if c.get('category') == 'efemeride']
+    system_prompt = get_system_prompt_rag(req.section, chunk_ids=greeting_chunk_ids, clipping_items=get_clipping(), requested_persona=req.requested_persona, grade=req.grade, incoming_reports=req.incoming_reports, recipient_chain=req.recipient_chain)
     # Resolve effective section for greeting hint (requested_persona may override)
     greeting_section = req.section
     if req.requested_persona and req.requested_persona in PERSONA_NAME_MAP:
