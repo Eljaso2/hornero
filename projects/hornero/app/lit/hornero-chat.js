@@ -353,12 +353,19 @@ class HorneroChat extends HoComponent {
       streamingRow.remove();
     }
 
-    // 2. Add the message to the internal array
+    // 2. Remove typing indicator (three bouncing dots)
+    const typingRow = this.shadowRoot.querySelector('.typing-row');
+    if (typingRow) {
+      typingRow.remove();
+    }
+    this.typing = false;
+
+    // 3. Add the message to the internal array
     const current = this.messages || [];
     current.push(msg);
     this.messages = current;
 
-    // 3. Clear streaming state
+    // 4. Clear streaming state
     this.streamingText = '';
     this._streamingPersona = '';
 
