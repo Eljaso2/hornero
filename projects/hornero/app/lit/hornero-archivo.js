@@ -14,7 +14,8 @@ class HorneroArchivo extends HoComponent {
       sessionId: String,   // Session ID — if set, load existing session
       messages: Array,
       _bannerVisible: Boolean,
-      _exploreOpen: Boolean,
+      _docsOpen: Boolean,
+      _docsSearch: String,
     };
   }
 
@@ -51,6 +52,22 @@ class HorneroArchivo extends HoComponent {
     return 'https://hornero-ia.onrender.com/api/audio';
   }
 
+  static get PDFS_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000/api/pdfs';
+    }
+    return 'https://hornero-ia.onrender.com/api/pdfs';
+  }
+
+  static get PDF_BASE_URL() {
+    const h = window.location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
+      return 'http://' + h + ':8000';
+    }
+    return 'https://hornero-ia.onrender.com';
+  }
+
   constructor() {
     super();
     this.grade = 'A';
@@ -62,7 +79,10 @@ class HorneroArchivo extends HoComponent {
     this._greetingRequested = false;
     this._historyLoaded = false;
     this._bannerVisible = true;
-    this._exploreOpen = false;
+    this._docsOpen = false;
+    this._docs = [];
+    this._docsLoaded = false;
+    this._docsSearch = '';
     this._sessionId = '';
     this._activePersona = 'archivo';
     this._username = '';
@@ -147,6 +167,47 @@ class HorneroArchivo extends HoComponent {
         border-color: rgba(0,0,0,.08); }
       :host(.theme-light) .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB); }
 
+      /* ===== Documentos panel ===== */
+      .docs-panel { width: 100%; max-height: 55vh; overflow-y: auto;
+        background: rgba(0,0,0,.15); border-radius: 10px; padding: 10px;
+        position: relative; animation: exploreFade .2s ease; }
+      :host(.theme-light) .docs-panel { background: rgba(0,0,0,.04); }
+      .docs-search { width: 100%; padding: 8px 12px; border-radius: 8px;
+        border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06);
+        color: var(--ho-text, #E8E6E0); font-family: 'Public Sans', sans-serif;
+        font-size: .84rem; outline: none; box-sizing: border-box; margin-bottom: 8px; }
+      :host(.theme-light) .docs-search { background: #fff; border-color: rgba(0,0,0,.12);
+        color: #1E2321; }
+      .docs-search::placeholder { color: var(--ho-text-mid, #6E6A60); }
+      .docs-section-title { font-family: 'Archivo', sans-serif; font-size: .78rem;
+        font-weight: 700; color: var(--ho-text, #E8E6E0); margin: 8px 0 4px;
+        letter-spacing: .02em; }
+      :host(.theme-light) .docs-section-title { color: #1E2321; }
+      .doc-card { display: flex; align-items: center; gap: 8px;
+        padding: 7px 10px; border-radius: 8px; margin-bottom: 4px;
+        background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
+        transition: background .2s; }
+      :host(.theme-light) .doc-card { background: #fff; border-color: rgba(0,0,0,.06); }
+      .doc-card:hover { background: rgba(255,255,255,.08); }
+      :host(.theme-light) .doc-card:hover { background: var(--ho-green-pale, #E0F0EB); }
+      .doc-info { flex: 1; min-width: 0; }
+      .doc-name { font-family: 'Archivo', sans-serif; font-size: .8rem;
+        font-weight: 700; color: var(--ho-text, #E8E6E0);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      :host(.theme-light) .doc-name { color: #1E2321; }
+      .doc-desc { font-family: 'Public Sans', sans-serif; font-size: .72rem;
+        color: var(--ho-text-mid, #6E6A60); white-space: nowrap;
+        overflow: hidden; text-overflow: ellipsis; }
+      .doc-link { font-family: 'Archivo', sans-serif; font-size: .7rem;
+        font-weight: 700; color: var(--ho-green, #4E9978);
+        text-decoration: none; white-space: nowrap; padding: 4px 10px;
+        border-radius: 6px; background: rgba(78,153,120,.12);
+        transition: background .2s; }
+      :host(.theme-light) .doc-link { background: rgba(78,153,120,.08); }
+      .doc-link:hover { background: rgba(78,153,120,.25); }
+      .doc-empty { font-family: 'Public Sans', sans-serif; font-size: .8rem;
+        color: var(--ho-text-mid, #6E6A60); text-align: center; padding: 16px; }
+
       /* ===== Chat container ===== */
       .chat-container { flex: 1; display: flex; flex-direction: column;
         min-height: 0; }
@@ -154,6 +215,55 @@ class HorneroArchivo extends HoComponent {
   }
 
   _render() {
+    // Build document cards grouped by category
+    const categoryLabels = {
+      'convenios-colectivos': 'Convenios y Paritarias',
+      'leyes-laborales': 'Leyes Laborales',
+    };
+    const categoryIcons = {
+      'convenios-colectivos': '📋',
+      'leyes-laborales': '⚖️',
+    };
+
+    // Filter documents by search
+    const filteredDocs = this._docs.filter(d => {
+      if (!this._docsSearch) return true;
+      const q = this._docsSearch.toLowerCase();
+      return d.name.toLowerCase().includes(q) ||
+             d.desc.toLowerCase().includes(q) ||
+             d.category.toLowerCase().includes(q);
+    });
+
+    // Group by category
+    const grouped = {};
+    for (const doc of filteredDocs) {
+      if (!grouped[doc.category]) grouped[doc.category] = [];
+      grouped[doc.category].push(doc);
+    }
+
+    const docsPanelHtml = this._docsOpen ? html`
+      <div class="docs-panel">
+        <input class="docs-search" type="text"
+               placeholder="Buscar documentos..."
+               value="${this._docsSearch}" id="docsSearchInput">
+        ${Object.keys(grouped).length === 0 ? html`
+          <div class="doc-empty">No hay documentos que coincidan</div>
+        ` : Object.entries(grouped).map(([cat, docs]) => html`
+          <div class="docs-section-title">${categoryIcons[cat] || '📄'} ${categoryLabels[cat] || cat}</div>
+          ${docs.map(d => html`
+            <div class="doc-card">
+              <div class="doc-info">
+                <div class="doc-name">${d.name}</div>
+                <div class="doc-desc">${d.desc}</div>
+              </div>
+              <a class="doc-link" href="${HorneroArchivo.PDF_BASE_URL}${d.url}"
+                 target="_blank" rel="noopener">Ver PDF ↗</a>
+            </div>
+          `).join('')}
+        `).join('')}
+      </div>
+    ` : '';
+
     return html`
       <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
         <div class="hero-banner-title">Archivo</div>
@@ -162,16 +272,8 @@ class HorneroArchivo extends HoComponent {
           Convenios, referentes, fuentes sindicales, documentos académicos. La memoria del sindicato.
         </div>
         ` : ''}
-        <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="exploreToggle">Explorar</button>
-        ${this._exploreOpen ? html`
-        <div class="hero-explore-panel">
-          <button class="hero-explore-option" data-explore="Convenios">Convenios</button>
-          <button class="hero-explore-option" data-explore="Referentes">Referentes</button>
-          <button class="hero-explore-option" data-explore="Académicos">Académicos</button>
-          <button class="hero-explore-option" data-explore="Legislación">Legislación</button>
-          <button class="hero-explore-option" data-explore="Multimedia">Multimedia</button>
-        </div>
-        ` : ''}
+        <button class="hero-explore-link${this._docsOpen ? ' open' : ''}" id="docsToggle">Documentos</button>
+        ${docsPanelHtml}
       </div>
 
       <div class="chat-container">
@@ -235,7 +337,7 @@ class HorneroArchivo extends HoComponent {
       chatEl.addEventListener('chat-input-focus', () => {
         if (this._bannerVisible) {
           this._bannerVisible = false;
-          this._exploreOpen = false;
+          this._docsOpen = false;
           this.render();
         }
       });
@@ -258,30 +360,34 @@ class HorneroArchivo extends HoComponent {
       this._loadChatHistory();
     }
 
-    // Bind Explorar toggle + option buttons
-    const exploreToggle = this.shadowRoot.querySelector('#exploreToggle');
-    if (exploreToggle && !exploreToggle._bound) {
-      exploreToggle._bound = true;
-      exploreToggle.addEventListener('click', () => {
-        this._exploreOpen = !this._exploreOpen;
+    // Bind Documentos toggle + search
+    const docsToggle = this.shadowRoot.querySelector('#docsToggle');
+    if (docsToggle && !docsToggle._bound) {
+      docsToggle._bound = true;
+      docsToggle.addEventListener('click', () => {
+        this._docsOpen = !this._docsOpen;
+        if (this._docsOpen && !this._docsLoaded) {
+          this._loadDocs();
+        }
         this.render();
       });
     }
-    this.shadowRoot.querySelectorAll('.hero-explore-option').forEach(btn => {
-      if (btn._bound) return;
-      btn._bound = true;
-      btn.addEventListener('click', () => {
-        const topic = btn.dataset.explore;
-        this._exploreOpen = false;
-        this._bannerVisible = false;
-        // Add user message + brief local IA response
-        const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
-        this.messages = [...this.messages, userMsg];
-        this._addWithProgressiveReveal(this._exploreResponse(topic));
-        this._saveChatHistory();
+    const docsSearch = this.shadowRoot.querySelector('#docsSearchInput');
+    if (docsSearch && !docsSearch._bound) {
+      docsSearch._bound = true;
+      docsSearch.addEventListener('input', (e) => {
+        this._docsSearch = e.target.value;
+        // Save cursor position before re-render
+        const selStart = e.target.selectionStart;
         this.render();
+        // Restore cursor after re-render
+        const newInput = this.shadowRoot.querySelector('#docsSearchInput');
+        if (newInput) {
+          newInput.focus();
+          newInput.setSelectionRange(selStart, selStart);
+        }
       });
-    });
+    }
 
     // Apply light mode class to host for banner overlay
     try {
@@ -353,6 +459,50 @@ class HorneroArchivo extends HoComponent {
     } catch(e) { console.warn('Archivo: session load failed', e); }
   }
 
+  // ===== Load PDFs from /api/pdfs =====
+  async _loadDocs() {
+    if (this._docsLoaded) return;
+    try {
+      const response = await fetch(HorneroArchivo.PDFS_URL);
+      if (!response.ok) throw new Error('Error ' + response.status);
+      const data = await response.json();
+      // Map PDFs to our format with desc from catalog
+      const catalogDescs = {
+        'CCT-420-05.pdf': 'Convenio Colectivo de Trabajo 420/05',
+        'paritaria-acuerdo-2023-dic.pdf': 'Acuerdo paritario diciembre 2023',
+        'paritaria-acuerdo-2024-sep.pdf': 'Acuerdo paritario septiembre 2024',
+        'paritaria-revision-2024-abr.pdf': 'Revisión paritaria abril 2024',
+        'paritaria-reajuste-2024-jan.pdf': 'Reajuste paritario enero 2024',
+        'paritaria-acuerdo-2025-abr.pdf': 'Acuerdo paritario abril 2025',
+        'paritaria-acuerdo-2026-nov.pdf': 'Acuerdo paritario noviembre 2026',
+        'paritaria-suma-extraordinaria-2026-nov.pdf': 'Suma extraordinaria noviembre 2026',
+        'acuerdo-tercer-cuarto-turno-2010.pdf': 'Acuerdo de tercer y cuarto turno',
+        'acta-clasificacion-categorias-2014.pdf': 'Clasificación de categorías laborales',
+        'actas-comites-mixtos-2016.pdf': 'Actas de comités mixtos de salud y seguridad',
+        'ley-20744-LCT.pdf': 'Ley de Contrato de Trabajo',
+        'ley-14250-convenciones-colectivas.pdf': 'Régimen de convenciones colectivas de trabajo',
+        'ley-23551-asociaciones-sindicales.pdf': 'Régimen de asociaciones sindicales',
+        'ley-23546-negociacion-colectiva.pdf': 'Negociación colectiva laboral',
+        'ley-24013-empleo.pdf': 'Ley Nacional de Empleo',
+        'ley-24557-accidentes-trabajo.pdf': 'Riesgos del trabajo y accidentes laborales',
+        'ley-19587-higiene-seguridad-Dec351-79.pdf': 'Higiene y seguridad en el trabajo',
+      };
+      this._docs = (data.pdfs || []).map(d => {
+        const filename = d.filename.split('/').pop();
+        return {
+          ...d,
+          desc: catalogDescs[filename] || d.category,
+        };
+      });
+      this._docsLoaded = true;
+      this.render();
+    } catch(e) {
+      console.warn('Archivo: failed to load docs', e);
+      this._docsLoaded = true; // Don't retry on every render
+      this.render();
+    }
+  }
+
   // ===== Start a new chat session =====
   _startNewSession() {
     this._stopProgressiveReveal();
@@ -360,7 +510,7 @@ class HorneroArchivo extends HoComponent {
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
     this._historyLoaded = true;
     this._greetingRequested = false;
-    this._exploreOpen = false;
+    this._docsOpen = false;
     this._activePersona = 'archivo';
     this._requestGreeting();
   }
@@ -431,7 +581,7 @@ class HorneroArchivo extends HoComponent {
     // Hide banner when user starts chatting
     if (this._bannerVisible) {
       this._bannerVisible = false;
-      this._exploreOpen = false;
+      this._docsOpen = false;
     }
     this.messages = [...this.messages, { role: 'user', text, tags: ['archivo'], time: this._timeNow() }];
     this._typing = true;
