@@ -43,7 +43,7 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 @media(max-width:499px){
   .app-wrap{position:fixed;inset:0;overflow:hidden;background:var(--ho-bg,#1E2321)}
   .phone{width:100%;height:100%;overflow:hidden;background:var(--ho-bg,#1E2321)}
-  .screen{background:var(--ho-bg);display:flex;flex-direction:column;position:relative;height:100%;overflow:hidden}
+  .screen{background:var(--ho-bg);display:flex;flex-direction:column;position:relative;height:100%;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
 }
 
 @keyframes apfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}

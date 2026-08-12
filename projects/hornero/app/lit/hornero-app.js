@@ -342,14 +342,19 @@ class HorneroApp extends HoComponent {
         .phone { width: 100%; height: 100%; overflow: hidden; }
         .screen { background: var(--ho-bg, #1E2321); display: flex;
           flex-direction: column; position: relative;
-          height: 100%; overflow: hidden; }
+          height: 100%; overflow: hidden;
+          padding-top: env(safe-area-inset-top, 0px); }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
         /* Mobile: top-bar matches app bg — merges seamlessly with status bar */
         .top-bar { background: var(--ho-bg, #1E2321);
-          color: var(--ho-header-text, var(--ho-text-off, #F2F1EC)); }
+          color: var(--ho-header-text, var(--ho-text-off, #F2F1EC));
+          /* Safe-area handled by .screen; only regular header padding here */
+          padding-top: 26px; }
         .top-bar-back { background: var(--ho-dark-surface, #3F4E4A);
-          border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
+          border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC);
+          /* Safe-area handled by .screen; position relative to top-bar only */
+          top: 50%; }
         .top-bar-back:hover { background: var(--ho-dark-mid, #536260);
           border-color: var(--ho-green-light, #80CCA0); }
         /* Mobile: sections-bar matches app bg — no border */
@@ -413,7 +418,7 @@ class HorneroApp extends HoComponent {
       .sections-bar { background: var(--ho-bg, #1E2321);
         flex: none; display: flex; align-items: flex-end; overflow-x: auto;
         padding: 9px 8px 6px; gap: 0;
-        scrollbar-width: none; border-bottom: 1px solid var(--ho-text-mid, #7A766C); }
+        scrollbar-width: none; }
       .sections-bar::-webkit-scrollbar { width: 0; }
       .sections-btn { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 600; color: var(--ho-text-mid, #7A766C);
@@ -1641,16 +1646,17 @@ class HorneroApp extends HoComponent {
 
   // ===== Theme color — status bar + bottom bar match app color =====
   _updateThemeColor() {
-    const metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (!metaTheme) return;
-
     const isLight = this.theme === 'light';
     const appBg = isLight ? '#F8F6F0' : '#1E2321';
     const loginBg = isLight ? '#F8F6F0' : '#1E2321';
 
     // Login screen or main app → same bg
     const bg = this.loggedIn ? appBg : loginBg;
-    metaTheme.setAttribute('content', bg);
+
+    // Update ALL theme-color meta tags (both media-query variants)
+    const metas = document.querySelectorAll('meta[name="theme-color"]');
+    metas.forEach(m => m.setAttribute('content', bg));
+
     document.documentElement.style.setProperty('background', bg, 'important');
     document.body.style.setProperty('background', bg, 'important');
 

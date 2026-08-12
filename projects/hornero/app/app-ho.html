@@ -6,11 +6,11 @@
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="assets/hornero-logo-192.png" type="image/png">
-  <!-- Initial theme-color = dark (safe default for login flash).
-       Head script below overrides to light for logged-in users BEFORE render -->
-  <meta name="theme-color" content="#1E2321">
-  <meta name="supported-color-schemes" content="dark">
-  <meta name="color-scheme" content="dark">
+  <!-- Dual theme-color: browser auto-selects by system preference; JS overrides both on manual toggle -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8F6F0">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1E2321">
+  <meta name="supported-color-schemes" content="dark light">
+  <meta name="color-scheme" content="dark light">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hornero">
@@ -24,8 +24,8 @@
       var t=localStorage.getItem('hornero-theme')||'dark';
       var c=t==='light'?'#F8F6F0':'#1E2321';
       document.documentElement.style.setProperty('background',c,'important');
-      var m=document.querySelector('meta[name="theme-color"]');
-      if(m)m.setAttribute('content',c);
+      var metas=document.querySelectorAll('meta[name="theme-color"]');
+      for(var i=0;i<metas.length;i++) metas[i].setAttribute('content',c);
       window._hoInitBg=c;
       window._hoInitTheme=t;
     })();
@@ -198,7 +198,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=536"></script>
+  <script type="module" src="lit/hornero-components.js?ver=537"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){
