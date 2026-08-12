@@ -221,7 +221,7 @@ class HorneroClipping extends HoComponent {
 
       /* ===== Collapsed Actualidad banner ===== */
       .hero-banner { position: relative; width: 100%;
-        background: var(--ho-dark, #1E2321);
+        background: var(--ho-bg, #1E2321);
         padding: 10px 16px 8px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 6px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden; cursor: pointer; }

@@ -51,13 +51,13 @@ class HorneroEcosistema extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      :host(.theme-light) .eco-cintillo { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .eco-cintillo { background: var(--ho-bg, #1E2321); }
       :host(.theme-light) .cintillo-back-btn { border-color: rgba(0,0,0,.08); }
       :host(.theme-light) .cintillo-back-btn:hover { background: var(--ho-green-pale, #E0F0EB); }
 
       /* ===== Hero banner — logo grande de Hornero de fondo ===== */
       .hero-banner { position: relative; width: 100%;
-        background: var(--ho-dark, #1E2321);
+        background: var(--ho-bg, #1E2321);
         padding: 14px 16px 10px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 8px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden;
@@ -74,7 +74,7 @@ class HorneroEcosistema extends HoComponent {
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
       :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
-      :host(.theme-light) .hero-banner { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .hero-banner { background: var(--ho-bg, #1E2321); }
       :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;

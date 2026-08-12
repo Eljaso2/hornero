@@ -296,7 +296,7 @@ class HorneroFormacion extends HoComponent {
 
       /* ===== Hero banner — imagen de fondo opaca + texto ===== */
       .hero-banner { position: relative; width: 100%;
-        background: var(--ho-dark, #1E2321);
+        background: var(--ho-bg, #1E2321);
         padding: 14px 16px 10px; display: flex; flex-direction: column;
         align-items: flex-start; gap: 8px;
         flex-shrink: 0; box-sizing: border-box; overflow: hidden; }
@@ -312,7 +312,7 @@ class HorneroFormacion extends HoComponent {
         font-size: 1.4rem; color: var(--ho-text, #E8E6E0);
         letter-spacing: .02em; text-transform: uppercase; position: relative; }
       :host(.theme-light) .hero-banner-title { color: var(--ho-text, #1E2321); }
-      :host(.theme-light) .hero-banner { background: var(--ho-mid-gray, #ECEAE3); }
+      :host(.theme-light) .hero-banner { background: var(--ho-bg, #1E2321); }
       :host(.theme-light) .hero-bajada { color: var(--ho-text-light, #7A766C); }
       .hero-bajada { font-family: 'Public Sans', sans-serif; font-size: .86rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;

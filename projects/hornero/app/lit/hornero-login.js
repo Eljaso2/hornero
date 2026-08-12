@@ -59,7 +59,7 @@ class HorneroLogin extends HoComponent {
 
       .login-wrap {
         height: 100%; width: 100%;
-        background: var(--ho-dark, #1E2321);
+        background: var(--ho-bg, #1E2321);
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
         padding: 28px 24px;
