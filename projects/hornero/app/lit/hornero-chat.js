@@ -1161,7 +1161,9 @@ class HorneroChat extends HoComponent {
         display: flex; align-items: center; justify-content: center; flex: none; }
       .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
-      .msg-redirect-icon-circle img.periodista-full { object-fit: contain; object-position: center; }
+      .msg-redirect-icon-circle img.periodista-full { object-fit: cover; object-position: center 20%; }
+      .msg-redirect-icon-circle img.abogado-crop { object-position: center 30%; }
+      .msg-redirect-icon-circle img.investigador-crop { object-position: center 15%; }
       .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
 
       /* "Ver mis informes" button in message — opens informes drawer */
@@ -1283,7 +1285,9 @@ class HorneroChat extends HoComponent {
         display: flex; align-items: center; justify-content: center; flex: none; }
       .typing-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
         filter: var(--ho-persona-filter, none); }
-      .typing-avatar img.periodista-full { object-fit: contain; object-position: center; }
+      .typing-avatar img.periodista-full { object-fit: cover; object-position: center 20%; }
+      .typing-avatar img.abogado-crop { object-position: center 30%; }
+      .typing-avatar img.investigador-crop { object-position: center 15%; }
       :host(.theme-light) .typing-row.persona-hornero .typing-avatar img { filter: brightness(0.35); }
       .typing-dots { display: flex; gap: 5px; align-items: center; }
       .typing-dot { width: 8px; height: 8px; border-radius: 50%;
@@ -1446,8 +1450,9 @@ class HorneroChat extends HoComponent {
       </div>` : '';
 
     const typingPersona = this._getPersonaConfig(this.persona);
+    const typingClass = `${this.persona === 'periodista' ? 'periodista-full' : ''}${this.persona === 'abogado' ? ' abogado-crop' : ''}${this.persona === 'sociologo' ? ' investigador-crop' : ''}`.trim();
     const typingAvatarInner = typingPersona.img
-      ? `<img src="${typingPersona.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
+      ? `<img src="${typingPersona.img}" alt="H" class="${typingClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
       : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
     const typingHtml = this.typing && !this.streamingText ?
       `<div class="typing-row persona-${this.persona}">
@@ -2132,8 +2137,10 @@ class HorneroChat extends HoComponent {
 
     // Avatar + name row — persona-aware
     const personaCfg = this._getPersonaConfig(m.persona || this.persona);
+    const avatarPersona = m.persona || this.persona;
+    const avatarClass = `${avatarPersona === 'periodista' ? 'periodista-full' : ''}${avatarPersona === 'abogado' ? ' abogado-crop' : ''}${avatarPersona === 'sociologo' ? ' investigador-crop' : ''}`.trim();
     const avatarInner = personaCfg.img
-      ? `<img src="${personaCfg.img}" alt="H" class="${(m.persona || this.persona) === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
+      ? `<img src="${personaCfg.img}" alt="H" class="${avatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
       : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
     const avatarRow = `<div class="msg-avatar-row persona-${m.persona || this.persona}">
       <div class="msg-avatar">${avatarInner}</div>
@@ -2332,8 +2339,9 @@ class HorneroChat extends HoComponent {
     const redirectPersona = m.redirect_persona || '';
     const redirectBtnHtml = redirectPersona ? (() => {
       const targetCfg = this._getPersonaConfig(redirectPersona);
+      const redirectClass = `${redirectPersona === 'periodista' ? 'periodista-full' : ''}${redirectPersona === 'abogado' ? ' abogado-crop' : ''}${redirectPersona === 'sociologo' ? ' investigador-crop' : ''}`.trim();
       const targetInner = targetCfg.img
-        ? `<img src="${targetCfg.img}" alt="H" class="${redirectPersona === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-redirect-emoji" style="display:none">${targetCfg.emoji}</span>`
+        ? `<img src="${targetCfg.img}" alt="H" class="${redirectClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-redirect-emoji" style="display:none">${targetCfg.emoji}</span>`
         : `<span class="msg-redirect-emoji">${targetCfg.emoji}</span>`;
       return `<button class="msg-redirect-btn" data-redirect-persona="${redirectPersona}" style="background:transparent; border-color:${targetCfg.color}; color:${targetCfg.color}">
         <span class="msg-redirect-icon-circle" style="background:transparent">${targetInner}</span>
