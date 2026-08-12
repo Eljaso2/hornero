@@ -683,6 +683,7 @@ class HorneroChat extends HoComponent {
       .history-item-section-icon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
       .history-item-persona-img { width: 100%; height: 100%; object-fit: cover; }
       .history-item-persona-img.periodista-full { object-fit: contain; }
+      .history-item-persona-img.abogado-scale { transform: scale(1.15); }
       .history-item-section-emoji { font-size: .82rem; line-height: 1; }
       .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
@@ -1569,7 +1570,7 @@ class HorneroChat extends HoComponent {
                 const personaKey = s.persona || sec.persona;
                 const personaCfg = this._getPersonaConfig(personaKey);
                 const iconInner = personaCfg.img
-                  ? `<img src="${personaCfg.img}" alt="${sec.label}" class="history-item-persona-img${personaKey === 'periodista' ? ' periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
+                  ? `<img src="${personaCfg.img}" alt="${sec.label}" class="history-item-persona-img${personaKey === 'periodista' ? ' periodista-full' : ''}${personaKey === 'abogado' ? ' abogado-scale' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
                   : `<span class="history-item-section-emoji">${sec.emoji}</span>`;
                 // SVG icons for action buttons
                 const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';

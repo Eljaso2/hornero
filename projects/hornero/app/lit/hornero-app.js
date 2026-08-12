@@ -483,6 +483,7 @@ class HorneroApp extends HoComponent {
         object-position: center; filter: var(--ho-persona-filter, none);
         flex: none; }
       .chat-persona-img.periodista-full { object-fit: contain; }
+      .chat-persona-img.abogado-scale { transform: scale(1.15); }
       .chat-persona-text { flex: 1; min-width: 0; }
       .chat-persona-name { font-family: 'Archivo', sans-serif; font-size: 1rem;
         font-weight: 800; color: var(--ho-text, #E8E6E0);
@@ -870,7 +871,7 @@ class HorneroApp extends HoComponent {
 
       const personaSlides = personas.map(p =>
         `<button class="chat-persona-slide" data-screen="${p.screen}" data-persona="${p.persona}">` +
-        `<img src="${p.img}" alt="${p.alt}" class="chat-persona-img${p.periodistaFull ? ' periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="persona-choice-emoji" style="display:none;font-size:4rem">${p.emoji}</span>` +
+        `<img src="${p.img}" alt="${p.alt}" class="chat-persona-img${p.periodistaFull ? ' periodista-full' : ''}${p.persona === 'abogado' ? ' abogado-scale' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="persona-choice-emoji" style="display:none;font-size:4rem">${p.emoji}</span>` +
         `<div class="chat-persona-text">` +
           `<div class="chat-persona-name">${p.name}</div>` +
           `<div class="chat-persona-desc">${p.desc}</div>` +
