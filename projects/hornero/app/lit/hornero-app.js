@@ -338,25 +338,17 @@ class HorneroApp extends HoComponent {
           font-family: 'JetBrains Mono', monospace; }
       }
       @media(max-width:499px){
-        .app-wrap { position: fixed; inset: 0; overflow: hidden; }
-        .phone { width: 100%; height: 100%; overflow: hidden; }
+        .app-wrap { position: fixed; inset: 0; overflow: hidden;
+          background: var(--ho-bg, #1E2321); }
+        .phone { width: 100%; height: 100%; overflow: hidden;
+          background: var(--ho-bg, #1E2321); }
         .screen { background: var(--ho-bg, #1E2321); display: flex;
           flex-direction: column; position: relative;
           height: 100%; overflow: hidden;
-          padding-top: env(safe-area-inset-top, 0px); }
+          padding-top: env(safe-area-inset-top, 0px);
+          box-sizing: border-box; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
-        /* Mobile: top-bar matches app bg — merges seamlessly with status bar */
-        .top-bar { background: var(--ho-bg, #1E2321);
-          color: var(--ho-header-text, var(--ho-text-off, #F2F1EC));
-          /* Safe-area handled by .screen; only regular header padding here */
-          padding-top: 26px; }
-        .top-bar-back { background: var(--ho-dark-surface, #3F4E4A);
-          border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC);
-          /* Safe-area handled by .screen; position relative to top-bar only */
-          top: 50%; }
-        .top-bar-back:hover { background: var(--ho-dark-mid, #536260);
-          border-color: var(--ho-green-light, #80CCA0); }
         /* Mobile: sections-bar matches app bg — no border */
         .sections-bar { background: var(--ho-bg, var(--ho-dark-surface, #3F4E4A)); }
         .sections-btn { color: var(--ho-text-mid, var(--ho-text-light, #7A766C)); }
@@ -378,15 +370,23 @@ class HorneroApp extends HoComponent {
         padding: 0 16px; display: flex; align-items: flex-end;
         justify-content: center; position: relative; flex: none;
         min-height: 0;
-        padding-top: calc(26px + env(safe-area-inset-top, 0px));
+        padding-top: 26px;
         padding-bottom: 0; }
+      /* Desktop: top-bar needs extra safe-area since .screen has no padding there */
+      @media(min-width:500px){
+        .top-bar { padding-top: calc(26px + env(safe-area-inset-top, 0px)); }
+      }
       .top-bar-back { position: absolute; left: 16px;
-        top: calc(50% + env(safe-area-inset-top, 0px) / 2);
+        top: 50%;
         transform: translateY(-50%); width: 30px; height: 30px;
         border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         background: var(--ho-card, #2A3230); cursor: pointer;
         display: flex; align-items: center; justify-content: center;
         transition: background .2s, border-color .2s; flex: none; }
+      /* Desktop: top-bar-back position accounts for safe-area */
+      @media(min-width:500px){
+        .top-bar-back { top: calc(50% + env(safe-area-inset-top, 0px) / 2); }
+      }
       .top-bar-back:hover { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .top-bar-back svg { width: 14px; height: 14px;
@@ -1656,11 +1656,6 @@ class HorneroApp extends HoComponent {
     // Update ALL theme-color meta tags (both media-query variants)
     const metas = document.querySelectorAll('meta[name="theme-color"]');
     metas.forEach(m => m.setAttribute('content', bg));
-
-    // Sync color-scheme so browser paints chrome (status bar, nav bar) in matching mode
-    document.documentElement.style.setProperty('color-scheme', isLight ? 'light' : 'dark');
-    const csMeta = document.querySelector('meta[name="color-scheme"]');
-    if (csMeta) csMeta.setAttribute('content', isLight ? 'light' : 'dark');
 
     document.documentElement.style.setProperty('background', bg, 'important');
     document.body.style.setProperty('background', bg, 'important');

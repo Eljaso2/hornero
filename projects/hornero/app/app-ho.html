@@ -26,10 +26,6 @@
       document.documentElement.style.setProperty('background',c,'important');
       var metas=document.querySelectorAll('meta[name="theme-color"]');
       for(var i=0;i<metas.length;i++) metas[i].setAttribute('content',c);
-      // Sync color-scheme so browser paints chrome in matching mode
-      document.documentElement.style.setProperty('color-scheme',t==='light'?'light':'dark');
-      var csMeta=document.querySelector('meta[name="color-scheme"]');
-      if(csMeta) csMeta.setAttribute('content',t==='light'?'light':'dark');
       window._hoInitBg=c;
       window._hoInitTheme=t;
     })();
@@ -202,7 +198,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=538"></script>
+  <script type="module" src="lit/hornero-components.js?ver=539"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){
