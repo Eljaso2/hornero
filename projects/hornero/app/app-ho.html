@@ -22,7 +22,8 @@
       var s=null;
       try{s=JSON.parse(localStorage.getItem('hornero-session'))}catch(e){}
       var t=localStorage.getItem('hornero-theme')||'dark';
-      var c=t==='light'?'#F8F6F0':'#1E2321';
+      // Login is ALWAYS dark; only logged-in users see light mode
+      var c=(s&&t==='light')?'#F8F6F0':'#1E2321';
       document.documentElement.style.setProperty('background',c,'important');
       var metas=document.querySelectorAll('meta[name="theme-color"]');
       for(var i=0;i<metas.length;i++) metas[i].setAttribute('content',c);
@@ -198,7 +199,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=539"></script>
+  <script type="module" src="lit/hornero-components.js?ver=540"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){

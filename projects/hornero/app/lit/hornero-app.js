@@ -1648,9 +1648,10 @@ class HorneroApp extends HoComponent {
   _updateThemeColor() {
     const isLight = this.theme === 'light';
     const appBg = isLight ? '#F8F6F0' : '#1E2321';
-    const loginBg = isLight ? '#F8F6F0' : '#1E2321';
+    // Login is ALWAYS dark — no light mode login
+    const loginBg = '#1E2321';
 
-    // Login screen or main app → same bg
+    // Login screen → always dark; main app → theme-aware
     const bg = this.loggedIn ? appBg : loginBg;
 
     // Update ALL theme-color meta tags (both media-query variants)
@@ -1660,10 +1661,10 @@ class HorneroApp extends HoComponent {
     document.documentElement.style.setProperty('background', bg, 'important');
     document.body.style.setProperty('background', bg, 'important');
 
-    // iOS: update apple status bar style
+    // iOS: update apple status bar style (login always black-translucent)
     const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
     if (appleMeta) {
-      appleMeta.setAttribute('content', isLight ? 'default' : 'black-translucent');
+      appleMeta.setAttribute('content', (!this.loggedIn || !isLight) ? 'black-translucent' : 'default');
     }
 
     // Apply CSS variable overrides on host element (cascades into Shadow DOM)
