@@ -6,9 +6,8 @@
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="assets/hornero-logo-192.png" type="image/png">
-  <!-- Dual theme-color: browser auto-selects by system preference; JS overrides both on manual toggle -->
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8F6F0">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1E2321">
+  <!-- theme-color: single meta, JS recreates on toggle to force browser repaint -->
+  <meta name="theme-color" content="#1E2321">
   <meta name="supported-color-schemes" content="dark light">
   <meta name="color-scheme" content="dark light">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,8 +24,8 @@
       // Login is ALWAYS dark; only logged-in users see light mode
       var c=(s&&t==='light')?'#F8F6F0':'#1E2321';
       document.documentElement.style.setProperty('background',c,'important');
-      var metas=document.querySelectorAll('meta[name="theme-color"]');
-      for(var i=0;i<metas.length;i++) metas[i].setAttribute('content',c);
+      var m=document.querySelector('meta[name="theme-color"]');
+      if(m)m.setAttribute('content',c);
       window._hoInitBg=c;
       window._hoInitTheme=t;
     })();
@@ -199,7 +198,7 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=540"></script>
+  <script type="module" src="lit/hornero-components.js?ver=541"></script>
   <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
   <script>
     (function(){

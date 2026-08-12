@@ -1654,9 +1654,14 @@ class HorneroApp extends HoComponent {
     // Login screen → always dark; main app → theme-aware
     const bg = this.loggedIn ? appBg : loginBg;
 
-    // Update ALL theme-color meta tags (both media-query variants)
-    const metas = document.querySelectorAll('meta[name="theme-color"]');
-    metas.forEach(m => m.setAttribute('content', bg));
+    // Force browser repaint: remove old theme-color metas, create fresh one
+    // Some browsers don't repaint chrome when updating existing meta content
+    const head = document.head;
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.remove());
+    const newMeta = document.createElement('meta');
+    newMeta.name = 'theme-color';
+    newMeta.content = bg;
+    head.appendChild(newMeta);
 
     document.documentElement.style.setProperty('background', bg, 'important');
     document.body.style.setProperty('background', bg, 'important');
