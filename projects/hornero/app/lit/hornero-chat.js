@@ -297,8 +297,8 @@ class HorneroChat extends HoComponent {
         const persona = this._streamingPersona || this.persona;
         const personaCfg = this._getPersonaConfig(persona);
         const avatarClass = `${persona === 'periodista' ? 'periodista-full' : ''}${persona === 'abogado' ? ' abogado-crop' : ''}${persona === 'sociologo' ? ' investigador-crop' : ''}`;
-        const avatarInner = personaCfg.img
-          ? `<img src="${personaCfg.img}" alt="H" class="${avatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
+        const avatarInner = (personaCfg.icon || personaCfg.img)
+          ? `<img src="${personaCfg.icon || personaCfg.img}" alt="H" class="${avatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
           : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
         const streamingRow = document.createElement('div');
         streamingRow.className = `msg-row hornero streaming`;
@@ -682,10 +682,10 @@ class HorneroChat extends HoComponent {
 
       .history-item-section { display: flex; align-items: center; gap: 5px; }
       .history-item-section-icon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
-      .history-item-persona-img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; transform: scale(2.0); }
-      .history-item-persona-img.periodista-full { object-fit: cover; object-position: center 60%; }
-      .history-item-persona-img.abogado-crop { object-position: center 65%; }
-      .history-item-persona-img.investigador-crop { object-position: center 65%; }
+      .history-item-persona-img { width: 100%; height: 100%; object-fit: cover; }
+      .history-item-persona-img.periodista-full { object-fit: contain; }
+      .history-item-persona-img.abogado-crop { object-position: center 25%; }
+      .history-item-persona-img.investigador-crop { object-position: center 30%; }
       .history-item-section-emoji { font-size: .82rem; line-height: 1; }
       .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
@@ -1001,15 +1001,13 @@ class HorneroChat extends HoComponent {
       .msg-content { max-width: 90%; animation: msgin .35s ease; }
 
       .msg-avatar-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin-bottom: 6px; }
-      .msg-avatar { width: 32px; height: 32px; flex: none;
+      .msg-avatar { width: 28px; height: 28px; flex: none;
         display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 50%; }
       .msg-avatar img { width: 100%; height: 100%; object-fit: cover;
-        object-position: center 60%;
-        transform: scale(2.0);
         filter: var(--ho-persona-filter, none); }
-      .msg-avatar img.periodista-full { object-fit: cover; object-position: center 60%; }
-      .msg-avatar img.abogado-crop { object-position: center 65%; }
-      .msg-avatar img.investigador-crop { object-position: center 65%; }
+      .msg-avatar img.periodista-full { object-fit: contain; }
+      .msg-avatar img.abogado-crop { object-position: center 25%; }
+      .msg-avatar img.investigador-crop { object-position: center 30%; }
       :host(.theme-light) .msg-avatar-row.persona-hornero .msg-avatar img { filter: brightness(0.35); }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -1137,12 +1135,10 @@ class HorneroChat extends HoComponent {
       .chat-persona-icon:hover .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .persona-icon-inner img { width: 100%; height: 100%; object-fit: cover;
-        object-position: center 60%;
-        transform: scale(2.0);
         filter: var(--ho-persona-filter, none); }
-      .persona-icon-inner img.periodista-full { object-fit: cover; object-position: center 60%; }
-      .persona-icon-inner img.abogado-crop { object-position: center 65%; }
-      .persona-icon-inner img.investigador-crop { object-position: center 65%; }
+      .persona-icon-inner img.periodista-full { object-fit: contain; }
+      .persona-icon-inner img.abogado-crop { object-position: center 25%; }
+      .persona-icon-inner img.investigador-crop { object-position: center 30%; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
       .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green, #4E9978); }
@@ -1162,12 +1158,11 @@ class HorneroChat extends HoComponent {
         box-shadow: 0 2px 8px rgba(255,255,255,.1); }
       .msg-redirect-icon-circle { width: 22px; height: 22px;
         display: flex; align-items: center; justify-content: center; flex: none; }
-      .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: cover; object-position: center 60%;
-        transform: scale(2.0);
+      .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: cover;
         filter: var(--ho-persona-filter, none); }
-      .msg-redirect-icon-circle img.periodista-full { object-fit: cover; object-position: center 60%; }
-      .msg-redirect-icon-circle img.abogado-crop { object-position: center 65%; }
-      .msg-redirect-icon-circle img.investigador-crop { object-position: center 65%; }
+      .msg-redirect-icon-circle img.periodista-full { object-fit: contain; }
+      .msg-redirect-icon-circle img.abogado-crop { object-position: center 25%; }
+      .msg-redirect-icon-circle img.investigador-crop { object-position: center 30%; }
       .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
 
       /* "Ver mis informes" button in message — opens informes drawer */
@@ -1287,12 +1282,11 @@ class HorneroChat extends HoComponent {
         animation: msgin .2s ease; }
       .typing-avatar { width: 32px; height: 32px;
         display: flex; align-items: center; justify-content: center; flex: none; }
-      .typing-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 60%;
-        transform: scale(2.0);
+      .typing-avatar img { width: 28px; height: 28px; object-fit: cover;
         filter: var(--ho-persona-filter, none); }
-      .typing-avatar img.periodista-full { object-fit: cover; object-position: center 60%; }
-      .typing-avatar img.abogado-crop { object-position: center 65%; }
-      .typing-avatar img.investigador-crop { object-position: center 65%; }
+      .typing-avatar img.periodista-full { object-fit: contain; }
+      .typing-avatar img.abogado-crop { object-position: center 25%; }
+      .typing-avatar img.investigador-crop { object-position: center 30%; }
       :host(.theme-light) .typing-row.persona-hornero .typing-avatar img { filter: brightness(0.35); }
       .typing-dots { display: flex; gap: 5px; align-items: center; }
       .typing-dot { width: 8px; height: 8px; border-radius: 50%;
@@ -1471,8 +1465,8 @@ class HorneroChat extends HoComponent {
     const streamingPersona = this._streamingPersona || this.persona;
     const streamingPersonaCfg = this._getPersonaConfig(streamingPersona);
     const streamingAvatarClass = `${streamingPersona === 'periodista' ? 'periodista-full' : ''}${streamingPersona === 'abogado' ? ' abogado-crop' : ''}${streamingPersona === 'sociologo' ? ' investigador-crop' : ''}`;
-    const streamingAvatarInner = streamingPersonaCfg.img
-      ? `<img src="${streamingPersonaCfg.img}" alt="H" class="${streamingAvatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${streamingPersonaCfg.emoji}</span>`
+    const streamingAvatarInner = (streamingPersonaCfg.icon || streamingPersonaCfg.img)
+      ? `<img src="${streamingPersonaCfg.icon || streamingPersonaCfg.img}" alt="H" class="${streamingAvatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${streamingPersonaCfg.emoji}</span>`
       : `<span class="msg-avatar-emoji">${streamingPersonaCfg.emoji}</span>`;
     const streamingHtml = this.streamingText ?
       `<div class="msg-row hornero streaming">
@@ -1518,8 +1512,8 @@ class HorneroChat extends HoComponent {
       const cfg = this._getPersonaConfig(p);
       const isActive = p === this.persona;
       const innerClass = `${p === 'periodista' ? 'periodista-full' : ''}${p === 'abogado' ? ' abogado-crop' : ''}${p === 'sociologo' ? ' investigador-crop' : ''}`;
-      const inner = cfg.img
-        ? `<img src="${cfg.img}" alt="${cfg.name}" class="${innerClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
+      const inner = (cfg.icon || cfg.img)
+        ? `<img src="${cfg.icon || cfg.img}" alt="${cfg.name}" class="${innerClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
       // Short label for cintillo
@@ -1588,8 +1582,9 @@ class HorneroChat extends HoComponent {
                 // Use persona from session data (if available), fallback to sectionConfig
                 const personaKey = s.persona || sec.persona;
                 const personaCfg = this._getPersonaConfig(personaKey);
-                const iconInner = personaCfg.img
-                  ? `<img src="${personaCfg.img}" alt="${sec.label}" class="history-item-persona-img${personaKey === 'periodista' ? ' periodista-full' : ''}${personaKey === 'abogado' ? ' abogado-crop' : ''}${personaKey === 'sociologo' ? ' investigador-crop' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
+                const historyAvatarClass = `${personaKey === 'periodista' ? 'periodista-full' : ''}${personaKey === 'abogado' ? ' abogado-crop' : ''}${personaKey === 'sociologo' ? ' investigador-crop' : ''}`.trim();
+                const iconInner = (personaCfg.icon || personaCfg.img)
+                  ? `<img src="${personaCfg.icon || personaCfg.img}" alt="${sec.label}" class="history-item-persona-img ${historyAvatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
                   : `<span class="history-item-section-emoji">${sec.emoji}</span>`;
                 // SVG icons for action buttons
                 const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
@@ -2103,12 +2098,12 @@ class HorneroChat extends HoComponent {
   _getPersonaConfig(persona) {
     const isLight = this.theme === 'light';
     const map = {
-      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: 'assets/personajes/a03.png' },
-      'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/a02.png' },
-      'periodista':   { emoji: '🎙️', name: 'Periodista',   bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/a04.png' },
-      'historiador':  { emoji: '📜', name: 'Historiador/a',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png' },
-      'archivo':      { emoji: '📚', name: 'Archivo',        bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png' },
-      'sociologo':    { emoji: '🔬', name: 'Investigador/a', bg: '#D4E8D7', color: '#2D5A3D', img: 'assets/personajes/a05.png' },
+      'abogado':      { emoji: '📖', name: 'Abogado/a',     bg: '#D4E4F7', color: '#2B5278', img: 'assets/personajes/a03.png', icon: 'assets/personajes/iconos/a03.png' },
+      'companero':    { emoji: '✊', name: 'Compañero/a',    bg: '#C89660', color: '#7A3B1E', img: 'assets/personajes/a02.png', icon: 'assets/personajes/iconos/a02.png' },
+      'periodista':   { emoji: '🎙️', name: 'Periodista',   bg: '#E8E0D7', color: '#5A4A3A', img: 'assets/personajes/a04.png', icon: 'assets/personajes/iconos/a04.png' },
+      'historiador':  { emoji: '📜', name: 'Historiador/a',   bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png', icon: 'assets/personajes/iconos/a01.png' },
+      'archivo':      { emoji: '📚', name: 'Archivo',        bg: '#D7D4E8', color: '#4A3A5A', img: 'assets/personajes/a01.png', icon: 'assets/personajes/iconos/a01.png' },
+      'sociologo':    { emoji: '🔬', name: 'Investigador/a', bg: '#D4E8D7', color: '#2D5A3D', img: 'assets/personajes/a05.png', icon: 'assets/personajes/iconos/a05.png' },
       'hornero':      { emoji: '🪶', name: 'Hornero',        bg: '#D4E8D7', color: '#4E9978', img: 'assets/hornero-logo-nobg.png' },
     };
     return map[persona] || map['abogado'];
@@ -2144,8 +2139,8 @@ class HorneroChat extends HoComponent {
     const personaCfg = this._getPersonaConfig(m.persona || this.persona);
     const avatarPersona = m.persona || this.persona;
     const avatarClass = `${avatarPersona === 'periodista' ? 'periodista-full' : ''}${avatarPersona === 'abogado' ? ' abogado-crop' : ''}${avatarPersona === 'sociologo' ? ' investigador-crop' : ''}`.trim();
-    const avatarInner = personaCfg.img
-      ? `<img src="${personaCfg.img}" alt="H" class="${avatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
+    const avatarInner = (personaCfg.icon || personaCfg.img)
+      ? `<img src="${personaCfg.icon || personaCfg.img}" alt="H" class="${avatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
       : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
     const avatarRow = `<div class="msg-avatar-row persona-${m.persona || this.persona}">
       <div class="msg-avatar">${avatarInner}</div>
