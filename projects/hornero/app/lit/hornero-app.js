@@ -1657,6 +1657,11 @@ class HorneroApp extends HoComponent {
     const metas = document.querySelectorAll('meta[name="theme-color"]');
     metas.forEach(m => m.setAttribute('content', bg));
 
+    // Sync color-scheme so browser paints chrome (status bar, nav bar) in matching mode
+    document.documentElement.style.setProperty('color-scheme', isLight ? 'light' : 'dark');
+    const csMeta = document.querySelector('meta[name="color-scheme"]');
+    if (csMeta) csMeta.setAttribute('content', isLight ? 'light' : 'dark');
+
     document.documentElement.style.setProperty('background', bg, 'important');
     document.body.style.setProperty('background', bg, 'important');
 
