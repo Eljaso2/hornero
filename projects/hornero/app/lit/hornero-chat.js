@@ -682,10 +682,10 @@ class HorneroChat extends HoComponent {
 
       .history-item-section { display: flex; align-items: center; gap: 5px; }
       .history-item-section-icon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
-      .history-item-persona-img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
-      .history-item-persona-img.periodista-full { object-fit: cover; object-position: center 35%; }
-      .history-item-persona-img.abogado-crop { object-position: center 40%; }
-      .history-item-persona-img.investigador-crop { object-position: center 30%; }
+      .history-item-persona-img { width: 100%; height: 100%; object-fit: cover; object-position: center 50%; }
+      .history-item-persona-img.periodista-full { object-fit: cover; object-position: center 50%; }
+      .history-item-persona-img.abogado-crop { object-position: center 55%; }
+      .history-item-persona-img.investigador-crop { object-position: center 45%; }
       .history-item-section-emoji { font-size: .82rem; line-height: 1; }
       .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
@@ -1004,11 +1004,11 @@ class HorneroChat extends HoComponent {
       .msg-avatar { width: 32px; height: 32px; flex: none;
         display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 50%; }
       .msg-avatar img { width: 100%; height: 100%; object-fit: cover;
-        object-position: center 35%;
+        object-position: center 50%;
         filter: var(--ho-persona-filter, none); }
-      .msg-avatar img.periodista-full { object-fit: cover; object-position: center 35%; }
-      .msg-avatar img.abogado-crop { object-position: center 40%; }
-      .msg-avatar img.investigador-crop { object-position: center 30%; }
+      .msg-avatar img.periodista-full { object-fit: cover; object-position: center 50%; }
+      .msg-avatar img.abogado-crop { object-position: center 55%; }
+      .msg-avatar img.investigador-crop { object-position: center 45%; }
       :host(.theme-light) .msg-avatar-row.persona-hornero .msg-avatar img { filter: brightness(0.35); }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -1136,10 +1136,10 @@ class HorneroChat extends HoComponent {
       .chat-persona-icon:hover .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .persona-icon-inner img { width: 100%; height: 100%; object-fit: cover;
-        object-position: center 35%; filter: var(--ho-persona-filter, none); }
-      .persona-icon-inner img.periodista-full { object-fit: cover; object-position: center 35%; }
-      .persona-icon-inner img.abogado-crop { object-position: center 40%; }
-      .persona-icon-inner img.investigador-crop { object-position: center 30%; }
+        object-position: center 50%; filter: var(--ho-persona-filter, none); }
+      .persona-icon-inner img.periodista-full { object-fit: cover; object-position: center 50%; }
+      .persona-icon-inner img.abogado-crop { object-position: center 55%; }
+      .persona-icon-inner img.investigador-crop { object-position: center 45%; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
       .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green, #4E9978); }
@@ -1159,11 +1159,11 @@ class HorneroChat extends HoComponent {
         box-shadow: 0 2px 8px rgba(255,255,255,.1); }
       .msg-redirect-icon-circle { width: 22px; height: 22px;
         display: flex; align-items: center; justify-content: center; flex: none; }
-      .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: cover; object-position: center 35%;
+      .msg-redirect-icon-circle img { width: 22px; height: 22px; object-fit: cover; object-position: center 50%;
         filter: var(--ho-persona-filter, none); }
-      .msg-redirect-icon-circle img.periodista-full { object-fit: cover; object-position: center 35%; }
-      .msg-redirect-icon-circle img.abogado-crop { object-position: center 40%; }
-      .msg-redirect-icon-circle img.investigador-crop { object-position: center 30%; }
+      .msg-redirect-icon-circle img.periodista-full { object-fit: cover; object-position: center 50%; }
+      .msg-redirect-icon-circle img.abogado-crop { object-position: center 55%; }
+      .msg-redirect-icon-circle img.investigador-crop { object-position: center 45%; }
       .msg-redirect-emoji { font-size: .68rem; line-height: 1; }
 
       /* "Ver mis informes" button in message — opens informes drawer */
@@ -1283,11 +1283,11 @@ class HorneroChat extends HoComponent {
         animation: msgin .2s ease; }
       .typing-avatar { width: 32px; height: 32px;
         display: flex; align-items: center; justify-content: center; flex: none; }
-      .typing-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 35%;
+      .typing-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 50%;
         filter: var(--ho-persona-filter, none); }
-      .typing-avatar img.periodista-full { object-fit: cover; object-position: center 35%; }
-      .typing-avatar img.abogado-crop { object-position: center 40%; }
-      .typing-avatar img.investigador-crop { object-position: center 30%; }
+      .typing-avatar img.periodista-full { object-fit: cover; object-position: center 50%; }
+      .typing-avatar img.abogado-crop { object-position: center 55%; }
+      .typing-avatar img.investigador-crop { object-position: center 45%; }
       :host(.theme-light) .typing-row.persona-hornero .typing-avatar img { filter: brightness(0.35); }
       .typing-dots { display: flex; gap: 5px; align-items: center; }
       .typing-dot { width: 8px; height: 8px; border-radius: 50%;
