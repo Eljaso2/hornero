@@ -296,8 +296,9 @@ class HorneroChat extends HoComponent {
       if (scroll) {
         const persona = this._streamingPersona || this.persona;
         const personaCfg = this._getPersonaConfig(persona);
+        const avatarClass = `${persona === 'periodista' ? 'periodista-full' : ''}${persona === 'abogado' ? ' abogado-crop' : ''}${persona === 'sociologo' ? ' investigador-crop' : ''}`;
         const avatarInner = personaCfg.img
-          ? `<img src="${personaCfg.img}" alt="H" class="${persona === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
+          ? `<img src="${personaCfg.img}" alt="H" class="${avatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
           : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
         const streamingRow = document.createElement('div');
         streamingRow.className = `msg-row hornero streaming`;
@@ -683,7 +684,7 @@ class HorneroChat extends HoComponent {
       .history-item-section-icon { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
       .history-item-persona-img { width: 100%; height: 100%; object-fit: cover; }
       .history-item-persona-img.periodista-full { object-fit: contain; }
-      .history-item-persona-img.abogado-scale { transform: scale(1.15); }
+      .history-item-persona-img.investigador-scale { transform: scale(1.15); }
       .history-item-section-emoji { font-size: .82rem; line-height: 1; }
       .history-item-section-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
         font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
@@ -1000,10 +1001,13 @@ class HorneroChat extends HoComponent {
 
       .msg-avatar-row { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin-bottom: 6px; }
       .msg-avatar { width: 32px; height: 32px; flex: none;
-        display: flex; align-items: center; justify-content: center; }
-      .msg-avatar img { width: 32px; height: 32px; object-fit: cover; object-position: center 25%;
+        display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 50%; }
+      .msg-avatar img { width: 100%; height: 100%; object-fit: cover;
+        object-position: center 20%;
         filter: var(--ho-persona-filter, none); }
-      .msg-avatar img.periodista-full { object-fit: contain; object-position: center; }
+      .msg-avatar img.periodista-full { object-fit: cover; object-position: center 20%; }
+      .msg-avatar img.abogado-crop { object-position: center 30%; }
+      .msg-avatar img.investigador-crop { object-position: center 15%; }
       :host(.theme-light) .msg-avatar-row.persona-hornero .msg-avatar img { filter: brightness(0.35); }
       .msg-avatar-emoji { font-size: .72rem; line-height: 1; }
       .msg-avatar-name { font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -1453,8 +1457,9 @@ class HorneroChat extends HoComponent {
     // Streaming message — live text building token-by-token
     const streamingPersona = this._streamingPersona || this.persona;
     const streamingPersonaCfg = this._getPersonaConfig(streamingPersona);
+    const streamingAvatarClass = `${streamingPersona === 'periodista' ? 'periodista-full' : ''}${streamingPersona === 'abogado' ? ' abogado-crop' : ''}${streamingPersona === 'sociologo' ? ' investigador-crop' : ''}`;
     const streamingAvatarInner = streamingPersonaCfg.img
-      ? `<img src="${streamingPersonaCfg.img}" alt="H" class="${streamingPersona === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${streamingPersonaCfg.emoji}</span>`
+      ? `<img src="${streamingPersonaCfg.img}" alt="H" class="${streamingAvatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${streamingPersonaCfg.emoji}</span>`
       : `<span class="msg-avatar-emoji">${streamingPersonaCfg.emoji}</span>`;
     const streamingHtml = this.streamingText ?
       `<div class="msg-row hornero streaming">
@@ -1499,8 +1504,9 @@ class HorneroChat extends HoComponent {
     const personaIconsHtml = allPersonas.map((p, idx) => {
       const cfg = this._getPersonaConfig(p);
       const isActive = p === this.persona;
+      const innerClass = `${p === 'periodista' ? 'periodista-full' : ''}${p === 'abogado' ? ' abogado-crop' : ''}${p === 'sociologo' ? ' investigador-crop' : ''}`;
       const inner = cfg.img
-        ? `<img src="${cfg.img}" alt="${cfg.name}" class="${p === 'periodista' ? 'periodista-full' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
+        ? `<img src="${cfg.img}" alt="${cfg.name}" class="${innerClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
         : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
       const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
       // Short label for cintillo
@@ -1570,7 +1576,7 @@ class HorneroChat extends HoComponent {
                 const personaKey = s.persona || sec.persona;
                 const personaCfg = this._getPersonaConfig(personaKey);
                 const iconInner = personaCfg.img
-                  ? `<img src="${personaCfg.img}" alt="${sec.label}" class="history-item-persona-img${personaKey === 'periodista' ? ' periodista-full' : ''}${personaKey === 'abogado' ? ' abogado-scale' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
+                  ? `<img src="${personaCfg.img}" alt="${sec.label}" class="history-item-persona-img${personaKey === 'periodista' ? ' periodista-full' : ''}${personaKey === 'sociologo' ? ' investigador-scale' : ''}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
                   : `<span class="history-item-section-emoji">${sec.emoji}</span>`;
                 // SVG icons for action buttons
                 const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
