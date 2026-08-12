@@ -804,7 +804,7 @@ class HorneroApp extends HoComponent {
     // Login gate — show login screen if not logged in (full screen, no shell chrome)
     if (!this.loggedIn) {
       return html`
-        <div class="app-wrap">
+        <div class="app-wrap" style="background:#1E2321">
           <div class="phone" style="background:#1E2321">
             <div class="screen" style="background:#1E2321;display:flex;flex-direction:column;overflow:hidden">
               <hornero-login></hornero-login>
@@ -1648,14 +1648,15 @@ class HorneroApp extends HoComponent {
   _updateThemeColor() {
     const isLight = this.theme === 'light';
     const appBg = isLight ? '#F8F6F0' : '#1E2321';
+    const appBodyBg = isLight ? '#E8E4DB' : '#141816';
     // Login is ALWAYS dark — no light mode login
     const loginBg = '#1E2321';
 
     // Login screen → always dark; main app → theme-aware
     const bg = this.loggedIn ? appBg : loginBg;
+    const bodyBg = this.loggedIn ? appBodyBg : '#1E2321';
 
     // Force browser repaint: remove old theme-color metas, create fresh one
-    // Some browsers don't repaint chrome when updating existing meta content
     const head = document.head;
     document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.remove());
     const newMeta = document.createElement('meta');
@@ -1663,8 +1664,18 @@ class HorneroApp extends HoComponent {
     newMeta.content = bg;
     head.appendChild(newMeta);
 
+    // Sync color-scheme — THIS is what controls overscroll/chrome bar colors
+    const cs = isLight ? 'light' : 'dark';
+    document.documentElement.style.setProperty('color-scheme', cs);
+    const csMeta = document.querySelector('meta[name="color-scheme"]');
+    if (csMeta) csMeta.setAttribute('content', cs);
+
     document.documentElement.style.setProperty('background', bg, 'important');
     document.body.style.setProperty('background', bg, 'important');
+
+    // Set CSS variables on :root so light DOM rules resolve correctly
+    document.documentElement.style.setProperty('--ho-bg', bg);
+    document.documentElement.style.setProperty('--ho-body-bg', bodyBg);
 
     // iOS: update apple status bar style (login always black-translucent)
     const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');

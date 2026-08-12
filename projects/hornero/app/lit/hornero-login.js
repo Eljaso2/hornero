@@ -47,7 +47,12 @@ class HorneroLogin extends HoComponent {
     return css`
       :host {
         display: block;
-        /* Override global vars to match logo colors (teal/mint green) */
+        height: 100%;
+        flex: 1;
+        /* Override global vars — login is ALWAYS dark, regardless of app theme */
+        --ho-bg: #1E2321;
+        --ho-body-bg: #1E2321;
+        --ho-text-off: #F2F1EC;
         --ho-dark: #1E2321;
         --ho-dark-surface: #3F4E4A;
         --ho-dark-mid: #536260;

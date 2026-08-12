@@ -1,6 +1,6 @@
 /* ===== Hornero Design Tokens — Dark Mode ===== */
 :root {
-  color-scheme: dark;
+  color-scheme: dark light;
   --ho-green: #4E9978;
   --ho-green-light: #80CCA0;
   --ho-green-pale: #1E3A2E;
