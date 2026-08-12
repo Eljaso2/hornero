@@ -310,7 +310,6 @@ class HorneroHome extends HoComponent {
         filter: var(--ho-persona-filter, none); }
       .persona-home-img.periodista-full { object-fit: contain; }
       .persona-home-img.abogado-crop { object-position: center 25%; }
-      .persona-home-img.investigador-scale { transform: scale(1.15); }
       .icon-btn .icon-label { font-size: .68rem; font-weight: 600;
         color: var(--ho-text, #E8E6E0); white-space: nowrap; }
 
@@ -540,7 +539,7 @@ class HorneroHome extends HoComponent {
               <span class="icon-label">Historiador/a</span>
             </button>
             <button class="icon-btn" data-screen="condicion" data-persona="sociologo">
-              <img src="assets/personajes/a05.png" alt="Investigador/a" class="persona-home-img investigador-scale">
+              <img src="assets/personajes/a05.png" alt="Investigador/a" class="persona-home-img">
               <span class="icon-label">Investigador/a</span>
             </button>
           </div>
