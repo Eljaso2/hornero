@@ -51,7 +51,7 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 .body-scroll::-webkit-scrollbar{width:0px}
 
 .status-bar{background:var(--ho-dark-surface);color:var(--ho-text-off);display:flex;align-items:center;justify-content:space-between;padding:10px 22px 5px;font-size:.74rem;flex:none}
-.top-bar{background:var(--ho-dark-surface);color:var(--ho-text-off);padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none}
+.top-bar{background:var(--ho-bg);color:var(--ho-text-off);padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none}
 .top-bar button{width:32px;height:32px;border-radius:50%;background:var(--ho-dark-mid);color:var(--ho-text-off);border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none}
 .top-bar .title{font-family:'Archivo',sans-serif;font-weight:700;font-size:1.22rem;flex:1}
 .top-bar .avatar{width:26px;height:26px;border-radius:50%;background:var(--ho-green-light);display:flex;align-items:center;justify-content:center;flex:none}
@@ -59,7 +59,7 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 .menu-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;font-family:'Archivo',sans-serif;font-weight:600;font-size:.88rem;color:var(--ho-text-off);text-decoration:none;margin-bottom:3px;transition:background .2s}
 .menu-link:hover{background:rgba(128,204,160,.2)}
 .menu-link.active{background:rgba(128,204,160,.3);color:var(--ho-green-light)}
-.bottom-nav{background:var(--ho-bg,#1E2321);display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative;border-top:1px solid var(--ho-border,rgba(255,255,255,.06))}
+.bottom-nav{background:var(--ho-bg,#1E2321);display:flex;justify-content:space-around;padding:9px 0 calc(13px + env(safe-area-inset-bottom, 0px));z-index:100;width:100%;position:relative}
 .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:3px 9px;font-family:'Archivo',sans-serif}
 .nav-btn .icon{font-size:1.15rem}
 .nav-btn .label{font-size:.62rem;font-weight:600}

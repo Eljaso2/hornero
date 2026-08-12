@@ -340,21 +340,20 @@ class HorneroApp extends HoComponent {
       @media(max-width:499px){
         .app-wrap { position: fixed; inset: 0; overflow: hidden; }
         .phone { width: 100%; height: 100%; overflow: hidden; }
-        .screen { background: var(--ho-dark, #1E2321); display: flex;
+        .screen { background: var(--ho-bg, #1E2321); display: flex;
           flex-direction: column; position: relative;
           height: 100%; overflow: hidden; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
-        /* Mobile: top-bar dark background merges with system status bar */
-        .top-bar { background: var(--ho-header-bg, var(--ho-dark, #1E2321));
+        /* Mobile: top-bar matches app bg — merges seamlessly with status bar */
+        .top-bar { background: var(--ho-bg, #1E2321);
           color: var(--ho-header-text, var(--ho-text-off, #F2F1EC)); }
         .top-bar-back { background: var(--ho-dark-surface, #3F4E4A);
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
         .top-bar-back:hover { background: var(--ho-dark-mid, #536260);
           border-color: var(--ho-green-light, #80CCA0); }
-        /* Mobile: sections-bar light in day mode, dark in night mode */
-        .sections-bar { background: var(--ho-bg, var(--ho-dark-surface, #3F4E4A));
-          border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+        /* Mobile: sections-bar matches app bg — no border */
+        .sections-bar { background: var(--ho-bg, var(--ho-dark-surface, #3F4E4A)); }
         .sections-btn { color: var(--ho-text-mid, var(--ho-text-light, #7A766C)); }
         .sections-btn.active { color: var(--ho-green, var(--ho-green-light, #80CCA0));
           border-bottom-color: var(--ho-green, var(--ho-green-light, #80CCA0)); }
@@ -369,7 +368,7 @@ class HorneroApp extends HoComponent {
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
       /* ===== Top bar — back button + title centered ===== */
-      .top-bar { background: var(--ho-header-bg, var(--ho-bg, #1E2321));
+      .top-bar { background: var(--ho-bg, #1E2321);
         color: var(--ho-header-text, var(--ho-text, #E8E6E0));
         padding: 0 16px; display: flex; align-items: flex-end;
         justify-content: center; position: relative; flex: none;
@@ -438,8 +437,7 @@ class HorneroApp extends HoComponent {
       .bottom-nav { background: var(--ho-bg, #1E2321);
         display: flex; justify-content: space-around;
         padding: 6px 0 calc(12px + env(safe-area-inset-bottom, 0px)); flex: none;
-        width: 100%; z-index: 100; position: relative;
-        border-top: 1px solid var(--ho-text-mid, #7A766C); }
+        width: 100%; z-index: 100; position: relative; }
       .nav-btn { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
         padding: 4px 0; font-family: 'Archivo', sans-serif;

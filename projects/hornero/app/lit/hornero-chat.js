@@ -1015,8 +1015,7 @@ class HorneroChat extends HoComponent {
       /* === Chat top bar (cintillo) — tira scrolleable de actores + acciones === */
       .chat-top-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 20;
         height: 56px; display: flex; align-items: center;
-        padding: 0; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent);
-        border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+        padding: 0; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 2; }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
@@ -1313,7 +1312,6 @@ class HorneroChat extends HoComponent {
 
       /* === Input bar: fondo CLARO (no gris oscuro) — compact === */
       .chat-input { background: var(--ho-bg, #1E2321);
-        border-top: 1px solid var(--ho-border, rgba(255,255,255,.08));
         padding: 6px 10px calc(8px + env(safe-area-inset-bottom, 0px));
         display: flex; align-items: center; gap: 6px; flex: none; }
 
