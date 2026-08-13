@@ -400,26 +400,23 @@ class HorneroConsulta extends HoComponent {
       if (!response.ok) throw new Error('Greeting error: ' + response.status);
 
       const data = await response.json();
-      this.messages = [{
+      const msg = {
         role: 'hornero',
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['consulta', 'greeting'],
-        persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
+        persona: this._activePersona,
         redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
         time: data.time || this._timeNow(),
-      }];
-      // Don't update _activePersona from backend response — keep the original choice
+      };
       this._typing = false; this._greetingRequested = false;
-      // Don't save to IndexedDB yet — session only created when user sends a message
-      this.render();
+      this._addWithProgressiveReveal(msg);
     } catch (e) {
       // Fallback: local greeting
       this._typing = false; this._greetingRequested = false;
-      this.messages = [this._localGreeting()];
-      this.render();
+      this._addWithProgressiveReveal(this._localGreeting());
     }
   }
 
@@ -522,13 +519,13 @@ class HorneroConsulta extends HoComponent {
       console.warn('Stream failed, falling back to non-streaming:', err);
       this._callBackend(text).catch((err2) => {
         if (err2.message === 'FETCH_TIMEOUT') {
-          this.messages = [...this.messages, {
+          this._addWithProgressiveReveal({
             role: 'hornero',
             text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.',
             tags: ['consulta', 'timeout'],
             persona: this._activePersona,
             time: this._timeNow(),
-          }];
+          });
         } else {
           this._addWithProgressiveReveal(this._localResponse(text));
         }
@@ -742,51 +739,20 @@ class HorneroConsulta extends HoComponent {
 
     const data = await response.json();
     const responseText = data.text || '';
-    const responseSections = data.sections || [];
-
-    // Progressive reveal for non-streaming fallback
-    if (responseText && responseText.length > 50) {
-      const chatEl = this.shadowRoot.querySelector('hornero-chat');
-      if (chatEl) {
-        this._typing = false;
-        this._startProgressiveReveal(responseText, chatEl, 'abogado');
-        // Wait for reveal to finish, then add message
-        const revealDone = new Promise((resolve) => {
-          const check = setInterval(() => {
-            if (!this._progressiveRevealTimer) {
-              clearInterval(check);
-              resolve();
-            }
-          }, 50);
-        });
-        // Timeout: if reveal takes too long, force finish
-        const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
-        await Promise.race([revealDone, timeout]);
-        this._stopProgressiveReveal();
-      }
-    }
 
     const reportMsg = {
       role: 'hornero',
       text: responseText,
-      sections: responseSections,
+      sections: data.sections || [],
       tags: data.tags || ['consulta'],
-      persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
+      persona: this._activePersona,
       redirect_persona: data.redirect_persona || '',
-        image: data.image || '',
-        source_url: data.source_url || '',
+      image: data.image || '',
+      source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     };
-    // Don't update _activePersona from backend response — keep the original choice
     this.iaStep++;
-    this._typing = false; this._greetingRequested = false;
-    this._saveChatHistory();
-    if (chatEl) {
-      chatEl.finalizeStreamingMessage(reportMsg);
-    } else {
-      this.messages = [...this.messages, reportMsg];
-      this.render();
-    }
+    this._addWithProgressiveReveal(reportMsg);
   }
 
   // ===== Audio message handling =====
@@ -844,38 +810,27 @@ class HorneroConsulta extends HoComponent {
     if (!response.ok) throw new Error('Audio backend error: ' + response.status);
 
     const data = await response.json();
-    this.messages = [...this.messages, {
+    const msg = {
       role: 'hornero',
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['consulta', 'audio'],
-      persona: this._activePersona, // Force: consulta screen keeps its original persona — never swap actors mid-chat
+      persona: this._activePersona,
       redirect_persona: data.redirect_persona || '',
-        image: data.image || '',
-        source_url: data.source_url || '',
+      image: data.image || '',
+      source_url: data.source_url || '',
       time: data.time || this._timeNow(),
-    }];
-    // Don't update _activePersona from backend response — keep the original choice
+    };
     this.iaStep++;
-    this._typing = false;
+    this._addWithProgressiveReveal(msg);
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) chatEl.resetAudioState();
-    this._saveChatHistory();
-    this.render();
   }
 
   // ===== Fallback offline =====
   // Add a message with progressive reveal (typing effect)
   _addWithProgressiveReveal(msg) {
-    if (!msg.text || msg.text.length <= 50) {
-      // Short text — add directly
-      this.messages = [...this.messages, msg];
-      this._typing = false;
-      this._saveChatHistory();
-      this.render();
-      return;
-    }
-    // Progressive reveal — get fresh chatEl reference
+    // Always use progressive reveal for typewriter effect
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     this._typing = false;
     this._startProgressiveReveal(msg.text, chatEl, msg.persona || this.persona);

@@ -362,25 +362,23 @@ class HorneroContenido extends HoComponent {
       if (!response.ok) throw new Error('Greeting error: ' + response.status);
 
       const data = await response.json();
-      this.messages = [{
+      this._activePersona = data.persona || 'periodista';
+      const msg = {
         role: 'hornero',
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['contenido', 'greeting'],
-        persona: data.persona || 'periodista',
+        persona: this._activePersona,
         redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
         time: data.time || this._timeNow(),
-      }];
-      this._activePersona = data.persona || 'periodista';
+      };
       this._typing = false; this._greetingRequested = false;
-      // Don't save to IndexedDB yet — session only created when user sends a message
-      this.render();
+      this._addWithProgressiveReveal(msg);
     } catch (e) {
       this._typing = false; this._greetingRequested = false;
-      this.messages = [this._localGreeting()];
-      this.render();
+      this._addWithProgressiveReveal(this._localGreeting());
     }
   }
 
@@ -626,51 +624,21 @@ class HorneroContenido extends HoComponent {
 
     const data = await response.json();
     const responseText = data.text || '';
-    const responseSections = data.sections || [];
-
-    // Progressive reveal for non-streaming fallback
-    if (responseText && responseText.length > 50) {
-      const chatEl = this.shadowRoot.querySelector('hornero-chat');
-      if (chatEl) {
-        this._typing = false;
-        this._startProgressiveReveal(responseText, chatEl, 'periodista');
-        // Wait for reveal to finish, then add message
-        const revealDone = new Promise((resolve) => {
-          const check = setInterval(() => {
-            if (!this._progressiveRevealTimer) {
-              clearInterval(check);
-              resolve();
-            }
-          }, 50);
-        });
-        // Timeout: if reveal takes too long, force finish
-        const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
-        await Promise.race([revealDone, timeout]);
-        this._stopProgressiveReveal();
-      }
-    }
 
     const reportMsg = {
       role: 'hornero',
       text: responseText,
-      sections: responseSections,
+      sections: data.sections || [],
       tags: data.tags || ['contenido'],
       persona: data.persona || this._activePersona,
       redirect_persona: data.redirect_persona || '',
-        image: data.image || '',
-        source_url: data.source_url || '',
+      image: data.image || '',
+      source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     };
     this._activePersona = data.persona || this._activePersona;
     this.iaStep++;
-    this._typing = false; this._greetingRequested = false;
-    this._saveChatHistory();
-    if (chatEl) {
-      chatEl.finalizeStreamingMessage(reportMsg);
-    } else {
-      this.messages = [...this.messages, reportMsg];
-      this.render();
-    }
+    this._addWithProgressiveReveal(reportMsg);
   }
 
   // ===== Audio message handling =====
@@ -717,34 +685,24 @@ class HorneroContenido extends HoComponent {
     if (!response.ok) throw new Error('Audio backend error: ' + response.status);
 
     const data = await response.json();
-    this.messages = [...this.messages, {
+    const msg = {
       role: 'hornero',
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['contenido', 'audio'],
       persona: data.persona || this._activePersona,
       time: data.time || this._timeNow(),
-    }];
+    };
     this._activePersona = data.persona || this._activePersona;
     this.iaStep++;
-    this._typing = false;
+    this._addWithProgressiveReveal(msg);
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) chatEl.resetAudioState();
-    this._saveChatHistory();
-    this.render();
   }
 
   // Add a message with progressive reveal (typing effect)
   _addWithProgressiveReveal(msg) {
-    if (!msg.text || msg.text.length <= 50) {
-      // Short text — add directly
-      this.messages = [...this.messages, msg];
-      this._typing = false;
-      this._saveChatHistory();
-      this.render();
-      return;
-    }
-    // Progressive reveal — get fresh chatEl reference
+    // Always use progressive reveal for typewriter effect
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     this._typing = false;
     this._startProgressiveReveal(msg.text, chatEl, msg.persona || this.persona);

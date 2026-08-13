@@ -524,13 +524,13 @@ class HorneroCondicion extends HoComponent {
       }
       this._callBackend(text).catch((err2) => {
         if (err2.message === 'FETCH_TIMEOUT') {
-          this.messages = [...this.messages, {
+          this._addWithProgressiveReveal({
             role: 'hornero',
             text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento.',
             tags: ['panorama', 'timeout'],
             persona: this._activePersona,
             time: this._timeNow(),
-          }];
+          });
         } else {
           this._addWithProgressiveReveal(this._localResponse(text));
         }
@@ -591,7 +591,7 @@ class HorneroCondicion extends HoComponent {
       if (!response.ok) throw new Error('Greeting error: ' + response.status);
 
       const data = await response.json();
-      this.messages = [{
+      const msg = {
         role: 'hornero',
         text: data.text || '',
         sections: data.sections || [],
@@ -601,13 +601,12 @@ class HorneroCondicion extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
         time: data.time || this._timeNow(),
-      }];
+      };
       this._typing = false; this._greetingRequested = false;
-      this.render();
+      this._addWithProgressiveReveal(msg);
     } catch (e) {
       this._typing = false; this._greetingRequested = false;
-      this.messages = [this._localGreeting()];
-      this.render();
+      this._addWithProgressiveReveal(this._localGreeting());
     }
   }
 
@@ -783,27 +782,10 @@ class HorneroCondicion extends HoComponent {
     if (!response.ok) throw new Error('Backend error: ' + response.status);
 
     const data = await response.json();
-    const responseText = data.text || '';
-
-    if (responseText && responseText.length > 50) {
-      const chatEl = this.shadowRoot.querySelector('hornero-chat');
-      if (chatEl) {
-        this._typing = false;
-        this._startProgressiveReveal(responseText, chatEl, 'sociologo');
-        const revealDone = new Promise((resolve) => {
-          const check = setInterval(() => {
-            if (!this._progressiveRevealTimer) { clearInterval(check); resolve(); }
-          }, 50);
-        });
-        const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
-        await Promise.race([revealDone, timeout]);
-        this._stopProgressiveReveal();
-      }
-    }
 
     const reportMsg = {
       role: 'hornero',
-      text: responseText,
+      text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['panorama'],
       persona: this._activePersona,
@@ -812,14 +794,8 @@ class HorneroCondicion extends HoComponent {
         source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     };
-    this._typing = false; this._greetingRequested = false;
-    this._saveChatHistory();
-    if (chatEl) {
-      chatEl.finalizeStreamingMessage(reportMsg);
-    } else {
-      this.messages = [...this.messages, reportMsg];
-      this.render();
-    }
+    this.iaStep++;
+    this._addWithProgressiveReveal(reportMsg);
   }
 
   // ===== Audio =====
@@ -869,7 +845,7 @@ class HorneroCondicion extends HoComponent {
     if (!response.ok) throw new Error('Audio backend error: ' + response.status);
 
     const data = await response.json();
-    this.messages = [...this.messages, {
+    const msg = {
       role: 'hornero', text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['panorama', 'audio'],
@@ -878,23 +854,16 @@ class HorneroCondicion extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
       time: data.time || this._timeNow(),
-    }];
-    this._typing = false;
+    };
+    this.iaStep++;
+    this._addWithProgressiveReveal(msg);
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) chatEl.resetAudioState();
-    this._saveChatHistory();
-    this.render();
   }
 
   // ===== Fallback offline =====
   _addWithProgressiveReveal(msg) {
-    if (!msg.text || msg.text.length <= 50) {
-      this.messages = [...this.messages, msg];
-      this._typing = false;
-      this._saveChatHistory();
-      this.render();
-      return;
-    }
+    // Always use progressive reveal for typewriter effect
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     this._typing = false;
     this._startProgressiveReveal(msg.text, chatEl, msg.persona || this.persona);
