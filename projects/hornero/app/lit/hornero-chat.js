@@ -288,6 +288,16 @@ class HorneroChat extends HoComponent {
       if (typingRow) typingRow.remove();
     }
 
+    // Remove duplicate streaming rows (can happen if _render() fires while streaming)
+    const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    const allStreaming = scroll ? scroll.querySelectorAll('.msg-row.streaming') : [];
+    if (allStreaming.length > 1) {
+      // Keep only the first one (the one from _render with proper structure)
+      for (let i = 1; i < allStreaming.length; i++) {
+        allStreaming[i].remove();
+      }
+    }
+
     let streamingEl = this.shadowRoot.querySelector('.streaming-text');
 
     // If streaming element doesn't exist yet, create it (first token arrives)
@@ -1450,8 +1460,8 @@ class HorneroChat extends HoComponent {
 
     const typingPersona = this._getPersonaConfig(this.persona);
     const typingClass = `${this.persona === 'periodista' ? 'periodista-full' : ''}${this.persona === 'abogado' ? ' abogado-crop' : ''}${this.persona === 'sociologo' ? ' investigador-crop' : ''}`.trim();
-    const typingAvatarInner = typingPersona.img
-      ? `<img src="${typingPersona.img}" alt="H" class="${typingClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
+    const typingAvatarInner = (typingPersona.icon || typingPersona.img)
+      ? `<img src="${typingPersona.icon || typingPersona.img}" alt="H" class="${typingClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
       : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
     const typingHtml = this.typing && !this.streamingText ?
       `<div class="typing-row persona-${this.persona}">
@@ -3625,8 +3635,8 @@ ${msgs.map(m => {
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll && !scroll.querySelector('.typing-row')) {
       const typingPersona = this._getPersonaConfig(this.persona);
-      const typingAvatarInner = typingPersona.img
-        ? `<img src="${typingPersona.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
+      const typingAvatarInner = (typingPersona.icon || typingPersona.img)
+        ? `<img src="${typingPersona.icon || typingPersona.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
         : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
       const typingDiv = document.createElement('div');
       typingDiv.className = `typing-row persona-${this.persona}`;
