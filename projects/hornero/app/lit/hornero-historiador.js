@@ -346,19 +346,19 @@ class HorneroHistoriador extends HoComponent {
     this._stopProgressiveReveal();
     this._progressiveRevealFull = fullText;
     this._progressiveRevealIndex = 0;
-    const chunkSize = 1;
-    const interval = 25;
+    const chunkSize = 2;
+    const interval = 18;
     this._progressiveRevealTimer = setInterval(() => {
       this._progressiveRevealIndex += chunkSize;
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
         this._stopProgressiveReveal();
         if (chatEl) {
-          chatEl.updateStreamingText(this._progressiveRevealFull);
+          chatEl.updateStreamingText(this._progressiveRevealFull, true);
         }
         return;
       }
       if (chatEl) {
-        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex));
+        chatEl.updateStreamingText(this._progressiveRevealFull.substring(0, this._progressiveRevealIndex), true);
       }
     }, interval);
   }
@@ -432,14 +432,11 @@ class HorneroHistoriador extends HoComponent {
               streamingText += content;
               this._typing = false; // Hide typing dots once we have text
               if (chatEl) {
-                // If chunk is large (non-streaming fallback), reveal progressively
-                if (content.length > 50 && !this._progressiveRevealTimer) {
-                  this._startProgressiveReveal(streamingText, chatEl, streamingPersona);
+                // Always use progressive reveal for typewriter effect
+                if (this._progressiveRevealTimer) {
+                  this._progressiveRevealFull = streamingText;
                 } else {
-                  // Small chunk (true streaming) — show immediately
-                  chatEl.streamingText = streamingText;
-                  chatEl._streamingPersona = streamingPersona;
-                  chatEl.updateStreamingText(streamingText);
+                  this._startProgressiveReveal(streamingText, chatEl, streamingPersona);
                 }
               }
             }
