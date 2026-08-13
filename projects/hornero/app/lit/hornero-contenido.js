@@ -432,7 +432,7 @@ class HorneroContenido extends HoComponent {
     this._progressiveRevealFull = fullText;
     this._progressiveRevealIndex = 0;
     const chunkSize = 1;
-    const interval = 55;
+    const interval = 120;
     this._progressiveRevealTimer = setInterval(() => {
       this._progressiveRevealIndex += chunkSize;
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
