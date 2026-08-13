@@ -650,7 +650,6 @@ class HorneroArchivo extends HoComponent {
     }
     this._progressiveRevealFull = '';
     this._progressiveRevealIndex = 0;
-    this._pendingFinalizeMsg = null;
   }
 
   async _callBackendStream(text) {

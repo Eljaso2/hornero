@@ -478,7 +478,6 @@ class HorneroCondicion extends HoComponent {
     }
     this._progressiveRevealFull = '';
     this._progressiveRevealIndex = 0;
-    this._pendingFinalizeMsg = null;
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) { chatEl.streamingText = ''; chatEl._streamingPersona = ''; }
   }
