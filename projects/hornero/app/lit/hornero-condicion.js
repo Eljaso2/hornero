@@ -723,13 +723,18 @@ class HorneroCondicion extends HoComponent {
         source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 };
-                // If reveal is still running, let it finish — don't cut the typewriter
+                // Always use typewriter reveal — if none running, start one
                 this._pendingFinalizeMsg = reportMsg;
                 if (!this._progressiveRevealTimer) {
-                  this._stopProgressiveReveal();
-                  this._typing = false; this._greetingRequested = false;
-                  this._saveChatHistory();
-                  if (chatEl) chatEl.finalizeStreamingMessage(reportMsg);
+                  const fullText = data.text || streamingText;
+                  if (chatEl && fullText) {
+                    this._startProgressiveReveal(fullText, chatEl, this._activePersona);
+                  } else {
+                    this._stopProgressiveReveal();
+                    this._typing = false; this._greetingRequested = false;
+                    this._saveChatHistory();
+                    if (chatEl) chatEl.finalizeStreamingMessage(reportMsg);
+                  }
                 }
                 return;
               }

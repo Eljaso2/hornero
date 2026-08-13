@@ -553,15 +553,19 @@ class HorneroContenido extends HoComponent {
                   time: data.time || this._timeNow(),
                 };
                 this._activePersona = data.persona || this._activePersona;
-                // If reveal is still running, let it finish — don't cut the typewriter
+                // Always use typewriter reveal — if none running, start one
                 this._pendingFinalizeMsg = reportMsg;
                 if (!this._progressiveRevealTimer) {
-                  // No reveal running — finalize immediately
-                  this._stopProgressiveReveal();
-                  this.iaStep++;
-                  this._typing = false; this._greetingRequested = false;
-                  this._saveChatHistory();
-                  if (chatEl) chatEl.finalizeStreamingMessage(reportMsg);
+                  const fullText = data.text || streamingText;
+                  if (chatEl && fullText) {
+                    this._startProgressiveReveal(fullText, chatEl, this._activePersona);
+                  } else {
+                    this._stopProgressiveReveal();
+                    this.iaStep++;
+                    this._typing = false; this._greetingRequested = false;
+                    this._saveChatHistory();
+                    if (chatEl) chatEl.finalizeStreamingMessage(reportMsg);
+                  }
                 }
                 return;
               }
