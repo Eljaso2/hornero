@@ -282,55 +282,14 @@ class HorneroChat extends HoComponent {
     const prevLength = this.streamingText.length;
     this.streamingText = text;
 
-    // If we have streaming text, remove typing dots (they're no longer needed)
+    // First token: trigger full render to create the streaming row via _render() template
+    // This avoids DOM duplication — _render() includes streamingHtml when streamingText is set
     if (text && prevLength === 0) {
-      const typingRow = this.shadowRoot.querySelector('.typing-row');
-      if (typingRow) typingRow.remove();
-    }
-
-    // Remove duplicate streaming rows (can happen if _render() fires while streaming)
-    const scroll = this.shadowRoot.querySelector('.chat-scroll');
-    const allStreaming = scroll ? scroll.querySelectorAll('.msg-row.streaming') : [];
-    if (allStreaming.length > 1) {
-      // Keep only the first one (the one from _render with proper structure)
-      for (let i = 1; i < allStreaming.length; i++) {
-        allStreaming[i].remove();
-      }
+      this.typing = false; // typing dots no longer needed
+      this.render();       // full render creates .msg-row.streaming from template
     }
 
     let streamingEl = this.shadowRoot.querySelector('.streaming-text');
-
-    // If streaming element doesn't exist yet, create it (first token arrives)
-    if (!streamingEl && text) {
-      const scroll = this.shadowRoot.querySelector('.chat-scroll');
-      if (scroll) {
-        const persona = this._streamingPersona || this.persona;
-        const personaCfg = this._getPersonaConfig(persona);
-        const avatarClass = `${persona === 'periodista' ? 'periodista-full' : ''}${persona === 'abogado' ? ' abogado-crop' : ''}${persona === 'sociologo' ? ' investigador-crop' : ''}`;
-        const avatarInner = (personaCfg.icon || personaCfg.img)
-          ? `<img src="${personaCfg.icon || personaCfg.img}" alt="H" class="${avatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
-          : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
-        const streamingRow = document.createElement('div');
-        streamingRow.className = `msg-row hornero streaming`;
-        streamingRow.innerHTML = `
-          <div class="msg-avatar-row persona-${persona}">
-            <div class="msg-avatar">${avatarInner}</div>
-            <div class="msg-avatar-name" style="color:${personaCfg.color}">${personaCfg.name}</div>
-          </div>
-          <div class="msg-content">
-            <div class="msg-text streaming-text"></div>
-            <div class="streaming-cursor"></div>
-          </div>`;
-        // Insert before typing row if it exists, otherwise append
-        const typingRow = scroll.querySelector('.typing-row');
-        if (typingRow) {
-          scroll.insertBefore(streamingRow, typingRow);
-        } else {
-          scroll.appendChild(streamingRow);
-        }
-        streamingEl = streamingRow.querySelector('.streaming-text');
-      }
-    }
 
     if (streamingEl) {
       if (duringReveal) {
@@ -358,40 +317,22 @@ class HorneroChat extends HoComponent {
   // Avoids full re-render (no flash) by surgically updating the DOM
   // msg = { role, text, sections, tags, persona, redirect_persona, image, source_url, time }
   finalizeStreamingMessage(msg) {
-    // 1. Remove the streaming message from DOM
-    const streamingRow = this.shadowRoot.querySelector('.msg-row.streaming');
-    if (streamingRow) {
-      streamingRow.remove();
-    }
-
-    // 2. Remove typing indicator (three bouncing dots)
-    const typingRow = this.shadowRoot.querySelector('.typing-row');
-    if (typingRow) {
-      typingRow.remove();
-    }
+    // 1. Clear streaming state
+    this.streamingText = '';
+    this._streamingPersona = '';
     this.typing = false;
 
-    // 3. Add the message to the internal array
+    // 2. Add the message to the internal array
     const current = this.messages || [];
     current.push(msg);
     this.messages = current;
 
-    // 4. Clear streaming state
-    this.streamingText = '';
-    this._streamingPersona = '';
+    // 3. Full render — rebuilds DOM cleanly with the new message (no streaming row, no typing)
+    this.render();
 
-    // 4. Render just the new message and append it to chat-scroll
+    // 4. Auto-scroll to bottom
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll) {
-      const msgIndex = current.length - 1;
-      const msgHtml = this._renderMessage(msg, msgIndex);
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = msgHtml;
-      // Append the rendered message node(s)
-      while (tempDiv.firstChild) {
-        scroll.insertBefore(tempDiv.firstChild, scroll.querySelector('.typing-row'));
-      }
-      // Auto-scroll to bottom
       this._autoScroll();
     }
 
