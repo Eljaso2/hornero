@@ -622,6 +622,15 @@ class HorneroArchivo extends HoComponent {
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
         this._stopProgressiveReveal();
         if (chatEl) chatEl.updateStreamingText(this._progressiveRevealFull, true);
+        // If API already finished, finalize the message now
+        if (this._pendingFinalizeMsg) {
+          const msg = this._pendingFinalizeMsg;
+          this._pendingFinalizeMsg = null;
+          this.iaStep++;
+          this._typing = false; this._greetingRequested = false;
+          this._saveChatHistory();
+          if (chatEl) chatEl.finalizeStreamingMessage(msg);
+        }
         return;
       }
       if (chatEl) {
@@ -641,6 +650,7 @@ class HorneroArchivo extends HoComponent {
     }
     this._progressiveRevealFull = '';
     this._progressiveRevealIndex = 0;
+    this._pendingFinalizeMsg = null;
   }
 
   async _callBackendStream(text) {
@@ -719,14 +729,13 @@ class HorneroArchivo extends HoComponent {
                   redirect_persona: data.redirect_persona || '',
                   time: data.time || this._timeNow(),
                 };
-                this._stopProgressiveReveal();
-                this._typing = false;
-                this._saveChatHistory();
-                if (chatEl) {
-                  chatEl.finalizeStreamingMessage(reportMsg);
-                } else {
-                  this.messages = [...this.messages, reportMsg];
-                  this.render();
+                // If reveal is still running, let it finish — don't cut the typewriter
+                this._pendingFinalizeMsg = reportMsg;
+                if (!this._progressiveRevealTimer) {
+                  this._stopProgressiveReveal();
+                  this._typing = false;
+                  this._saveChatHistory();
+                  if (chatEl) chatEl.finalizeStreamingMessage(reportMsg);
                 }
                 return;
               }
