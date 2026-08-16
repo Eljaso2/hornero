@@ -223,7 +223,11 @@ class HorneroEcosistema extends HoComponent {
       chatEl.addEventListener('chat-input-focus', () => {
         if (this._bannerVisible) {
           this._bannerVisible = false;
-          this.render();
+          // DOM directo — evita flash blanco del innerHTML completo
+          const banner = this.shadowRoot.querySelector('.hero-banner');
+          if (banner) banner.classList.add('collapsed');
+          const bajada = this.shadowRoot.querySelector('.hero-bajada');
+          if (bajada) bajada.style.display = 'none';
         }
       });
     }

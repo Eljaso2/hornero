@@ -338,7 +338,13 @@ class HorneroArchivo extends HoComponent {
         if (this._bannerVisible) {
           this._bannerVisible = false;
           this._docsOpen = false;
-          this.render();
+          // DOM directo — evita flash blanco del innerHTML completo
+          const banner = this.shadowRoot.querySelector('.hero-banner');
+          if (banner) banner.classList.add('collapsed');
+          const bajada = this.shadowRoot.querySelector('.hero-bajada');
+          if (bajada) bajada.style.display = 'none';
+          const panel = this.shadowRoot.querySelector('.hero-explore-panel');
+          if (panel) panel.style.display = 'none';
         }
       });
       chatEl.addEventListener('chat-audio', (e) => {
