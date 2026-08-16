@@ -295,8 +295,8 @@ class HorneroEcosistema extends HoComponent {
     chatEl._streamingPersona = persona;
 
     let index = 0;
-    const chunkSize = 4;
-    const interval = 12;
+    const chunkSize = 2;
+    const interval = 35;
 
     this._revealTimer = setInterval(() => {
       index += chunkSize;

@@ -443,8 +443,8 @@ class HorneroCondicion extends HoComponent {
     chatEl._streamingPersona = persona;
 
     let index = 0;
-    const chunkSize = 1;
-    const interval = 120;
+    const chunkSize = 2;
+    const interval = 35;
 
     this._revealTimer = setInterval(() => {
       index += chunkSize;
@@ -626,8 +626,8 @@ class HorneroCondicion extends HoComponent {
     this._stopProgressiveReveal();
     this._progressiveRevealFull = fullText;
     this._progressiveRevealIndex = 0;
-    const chunkSize = 1;
-    const interval = 120;
+    const chunkSize = 2;
+    const interval = 35;
     this._progressiveRevealTimer = setInterval(() => {
       this._progressiveRevealIndex += chunkSize;
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
