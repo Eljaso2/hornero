@@ -4,7 +4,7 @@ ALEJANDRO JASINSKI
 
 
 
-Actualizado a diciembre de 2024
+Actualizado a agosto de 2026
 
 
 
@@ -492,7 +492,7 @@ UTRECHT UNIVERSITY
 
 Summer School – Advanced Master
 Lecturer
-Summer School “Advocacy for Academic Freedom and Human Rights — Internationalization in a fragmented world”. Utrecht University – Faculty of Law, Economics and Governance, en colaboración con Ruhr University Bochum, Utrecht Network y COST Action 23149 “Democratization at Stake”. 13–14 agosto (componente online) + 17–21 agosto 2026 (componente presencial, Utrecht, Países Bajos). 3 ECTS. Directores del curso: Bart van de Laar (Utrecht University) e Iris Vernekohl (Ruhr University Bochum). Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-and-human-rights
+Summer School “Advocacy for Academic Freedom and Human Rights — Internationalization in a fragmented world”. Utrecht University – Faculty of Law, Economics and Governance, en colaboración con Ruhr University Bochum, Utrecht Network y COST Action 23149 “Democratization at Stake”. 13–14 agosto (componente online) + 17–21 agosto 2026 (componente presencial, Utrecht, Países Bajos). 3 ECTS. Afiliación: Eberle Fellow – University of Konstanz / University of Buenos Aires. Directores del curso: Bart van de Laar (Utrecht University) e Iris Vernekohl (Ruhr University Bochum). Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-and-human-rights
 
 
 Secundaria 
@@ -526,6 +526,9 @@ Conferencias, presentaciones y entrevistas
 
 Conversatorios, conferencias y paneles
 
+
+Conferencia
+"Hacer historia de empresas y comunidades obreras: Problemas, metodologías y conceptos. Ideas desde el caso de La Forestal en el norte de Santa Fe", Instituto de Educación Superior N°29 Galileo Galilei. 14 de agosto de 2026. Rosario, Santa Fe.
 
 Coordinación de mesa
 "La violencia empresarial y las masacres populares", dentro del ciclo "El estudio de las masacres y la violencia extrema en América Latina", Red de Estudios sobre Masacres en América Latina. Participaron: Ricardo Rezende Figueira (Universidad Federal de Río de Janeiro), Sergio Grez Toso (Universidad de Chile) y Catherine LeGrand (Universidad McGill). 30 de junio de 2026.
@@ -781,7 +784,7 @@ Taller “Restitución y reparación para los pueblos indígenas en el marco del
 
 Summer School – Utrecht University (2026)
 Lecturer
-Summer School “Advocacy for Academic Freedom and Human Rights — Internationalization in a fragmented world”. Utrecht University – Faculty of Law, Economics and Governance, en colaboración con Ruhr University Bochum, Utrecht Network y COST Action 23149 “Democratization at Stake”. 13–14 agosto (componente online) + 17–21 agosto 2026 (componente presencial, Utrecht, Países Bajos). 3 ECTS. Directores del curso: Bart van de Laar (Utrecht University) e Iris Vernekohl (Ruhr University Bochum). Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-and-human-rights
+Summer School “Advocacy for Academic Freedom and Human Rights — Internationalization in a fragmented world”. Utrecht University – Faculty of Law, Economics and Governance, en colaboración con Ruhr University Bochum, Utrecht Network y COST Action 23149 “Democratization at Stake”. 13–14 agosto (componente online) + 17–21 agosto 2026 (componente presencial, Utrecht, Países Bajos). 3 ECTS. Afiliación: Eberle Fellow – University of Konstanz / University of Buenos Aires. Directores del curso: Bart van de Laar (Utrecht University) e Iris Vernekohl (Ruhr University Bochum). Link: https://utrechtsummerschool.nl/courses/law/advocacy-for-academic-freedom-and-human-rights
 
 Encuentro
 Expositor
