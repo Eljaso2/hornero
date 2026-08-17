@@ -580,9 +580,8 @@ class HorneroArchivo extends HoComponent {
         if (onComplete) onComplete();
         return;
       }
-      chatEl.streamingText = fullText.substring(0, index);
-      chatEl._streamingPersona = persona;
-      chatEl.updateStreamingText(fullText.substring(0, index));
+      // Use duringReveal=true for lightweight rendering (plain text, no markdown)
+      chatEl.updateStreamingText(fullText.substring(0, index), true);
     }, interval);
   }
 

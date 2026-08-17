@@ -72,6 +72,7 @@ class HorneroGremial extends HoComponent {
     this._correctingInformeId = null; // ID of informe being corrected by superior
     this._progressiveRevealFull = ''; // Full text to reveal progressively
     this._progressiveRevealIndex = 0; // Current reveal position
+    this._pendingFinalizeMsg = null; // Message waiting for progressive reveal to finish
     this._savedDrawerState = null; // Drawer state saved before re-render (prevents drawer closing)
     this._bannerVisible = true;
     this._exploreOpen = false;
@@ -1200,7 +1201,7 @@ class HorneroGremial extends HoComponent {
       if (!response.ok) throw new Error('Greeting error: ' + response.status);
 
       const data = await response.json();
-      this.messages = [{
+      const msg = {
         role: 'hornero',
         text: data.text || '',
         sections: data.sections || [],
@@ -1210,16 +1211,15 @@ class HorneroGremial extends HoComponent {
         image: data.image || '',
         source_url: data.source_url || '',
         time: data.time || this._timeNow(),
-      }];
+      };
       this._typing = false;
       this._greetingRequested = false;
-      // Don't save to IndexedDB yet — session only created when user sends a message
-      this.render();
+      // Use progressive reveal for typewriter effect (same as Periodista)
+      this._addWithProgressiveReveal(msg);
     } catch (e) {
       this._typing = false;
       this._greetingRequested = false;
-      this.messages = [this._localGreeting()];
-      this.render();
+      this._addWithProgressiveReveal(this._localGreeting());
     }
   }
 
@@ -1476,10 +1476,22 @@ class HorneroGremial extends HoComponent {
     this._progressiveRevealTimer = setInterval(() => {
       this._progressiveRevealIndex += chunkSize;
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
-        // Done — show full text with markdown formatting
         this._stopProgressiveReveal();
         if (chatEl) {
-          chatEl.updateStreamingText(this._progressiveRevealFull, false);
+          chatEl.updateStreamingText(this._progressiveRevealFull, true);
+        }
+        // If API already finished, finalize the message now
+        if (this._pendingFinalizeMsg) {
+          const msg = this._pendingFinalizeMsg;
+          this._pendingFinalizeMsg = null;
+          this._typing = false; this._greetingRequested = false;
+          this._saveChatHistory();
+          if (chatEl) chatEl.finalizeStreamingMessage(msg);
+          else { this.messages = [...this.messages, msg]; this.render(); }
+          // Auto-save as draft if this is a reporte-generado
+          if (msg.tags && msg.tags.includes('reporte-generado')) {
+            this._autoSaveReporteDraft(msg);
+          }
         }
         return;
       }
@@ -1564,14 +1576,11 @@ class HorneroGremial extends HoComponent {
               streamingText += content;
               this._typing = false; // Hide typing dots once we have text
               if (chatEl) {
-                // If chunk is large (non-streaming fallback), reveal progressively
-                if (content.length > 50 && !this._progressiveRevealTimer) {
-                  this._startProgressiveReveal(streamingText, chatEl, streamingPersona);
+                // Always use progressive reveal for typewriter effect
+                if (this._progressiveRevealTimer) {
+                  this._progressiveRevealFull = streamingText;
                 } else {
-                  // Small chunk (true streaming) — update DOM directly, no full render
-                  chatEl.streamingText = streamingText;
-                  chatEl._streamingPersona = streamingPersona;
-                  chatEl.updateStreamingText(streamingText);
+                  this._startProgressiveReveal(streamingText, chatEl, streamingPersona);
                 }
               }
             }
@@ -1605,14 +1614,19 @@ class HorneroGremial extends HoComponent {
         source_url: data.source_url || '',
                       time: data.time || this._timeNow(),
                     };
-                    this._stopProgressiveReveal();
-                    this._typing = false;
-                    this._saveChatHistory();
-                    if (chatEl) {
-                      chatEl.finalizeStreamingMessage(reportMsg);
-                    } else {
-                      this.messages = [...this.messages, reportMsg];
-                      this.render();
+                    // Always use typewriter reveal — if none running, start one
+                    this._pendingFinalizeMsg = reportMsg;
+                    if (!this._progressiveRevealTimer) {
+                      const fullText = data.text || streamingText;
+                      if (chatEl && fullText) {
+                        this._startProgressiveReveal(fullText, chatEl, 'companero');
+                      } else {
+                        this._stopProgressiveReveal();
+                        this._typing = false;
+                        this._saveChatHistory();
+                        if (chatEl) chatEl.finalizeStreamingMessage(reportMsg);
+                        else { this.messages = [...this.messages, reportMsg]; this.render(); }
+                      }
                     }
                     // Auto-save as draft so user can view in Mis Reportes
                     this._autoSaveReporteDraft(reportMsg);
@@ -1631,15 +1645,19 @@ class HorneroGremial extends HoComponent {
         source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 };
-                // Clear streaming state
-                this._stopProgressiveReveal();
-                this._typing = false;
-                this._saveChatHistory();
-                if (chatEl) {
-                  chatEl.finalizeStreamingMessage(reportMsg);
-                } else {
-                  this.messages = [...this.messages, reportMsg];
-                  this.render();
+                // Always use typewriter reveal — if none running, start one
+                this._pendingFinalizeMsg = reportMsg;
+                if (!this._progressiveRevealTimer) {
+                  const fullText = data.text || streamingText;
+                  if (chatEl && fullText) {
+                    this._startProgressiveReveal(fullText, chatEl, 'companero');
+                  } else {
+                    this._stopProgressiveReveal();
+                    this._typing = false;
+                    this._saveChatHistory();
+                    if (chatEl) chatEl.finalizeStreamingMessage(reportMsg);
+                    else { this.messages = [...this.messages, reportMsg]; this.render(); }
+                  }
                 }
                 // Auto-save as draft if this is a reporte-generado
                 if (responseTags.includes('reporte-generado')) {
