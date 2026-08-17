@@ -546,8 +546,8 @@ class HorneroConsulta extends HoComponent {
     this._stopProgressiveReveal();
     this._progressiveRevealFull = fullText;
     this._progressiveRevealIndex = 0;
-    const chunkSize = 2;
-    const interval = 35;
+    const chunkSize = 1;
+    const interval = 25;
     this._progressiveRevealTimer = setInterval(() => {
       this._progressiveRevealIndex += chunkSize;
       if (this._progressiveRevealIndex >= this._progressiveRevealFull.length) {
