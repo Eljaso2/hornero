@@ -324,11 +324,79 @@ class HorneroChat extends HoComponent {
 
     // 2. Add the message to the internal array
     const current = this.messages || [];
+    const msgIndex = current.length;
     current.push(msg);
     this.messages = current;
 
-    // 3. Full render — rebuilds DOM cleanly with the new message (no streaming row, no typing)
-    this.render();
+    // 3. Surgically update DOM — avoid full render (no flash)
+    const streamingRow = this.shadowRoot.querySelector('.msg-row.streaming');
+    if (streamingRow) {
+      // Remove streaming class + cursor
+      streamingRow.classList.remove('streaming');
+      const cursor = streamingRow.querySelector('.streaming-cursor');
+      if (cursor) cursor.remove();
+
+      // Replace streaming-text with final formatted content
+      const streamingText = streamingRow.querySelector('.streaming-text');
+      if (streamingText) {
+        // Build final msg-content inner HTML
+        const msgContent = streamingRow.querySelector('.msg-content') || streamingText.parentElement;
+        let finalHtml = '';
+
+        // Text with full markdown
+        if (msg.text) {
+          finalHtml += `<div class="msg-text">${this._formatMarkdown(msg.text)}</div>`;
+        } else if (msg.sections) {
+          // Sections fallback
+          finalHtml += msg.sections.map((s, i, arr) => {
+            let c = '';
+            if (s.title) c += `<div class="msg-section-title">${s.title}</div>`;
+            if (s.body) c += `<div class="msg-section-body">${this._formatMarkdown(s.body)}</div>`;
+            const divider = (i < arr.length - 1) ? '<div class="msg-divider"></div>' : '';
+            return `<div class="msg-section">${c}</div>${divider}`;
+          }).join('');
+        }
+
+        // Tags
+        const visibleTags = (msg.tags || []).filter(t => t !== 'respuesta-libre');
+        if (visibleTags.length > 0) {
+          finalHtml += `<div class="msg-tags">${visibleTags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>`;
+        }
+
+        // Time
+        if (msg.time) {
+          finalHtml += `<div class="msg-time hornero-time">${msg.time}</div>`;
+        }
+
+        // Action buttons
+        const actionsHtml = `<div class="msg-actions">
+          <button class="msg-action-btn" data-action="copy" title="Copiar">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+          <button class="msg-action-btn" data-action="forward" title="Reenviar">
+            <svg viewBox="0 0 24 24"><polyline points="15 17 20 12 15 7"/><path d="M4 12h16"/></svg>
+          </button>
+          <button class="msg-action-btn" data-action="like" title="Me gusta">
+            <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+          </button>
+          <button class="msg-action-btn" data-action="dislike" title="No me gusta">
+            <svg viewBox="0 0 24 24"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>
+          </button>
+        </div>`;
+        finalHtml += actionsHtml;
+
+        // Replace the entire msg-content innerHTML
+        if (msgContent) {
+          msgContent.innerHTML = finalHtml;
+        } else {
+          // Fallback: wrap in msg-content div
+          streamingText.outerHTML = `<div class="msg-content">${finalHtml}</div>`;
+        }
+      }
+    } else {
+      // No streaming row found — fallback to full render
+      this.render();
+    }
 
     // 4. Auto-scroll to bottom
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
@@ -336,7 +404,7 @@ class HorneroChat extends HoComponent {
       this._autoScroll();
     }
 
-    // 5. Re-bind action buttons for the new message (copy, like, etc.)
+    // 5. Re-bind action buttons for the new message
     this._bindMessageActions();
   }
 
