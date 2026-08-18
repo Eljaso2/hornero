@@ -25,11 +25,12 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import httpx
 
-from knowledge_base import get_system_prompt, get_system_prompt_rag, get_format_hint, get_greeting_hint, PERSONA_MAP, PERSONA_NAME_MAP
+from knowledge_base import get_system_prompt, get_system_prompt_rag, get_legal_prompt_focused, get_format_hint, get_greeting_hint, PERSONA_MAP, PERSONA_NAME_MAP
 from llm_providers.deepseek import call_deepseek, call_deepseek_stream
 from llm_providers.claude import call_claude
 from clipping_cache import get_clipping, refresh
 from rag_retriever import retrieve_for_query
+from library_service.adapter_hornero import legal_sources_text  # puente Biblioteca (feature-flag)
 from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, KB_TIPOS, refresh as kb_refresh
 from push_manager import subscribe as push_subscribe, unsubscribe as push_unsubscribe, notify_all, get_vapid_public_key, get_subscription_count
 
@@ -234,6 +235,7 @@ class ChatRequest(BaseModel):
     history: list = []  # [{role, text, sections}]
     grade: str = "A"
     sector: str = "aceitero"
+    tenant: str = ""  # gremio (multi-tenant). Vacío → se deriva de `sector`. Ver adapter_hornero.
     requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
     incoming_reports: list = []  # Reports from lower grades (for G2+ users)
@@ -373,6 +375,12 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
                                           conversation_history=req.history)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
+    # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
+    extra_sources = legal_sources_text(req.message, formato=req.formato,
+                                       requested_persona=req.requested_persona,
+                                       grade=req.grade, tenant=req.tenant, sector=req.sector,
+                                       conversation_history=req.history)
+
     # Build system prompt with ONLY relevant KB chunks
     # Determine effective persona from requested_persona override or formato
     system_prompt = get_system_prompt_rag(
@@ -384,7 +392,12 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
         grade=req.grade,
         incoming_reports=req.incoming_reports,
         recipient_chain=req.recipient_chain,
+        extra_sources_text=extra_sources,
     )
+    # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable, ver knowledge_base)
+    if extra_sources:
+        system_prompt = get_legal_prompt_focused(extra_sources, grade=req.grade,
+                                                 recipient_chain=req.recipient_chain)
     # Determine effective persona string for fallback
     effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
     if req.requested_persona:
@@ -461,6 +474,12 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
     relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
+    # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
+    extra_sources = legal_sources_text(req.message, formato=req.formato,
+                                       requested_persona=req.requested_persona,
+                                       grade=req.grade, tenant=req.tenant, sector=req.sector,
+                                       conversation_history=req.history)
+
     # Build system prompt with ONLY relevant KB chunks
     system_prompt = get_system_prompt_rag(
         formato=req.formato,
@@ -471,7 +490,12 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
         grade=req.grade,
         incoming_reports=req.incoming_reports,
         recipient_chain=req.recipient_chain,
+        extra_sources_text=extra_sources,
     )
+    # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
+    if extra_sources:
+        system_prompt = get_legal_prompt_focused(extra_sources, grade=req.grade,
+                                                 recipient_chain=req.recipient_chain)
     effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
     if req.requested_persona:
         if req.requested_persona in PERSONA_NAME_MAP:
@@ -583,6 +607,7 @@ async def audio_chat_endpoint(
     formato: str = Form("consulta"),
     grade: str = Form("A"),
     sector: str = Form("aceitero"),
+    tenant: str = Form(""),
     requested_persona: str = Form(""),
     session_id: str = Form(""),
     history: str = Form("[]"),
@@ -611,6 +636,12 @@ async def audio_chat_endpoint(
     relevant_chunks = retrieve_for_query(transcript, formato, grade)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
+    # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
+    extra_sources = legal_sources_text(transcript, formato=formato,
+                                       requested_persona=requested_persona,
+                                       grade=grade, tenant=tenant, sector=sector,
+                                       conversation_history=parsed_history)
+
     # 4. Build system prompt + format hint
     system_prompt = get_system_prompt_rag(
         formato=formato,
@@ -620,7 +651,11 @@ async def audio_chat_endpoint(
         requested_persona=requested_persona,
         grade=grade,
         recipient_chain="",
+        extra_sources_text=extra_sources,
     )
+    # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
+    if extra_sources:
+        system_prompt = get_legal_prompt_focused(extra_sources, grade=grade)
     effective_persona = PERSONA_MAP.get(formato, 'abogado')
     if requested_persona:
         if requested_persona in PERSONA_NAME_MAP:

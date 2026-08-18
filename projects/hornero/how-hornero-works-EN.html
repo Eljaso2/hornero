@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Hornero Works — The machinery behind a sovereign union AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b120e; --bg2:#0f1512; --panel:#131b16; --panel2:#182119;
+  --line:#26332b; --line2:#31413a;
+  --ink:#ECEAE2; --mut:#A7A99B; --dim:#6F7A70;
+  --gold:#D4A654; --mint:#84D3A6; --green:#4E9978; --red:#d5654e;
+  --disp:'Archivo',system-ui,sans-serif;
+  --body:'Public Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--body); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:44px 44px;
+  background-position:center;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:radial-gradient(1200px 700px at 78% -8%,rgba(212,166,84,.10),transparent 60%),
+             radial-gradient(1000px 800px at 0% 100%,rgba(132,211,166,.07),transparent 55%);
+}
+.wrap{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:0 22px}
+a{color:inherit}
+.mono{font-family:var(--mono)}
+.tag{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold)}
+.tag.mint{color:var(--mint)}
+
+/* ---- top bar ---- */
+.topbar{position:sticky; top:0; z-index:20; backdrop-filter:blur(8px);
+  background:linear-gradient(180deg,rgba(11,18,14,.92),rgba(11,18,14,.55));
+  border-bottom:1px solid var(--line);}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:58px}
+.brand{display:flex; align-items:center; gap:11px; font-family:var(--disp); font-weight:800; letter-spacing:.02em}
+.brand .dot{width:12px; height:12px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 4px rgba(212,166,84,.18)}
+.brand small{font-family:var(--mono); font-weight:500; color:var(--dim); font-size:11px; letter-spacing:.14em; text-transform:uppercase}
+.navlinks{display:flex; gap:20px; font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--mut)}
+.navlinks a{text-decoration:none; padding:4px 0; border-bottom:1px solid transparent}
+.navlinks a:hover{color:var(--ink); border-color:var(--gold)}
+@media(max-width:720px){.navlinks{display:none}}
+
+/* ---- hero ---- */
+.hero{padding:92px 0 60px}
+.hero .kick{margin-bottom:20px}
+.hero h1{font-family:var(--disp); font-weight:900; font-size:clamp(34px,6.4vw,68px); line-height:1.02; margin:0 0 22px; letter-spacing:-.01em}
+.hero h1 em{font-style:normal; color:var(--gold)}
+.hero p.lead{font-size:clamp(16px,2.2vw,20px); color:var(--mut); max-width:640px; margin:0 0 34px}
+.hero .meta{display:flex; flex-wrap:wrap; gap:10px}
+.chip{font-family:var(--mono); font-size:12px; color:var(--mint); border:1px solid var(--line2);
+  background:var(--panel); padding:7px 12px; border-radius:100px}
+.chip b{color:var(--ink); font-weight:600}
+.scrollcue{margin-top:46px; font-family:var(--mono); font-size:12px; color:var(--dim); letter-spacing:.12em}
+.scrollcue span{display:inline-block; animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* ---- section frame ---- */
+section{padding:64px 0; border-top:1px solid var(--line)}
+.shead{margin-bottom:34px}
+.shead h2{font-family:var(--disp); font-weight:800; font-size:clamp(24px,3.6vw,38px); margin:12px 0 10px; letter-spacing:-.01em}
+.shead p{color:var(--mut); max-width:680px; margin:0}
+
+/* ---- PIPELINE ---- */
+.pipe{display:grid; grid-template-columns:minmax(0,340px) 1fr; gap:34px; align-items:start}
+@media(max-width:860px){.pipe{grid-template-columns:1fr; gap:24px}}
+.rail{position:relative; padding-left:26px}
+.rail .spine{position:absolute; left:6px; top:12px; bottom:12px; width:2px; background:var(--line2)}
+.rail .spine .fill{position:absolute; left:0; top:0; width:100%; background:linear-gradient(var(--gold),var(--mint)); height:0; transition:height .5s cubic-bezier(.4,0,.2,1)}
+.rail .marker{position:absolute; left:-1px; width:16px; height:16px; margin-left:-1px; border-radius:50%;
+  background:var(--gold); box-shadow:0 0 0 5px rgba(212,166,84,.22),0 0 22px rgba(212,166,84,.5);
+  transition:top .5s cubic-bezier(.4,0,.2,1); z-index:3; top:6px}
+.node{position:relative; display:flex; gap:13px; align-items:flex-start; padding:11px 12px; margin:5px 0;
+  border:1px solid transparent; border-radius:12px; cursor:pointer; transition:.25s; background:transparent}
+.node:hover{background:var(--panel)}
+.node.active{background:var(--panel2); border-color:var(--line2)}
+.node .num{font-family:var(--mono); font-size:11px; color:var(--dim); width:20px; flex:none; padding-top:3px}
+.node.active .num{color:var(--gold)}
+.node .nt{font-family:var(--disp); font-weight:700; font-size:15px; line-height:1.25}
+.node .ns{font-family:var(--mono); font-size:11px; color:var(--dim); margin-top:2px; letter-spacing:.02em}
+.node.done .nt{color:var(--mut)}
+
+/* detail panel */
+.detail{position:relative; border:1px solid var(--line2); border-radius:18px; overflow:hidden;
+  background:linear-gradient(180deg,var(--panel),var(--bg2)); min-height:440px}
+.detail .dhead{padding:22px 24px 0; display:flex; align-items:center; justify-content:space-between}
+.detail .stepno{font-family:var(--mono); font-size:12px; color:var(--gold); letter-spacing:.14em}
+.detail .layer{font-family:var(--mono); font-size:11px; color:var(--mut); border:1px solid var(--line2); padding:4px 9px; border-radius:100px}
+.detail h3{font-family:var(--disp); font-weight:800; font-size:clamp(21px,2.8vw,29px); margin:12px 24px 0; letter-spacing:-.01em}
+.detail .plain{color:var(--ink); margin:14px 24px 0; font-size:16px}
+.detail .techrow{margin:18px 24px 0; padding-top:16px; border-top:1px dashed var(--line2)}
+.detail .techrow .lbl{font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--mint); margin-bottom:7px}
+.detail .tech{font-family:var(--mono); font-size:12.5px; color:var(--mut); line-height:1.7}
+.detail .tech b{color:var(--ink); font-weight:600}
+.payload{margin:18px 24px 22px; background:#0a0f0c; border:1px solid var(--line); border-radius:12px;
+  font-family:var(--mono); font-size:12px; color:var(--mint); padding:14px 16px; overflow-x:auto; white-space:pre; min-height:74px}
+.payload .k{color:var(--gold)} .payload .s{color:#cfe6d8} .payload .c{color:var(--dim)}
+.pcursor{display:inline-block; width:8px; height:15px; background:var(--mint); vertical-align:-2px; animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* controls */
+.controls{display:flex; align-items:center; gap:12px; margin-top:22px; flex-wrap:wrap}
+.btn{font-family:var(--mono); font-size:13px; letter-spacing:.04em; color:var(--ink); background:var(--panel2);
+  border:1px solid var(--line2); border-radius:100px; padding:10px 18px; cursor:pointer; transition:.2s}
+.btn:hover{border-color:var(--gold); color:var(--gold)}
+.btn.primary{background:var(--gold); color:#1a1206; border-color:var(--gold); font-weight:600}
+.btn.primary:hover{background:var(--mint); border-color:var(--mint); color:#0c1a12}
+.btn[disabled]{opacity:.35; cursor:default; border-color:var(--line2); color:var(--mut)}
+.dots{display:flex; gap:7px; margin-left:auto}
+.dots i{width:8px; height:8px; border-radius:50%; background:var(--line2); cursor:pointer; transition:.2s}
+.dots i.on{background:var(--gold); transform:scale(1.3)}
+.progresshint{font-family:var(--mono); font-size:11px; color:var(--dim); margin-top:10px}
+
+/* ---- diagram ---- */
+.diagram{border:1px solid var(--line2); border-radius:18px; background:linear-gradient(180deg,var(--panel),var(--bg2));
+  padding:16px; margin-bottom:30px; overflow-x:auto}
+.diagram svg{width:100%; min-width:820px; height:auto; display:block}
+.zone{fill:rgba(255,255,255,.014); stroke:var(--line2); stroke-dasharray:4 5}
+.zone-lbl{font-family:var(--mono); font-size:11px; letter-spacing:.15em; fill:var(--dim)}
+.dgbox rect{fill:var(--panel2); stroke:var(--line2); stroke-width:1.4; transition:.3s; cursor:pointer}
+.dgbox:hover rect{stroke:var(--mint)}
+.dgbox .t{font-family:var(--disp); font-weight:700; font-size:14px; fill:var(--ink); pointer-events:none}
+.dgbox .k{font-family:var(--mono); font-size:9.3px; fill:var(--mut); pointer-events:none}
+.dgbox .num{font-family:var(--mono); font-size:10px; fill:var(--dim); pointer-events:none}
+.dgbox.active rect{stroke:var(--gold); stroke-width:2.2; fill:#1b241c; filter:drop-shadow(0 0 10px rgba(212,166,84,.4))}
+.dgbox.active .t{fill:var(--gold)}
+.dgbox.done rect{stroke:var(--green)}
+.dgarrow{fill:none; stroke:var(--line2); stroke-width:1.7; marker-end:url(#ah); transition:stroke .3s}
+.dgarrow.lit{stroke:var(--gold); marker-end:url(#ahl)}
+#pkt{transition:transform .55s cubic-bezier(.4,0,.2,1)}
+#pkt circle{fill:var(--mint); filter:drop-shadow(0 0 7px var(--mint))}
+.dghint{font-family:var(--mono); font-size:11px; color:var(--dim); text-align:center; margin-top:2px}
+
+/* ---- value chain ---- */
+.grid6{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+@media(max-width:820px){.grid6{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.grid6{grid-template-columns:1fr}}
+.link{border:1px solid var(--line2); border-radius:16px; padding:20px; background:var(--panel);
+  position:relative; transition:.25s; overflow:hidden}
+.link:hover{transform:translateY(-3px); border-color:var(--gold)}
+.link .n{font-family:var(--mono); font-size:11px; color:var(--dim)}
+.link h4{font-family:var(--disp); font-weight:800; font-size:18px; margin:6px 0 8px}
+.link p{color:var(--mut); font-size:13.5px; margin:0 0 14px}
+.stat{display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11px; letter-spacing:.06em;
+  padding:5px 10px; border-radius:100px}
+.stat.own{color:#0c1a12; background:var(--mint)}
+.stat.host{color:var(--gold); background:rgba(212,166,84,.12); border:1px solid rgba(212,166,84,.4)}
+.stat.road{color:var(--mut); background:transparent; border:1px dashed var(--line2)}
+
+/* ---- multitenant ---- */
+.tenants{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:8px}
+@media(max-width:720px){.tenants{grid-template-columns:1fr}}
+.ten{border:1px solid var(--line2); border-radius:14px; padding:16px; background:var(--panel)}
+.ten .h{font-family:var(--disp); font-weight:700; display:flex; align-items:center; gap:9px}
+.ten .h b{width:9px;height:9px;border-radius:2px}
+.ten ul{margin:12px 0 0; padding-left:16px; color:var(--mut); font-size:13px}
+.ten .shared{color:var(--mint)}
+.tnote{font-family:var(--mono); font-size:12px; color:var(--dim); margin-top:16px; text-align:center}
+
+/* ---- stack ---- */
+.stack{display:grid; grid-template-columns:repeat(2,1fr); gap:0; border:1px solid var(--line2); border-radius:16px; overflow:hidden}
+@media(max-width:640px){.stack{grid-template-columns:1fr}}
+.srow{display:grid; grid-template-columns:190px 1fr; gap:0; border-bottom:1px solid var(--line); border-right:1px solid var(--line)}
+.srow .a{font-family:var(--mono); font-size:12px; color:var(--gold); padding:14px 16px; background:var(--panel); letter-spacing:.03em}
+.srow .b{padding:14px 16px; color:var(--mut); font-size:13.5px}
+.srow .b b{color:var(--ink); font-weight:600}
+
+/* ---- close ---- */
+.close{padding:80px 0 90px; text-align:center; border-top:1px solid var(--line)}
+.close .mark{font-family:var(--disp); font-weight:900; font-size:clamp(40px,8vw,86px); letter-spacing:.01em; line-height:1}
+.close .mark .o{color:var(--gold)}
+.close .slogan{font-family:var(--mono); color:var(--mint); letter-spacing:.24em; text-transform:uppercase; font-size:13px; margin-top:14px}
+.close p{color:var(--mut); max-width:560px; margin:26px auto 0}
+.foot{font-family:var(--mono); font-size:11px; color:var(--dim); text-align:center; padding:26px 0 40px; letter-spacing:.05em}
+.reveal{opacity:0; transform:translateY(18px); transition:.7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1; transform:none}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>Hornero&nbsp;<small>Technical deep-dive</small></div>
+    <nav class="navlinks">
+      <a href="#pipeline">Pipeline</a>
+      <a href="#chain">Value chain</a>
+      <a href="#tenants">Multi-union</a>
+      <a href="#stack">Stack</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero"><div class="wrap">
+  <div class="kick tag">A sovereign artificial intelligence for the working class</div>
+  <h1>The machinery<br>behind <em>Hornero</em>.</h1>
+  <p class="lead">Most people <em>consume</em> AI built by someone else. Hornero is built the other way around — a union owns the data, the interface, the rules, and chooses the model. This is what happens, step by step, when a worker asks a question.</p>
+  <div class="meta">
+    <span class="chip"><b>Installable</b> web app · works offline</span>
+    <span class="chip"><b>Union-controlled</b> backend</span>
+    <span class="chip"><b>Real law,</b> cited article by article</span>
+    <span class="chip"><b>Non-US</b> language model</span>
+  </div>
+  <div class="scrollcue">SCROLL TO FOLLOW A REAL QUERY&nbsp;&nbsp;<span>↓</span></div>
+</div></header>
+
+<!-- ============ PIPELINE ============ -->
+<section id="pipeline"><div class="wrap">
+  <div class="shead reveal">
+    <div class="tag mint">The data flow · end to end</div>
+    <h2>Follow one question through the system</h2>
+    <p>A worker asks: <b>“Can they force me to work overtime?”</b> — press <b>Play</b>, or step through node by node. Nothing here is a mock-up: this is the real path a request takes.</p>
+  </div>
+
+  <!-- graphical pipeline diagram -->
+  <div class="diagram reveal">
+    <svg viewBox="0 0 1120 430" role="img" aria-label="Hornero pipeline diagram">
+      <defs>
+        <marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#31413a"/></marker>
+        <marker id="ahl" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#D4A654"/></marker>
+      </defs>
+
+      <!-- zone bands -->
+      <rect class="zone" x="20"  y="60" width="180" height="150" rx="16"/>
+      <text class="zone-lbl" x="30" y="52">WORKER'S DEVICE</text>
+      <rect class="zone" x="220" y="60" width="680" height="340" rx="16"/>
+      <text class="zone-lbl" x="230" y="52">UNION-CONTROLLED BACKEND</text>
+      <rect class="zone" x="920" y="60" width="180" height="150" rx="16"/>
+      <text class="zone-lbl" x="930" y="52">LANGUAGE MODEL</text>
+
+      <!-- arrows (data-i = step it leads into) -->
+      <path class="dgarrow" data-i="1" d="M180,131 H234"/>
+      <path class="dgarrow" data-i="2" d="M390,131 H404"/>
+      <path class="dgarrow" data-i="3" d="M560,131 H574"/>
+      <path class="dgarrow" data-i="4" d="M730,131 H744"/>
+      <path class="dgarrow" data-i="5" d="M900,131 H924"/>
+      <path class="dgarrow" data-i="6" d="M1005,167 C1005,205 890,230 828,230"/>
+      <path class="dgarrow" data-i="6" d="M750,262 C480,300 105,300 105,171"/>
+      <path class="dgarrow" data-i="7" d="M105,167 C105,215 190,262 234,262"/>
+
+      <!-- boxes -->
+      <g class="dgbox" data-i="0" transform="translate(30,95)">
+        <rect width="150" height="72" rx="11"/>
+        <text class="num" x="12" y="19">01</text><text class="t" x="12" y="34">Client · PWA</text>
+        <text class="k" x="12" y="51">Web Components</text><text class="k" x="12" y="62">Service Worker · offline</text>
+      </g>
+      <g class="dgbox" data-i="1" transform="translate(240,95)">
+        <rect width="150" height="72" rx="11"/>
+        <text class="num" x="12" y="19">02</text><text class="t" x="12" y="34">API proxy</text>
+        <text class="k" x="12" y="51">FastAPI · rate-limit</text><text class="k" x="12" y="62">CORS · keys server-side</text>
+      </g>
+      <g class="dgbox" data-i="2" transform="translate(410,95)">
+        <rect width="150" height="72" rx="11"/>
+        <text class="num" x="12" y="19">03</text><text class="t" x="12" y="34">Persona router</text>
+        <text class="k" x="12" y="51">formato → persona</text><text class="k" x="12" y="62">grade A → B.d</text>
+      </g>
+      <g class="dgbox" data-i="3" transform="translate(580,95)">
+        <rect width="150" height="72" rx="11"/>
+        <text class="num" x="12" y="19">04</text><text class="t" x="12" y="34">Legal library</text>
+        <text class="k" x="12" y="51">SQLite · multi-tenant</text><text class="k" x="12" y="62">cite + TF-IDF + LLM</text>
+      </g>
+      <g class="dgbox" data-i="4" transform="translate(750,95)">
+        <rect width="150" height="72" rx="11"/>
+        <text class="num" x="12" y="19">05</text><text class="t" x="12" y="34">Prompt builder</text>
+        <text class="k" x="12" y="51">persona + law +</text><text class="k" x="12" y="62">clipping · JSON out</text>
+      </g>
+      <g class="dgbox" data-i="5" transform="translate(930,95)">
+        <rect width="150" height="72" rx="11"/>
+        <text class="num" x="12" y="19">06</text><text class="t" x="12" y="34">LLM</text>
+        <text class="k" x="12" y="51">GLM · non-US</text><text class="k" x="12" y="62">Anthropic-compatible</text>
+      </g>
+      <g class="dgbox" data-i="6" transform="translate(750,230)">
+        <rect width="150" height="64" rx="11"/>
+        <text class="num" x="12" y="19">07</text><text class="t" x="12" y="34">Cited answer</text>
+        <text class="k" x="12" y="51">verifiable · to device</text>
+      </g>
+      <g class="dgbox" data-i="7" transform="translate(240,230)">
+        <rect width="150" height="64" rx="11"/>
+        <text class="num" x="12" y="19">08</text><text class="t" x="12" y="34">Report chain</text>
+        <text class="k" x="12" y="51">G1→G2→G3→G4 · SQLite</text>
+      </g>
+      <g class="dgbox" data-i="8" transform="translate(240,340)">
+        <rect width="660" height="40" rx="10"/>
+        <text class="num" x="14" y="17">09</text>
+        <text class="t" x="14" y="26" style="font-size:13px">Governance</text>
+        <text class="k" x="120" y="24" style="font-size:11px">union owns the data · the rules · the corpus · the on/off switch</text>
+      </g>
+
+      <!-- traveling packet -->
+      <g id="pkt" transform="translate(105,131)"><circle r="7"/></g>
+    </svg>
+  </div>
+  <div class="dghint">click any block, or use the walkthrough below ↓</div>
+
+  <div class="pipe reveal">
+    <!-- rail -->
+    <div class="rail" id="rail">
+      <div class="spine"><div class="fill" id="fill"></div></div>
+      <div class="marker" id="marker"></div>
+      <!-- nodes injected by JS -->
+    </div>
+
+    <!-- detail -->
+    <div>
+      <div class="detail">
+        <div class="dhead">
+          <span class="stepno" id="stepno">STEP 01 / 09</span>
+          <span class="layer" id="layer">DEVICE</span>
+        </div>
+        <h3 id="dtitle">—</h3>
+        <p class="plain" id="dplain">—</p>
+        <div class="techrow">
+          <div class="lbl">Under the hood</div>
+          <div class="tech" id="dtech">—</div>
+        </div>
+        <div class="payload" id="payload"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="prev">← Prev</button>
+        <button class="btn primary" id="play">▶ Play</button>
+        <button class="btn" id="next">Next →</button>
+        <div class="dots" id="dots"></div>
+      </div>
+      <div class="progresshint" id="hint">Node 1 of 9 · use ← / → keys, or click any node</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ VALUE CHAIN ============ -->
+<section id="chain"><div class="wrap">
+  <div class="shead reveal">
+    <div class="tag">Digital sovereignty · the six links</div>
+    <h2>Who controls the AI value chain?</h2>
+    <p>Every AI system is a chain of six links. Dependence means someone else owns them all. Sovereignty means the organization holds the decisive ones — and knows exactly where it still depends.</p>
+  </div>
+  <div class="grid6 reveal" id="chaingrid"></div>
+</div></section>
+
+<!-- ============ MULTI-TENANT ============ -->
+<section id="tenants"><div class="wrap">
+  <div class="shead reveal">
+    <div class="tag mint">One system, many unions</div>
+    <h2>Shared law, sovereign to each union</h2>
+    <p>A single deployment serves many unions. Each one sees the general labor law <span style="color:var(--mint)">everybody shares</span>, plus <b>its own</b> collective agreement and reports — fully isolated from the others.</p>
+  </div>
+  <div class="tenants reveal">
+    <div class="ten">
+      <div class="h"><b style="background:var(--gold)"></b>Oil workers · <span class="mono" style="font-size:12px;color:var(--dim)">aceiteros</span></div>
+      <ul>
+        <li class="shared">＋ General labor law (shared)</li>
+        <li>CCT 420/05 — its own agreement</li>
+        <li>Its own reports G1→G4</li>
+      </ul>
+    </div>
+    <div class="ten">
+      <div class="h"><b style="background:var(--mint)"></b>Commerce · <span class="mono" style="font-size:12px;color:var(--dim)">comercio</span></div>
+      <ul>
+        <li class="shared">＋ General labor law (shared)</li>
+        <li>CCT 130/75 — its own agreement</li>
+        <li>Its own reports G1→G4</li>
+      </ul>
+    </div>
+    <div class="ten">
+      <div class="h"><b style="background:var(--green)"></b>Shared layer · <span class="mono" style="font-size:12px;color:var(--dim)">shared</span></div>
+      <ul>
+        <li class="shared">Employment Contract Law (LCT)</li>
+        <li class="shared">Working Hours, Union, Risk laws</li>
+        <li class="shared">581 real articles, all cited</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tnote">isolation rule &nbsp;→&nbsp; <span style="color:var(--mint)">tenant sees:  its_collection ∪ 'shared'</span> &nbsp;·&nbsp; a union can never read another union's agreement or reports</div>
+</div></section>
+
+<!-- ============ STACK ============ -->
+<section id="stack"><div class="wrap">
+  <div class="shead reveal">
+    <div class="tag">The stack</div>
+    <h2>Built from parts a union can own</h2>
+    <p>No proprietary black boxes in the critical path. Everything here can be self-hosted, audited, and moved.</p>
+  </div>
+  <div class="stack reveal">
+    <div class="srow"><div class="a">Interface</div><div class="b"><b>Progressive Web App</b> — native Web Components, Service Worker (offline), installs without any app store</div></div>
+    <div class="srow"><div class="a">Frontend host</div><div class="b"><b>Static hosting</b> — no tracking SDKs, no ad tech, no profiling</div></div>
+    <div class="srow"><div class="a">Backend</div><div class="b"><b>FastAPI proxy</b> — rate-limited, origin-locked; the device never holds keys</div></div>
+    <div class="srow"><div class="a">Library / RAG</div><div class="b"><b>SQLite + retrieval</b> — exact-article match · TF-IDF · LLM query expansion · multi-tenant</div></div>
+    <div class="srow"><div class="a">Language model</div><div class="b"><b>Non-US LLM</b> via an Anthropic-compatible API — swappable, grounded, told to cite and never invent</div></div>
+    <div class="srow"><div class="a">Voice / multimodal</div><div class="b"><b>Speech-to-text</b> — so a worker can ask by voice or photo, not only by typing</div></div>
+    <div class="srow"><div class="a">Notifications</div><div class="b"><b>Web Push</b> — the union reaches its members directly, no intermediary platform</div></div>
+    <div class="srow"><div class="a">Governance</div><div class="b"><b>The union</b> — owns the data, the rules, the corpus, and the on/off switch</div></div>
+  </div>
+</div></section>
+
+<!-- ============ CLOSE ============ -->
+<div class="close reveal"><div class="wrap">
+  <div class="mark">H<span class="o">o</span>rnero</div>
+  <div class="slogan">To organize is to build</div>
+  <p>Technology is not neutral. An AI that a union builds, hosts and governs is a tool of organization — not a leash held by someone else.</p>
+</div></div>
+<div class="foot">Technical deep-dive · English · standalone document · open by double-click</div>
+
+<script>
+/* ---------------- pipeline data (the real path) ---------------- */
+const STEPS = [
+  { layer:"DEVICE", title:"The worker asks",
+    plain:"A worker opens Hornero — an app they installed like any other, that runs even with no signal — and types or speaks their question. No login to a tech giant, no app store.",
+    tech:"Progressive Web App built on native <b>Web Components</b>. A <b>Service Worker</b> caches the shell for offline use; local data stays on the device. Front-end served as static files.",
+    payload:[["c","// the worker's message, on-device"],["p",'{ '],["k",'"message"'],["s",': "Can they force me to work overtime?",'],["p",'\n  '],["k",'"channel"'],["s",': "voice→text" }']] },
+
+  { layer:"NETWORK", title:"Into the union's own backend",
+    plain:"The question travels to a backend the union controls — not to any AI vendor. The phone never touches the model directly and never holds a secret key.",
+    tech:"<b>FastAPI proxy</b>. Requests are rate-limited and CORS-locked to the app's origin. All model credentials live <b>server-side only</b>, so they can't leak from a device.",
+    payload:[["c","// POST /api/chat"],["p",'{ '],["k",'"message"'],["s",': "...",'],["p",'\n  '],["k",'"formato"'],["s",': "consulta",'],["p",'  '],["k",'"grade"'],["s",': "A" }']] },
+
+  { layer:"ROUTING", title:"Choosing the right specialist",
+    plain:"Hornero is not one chatbot. It's a team of voices: the Lawyer, the Compañero (organizer), the Sociologist, the Historian, the Journalist. The backend routes the question to the right one.",
+    tech:"<b>formato</b> / requested-persona selects a persona system prompt. The user's <b>grade</b> (A · B.a · B.b · B.c · B.d — base to federation) sets role and what they're allowed to see.",
+    payload:[["c","// routed"],["p",'{ '],["k",'"persona"'],["s",': "abogado",'],["p",'  '],["k",'"role"'],["s",': "labor lawyer",'],["p",'\n  '],["k",'"grade"'],["s",': "A (base worker)" }']] },
+
+  { layer:"RETRIEVAL", title:"Looking up the real law",
+    plain:"Instead of guessing, Hornero searches a curated library of real labor law — and the union's own collective agreement. It finds the exact articles that answer the question.",
+    tech:"<b>SQLite</b>, multi-tenant. Retrieval = exact-article match (\"art. 245\") + <b>TF-IDF</b> lexical + <b>LLM query expansion</b> for synonyms. Corpus: <b>581 real articles</b> (Employment Contract Law + 4 statutes).",
+    payload:[["c","// retrieved, verifiable"],["s",'[ "LCT · Art. 197 bis",\n  "LCT · Art. 201",\n  "Ley 11.544 · Art. 5" ]']] },
+
+  { layer:"ASSEMBLY", title:"Assembling the grounded prompt",
+    plain:"The specialist's instructions, the shared principles, the exact legal articles, and today's news clipping are assembled into a single, grounded prompt — only what's relevant.",
+    tech:"<b>get_system_prompt_rag()</b> = persona + common principles + <b>legal source block</b> + clipping. Injecting only relevant chunks cuts tokens by 60–80% per request.",
+    payload:[["c","// system prompt (excerpt)"],["s",'"You are the union Lawyer.\n Cite norma + article. If the\n articles don\'t cover it, say so.\n === LAW IN FORCE ===\n Art. 197 bis LCT: overtime is\n voluntary..."']] },
+
+  { layer:"MODEL", title:"The sovereign model writes",
+    plain:"A non-US large language model generates the reply — grounded in the retrieved law, answering from the worker's side, and instructed to cite the article and never invent.",
+    tech:"<b>GLM</b> via an Anthropic-compatible API — swappable, hostable. Returns <b>structured JSON</b>. Rule: cite norma+artículo; if the law doesn't cover it, admit it rather than hallucinate.",
+    payload:[["c","// model output"],["p",'{ '],["k",'"text"'],["s",': "No, it is voluntary...",'],["p",'\n  '],["k",'"tags"'],["s",': ["art-197bis-LCT"],'],["p",'  '],["k",'"persona"'],["s",': "abogado" }']] },
+
+  { layer:"ANSWER", title:"A cited answer, in plain words",
+    plain:"The worker reads: “No — overtime is voluntary. Art. 197 bis LCT requires it to be agreed in writing, and it's paid at +50%, or +100% on holidays.” Clear, and checkable.",
+    tech:"Every legal claim carries a <b>verifiable citation</b>. No invented law: the worker — or a delegate — can open the exact article and confirm it. Trust by verification, not by faith.",
+    payload:[["c","// rendered to the worker"],["s",'✓ Art. 197 bis LCT — voluntary\n✓ Art. 201 LCT — +50% / +100%\n✓ source: InfoLeg (official)']] },
+
+  { layer:"ORGANIZATION", title:"Knowledge climbs the union",
+    plain:"When a worker files a report, it doesn't vanish. A base report (G1) feeds a delegate's report (G2), then the secretary (G3), then the federation (G4) — the union builds a live map of conditions.",
+    tech:"Grade-based report chain <b>G1 → G2 → G3 → G4</b>. Reports are <b>confidential</b>: never exposed across personas, and never across unions. Aggregation goes up; privacy holds.",
+    payload:[["c","// escalation"],["s",'G1 worker report\n   → G2 delegate synthesis\n      → G3 secretary\n         → G4 federation']] },
+
+  { layer:"GOVERNANCE", title:"Private by design",
+    plain:"No ad SDKs, no profiling, no data sold. Conversations aren't mined. The corpus, the rules and the switch belong to the union — that's the whole point.",
+    tech:"Ephemeral by default, self-hostable end to end. <b>Data governance stays with the organization</b>. The dependency that remains — the model weights — is named openly, and it's on the roadmap to close.",
+    payload:[["c","// the principle"],["s",'"An AI the union builds and\n governs is a tool of\n organization — not a leash\n held by someone else."']] },
+];
+
+const LAYER_COLOR = {DEVICE:"var(--mint)",NETWORK:"var(--gold)",ROUTING:"var(--gold)",RETRIEVAL:"var(--mint)",
+  ASSEMBLY:"var(--gold)",MODEL:"var(--red)",ANSWER:"var(--mint)",ORGANIZATION:"var(--gold)",GOVERNANCE:"var(--mint)"};
+
+/* ---------------- build rail ---------------- */
+const rail = document.getElementById('rail');
+const dotsBox = document.getElementById('dots');
+STEPS.forEach((s,i)=>{
+  const n = document.createElement('div');
+  n.className='node'; n.dataset.i=i;
+  n.innerHTML = `<div class="num">${String(i+1).padStart(2,'0')}</div>
+    <div><div class="nt">${s.title}</div><div class="ns">${s.layer}</div></div>`;
+  n.addEventListener('click',()=>go(i));
+  rail.appendChild(n);
+  const d=document.createElement('i'); d.addEventListener('click',()=>go(i)); dotsBox.appendChild(d);
+});
+const nodes=[...rail.querySelectorAll('.node')];
+const dots=[...dotsBox.querySelectorAll('i')];
+
+/* diagram wiring */
+const dgboxes=[...document.querySelectorAll('.dgbox')];
+const dgarrows=[...document.querySelectorAll('.dgarrow')];
+const pkt=document.getElementById('pkt');
+const PKT_XY=[[105,131],[315,131],[485,131],[655,131],[825,131],[1005,131],[825,262],[315,262],[570,360]];
+dgboxes.forEach(b=>b.addEventListener('click',()=>{stop();go(+b.dataset.i);}));
+
+/* ---------------- state ---------------- */
+let cur=-1, playing=false, timer=null, typeTimer=null;
+const marker=document.getElementById('marker'), fill=document.getElementById('fill');
+
+function renderPayload(parts){
+  const box=document.getElementById('payload');
+  clearInterval(typeTimer);
+  const full=parts.map(p=>`<span class="${p[0]}">${escapeHtml(p[1])}</span>`);
+  const flat=parts.map(p=>p[1]).join('');
+  // typewriter over the flat text, then swap to colored spans
+  let i=0; box.textContent='';
+  const cursor='<span class="pcursor"></span>';
+  typeTimer=setInterval(()=>{
+    i+=Math.max(1,Math.round(flat.length/38));
+    if(i>=flat.length){ clearInterval(typeTimer); box.innerHTML=full.join(''); }
+    else{ box.innerHTML=escapeHtml(flat.slice(0,i))+cursor; }
+  },26);
+}
+function escapeHtml(t){return t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+function go(i){
+  i=Math.max(0,Math.min(STEPS.length-1,i));
+  cur=i; const s=STEPS[i];
+  nodes.forEach((n,k)=>{n.classList.toggle('active',k===i); n.classList.toggle('done',k<i);});
+  dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+  // sync graphical diagram
+  dgboxes.forEach((b,k)=>{b.classList.toggle('active',k===i); b.classList.toggle('done',k<i);});
+  dgarrows.forEach(a=>a.classList.toggle('lit', i>=(+a.dataset.i)));
+  const xy=PKT_XY[i]; if(xy) pkt.setAttribute('transform',`translate(${xy[0]},${xy[1]})`);
+  // marker + fill
+  const active=nodes[i];
+  const top=active.offsetTop + active.offsetHeight/2 - 8;
+  marker.style.top=top+'px';
+  fill.style.height=(active.offsetTop + active.offsetHeight/2 - 12)+'px';
+  // detail
+  document.getElementById('stepno').textContent=`STEP ${String(i+1).padStart(2,'0')} / ${String(STEPS.length).padStart(2,'0')}`;
+  const layer=document.getElementById('layer');
+  layer.textContent=s.layer; layer.style.color=LAYER_COLOR[s.layer]||'var(--mut)';
+  layer.style.borderColor='var(--line2)';
+  document.getElementById('dtitle').textContent=s.title;
+  document.getElementById('dplain').innerHTML=s.plain;
+  document.getElementById('dtech').innerHTML=s.tech;
+  renderPayload(s.payload);
+  document.getElementById('prev').disabled=(i===0);
+  document.getElementById('next').disabled=(i===STEPS.length-1);
+  document.getElementById('hint').textContent=`Node ${i+1} of ${STEPS.length} · use ← / → keys, or click any node`;
+}
+
+function next(){ if(cur<STEPS.length-1) go(cur+1); else stop(); }
+function prev(){ if(cur>0) go(cur-1); }
+function play(){
+  if(playing){ stop(); return; }
+  if(cur>=STEPS.length-1) go(0);
+  playing=true; document.getElementById('play').textContent='❚❚ Pause';
+  timer=setInterval(()=>{ if(cur>=STEPS.length-1){stop();return;} go(cur+1); },2600);
+}
+function stop(){ playing=false; clearInterval(timer); document.getElementById('play').textContent='▶ Play'; }
+
+document.getElementById('next').addEventListener('click',()=>{stop();next();});
+document.getElementById('prev').addEventListener('click',()=>{stop();prev();});
+document.getElementById('play').addEventListener('click',play);
+window.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'){stop();next();}
+  else if(e.key==='ArrowLeft'){stop();prev();}
+  else if(e.key===' '){e.preventDefault();play();}
+});
+window.addEventListener('resize',()=>{ if(cur>=0) go(cur); });
+
+/* ---------------- value chain ---------------- */
+const CHAIN=[
+  {n:"01",t:"Data",p:"The corpus: real labor law, the union's own agreement, workers' reports and testimony.",s:"own",l:"Owned by the union"},
+  {n:"02",t:"Model architecture",p:"The neural network itself. Today Hornero selects an existing non-US model rather than training one.",s:"host",l:"Selected & hosted"},
+  {n:"03",t:"Fine-tuning",p:"Adapting the model to labor language and the union's voice. Named as the key roadmap step.",s:"road",l:"On the roadmap"},
+  {n:"04",t:"Infrastructure",p:"Where it runs. Self-hostable end to end; the backend and library are already union-side.",s:"host",l:"Self-hostable"},
+  {n:"05",t:"Interface",p:"How a worker actually uses it: the installable app, the personas, voice and reports.",s:"own",l:"Owned by the union"},
+  {n:"06",t:"Governance",p:"The rules, the on/off switch, what's answered and what's private. The decisive link.",s:"own",l:"Owned by the union"},
+];
+const cg=document.getElementById('chaingrid');
+CHAIN.forEach(c=>{
+  const d=document.createElement('div'); d.className='link';
+  d.innerHTML=`<div class="n">LINK ${c.n}</div><h4>${c.t}</h4><p>${c.p}</p><span class="stat ${c.s}">${c.l}</span>`;
+  cg.appendChild(d);
+});
+
+/* ---------------- reveal on scroll ---------------- */
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* init */
+go(0);
+</script>
+</body>
+</html>

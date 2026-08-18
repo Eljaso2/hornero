@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hornero · Demos para sindicatos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121613; --surface:#1E2622; --surface2:#242E29;
+    --line:#31413A; --line-soft:#283530;
+    --green:#4E9978; --green-lt:#84D3A6; --green-pale:#1E3A2E;
+    --gold:#D4A654; --clay:#C06A4E;
+    --text:#ECEAE2; --text-mid:#A7A99B; --text-dim:#6F7A70;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --disp:'Archivo',system-ui,sans-serif;
+    --body:'Public Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:var(--body); background:var(--bg); color:var(--text);
+    -webkit-font-smoothing:antialiased; min-height:100vh; padding:clamp(28px,5vw,64px) clamp(20px,5vw,72px) 60px;
+    background-image:
+      radial-gradient(1100px 640px at 82% -10%, rgba(78,153,120,.16), transparent 60%),
+      radial-gradient(820px 520px at -5% 108%, rgba(212,166,84,.12), transparent 55%);
+  }
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+
+  header{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;flex-wrap:wrap;margin-bottom:clamp(30px,4vw,52px)}
+  .brand{display:flex;align-items:center;gap:15px}
+  .emblem{width:56px;height:56px;flex:0 0 auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+  .brand h1{font-family:var(--disp);font-weight:900;font-size:clamp(26px,3vw,34px);letter-spacing:-.03em;line-height:.95}
+  .brand .sub{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-top:8px}
+  .lede{max-width:440px;color:var(--text-mid);font-size:15px;line-height:1.55;padding-top:6px}
+  .lede b{color:var(--text)}
+
+  .intro-h{font-family:var(--disp);font-weight:900;font-size:clamp(28px,4vw,46px);line-height:1.04;letter-spacing:-.025em;margin-bottom:14px;max-width:20ch}
+  .intro-h em{font-style:normal;color:var(--green-lt)}
+  .intro-p{color:var(--text-mid);font-size:16px;line-height:1.6;max-width:60ch;margin-bottom:clamp(28px,3.5vw,44px)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+  .card{position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,var(--surface),#1a221e);
+    border:1px solid var(--line-soft);border-radius:18px;padding:24px 22px 20px;text-decoration:none;color:inherit;
+    transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s;overflow:hidden;min-height:230px}
+  .card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--green),var(--gold));opacity:.0;transition:opacity .25s}
+  .card:hover{transform:translateY(-6px);border-color:var(--green);box-shadow:0 24px 50px -26px rgba(0,0,0,.7)}
+  .card:hover::before{opacity:1}
+  .card .num{position:absolute;top:18px;right:20px;font-family:var(--disp);font-weight:900;font-size:40px;color:var(--line);line-height:1;transition:color .25s}
+  .card:hover .num{color:var(--green-pale)}
+  .ico{font-size:30px;margin-bottom:16px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+  .card h3{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.01em;margin-bottom:8px}
+  .card p{color:var(--text-mid);font-size:13.5px;line-height:1.5;flex:1}
+  .meta{display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--green-lt);background:var(--green-pale);border:1px solid #2c5540;border-radius:6px;padding:4px 8px}
+  .chip.alt{color:var(--gold);background:rgba(212,166,84,.10);border-color:#6b5730}
+  .go{margin-left:auto;font-family:var(--body);font-weight:700;font-size:13px;color:var(--green-lt);display:flex;align-items:center;gap:6px;transition:gap .2s}
+  .card:hover .go{gap:11px}
+
+  .en-row{margin-top:26px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13.5px;color:var(--text-mid)}
+  .en-row a{color:var(--gold);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s}
+  .en-row a:hover{border-color:var(--gold)}
+
+  footer{margin-top:clamp(36px,5vw,60px);padding-top:22px;border-top:1px solid var(--line-soft);
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.05em}
+  footer b{color:var(--green-lt)}
+
+  @media(max-width:640px){ .card .num{font-size:32px} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><symbol id="hornero" viewBox="0 0 64 64">
+  <path d="M20 44c-6 0-11-4-11-11 0-7 6-12 14-12 3 0 5 .6 7 1.7C33 18 39 14 46 14c1.5 0 2 .3 2 1 0 .6-.5 1-1.6 1.4-5 1.8-7.4 5-7.4 9.6 0 1.6.4 3 .4 4.6 0 8-6.4 13.4-15 13.4z" fill="#84D3A6"/>
+  <circle cx="17" cy="30" r="2.1" fill="#121613"/>
+  <path d="M8 30c-2-1-3-2.4-3-3.6 0-.7.5-1 1.4-.7L14 28z" fill="#D4A654"/>
+  <path d="M16 44c1 4 4 7 8 8 1 .3 1 1.2-.2 1.2H14c-5 0-9-4-9-9 0-4 2.8-6.6 4-6.6.7 0 .8.6.5 1.4C8.6 41 11.5 43.5 16 44z" fill="#4E9978"/>
+</symbol></svg>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg class="emblem"><use href="#hornero"/></svg>
+      <div><h1>Hornero</h1><div class="sub">IA sindical soberana · Demos</div></div>
+    </div>
+    <p class="lede">Piezas para <b>mostrar a otros sindicatos</b> cómo funciona cada herramienta del ecosistema. Cada una es una demostración animada, autocontenida, con un caso real.</p>
+  </header>
+
+  <h2 class="intro-h">De un relato de planta<br>a <em>inteligencia colectiva</em>.</h2>
+  <p class="intro-p">Elegí una funcionalidad para ver la demostración. Tip para presentar: usá las flechas <b>←/→</b> para avanzar a tu ritmo, o <b>▶ Auto</b> para que corra sola (y grabarla como video).</p>
+
+  <div class="grid">
+    <a class="card" href="demo-que-es-hornero.html" target="_blank">
+      <div class="num">00</div>
+      <div class="ico">🐦</div>
+      <h3>¿Qué es Hornero?</h3>
+      <p>Empezá acá: la tesis de soberanía. Crear IA propia vs. consumir la de Silicon Valley, y los 6 eslabones que el sindicato controla.</p>
+      <div class="meta"><span class="chip">Ecosistema · Empezá acá</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-proteccion-datos.html" target="_blank">
+      <div class="num">00</div>
+      <div class="ico">🔒</div>
+      <h3>Protección de datos</h3>
+      <p>La base de la confianza: quién ve cada reporte (la empresa nunca), consentimiento, anonimización, borrado de metadatos y datos soberanos.</p>
+      <div class="meta"><span class="chip">Fundamento · Confianza</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-reporte-operario.html" target="_blank">
+      <div class="num">01</div>
+      <div class="ico">📝</div>
+      <h3>Reporte de un operario</h3>
+      <p>El corazón del sistema: el relato de un trabajador se vuelve un informe clasificado y trazable, que escala hasta la delegada y la federación.</p>
+      <div class="meta"><span class="chip">Inteligencia Sindical</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-consulta-legal.html" target="_blank">
+      <div class="num">02</div>
+      <div class="ico">⚖️</div>
+      <h3>Consulta legal</h3>
+      <p>Tus derechos y tu convenio, con la fuente citada. El Abogado busca en la ley y la jurisprudencia — y si no hay respaldo, no inventa.</p>
+      <div class="meta"><span class="chip">El Abogado · RAG</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-smvm.html" target="_blank">
+      <div class="num">03</div>
+      <div class="ico">💰</div>
+      <h3>SMVM en contexto</h3>
+      <p>El salario mínimo legal vs. el valor constitucional (las 9 necesidades de la LCT). La brecha entre ambos es la medida de la súper-explotación.</p>
+      <div class="meta"><span class="chip">El Investigador</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-ice-empresa.html" target="_blank">
+      <div class="num">04</div>
+      <div class="ico">🏢</div>
+      <h3>Comportamiento Empresarial</h3>
+      <p>Analizá a la empresa con sus propias armas: el índice ICE la mide en 4 dimensiones de violencia, con marcos de OIT y Derechos Humanos.</p>
+      <div class="meta"><span class="chip">Índice ICE</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-clipping.html" target="_blank">
+      <div class="num">05</div>
+      <div class="ico">📰</div>
+      <h3>Clipping semanal</h3>
+      <p>La coyuntura laboral, ya clasificada por tema y con el tipo de violencia marcado. Inteligencia sobre lo urgente, lista para la asamblea.</p>
+      <div class="meta"><span class="chip">Coyuntura</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-historia-obrera.html" target="_blank">
+      <div class="num">06</div>
+      <div class="ico">📚</div>
+      <h3>Historia Obrera</h3>
+      <p>La memoria de la clase como arsenal. La Historiadora abre el archivo obrero — con fuentes reales — y conecta las luchas del pasado con el conflicto de hoy.</p>
+      <div class="meta"><span class="chip">La Historiadora</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-prensa-comunicacion.html" target="_blank">
+      <div class="num">07</div>
+      <div class="ico">📢</div>
+      <h3>Prensa y comunicación</h3>
+      <p>El Periodista convierte una victoria o un conflicto en un volante, podcast o reel. La IA propone; vos editás y aprobás — con la voz del sindicato.</p>
+      <div class="meta"><span class="chip">El Periodista</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-adopcion.html" target="_blank">
+      <div class="num">08</div>
+      <div class="ico">🤝</div>
+      <h3>Cómo suma tu sindicato</h3>
+      <p>No se compra: se co-construye. Codiseño, membresía por tamaño y servicio mensual — con subsidio cruzado para que ningún sindicato quede afuera.</p>
+      <div class="meta"><span class="chip">Adopción · B2B2C</span><span class="go">Ver demo ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-multimodal.html" target="_blank">
+      <div class="num">09</div>
+      <div class="ico">🎙️</div>
+      <h3>Reportar por voz y foto</h3>
+      <p>En plena planta, sin tipear: el operario manda un audio y una foto. Hornero transcribe, borra los metadatos (EXIF) y arma el informe igual.</p>
+      <div class="meta"><span class="chip">Multimodal · Accesible</span><span class="go">Ver demo ▸</span></div>
+    </a>
+  </div>
+
+  <div class="en-row">
+    <span>🌐 Las 6 demos también están en inglés:</span>
+    <a href="demos-hornero-EN.html">English version ▸</a>
+    <span style="color:var(--text-dim)">·</span>
+    <a href="presentacion-hornero.html">▶ Modo presentación (todo en uno)</a>
+  </div>
+
+  <footer>
+    <span>Hornero · Ecosistema de IA sindical · Piloto: <b>Federación Aceitera</b></span>
+    <span>Organizar es construir</span>
+  </footer>
+</div>
+</body>
+</html>

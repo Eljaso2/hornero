@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hornero · Demos for unions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121613; --surface:#1E2622; --surface2:#242E29;
+    --line:#31413A; --line-soft:#283530;
+    --green:#4E9978; --green-lt:#84D3A6; --green-pale:#1E3A2E;
+    --gold:#D4A654; --clay:#C06A4E;
+    --text:#ECEAE2; --text-mid:#A7A99B; --text-dim:#6F7A70;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --disp:'Archivo',system-ui,sans-serif;
+    --body:'Public Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:var(--body); background:var(--bg); color:var(--text);
+    -webkit-font-smoothing:antialiased; min-height:100vh; padding:clamp(28px,5vw,64px) clamp(20px,5vw,72px) 60px;
+    background-image:
+      radial-gradient(1100px 640px at 82% -10%, rgba(78,153,120,.16), transparent 60%),
+      radial-gradient(820px 520px at -5% 108%, rgba(212,166,84,.12), transparent 55%);
+  }
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+
+  .lang{display:flex;justify-content:flex-end;margin-bottom:18px}
+  .lang a{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid);text-decoration:none;border:1px solid var(--line);border-radius:100px;padding:7px 14px;transition:.2s}
+  .lang a:hover{border-color:var(--green);color:var(--green-lt)}
+
+  header{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;flex-wrap:wrap;margin-bottom:clamp(30px,4vw,52px)}
+  .brand{display:flex;align-items:center;gap:15px}
+  .emblem{width:56px;height:56px;flex:0 0 auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+  .brand h1{font-family:var(--disp);font-weight:900;font-size:clamp(26px,3vw,34px);letter-spacing:-.03em;line-height:.95}
+  .brand .sub{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-top:8px}
+  .lede{max-width:440px;color:var(--text-mid);font-size:15px;line-height:1.55;padding-top:6px}
+  .lede b{color:var(--text)}
+
+  .intro-h{font-family:var(--disp);font-weight:900;font-size:clamp(28px,4vw,46px);line-height:1.04;letter-spacing:-.025em;margin-bottom:14px;max-width:20ch}
+  .intro-h em{font-style:normal;color:var(--green-lt)}
+  .intro-p{color:var(--text-mid);font-size:16px;line-height:1.6;max-width:60ch;margin-bottom:clamp(28px,3.5vw,44px)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+  .card{position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,var(--surface),#1a221e);
+    border:1px solid var(--line-soft);border-radius:18px;padding:24px 22px 20px;text-decoration:none;color:inherit;
+    transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s;overflow:hidden;min-height:230px}
+  .card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--green),var(--gold));opacity:.0;transition:opacity .25s}
+  .card:hover{transform:translateY(-6px);border-color:var(--green);box-shadow:0 24px 50px -26px rgba(0,0,0,.7)}
+  .card:hover::before{opacity:1}
+  .card .num{position:absolute;top:18px;right:20px;font-family:var(--disp);font-weight:900;font-size:40px;color:var(--line);line-height:1;transition:color .25s}
+  .card:hover .num{color:var(--green-pale)}
+  .ico{font-size:30px;margin-bottom:16px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+  .card h3{font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.01em;margin-bottom:8px}
+  .card p{color:var(--text-mid);font-size:13.5px;line-height:1.5;flex:1}
+  .meta{display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--green-lt);background:var(--green-pale);border:1px solid #2c5540;border-radius:6px;padding:4px 8px}
+  .go{margin-left:auto;font-family:var(--body);font-weight:700;font-size:13px;color:var(--green-lt);display:flex;align-items:center;gap:6px;transition:gap .2s}
+  .card:hover .go{gap:11px}
+
+  footer{margin-top:clamp(36px,5vw,60px);padding-top:22px;border-top:1px solid var(--line-soft);
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.05em}
+  footer b{color:var(--green-lt)}
+
+  @media(max-width:640px){ .card .num{font-size:32px} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><symbol id="hornero" viewBox="0 0 64 64">
+  <path d="M20 44c-6 0-11-4-11-11 0-7 6-12 14-12 3 0 5 .6 7 1.7C33 18 39 14 46 14c1.5 0 2 .3 2 1 0 .6-.5 1-1.6 1.4-5 1.8-7.4 5-7.4 9.6 0 1.6.4 3 .4 4.6 0 8-6.4 13.4-15 13.4z" fill="#84D3A6"/>
+  <circle cx="17" cy="30" r="2.1" fill="#121613"/>
+  <path d="M8 30c-2-1-3-2.4-3-3.6 0-.7.5-1 1.4-.7L14 28z" fill="#D4A654"/>
+  <path d="M16 44c1 4 4 7 8 8 1 .3 1 1.2-.2 1.2H14c-5 0-9-4-9-9 0-4 2.8-6.6 4-6.6.7 0 .8.6.5 1.4C8.6 41 11.5 43.5 16 44z" fill="#4E9978"/>
+</symbol></svg>
+
+<div class="wrap">
+  <div class="lang"><a href="demos-hornero.html">Versión en español ▸</a></div>
+
+  <header>
+    <div class="brand">
+      <svg class="emblem"><use href="#hornero"/></svg>
+      <div><h1>Hornero</h1><div class="sub">Sovereign union AI · Demos</div></div>
+    </div>
+    <p class="lede">Pieces to <b>show other unions</b> how each tool in the ecosystem works. Each one is a self-contained animated walkthrough, built on a real case.</p>
+  </header>
+
+  <h2 class="intro-h">From a shop-floor account<br>to <em>collective intelligence</em>.</h2>
+  <p class="intro-p">Pick a feature to watch its walkthrough. Presenting tip: use the arrows <b>←/→</b> to move at your own pace, or <b>▶ Auto</b> to let it run (and screen-record it as a video).</p>
+
+  <div class="grid">
+    <a class="card" href="demo-que-es-hornero-EN.html" target="_blank">
+      <div class="num">00</div>
+      <div class="ico">🐦</div>
+      <h3>What is Hornero?</h3>
+      <p>Start here: the sovereignty thesis. Building your own AI vs. consuming Silicon Valley's, and the 6 links the union controls.</p>
+      <div class="meta"><span class="chip">Ecosystem · Start here</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-proteccion-datos-EN.html" target="_blank">
+      <div class="num">00</div>
+      <div class="ico">🔒</div>
+      <h3>Data protection</h3>
+      <p>The foundation of trust: who sees each report (never the company), consent, anonymization, metadata stripping and sovereign data.</p>
+      <div class="meta"><span class="chip">Foundation · Trust</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-reporte-operario-EN.html" target="_blank">
+      <div class="num">01</div>
+      <div class="ico">📝</div>
+      <h3>Worker's report</h3>
+      <p>The heart of the system: a worker's account becomes a classified, traceable report that escalates to the steward and the federation.</p>
+      <div class="meta"><span class="chip">Union Intelligence</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-consulta-legal-EN.html" target="_blank">
+      <div class="num">02</div>
+      <div class="ico">⚖️</div>
+      <h3>Legal help</h3>
+      <p>Your rights and your agreement, with the source cited. The Lawyer searches the law and case law — and if there's no backing, it doesn't make things up.</p>
+      <div class="meta"><span class="chip">The Lawyer · RAG</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-smvm-EN.html" target="_blank">
+      <div class="num">03</div>
+      <div class="ico">💰</div>
+      <h3>Minimum wage in context</h3>
+      <p>The legal minimum wage vs. its constitutional value (the 9 needs in the Labor Contract Law). The gap between them is the measure of super-exploitation.</p>
+      <div class="meta"><span class="chip">The Researcher</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-ice-empresa-EN.html" target="_blank">
+      <div class="num">04</div>
+      <div class="ico">🏢</div>
+      <h3>Corporate Behavior</h3>
+      <p>Analyze the company with its own weapons: the ICE index measures it across 4 dimensions of violence, with ILO and Business &amp; Human Rights frameworks.</p>
+      <div class="meta"><span class="chip">ICE index</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-clipping-EN.html" target="_blank">
+      <div class="num">05</div>
+      <div class="ico">📰</div>
+      <h3>Weekly Clipping</h3>
+      <p>The labor situation, already classified by topic and with the type of violence flagged. Intelligence on what's urgent, ready for the assembly.</p>
+      <div class="meta"><span class="chip">Current affairs</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-historia-obrera-EN.html" target="_blank">
+      <div class="num">06</div>
+      <div class="ico">📚</div>
+      <h3>Labor History</h3>
+      <p>The class's memory as a weapon. The Historian opens the workers' archive — with real sources — and connects past struggles to today's conflict.</p>
+      <div class="meta"><span class="chip">The Historian</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-prensa-comunicacion-EN.html" target="_blank">
+      <div class="num">07</div>
+      <div class="ico">📢</div>
+      <h3>Press &amp; communications</h3>
+      <p>The Journalist turns a win or a conflict into a flyer, podcast or reel. The AI proposes; you edit and approve — in the union's voice.</p>
+      <div class="meta"><span class="chip">The Journalist</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-adopcion-EN.html" target="_blank">
+      <div class="num">08</div>
+      <div class="ico">🤝</div>
+      <h3>How your union joins</h3>
+      <p>It isn't bought — it's co-built. Co-design, membership by size and a monthly service — with cross-subsidy so no union is left out.</p>
+      <div class="meta"><span class="chip">Adoption · B2B2C</span><span class="go">Watch ▸</span></div>
+    </a>
+
+    <a class="card" href="demo-multimodal-EN.html" target="_blank">
+      <div class="num">09</div>
+      <div class="ico">🎙️</div>
+      <h3>Report by voice &amp; photo</h3>
+      <p>Right on the shop floor, no typing: the worker sends an audio note and a photo. Hornero transcribes, strips the metadata (EXIF) and builds the report all the same.</p>
+      <div class="meta"><span class="chip">Multimodal · Accessible</span><span class="go">Watch ▸</span></div>
+    </a>
+  </div>
+
+  <footer>
+    <span>Hornero · Union AI ecosystem · Pilot: <b>Oilseed Workers' Federation</b></span>
+    <span>To organize is to build</span>
+  </footer>
+</div>
+</body>
+</html>

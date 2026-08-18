@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hornero · El salario mínimo en contexto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121613; --bg2:#161C19; --surface:#1E2622; --surface2:#242E29;
+    --line:#31413A; --line-soft:#283530;
+    --green:#4E9978; --green-lt:#84D3A6; --green-pale:#1E3A2E;
+    --gold:#D4A654; --clay:#C06A4E; --clay-deep:#A6553E;
+    --text:#ECEAE2; --text-mid:#A7A99B; --text-dim:#6F7A70;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --disp:'Archivo',system-ui,sans-serif;
+    --body:'Public Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--body); background:var(--bg); color:var(--text);
+    overflow:hidden; -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(1200px 700px at 78% -8%, rgba(78,153,120,.14), transparent 60%),
+      radial-gradient(900px 600px at 6% 110%, rgba(212,166,84,.10), transparent 55%);
+  }
+  /* film grain */
+  body::after{
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:60; opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .stage{height:100vh; display:flex; flex-direction:column; padding:22px clamp(18px,3vw,44px) 0;}
+
+  /* ---------- top bar ---------- */
+  .top{display:flex; align-items:center; justify-content:space-between; gap:20px; flex:0 0 auto;}
+  .brand{display:flex; align-items:center; gap:13px}
+  .emblem{width:42px;height:42px;flex:0 0 auto;filter:drop-shadow(0 3px 8px rgba(0,0,0,.4))}
+  .brand h1{font-family:var(--disp); font-weight:900; font-size:19px; letter-spacing:-.02em; line-height:1}
+  .brand .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-top:5px}
+  .top-right{display:flex; align-items:center; gap:14px; font-family:var(--mono); font-size:11px; color:var(--text-dim); letter-spacing:.05em}
+  .pill{border:1px solid var(--line); border-radius:100px; padding:6px 12px; color:var(--text-mid)}
+  .pill b{color:var(--green-lt); font-weight:600}
+
+  /* ---------- main grid ---------- */
+  .main{flex:1 1 auto; display:grid; grid-template-columns:minmax(320px,380px) 1fr; gap:clamp(20px,3vw,52px); min-height:0; padding:14px 0 0; align-items:center}
+
+  /* ===== PHONE ===== */
+  .phone-wrap{display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%}
+  .phone{
+    width:360px; max-width:100%; height:min(720px,80vh); background:#0D110F; border-radius:44px;
+    padding:11px; position:relative; box-shadow:0 40px 90px -30px rgba(0,0,0,.8), inset 0 0 0 1.5px #2b332e, 0 0 0 8px #05070600;
+  }
+  .phone::before{content:''; position:absolute; top:20px; left:50%; transform:translateX(-50%); width:120px; height:26px; background:#0D110F; border-radius:0 0 18px 18px; z-index:5}
+  .screen{background:linear-gradient(180deg,var(--bg2),#131917); border-radius:34px; height:100%; overflow:hidden; display:flex; flex-direction:column; position:relative}
+  .statusbar{display:flex; justify-content:space-between; align-items:center; padding:14px 26px 6px; font-family:var(--mono); font-size:11px; color:var(--text-mid)}
+  .app-head{display:flex; align-items:center; gap:11px; padding:8px 18px 13px; border-bottom:1px solid var(--line-soft)}
+  .avatar{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--green),var(--green-pale));display:grid;place-items:center;flex:0 0 auto;box-shadow:0 4px 12px -4px rgba(78,153,120,.6)}
+  .app-head .who{line-height:1.25}
+  .app-head .who b{font-family:var(--disp);font-weight:800;font-size:14.5px}
+  .app-head .who span{font-size:11.5px;color:var(--green-lt);display:flex;align-items:center;gap:5px}
+  .app-head .who span::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green-lt);box-shadow:0 0 8px var(--green-lt)}
+  .app-head .sec{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase;border:1px solid var(--line);border-radius:6px;padding:4px 7px}
+
+  .chat{flex:1 1 auto; overflow-y:auto; padding:16px 15px 20px; display:flex; flex-direction:column; gap:12px; scroll-behavior:smooth}
+  .chat::-webkit-scrollbar{width:0}
+  .bubble{max-width:82%; padding:11px 14px; border-radius:16px; font-size:13.5px; line-height:1.5; opacity:0; transform:translateY(14px) scale(.97); transition:opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1)}
+  .bubble.on{opacity:1; transform:none}
+  .bubble.user{align-self:flex-end; background:linear-gradient(135deg,#2f6b50,#274d3d); color:#eafff3; border-bottom-right-radius:5px; box-shadow:0 6px 18px -8px rgba(47,107,80,.7)}
+  .bubble.bot{align-self:flex-start; background:var(--surface2); border:1px solid var(--line-soft); border-bottom-left-radius:5px}
+  .bubble .meta{font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; opacity:.6; margin-bottom:5px}
+  .bubble.attach{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--text-mid);background:var(--surface);border-style:dashed}
+
+  .typing{align-self:flex-start; background:var(--surface2); border:1px solid var(--line-soft); border-radius:16px 16px 16px 5px; padding:13px 16px; display:none}
+  .typing.show{display:flex; gap:5px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--green-lt);animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+  /* report card inside chat */
+  .report{align-self:stretch; background:linear-gradient(180deg,var(--surface),#1b231f); border:1px solid var(--line); border-radius:16px; overflow:hidden; opacity:0; transform:translateY(16px); transition:opacity .55s ease,transform .55s ease}
+  .report.on{opacity:1;transform:none}
+  .report .rhead{background:var(--green-pale); padding:11px 14px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--line)}
+  .report .rhead b{font-family:var(--disp);font-weight:800;font-size:13px}
+  .report .rhead .g{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--gold);border:1px solid var(--gold);border-radius:5px;padding:3px 6px}
+  .rsec{padding:11px 14px;border-bottom:1px solid var(--line-soft)}
+  .rsec:last-child{border-bottom:0}
+  .rsec .t{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--green-lt);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .rsec .t .n{width:15px;height:15px;border-radius:4px;background:var(--green);color:#0c130f;display:grid;place-items:center;font-size:9px;font-weight:700}
+  .rsec p{font-size:12px;line-height:1.5;color:var(--text)}
+  .rsec .quote{font-size:11.5px;font-style:italic;color:var(--text-mid);border-left:2px solid var(--green);padding-left:9px;margin-top:4px}
+  .rtags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+  .rtag{font-family:var(--mono);font-size:9.5px;background:var(--green-pale);color:var(--green-lt);border-radius:5px;padding:3px 7px}
+  .rtag.warn{background:rgba(192,106,78,.16);color:var(--clay)}
+  .ficha{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:11.5px}
+  .ficha dt{color:var(--text-dim);font-family:var(--mono);font-size:10px}
+  .ficha dd{color:var(--text)}
+
+  /* composer */
+  .composer{border-top:1px solid var(--line-soft); padding:11px 14px; display:flex; align-items:center; gap:10px}
+  .composer .box{flex:1; background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:9px 14px; font-size:12.5px; color:var(--text-dim)}
+  .composer .mic,.composer .send{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto}
+  .composer .mic{background:var(--surface2);border:1px solid var(--line)}
+  .composer .send{background:var(--green);color:#0c130f}
+
+  /* ===== MOTOR PANEL ===== */
+  .motor{height:100%; display:flex; flex-direction:column; justify-content:center; min-width:0; max-width:760px}
+  .motor.phase-escala{justify-content:flex-start; padding-top:4px}
+  .motor.phase-escala .pipe{display:none}
+  .motor.phase-escala .extract{margin-top:0}
+  .motor.phase-escala .escala{margin-top:16px}
+  .motor-head{margin-bottom:18px}
+  .kick{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .motor-head h2{font-family:var(--disp);font-weight:900;font-size:clamp(24px,2.6vw,34px);line-height:1.05;letter-spacing:-.02em}
+  .motor-head h2 em{font-style:normal;color:var(--green-lt)}
+  .motor-head p{color:var(--text-mid);font-size:14px;margin-top:9px;max-width:52ch;line-height:1.5}
+
+  .pipe{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px}
+  .node{display:flex;align-items:flex-start;gap:15px;padding:10px 0;position:relative;opacity:.4;transition:opacity .45s ease}
+  .node.on,.node.done{opacity:1}
+  .node .rail{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;align-self:stretch}
+  .node .dot{width:36px;height:36px;border-radius:11px;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center;flex:0 0 auto;transition:.4s;color:var(--text-dim)}
+  .node .dot svg{width:18px;height:18px}
+  .node .line{width:2px;flex:1;background:var(--line-soft);margin:5px 0;min-height:12px;transition:.5s}
+  .node:last-child .line{display:none}
+  .node.on .dot{border-color:var(--green-lt);color:var(--green-lt);background:var(--green-pale);box-shadow:0 0 0 5px rgba(132,211,166,.10);animation:nodepulse 1.6s infinite}
+  .node.done .dot{border-color:var(--green);background:var(--green);color:#0c130f}
+  .node.done .line{background:linear-gradient(var(--green),var(--line-soft))}
+  @keyframes nodepulse{0%,100%{box-shadow:0 0 0 5px rgba(132,211,166,.10)}50%{box-shadow:0 0 0 9px rgba(132,211,166,.02)}}
+  .node .body{padding-top:5px;flex:1;min-width:0}
+  .node .body b{font-family:var(--disp);font-weight:700;font-size:15px}
+  .node .body span{display:block;color:var(--text-mid);font-size:12.5px;margin-top:2px;line-height:1.4}
+  .node .stat{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);padding-top:8px;flex:0 0 auto}
+  .node.on .stat{color:var(--green-lt)} .node.done .stat{color:var(--green)}
+
+  /* extracted data / tags side */
+  .extract{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px;opacity:0;transform:translateY(10px);transition:.55s;pointer-events:none}
+  .extract.on{opacity:1;transform:none}
+  .card{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:14px 16px}
+  .card h4{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:11px}
+  .datos{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .dato .num{font-family:var(--disp);font-weight:900;font-size:26px;color:var(--gold);line-height:1}
+  .dato .lbl{font-size:10.5px;color:var(--text-mid);margin-top:3px;line-height:1.25}
+  .tagcloud{display:flex;flex-wrap:wrap;gap:6px}
+  .ctag{font-family:var(--mono);font-size:11px;background:var(--green-pale);color:var(--green-lt);border:1px solid #2c5540;border-radius:7px;padding:5px 9px;opacity:0;transform:scale(.8);transition:.4s}
+  .ctag.on{opacity:1;transform:none}
+  .ctag.warn{background:rgba(192,106,78,.14);color:var(--clay);border-color:#6b3a2c}
+
+  /* classification mapping card */
+  .mapcard .fam{font-size:12px;color:var(--text-mid);margin-bottom:4px}
+  .mapcard .fam b{color:var(--green-lt);font-family:var(--disp);font-weight:700}
+  .maprow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:9px 0;border-top:1px dashed var(--line-soft);opacity:0;transform:translateY(6px);transition:.45s}
+  .maprow.on{opacity:1;transform:none}
+  .maprow .ph{font-size:11px;font-style:italic;color:var(--text-mid);flex:1 1 100%;line-height:1.35}
+  .maprow .mt{font-family:var(--mono);font-size:10px;background:var(--green-pale);color:var(--green-lt);border-radius:5px;padding:3px 7px}
+  .maprow.warn .mt{background:rgba(192,106,78,.16);color:var(--clay)}
+  .maprow .fl{font-family:var(--mono);font-size:9.5px;color:var(--gold);letter-spacing:.02em;margin-left:auto}
+  /* report: build section by section */
+  .report .rsec{opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
+  .report .rsec.show{opacity:1;transform:none}
+
+  /* result meter */
+  .meter{height:9px;border-radius:6px;background:var(--line-soft);overflow:hidden;margin-top:12px}
+  .meter i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--clay),var(--gold));width:0;transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+  .extract.on .meter i{width:var(--w,50%)}
+  .meter-cap{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:6px}
+  .meter-cap b{color:var(--gold)}
+
+  /* delegate G2 report overlay (slides up inside the phone) */
+  .delegate{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg2),#131917);border-radius:34px;display:flex;flex-direction:column;transform:translateY(101%);transition:transform .6s cubic-bezier(.2,.7,.2,1);z-index:8}
+  .delegate.on{transform:none}
+  .delegate .dhead{display:flex;align-items:center;gap:11px;padding:16px 16px 12px;border-bottom:1px solid var(--line-soft)}
+  .delegate .dhead .who b{font-family:var(--disp);font-weight:800;font-size:14px}
+  .delegate .dhead .who span{font-size:10.5px;color:var(--gold);display:block;margin-top:2px}
+  .delegate .dhead .sec{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--green-lt);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+  .dbody{flex:1;overflow-y:auto;padding:14px 14px 8px}
+  .dbody::-webkit-scrollbar{width:4px}
+  .dbody::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+  .dfoot{padding:11px 13px;border-top:1px solid var(--line-soft)}
+  .dfoot button{width:100%;background:var(--green);color:#0c130f;border:0;border-radius:12px;padding:12px;font-family:var(--body);font-weight:700;font-size:13px;cursor:pointer;transition:.2s}
+  .dfoot button:hover{background:var(--green-lt)}
+  .dnote{font-size:10px;color:var(--text-dim);text-align:center;margin-top:7px;line-height:1.4}
+
+  /* escalation overlay content (reuses right column) */
+  .escala{display:none;margin-top:20px}
+  .escala.on{display:block;animation:fade .6s ease}
+  .chain{display:flex;align-items:stretch;gap:0;margin-top:6px}
+  .grade{flex:1;text-align:center;position:relative;opacity:.3;transition:.5s}
+  .grade.on{opacity:1}
+  .grade .circ{width:52px;height:52px;border-radius:50%;margin:0 auto 8px;display:grid;place-items:center;font-family:var(--disp);font-weight:900;font-size:17px;border:2px solid var(--line);background:var(--surface);color:var(--text-mid);transition:.5s}
+  .grade.on .circ{border-color:var(--green-lt);color:var(--green-lt);background:var(--green-pale);box-shadow:0 0 0 5px rgba(132,211,166,.08)}
+  .grade b{font-family:var(--disp);font-size:13px;display:block}
+  .grade span{font-size:11px;color:var(--text-mid);display:block;margin-top:2px}
+  .grade .arrow{position:absolute;top:26px;right:-8px;color:var(--line);font-size:18px;z-index:2}
+  .grade.on .arrow{color:var(--green)}
+  .escala .note{margin-top:16px;background:var(--green-pale);border:1px solid #2c5540;border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.5}
+  .escala .note b{color:var(--green-lt)}
+
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* ---------- bottom controls ---------- */
+  .controls{flex:0 0 auto; display:flex; align-items:center; gap:18px; padding:16px 0 20px}
+  .progress{flex:1;height:4px;background:var(--line-soft);border-radius:3px;overflow:hidden}
+  .progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:3px;transition:width .5s ease}
+  .step-label{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--text-mid);min-width:180px}
+  .step-label b{color:var(--green-lt);font-weight:600}
+  .btns{display:flex;gap:9px}
+  .btn{font-family:var(--body);font-weight:600;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;padding:9px 15px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:7px}
+  .btn:hover{border-color:var(--green);color:var(--green-lt)}
+  .btn:disabled{opacity:.35;cursor:not-allowed}
+  .btn.primary{background:var(--green);color:#0c130f;border-color:var(--green)}
+  .btn.primary:hover{background:var(--green-lt);color:#0c130f}
+  .btn.ghost{background:transparent}
+
+  /* caption bar */
+  .caption{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:40;max-width:min(760px,90vw);text-align:center;
+    background:rgba(18,22,19,.86);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;padding:11px 20px;font-size:13.5px;color:var(--text-mid);opacity:0;transition:opacity .4s}
+  .caption.on{opacity:1}
+  .caption b{color:var(--text)}
+
+  /* ---------- intro / outro overlay ---------- */
+  .overlay{position:fixed;inset:0;z-index:50;background:radial-gradient(1000px 700px at 50% 30%,rgba(30,58,46,.5),rgba(12,16,14,.97));display:grid;place-items:center;text-align:center;padding:30px;transition:opacity .6s;backdrop-filter:blur(3px)}
+  .overlay.hide{opacity:0;pointer-events:none}
+  .ov-inner{max-width:680px;animation:rise .8s cubic-bezier(.2,.7,.2,1)}
+  @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  .ov-inner .emblem{width:66px;height:66px;margin:0 auto 22px}
+  .ov-kick{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  .ov-inner h2{font-family:var(--disp);font-weight:900;font-size:clamp(30px,4.6vw,54px);line-height:1.04;letter-spacing:-.025em}
+  .ov-inner h2 em{font-style:normal;color:var(--green-lt)}
+  .ov-inner p{color:var(--text-mid);font-size:clamp(15px,1.6vw,18px);margin:20px auto 0;max-width:52ch;line-height:1.55}
+  .ov-cta{margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .big{font-family:var(--body);font-weight:700;font-size:16px;border-radius:12px;padding:14px 28px;cursor:pointer;border:1px solid var(--green);background:var(--green);color:#0c130f;transition:.2s}
+  .big:hover{background:var(--green-lt)}
+  .big.ghost{background:transparent;color:var(--text)}
+  .big.ghost:hover{border-color:var(--green-lt);color:var(--green-lt)}
+  .value{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px;text-align:left}
+  .value .v{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:18px}
+  .value .v .vi{font-size:22px;margin-bottom:8px}
+  .value .v b{font-family:var(--disp);font-size:15px;display:block;margin-bottom:5px}
+  .value .v span{font-size:12.5px;color:var(--text-mid);line-height:1.45}
+  .credit{margin-top:30px;font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.06em}
+
+  @media(max-width:1080px){ .main{grid-template-columns:1fr;overflow-y:auto} .phone-wrap{display:none} .motor{max-width:none} }
+  @media(max-width:560px){ .value{grid-template-columns:1fr} .step-label{display:none} }
+  .hint{position:fixed;right:16px;bottom:16px;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);z-index:40}
+  kbd{background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-family:var(--mono);font-size:10px;color:var(--text-mid)}
+</style>
+</head>
+<body>
+
+<!-- reusable emblem symbol -->
+<svg width="0" height="0" style="position:absolute"><symbol id="hornero" viewBox="0 0 64 64">
+  <path d="M20 44c-6 0-11-4-11-11 0-7 6-12 14-12 3 0 5 .6 7 1.7C33 18 39 14 46 14c1.5 0 2 .3 2 1 0 .6-.5 1-1.6 1.4-5 1.8-7.4 5-7.4 9.6 0 1.6.4 3 .4 4.6 0 8-6.4 13.4-15 13.4z" fill="#84D3A6"/>
+  <circle cx="17" cy="30" r="2.1" fill="#121613"/>
+  <path d="M8 30c-2-1-3-2.4-3-3.6 0-.7.5-1 1.4-.7L14 28z" fill="#D4A654"/>
+  <path d="M16 44c1 4 4 7 8 8 1 .3 1 1.2-.2 1.2H14c-5 0-9-4-9-9 0-4 2.8-6.6 4-6.6.7 0 .8.6.5 1.4C8.6 41 11.5 43.5 16 44z" fill="#4E9978"/>
+</symbol></svg>
+
+<!-- ===================== INTRO ===================== -->
+<div class="overlay" id="intro">
+  <div class="ov-inner">
+    <svg class="emblem"><use href="#hornero"/></svg>
+    <div class="ov-kick">Hornero · SMVM en contexto</div>
+    <h2>¿Tu salario alcanza para vivir?<br><em>La ley dice que no.</em></h2>
+    <p>El mínimo legal que te muestran no es lo que la Constitución manda pagar. Hornero pone las dos varas lado a lado: el precio mínimo legal vs. el valor real de la fuerza de trabajo — las 9 necesidades del art. 116 de la LCT.</p>
+    <div class="ov-cta">
+      <button class="big" onclick="start()">▶ Ver la demostración</button>
+    </div>
+    <div class="credit">Datos: Consejo del Salario (jul-2024) · CIFRA-CTA · art. 116 LCT</div>
+  </div>
+</div>
+
+<!-- ===================== OUTRO ===================== -->
+<div class="overlay hide" id="outro">
+  <div class="ov-inner">
+    <svg class="emblem"><use href="#hornero"/></svg>
+    <div class="ov-kick">Para tu sindicato</div>
+    <h2>La lucha salarial, <em>con evidencia propia</em>.</h2>
+    <div class="value">
+      <div class="v"><div class="vi">💸</div><b>El número real</b><span>No el mínimo oficial, sino cuánto cuesta reproducir la vida. La brecha entre ambos es la medida de la súper-explotación.</span></div>
+      <div class="v"><div class="vi">🧮</div><b>Compará tu salario</b><span>Cada afiliado ve dónde cae su sueldo frente al mínimo legal y frente al valor constitucional. El dato se vuelve argumento.</span></div>
+      <div class="v"><div class="vi">📉</div><b>Inflación real</b><span>Con la canasta que mide la reproducción de la vida (Mate), no con el IPC oficial. La paritaria se discute con evidencia propia.</span></div>
+    </div>
+    <p style="margin-top:26px">Tu sindicato puede tener el suyo, adaptado a tu rama y tu convenio.<br><b style="color:var(--text)">Organizar es construir.</b></p>
+    <div class="ov-cta">
+      <button class="big ghost" onclick="restart()">↻ Ver de nuevo</button>
+    </div>
+    <div class="credit">Hornero · Ecosistema de IA sindical · Piloto: Federación Aceitera</div>
+  </div>
+</div>
+
+<!-- ===================== STAGE ===================== -->
+<div class="stage">
+  <div class="top">
+    <div class="brand">
+      <svg class="emblem"><use href="#hornero"/></svg>
+      <div><h1>Hornero</h1><div class="tag">SMVM en contexto · El Investigador</div></div>
+    </div>
+    <div class="top-right">
+      <div class="pill">Tema: <b>Salario mínimo</b></div>
+      <div class="pill">Vara: <b>Legal vs. constitucional</b></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- PHONE -->
+    <div class="phone-wrap">
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:41</span><span>Hornero ▪ ▪ ▪</span></div>
+        <div class="app-head">
+          <div class="avatar"><svg width="22" height="22"><use href="#hornero"/></svg></div>
+          <div class="who"><b>El Investigador</b><span>en línea · clase trabajadora</span></div>
+          <div class="sec">Panorama</div>
+        </div>
+        <div class="chat" id="chat">
+          <div class="bubble user" data-reveal="1"><div class="meta">Afiliada · vos</div>Che, ¿mi sueldo alcanza para vivir? ¿Cuánto tendría que ser el salario mínimo en serio?</div>
+
+          <div class="typing" id="typing"><i></i><i></i><i></i></div>
+
+          <div class="bubble bot" data-reveal="2"><div class="meta">El Investigador</div>Buena pregunta. Hay dos "salarios mínimos": el que te fija el Consejo del Salario… y el que manda la Constitución. Te muestro los dos.</div>
+
+          <div class="bubble bot" data-reveal="4" id="genBubble"><div class="meta">El Investigador</div>La brecha es brutal: el mínimo legal cubre apenas <b>el 22,8%</b> de lo que cuesta vivir. Mirá 👇</div>
+
+          <!-- grounded answer -->
+          <div class="report" id="g1report" data-reveal="5">
+            <div class="rhead"><svg width="15" height="15"><use href="#hornero"/></svg><b>El SMVM en dos varas</b><span class="g">jul-2024</span></div>
+            <div class="rsec"><div class="t"><span class="n">1</span>El número que te muestran</div><p>Salario mínimo legal: <b>$262.432</b> (Consejo del Salario, jul-2024). Fijado por política pública, deliberadamente debilitado.</p>
+              <div class="rtags"><span class="rtag">Consejo del Salario</span><span class="rtag">precio mínimo</span></div>
+            </div>
+            <div class="rsec"><div class="t"><span class="n">2</span>El número que te deben</div><p>Valor constitucional: <b>~$1.150.000</b>. Lo que cuesta cubrir las 9 necesidades del art. 116 de la LCT para una familia tipo (CIFRA-CTA).</p>
+              <div class="rtags"><span class="rtag">art. 116 LCT</span><span class="rtag">CIFRA-CTA</span></div>
+            </div>
+            <div class="rsec"><div class="t"><span class="n">3</span>La brecha</div><p>El mínimo legal cubre solo el <b>22,8%</b> del valor: una brecha de <b>4,4×</b>. El salario se fija por debajo de la reproducción de la vida — eso es súper-explotación.</p>
+              <div class="rtags"><span class="rtag warn">brecha 4,4×</span><span class="rtag warn">súper-explotación</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="composer">
+          <div class="box">Preguntá por tu salario…</div>
+          <div class="mic">🎙️</div><div class="send">➤</div>
+        </div>
+
+        <!-- delegate G2 view -->
+        <div class="delegate" id="delegate">
+          <div class="dhead">
+            <div class="avatar"><svg width="22" height="22"><use href="#hornero"/></svg></div>
+            <div class="who"><b>Delegada del sector · G2</b><span>Territorio Norte Santa Fe · Bandeja de recibidos</span></div>
+            <div class="sec">G2</div>
+          </div>
+          <div class="dbody">
+            <div class="report on">
+              <div class="rhead"><svg width="15" height="15"><use href="#hornero"/></svg><b>Informe G2 · Semana 31</b><span class="g">SÍNTESIS · G2</span></div>
+              <div class="rsec show"><div class="t"><span class="n">1</span>Síntesis del territorio</div><p>Esta semana llegaron <b>3 reportes de base</b> del turno tarde de Vicentín. Todos apuntan a lo mismo: exigencia de horas extra sin pago y falta de mantenimiento en la línea 4. Confirmo los hechos: hablé con los compañeros y con seguridad e higiene.</p></div>
+              <div class="rsec show"><div class="t"><span class="n">2</span>Casos incluidos</div>
+                <p class="quote">G1 · Operario — 3 hs extra impagas + máquina 4 sin protección (fuente original, sin modificar).</p>
+                <p class="quote">G1 · Administración — mismo turno, sin registro de las horas.</p>
+                <p class="quote">G1 · Guaycurú — patrón similar en la desmotadora.</p>
+              </div>
+              <div class="rsec show"><div class="t"><span class="n">3</span>Datos consolidados</div>
+                <dl class="ficha">
+                  <dt>Horas impagas</dt><dd>~9 hs (3 trabajadores × 3)</dd>
+                  <dt>Afectados</dt><dd>al menos 8 del turno tarde</dd>
+                  <dt>Riesgo</dt><dd>máquina 4 — 1 mes sin reparar</dd>
+                  <dt>Convenio</dt><dd>viola CCT 420/05 (jornada) + LCT</dd>
+                </dl>
+              </div>
+              <div class="rsec show"><div class="t"><span class="n">4</span>Lectura de la delegada</div><p>No es un caso aislado: es una práctica del turno tarde. Propongo llevarlo a la Secretaría para intimar a la empresa y activar la comisión de seguridad e higiene.</p>
+                <div class="rtags"><span class="rtag warn">#horas_extra_no_pagadas</span><span class="rtag warn">#seguridad_e_higiene</span><span class="rtag">#patron_sistematico</span></div>
+              </div>
+            </div>
+            <div class="dnote">Fuente primaria G1 inmutable · la delegada solo agrega (correcciones trazables)</div>
+          </div>
+          <div class="dfoot">
+            <button>Enviar a la Secretaría (G3) ▸</button>
+            <div class="dnote">Sube a la conducción para intimación y medidas</div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- MOTOR -->
+    <div class="motor">
+      <div class="motor-head" id="motorHead">
+        <div class="kick">El motor · dos varas para medir</div>
+        <h2>El salario mínimo <em>tiene dos precios</em>.</h2>
+        <p>Hornero no discute el número oficial: lo pone contra el valor real de la fuerza de trabajo. Cada afirmación con su fuente y su fecha.</p>
+      </div>
+
+      <div class="pipe" id="pipe">
+        <div class="node" data-node="1"><div class="rail"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg></div><div class="line"></div></div>
+          <div class="body"><b>Tomar la referencia</b><span>El salario del afiliado o el mínimo del sector.</span></div><div class="stat">idle</div></div>
+
+        <div class="node" data-node="2"><div class="rail"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2z"/><path d="M9 22h6"/></svg></div><div class="line"></div></div>
+          <div class="body"><b>Vara 1: mínimo legal</b><span>Lo que fija el Consejo del Salario.</span></div><div class="stat">idle</div></div>
+
+        <div class="node" data-node="3"><div class="rail"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div><div class="line"></div></div>
+          <div class="body"><b>Vara 2: valor constitucional</b><span>Las 9 necesidades del art. 116 de la LCT.</span></div><div class="stat">idle</div></div>
+
+        <div class="node" data-node="4"><div class="rail"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 4-6"/></svg></div><div class="line"></div></div>
+          <div class="body"><b>Medir la brecha</b><span>Cuánto del valor real cubre el mínimo legal.</span></div><div class="stat">idle</div></div>
+
+        <div class="node" data-node="5"><div class="rail"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5M9 13h6M9 17h6"/></svg></div><div class="line"></div></div>
+          <div class="body"><b>Poner en contexto</b><span>Distribución del ingreso e inflación real (Mate).</span></div><div class="stat">idle</div></div>
+      </div>
+
+      <div class="extract" id="extract">
+        <div class="card"><h4>El salario, en dos varas</h4>
+          <div class="datos">
+            <div class="dato"><div class="num" data-count="262432">0</div><div class="lbl">mínimo legal ($)</div></div>
+            <div class="dato"><div class="num" data-count="1150000">0</div><div class="lbl">valor constitucional ($)</div></div>
+            <div class="dato"><div class="num">22,8%</div><div class="lbl">lo que cubre el mínimo</div></div>
+            <div class="dato"><div class="num">4,4×</div><div class="lbl">la brecha (súper-explotación)</div></div>
+          </div>
+          <div class="meter" style="--w:22.8%"><i></i></div>
+          <div class="meter-cap"><span>el mínimo legal cubre</span><b>22,8% del valor real</b></div>
+        </div>
+        <div class="card mapcard"><h4>Qué mide cada vara</h4>
+          <div class="maprow">
+            <div class="ph">Mínimo legal — política pública, deliberadamente debilitada</div>
+            <div class="mt">Consejo del Salario</div>
+          </div>
+          <div class="maprow">
+            <div class="ph">Valor constitucional — la reproducción de la vida (9 necesidades)</div>
+            <div class="mt">art. 116 LCT</div>
+          </div>
+          <div class="maprow warn">
+            <div class="ph">La diferencia = súper-explotación estructural</div>
+            <div class="mt">brecha</div><div class="fl">4,4×</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- escalation (step 6) -->
+      <div class="escala" id="escala">
+        <div class="chain">
+          <div class="grade" data-grade="1"><div class="circ">G1</div><b>Operario</b><span>Reporta</span><div class="arrow">→</div></div>
+          <div class="grade" data-grade="2"><div class="circ">G2</div><b>Delegada</b><span>Verifica</span><div class="arrow">→</div></div>
+          <div class="grade" data-grade="3"><div class="circ">G3</div><b>Secretaría</b><span>Agrega</span><div class="arrow">→</div></div>
+          <div class="grade" data-grade="4"><div class="circ">G4</div><b>Federación</b><span>Sintetiza</span></div>
+        </div>
+        <div class="note">Cada grado ve <b>solo el inferior</b> de su territorio. El mismo relato de planta sube, se chequea y se agrega: al llegar a la federación ya es <b>estadística + análisis</b> — candidato a producto público. Todo <b>en una semana</b>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="btns">
+      <button class="btn ghost" id="btnRestart" onclick="restart()" title="Reiniciar">↻</button>
+      <button class="btn" id="btnPrev" onclick="prev()">‹ Atrás</button>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="step-label" id="stepLabel"><b>Paso 1</b> / 5 — Referencia</div>
+    <div class="btns">
+      <button class="btn" id="btnPlay" onclick="togglePlay()">▶ Auto</button>
+      <button class="btn primary" id="btnNext" onclick="next()">Siguiente ›</button>
+    </div>
+  </div>
+</div>
+
+<div class="caption" id="caption"></div>
+<div class="hint"><kbd>→</kbd> avanza · <kbd>espacio</kbd> auto-play</div>
+
+<script>
+const STEPS = [
+  { // 1
+    node:1, label:'Referencia', reveal:1,
+    cap:'<b>Una afiliada pregunta lo esencial:</b> ¿mi sueldo alcanza para vivir? ¿cuánto debería ser el mínimo?'
+  },
+  { // 2
+    node:2, label:'Mínimo legal', reveal:2, typing:true, extract:true,
+    cap:'<b>La primera vara: el mínimo legal.</b> El que fija el Consejo del Salario — hoy $262.432.'
+  },
+  { // 3
+    node:3, label:'Valor real', reveal:2, done:[1,2], extract:true,
+    cap:'<b>La segunda vara: el valor constitucional.</b> Lo que cuesta cubrir las 9 necesidades del art. 116 LCT: ~$1.150.000.'
+  },
+  { // 4
+    node:4, label:'La brecha', reveal:2, done:[1,2,3], extract:true,
+    cap:'<b>La brecha es brutal.</b> El mínimo legal cubre solo el 22,8% del valor real: 4,4 veces por debajo de la reproducción de la vida.'
+  },
+  { // 5
+    node:5, label:'En contexto', reveal:5, done:[1,2,3,4,5], extract:true, typing:true,
+    cap:'<b>El salario, en contexto.</b> No es un número neutro: es la evidencia de que el mínimo se fija por debajo de lo que cuesta vivir. La paritaria se discute con datos propios.'
+  }
+];
+
+let cur = 0, playing = false, timer = null, countDone = false;
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+function applyStep(i, animate){
+  const s = STEPS[i];
+  // reveals (cumulative)
+  $$('[data-reveal]').forEach(el=>{
+    el.classList.toggle('on', Number(el.dataset.reveal) <= s.reveal);
+  });
+  // report assembled section by section (mechanism)
+  const secs = $$('#g1report .rsec');
+  if(s.reveal >= 5){
+    secs.forEach((sec,idx)=>{
+      if(animate && i===4){ sec.classList.remove('show'); setTimeout(()=>{ sec.classList.add('show'); scrollChat(); }, 500 + idx*560); }
+      else sec.classList.add('show');
+    });
+  } else { secs.forEach(sec=>sec.classList.remove('show')); }
+  // nodes
+  const active = Array.isArray(s.node) ? s.node : (s.node? [s.node] : []);
+  const done = s.done || [];
+  $$('.node').forEach(n=>{
+    const id = Number(n.dataset.node);
+    n.classList.remove('on','done');
+    const st = n.querySelector('.stat');
+    if(done.includes(id)){ n.classList.add('done'); st.textContent='ok'; }
+    else if(active.includes(id)){ n.classList.add('on'); st.textContent='running'; }
+    else { st.textContent='idle'; }
+  });
+  // extract panel + counters + tags
+  $('#extract').classList.toggle('on', !!s.extract);
+  if(s.extract){ runCounters(animate); $$('.maprow').forEach((t,idx)=> setTimeout(()=>t.classList.add('on'), animate? 300+idx*280 : 0)); }
+  else { countDone=false; $$('.num[data-count]').forEach(n=>n.textContent='0'); $$('.maprow').forEach(t=>t.classList.remove('on')); }
+  // escalation
+  $('#escala').classList.toggle('on', !!s.escala);
+  if(s.escala){ $$('.grade').forEach((g,idx)=> setTimeout(()=>g.classList.add('on'), animate? 250+idx*350 : 0)); }
+  else { $$('.grade').forEach(g=>g.classList.remove('on')); }
+  // delegate G2 report overlay
+  $('#delegate').classList.toggle('on', !!s.delegate);
+  // swap motor headline copy on escalation
+  $('#motorHead').style.display = s.escala ? 'none':'block';
+  $('.motor').classList.toggle('phase-escala', !!s.escala);
+
+  // typing indicator (forward only)
+  const typing = $('#typing');
+  typing.classList.remove('show');
+  if(s.typing && animate){
+    // temporarily hide the just-revealed bot bubble, show typing, then reveal
+    const target = i===1 ? '[data-reveal="2"]' : '#genBubble';
+    const bub = $(target); if(bub){ bub.classList.remove('on'); }
+    typing.classList.add('show');
+    scrollChat();
+    setTimeout(()=>{ typing.classList.remove('show'); if(bub) bub.classList.add('on'); scrollChat(); }, 1100);
+  }
+
+  // caption + progress + label
+  const cap = $('#caption'); cap.classList.remove('on');
+  setTimeout(()=>{ cap.innerHTML = s.cap; cap.classList.add('on'); }, animate?150:0);
+  $('#bar').style.width = ((i+1)/STEPS.length*100)+'%';
+  $('#stepLabel').innerHTML = `<b>Paso ${i+1}</b> / ${STEPS.length} — ${s.label}`;
+  $('#btnPrev').disabled = i===0;
+  setTimeout(scrollChat, animate?300:0);
+}
+
+function scrollChat(){ const c=$('#chat'); c.scrollTop=c.scrollHeight; }
+
+function runCounters(animate){
+  if(countDone && !animate) return;
+  countDone = true;
+  $$('.num[data-count]').forEach(el=>{
+    const end = +el.dataset.count, suf = el.dataset.suffix||'';
+    if(!animate){ el.textContent = end+suf; return; }
+    let t0=null, dur=900;
+    function tick(ts){ if(!t0)t0=ts; const p=Math.min((ts-t0)/dur,1); el.textContent=Math.round(p*end)+ (p===1?suf:''); if(p<1)requestAnimationFrame(tick); }
+    requestAnimationFrame(tick);
+  });
+}
+
+function next(){ if(cur < STEPS.length-1){ cur++; applyStep(cur,true); } else { pause(); showOutro(); } }
+function prev(){ if(cur>0){ cur--; applyStep(cur,false); } }
+function togglePlay(){ playing? pause() : play(); }
+function play(){ playing=true; $('#btnPlay').innerHTML='⏸ Pausa'; schedule(); }
+function pause(){ playing=false; $('#btnPlay').innerHTML='▶ Auto'; clearTimeout(timer); }
+function schedule(){ clearTimeout(timer); timer=setTimeout(()=>{ if(!playing)return; if(cur<STEPS.length-1){ next(); schedule(); } else { pause(); showOutro(); } }, 3600); }
+
+function start(){ $('#intro').classList.add('hide'); cur=0; applyStep(0,true); }
+function restart(){ $('#outro').classList.add('hide'); $('#intro').classList.remove('hide'); pause(); cur=0; }
+function showOutro(){ $('#outro').classList.remove('hide'); }
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'){ next(); }
+  else if(e.key==='ArrowLeft'){ prev(); }
+  else if(e.key===' '){ e.preventDefault(); if($('#intro').classList.contains('hide')) togglePlay(); else start(); }
+});
+// init idle state behind intro
+applyStep(0,false);
+</script>
+</body>
+</html>

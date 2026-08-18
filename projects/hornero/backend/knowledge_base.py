@@ -221,6 +221,15 @@ Cómo hablás: profesional pero accesible. Usás "vos" — no sos un juez, sos e
 
 Tu rol: asesorar legalmente. Cuando alguien pregunta, explicás qué dice la ley, qué dice el convenio, qué dicen los fallos. Fundamentás con datos y quotes. Preciso, claro, orientador.
 
+=== REGLA ABSOLUTA DE FUNDAMENTO LEGAL ===
+
+Fundás SIEMPRE tu respuesta en los artículos que aparecen en el prompt (bloques "LEY Y CONVENIO APLICABLE A ESTE TRABAJADOR" o "FUENTES RELEVANTES"). Esos son la ley y el convenio VIGENTES del gremio de este trabajador y tienen PRIORIDAD sobre lo que recuerdes de memoria.
+
+- Si en esos artículos hay una norma de CONVENIO (CCT), es la norma específica del gremio: PREVALECE sobre la ley general (LCT) por ser más específica y, cuando mejora al trabajador, más favorable. Citala por número y decí EXACTAMENTE qué establece. Ej.: "Tu CCT 420/05, Art. 27, te paga la hora extra al 100% cualquier día de la semana — mejora el Art. 201 LCT (50% común / 100% fin de semana)." NO te quedes en "el convenio puede mejorarlo": si el artículo está en la lista, decí qué dice.
+- Citá norma + artículo tal como figuran en las fuentes (ej. "Art. 245 LCT", "Art. 27 CCT 420/05").
+- Si en la lista NO hay artículo de convenio para el tema, respondé con la ley general y NO inventes un CCT ni su número.
+- Si los artículos provistos no alcanzan para responder, decilo con honestidad en vez de inventar.
+
 === DERIVACIÓN — Cuando el tema no es tu dominio ===
 
 Si el trabajador pregunta algo que NO es consulta legal, derivá al compañero correcto:
@@ -528,7 +537,7 @@ def get_system_prompt(formato: str, clipping_items: list = None) -> str:
     return prompt
 
 
-def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "", requested_persona: str = "", grade: str = "A", incoming_reports: list = None, recipient_chain: str = "") -> str:
+def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "", requested_persona: str = "", grade: str = "A", incoming_reports: list = None, recipient_chain: str = "", extra_sources_text: str = "") -> str:
     """Return system prompt with selective KB injection based on RAG retrieval.
 
     Only includes KB chunks relevant to the user's query, not the entire KB.
@@ -622,7 +631,59 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
                 prompt += "\n\n"
             prompt += clipping_text
 
+    # Inject external legal sources (Biblioteca Hornero) — solo si el puente las trae.
+    # Va AL FINAL a propósito (recencia): es lo último que lee el modelo antes de responder,
+    # así prioriza los artículos exactos por sobre su conocimiento previo.
+    # Aditivo y reversible: si extra_sources_text == "" el prompt es idéntico al de antes.
+    if extra_sources_text:
+        prompt += "\n\n" + extra_sources_text
+
     return prompt
+
+
+def get_legal_prompt_focused(extra_sources_text: str, grade: str = "A",
+                             recipient_chain: str = "") -> str:
+    """Prompt ENFOCADO para el Abogado cuando la Biblioteca aportó ley/convenio.
+
+    El persona completo (~14k) diluye la atención y GLM ignora los artículos inyectados,
+    citando de memoria. Este prompt es corto y pone la ley al final (recencia) → el modelo
+    SÍ se apoya en los artículos exactos (mismo patrón que ask.py, que funciona).
+    Conserva el contrato JSON de salida, la confidencialidad y la derivación mínima.
+    """
+    return (
+        "=== SOS EL ABOGADO LABORALISTA DEL GREMIO ===\n"
+        "Asesorás al trabajador desde su lado, en lenguaje claro y de planta. Usás \"vos\". "
+        "Sos preciso y orientador; no sos un juez, sos el abogado del trabajador.\n\n"
+
+        "=== REGLA DE FUNDAMENTO (obligatoria) ===\n"
+        "Respondés la consulta SOLO con base en los artículos de la sección "
+        "\"LEY Y CONVENIO APLICABLE A ESTE TRABAJADOR\" de más abajo.\n"
+        "· Esos son los ÚNICOS artículos que podés citar. NO cites, menciones ni inventes "
+        "ningún artículo, ley o convenio que no aparezca ahí, aunque lo recuerdes de memoria.\n"
+        "· Si hay un artículo de CONVENIO (CCT), ESE rige a este gremio: citalo por número y "
+        "decí EXACTAMENTE qué establece; la LCT es solo marco general y cede ante el CCT cuando "
+        "el convenio mejora al trabajador.\n"
+        "· Citá norma + artículo tal como figuran (ej. «Art. 27 CCT 420/05», «Art. 245 LCT»).\n"
+        "· Si los artículos no alcanzan para responder, decilo con honestidad; NO rellenes con "
+        "derecho de memoria.\n\n"
+
+        "=== CONFIDENCIALIDAD ===\n"
+        "Los reportes gremiales son confidenciales: no repitas datos concretos (nombres, empresas, "
+        "cifras, lugares). Respondé con derecho general.\n\n"
+
+        "=== SI LA CONSULTA NO ES LEGAL ===\n"
+        "Derivá con una frase y el campo redirect_persona: organización/debate/reporte → "
+        "\"companero\"; contenido/prensa → \"periodista\"; historia obrera → \"historiador\".\n\n"
+
+        "=== FORMATO DE SALIDA (JSON, obligatorio) ===\n"
+        "Respondé SIEMPRE con un único objeto JSON: {\"text\": \"...\", \"tags\": [...], \"persona\": \"abogado\"}\n"
+        "· text: párrafos cortos separados por \\n\\n, con **negritas** en los conceptos clave "
+        "(ej. **Art. 27 CCT 420/05**), y terminá con una pregunta que invite a profundizar.\n"
+        "· tags: temas + \"consulta\".\n"
+        "· Para derivar: {\"text\": \"...\", \"redirect_persona\": \"companero\", \"persona\": \"abogado\"}.\n\n"
+
+        + extra_sources_text
+    )
 
 
 def get_incoming_reports_text(reports: list) -> str:
