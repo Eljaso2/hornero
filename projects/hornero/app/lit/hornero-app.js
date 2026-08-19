@@ -355,7 +355,8 @@ class HorneroApp extends HoComponent {
         .sections-bar { background: var(--ho-bg, var(--ho-dark-surface, #3F4E4A)); }
         .sections-btn { color: var(--ho-text-mid, var(--ho-text-light, #7A766C)); }
         .sections-btn.active { color: var(--ho-green, var(--ho-green-light, #80CCA0));
-          border-bottom-color: var(--ho-green, var(--ho-green-light, #80CCA0)); }
+          border-bottom-color: transparent; }
+        .sections-btn::after { background: var(--ho-green, var(--ho-green-light, #80CCA0)); }
         .header-text .app-brand-img { height: 44px; }
         .floating-back-btn { background: var(--ho-dark-surface, #3F4E4A);
           border-color: var(--ho-dark-mid, #536260); color: var(--ho-text-off, #F2F1EC); }
@@ -436,11 +437,15 @@ class HorneroApp extends HoComponent {
         background: none; border: none; cursor: pointer;
         padding: 4px 8px 4px; white-space: nowrap; position: relative;
         border-bottom: 2px solid transparent;
-        transition: color .2s, border-color .2s; }
+        transition: color .2s; }
       .sections-btn + .sections-btn { margin-left: 8px; }
       .sections-btn + .sections-btn::before { content: ''; position: absolute; left: -5px; top: 50%; transform: translateY(-50%); border-left: 1px solid var(--ho-text-mid, #7A766C); height: 14px; }
       .sections-btn.active { color: var(--ho-green, #4E9978);
-        border-bottom-color: var(--ho-green, #4E9978); }
+        border-bottom-color: transparent; }
+      /* Animated active indicator — grows from center */
+      .sections-btn::after { content: ''; position: absolute; bottom: 0; left: 50%; right: 50%; height: 2px; background: var(--ho-green, #4E9978); border-radius: 1px; }
+      @keyframes sectionLineGrow { from { left: 50%; right: 50%; } to { left: 0; right: 0; } }
+      .sections-btn.active::after { animation: sectionLineGrow .25s ease forwards; }
       .sections-logo { width: 18px; height: 18px; object-fit: contain; vertical-align: middle; margin-left: -1px; }
       .sections-logo-light { filter: brightness(0.35); }
 
