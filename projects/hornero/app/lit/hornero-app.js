@@ -224,7 +224,7 @@ class HorneroApp extends HoComponent {
       misConversaciones: 'chat',
       misReportes: 'misReportes',
       recibidos: 'chat',
-      gremial: 'chat',
+      gremial: 'misReportes',
       condicion: 'condicion',
       smvm: 'condicion',
       felicidad: 'condicion',
@@ -376,7 +376,8 @@ class HorneroApp extends HoComponent {
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
 
       /* Screen transition animations */
-      .screen-enter { animation: screenEnterLateral .2s ease-out; }
+      .screen-enter { animation: screenEnterLateral .2s ease-out;
+        height: 100%; display: flex; flex-direction: column; min-height: 0; }
       .screen-enter--forward { animation: screenEnterForward .22s ease-out; }
       .screen-enter--backward { animation: screenEnterBackward .22s ease-out; }
       .screen-enter--lateral { animation: screenEnterLateral .2s ease-out; }
@@ -459,7 +460,8 @@ class HorneroApp extends HoComponent {
 
       /* ===== Body scroll — white background covers content area ===== */
       .body-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; background: var(--ho-bg, #1E2321); position: relative; }
+        scrollbar-width: none; background: var(--ho-bg, #1E2321); position: relative;
+        display: flex; flex-direction: column; }
       .body-scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Bottom nav — warm light background, no white ===== */
