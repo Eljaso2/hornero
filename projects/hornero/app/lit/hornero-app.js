@@ -26,6 +26,7 @@ class HorneroApp extends HoComponent {
   constructor() {
     super();
     this.screen = 'home';
+    this._navDirection = 'lateral'; // 'forward' | 'backward' | 'lateral' — screen transition direction
     this.theme = localStorage.getItem('hornero-theme') || 'dark';
     this.updateAvailable = false;
     this.newClippingAvailable = false;
@@ -274,6 +275,7 @@ class HorneroApp extends HoComponent {
     history.replaceState({ screen: 'home' }, '', '');
 
     window.addEventListener('popstate', (e) => {
+      this._navDirection = 'backward';
       if (e.state && e.state.screen) {
         this.set('screen', e.state.screen);
       } else {
@@ -363,6 +365,15 @@ class HorneroApp extends HoComponent {
 
       /* ===== Animations ===== */
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+
+      /* Screen transition animations */
+      .screen-enter { animation: screenEnterLateral .2s ease-out; }
+      .screen-enter--forward { animation: screenEnterForward .22s ease-out; }
+      .screen-enter--backward { animation: screenEnterBackward .22s ease-out; }
+      .screen-enter--lateral { animation: screenEnterLateral .2s ease-out; }
+      @keyframes screenEnterForward { from { opacity: 0; transform: translateX(20px) } to { opacity: 1; transform: none } }
+      @keyframes screenEnterBackward { from { opacity: 0; transform: translateX(-20px) } to { opacity: 1; transform: none } }
+      @keyframes screenEnterLateral { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: none } }
 
       /* ===== Top bar — back button + title centered ===== */
       .top-bar { background: var(--ho-bg, #1E2321);
@@ -967,7 +978,7 @@ class HorneroApp extends HoComponent {
 
             <div class="body-scroll">
               ${(!showHeader && !showBottomNav) ? '<button class="floating-back-btn" id="floatingBackBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
-              ${screenContent}
+              <div class="screen-enter screen-enter--${this._navDirection}">${screenContent}</div>
             </div>
 
             ${showBottomNav ? '<div class="bottom-nav">' +
@@ -1606,7 +1617,20 @@ class HorneroApp extends HoComponent {
     if (this.screen !== screen) {
       history.pushState({ screen: screen }, '', '#' + screen);
     }
+    this._navDirection = this._getNavDirection(screen);
     this.set('screen', screen);
+  }
+
+  // Determine navigation direction for screen transitions
+  _getNavDirection(targetScreen) {
+    const currentScreen = this.screen;
+    if (!currentScreen || currentScreen === targetScreen) return 'lateral';
+    // Going back: target is the parent of current screen
+    if (this._parentScreen[currentScreen] === targetScreen) return 'backward';
+    // Going forward: target's parent is the current screen
+    if (this._parentScreen[targetScreen] === currentScreen) return 'forward';
+    // Same-level tab switch (sections bar, bottom nav)
+    return 'lateral';
   }
 
   // ===== Theme switching — CSS variables cascade through Shadow DOM =====

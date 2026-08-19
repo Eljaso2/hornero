@@ -9,110 +9,78 @@
 
 ## I. Introduction: Why I Am Here (2 min)
 
-Thank you for having me. I want to begin with a personal fact that connects directly to the theme of this course.
+Thank you for having me — and thanks especially to Bart van de Laar, who through our conversations helped me understand, from a different perspective, the situation I found myself in from one day to the next.
 
-Until 2025, I worked for thirteen years as a researcher at Argentina's National Directorate of Legal Affairs on Human Rights — a body within the Secretariat of Human Rights of the Nation. I investigated corporate complicity in crimes against humanity, state repression, and historical massacres. My research was not academic in the conventional sense: it was **applied historical research submitted as evidence before federal courts and the Inter-American Court of Human Rights**.
+I want to make a brief mention of the situation my country is going through — and I personally.
+
+I am a historian. I earned my doctorate in 2021, while working as a researcher at the Secretariat of Human Rights of the Nation. I worked at the National Directorate of Legal Affairs on Human Rights for twelve years, investigating corporate complicity in crimes against humanity, state repression, and historical massacres. My research was not academic in the conventional sense: it was **applied historical research submitted as evidence before federal courts and the Inter-American Court of Human Rights**.
 
 Then I was dismissed — along with thousands of other state workers — as part of the current government's dismantling of public institutions.
 
-I am here because that experience illustrates a broader pattern: **when human rights institutions are weakened, the production of knowledge that holds power accountable becomes impossible**. Academic freedom and human rights advocacy are not separate struggles. They are the same struggle.
+I am here because that experience illustrates a broader pattern: **when human rights institutions are weakened, society loses within the state a fundamental institution for the self-criticism of its own behavior**.
 
 ---
 
 ## II. Violence in Argentina's Political History: A Pattern (3 min)
 
-Argentina's political history is marked by recurring cycles of state violence against social movements, workers, and Indigenous communities. This is not a marginal phenomenon — it is structural.
+If I should tell a brief history of my country, I would say that it is deeply marked by economic and political violence. 
 
-Let me mention just a few cases I have investigated professionally:
+To situate ourselves quickly: in the late nineteenth century, as Latin America was drawn into the global market during the age of imperialism and colonialism, Argentina carried out what we call its **constituent genocide**: the military conquest of territories in the north and south, the eradication and forced integration as cheap labour of Indigenous populations, and their replacement through immigration. Behind the military campaigns stood the **large landowners and national and foreign corporations** who seized millions of hectares and made them the basis of their power ever since.
 
-- **1887**: The massacre of workers at San Antonio de Obligado, Santa Fe — rural workers killed during a labor dispute.
-- **1921**: The massacre at La Forestal — a British-owned tannin company in northern Santa Fe. Hundreds of workers were killed by paramilitary forces and police after a strike. I spent years investigating this case, first as a doctoral student, then as a state researcher.
-- **1924**: The Napalpí massacre — the state killed hundreds of Indigenous Qom and Moqoit people in Chaco province. I authored the official historical report submitted in the 2021 Truth Trial, the first judicial proceeding on this case, a century after the events.
-- **1976–1983**: The last military dictatorship — state terrorism that resulted in 30,000 disappeared persons. Workers were disproportionately targeted. I investigated corporate complicity in these crimes.
+From that foundation, two historical periods stand out for systematic and generalized violence. First, the **conjuncture of 1919–1924**, under a republican and democratic regime — a wave of massacres against workers and Indigenous peoples. Second, the era of military dictatorships: our first coup in **1930**, and most gravely, the **state terrorism of 1974–1983**, which resulted in 30,000 disappeared persons and targeted workers disproportionately.
 
-In each case, the same mechanism operates: **violence serves to protect economic interests, and the state either perpetrates it directly or enables private actors to do so**. After each episode, the question of truth and accountability becomes a political battleground.
+Since the return of democracy in 1983, we advanced along a slow path of consolidation. Unlike Brazil, for example, we did not have an amnesty law at the transition — instead, we had **impunity laws** in the 1980s and 1990s that blocked prosecution. It was only in the 2000s that we recovered the path of criminalizing dictatorship-era crimes. That is where my story begins.
 
 ---
 
 ## III. The Secretariat of Human Rights and the Truth-Justice Nexus (4 min)
 
-This is where the institution I worked for becomes relevant.
+Argentina's human rights policies as we know them today were born out of the 2001 crisis. In 2003, a new government annulled the amnesty laws — the *Punto Final* and *Obediencia Debida* laws — that had shielded dictatorship-era perpetrators from prosecution since the 1980s. In 2005, the Supreme Court confirmed their nullification. Trials for crimes against humanity resumed after two decades of impunity. And as the judicial process deepened, new actors came into focus: not only the military, but the **corporations that had facilitated and profited from the repression** — companies that provided lists of workers to be disappeared, that set up clandestine detention centers inside their factories, that collaborated directly with the repressive apparatus.
 
-In 2003, after the crisis of Argentina's neoliberal model, a new government annulled the amnesty laws that had protected dictatorship-era perpetrators. Trials for crimes against humanity resumed. But courts needed historical evidence — not just legal arguments.
+But courts needed historical evidence — not just legal arguments.
 
-The **Programa Verdad y Justicia** (Truth and Justice Program), later renamed the **Dirección Nacional de Asuntos Jurídicos en Materia de Derechos Humanos** — the National Directorate of Legal Affairs on Human Rights — was created within the Secretariat of Human Rights to produce that evidence.
+The **Programa Verdad y Justicia** (Truth and Justice Program) was created in 2007, after the disappearance of Julio López — a key witness in a crimes-against-humanity trial who vanished the day before he was due to testify. The program was initially created to locate and accompany victims and witnesses. But it soon became clear that the judicial process also needed investigation — and the program evolved into a research body, later renamed the **Dirección Nacional de Asuntos Jurídicos en Materia de Derechos Humanos** — the National Directorate of Legal Affairs on Human Rights — within the Secretariat of Human Rights. Our role was to **investigate and write official reports that were formally submitted to federal judges and prosecutors**. We worked in archives, conducted oral histories, reconstructed corporate and state repressive structures, and produced findings that courts used in their rulings.
 
-Our role was to **investigate and write official reports that were formally submitted to federal judges and prosecutors**. We worked in archives, conducted oral histories, reconstructed corporate and state repressive structures, and produced findings that courts used in their rulings.
+Let me give you concrete examples from my own work across four research lines:
 
-Let me give you concrete examples from my own work:
+1. **Corporate complicity in state terrorism**: I co-coordinated a two-volume, 1,100-page report on corporate responsibility in crimes against humanity, received with satisfaction by the UN Human Rights Committee in 2016. The investigation covered **25 major companies across the country and across different economic sectors** — not just one industry or one region, but a systemic pattern of corporate collaboration with the repressive apparatus. I collaborated with victims' legal teams in the **"Ford Trial"** — the first conviction of corporate executives for complicity in state terrorism. That trial took place under a right-wing government that attempted to do exactly what the current government is doing now — dismantle human rights institutions and withdraw state support from these cases. It met fierce resistance and could not fully succeed. Even so, our support for the trial had to be informal — but it was possible because we were still there, still inside the institution. The **Mercedes Benz trial** is now upcoming — another case of corporate complicity in the detention and disappearance of workers, but this time the victims' legal teams will have to proceed without the state's own human rights body at their side.
 
-1. **Corporate complicity**: I co-coordinated a two-volume, 1,100-page report on corporate responsibility in crimes against humanity, which was received with satisfaction by the UN Human Rights Committee in 2016. I collaborated with victims' legal teams in the **"Ford Trial"** — the first conviction of corporate executives for complicity in state terrorism. Two former Ford Motor Company directors were convicted for the illegal detention and torture of 24 workers.
+2. **Historical massacres**: The **1887 massacre of San Antonio de Obligado** — proletarianized Indigenous populations killed during a labor dispute in the Santa Fe countryside. I authored the 211-page official historical report for the federal prosecutor. Recently, the **Argentine Forensic Anthropology Team** discovered bodies with their hands tied behind their backs — physical evidence confirming what the historical sources had always indicated. The **1924 Napalpí massacre** — the state killed hundreds of Indigenous Qom and Moqoit people in Chaco. I authored the official report for the 2021 Truth Trial, testified as an expert witness, and was then appointed to the Sentence Execution Unit to oversee reparations. We also investigated the **crimes against workers in Patagonia** in 1922, and were beginning to intervene in the **1956 massacre of Peronists** — a political massacre carried out under the military government that overthrew Perón. And the **1933 Zapallar massacre** — Moqoit Indigenous community members killed in the Chaco territory, where I am currently designated by federal justice as one of the expert investigating researcher. I must emphasize: I am doing this work **ad honorem, with no economic resources and no institutional backing whatsoever**. Still Chaco, still workers, still a century later — and now without the state that once made this work possible.
 
-2. **Historical massacres**: I authored the official historical report for the **Napalpí Truth Trial**, and was then appointed to the Sentence Execution Unit to oversee reparations for Indigenous communities. I also investigated the 1887 San Antonio de Obligado massacre and the 1920–21 Patagonia massacres.
+3. **Disappearances in democracy**: I co-authored the report on the search for Iván Torres Millacura, a young and pour man disappeared in 2003 by local police forces, presented before the **Inter-American Court of Human Rights** in the case *Torres Millacura y Otros vs. Argentina*.
 
-3. **Disappearances in democracy**: I co-authored the report on the search for Iván Torres Millacura, a man disappeared in 2003, presented before the **Inter-American Court of Human Rights** in the case *Torres Millacura y Otros vs. Argentina*.
-
-This was the work that the Directorate existed to support: **translating historical research into judicial truth**. Without institutional backing, independent historians can write articles, but they cannot produce the kind of evidence that courts accept, nor can they participate as expert witnesses in criminal proceedings.
-
+The scale of this process is worth noting: the Procuraduría de Crímenes contra la Humanidad reports that since trials resumed in 2006, **1,245 persons have been convicted in 365 sentences** for crimes against humanity. There are still 283 persons awaiting trial and 13 ongoing oral proceedings. The research we produced at the Directorate fed directly into this judicial machinery. 
 ---
 
 ## IV. The Current Crisis: Democratic Backsliding Under the Milei Government (4 min)
 
-When President Javier Milei took office in December 2023, he declared that the state was the enemy and promised to destroy it. What followed has been what the Centro de Estudios Legales y Sociales — CELS, Argentina's leading human rights organization — described in its 2025 Annual Report as **"a State at the service of fiscal adjustment"** — *Un Estado al servicio del ajuste*.
+When President Javier Milei took office in December 2023, he declared that the state was the enemy and promised to destroy it. His government did not merely dismantle institutions — it **insulted the victims of state terrorism and vindicated the actions of the military**. Not only those of the last dictatorship, but also of the army during the constituent genocide of the nineteenth century. 
 
-The assault on human rights institutions has been systematic and documented by multiple sources:
+The assault has been systematic:
 
-**Dismantling of human rights infrastructure.** The Secretariat of Human Rights — the institution where I worked for thirteen years — suffered an **80% nominal budget cut**, from 12.8 billion pesos in 2023 to 2.5 billion in 2024. That is a **63% reduction in real terms**, according to CELS. The Sub-Secretariat for the Promotion of Human Rights was eliminated entirely. Programs for victims of gender violence, the Registry of Memory Sites, and the National Action Plan against Gender Violence were all scrapped. INADI — the National Institute Against Discrimination, Xenophobia and Racism — was intervened and gutted: its budget was cut by 70%, over 200 workers were dismissed, and its president was removed by decree.
+**Dismantling of human rights infrastructure.** The Secretariat of Human Rights — the institution where I worked for thirteen years — has been systematically dismantled. Its budget suffered an **80% nominal cut** in 2024. Then the government **downgraded it from a Secretariat to a Sub-Secretariat**, reduced its structure by 40%. The Sub-Secretariat for the Promotion of Human Rights was eliminated entirely. All its programs were deeply afected or even eliminated.
 
-**Mass dismissals of state workers.** Through the emergency decree DNU 70/2023 and subsequent measures, approximately **70,000 public sector positions** were affected between December 2023 and late 2024 — through direct firings, non-renewal of contracts, and dissolution of agencies. Federal judges declared the dismissals unconstitutional, but the government proceeded regardless. Among those dismissed were **51 researchers at CONICET**, Argentina's National Scientific and Technical Research Council, as documented by journalist Luciana Bertoia in Página/12. The president of CONICET resigned in protest. A criminal complaint was filed over the legality of the researchers' dismissals. University budgets fell **29% in real terms** since 2023. The government vetoed a congressional law increasing university funding — and then simply refused to implement it even after Congress overrode the veto.
+**Mass dismissals of state workers and the destruction of Argentine science.** Since the very beegining, approximately **70,000 public sector positions** were affected between December 2023 and late 2024 — through direct firings, non-renewal of contracts, and dissolution of agencies. Federal judges declared the dismissals unconstitutional, but the government proceeded regardless. The attack on science has been particularly devastating. For instance in July 2026, **379 postdoctoral fellows faced dismissal** — the Directorio deliberately delayed competitions on orders from the executive to cut spending.  and scientific salaries accumulated **41% real-term loss**. Scientists have organized **massive marches across the country** In defense of science and knowledge." ANd University budgets fell **29% in real terms** since 2023. The government vetoed a congressional law increasing university funding — and then simply refused to implement it even after Congress overrode the veto.
 
-**Repression of protests and social movements.** The government's Public Security Protocol criminalized any disruption of traffic caused by demonstrations and required organizers to pay policing costs. Three UN special rapporteurs urged the government to align the protocol with international standards. A federal court declared it unconstitutional. The government ignored the ruling. The consequences have been severe: according to Amnesty International, between December 2024 and November 2025, at least **1,341 people were injured by state security forces** during protests — including 155 elderly persons and 184 media workers. In March 2025, photojournalist Pablo Grillo was gravely wounded by a tear-gas canister fired by the National Gendarmerie, and Jonathan Navarro lost his left eye from a kinetic projectile fired by the Naval Prefecture — both during a march in support of pensioners.
+**Repression of protests and social movements.** 
+**Surveillance without judicial oversight.**
+**Attacks on press freedom.**
+**Erosion of democratic institutions.** 
 
-**Surveillance without judicial oversight.** Decree 383/2025 authorized federal police to monitor social media, access state databases, conduct searches, and detain persons for up to 10 hours — all without a judicial order. Decree 941/2025 expanded the powers of the State Intelligence Secretariat to cross-reference citizens' personal data without judicial supervision or congressional oversight.
-
-**Attacks on press freedom.** President Milei has verbally attacked at least **45 journalists** since taking office, according to FOPEA, Argentina's journalistic forum. He has sued at least eight for defamation. Over 60 media professionals have faced harassment and violence from the president and senior officials. The investigative journalist **Luciana Bertoia**, author of *La Comisión* — a landmark investigation into the dictatorship's secret coordination body for state terrorism — has documented how the government withdraws state advertising from critical media and labels independent journalists as enemies.
-
-**Erosion of democratic institutions.** Argentina withdrew its candidacy for the UN Human Rights Council for 2026–2028. At the UN General Assembly, Milei rejected the 2030 Agenda and the Pact for the Future. At the G20, Argentina was the only country to reject the declaration on gender equality. As of November 2024, **300 federal judge positions remained vacant** — nearly one-third of the total. The positions of Attorney General and Ombudsman remain unfilled.
-
-The Procuraduría de Derechos Humanos — the National Human Rights Prosecutor's Office — documented these regressions in its 2024 Annual Report, noting particular concern about poverty reaching **52.9%** and extreme poverty **18.6%** in the first half of 2024, the disarticulation of memory and justice institutions, and the lack of political will to continue crimes-against-humanity trials.
-
-The pattern is clear: **dismantle the institutions that produce knowledge about human rights violations, suppress the press that reports on them, criminalize the social movements that protest them, and eliminate the legal frameworks that protect workers and vulnerable populations**.
+This is pillar of government's policy in the current situation. In a very hard economical situation for most of the population 
 
 ---
 
-## V. Academic Freedom Is Not Abstraction (2 min)
+## V. The Personal Cost: When the State Takes Back What It Offered (2 min)
 
-I want to close by connecting my experience to the core concern of this course.
+So, When I was dismissed from the Secretariat of Human Rights, I lost access to archives. I lost the institutional authority to submit reports to courts. I lost the infrastructure (infraestrachere) that made it possible for historical research to become judicial evidence.
 
-When I was dismissed from the Secretariat of Human Rights, I lost access to archives. I lost the institutional authority to submit reports to courts. I lost the legal standing to appear as an expert witness. I lost the infrastructure that made it possible for historical research to become judicial evidence.
+But I also lost something deeper. In 2013, when I was offered a position at the Programa Verdad y Justicia, I was a CONICET doctoral fellow — Argentina's most prestigious research career path. **I resigned my fellowship to join the State** — to join public policy for memory, truth, and justice. I made a choice: I believed that producing research that would feed criminal proceedings against perpetrators of crimes against humanity was worth more than building an academic career in a conventional way. That was my thought. The State offered me that opportunity, and I took it. So I resigned the Conicet. 
 
-A historian without institutional backing can still write. But **a historian whose work feeds criminal proceedings cannot do so without the state apparatus that validates and transmits that research into the legal system**. When that apparatus is destroyed, the connection between knowledge and accountability is severed.
+Now the State has taken it back. And I am left in a position that illustrates a structural trap: **the work I produced for twelve years — official reports, expert testimonies, judicial submissions — does not count in the academic system.** It is not peer-reviewed articles. It is not books published through academic presses. I did publish books and articles — but not in the amount I should have within the framework of an academic career, not with the consistency and strategy that the system demands. And while I was at the Secretariat, I did everything I could to sustain a conventional academic career on my own: I completed my doctorate, I published, I attended conferences, I organized panels at national history congresses — all on my own time, at my own expense. I was always trying to build a bridge: to make my state research speak to academic debates, and to bring academic rigor to the service of justice.
 
-This is why academic freedom must be understood in material terms — not just as the freedom to think, but as the freedom to **access archives, to hold institutional positions, to receive research funding, to participate in legal proceedings, and to do all of this without fear of political retaliation**.
+It is research that exists in court files, in prosecutorial dossiers, in the archives of the Secretariat. The very format that made it valuable to justice makes it invisible to academia. I am a historian with a doctorate and more than fifteen years of research experience who now finds himself **without institutional affiliation**. Today I do everything an academic does — I teach a history seminar at the University of Buenos Aires, I write papers, I advance book projects — but I do it all **without pay**. Because that is what is left when the state destroys your institutional position but the commitment to your students and your discipline remains.
 
-The Milei government's assault on Argentina's human rights infrastructure is, at its core, an assault on the conditions that make certain kinds of knowledge possible — the kinds that hold power accountable, that excavate silenced histories, and that serve justice.
+In this recent period I have been making a great effort to recover lost time, to reinsert myself into the academic world proper — an academic world in crisis that is itself expelling scientists. That effort, as you well know, requires an enormous amount of work — and here, it is unpaid.
 
-I am now an Eberle Fellow at the University of Konstanz, and a lecturer at this Summer School, because European academic institutions have provided a space that my own country's government has taken away. But **fellowships are not a substitute for functioning public institutions**. They are a lifeline, not a solution.
-
-The defense of academic freedom must include the defense of the state institutions that make critical research possible — especially in countries where democracy is fragile and the past is contested.
-
-Thank you.
-
----
-
-## Key References
-
-- CELS, *Informe Anual 2025: Un Estado al servicio del ajuste*. https://www.cels.org.ar/web/informe-anual-2025/
-- CELS, *Informe Anual 2024: Derechos humanos en Argentina*. https://www.cels.org.ar/web/informe-anual-2024/
-- CELS, "Presupuesto y Derechos Humanos" (63% real budget cut to HR area). https://www.cels.org.ar/web/2024/05/presupuesto-y-derechos-humanos/
-- Procuraduría de Derechos Humanos, *Informe Anual 2024: Situación de los Derechos Humanos en Argentina*. https://www.mpdh.gob.ar/informe-anual-2024
-- Amnesty International, *Report Argentina 2025*. https://www.amnesty.org/en/location/americas/argentina/report-argentina/
-- Human Rights Watch, *World Report 2025: Argentina*. https://www.hrw.org/world-report/2025/country-chapters/argentina
-- Bertoia, Luciana. *La Comisión: La historia secreta de los asesinos de la dictadura argentina*. Sudamericana, 2018.
-- Bertoia, Luciana. "El Gobierno despidió a 51 investigadores del Conicet." Página/12, 6/9/2024. https://www.pagina12.com.ar/767828
-- Bertoia, Luciana. "Bullrich busca instalar la idea de que la protesta es un delito." Página/12. https://www.pagina12.com.ar/762819
-- Jasinski, Alejandro. *El encanto del tanino*. Prometeo, 2023.
-- Secretaría de Derechos Humanos / Programa Verdad y Justicia. *Responsabilidad empresarial en delitos de lesa humanidad*. 2 vols. Infojus, 2015.
-- DNU 70/2023; Decree 383/2025; Decree 941/2025; Resolution 943/2023 (Security Protocol).
-- ATE (Asociación de Trabajadores del Estado). Reports on mass dismissals, 2024.
-- FOPEA (Foro de Periodismo Argentino). Reports on attacks against journalists, 2024.
+In general, I have assumed that my decision to build an academic career for public policy was correct, and that now is the time when the commitment with human rights is moving backwards, not only in Argentina of course, but everywhere. I have assumed that this commitment came at a cost, and I do not feel bad about that. But on the other hand, this is what we have now, and it is right to recognize it and to be able to communicate it — as Bart suggested to me on one occasion. So I thank you for your attention, and Bart especially for giving me this moment.
