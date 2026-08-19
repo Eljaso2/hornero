@@ -321,6 +321,14 @@ class HorneroApp extends HoComponent {
 
   _styles() {
     return css`
+      /* ===== Login shell — full viewport, no phone frame (matches splash layout) ===== */
+      .login-shell { position: fixed; inset: 0; overflow: hidden;
+        background: #1E2321; display: flex; flex-direction: column; z-index: 100; }
+
+      /* ===== App enter animation (login → home) ===== */
+      @keyframes appEnter { from { opacity: 0; } to { opacity: 1; } }
+      .app-enter { animation: appEnter .3s ease; }
+
       /* ===== Phone mockup frame (desktop only) ===== */
       .app-wrap { background: var(--ho-body-bg, #141816); }
       @media(min-width:500px){
@@ -823,15 +831,11 @@ class HorneroApp extends HoComponent {
   }
 
   _render() {
-    // Login gate — show login screen if not logged in (full screen, no shell chrome)
+    // Login gate — full viewport (no phone frame), matches splash layout for seamless transition
     if (!this.loggedIn) {
       return html`
-        <div class="app-wrap" style="background:#1E2321">
-          <div class="phone" style="background:#1E2321">
-            <div class="screen" style="background:#1E2321;display:flex;flex-direction:column;overflow:hidden">
-              <hornero-login></hornero-login>
-            </div>
-          </div>
+        <div class="login-shell">
+          <hornero-login></hornero-login>
         </div>
       `;
     }
@@ -958,7 +962,7 @@ class HorneroApp extends HoComponent {
     }
 
     return html`
-      <div class="app-wrap">
+      <div class="app-wrap${this._navDirection === 'forward' && this.screen === 'home' ? ' app-enter' : ''}">
         <div class="phone">
           <div class="screen" style="background:var(--ho-bg,#1E2321)">
 
@@ -1546,6 +1550,7 @@ class HorneroApp extends HoComponent {
     // Listen for login-success from <hornero-login>
     this.shadowRoot.addEventListener('login-success', (e) => {
       const session = e.detail;
+      this._navDirection = 'forward'; // Animate entrance into app after login
       this.set('loggedIn', true);
       this.set('userGrade', session.grade);
       this.set('userTerritory', session.territory);

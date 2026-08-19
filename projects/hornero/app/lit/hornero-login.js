@@ -68,6 +68,8 @@ class HorneroLogin extends HoComponent {
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
         padding: 28px 24px;
+        padding-top: calc(28px + env(safe-area-inset-top, 0px));
+        padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
         box-sizing: border-box;
       }
 

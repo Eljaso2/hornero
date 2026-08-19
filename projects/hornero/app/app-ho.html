@@ -66,7 +66,10 @@
     #splash { position: fixed; inset: 0; z-index: 9999;
       background: var(--ho-bg, #1E2321); display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 28px 24px; box-sizing: border-box;
+      padding: 28px 24px;
+      padding-top: calc(28px + env(safe-area-inset-top, 0px));
+      padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
       transition: opacity .15s ease; }
     #splash.fade-out { opacity: 0; pointer-events: none; }
     #splash img { width: 340px; height: auto;
@@ -198,7 +201,7 @@
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
   <script type="module" src="lit/hornero-components.js?ver=561"></script>
-  <!-- Hide splash after 2 seconds — mirrors login layout, seamless transition -->
+  <!-- Hide splash: 0ms if session exists (returning user), 400ms if not (first visit) -->
   <script>
     (function(){
       var splash = document.getElementById('splash');
@@ -207,7 +210,10 @@
         splash.classList.add('fade-out');
         setTimeout(function() { splash.remove(); }, 150);
       }
-      setTimeout(hideSplash, 1500);
+      // Check if user has an existing session — skip splash for returning users
+      var hasSession = false;
+      try { hasSession = !!(JSON.parse(localStorage.getItem('hornero-session')).grade); } catch(e) {}
+      setTimeout(hideSplash, hasSession ? 0 : 400);
     })();
   </script>
 </body>
