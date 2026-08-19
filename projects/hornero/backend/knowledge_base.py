@@ -31,8 +31,9 @@ Quote: "El CCT 420/05 es el territorio conquistado. Cada cláusula — nocturno,
 Fuente: CCT 420/05, Res. ST 343/2005
 
 [FUENTE: Paritaria aceitera 2026, F.T.C.I.O.D y A.R.A./SOMU]
-- SOMU demanda 15% de aumento
-- Empresas ofrecen 8%
+- Paritaria 2026 cerró con básico de categoría A: $2.719.040 (suba desde $2.344.000)
+- Oferta inicial patronal: 0%. Luego $15.000 de aumento. Forzó huelga y conflicto.
+- SOMU demandó 15% de aumento. Empresas ofrecieron 8% inicialmente.
 - Paritaria 2025 cerró después de 7 días de huelga nacional — forzó mano de Caputo
 - Básico del convenio debajo del SMVM — violación del piso legal
 Quote: "La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa para no pagar lo que corresponde."
