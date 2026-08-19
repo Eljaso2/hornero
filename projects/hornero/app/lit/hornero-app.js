@@ -352,7 +352,7 @@ class HorneroApp extends HoComponent {
           background: var(--ho-bg, #1E2321); }
         .screen { background: var(--ho-bg, #1E2321); display: flex;
           flex-direction: column; position: relative;
-          height: 100%; height: 100dvh; overflow: hidden;
+          height: 100%; overflow: hidden;
           padding-top: env(safe-area-inset-top, 0px);
           box-sizing: border-box; }
         /* Mobile/PWA: hide simulated status bar */
@@ -461,6 +461,10 @@ class HorneroApp extends HoComponent {
         scrollbar-width: none; background: var(--ho-bg, #1E2321); position: relative;
         display: flex; flex-direction: column; }
       .body-scroll::-webkit-scrollbar { width: 0; }
+      /* Chat screens: overflow hidden prevents iOS from scrolling body-scroll
+         when keyboard opens, which would push header/personas off screen.
+         The chat component handles its own scroll via .chat-scroll + visualViewport. */
+      .body-scroll--chat { overflow-y: hidden; }
 
       /* ===== Bottom nav — warm light background, no white ===== */
       .bottom-nav { background: var(--ho-bg, #1E2321);
@@ -851,6 +855,9 @@ class HorneroApp extends HoComponent {
     const currentTitle = this.titles[this.screen] || 'Hornero';
     // Header only visible on Home screen
     const showHeader = this.screen === 'home';
+    // Chat screens: body-scroll must NOT scroll on its own (iOS keyboard would push everything up)
+    // The chat component handles its own scroll via .chat-scroll + visualViewport
+    const isChatScreen = ['gremial','consulta','contenido','historiador','archivo','formacion','condicion','ecosistema'].includes(this.screen);
     // Bottom nav always visible — active section highlighted
     const showBottomNav = true;
     // Sections bar visible on all screens
@@ -999,7 +1006,7 @@ class HorneroApp extends HoComponent {
               }).join('') +
               '</div>' : ''}
 
-            <div class="body-scroll">
+            <div class="body-scroll${isChatScreen ? ' body-scroll--chat' : ''}">
               ${(!showHeader && !showBottomNav) ? '<button class="floating-back-btn" id="floatingBackBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
               <div class="screen-enter screen-enter--${this._navDirection}">${screenContent}</div>
             </div>

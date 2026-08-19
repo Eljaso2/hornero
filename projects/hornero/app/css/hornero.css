@@ -49,6 +49,7 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 @keyframes apfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .body-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-y;padding-bottom:50px;background:var(--ho-bg)}
 .body-scroll::-webkit-scrollbar{width:0px}
+.body-scroll--chat{overflow-y:hidden;padding-bottom:0}
 
 .status-bar{background:var(--ho-dark-surface);color:var(--ho-text-off);display:flex;align-items:center;justify-content:space-between;padding:10px 22px 5px;font-size:.74rem;flex:none}
 .top-bar{background:var(--ho-bg);color:var(--ho-text-off);padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none}
