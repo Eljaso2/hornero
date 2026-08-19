@@ -257,29 +257,29 @@ class HorneroHome extends HoComponent {
       .infomate-section-line strong { color: var(--ho-text, #E8E6E0); font-weight: 600; }
 
       /* --- Agenda cloud --- */
-      .agenda-wrap { margin-top: 4px; }
+      .agenda-wrap { margin-top: 2px; }
       .agenda-cloud { display: flex; flex-wrap: wrap; justify-content: center;
-        align-items: center; gap: 3px 4px; }
+        align-items: center; gap: 2px 3px; }
       .agenda-bubble { font-family: 'Archivo', sans-serif; font-weight: 600;
-        padding: 5px 12px; border-radius: 20px; cursor: pointer;
-        transition: transform .2s; white-space: nowrap; }
+        padding: 2px 7px; border-radius: 12px; cursor: pointer;
+        transition: transform .2s; white-space: nowrap; line-height: 1.25; }
       .agenda-bubble:hover { transform: scale(1.05); }
       .agenda-label { font-family: 'JetBrains Mono', monospace;
-        font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-        margin-right: 2px; }
-      .agenda-hoy { background: #C0392B; color: #FFF; font-size: .78rem;
-        padding: 5px 11px; }
-      .agenda-hoy .agenda-label { font-size: .50rem; color: #FFD5D5; }
-      .agenda-manana { background: #4E9978; color: #F2F1EC; font-size: .74rem;
-        padding: 5px 10px; }
-      .agenda-manana .agenda-label { font-size: .46rem; color: #C8D9A4; }
-      .agenda-prox { background: #7FB5D5; color: #FFF; font-size: .60rem;
-        padding: 3px 7px; border-radius: 16px; line-height: 1.2; }
-      .agenda-prox .agenda-label { font-size: .42rem; color: #D4E8F2; }
+        font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+        margin-right: 1px; }
+      .agenda-hoy { background: #C0392B; color: #FFF; font-size: .68rem;
+        padding: 3px 8px; border-radius: 14px; }
+      .agenda-hoy .agenda-label { font-size: .44rem; color: #FFD5D5; }
+      .agenda-manana { background: #4E9978; color: #F2F1EC; font-size: .64rem;
+        padding: 3px 7px; }
+      .agenda-manana .agenda-label { font-size: .42rem; color: #C8D9A4; }
+      .agenda-prox { background: #7FB5D5; color: #FFF; font-size: .54rem;
+        padding: 2px 5px; border-radius: 10px; line-height: 1.15; }
+      .agenda-prox .agenda-label { font-size: .38rem; color: #D4E8F2; }
       .agenda-date { font-family: 'JetBrains Mono', monospace;
-        opacity: .7; margin-left: 2px; }
-      .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .46rem; }
-      .agenda-prox .agenda-date { font-size: .40rem; }
+        opacity: .65; margin-left: 1px; }
+      .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .40rem; }
+      .agenda-prox .agenda-date { font-size: .36rem; }
 
       /* ===== ESFERA 2: Chat — 5 personajes, tira scrolleable ===== */
       .esfera-consulta { margin-bottom: 20px; }
