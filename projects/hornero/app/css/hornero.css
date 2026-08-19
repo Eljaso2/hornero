@@ -152,3 +152,12 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 .chat-input-btn,.chat-input-mic,
 .sections-btn{transition:transform .15s}
 .card{transition:transform .15s}
+
+/* ===== Accessibility: respect reduced motion preference ===== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
