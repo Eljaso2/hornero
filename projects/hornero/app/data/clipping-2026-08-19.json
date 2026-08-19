@@ -1,0 +1,206 @@
+{
+  "meta": {
+    "version": "2026-08-19-v1",
+    "tipo": "clipping-diario",
+    "fecha": "2026-08-19",
+    "frecuencia": "semanal",
+    "numero": 9,
+    "fuentes": [
+      "La Nación",
+      "Página/12",
+      "Sonido Gremial",
+      "InfoGremiales",
+      "Ámbito Financiero",
+      "Infobae"
+    ]
+  },
+  "noticias": [
+    {
+      "id": "cd-2026-08-19-1",
+      "fecha": "2026-08-18",
+      "violencia": "VD+VC",
+      "tags": [
+        "FATE",
+        "SUTNA",
+        "lock-out",
+        "Madanes-Quintanilla",
+        "ocupación-fábrica"
+      ],
+      "emoji": "🔥",
+      "titulo": "Seis meses de lock out en FATE: 920 trabajadores resisten y marchan a Plaza de Mayo",
+      "bajada": "La fábrica de neumáticos de Victoria, San Fernando, permanece paralizada desde el 18 de febrero por decisión del propietario Javier Madanes Quintanilla. 250 trabajadores mantienen ocupación fija; 600 rotan. Ollas populares en la seccional. SUTNA convoca marcha a Plaza de Mayo el 26 de agosto: \"FATE no se cierra, fin del lock out.\" La Cámara de Casación rechazó el desalojo y la Cámara de Apelaciones ordenó pagar las quincenas adeudadas.",
+      "desarrollo": "El 18 de agosto se cumplieron seis meses del cierre de la fábrica de neumáticos FATE, la única productora de neumáticos para camiones y colectivos del país. El propietario Javier Madanes Quintanilla justificó el cierre con un cartel en la puerta que invocó \"los cambios en las condiciones de mercado\" que \"obligan a encarar los desafíos futuros desde un enfoque diferente.\" El secretario general de SUTNA, Alejandro Crespo, lo definió sin ambages: \"La fábrica no quebró, tiene los balances positivos, las máquinas para andar y materia prima. Si no está andando, es un lock out.\" Unas 250 personas mantienen presencia fija en la planta; 600 más rotan por días y turnos. Las ollas populares funcionan en la seccional sindical. La jornada del 18 de agosto incluyó lentejazo, conferencia de prensa, informe jurídico y abrazo simbólico a la planta, con presencia de Pablo Moyano (Camioneros), Hugo Yasky (CTA), Hugo Godoy (CTA Autónoma), Rodolfo Aguiar (ATE), Claudio Marin (Telefónicos), Daniel Yofra (Aceiteros), Alejandro Gramajo (UTEP) y Sergio Sobrero (Union Ferroviaria). La Cámara de Casación rechazó el desalojo y reconoció la ocupación como \"lucha gremial por el derecho de huelga\"; la Cámara de Apelaciones ordenó el pago de todas las quincenas adeudadas. La VD se expresa en el lock out patronal — la privación deliberada del trabajo y el salario durante seis meses en una empresa con balances positivos. La VC opera en la narrativa empresarial de \"cambios en las condiciones de mercado\" que naturaliza el cierre, cuando la fábrica es viable y estratégica para la soberanía productiva. ✅ Texto completo verificado.",
+      "fuente": "La Nación — 18/08/2026",
+      "foto": "https://www.lanacion.com.ar/resizer/v2/dirigentes-sindicales-frente-a-la-fabrica-fate-en-4MB72JSOW5A7BNYYUF5H6NF4JQ.jpeg?auth=0d1d4fad7905e673049824c57eadc41c2e035212996e15219456695aa05e3632&width=1200&height=800&quality=70&smart=true",
+      "fuente_url": "https://www.lanacion.com.ar/politica/se-cumplieron-seis-meses-del-cierre-de-fate-y-el-gremio-llamo-a-una-marcha-a-plaza-de-mayo-nid18082026/"
+    },
+    {
+      "id": "cd-2026-08-19-2",
+      "fecha": "2026-08-17",
+      "violencia": "VD+VC",
+      "tags": [
+        "metalurgia",
+        "ADIMRA",
+        "capacidad-instalada",
+        "industria",
+        "desguace-productivo"
+      ],
+      "emoji": "🏭",
+      "titulo": "Seis de cada 10 máquinas están desenchufadas: la metalurgia se desploma y la industria se apaga",
+      "bajada": "La metalurgia cayó más del 4% interanual en julio. El uso de capacidad instalada bajó 6 puntos: menos de 4 de cada 10 máquinas están trabajando. ADIMRA reportó \"índices de productividad históricamente bajos.\" La industria como sector estratégico se contrae sin pausa.",
+      "desarrollo": "Los datos de ADIMRA confirman un cuadro devastador: la producción metalúrgica cayó más del 4% interanual en julio de 2026, el uso de capacidad instalada descendió 6 puntos porcentuales, y menos de 4 de cada 10 máquinas están operando — es decir, seis de cada diez están desenchufadas. ADIMRA reportó \"índices de productividad históricamente bajos\" para un sector que se define como \"estratégico para la economía.\" La caída metalúrgica es un termómetro de la industria en su conjunto: metalurgia significa máquinas, herramientas, autopartes, bienes de capital. Cuando la metalurgia se desploma, toda la cadena productiva se contrae. La VD se expresa en la destrucción sistemática del aparato productivo por políticas de apertura importadora, tipo de cambio sobrevaluado y compresión salarial que aniquila el mercado interno. La VC opera en la naturalización del desguace industrial como consecuencia inevitable de la \"modernización\" y la \"desregulación\", cuando es el resultado deliberado de un modelo que privilegia la importación sobre la producción nacional y la renta financiera sobre el trabajo. ⚠️ Desarrollo basado en titular y datos clave — artículo completo detrás de paywall.",
+      "fuente": "Página/12 — 17/08/2026",
+      "foto": "https://www.pagina12.com.ar/resizer/v2/MJRDOMJQMRSDKY3BGVRWGOLEG4.jpg?quality=75&auth=7ee49cc1ed4858b59d0e0e096307fd16e3eef700ee540ee7bfd71b6228b4f1f9&width=3000",
+      "fuente_url": "https://www.pagina12.com.ar/2026/08/17/se-desplomo-mas-de-4-por-ciento-la-metalurgia"
+    },
+    {
+      "id": "cd-2026-08-19-3",
+      "fecha": "2026-08-18",
+      "violencia": "VD+VC",
+      "tags": [
+        "CONADU-Histórica",
+        "universidades",
+        "Ley-de-Financiamiento",
+        "deuda-salarial-28%"
+      ],
+      "emoji": "🎓",
+      "titulo": "300 días sin Ley: paro universitario de una semana en todo el país",
+      "bajada": "CONADU Histórica lanzó un paro nacional del 18 al 22 de agosto por el incumplimiento de la Ley de Financiamiento Universitario. La deuda salarial acumula 28,5% al cierre de junio, sin ajuste en julio ni agosto. Consigna: \"La ley se cumple.\" Movilización el miércoles 20.",
+      "desarrollo": "La CONADU Histórica convocó un paro nacional de docentes universitarios y preuniversitarios que se extiende desde el martes 18 hasta el sábado 22 de agosto. El reclamo central es el cumplimiento de la Ley de Financiamiento Universitario, violada durante 300 días por el gobierno nacional. La deuda salarial acumulada alcanza el 28,5% al cierre de junio, sin ajuste en julio ni expectativa de recuperación en agosto. Las demandas incluyen recomposición salarial inmediata con retroactivos, pago del FONID, actualización de la garantía salarial y cumplimiento pleno de la Ley de Financiamiento. La consigna \"La ley se cumple\" sintetiza una demanda que debería ser obvia pero que el gobierno convierte en excepcional: que el Estado cumpla su propia ley. La VD se materializa en el incumplimiento de la Ley de Financiamiento y la deuda salarial del 28,5%. La VC opera en la desvalorización cultural del trabajo docente y de la universidad pública. ✅ Texto completo verificado.",
+      "fuente": "Sonido Gremial — 18/08/2026",
+      "foto": "https://sonidogremial.com.ar/wp-content/uploads/2022/10/CONADU-HISTORICA-BANDERA.jpg",
+      "fuente_url": "https://sonidogremial.com.ar/la-conadu-historica-comenzo-el-paro-nacional-universitario-durante-toda-la-semana-en-reclamo-de-salarios-y-presupuesto/"
+    },
+    {
+      "id": "cd-2026-08-19-4",
+      "fecha": "2026-08-18",
+      "violencia": "VD+VC",
+      "tags": [
+        "FreSU",
+        "SMVM",
+        "canasta-básica",
+        "salario-mínimo",
+        "ATE"
+      ],
+      "emoji": "📊",
+      "titulo": "FreSU: un trabajador necesita $3.065.161 mensuales — el SMVM solo cubre el 12%",
+      "bajada": "El índice sindical del FreSU calcula el salario mínimo vital y móvil real en $3.065.161. El SMVM oficial es $372.400 (apenas el 12%). La canasta de pobreza de INDEC marca $1.564.716 — más de cuatro veces el salario mínimo legal. Aguiar (ATE): \"Cada peso que le falta a los trabajadores se lo quedó un puñado de empresas.\"",
+      "desarrollo": "El Frente de Sindicatos Unidos (FreSU) publicó su índice de salario mínimo vital y móvil para julio de 2026: $3.065.161, calculado sobre nueve necesidades básicas consagradas en la Constitución y la Ley de Contrato de Trabajo. La brecha con el SMVM oficial ($372.400) es abismal: el salario mínimo legal apenas cubre el 12% de lo que un trabajador necesita. Ni siquiera alcanza la canasta básica total de INDEC ($1.564.716). El desglose incluye alimentación ($653.231), vivienda ($609.613), salud ($373.934), transporte/esparcimiento ($665.055), previsión social ($337.168), educación ($279.529) y vestimenta ($146.631). Aguiar: \"Cada peso que le falta a los trabajadores se lo quedó un puñado de empresas.\" Biró (APLA): \"Son tan cínicos y salvajes que tienen pisado el salario mínimo en un nivel que no alcanza a cubrir ni una.\" ✅ Texto completo verificado.",
+      "fuente": "Ámbito Financiero — 18/08/2026",
+      "foto": "https://media.ambito.com/p/b9cb9c2ca6b2944adbedc16f6e317c52/adjuntos/239/imagenes/042/831/0042831279/comision-salud-seguridad-y-trabajo-trabajadores.jpg",
+      "fuente_url": "https://www.ambito.com/politica/en-julio-un-trabajador-necesito-mas-3000000-ingreso-minimo-segun-indice-sindical-n6312080"
+    },
+    {
+      "id": "cd-2026-08-19-5",
+      "fecha": "2026-08-18",
+      "violencia": "VD+VC",
+      "tags": [
+        "endeudamiento",
+        "morosidad",
+        "billeteras-virtuales",
+        "bancos",
+        "CGT-marcha-20A"
+      ],
+      "emoji": "💸",
+      "titulo": "Los bancos venden las deudas de los morosos: un negocio con la desesperación",
+      "bajada": "La morosidad en billeteras virtuales alcanza el 29,6% en mayo 2026 — supera niveles pandémicos. La mora en préstamos familiares trepó al 12,8% (máximo en dos décadas). El servicio de deuda consume el 24,1% de la masa salarial formal. Los bancos venden cartera morosa a cobradores que operan sobre la desesperación.",
+      "desarrollo": "Página/12 reveló que los bancos están vendiendo las deudas de los morosos a cobradores especializados que operan sobre la desesperación de las familias. La morosidad en billeteras virtuales alcanzó el 29,6%, superando niveles pandémicos; la mora en préstamos familiares trepó al 12,8%, máximo en dos décadas; el servicio de deuda consume el 24,1% de la masa salarial formal. La CGT expuso estos datos en conferencia de prensa el 19 de agosto, un día antes de la marcha al Ministerio de Economía. La deuda dejó de ser herramienta de consumo para convertirse en mecanismo de supervivencia cotidiana. ⚠️ Desarrollo basado en titular y datos clave — artículo completo detrás de paywall.",
+      "fuente": "Página/12 — 18/08/2026",
+      "foto": "https://www.pagina12.com.ar/resizer/v2/LJKM4CH4DFF6ZGKCIPX7OVTFL4.jpg?quality=75&auth=d24f7135c8a92e53502d09a37bd9b66ceb3bbee96ccc18b098a51fef7d379ee8&width=1800",
+      "fuente_url": "https://www.pagina12.com.ar/2026/08/18/los-bancos-venden-las-deudas-de-los-morosos/"
+    },
+    {
+      "id": "cd-2026-08-19-6",
+      "fecha": "2026-08-18",
+      "violencia": "VD+VC",
+      "tags": [
+        "SanCor",
+        "Atilra",
+        "quiebra",
+        "salarios-adeudados",
+        "obra-social"
+      ],
+      "emoji": "🥛",
+      "titulo": "SanCor: 9 años de salarios adeudados y trabajadores \"a las puertas del hambre\"",
+      "bajada": "Más de cuatro meses después de la quiebra, Atilra exige resolución judicial urgente. SanCor adeuda salarios desde hace 9 años. Los trabajadores perdieron la cobertura de obra social. Los recursos solidarios del sindicato están agotados.",
+      "desarrollo": "La quiebra de SanCor CUL mantiene a los trabajadores lácteos en una situación límite. Atilra advirtió que los trabajadores están \"a las puertas del hambre.\" SanCor adeuda salarios desde hace 9 años. Los trabajadores que aceptaron retiros voluntarios siguen esperando cobrar. La Superintendencia de Servicios de Salud excluyó a los trabajadores de la obra social. Los recursos solidarios de Atilra están agotados. Múltiples interesados adquirieron pliegos pero no hay resolución judicial que habilite la liquidación de activos. Atilra anunció protestas amparándose en el artículo 14 bis. ✅ Texto completo verificado.",
+      "fuente": "La Nación — 18/08/2026",
+      "foto": "https://www.lanacion.com.ar/resizer/v2/sancor-es-la-tercera-empresa-en-penetracion-OC263UIA6BE35BAU65EXUDTR2M.jpg?auth=514e5312a63d466b3132ba47dd887e4b617c7d40b0427dcb45bf3afdaf8f3f11&width=1200&height=800&quality=70&smart=true",
+      "fuente_url": "https://www.lanacion.com.ar/economia/campo/quiebra-de-sancor-el-gremio-pidio-una-definicion-de-la-justicia-y-advirtio-que-los-trabajadores-nid18082026/"
+    },
+    {
+      "id": "cd-2026-08-19-7",
+      "fecha": "2026-08-19",
+      "violencia": "VD+VC",
+      "tags": [
+        "paritarias",
+        "salario-real",
+        "metalúrgicos",
+        "textiles",
+        "pérdida-poder-adquisitivo"
+      ],
+      "emoji": "💼",
+      "titulo": "Paritarias 2026: solo 7 sectores le ganaron a la inflación; metalúrgicos y textiles pierden más del 12% real",
+      "bajada": "Un informe oficial muestra que el salario real privado cayó 0,9% en junio, por debajo de los niveles de noviembre 2023. Peores resultados: textiles -12,6%, metalúrgicos -12,4%, comercio -11%, calzado -10,5%. Bancos lideran con salario mediano de $4,39M; gastronomía en el fondo con $804.000.",
+      "desarrollo": "Solo 7 de los principales convenios colectivos lograron aumentos superiores a la inflación en el último año. El salario real privado cayó 0,9% en junio, por debajo de noviembre 2023. Los sectores más castigados: textiles -12,6%, metalúrgicos -12,4%, comercio -11%, calzado -10,5%. El salario mediano bancario alcanza $4,39M; gastronomía apenas $804.991. ✅ Texto completo verificado.",
+      "fuente": "Infobae — 19/08/2026",
+      "foto": "https://www.infobae.com/resizer/v2/7UI5KDE5AFCCNPPBRXXFNKJD54.png?auth=c0436b9c4df33240426b05bb2a6a43023477a28bea5e671240b88a204ee90bc4&smart=true&width=350&height=233&quality=85",
+      "fuente_url": "https://www.infobae.com/economia/2026/08/19/ranking-de-paritarias-que-sectores-le-ganaron-a-la-inflacion-en-el-ultimo-ano-y-cuales-perdieron/"
+    },
+    {
+      "id": "cd-2026-08-19-8",
+      "fecha": "2026-08-19",
+      "violencia": "VD+VC",
+      "tags": [
+        "casas-particulares",
+        "trabajo-doméstico",
+        "género",
+        "paritaria",
+        "salario-de-indigencia"
+      ],
+      "emoji": "🧹",
+      "titulo": "Trabajadoras de casas particulares: el sector más feminizado convoca a nueva paritaria con aumentos de miseria",
+      "bajada": "El gobierno convocó la Comisión Nacional de Trabajo en Casas Particulares para el 21 de agosto. El esquema anterior otorgó aumentos de 1,8% en abril, 1,6% en mayo, 1,5% en junio y 1,4% en julio: acumulado 6,3%, contra una inflación que supera el 86% interanual. Salario mínimo del sector: $458.053 mensuales para tareas generales.",
+      "desarrollo": "El gobierno convocó formalmente a la CNTCP para el 21 de agosto. El esquema anterior otorgó incrementos acumulativos de apenas 6,3%: 1,8% en abril, 1,6% en mayo, 1,5% en junio y 1,4% en julio. Salario mínimo para tareas generales: $458.053, apenas $85.653 por encima del SMVM y más de un millón por debajo de la canasta de pobreza. Sector compuesto mayoritariamente por mujeres. ✅ Texto completo verificado.",
+      "fuente": "Sonido Gremial — 19/08/2026",
+      "foto": "https://sonidogremial.com.ar/wp-content/uploads/2023/10/PERSONAL_DOMESTICO_CASAS_PARTICULARES_CUIDADO-1170x780.jpg",
+      "fuente_url": "https://sonidogremial.com.ar/el-gobierno-convoco-la-paritaria-de-casas-particulares-discutiran-una-nueva-actualizacion-salarial/"
+    },
+    {
+      "id": "cd-2026-08-19-9",
+      "fecha": "2026-08-14",
+      "violencia": "VD",
+      "tags": [
+        "empleo-registrado",
+        "SIPA",
+        "reforma-laboral",
+        "destrucción-empleo"
+      ],
+      "emoji": "📉",
+      "titulo": "Empleo registrado: tres meses consecutivos de caída desde la reforma laboral — 12.000 puestos destruidos solo en Mayo",
+      "bajada": "Datos oficiales de la Secretaría de Trabajo/SIPA: el sector privado perdió 12.000 empleos formales en mayo 2026. El empleo asalariado privado registrado acumula 12 meses consecutivos de caída. Los datos preliminares de junio indican que la tendencia descendente se profundiza.",
+      "desarrollo": "Datos oficiales confirman que el empleo registrado lleva tres meses consecutivos de caída desde la aprobación de la reforma laboral. Solo en mayo, el sector privado destruyó 12.000 empleos formales. El empleo asalariado privado registrado acumula 12 meses consecutivos de contracción. En el último año, se destruyeron 110.000 puestos registrados. Infobae/Bloomberg elevó la cifra a 314.000 empleos destruidos (241.000 privados + 73.000 públicos) desde que asumió Milei. Empleadores privados cayeron a 482.000, mínimo desde 2007. ✅ Texto completo verificado.",
+      "fuente": "InfoGremiales — 14/08/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2021/08/1588202287200429660-scaled.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/segun-datos-oficiales-desde-que-se-aprobo-la-reforma-laboral-el-empleo-registrado-lleva-tres-meses-de-caida/"
+    },
+    {
+      "id": "cd-2026-08-19-10",
+      "fecha": "2026-08-17",
+      "violencia": "VD+VC",
+      "tags": [
+        "provincias",
+        "destrucción-productiva",
+        "economías-regionales",
+        "Neuquén"
+      ],
+      "emoji": "🏗️",
+      "titulo": "Las provincias en crisis total: solo Neuquén creó empresas en el último año",
+      "bajada": "De las 24 provincias argentinas, solo Neuquén registró creación neta de empresas en los últimos 12 meses. Las 23 restantes tienen saldo negativo. La destrucción del tejido productivo no es un fenómeno sectorial: es territorial y generalizado.",
+      "desarrollo": "De las 24 jurisdicciones provinciales, solo Neuquén muestra saldo positivo de creación de empresas. Las 23 restantes tienen saldo negativo, indicando que la destrucción productiva es territorial y generalizada. Las provincias más dependientes de la industria y el empleo público son las más afectadas. ⚠️ Desarrollo basado en titular y datos clave — artículo completo detrás de paywall.",
+      "fuente": "Página/12 — 17/08/2026",
+      "foto": "https://www.pagina12.com.ar/resizer/v2/WIFIQ72SSBCWLHFUYG4VODO3XE.jpg?quality=75&auth=491fe21eba8912c9b4fe0e71d01b6218cc2eac573bfbe6a43120cefeda1f2ff6&width=4928",
+      "fuente_url": "https://www.pagina12.com.ar/2026/08/17/las-provincias-en-crisis-total/"
+    }
+  ]
+}
