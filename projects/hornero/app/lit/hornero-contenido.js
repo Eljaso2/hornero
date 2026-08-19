@@ -148,7 +148,9 @@ class HorneroContenido extends HoComponent {
         border-color: rgba(0,0,0,.08); }
       :host(.theme-light) .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB); }
 
-      .chat-container { display: flex; flex-direction: column; height: 100%; }
+      .chat-container { flex: 1; display: flex; flex-direction: column;
+        min-height: 0; }
+      .chat-container > hornero-chat { flex: 1; min-height: 0; }
     `;
   }
 

@@ -101,7 +101,9 @@ class HorneroGremial extends HoComponent {
     return css`
       :host { display: flex; flex-direction: column; height: 100%;
         background: var(--ho-bg, #1E2321); position: relative; }
-      .chat-container { display: flex; flex-direction: column; height: 100%; }
+      .chat-container { flex: 1; display: flex; flex-direction: column;
+        min-height: 0; }
+      .chat-container > hornero-chat { flex: 1; min-height: 0; }
 
       /* ===== Hero banner — imagen de fondo opaca ===== */
       .hero-banner { position: relative; width: 100%;
@@ -2594,7 +2596,7 @@ class HorneroGremial extends HoComponent {
     const p = this._activePersona;
     const map = {
       'Relato': { title: 'Relato', body: 'Contame qué pasó y te ayudo a redactar el relato del hecho. Podés describir la situación, el lugar, los involucrados, las circunstancias.' },
-      'Clasificación': { title: 'Clasificación', body: 'A partir del relato, clasificamos el hecho: tipo de violencia, gravedad, alcance. Primero necesitamos el relato.' },
+      'Clasificación': { title: 'Clasificación', body: 'A partir del relato, clasificamos el hecho: tipo, gravedad, alcance. Primero necesitamos el relato.' },
       'Seguimiento': { title: 'Seguimiento', body: 'Hacemos seguimiento de los reportes: estado, acciones tomadas, pendientes. ¿Querés ver el estado de un reporte existente?' },
       'Aprobación': { title: 'Aprobación', body: 'Revisión y aprobación de informes gremiales por parte de los referentes. ¿Querés ver los informes pendientes?' },
     };
