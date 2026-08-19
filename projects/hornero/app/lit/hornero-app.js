@@ -468,6 +468,12 @@ class HorneroApp extends HoComponent {
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
       .nav-btn.active .label { color: var(--ho-green, #4E9978); }
 
+      /* Nav active bounce animation */
+      @keyframes navBounce { 0% { transform: scale(1); } 40% { transform: scale(1.18); } 70% { transform: scale(.95); } 100% { transform: scale(1); } }
+      .nav-btn.active svg { animation: navBounce .35s ease; }
+      .nav-btn.active .label { animation: navBounce .35s ease; }
+      .nav-btn.active img { animation: navBounce .35s ease; }
+
       /* ===== Chat landing — choice buttons ===== */
       .chat-landing { padding: 24px 20px; }
       .chat-landing-kicker { font-family: 'JetBrains Mono', monospace; font-size: .68rem;
