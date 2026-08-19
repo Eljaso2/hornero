@@ -8,6 +8,7 @@
     "fuentes": [
       "La Nación",
       "Página/12",
+      "Página/12 Rosario|12",
       "Sonido Gremial",
       "InfoGremiales",
       "Ámbito Financiero",
@@ -41,17 +42,18 @@
       "tags": [
         "metalurgia",
         "ADIMRA",
-        "capacidad-instalada",
+        "capacidad-instalada-39%",
         "industria",
+        "Santa-Fe",
         "desguace-productivo"
       ],
       "emoji": "🏭",
-      "titulo": "Seis de cada 10 máquinas están desenchufadas: la metalurgia se desploma y la industria se apaga",
-      "bajada": "La metalurgia cayó más del 4% interanual en julio. El uso de capacidad instalada bajó 6 puntos: menos de 4 de cada 10 máquinas están trabajando. ADIMRA reportó \"índices de productividad históricamente bajos.\" La industria como sector estratégico se contrae sin pausa.",
-      "desarrollo": "Los datos de ADIMRA confirman un cuadro devastador: la producción metalúrgica cayó más del 4% interanual en julio de 2026, el uso de capacidad instalada descendió 6 puntos porcentuales, y menos de 4 de cada 10 máquinas están operando — es decir, seis de cada diez están desenchufadas. ADIMRA reportó \"índices de productividad históricamente bajos\" para un sector que se define como \"estratégico para la economía.\" La caída metalúrgica es un termómetro de la industria en su conjunto: metalurgia significa máquinas, herramientas, autopartes, bienes de capital. Cuando la metalurgia se desploma, toda la cadena productiva se contrae. La VD se expresa en la destrucción sistemática del aparato productivo por políticas de apertura importadora, tipo de cambio sobrevaluado y compresión salarial que aniquila el mercado interno. La VC opera en la naturalización del desguace industrial como consecuencia inevitable de la \"modernización\" y la \"desregulación\", cuando es el resultado deliberado de un modelo que privilegia la importación sobre la producción nacional y la renta financiera sobre el trabajo. ⚠️ Desarrollo basado en titular y datos clave — artículo completo detrás de paywall.",
-      "fuente": "Página/12 — 17/08/2026",
+      "titulo": "Seis de cada 10 máquinas están desenchufadas: la metalurgia lleva 9 meses de recesión",
+      "bajada": "ADIMRA: caída interanual del 4,4% en julio; acumula -5,5% en 7 meses. Capacidad instalada: 39,2% (baja 6 puntos). Bienes de Capital -9,5%; Maquinaria Agrícola -7,7%. Solo Autopartes creció 1,9%. Empleo: -2,2% interanual. 7 de cada 10 empresas no esperan mejora. En Rosario se perdieron ~2.000 puestos. Santa Fe: producción -18,1% interanual en mayo; -30,5% respecto a mayo 2023.",
+      "desarrollo": "El último informe mensual de ADIMRA confirmó que la producción metalúrgica cayó 4,4% interanual en julio y apenas varió +0,1% respecto de junio, acumulando una baja del 5,5% en los primeros siete meses del año. La capacidad instalada quedó en 39,2%, con una caída de 6 puntos porcentuales respecto de julio de 2025: seis de cada diez máquinas permanecen paradas. La contracción atraviesa todo el entramado: Bienes de Capital cayó 9,5%; Maquinaria Agrícola 7,7%; Equipos Eléctricos 4,3%; Equipamiento Médico 3,9%. El único rubro positivo fue Autopartes (+1,9%), pero acumula -3,1% en los últimos seis meses. El empleo del sector cayó 2,2% interanual; en Rosario se perdieron unos 2.000 puestos. Rafael Catalano (AIM Rosario): \"La causa es la suma de todo: la baja de las ventas, dificultad para colocar productos por la poca demanda, y también el impacto de importaciones.\" Elio Del Re (ADIMRA): la producción \"continúa sin mostrar una recuperación significativa\" y la capacidad instalada permanece \"en valores históricamente bajos.\" En Santa Fe, FISFE registró -18,1% interanual en mayo; producción 30,5% por debajo de mayo 2023. ✅ Texto completo verificado.",
+      "fuente": "Página/12 Rosario|12 — 19/08/2026",
       "foto": "https://www.pagina12.com.ar/resizer/v2/MJRDOMJQMRSDKY3BGVRWGOLEG4.jpg?quality=75&auth=7ee49cc1ed4858b59d0e0e096307fd16e3eef700ee540ee7bfd71b6228b4f1f9&width=3000",
-      "fuente_url": "https://www.pagina12.com.ar/2026/08/17/se-desplomo-mas-de-4-por-ciento-la-metalurgia"
+      "fuente_url": "https://www.pagina12.com.ar/2026/08/19/seis-de-cada-10-maquinas-estan-desenchufadas/"
     },
     {
       "id": "cd-2026-08-19-3",
@@ -186,21 +188,22 @@
     },
     {
       "id": "cd-2026-08-19-10",
-      "fecha": "2026-08-17",
-      "violencia": "VD+VC",
+      "fecha": "2026-08-19",
+      "violencia": "VC+VD",
       "tags": [
-        "provincias",
-        "destrucción-productiva",
-        "economías-regionales",
-        "Neuquén"
+        "Hidrovía",
+        "EXPORTLOG",
+        "CATT",
+        "Rosario",
+        "exclusión-sindical"
       ],
-      "emoji": "🏗️",
-      "titulo": "Las provincias en crisis total: solo Neuquén creó empresas en el último año",
-      "bajada": "De las 24 provincias argentinas, solo Neuquén registró creación neta de empresas en los últimos 12 meses. Las 23 restantes tienen saldo negativo. La destrucción del tejido productivo no es un fenómeno sectorial: es territorial y generalizado.",
-      "desarrollo": "De las 24 jurisdicciones provinciales, solo Neuquén muestra saldo positivo de creación de empresas. Las 23 restantes tienen saldo negativo, indicando que la destrucción productiva es territorial y generalizada. Las provincias más dependientes de la industria y el empleo público son las más afectadas. ⚠️ Desarrollo basado en titular y datos clave — artículo completo detrás de paywall.",
-      "fuente": "Página/12 — 17/08/2026",
+      "emoji": "🚢",
+      "titulo": "Cumbre sin obreros: la cumbre de la Hidrovía en Rosario excluyó a los trabajadores",
+      "bajada": "EXPORTLOG 2026, la cumbre de puertos, logística y producción de la Hidrovía celebrada en el Terminal Fluvial de Rosario los días 19 y 20 de agosto, reunió a operadores portuarios, empresas logísticas y funcionarios — pero excluyó a los trabajadores. La CATT Rosario concentró en protesta. El Gran Rosario también quedó afuera del nuevo Consejo de Control de la Vía Navegable Troncal.",
+      "desarrollo": "EXPORTLOG 2026, organizado por el IDR y GlobalPorts en el Terminal Fluvial de Rosario, se presentó como \"el gran punto de encuentro del ecosistema logístico y productivo nacional\" — pero ese ecosistema no incluye a los trabajadores. La cumbre debatió infraestructura portuaria, la nueva concesión de la Hidrovía, dragado, balizamiento y costos logísticos sin representación sindical. La CATT Rosario organizó una concentración de protesta el 19 de agosto a las 9:00. La exclusión es doble: los trabajadores fueron marginados de la cumbre, y el Gran Rosario quedó fuera del nuevo Consejo de Control de la Vía Navegable Troncal (ANPYN Resolución 47/2026). Mientras se discute la Hidrovía sin los trabajadores que la operan, 30.633 empresas cerraron y 241.176 empleos se perdieron. La VD se expresa en la exclusión material de los trabajadores de los espacios de decisión. La VC opera en la naturalización de la Hidrovía como cuestión técnico-empresarial, no social y laboral. ✅ Verificado vía múltiples fuentes (Página/12 Rosario|12, La Capital, 30noticias).",
+      "fuente": "Página/12 Rosario|12 — 19/08/2026",
       "foto": "https://www.pagina12.com.ar/resizer/v2/WIFIQ72SSBCWLHFUYG4VODO3XE.jpg?quality=75&auth=491fe21eba8912c9b4fe0e71d01b6218cc2eac573bfbe6a43120cefeda1f2ff6&width=4928",
-      "fuente_url": "https://www.pagina12.com.ar/2026/08/17/las-provincias-en-crisis-total/"
+      "fuente_url": "https://www.pagina12.com.ar/2026/08/19/cumbre-sin-obreros/"
     }
   ]
 }
