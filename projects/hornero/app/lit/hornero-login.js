@@ -75,24 +75,12 @@ class HorneroLogin extends HoComponent {
 
       .logo-area {
         display: flex; flex-direction: column; align-items: center;
-        margin-bottom: 24px;
+        margin-bottom: 28px;
         margin-top: 0;
       }
 
-      .logo-icon {
-        width: 80px; height: 80px; border-radius: 20px;
-        display: flex; align-items: center; justify-content: center;
-        margin-bottom: 12px;
-      }
-
-      .logo-icon img { width: 80px; height: 80px; border-radius: 20px; object-fit: cover; }
-
-      .logo-name {
-        font-family: 'Archivo', sans-serif; font-size: 1.2rem;
-        font-weight: 800; color: var(--ho-text-off, #F2F1EC);
-        letter-spacing: .08em; text-transform: uppercase;
-        margin-bottom: 4px;
-      }
+      .logo-area img { width: 140px; height: auto;
+        filter: drop-shadow(0 4px 12px rgba(0,0,0,.4)); }
 
       .form-area {
         width: 100%; max-width: 320px;
@@ -193,8 +181,7 @@ class HorneroLogin extends HoComponent {
     return html`
       <div class="login-wrap">
         <div class="logo-area">
-          <div class="logo-icon"><img src="assets/hornero-logo-192.png?v=22" alt="Hornero" /></div>
-          <div class="logo-name">Hornero</div>
+          <img src="assets/hornero-logo-nobg.png?v=22" alt="Hornero" />
         </div>
 
         <div class="form-area">
