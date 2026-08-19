@@ -133,3 +133,14 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 /* Keywords tags */
 .kw-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;background:var(--ho-warm-gray);color:var(--ho-text-mid);padding:2px 6px;border-radius:5px;font-weight:600;display:inline-block;margin:1px 0}
 .kw-sep{color:var(--ho-text-light);font-size:.68rem;margin:0 1px;font-weight:400}
+
+/* ===== Tactile feedback — :active press effect ===== */
+.nav-btn:active,.chat-choice:active,.menu-link:active,
+.chat-input-btn:active,.chat-input-mic:active,
+.sections-btn:active{transform:scale(.93);transition:transform .1s}
+.card:active{transform:scale(.98);transition:transform .1s}
+/* Restore transform after press — smooth release */
+.nav-btn,.chat-choice,.menu-link,
+.chat-input-btn,.chat-input-mic,
+.sections-btn{transition:transform .15s}
+.card{transition:transform .15s}
