@@ -196,5 +196,24 @@
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
   <script type="module" src="lit/hornero-components.js?ver=565"></script>
+  <!-- Remove splash once app renders — matches login layout so transition is invisible -->
+  <script>
+    (function(){
+      var splash = document.getElementById('splash');
+      if (!splash) return;
+      // Wait for hornero-app to render, then remove splash
+      function removeSplash() {
+        var app = document.querySelector('hornero-app');
+        if (app && app.shadowRoot && app.shadowRoot.querySelector('.login-shell, .app-wrap')) {
+          splash.remove();
+        } else {
+          requestAnimationFrame(removeSplash);
+        }
+      }
+      requestAnimationFrame(removeSplash);
+      // Safety: remove after 3 seconds no matter what
+      setTimeout(function() { if (splash.parentNode) splash.remove(); }, 3000);
+    })();
+  </script>
 </body>
 </html>
