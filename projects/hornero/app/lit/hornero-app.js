@@ -352,7 +352,7 @@ class HorneroApp extends HoComponent {
           background: var(--ho-bg, #1E2321); }
         .screen { background: var(--ho-bg, #1E2321); display: flex;
           flex-direction: column; position: relative;
-          height: 100%; overflow: hidden;
+          height: 100%; height: 100dvh; overflow: hidden;
           padding-top: env(safe-area-inset-top, 0px);
           box-sizing: border-box; }
         /* Mobile/PWA: hide simulated status bar */

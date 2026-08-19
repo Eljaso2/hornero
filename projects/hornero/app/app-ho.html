@@ -49,11 +49,11 @@
     /* App-level: theme-aware (head script sets _hoInitBg) */
     html { background: var(--ho-bg, #1E2321) !important;
       background-attachment: fixed !important;
-      height: 100%; height: -webkit-fill-available; }
+      height: 100%; height: 100dvh; height: -webkit-fill-available; }
     body { background: var(--ho-bg, #1E2321) !important;
       background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
-      margin: 0; padding: 0; height: 100%; }
+      margin: 0; padding: 0; height: 100%; height: 100dvh; }
     /* Desktop: allow page scroll so phone frame is fully visible in short viewports */
     @media(min-width:500px) {
       html { height: auto; }
@@ -61,7 +61,7 @@
       hornero-app { height: auto; }
     }
     hornero-app { display: block; width: 100%; height: 100%;
-      height: -webkit-fill-available; }
+      height: 100dvh; height: -webkit-fill-available; }
     /* PWA install banner */
     .pwa-install-banner { position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);
@@ -177,6 +177,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=573"></script>
+  <script type="module" src="lit/hornero-components.js?ver=574"></script>
 </body>
 </html>
