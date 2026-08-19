@@ -267,19 +267,19 @@ class HorneroHome extends HoComponent {
       .agenda-label { font-family: 'JetBrains Mono', monospace;
         font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
         margin-right: 2px; }
-      .agenda-hoy { background: #C0392B; color: #FFF; font-size: .92rem;
-        padding: 7px 14px; }
-      .agenda-hoy .agenda-label { font-size: .58rem; color: #FFD5D5; }
-      .agenda-manana { background: #4E9978; color: #F2F1EC; font-size: .86rem;
-        padding: 6px 13px; }
-      .agenda-manana .agenda-label { font-size: .54rem; color: #C8D9A4; }
-      .agenda-prox { background: #7FB5D5; color: #FFF; font-size: .70rem;
-        padding: 3px 8px; border-radius: 16px; line-height: 1.2; }
-      .agenda-prox .agenda-label { font-size: .48rem; color: #D4E8F2; }
+      .agenda-hoy { background: #C0392B; color: #FFF; font-size: .78rem;
+        padding: 5px 11px; }
+      .agenda-hoy .agenda-label { font-size: .50rem; color: #FFD5D5; }
+      .agenda-manana { background: #4E9978; color: #F2F1EC; font-size: .74rem;
+        padding: 5px 10px; }
+      .agenda-manana .agenda-label { font-size: .46rem; color: #C8D9A4; }
+      .agenda-prox { background: #7FB5D5; color: #FFF; font-size: .60rem;
+        padding: 3px 7px; border-radius: 16px; line-height: 1.2; }
+      .agenda-prox .agenda-label { font-size: .42rem; color: #D4E8F2; }
       .agenda-date { font-family: 'JetBrains Mono', monospace;
         opacity: .7; margin-left: 2px; }
-      .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .54rem; }
-      .agenda-prox .agenda-date { font-size: .46rem; }
+      .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .46rem; }
+      .agenda-prox .agenda-date { font-size: .40rem; }
 
       /* ===== ESFERA 2: Chat — 5 personajes, tira scrolleable ===== */
       .esfera-consulta { margin-bottom: 20px; }
