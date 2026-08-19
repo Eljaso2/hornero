@@ -33,6 +33,7 @@ class HorneroLogin extends HoComponent {
       error: String,
       loading: Boolean,
       showPassword: Boolean,
+      mode: String, // 'popup' = compact (no logo, no version) | default = full screen
     };
   }
 
@@ -41,6 +42,7 @@ class HorneroLogin extends HoComponent {
     this.error = '';
     this.loading = false;
     this.showPassword = false;
+    this.mode = '';
   }
 
   _styles() {
@@ -72,6 +74,13 @@ class HorneroLogin extends HoComponent {
         padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
         box-sizing: border-box;
       }
+
+      /* Popup mode: compact, no full-screen centering */
+      :host([mode="popup"]) .login-wrap {
+        height: auto; padding: 16px; justify-content: flex-start;
+      }
+      :host([mode="popup"]) .logo-area,
+      :host([mode="popup"]) .version-tag { display: none; }
 
       .logo-area {
         display: flex; flex-direction: column; align-items: center;

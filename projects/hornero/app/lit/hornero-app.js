@@ -27,6 +27,8 @@ class HorneroApp extends HoComponent {
     super();
     this.screen = 'home';
     this._navDirection = 'lateral'; // 'forward' | 'backward' | 'lateral' — screen transition direction
+    this._loginOpen = false;        // Login popup visible
+    this._pendingScreen = '';        // Screen user wanted before login popup appeared
     this.theme = localStorage.getItem('hornero-theme') || 'dark';
     this.updateAvailable = false;
     this.newClippingAvailable = false;
@@ -321,10 +323,6 @@ class HorneroApp extends HoComponent {
 
   _styles() {
     return css`
-      /* ===== Login shell — full viewport, no phone frame (matches splash layout) ===== */
-      .login-shell { position: fixed; inset: 0; overflow: hidden;
-        background: #1E2321; display: flex; flex-direction: column; z-index: 100; }
-
       /* ===== App enter animation (login → home) ===== */
       @keyframes appEnter { from { opacity: 0; } to { opacity: 1; } }
       .app-enter { animation: appEnter .3s ease; }
@@ -799,6 +797,22 @@ class HorneroApp extends HoComponent {
         display: flex; align-items: center; justify-content: center; }
       .profile-popup-body { padding: 20px 16px 16px; }
 
+      /* ===== Login popup ===== */
+      .login-overlay { position: fixed; inset: 0;
+        background: rgba(30,35,33,.8); z-index: 300;
+        display: flex; align-items: center; justify-content: center;
+        padding: 24px; animation: popfade .2s ease; }
+      .login-popup { background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.12));
+        border-radius: 16px; max-width: 100%; width: 340px;
+        overflow: hidden; }
+      .login-popup-header { display: flex; align-items: center; justify-content: space-between;
+        padding: 14px 16px 0; }
+      .login-popup-title { font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .92rem; color: var(--ho-text-off, #F2F1EC); }
+      .login-popup-close { background: none; border: none; color: var(--ho-text-mid, #9C988D);
+        font-size: 1.1rem; cursor: pointer; padding: 4px 8px; line-height: 1; }
+
       /* Toggle switch (profile popup) */
       .toggle-switch { position: relative; width: 44px; height: 24px;
         background: var(--ho-warm-gray, #3A4340); border-radius: 12px;
@@ -833,14 +847,6 @@ class HorneroApp extends HoComponent {
   }
 
   _render() {
-    // Login gate — full viewport (no phone frame), matches splash layout for seamless transition
-    if (!this.loggedIn) {
-      return html`
-        <div class="login-shell">
-          <hornero-login></hornero-login>
-        </div>
-      `;
-    }
 
     const currentTitle = this.titles[this.screen] || 'Hornero';
     // Header only visible on Home screen
@@ -1022,6 +1028,7 @@ class HorneroApp extends HoComponent {
       </div>
 
       ${this._profileOpen ? this._renderProfilePopup() : ''}
+      ${this._loginOpen ? this._renderLoginPopup() : ''}
     `;
   }
 
@@ -1121,6 +1128,31 @@ class HorneroApp extends HoComponent {
     `;
   }
 
+  // ===== Login popup — shown when user tries a restricted feature while not logged in =====
+  _renderLoginPopup() {
+    return html`
+      <div class="login-overlay" id="loginOverlay">
+        <div class="login-popup">
+          <div class="login-popup-header">
+            <span class="login-popup-title">Ingresá a Hornero</span>
+            <button class="login-popup-close" id="loginCloseBtn">✕</button>
+          </div>
+          <hornero-login mode="popup"></hornero-login>
+        </div>
+      </div>
+    `;
+  }
+
+  _closeLoginPopup() {
+    this._loginOpen = false;
+    const overlay = this.shadowRoot.querySelector('#loginOverlay');
+    if (overlay) {
+      overlay.style.transition = 'opacity .15s ease';
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.remove(), 150);
+    }
+  }
+
   _closeProfilePopup() {
     this._profileOpen = false;
     // Just hide the overlay DOM — no full re-render to preserve screen state below
@@ -1138,6 +1170,14 @@ class HorneroApp extends HoComponent {
     if (activeSectionBtn) {
       activeSectionBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
+    // Bind login popup close button + overlay click
+    const loginCloseBtn = this.shadowRoot.querySelector('#loginCloseBtn');
+    if (loginCloseBtn) loginCloseBtn.addEventListener('click', () => this._closeLoginPopup());
+    const loginOverlay = this.shadowRoot.querySelector('#loginOverlay');
+    if (loginOverlay) loginOverlay.addEventListener('click', (e) => {
+      if (e.target === loginOverlay) this._closeLoginPopup();
+    });
+
     // Bind sections bar button clicks (top navigation)
     this.shadowRoot.querySelectorAll('.sections-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1549,7 +1589,7 @@ class HorneroApp extends HoComponent {
       this._navigateTo(detail.screen);
     });
 
-    // Listen for login-success from <hornero-login>
+    // Listen for login-success from <hornero-login> (popup or full-screen)
     this.shadowRoot.addEventListener('login-success', (e) => {
       const session = e.detail;
       this._navDirection = 'forward'; // Animate entrance into app after login
@@ -1558,6 +1598,19 @@ class HorneroApp extends HoComponent {
       this.set('userTerritory', session.territory);
       this.set('userSector', session.sector || 'aceitero');
       this.set('userName', session.nombre || session.username);
+      // Close login popup if open
+      if (this._loginOpen) {
+        this._loginOpen = false;
+        const overlay = this.shadowRoot.querySelector('#loginOverlay');
+        if (overlay) overlay.remove();
+      }
+      // Navigate to pending screen if one was stored
+      if (this._pendingScreen) {
+        const pending = this._pendingScreen;
+        this._pendingScreen = '';
+        // Small delay to let render settle after login state change
+        setTimeout(() => this._navigateTo(pending), 50);
+      }
       // One-time cleanup then full sync
       if (typeof limpiarChatsYReportes === 'function') {
         limpiarChatsYReportes().then(function() {
@@ -1617,8 +1670,22 @@ class HorneroApp extends HoComponent {
 
   }
 
+  // ===== Access control — which screens require login =====
+  _requiresLogin(screen) {
+    // Screens accessible without login (Actualidad + its sub-screens + home)
+    const openScreens = ['home', 'actualidad', 'clipping', 'infomate'];
+    return !openScreens.includes(screen);
+  }
+
   // ===== Navigation with History API =====
   _navigateTo(screen) {
+    // Lazy login: if not logged in and screen requires login, show login popup instead
+    if (!this.loggedIn && this._requiresLogin(screen)) {
+      this._pendingScreen = screen;
+      this._loginOpen = true;
+      this.render();
+      return;
+    }
     // Reset caches when navigating away from data screens
     if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
     if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') this._misConvLoaded = false;

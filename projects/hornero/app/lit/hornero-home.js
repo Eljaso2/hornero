@@ -42,12 +42,12 @@ class HorneroHome extends HoComponent {
     this._mateMes = '';
 
     this.accessMap = {
-      actualidad: 'open',
-      consulta: 'open',
-      formacion: 'open',
-      is: 'grade',
-      condicion: 'open',
-      archivo: 'open',
+      actualidad: 'open',    // Only section accessible without login
+      consulta: 'grade',     // Requires login
+      formacion: 'grade',    // Requires login
+      is: 'grade',           // Requires login
+      condicion: 'grade',    // Requires login
+      archivo: 'grade',      // Requires login
     };
   }
 
@@ -305,6 +305,13 @@ class HorneroHome extends HoComponent {
         width: 1px; height: 72px;
         background: var(--ho-green-pale, #E0F0EB); }
       .icon-btn:hover { opacity: .8; }
+      .icon-btn.locked { cursor: default; }
+      .icon-btn.locked:hover { opacity: 1; }
+      .icon-btn .icon-lock { position: absolute; top: 4px; right: 4px;
+        width: 20px; height: 20px; background: rgba(30,35,33,.75);
+        border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+      .icon-btn .icon-lock svg { width: 11px; height: 11px; stroke: #F2F1EC;
+        stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .persona-home-img { width: 80px; height: 80px; border-radius: 0;
         object-fit: contain; object-position: center;
         filter: var(--ho-persona-filter, none); }
@@ -397,6 +404,15 @@ class HorneroHome extends HoComponent {
       .esfera-card .lock-icon svg { width: 14px; height: 14px; stroke: #9C988D;
         stroke-width: 2; fill: none; stroke-linecap: round;
         stroke-linejoin: round; }
+      /* Lock icon on hero cards (panorama, formacion, archivo) */
+      .panorama-card.locked, .formacion-card.locked, .archivo-card.locked { cursor: default; }
+      .panorama-card .lock-icon, .formacion-card .lock-icon, .archivo-card .lock-icon {
+        position: absolute; top: 10px; right: 12px; width: 24px; height: 24px;
+        background: rgba(30,35,33,.7); border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; z-index: 2; }
+      .panorama-card .lock-icon svg, .formacion-card .lock-icon svg, .archivo-card .lock-icon svg {
+        width: 14px; height: 14px; stroke: #F2F1EC; stroke-width: 2; fill: none;
+        stroke-linecap: round; stroke-linejoin: round; }
     `;
   }
 
@@ -522,23 +538,28 @@ class HorneroHome extends HoComponent {
         <div class="esfera-name">Chat</div>
         <div class="consulta-scroll-wrap">
           <div class="consulta-icons">
-            <button class="icon-btn" data-screen="gremial" data-persona="companero">
+            <button class="icon-btn${this._hasAccess('consulta') ? '' : ' locked'}" data-screen="gremial" data-persona="companero">
+              ${!this._hasAccess('consulta') ? '<span class="icon-lock">' + lockSvg + '</span>' : ''}
               <img src="assets/personajes/a02.png" alt="Compañero/a" class="persona-home-img">
               <span class="icon-label">Compañero/a</span>
             </button>
-            <button class="icon-btn" data-screen="consulta" data-persona="abogado">
+            <button class="icon-btn${this._hasAccess('consulta') ? '' : ' locked'}" data-screen="consulta" data-persona="abogado">
+              ${!this._hasAccess('consulta') ? '<span class="icon-lock">' + lockSvg + '</span>' : ''}
               <img src="assets/personajes/a03.png" alt="Abogado/a" class="persona-home-img abogado-crop">
               <span class="icon-label">Abogado/a</span>
             </button>
-            <button class="icon-btn" data-screen="contenido" data-persona="periodista">
+            <button class="icon-btn${this._hasAccess('consulta') ? '' : ' locked'}" data-screen="contenido" data-persona="periodista">
+              ${!this._hasAccess('consulta') ? '<span class="icon-lock">' + lockSvg + '</span>' : ''}
               <img src="assets/personajes/a04.png" alt="Periodista" class="persona-home-img periodista-full">
               <span class="icon-label">Periodista</span>
             </button>
-            <button class="icon-btn" data-screen="formacion" data-persona="historiador">
+            <button class="icon-btn${this._hasAccess('formacion') ? '' : ' locked'}" data-screen="formacion" data-persona="historiador">
+              ${!this._hasAccess('formacion') ? '<span class="icon-lock">' + lockSvg + '</span>' : ''}
               <img src="assets/personajes/a01.png" alt="Historiador/a" class="persona-home-img">
               <span class="icon-label">Historiador/a</span>
             </button>
-            <button class="icon-btn" data-screen="condicion" data-persona="sociologo">
+            <button class="icon-btn${this._hasAccess('condicion') ? '' : ' locked'}" data-screen="condicion" data-persona="sociologo">
+              ${!this._hasAccess('condicion') ? '<span class="icon-lock">' + lockSvg + '</span>' : ''}
               <img src="assets/personajes/a05.png" alt="Investigador/a" class="persona-home-img">
               <span class="icon-label">Investigador/a</span>
             </button>
@@ -547,7 +568,8 @@ class HorneroHome extends HoComponent {
       </div>
 
       <!-- ESFERA 3: Panorama — hero card -->
-      <div class="panorama-card" data-screen="condicion" data-persona="sociologo">
+      <div class="panorama-card${this._hasAccess('condicion') ? '' : ' locked'}" data-screen="condicion" data-persona="sociologo">
+        ${!this._hasAccess('condicion') ? '<div class="lock-icon">' + lockSvg + '</div>' : ''}
         <img src="assets/panorama-bg.png" alt="Panorama" class="hero">
         <div class="panorama-overlay">
           <div class="card-name">Panorama</div>
@@ -557,7 +579,8 @@ class HorneroHome extends HoComponent {
       </div>
 
       <!-- ESFERA 4: Historia Obrera — hero card -->
-      <div class="formacion-card" data-screen="formacion">
+      <div class="formacion-card${this._hasAccess('formacion') ? '' : ' locked'}" data-screen="formacion">
+        ${!this._hasAccess('formacion') ? '<div class="lock-icon">' + lockSvg + '</div>' : ''}
         <img src="assets/personajes/ho.jpg" alt="Historia Obrera" class="hero">
         <div class="formacion-overlay">
           <div class="card-name">Historia Obrera</div>
@@ -567,7 +590,8 @@ class HorneroHome extends HoComponent {
       </div>
 
       <!-- ESFERA 5: Archivo — hero card -->
-      <div class="archivo-card" data-screen="archivo">
+      <div class="archivo-card${this._hasAccess('archivo') ? '' : ' locked'}" data-screen="archivo">
+        ${!this._hasAccess('archivo') ? '<div class="lock-icon">' + lockSvg + '</div>' : ''}
         <img src="assets/archivo-bg.jpg" alt="Archivo" class="hero">
         <div class="archivo-overlay">
           <div class="card-name">Archivo</div>
@@ -627,11 +651,12 @@ class HorneroHome extends HoComponent {
       });
     }
 
-    // Esfera cards + hero cards — navigation
+    // Esfera cards + hero cards — navigation (locked cards also emit, hornero-app intercepts with login popup)
     this.shadowRoot.querySelectorAll('.esfera-card, .formacion-card, .panorama-card, .archivo-card').forEach(card => {
       card.addEventListener('click', () => {
-        if (card.classList.contains('locked')) return;
-        this.goScreen(card.dataset.screen);
+        const detail = { screen: card.dataset.screen };
+        if (card.dataset.persona) detail.persona = card.dataset.persona;
+        this.emit('screen-change', detail);
       });
     });
 
