@@ -83,6 +83,10 @@ class HorneroChat extends HoComponent {
     this._plusMenuOpen = false; // + dropdown menu state
     this.streamingText = ''; // Live streaming text — when non-empty, shows as "in progress" message
     this._streamingPersona = ''; // Persona for the streaming message
+    this._savedInputValue = null; // Preserved input text across re-renders
+    this._savedInputSelectionStart = 0; // Cursor position preserved across re-renders
+    this._savedInputSelectionEnd = 0;
+    this._savedInputHeight = "";
   }
 
   _detectAudioMimeType() {
@@ -2387,6 +2391,24 @@ class HorneroChat extends HoComponent {
     </div>`;
   }
 
+  // Override render() to preserve input field value across re-renders.
+  // When IA finalizes a message, the parent triggers render() which would
+  // destroy the textarea and its in-progress text. We save and restore it.
+  render() {
+    // Save input state before innerHTML wipe
+    const inputField = this.shadowRoot.querySelector('.chat-input-field');
+    if (inputField) {
+      this._savedInputValue = inputField.value;
+      this._savedInputSelectionStart = inputField.selectionStart;
+      this._savedInputSelectionEnd = inputField.selectionEnd;
+      this._savedInputHeight = inputField.style.height;
+    } else {
+      // No input field yet (first render) — nothing to save
+      this._savedInputValue = '';
+    }
+    super.render();
+  }
+
   _afterRender() {
     // === Apply theme class to host for CSS selectors ===
     if (this.theme === 'light') {
@@ -2412,6 +2434,23 @@ class HorneroChat extends HoComponent {
     const attachBtn = this.shadowRoot.querySelector('.chat-attach-btn');
     const fileInput = this.shadowRoot.querySelector('.chat-file-input');
     const removeAttachBtn = this.shadowRoot.querySelector('.chat-attach-remove');
+
+    // === Restore input field value preserved across re-render ===
+    if (inputField && this._savedInputValue !== undefined && this._savedInputValue !== null) {
+      if (this._savedInputValue) {
+        inputField.value = this._savedInputValue;
+        // Restore cursor position
+        if (this._savedInputSelectionStart !== undefined) {
+          inputField.selectionStart = this._savedInputSelectionStart;
+          inputField.selectionEnd = this._savedInputSelectionEnd || this._savedInputSelectionStart;
+        }
+        // Restore height (auto-resize)
+        if (this._savedInputHeight) {
+          inputField.style.height = this._savedInputHeight;
+        }
+      }
+      this._savedInputValue = null;
+    }
 
     // === Visual Viewport: adjust chat height when keyboard opens ===
     // Prevents the entire page from scrolling up (losing conversation)
@@ -2548,6 +2587,7 @@ class HorneroChat extends HoComponent {
         if (text || detail.image || detail.video) {
           this.emit('chat-send', detail);
           inputField.value = '';
+          this._savedInputValue = null; // Don't restore cleared input on next render
           inputField.style.height = '34px';
           inputField.style.padding = '0 14px';
           inputField.style.lineHeight = '34px';
