@@ -62,23 +62,6 @@
     }
     hornero-app { display: block; width: 100%; height: 100%;
       height: -webkit-fill-available; }
-    /* Splash screen — mirrors login layout (logo + spacer + version = same logo height as login) */
-    #splash { position: fixed; inset: 0; z-index: 9999;
-      background: var(--ho-bg, #1E2321); display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 28px 24px;
-      padding-top: calc(28px + env(safe-area-inset-top, 0px));
-      padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
-      box-sizing: border-box;
-      transition: opacity .15s ease; }
-    #splash.fade-out { opacity: 0; pointer-events: none; }
-    #splash img { width: 340px; height: auto;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,.4));
-      margin-bottom: 32px; }
-    #splash .splash-spacer { height: 260px; }
-    #splash .splash-version {
-      font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-      color: #7A7568; margin-top: 32px; text-align: center; }
     /* PWA install banner */
     .pwa-install-banner { position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);
@@ -102,12 +85,6 @@
 <!-- Set body bg immediately — uses color from head script -->
 <body>
 <script>document.body.style.setProperty('background',window._hoInitBg||'#1E2321','important');</script>
-  <!-- Splash screen — mirrors login layout (logo at same height, spacer simulates form) -->
-  <div id="splash">
-    <img src="assets/hornero-logo-nobg.png" alt="Hornero" />
-    <div class="splash-spacer"></div>
-    <div class="splash-version">Piloto aceitero · v2026-07</div>
-  </div>
   <!-- HoComponent app shell — Shadow DOM renders instantly via sync session -->
   <hornero-app></hornero-app>
 
@@ -201,20 +178,5 @@
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
   <script type="module" src="lit/hornero-components.js?ver=563"></script>
-  <!-- Hide splash: 0ms if session exists (returning user), 400ms if not (first visit) -->
-  <script>
-    (function(){
-      var splash = document.getElementById('splash');
-      if (!splash) return;
-      function hideSplash() {
-        splash.classList.add('fade-out');
-        setTimeout(function() { splash.remove(); }, 150);
-      }
-      // Check if user has an existing session — skip splash for returning users
-      var hasSession = false;
-      try { hasSession = !!(JSON.parse(localStorage.getItem('hornero-session')).grade); } catch(e) {}
-      setTimeout(hideSplash, hasSession ? 0 : 400);
-    })();
-  </script>
 </body>
 </html>
