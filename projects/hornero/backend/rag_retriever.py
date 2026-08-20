@@ -244,12 +244,12 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
                 relevant_categories.add(cat)
                 break
 
-    # Filter chunks by tenant (same pattern as library_service: own ∪ shared)
-    tenant_chunks = [c for c in ALL_CHUNKS
-                     if c.get("tenant", "aceiteros") in (tenant, "shared")]
+    # Tenant prioritization: all chunks are searchable, but user's own tenant gets a boost
+    # Regla: el chat prioriza el gremio del usuario (historia, leyes, convenio),
+    # pero NO bloquea el acceso a otros gremios si la query lo requiere.
 
     scored = []
-    for chunk in tenant_chunks:
+    for chunk in ALL_CHUNKS:
         # Build searchable text with different fields for weighted scoring
         title_lower = chunk["title"].lower()
         text_lower = chunk["text"].lower()
@@ -280,6 +280,15 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
         chunk_category = chunk.get("category", "").lower()
         if chunk_category in relevant_categories:
             score += 3.0
+
+        # Tenant priority bonus: +5 for own tenant, +1 for shared, 0 for other tenants
+        # Regla: prioriza tu gremio, pero no te bloquea el acceso a otros
+        chunk_tenant = chunk.get("tenant", "aceiteros")
+        if chunk_tenant == tenant:
+            score += 5.0
+        elif chunk_tenant == "shared":
+            score += 1.0
+        # other tenants: no bonus, but still searchable
 
         if score > 0:
             scored.append({**chunk, "relevance_score": round(score, 2)})
