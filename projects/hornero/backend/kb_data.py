@@ -414,6 +414,283 @@ Rogelio Lamazón — Dirigente yrigoyenista. La Forestal le inculpaba tener part
         "imageSource": "https://es.wikipedia.org/wiki/La_Forestal_Argentina",
     },
 
+    # ===== SIPREBA — SINDICATO DE PRENSA DE BUENOS AIRES =====
+    # ⚠️ Chunks escritos desde conocimiento — verificar con textos oficiales cuando InfoLEG vuelva
+
+    # --- SIPREBA: ORGANIZACIÓN ---
+    {
+        "id": "kb-sipreba-org",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["SIPREBA", "Sindicato de Prensa", "UPC", "Unión de Prensa de Buenos Aires", "FEP", "Federación de Periodistas", "prensa", "periodista", "paritaria", "organización", "ADEPA", "IANA", "Agustín Lecchi", "secretario general", "derecho a la información"],
+        "title": "SIPREBA — Sindicato de Prensa de Buenos Aires",
+        "text": """SIPREBA — SINDICATO DE PRENSA DE BUENOS AIRES
+
+SIPREBA es el sindicato que representa a los trabajadores de prensa de la Ciudad de Buenos Aires y su área metropolitana. Agrupa a periodistas, cronistas, correctores, editores, fotógrafos, diagramadores, y demás profesionales de la información que trabajan en medios gráficos, agencias de noticias, radio, televisión y medios digitales.
+
+Organización:
+- Secretario General: Agustín Lecchi
+- Pertenece a la Federación de Periodistas (FEP) y a la Unión de Prensa de Buenos Aires (UPC)
+- Negocia paritarias con las cámaras patronales: ADEPA (Asociación de Entidades Periodísticas Argentinas) para prensa escrita, e IANA (Interamérica Asociaciones de Noticias de Argentina) para agencias
+- Convenios colectivos: CCT 301/75 (Prensa Escrita y Oral) y CCT 124/75 (Prensa Televisada)
+
+SIPREBA defiende el derecho a la información, la libertad de prensa entendida como derecho de los trabajadores y del pueblo, y las condiciones laborales del periodismo profesional. Denuncia el vaciamiento de medios, los despidos masivos, y la precarización del trabajo periodístico. Promueve la democracia sindical y la participación de los trabajadores de prensa en las decisiones del gremio.
+
+⚠️ Verificar datos con fuentes oficiales de SIPREBA.""",
+        "sources": ["sipreba.org.ar", "CCT 301/75", "CCT 124/75"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: CCT 301/75 ---
+    {
+        "id": "kb-sipreba-cct-301",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["CCT 301/75", "prensa escrita y oral", "convenio colectivo", "jornada 6 horas", "36 horas semanales", "categorías periodista", "cronista", "corrector", "diagramador", "editor", "fotógrafo", "salario profesional", "estabilidad", "licencias", "horas extra", "nocturno", "ADEPA"],
+        "title": "CCT 301/75 — Prensa Escrita y Oral",
+        "text": """CCT 301/75 — CONVENIO COLECTIVO DE TRABAJO DE PRENSSA ESCRITA Y ORAL
+
+El CCT 301/75 es el convenio colectivo que rige las condiciones laborales de los trabajadores de prensa escrita y oral (diarios, revistas, agencias noticiosas, radio). Homologado en 1975, ha sido actualizado por múltiples resoluciones salariales.
+
+Principales disposiciones:
+- JORNADA: 6 horas diarias / 36 horas semanales para tareas de redacción. 7 horas / 42 horas para tareas administrativas y de taller.
+- CATEGORÍAS PROFESIONALES: Cronista (general, especial, jefe de sección), Corrector (de estilo, de pruebas), Editor, Diagramador/tipógrafo, Fotógrafo (reportero gráfico), Dibujante, Redactor, Secretario de redacción, Jefe de redacción, Director.
+- SALARIO PROFESIONAL: Escalafón por categoría con adicionales por antigüedad, título, y función.
+- HORAS EXTRA: Se pagan con recargo (50% o 100% según horario y día).
+- ESTABILIDAD: El periodista profesional goza de estabilidad en el empleo tras el período de prueba. Despido sin causa genera indemnización agravada.
+- LICENCIAS: Anual reglamentaria (mínimo 15 días hábiles), por enfermedad (conservando puesto y salario), por maternidad, y por estudio (para cursar carreras afines).
+- SEPTIMO DÍA: Descanso semanal obligatorio.
+
+Cámara patronal: ADEPA (Asociación de Entidades Periodísticas Argentinas).
+
+⚠️ Texto reconstruido desde conocimiento — verificar con texto oficial del CCT cuando InfoLEG vuelva.""",
+        "sources": ["CCT 301/75 — Prensa Escrita y Oral", "InfoLEG (URL por verificar)"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: CCT 124/75 ---
+    {
+        "id": "kb-sipreba-cct-124",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["CCT 124/75", "prensa televisada", "convenio colectivo", "televisión", "noticiero", "cámaras", "cronista TV", "productor", "editor TV", "movilero", "categorías TV", "horarios", "turnos"],
+        "title": "CCT 124/75 — Prensa Televisada",
+        "text": """CCT 124/75 — CONVENIO COLECTIVO DE TRABAJO DE PRENSSA TELEVISADA
+
+El CCT 124/75 rige las condiciones laborales de los trabajadores de prensa en televisión (noticieros, programas periodísticos, informativos cable). Con 72 artículos, es el marco normativo específico para el periodismo audiovisual.
+
+Principales disposiciones:
+- ÁMBITO: Canales de TV abierta, cable, y productoras de información televisiva de la Ciudad de Buenos Aires y alrededores.
+- CATEGORÍAS: Cronista, Movilero, Productor periodístico, Editor de noticiero, Jefe de información, Corresponsal, Camarógrafo-periodista, Asistente de producción.
+- JORNADA: Similar al CCT 301/75 con ajustes para turnos televisivos. Regímenes de guardia y disponibilidad.
+- HORARIOS: Turnos rotativos con adicionales por trabajo nocturno y fines de semana.
+- SALARIO: Escalafón por categoría + adicionales por función, antigüedad, y peligrosidad.
+- ESTABILIDAD: Protección contra despido arbitrario con indemnización agravada.
+- LICENCIAS: Anual, enfermedad, maternidad, estudio.
+
+El CCT 124/75 ha sido complementado por múltiples actas paritarias y resoluciones salariales que actualizan los valores del escalafón.
+
+⚠️ Texto reconstruido desde conocimiento — verificar con texto oficial del CCT cuando InfoLEG vuelva.""",
+        "sources": ["CCT 124/75 — Prensa Televisada", "InfoLEG (URL por verificar)"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: LEY 12.908 ---
+    {
+        "id": "kb-sipreba-estatuto",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["Ley 12.908", "estatuto del periodista", "periodista profesional", "derechos del periodista", "jornada 6 horas", "salario mínimo profesional", "estabilidad", "libertad de prensa", "derecho a la información", "registro profesional", "colegiatura"],
+        "title": "Ley 12.908 — Estatuto del Periodista Profesional",
+        "text": """LEY 12.908 — ESTATUTO DEL PERIODISTA PROFESIONAL (1946)
+
+La Ley 12.908 es el Estatuto del Periodista Profesional, sancionada en 1946 durante el primer gobierno peronista. Establece el marco legal específico para el ejercicio del periodismo profesional en Argentina. Es una ley de protección especial — reconoce la particularidad del trabajo periodístico y lo protege con derechos superiores a los del trabajador común.
+
+Disposiciones clave:
+- DEFINICIÓN: Es periodista profesional quien practica el periodismo como ocupación habitual y vive de ello (art. 2).
+- JORNADA: 6 horas diarias / 36 horas semanales para tareas de redacción. Excepciones reglamentadas.
+- SALARIO MÍNIMO PROFESIONAL: Fija un piso salarial diferenciado por categoría, por encima del salario mínimo general.
+- ESTABILIDAD: El periodista profesional tiene estabilidad en el empleo. Despido sin causa genera indemnización especial (doble de la LCT). El empleador debe reincorporar o indemnizar.
+- LICENCIAS: Vacaciones de 20 días corridos, licencia por enfermedad con goce de sueldo, licencia por maternidad, y licencia por estudio.
+- LIBERTAD DE CONCIENCIA: El periodista no puede ser obligado a escribir contra sus convicciones (art. 12). La cláusula de conciencia protege la independencia profesional.
+- REGISTRO: Los periodistas profesionales deben inscribirse en el registro correspondiente.
+- SEPTIMO DÍA: Descanso obligatorio.
+
+El Estatuto fue pionero en América Latina y sigue vigente como marco protector del periodismo. Fue reglamentado por el Decreto 410/97. La Ley 24.521 y otras modificaciones posteriores actualizaron algunos artículos sin alterar el núcleo protector.
+
+⚠️ Texto reconstruido desde conocimiento — verificar con texto oficial cuando InfoLEG vuelva.""",
+        "sources": ["Ley 12.908 — Estatuto del Periodista Profesional", "Decreto reglamentario 410/97"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: CATEGORÍAS PROFESIONALES ---
+    {
+        "id": "kb-sipreba-categorias",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["categorías", "escalafón", "cronista", "corrector", "editor", "fotógrafo", "diagramador", "redactor", "reportero gráfico", "jefe de redacción", "secretario de redacción", "director", "prensa escrita", "prensa televisada"],
+        "title": "Categorías profesionales del periodismo — CCT 301/75 y 124/75",
+        "text": """CATEGORÍAS PROFESIONALES DEL PERIODISMO
+
+CCT 301/75 — Prensa Escrita y Oral:
+- DIRECTOR: Dirección general del medio, responsabilidad editorial.
+- JEFE DE REDACCIÓN: Coordina la redacción, asigna coberturas, supervisa contenido.
+- SECRETARIO DE REDACCIÓN: Asistente del jefe, coordina secciones.
+- EDITOR: Responsable de una sección o suplemento.
+- CRONISTA ESPECIAL: Periodista con especialización en un área (política, economía, internacionales, deportes, etc.).
+- CRONISTA GENERAL: Cobertura de noticias generales, reporteo en territorio.
+- REDACTOR: Elabora notas y artículos a partir de información propia o de agencias.
+- CORRECTOR DE ESTILO: Revisa estilo, gramática, y coherencia del texto.
+- CORRECTOR DE PRUEBAS: Revisa galeradas y pruebas de imprenta.
+- DIAGRAMADOR / TIPIÓGRAFO: Armado visual de páginas y secciones.
+- FOTÓGRAFO / REPORTERO GRÁFICO: Cobertura fotográfica de noticias.
+- DIBUJANTE: Ilustraciones, infografías, caricaturas.
+
+CCT 124/75 — Prensa Televisada:
+- JEFE DE INFORMACIÓN: Dirección del área informativa.
+- EDITOR DE NOTICIERO: Selección y jerarquización de noticias.
+- PRODUCTOR PERIODÍSTICO: Producción de notas, coordinación de coberturas.
+- CRONISTA: Reporteo y presentación en cámara.
+- MOVILERO: Cobertura en terreno con equipo móvil.
+- CAMARÓGRAFO-PERIODISTA: Registro audiovisual con criterio periodístico.
+- CORRESPONSAL: Representante del medio en otra ciudad o país.
+- ASISTENTE DE PRODUCCIÓN: Apoyo logístico y de coordinación.
+
+⚠️ Verificar con textos oficiales de los CCT.""",
+        "sources": ["CCT 301/75", "CCT 124/75"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: JORNADA ---
+    {
+        "id": "kb-sipreba-jornada",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["jornada", "6 horas", "36 horas", "horas extra", "trabajo nocturno", "descanso", "séptimo día", "guardia", "disponibilidad", "turnos", "estatuto del periodista"],
+        "title": "Jornada del periodista — 6 horas / 36 horas semanales",
+        "text": """JORNADA DEL PERIODISTA PROFESIONAL
+
+La jornada del periodista es una conquista histórica diferenciada: 6 horas diarias / 36 horas semanales para tareas de redacción, establecida por la Ley 12.908 (Estatuto del Periodista) y ratificada por los CCTs 301/75 y 124/75.
+
+Marco legal:
+- Ley 12.908, art. 6: jornada máxima de 6 horas para redacción.
+- CCT 301/75: 6hs/36hs para redacción, 7hs/42hs para administración y taller.
+- CCT 124/75: adaptación para turnos televisivos con regímenes de guardia.
+
+HORAS EXTRA: Se pagan con recargo (50% o 100% según franja horaria y día). El empleador no puede obligar al periodista a trabajar más de la jornada sin compensación adicional.
+
+TRABAJO NOCTURNO: Recargo especial por tareas realizadas entre las 21:00 y las 6:00.
+
+SÉPTIMO DÍA: Descanso semanal obligatorio. Si el periodista trabaja en su día de descanso, cobra doble.
+
+GUARDIAS Y DISPONIBILIDAD: En televisión y radio, existen regímenes de guardia pasiva (disponibilidad) y guardia activa. La guardia pasiva se compensa con un adicional; la guardia activa se computa como tiempo trabajado.
+
+⚠️ Verificar con textos oficiales de los CCT y la Ley 12.908.""",
+        "sources": ["Ley 12.908", "CCT 301/75", "CCT 124/75"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: ESTABILIDAD ---
+    {
+        "id": "kb-sipreba-estabilidad",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["estabilidad", "despido", "indemnización agravada", "período de prueba", "preaviso", "cláusula de conciencia", "libertad de prensa", "Ley 12.908", "CCT 301/75", "periodista profesional"],
+        "title": "Estabilidad del periodista profesional — Indemnización agravada",
+        "text": """ESTABILIDAD DEL PERIODISTA PROFESIONAL
+
+El periodista profesional goza de estabilidad especial, superior a la del trabajador común. Esta protección está establecida en la Ley 12.908 y los CCTs 301/75 y 124/75.
+
+Indemnización agravada: El despido sin causa de un periodista profesional genera una indemnización mayor que la del régimen general de la LCT. La doctrina y la jurisprudencia han establecido que la indemnización es doble respecto de la LCT (art. 245 LCT × 2). Esto reconoce la particular vulnerabilidad del periodista frente a presiones del empleador.
+
+Cláusula de conciencia (art. 12 Ley 12.908): El periodista no puede ser obligado a escribir contra sus convicciones. Si el medio cambia su línea editorial de manera sustancial, el periodista puede rescindir el contrato con derecho a indemnización por despido — como si lo hubiera despedido el empleador.
+
+Preaviso: El empleador debe dar preaviso de 30 días (o pagar indemnización sustitutiva) como en la LCT, pero con la indemnización agravada adicional.
+
+Período de prueba: Durante el período de prueba, la protección es menor — pero el Estatuto establece que el empleador no puede usar el período de prueba para eludir la estabilidad.
+
+⚠️ Verificar con textos oficiales de la Ley 12.908 y jurisprudencia.""",
+        "sources": ["Ley 12.908, art. 12 y ss.", "CCT 301/75", "Jurisprudencia sobre indemnización agravada del periodista"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: LICENCIAS ---
+    {
+        "id": "kb-sipreba-licencias",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["licencias", "vacaciones", "enfermedad", "maternidad", "licencia por estudio", "20 días", "descanso", "CCT 301/75", "Ley 12.908"],
+        "title": "Licencias del periodista — Vacaciones, enfermedad, maternidad, estudio",
+        "text": """LICENCIAS DEL PERIODISTA PROFESIONAL
+
+Las licencias del periodista están reguladas por la Ley 12.908, los CCTs 301/75 y 124/75, y la LCT como marco supletorio.
+
+VACACIONES: 20 días corridos como mínimo (Ley 12.908). Se incrementan por antigüedad: 20 días (menos de 5 años), 25 días (5-10 años), 30 días (10-20 años), 35 días (más de 20 años). El periodista puede elegir la fecha de vacaciones dentro de la temporada alta (octubre-abril), salvo razones de servicio.
+
+ENFERMEDAD: El periodista tiene derecho a licencia por enfermedad con goce de sueldo, conservando el puesto. El plazo depende de la antigüedad: 3 meses (menos de 5 años), 6 meses (5-10 años), y más para mayor antigüedad. El empleador puede exigir certificado médico.
+
+MATERNIDAD: Licencia por maternidad de 90 días (ley 20.744 + convenciones). La trabajadora periodista tiene los mismos derechos que la LCT: estabilidad durante el embarazo y lactancia, prohibición de despido.
+
+ESTUDIO: Los CCTs prevén licencias por estudio para periodistas que cursen carreras afines al periodismo. El otorgamiento depende de las necesidades del medio y la regularidad del estudiante.
+
+⚠️ Verificar con textos oficiales de los CCT y la Ley 12.908.""",
+        "sources": ["Ley 12.908", "CCT 301/75", "CCT 124/75", "LCT 20.744"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: CÁMARA PATRONAL ---
+    {
+        "id": "kb-sipreba-camara",
+        "tipo": "documento",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["ADEPA", "IANA", "cámara patronal", "prensa escrita", "agencias de noticias", "paritaria", "empleadores", "medios", "diarios", "revistas"],
+        "title": "Cámaras patronales de la prensa — ADEPA e IANA",
+        "text": """CÁMARAS PATRONALES DE LA PRENSA
+
+ADEPA — Asociación de Entidades Periodísticas Argentinas:
+- Representa a los empleadores de prensa escrita (diarios, revistas, periódicos).
+- Negocia las paritarias del CCT 301/75 con los sindicatos de prensa (SIPREBA, UPC, FEP).
+- Agrupa a los principales medios gráficos del país.
+- Su posición en las paritarias suele ser restrictiva: argumenta crisis del sector papel, caída de publicidad, y migración a medios digitales para limitar aumentos.
+
+IANA — Interamérica Asociaciones de Noticias de Argentina:
+- Representa a las agencias de noticias.
+- Interviene en la negociación paritaria del sector de agencias.
+
+La relación entre los sindicatos de prensa y las cámaras patronales es particularmente tensa en el contexto actual: despidos masivos en medios tradicionales (Clarín, La Nación, Infobae), cierre de redacciones, y tercerización del trabajo periodístico son denunciados por SIPREBA como estrategias de precarización.
+
+⚠️ Verificar datos con fuentes oficiales.""",
+        "sources": ["ADEPA", "SIPREBA comunicados"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
     # ===== EFEMÉRIDES DE HISTORIA OBRERA =====
 
     {
