@@ -164,7 +164,29 @@ CATEGORY_KEYWORDS = {
 }
 
 
-def keyword_search(query: str, max_chunks: int = 5) -> list:
+# ===== Tenant-specific keywords =====
+# Merged with CATEGORY_KEYWORDS during search for the active tenant
+TENANT_KEYWORDS = {
+    "aceiteros": [
+        "ftciod", "foeiap", "federacion aceitera", "trabajador aceitero",
+        "el trabajador aceitero", "desmotador", "CIARA", "CIAVEC", "CARBIO",
+        "CCT 420", "vicentin", "yofra", "aceitero", "aceitera",
+        "expeller", "refinado", "oleaginoso", "algodon",
+    ],
+    "prensa": [
+        "SIPREBA", "UPC", "Union de Prensa", "FEP", "Federacion de Periodistas",
+        "ADEPA", "IANA", "CCT 301", "CCT 124", "estatuto del periodista",
+        "ley 12.908", "periodista", "cronista", "corrector", "diagramador",
+        "editor", "fotografo", "reportero grafico", "prensa escrita",
+        "prensa televisada", "jornada 6 horas", "36 horas", "salario profesional",
+        "estabilidad del periodista", "indemnizacion agravada", "clausula de conciencia",
+        "noticiero", "movilero", "productor periodistico", "redaccion",
+        "agustin lecchi",
+    ],
+}
+
+
+def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -> list:
     """Improved keyword search with TF-IDF scoring, stemming, and category boosting.
 
     Returns top-N chunks by relevance score.
@@ -208,14 +230,26 @@ def keyword_search(query: str, max_chunks: int = 5) -> list:
     # Detect which categories are relevant to the query
     query_lower = query.lower()
     relevant_categories = set()
-    for cat, keywords in CATEGORY_KEYWORDS.items():
+    # Merge CATEGORY_KEYWORDS with tenant-specific keywords
+    merged_cat_keywords = dict(CATEGORY_KEYWORDS)  # copy base
+    tenant_kws = TENANT_KEYWORDS.get(tenant, [])
+    # Add tenant keywords to the "documentos" and "prensa" categories
+    if tenant_kws:
+        for cat_key in ("documentos", "prensa"):
+            existing = merged_cat_keywords.get(cat_key, [])
+            merged_cat_keywords[cat_key] = existing + tenant_kws
+    for cat, keywords in merged_cat_keywords.items():
         for kw in keywords:
             if kw in query_lower:
                 relevant_categories.add(cat)
                 break
 
+    # Filter chunks by tenant (same pattern as library_service: own ∪ shared)
+    tenant_chunks = [c for c in ALL_CHUNKS
+                     if c.get("tenant", "aceiteros") in (tenant, "shared")]
+
     scored = []
-    for chunk in ALL_CHUNKS:
+    for chunk in tenant_chunks:
         # Build searchable text with different fields for weighted scoring
         title_lower = chunk["title"].lower()
         text_lower = chunk["text"].lower()
@@ -256,12 +290,13 @@ def keyword_search(query: str, max_chunks: int = 5) -> list:
 
 
 def retrieve_for_query(query: str, formato: str, grade: str = "A",
-                       conversation_history: list = None) -> list:
+                       conversation_history: list = None,
+                       tenant: str = "aceiteros") -> list:
     """Main RAG retrieval: select relevant KB chunks for a user query.
 
     Phase 2 logic:
     1. Combine current query with recent user messages for context
-    2. Keyword search with TF-IDF scoring
+    2. Keyword search with TF-IDF scoring (tenant-filtered: own ∪ shared)
     3. Grade-based filtering (remove chunks user shouldn't see)
     4. Vigencia filtering (remove derogated content)
     5. Formato-based filtering (avoid cross-persona contamination)
@@ -279,8 +314,8 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
             context = " ".join(user_msgs[-3:])
             enhanced_query = context + " " + query
 
-    # Step 2: Keyword search with improved scoring
-    candidates = keyword_search(enhanced_query, max_chunks=8)
+    # Step 2: Keyword search with improved scoring (tenant-filtered)
+    candidates = keyword_search(enhanced_query, max_chunks=8, tenant=tenant)
 
     # Step 3: Grade filtering
     filtered = [c for c in candidates if grade_satisfies(grade, c.get("grade_access", "open"))]
