@@ -81,6 +81,43 @@ class HorneroConsulta extends HoComponent {
     } catch(e) {}
   }
 
+  disconnectedCallback() {
+    // When the component is removed from DOM (e.g., user navigates to another screen or Perfil),
+    // finalize any in-progress AI response and save to history before state is lost
+    if (this._progressiveRevealTimer || this._typing || this._pendingFinalizeMsg) {
+      // Stop the typewriter timer immediately
+      if (this._progressiveRevealTimer) {
+        clearInterval(this._progressiveRevealTimer);
+        this._progressiveRevealTimer = null;
+      }
+      // If API already finished and left a pending finalize msg, add it to messages
+      if (this._pendingFinalizeMsg) {
+        const msg = this._pendingFinalizeMsg;
+        this._pendingFinalizeMsg = null;
+        this.iaStep++;
+        this._typing = false; this._greetingRequested = false;
+        this.messages = [...this.messages, msg];
+      } else if (this._progressiveRevealFull) {
+        // API still streaming — save whatever text we have so far as partial response
+        this.messages = [...this.messages, {
+          role: 'hornero',
+          text: this._progressiveRevealFull,
+          tags: ['consulta', 'stream-partial'],
+          persona: this._activePersona,
+          time: this._timeNow(),
+        }];
+        this.iaStep++;
+        this._typing = false;
+      }
+      this._progressiveRevealFull = '';
+      this._progressiveRevealIndex = 0;
+      // Persist to IndexedDB before the component is gone
+      this._saveChatHistory();
+      // Notify hornero-app of session so it can be restored
+      this._emitSessionSave();
+    }
+  }
+
   // Emit session-save event so hornero-app can preserve active chat per screen
   _emitSessionSave() {
     if (this._sessionId) {

@@ -48,12 +48,12 @@
   <style>
     /* App-level: theme-aware (head script sets _hoInitBg) */
     html { background: var(--ho-bg, #1E2321) !important;
-      height: 100%; height: -webkit-fill-available;
-      border: none !important; outline: none !important; }
+      background-attachment: fixed !important;
+      height: 100%; height: -webkit-fill-available; }
     body { background: var(--ho-bg, #1E2321) !important;
+      background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
-      margin: 0; padding: 0; height: 100%;
-      border: none !important; outline: none !important; }
+      margin: 0; padding: 0; height: 100%; }
     /* Desktop: allow page scroll so phone frame is fully visible in short viewports */
     @media(min-width:500px) {
       html { height: auto; }
@@ -183,6 +183,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=585"></script>
+  <script type="module" src="lit/hornero-components.js?ver=586"></script>
 </body>
 </html>

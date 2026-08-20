@@ -1191,6 +1191,7 @@ class HorneroApp extends HoComponent {
       btn.addEventListener('click', () => {
         // Perfil section → open profile popup instead of navigating
         if (btn.dataset.screen === 'perfil') {
+          this._finalizeActiveChat();
           this._profileOpen = true;
           this.render();
           return;
@@ -1280,6 +1281,7 @@ class HorneroApp extends HoComponent {
         const screen = btn.dataset.screen;
         // Perfil button → open profile popup instead of navigating
         if (screen === 'perfil') {
+          this._finalizeActiveChat();
           this._profileOpen = true;
           this.render();
           return;
@@ -1736,7 +1738,8 @@ class HorneroApp extends HoComponent {
       return;
     }
     // Save current screen's active chat session before navigating away
-    if (this.screen && this.screen !== screen) {
+    // (including same-screen: the render will destroy the component, so we need to restore)
+    if (this.screen) {
       const currentComp = this._getChatComponent(this.screen);
       if (currentComp && currentComp._sessionId) {
         this._activeSessions[this.screen] = {
@@ -1756,11 +1759,13 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') this._misConvLoaded = false;
     if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
     // If navigating to same screen, force re-render to reset component state (e.g., expanded banner)
+    // but also pass the active session-id so the re-created component loads the existing conversation
     if (this.screen === screen) {
       this.set('screen', ''); // Clear first to force change
       this.set('screen', screen); // Re-render with fresh state
       this._initialSection = '';
       this._actualidadSubView = '';
+      this._initialSessionId = ''; // Clear after render picks it up as attribute
       return;
     }
     // Only push state if screen actually changes (avoid duplicate history entries)
@@ -1772,6 +1777,14 @@ class HorneroApp extends HoComponent {
     // Clear _initialSessionId after it's been passed as attribute to the new component
     // (prevents stale sessionId from persisting into future navigations)
     this._initialSessionId = '';
+  }
+
+  // Finalize any in-progress AI response on the current chat screen before a render destroys it
+  _finalizeActiveChat() {
+    const comp = this._getChatComponent(this.screen);
+    if (comp && typeof comp._finalizeCurrentReveal === 'function') {
+      comp._finalizeCurrentReveal();
+    }
   }
 
   // Determine navigation direction for screen transitions
@@ -1833,12 +1846,6 @@ class HorneroApp extends HoComponent {
     const bg = this.loggedIn ? appBg : loginBg;
     const bodyBg = this.loggedIn ? appBodyBg : '#1E2321';
 
-    // Full-screen overlay to hide any status bar line artifact during transition
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background:' + bg +
-      ';z-index:99999;pointer-events:none;transition:opacity .15s;';
-    document.body.appendChild(overlay);
-
     // Force browser repaint: remove old theme-color metas, create fresh one
     const head = document.head;
     document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.remove());
@@ -1868,14 +1875,6 @@ class HorneroApp extends HoComponent {
 
     // Apply CSS variable overrides on host element (cascades into Shadow DOM)
     this._applyTheme();
-
-    // Fade out overlay after repaint settles, then remove
-    requestAnimationFrame(() => {
-      overlay.style.opacity = '0';
-      overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
-      // Fallback remove after 200ms in case transitionend doesn't fire
-      setTimeout(() => { if (overlay.parentNode) overlay.remove(); }, 200);
-    });
   }
 
   // Override attributeChangedCallback to update theme when screen/login changes
