@@ -1833,6 +1833,12 @@ class HorneroApp extends HoComponent {
     const bg = this.loggedIn ? appBg : loginBg;
     const bodyBg = this.loggedIn ? appBodyBg : '#1E2321';
 
+    // Full-screen overlay to hide any status bar line artifact during transition
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:' + bg +
+      ';z-index:99999;pointer-events:none;transition:opacity .15s;';
+    document.body.appendChild(overlay);
+
     // Force browser repaint: remove old theme-color metas, create fresh one
     const head = document.head;
     document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.remove());
@@ -1862,6 +1868,14 @@ class HorneroApp extends HoComponent {
 
     // Apply CSS variable overrides on host element (cascades into Shadow DOM)
     this._applyTheme();
+
+    // Fade out overlay after repaint settles, then remove
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '0';
+      overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+      // Fallback remove after 200ms in case transitionend doesn't fire
+      setTimeout(() => { if (overlay.parentNode) overlay.remove(); }, 200);
+    });
   }
 
   // Override attributeChangedCallback to update theme when screen/login changes
