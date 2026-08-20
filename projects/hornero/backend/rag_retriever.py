@@ -363,7 +363,7 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
         'debate':     {'documentos', 'academico', 'noticias'},               # Compañero: org, struggle, reports
         'reporte':    {'documentos', 'academico', 'noticias'},               # Compañero (report mode)
         'historia':   {'academico', 'prensa', 'audiovisual', 'documentos'},  # Historiador: history, referents, press
-        'contenido':  {'prensa', 'academico', 'noticias', 'audiovisual'},    # Periodista: content production, union press
+        'contenido':  {'prensa', 'academico', 'noticias', 'audiovisual', 'documentos'},    # Periodista: content production, union press + su propia normativa profesional
         'ecosistema': set(),                                                  # Hornero: no KB chunks needed (its own philosophy)
     }
     allowed_categories = FORMATO_CATEGORY_MAP.get(formato)

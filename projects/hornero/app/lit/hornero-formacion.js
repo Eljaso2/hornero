@@ -623,7 +623,10 @@ class HorneroFormacion extends HoComponent {
     this._historyLoaded = true;
     this._greetingRequested = false;
     this._activePersona = 'historiador';
-    this._requestGreeting();
+    // Never greet twice in the same session
+    if (!this.messages.some(m => m.role === 'hornero' && m.tags && m.tags.includes('greeting'))) {
+      this._requestGreeting();
+    }
   }
 
   // ===== Generate greeting with efeméride of the week =====

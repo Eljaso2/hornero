@@ -1078,6 +1078,9 @@ class HorneroGremial extends HoComponent {
     this._emitSessionSave();
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
+    } else if (this.messages.some(m => m.role === 'hornero' && m.tags && m.tags.includes('greeting'))) {
+      // Greeting already exists — never greet twice in the same session
+      return;
     }
     // Handle viewInforme / editInforme attributes (from Recibidos screen navigation)
     if (this.viewInforme) {

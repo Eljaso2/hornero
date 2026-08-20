@@ -527,7 +527,10 @@ class HorneroArchivo extends HoComponent {
     this._greetingRequested = false;
     this._docsOpen = false;
     this._activePersona = 'archivo';
-    this._requestGreeting();
+    // Never greet twice in the same session
+    if (!this.messages.some(m => m.role === 'hornero' && m.tags && m.tags.includes('greeting'))) {
+      this._requestGreeting();
+    }
   }
 
   // ===== Greeting: explain the search system =====

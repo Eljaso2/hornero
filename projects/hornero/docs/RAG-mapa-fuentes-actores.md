@@ -69,12 +69,13 @@
 **⚠️ GAP:** efemérides NO están en FORMATO_CATEGORY_MAP['historia'] — solo se inyectan en el saludo
 
 ### 📰 Periodista (contenido)
-**Categorías:** `organizacion` · `condiciones` · `referentes` · `prensa-sindical`
+**Categorías:** `organizacion` · `condiciones` · `referentes` · `prensa-sindical` · `documentos`
 **Fuentes concretas:**
 - Federación aceitera, Jasinski sindicalismo
 - Condiciones Vicentín, Guaycurú, 2026
 - Referentes Yofra, Cremonte, discursos, Jasinski ref.
-- ⚠️ prensa-sindical vacía
+- SIPREBA: Estatuto del Periodista (Ley 12.908), CCT 301/75, CCT 124/75, jornada 6hs, estabilidad, licencias, categorías
+- ⚠️ prensa-sindical vacía (PDFs no ingeridos aún)
 **Temperatura:** 0.5 | **Max tokens:** 3000
 
 ### 🐦 Hornero (ecosistema)
@@ -141,3 +142,5 @@
 6. **historia-obrera sin chunks manuales** — los 45 chunks son todos de PDFs (Lorca, Vogelmann). No hay chunks curados manualmente.
 
 7. **condiciones con grade B.a** — los chunks de Vicentín, Guaycurú y condiciones 2026 requieren grade B.a. Los usuarios con grade "A" (no logueados) no los ven.
+
+8. **Periodista ahora ve 'documentos'** (fix ago 2026) — FORMATO_CATEGORY_MAP['contenido'] actualizado para incluir 'documentos', así el periodista accede a los chunks SIPREBA (Estatuto del Periodista, CCT 301/75, etc.). Antes solo veía prensa/academico/noticias/audiovisual y los chunks legales estaban filtrados.
