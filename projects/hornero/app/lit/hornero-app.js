@@ -1173,6 +1173,10 @@ class HorneroApp extends HoComponent {
   }
 
   _afterRender() {
+    // Clear _initialSessionId after the render has consumed it (set as attribute on child component)
+    // Must be done here because set() defers render via requestAnimationFrame — clearing in
+    // _navigateTo() would wipe it before the component reads it
+    if (this._initialSessionId) this._initialSessionId = '';
     // Auto-scroll sections bar to show active section
     const activeSectionBtn = this.shadowRoot.querySelector('.sections-btn.active');
     if (activeSectionBtn) {
@@ -1198,6 +1202,7 @@ class HorneroApp extends HoComponent {
         // Derecho section → navigate to consulta with abogado persona
         if (btn.dataset.screen === 'derecho') {
           this._initialPersona = 'abogado';
+          this._initialSessionId = ''; // Clear stale session ID — let _activeSessions or IndexedDB restore
           this._navigateTo('consulta');
           return;
         }
@@ -1744,6 +1749,20 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
     // If navigating to same screen, force re-render to reset component state (e.g., expanded banner)
     if (this.screen === screen) {
+      // Save current session before destroying the component
+      const currentComp = this._getChatComponent(this.screen);
+      if (currentComp && currentComp._sessionId) {
+        this._activeSessions[this.screen] = {
+          sessionId: currentComp._sessionId,
+          persona: currentComp._activePersona || currentComp.persona || '',
+        };
+      }
+      // Restore active session so the new component instance gets it
+      const sameScreenSess = this._activeSessions[screen];
+      if (sameScreenSess && sameScreenSess.sessionId) {
+        this._initialSessionId = sameScreenSess.sessionId;
+        if (sameScreenSess.persona) this._initialPersona = sameScreenSess.persona;
+      }
       this.set('screen', ''); // Clear first to force change
       this.set('screen', screen); // Re-render with fresh state
       this._initialSection = '';
@@ -1756,9 +1775,9 @@ class HorneroApp extends HoComponent {
     }
     this._navDirection = this._getNavDirection(screen);
     this.set('screen', screen);
-    // Clear _initialSessionId after it's been passed as attribute to the new component
-    // (prevents stale sessionId from persisting into future navigations)
-    this._initialSessionId = '';
+    // NOTE: _initialSessionId is cleared in _afterRender() after the render consumes it.
+    // Do NOT clear here — set() defers render via requestAnimationFrame, so clearing
+    // here would wipe _initialSessionId before the component reads it as an attribute.
   }
 
   // ===== Get chat component for a given screen =====

@@ -73,12 +73,14 @@ class HorneroConsulta extends HoComponent {
   }
 
   connectedCallback() {
-    super.connectedCallback();
-    // Don't generate sessionId yet — _loadChatHistory will restore or create
+    // Read _username BEFORE super.connectedCallback() triggers render → _afterRender → _loadChatHistory
+    // If read after, _username is '' when _loadChatHistory runs → IndexedDB fallback is skipped → new session
     try {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
       if (session && session.username) this._username = session.username;
     } catch(e) {}
+    super.connectedCallback();
+    // Don't generate sessionId yet — _loadChatHistory will restore or create
   }
 
   disconnectedCallback() {
