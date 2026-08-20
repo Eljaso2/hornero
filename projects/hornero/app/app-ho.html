@@ -6,7 +6,7 @@
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="assets/hornero-logo-192.png" type="image/png">
-  <!-- theme-color: updated dynamically per theme — no remove/recreate to avoid flash -->
+  <!-- theme-color: single meta, JS recreates on toggle to force browser repaint -->
   <meta name="theme-color" content="#1E2321">
   <meta name="color-scheme" content="dark light">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,21 +14,18 @@
   <meta name="apple-mobile-web-app-title" content="Hornero">
   <link rel="apple-touch-icon" href="assets/hornero-logo-192.png">
 
-  <!-- Set theme CSS variables IMMEDIATELY — zero flash of wrong color -->
+  <!-- Set theme colors IMMEDIATELY based on session + theme — zero flash of wrong color -->
   <script>
     (function(){
       var s=null;
       try{s=JSON.parse(localStorage.getItem('hornero-session'))}catch(e){}
       var t=localStorage.getItem('hornero-theme')||'dark';
-      var bg=(s&&t==='light')?'#F8F6F0':'#1E2321';
-      // Set background + CSS variable on :root so first paint is correct
-      document.documentElement.style.setProperty('background',bg,'important');
-      document.documentElement.style.setProperty('--ho-bg',bg);
-      // Sync theme-color meta (update content, don't recreate)
+      // Login is ALWAYS dark; only logged-in users see light mode
+      var c=(s&&t==='light')?'#F8F6F0':'#1E2321';
+      document.documentElement.style.setProperty('background',c,'important');
       var m=document.querySelector('meta[name="theme-color"]');
-      if(m)m.setAttribute('content',bg);
-      // DO NOT set color-scheme on documentElement.style — causes status bar line
-      window._hoInitBg=bg;
+      if(m)m.setAttribute('content',c);
+      window._hoInitBg=c;
       window._hoInitTheme=t;
     })();
   </script>
@@ -57,6 +54,12 @@
       background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
       margin: 0; padding: 0; height: 100%; }
+    /* Android PWA: Chrome draws a 1px line at the status bar boundary
+       when theme-color changes. Cover it with a matching box-shadow
+       that extends above the viewport into the status bar area. */
+    @media(max-width:499px) {
+      body { box-shadow: 0 -2px 0 0 var(--ho-bg, #1E2321); }
+    }
     /* Desktop: allow page scroll so phone frame is fully visible in short viewports */
     @media(min-width:500px) {
       html { height: auto; }
@@ -87,6 +90,7 @@
 </head>
 <!-- Set body bg immediately — uses color from head script -->
 <body>
+<script>document.body.style.setProperty('background',window._hoInitBg||'#1E2321','important');</script>
   <!-- HoComponent app shell — Shadow DOM renders instantly via sync session -->
   <hornero-app></hornero-app>
 
@@ -185,6 +189,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=583"></script>
+  <script type="module" src="lit/hornero-components.js?ver=584"></script>
 </body>
 </html>
