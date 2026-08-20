@@ -21,13 +21,13 @@
       try{s=JSON.parse(localStorage.getItem('hornero-session'))}catch(e){}
       var t=localStorage.getItem('hornero-theme')||'dark';
       var bg=(s&&t==='light')?'#F8F6F0':'#1E2321';
-      // Set --ho-bg on :root so CSS resolves correctly from first paint
+      // Set background + CSS variable on :root so first paint is correct
+      document.documentElement.style.setProperty('background',bg,'important');
       document.documentElement.style.setProperty('--ho-bg',bg);
-      // Sync theme-color meta to match (update, don't recreate)
+      // Sync theme-color meta (update content, don't recreate)
       var m=document.querySelector('meta[name="theme-color"]');
       if(m)m.setAttribute('content',bg);
-      // Sync color-scheme for status bar icon color
-      if(s&&t==='light') document.documentElement.style.setProperty('color-scheme','light');
+      // DO NOT set color-scheme on documentElement.style — causes status bar line
       window._hoInitBg=bg;
       window._hoInitTheme=t;
     })();
@@ -185,6 +185,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=582"></script>
+  <script type="module" src="lit/hornero-components.js?ver=583"></script>
 </body>
 </html>

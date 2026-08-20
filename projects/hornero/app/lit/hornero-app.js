@@ -1832,21 +1832,26 @@ class HorneroApp extends HoComponent {
     // Login screen → always dark; main app → theme-aware
     const bg = this.loggedIn ? appBg : loginBg;
     const bodyBg = this.loggedIn ? appBodyBg : '#1E2321';
-    const cs = (this.loggedIn && isLight) ? 'light' : 'dark';
 
-    // All chrome changes in one synchronous block — single paint frame
-    // 1. Update existing meta content (don't remove/recreate — avoids repaint flash)
+    // 1. Update theme-color meta content (don't remove/recreate)
+    //    Android Chrome 93+ auto-adapts icon color based on theme-color luminance
     const tcMeta = document.querySelector('meta[name="theme-color"]');
     if (tcMeta) tcMeta.setAttribute('content', bg);
 
-    // 2. color-scheme: controls status bar icon color + overscroll
-    document.documentElement.style.setProperty('color-scheme', cs);
+    // 2. DO NOT set color-scheme on documentElement.style —
+    //    that triggers a system chrome repaint which causes the visible line.
+    //    The meta tag <meta name="color-scheme" content="dark light"> handles declaration.
+    //    Android auto-adapts status bar icons to theme-color luminance.
 
     // 3. iOS: black-translucent always — transparent status bar = no separator line
     const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
     if (appleMeta) appleMeta.setAttribute('content', 'black-translucent');
 
-    // 4. CSS variables only for backgrounds — no inline background styles
+    // 4. Inline background on html/body ensures same-frame match with theme-color
+    document.documentElement.style.setProperty('background', bg, 'important');
+    document.body.style.setProperty('background', bg, 'important');
+
+    // 5. CSS variables for Shadow DOM and child elements
     document.documentElement.style.setProperty('--ho-bg', bg);
     document.documentElement.style.setProperty('--ho-body-bg', bodyBg);
 

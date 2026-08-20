@@ -873,6 +873,8 @@ class HorneroConsulta extends HoComponent {
         this.messages = [...this.messages, msg];
         this.render();
       }
+      // Save after AI response is added to messages
+      this._saveChatHistory();
     });
   }
 
