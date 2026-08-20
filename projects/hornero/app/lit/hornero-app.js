@@ -1796,7 +1796,9 @@ class HorneroApp extends HoComponent {
     // iOS: update apple status bar style (login always black-translucent)
     const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
     if (appleMeta) {
-      appleMeta.setAttribute('content', (!this.loggedIn || !isLight) ? 'black-translucent' : 'default');
+      // Always keep black-translucent: no separator line between status bar and app
+      // iOS 15+ adapts status bar text color via color-scheme (light=dark text, dark=light text)
+      appleMeta.setAttribute('content', 'black-translucent');
     }
 
     // Apply CSS variable overrides on host element (cascades into Shadow DOM)
