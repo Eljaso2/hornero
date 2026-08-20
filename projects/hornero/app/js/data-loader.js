@@ -47,15 +47,14 @@ function loadData(file) {
 }
 
 // ===== Load all initial data =====
-function loadAllData() {
+function loadAllData(userSector) {
   var files = [
-    'is-piloto-aceitero.json'
-    // More data files will be added as they're created:
-    // 'clipping-2.json',
-    // 'clipping-3.json',
-    // 'smvm.json',
-    // 'sectors.json'
+    'is-piloto-aceitero.json',
   ];
+  // Load sector-specific pilot data if different from aceitero
+  if (userSector && userSector !== 'aceitero' && userSector !== 'hornero') {
+    files.push('is-piloto-' + userSector + '.json');
+  }
 
   var promises = files.map(function(f) {
     return loadData(f).catch(function(err) {

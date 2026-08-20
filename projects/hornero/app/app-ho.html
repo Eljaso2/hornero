@@ -106,8 +106,14 @@
       .then(function() { return limpiarChatsYReportes(); })
       .then(function() { return loadAllData(); })
       .then(function(results) {
-        var pilotoData = results && results['is-piloto-aceitero.json'];
-        if (pilotoData) return seedData(pilotoData);
+        // Seed all piloto data found (aceitero + sector-specific)
+        var seeds = [];
+        for (var key in results) {
+          if (key && key.startsWith('is-piloto-') && results[key]) {
+            seeds.push(seedData(results[key]));
+          }
+        }
+        return Promise.all(seeds);
       })
       .then(function() {
         // Start clipping notification polling + push subscription

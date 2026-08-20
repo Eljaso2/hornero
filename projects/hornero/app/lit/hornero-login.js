@@ -25,6 +25,15 @@ const PILOT_USERS = {
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC', puesto: 'Administración' } },
   'test1c':   { password: 'obrero2026',    grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1C — Obrero Guaycurú',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Desmotadora Guaycurú', puesto: 'Operario de desmotadora' } },
+  // --- SIPREBA — Piloto Prensa ---
+  'test_prensa4':  { password: 'prensa2026',  grade: 'B.d', territory: 'caba', sector: 'prensa', nombre: 'Tester P4 — SIPREBA',
+    agremiacion: { rol: 'Secretario General de SIPREBA', federacion: 'SIPREBA', sindicato: 'SIPREBA (Sindicato de Prensa de Buenos Aires)', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: '' } },
+  'test_prensa3':  { password: 'secprensa2026', grade: 'B.c', territory: 'caba', sector: 'prensa', nombre: 'Tester P3 — Secretario Seccional',
+    agremiacion: { rol: 'Secretario Seccional', federacion: 'SIPREBA', sindicato: 'SIPREBA', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: '' } },
+  'test_prensa2':  { password: 'delprensa2026', grade: 'B.b', territory: 'caba', sector: 'prensa', nombre: 'Tester P2 — Delegado Prensa',
+    agremiacion: { rol: 'Delegado', federacion: 'SIPREBA', sindicato: 'SIPREBA', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: 'Cronista' } },
+  'test_prensa1':  { password: 'baseprensa2026', grade: 'B.a', territory: 'caba', sector: 'prensa', nombre: 'Tester P1 — Periodista Base',
+    agremiacion: { rol: 'Trabajador de Base', federacion: 'SIPREBA', sindicato: 'SIPREBA', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: 'Cronista' } },
 };
 
 class HorneroLogin extends HoComponent {

@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "version": "2026-08-20-a",
+    "sector": "prensa",
+    "federacion": "SIPREBA (Sindicato de Prensa de Buenos Aires)",
+    "nota": "Archivo de estructura sectorial para piloto SIPREBA — sin empresas piloto por ahora"
+  },
+  "sector": {
+    "federacion": "SIPREBA (Sindicato de Prensa de Buenos Aires)",
+    "convenio": "CCT 301/75",
+    "empresas": [],
+    "territorios": []
+  }
+}
