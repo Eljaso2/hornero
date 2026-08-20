@@ -46,6 +46,23 @@ SOURCES = {
         "url": "https://www.ignacioonline.com.ar/cct-130-75-convenio-colectivo-de-empleados-de-comercio/",
         "tipo": "cct", "capa": "sectorial", "tenant": "comercio",
     },
+    # Capa SECTORIAL (SIPREBA / Prensa).
+    # ⚠️ URLs por verificar cuando InfoLEG vuelva a funcionar.
+    "CCT_301_75": {
+        "norma": "CCT 301/75 (Prensa Escrita y Oral)",
+        "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42291/norma.htm",  # URL por verificar
+        "tipo": "cct", "capa": "sectorial", "tenant": "prensa",
+    },
+    "CCT_124_75": {
+        "norma": "CCT 124/75 (Prensa Televisada)",
+        "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42104/norma.htm",  # URL por verificar
+        "tipo": "cct", "capa": "sectorial", "tenant": "prensa",
+    },
+    "LEY_12908_estatuto_periodista": {
+        "norma": "Ley 12.908 (Estatuto del Periodista)",
+        "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/10000-14999/11706/norma.htm",  # URL por verificar
+        "tipo": "ley", "capa": "sectorial", "tenant": "prensa",
+    },
 }
 
 

@@ -28,6 +28,7 @@ HORNERO_TENANT = os.getenv("HORNERO_TENANT", "aceiteros").strip()  # fallback si
 SECTOR_TENANT = {
     "aceitero": "aceiteros", "aceiteros": "aceiteros",
     "comercio": "comercio", "mercantil": "comercio",
+    "prensa": "prensa", "sipreba": "prensa", "periodista": "prensa",
 }
 
 
