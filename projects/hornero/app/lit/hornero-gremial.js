@@ -1757,6 +1757,7 @@ class HorneroGremial extends HoComponent {
           persona: 'companero',
           time: this._timeNow(),
         }];
+        this._saveChatHistory(); // Persist partial response to IndexedDB
       }
       if (chatEl) {
         chatEl.streamingText = '';

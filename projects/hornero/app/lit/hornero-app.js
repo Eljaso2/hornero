@@ -1854,9 +1854,12 @@ class HorneroApp extends HoComponent {
     newMeta.content = bg;
     head.appendChild(newMeta);
 
-    // Sync color-scheme — THIS is what controls overscroll/chrome bar colors
+    // Sync color-scheme — skip inline style, only update meta tag
+    // Setting color-scheme on documentElement.style triggers a system chrome
+    // repaint that creates a visible line at the status bar boundary on Android.
+    // The meta tag alone is enough for the browser; Chrome 93+ auto-adapts
+    // status bar icon color based on theme-color luminance.
     const cs = isLight ? 'light' : 'dark';
-    document.documentElement.style.setProperty('color-scheme', cs);
     const csMeta = document.querySelector('meta[name="color-scheme"]');
     if (csMeta) csMeta.setAttribute('content', cs);
 

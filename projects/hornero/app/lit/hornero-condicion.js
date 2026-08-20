@@ -832,6 +832,7 @@ class HorneroCondicion extends HoComponent {
         } else {
           this.messages = [...this.messages, partialMsg];
         }
+        this._saveChatHistory(); // Persist partial response to IndexedDB
       } else {
         if (chatEl) chatEl.hideTyping();
       }
