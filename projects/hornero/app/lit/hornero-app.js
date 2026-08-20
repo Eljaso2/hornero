@@ -1429,6 +1429,8 @@ class HorneroApp extends HoComponent {
       btn.addEventListener('click', () => {
         this._initialPersona = btn.dataset.persona || 'abogado';
         this._initialSessionId = '';
+        // From Mesa de Trabajo: start fresh, don't restore active session
+        delete this._activeSessions[btn.dataset.screen];
         this._navigateTo(btn.dataset.screen);
       });
     });
@@ -1773,6 +1775,9 @@ class HorneroApp extends HoComponent {
     }
     this._navDirection = this._getNavDirection(screen);
     this.set('screen', screen);
+    // Clear _initialSessionId after it's been passed as attribute to the new component
+    // (prevents stale sessionId from persisting into future navigations)
+    this._initialSessionId = '';
   }
 
   // Determine navigation direction for screen transitions
