@@ -6,9 +6,9 @@
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="assets/hornero-logo-192.png" type="image/png">
-  <!-- theme-color: ALWAYS dark — never change, prevents status bar line on theme switch -->
+  <!-- theme-color: updated dynamically per theme — no remove/recreate to avoid flash -->
   <meta name="theme-color" content="#1E2321">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="dark light">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hornero">
@@ -20,10 +20,14 @@
       var s=null;
       try{s=JSON.parse(localStorage.getItem('hornero-session'))}catch(e){}
       var t=localStorage.getItem('hornero-theme')||'dark';
-      // Set --ho-bg on :root so CSS resolves correctly from first paint
       var bg=(s&&t==='light')?'#F8F6F0':'#1E2321';
+      // Set --ho-bg on :root so CSS resolves correctly from first paint
       document.documentElement.style.setProperty('--ho-bg',bg);
-      // Never change theme-color or color-scheme — they stay dark always
+      // Sync theme-color meta to match (update, don't recreate)
+      var m=document.querySelector('meta[name="theme-color"]');
+      if(m)m.setAttribute('content',bg);
+      // Sync color-scheme for status bar icon color
+      if(s&&t==='light') document.documentElement.style.setProperty('color-scheme','light');
       window._hoInitBg=bg;
       window._hoInitTheme=t;
     })();
@@ -181,6 +185,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=579"></script>
+  <script type="module" src="lit/hornero-components.js?ver=582"></script>
 </body>
 </html>
