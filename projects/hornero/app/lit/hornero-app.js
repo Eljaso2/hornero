@@ -341,7 +341,7 @@ class HorneroApp extends HoComponent {
           overflow: hidden; height: 824px; display: flex;
           flex-direction: column; position: relative; }
         /* Desktop: show simulated status bar */
-        .status-bar { background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);
+        .status-bar { background: var(--ho-bg, #1E2321); color: var(--ho-text-off, #F2F1EC);
           display: flex; align-items: center; justify-content: space-between;
           padding: 10px 22px 5px; font-size: .74rem; flex: none;
           font-family: 'JetBrains Mono', monospace; }

@@ -51,7 +51,7 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 .body-scroll::-webkit-scrollbar{width:0px}
 .body-scroll--chat{overflow-y:hidden;padding-bottom:0}
 
-.status-bar{background:var(--ho-dark-surface);color:var(--ho-text-off);display:flex;align-items:center;justify-content:space-between;padding:10px 22px 5px;font-size:.74rem;flex:none}
+.status-bar{background:var(--ho-bg);color:var(--ho-text-off);display:flex;align-items:center;justify-content:space-between;padding:10px 22px 5px;font-size:.74rem;flex:none}
 .top-bar{background:var(--ho-bg);color:var(--ho-text-off);padding:9px 16px 13px;display:flex;align-items:center;gap:11px;flex:none}
 .top-bar button{width:32px;height:32px;border-radius:50%;background:var(--ho-dark-mid);color:var(--ho-text-off);border:none;display:flex;align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;flex:none}
 .top-bar .title{font-family:'Archivo',sans-serif;font-weight:700;font-size:1.22rem;flex:1}
