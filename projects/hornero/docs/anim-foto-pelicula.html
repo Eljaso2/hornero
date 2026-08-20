@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Hornero — Foto y Película del CE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== Hornero brand tokens ===== */
+  :root {
+    --bg:       #1E2321;
+    --card:     #2A3230;
+    --text:     #E8E6E0;
+    --text-mid: #6E6A60;
+    --text-off: #F2F1EC;
+    --green:    #4E9978;
+    --green-dk: #3D6B56;
+    --green-lt: #80CCA0;
+    --green-pal:#E0F0EB;
+    --red:      #C75050;
+    --amber:    #D4A03C;
+    --blue:     #5B8DB8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Public Sans', sans-serif;
+    overflow: hidden;
+    width: 1920px;
+    height: 1080px;
+  }
+
+  /* ===== Container ===== */
+  .anim-container {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ===== Phase 1: LA FOTO — static CE snapshot ===== */
+  .phase-foto {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.8s ease;
+  }
+  .phase-foto.hidden { opacity: 0; pointer-events: none; }
+
+  .foto-label {
+    font-family: 'Archivo', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.3s ease forwards;
+  }
+  .foto-label span {
+    color: var(--amber);
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin-left: 12px;
+    text-transform: none;
+  }
+
+  .foto-title {
+    font-family: 'Archivo', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.5s ease forwards;
+  }
+
+  .foto-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.7s ease forwards;
+  }
+
+  .foto-grid {
+    display: flex;
+    gap: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s ease forwards;
+  }
+
+  .empresa-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px 32px;
+    width: 280px;
+    border: 1px solid rgba(78,153,120,0.15);
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .empresa-card .nombre {
+    font-family: 'Archivo', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .empresa-card .sector {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-mid);
+    margin-bottom: 16px;
+  }
+  .empresa-card .score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .empresa-card .score-num {
+    font-family: 'Archivo', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .empresa-card .score-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-mid);
+    line-height: 1.3;
+  }
+  .empresa-card .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .empresa-card .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .tag-vd { background: rgba(199,80,80,0.2); color: var(--red); }
+  .tag-vc { background: rgba(212,160,60,0.2); color: var(--amber); }
+  .tag-ne { background: var(--green-pal); color: var(--green-dk); }
+
+  /* ===== Transition label ===== */
+  .transition-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Archivo', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--green);
+    opacity: 0;
+    z-index: 10;
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .transition-label.show {
+    animation: pulseLabel 1.5s ease forwards;
+  }
+
+  /* ===== Phase 2: LA PELÍCULA — timeline ===== */
+  .phase-pelicula {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+  }
+  .phase-pelicula.visible { opacity: 1; pointer-events: auto; }
+
+  .peli-header {
+    padding: 48px 80px 0;
+  }
+  .peli-label {
+    font-family: 'Archivo', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .peli-label span {
+    color: var(--green);
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin-left: 12px;
+    text-transform: none;
+  }
+  .peli-title {
+    font-family: 'Archivo', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .peli-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-mid);
+  }
+
+  /* Timeline */
+  .timeline-area {
+    flex: 1;
+    padding: 40px 80px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .timeline-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 80px;
+  }
+
+  .row-label {
+    width: 180px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .row-label .nombre {
+    font-family: 'Archivo', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .row-label .score-current {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-mid);
+  }
+
+  .row-track {
+    flex: 1;
+    position: relative;
+    height: 80px;
+    background: rgba(42,50,48,0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(78,153,120,0.1);
+  }
+
+  /* Axis line */
+  .row-track .axis {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(110,106,96,0.3);
+  }
+
+  /* Time markers */
+  .time-axis {
+    display: flex;
+    margin-left: 200px;
+    margin-right: 0;
+    padding-right: 80px;
+  }
+  .time-axis .month {
+    flex: 1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-mid);
+    text-align: center;
+    padding-top: 8px;
+  }
+
+  /* Event dots */
+  .event-dot {
+    position: absolute;
+    top: 50%;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    font-weight: 700;
+  }
+  .event-dot.appear { transform: translate(-50%, -50%) scale(1); }
+
+  .event-dot.vd { background: var(--red); color: #fff; }
+  .event-dot.vc { background: var(--amber); color: #1E2321; }
+  .event-dot.ne { background: var(--green); color: #fff; }
+
+  /* Event label (appears on hover / for key events) */
+  .event-label {
+    position: absolute;
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    white-space: nowrap;
+    color: var(--text-off);
+    background: rgba(30,35,33,0.9);
+    padding: 2px 8px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .event-dot.appear .event-label { opacity: 1; }
+
+  /* Trend line (SVG overlay per row) */
+  .trend-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  .trend-line {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 1.5s ease;
+  }
+  .trend-line.drawn { stroke-dashoffset: 0; }
+
+  /* Paritaria marker */
+  .paritaria-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--green);
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 1;
+  }
+  .paritaria-marker.visible { opacity: 0.6; }
+  .paritaria-marker .marker-label {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Archivo', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--green);
+    white-space: nowrap;
+  }
+
+  /* ===== Bottom legend ===== */
+  .legend {
+    display: flex;
+    gap: 32px;
+    padding: 0 80px 24px;
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+  .legend.visible { opacity: 1; }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-mid);
+  }
+  .legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+  }
+
+  /* ===== Keyframes ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulseLabel {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    15%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    80%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+  }
+
+  /* ===== Replay button ===== */
+  .replay-btn {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background: var(--card);
+    color: var(--text-mid);
+    border: 1px solid rgba(78,153,120,0.2);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    z-index: 100;
+    transition: background 0.2s, color 0.2s;
+  }
+  .replay-btn:hover { background: var(--green-dk); color: var(--text-off); }
+</style>
+</head>
+<body>
+<div class="anim-container">
+
+  <!-- ===== PHASE 1: LA FOTO ===== -->
+  <div class="phase-foto" id="phaseFoto">
+    <div class="foto-label">LA FOTO<span>semana del 11 de agosto, 2026</span></div>
+    <div class="foto-title">Comportamiento Empresarial</div>
+    <div class="foto-subtitle">Índice CE · Aceitera · CCT 420/05</div>
+    <div class="foto-grid">
+      <!-- Vicentín -->
+      <div class="empresa-card" id="cardVicentin">
+        <div class="nombre">Vicentín</div>
+        <div class="sector">aceitera · norte santafe</div>
+        <div class="score-row">
+          <div class="score-num" style="color: var(--red)">7.2</div>
+          <div class="score-label">CE semanal<br>(0–10)</div>
+        </div>
+        <div class="tags">
+          <span class="tag tag-vd">VD · despidos</span>
+          <span class="tag tag-vc">VC · presión mediática</span>
+        </div>
+      </div>
+      <!-- Dreyfus -->
+      <div class="empresa-card" id="cardDreyfus">
+        <div class="nombre">Dreyfus</div>
+        <div class="sector">aceitera · rosario</div>
+        <div class="score-row">
+          <div class="score-num" style="color: var(--amber)">4.5</div>
+          <div class="score-label">CE semanal<br>(0–10)</div>
+        </div>
+        <div class="tags">
+          <span class="tag tag-vc">VC · paternalismo</span>
+          <span class="tag tag-ne">negociación abierta</span>
+        </div>
+      </div>
+      <!-- Cargill -->
+      <div class="empresa-card" id="cardCargill">
+        <div class="nombre">Cargill</div>
+        <div class="sector">aceitera · quebracho</div>
+        <div class="score-row">
+          <div class="score-num" style="color: var(--green)">2.1</div>
+          <div class="score-label">CE semanal<br>(0–10)</div>
+        </div>
+        <div class="tags">
+          <span class="tag tag-ne">sin conflictos</span>
+        </div>
+      </div>
+      <!-- Bunge -->
+      <div class="empresa-card" id="cardBunge">
+        <div class="nombre">Bunge</div>
+        <div class="sector">aceitera · ramallo</div>
+        <div class="score-row">
+          <div class="score-num" style="color: var(--red)">6.8</div>
+          <div class="score-label">CE semanal<br>(0–10)</div>
+        </div>
+        <div class="tags">
+          <span class="tag tag-vd">VD · lockout</span>
+          <span class="tag tag-vc">VC · rompehuelgas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TRANSITION LABEL ===== -->
+  <div class="transition-label" id="transLabel">La foto se convierte en película</div>
+
+  <!-- ===== PHASE 2: LA PELÍCULA ===== -->
+  <div class="phase-pelicula" id="phasePelicula">
+    <div class="peli-header">
+      <div class="peli-label">LA PELÍCULA<span>6 meses de comportamiento empresarial</div>
+      <div class="peli-title">Comportamiento Empresarial — Serie temporal</div>
+      <div class="peli-subtitle">Índice CE · Aceitera · marzo–agosto 2026</div>
+    </div>
+
+    <div class="timeline-area" id="timelineArea">
+      <!-- Time axis -->
+      <div class="time-axis" id="timeAxis">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- Rows filled by JS -->
+      <div id="timelineRows"></div>
+    </div>
+
+    <div class="legend" id="legend">
+      <div class="legend-item"><div class="legend-dot" style="background: var(--red)"></div>Violencia Directa</div>
+      <div class="legend-item"><div class="legend-dot" style="background: var(--amber)"></div>Violencia Cultural</div>
+      <div class="legend-item"><div class="legend-dot" style="background: var(--green)"></div>Sin conflicto / Negociación</div>
+      <div class="legend-item" style="margin-left: auto; color: var(--green); font-weight: 600;">▸ Paritaria</div>
+    </div>
+  </div>
+
+  <button class="replay-btn" id="replayBtn" onclick="replay()">↻ Reproducir</button>
+</div>
+
+<script>
+// ===== DATA =====
+const MONTHS = ['MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO'];
+const PARITARIA_MONTH = 3; // June (0-indexed from MAR)
+
+const EMPRESAS = [
+  {
+    nombre: 'Vicentín',
+    sector: 'aceitera · norte santafe',
+    color: '#C75050',
+    events: [
+      { month: 0, type: 'vc', label: 'Llamado a "rebelarse"' },
+      { month: 1, type: 'vd', label: '80 despidos' },
+      { month: 2, type: 'vc', label: 'Campaña anti-sindical' },
+      { month: 3, type: 'vd', label: 'Lockout parcial' },
+      { month: 4, type: 'vd', label: 'Guardias en planta' },
+      { month: 5, type: 'vc', label: 'Manipulación salarial' },
+    ]
+  },
+  {
+    nombre: 'Dreyfus',
+    sector: 'aceitera · rosario',
+    color: '#D4A03C',
+    events: [
+      { month: 0, type: 'ne', label: 'Sin conflictos' },
+      { month: 1, type: 'ne', label: 'Negociación abierta' },
+      { month: 2, type: 'vc', label: 'Paternalismo' },
+      { month: 3, type: 'vc', label: 'Oferta insuficiente' },
+      { month: 4, type: 'ne', label: 'Vuelve a negociar' },
+      { month: 5, type: 'ne', label: 'Acuerdo cercano' },
+    ]
+  },
+  {
+    nombre: 'Cargill',
+    sector: 'aceitera · quebracho',
+    color: '#4E9978',
+    events: [
+      { month: 0, type: 'ne', label: 'Sin conflictos' },
+      { month: 1, type: 'ne', label: 'Sin conflictos' },
+      { month: 2, type: 'ne', label: 'Sin conflictos' },
+      { month: 3, type: 'ne', label: 'Negociación fluida' },
+      { month: 4, type: 'ne', label: 'Sin conflictos' },
+      { month: 5, type: 'ne', label: 'Sin conflictos' },
+    ]
+  },
+  {
+    nombre: 'Bunge',
+    sector: 'aceitera · ramallo',
+    color: '#C75050',
+    events: [
+      { month: 0, type: 'ne', label: 'Sin conflictos' },
+      { month: 1, type: 'vc', label: 'Asimetría discursiva' },
+      { month: 2, type: 'vd', label: 'Despidos delegados' },
+      { month: 3, type: 'vd', label: 'Lockout + rompehuelgas' },
+      { month: 3.5, type: 'vc', label: 'Infobae: "peajes sindicales"' },
+      { month: 4, type: 'vd', label: 'Bloqueo inspección' },
+      { month: 5, type: 'vd', label: 'Amenaza despidos masivos' },
+    ]
+  },
+];
+
+// ===== ANIMATION ENGINE =====
+const FOTO_HOLD = 2500;       // ms to hold the foto
+const TRANSITION = 800;       // ms for crossfade
+const TRANS_LABEL = 600;      // ms before showing transition label
+const EVENT_DELAY = 300;      // ms between each event dot
+const TREND_DELAY = 200;      // ms after last event to draw trend
+
+let timeout;
+
+function buildTimeline() {
+  // Time axis
+  const timeAxis = document.getElementById('timeAxis');
+  timeAxis.innerHTML = MONTHS.map(m => `<div class="month">${m}</div>`).join('');
+
+  // Rows
+  const rowsContainer = document.getElementById('timelineRows');
+  rowsContainer.innerHTML = '';
+
+  EMPRESAS.forEach((emp, i) => {
+    // Calculate score for display
+    const lastEvent = emp.events[emp.events.length - 1];
+    const scoreClass = lastEvent.type === 'vd' ? 'var(--red)' : lastEvent.type === 'vc' ? 'var(--amber)' : 'var(--green)';
+    const scoreVal = lastEvent.type === 'vd' ? (6 + Math.random() * 2).toFixed(1) :
+                     lastEvent.type === 'vc' ? (3.5 + Math.random() * 2).toFixed(1) :
+                     (1 + Math.random() * 2).toFixed(1);
+
+    const row = document.createElement('div');
+    row.className = 'timeline-row';
+
+    // Label
+    const label = document.createElement('div');
+    label.className = 'row-label';
+    label.innerHTML = `<div class="nombre">${emp.nombre}</div><div class="score-current" style="color: ${scoreClass}">CE ${scoreVal}</div>`;
+
+    // Track
+    const track = document.createElement('div');
+    track.className = 'row-track';
+    track.id = `track-${i}`;
+
+    // Axis line
+    const axis = document.createElement('div');
+    axis.className = 'axis';
+    track.appendChild(axis);
+
+    // Paritaria marker
+    const paritMarker = document.createElement('div');
+    paritMarker.className = 'paritaria-marker';
+    const paritPct = ((PARITARIA_MONTH + 0.5) / MONTHS.length) * 100;
+    paritMarker.style.left = `${paritPct}%`;
+    paritMarker.innerHTML = '<div class="marker-label">Paritaria</div>';
+    paritMarker.id = `parit-${i}`;
+    track.appendChild(paritMarker);
+
+    // Trend line (SVG) — we'll build the path from events
+    const trendSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    trendSvg.classList.add('trend-svg');
+    trendSvg.setAttribute('viewBox', `0 0 1000 80`);
+    trendSvg.setAttribute('preserveAspectRatio', 'none');
+
+    // Build trend path — score goes up with VD, medium with VC, low with NE
+    const trendLine = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    trendLine.classList.add('trend-line');
+    trendLine.id = `trend-${i}`;
+
+    // Calculate points from events
+    const points = emp.events.map(e => {
+      const x = (e.month / (MONTHS.length - 1)) * 1000;
+      const y = e.type === 'vd' ? 10 + Math.random() * 10 :
+                e.type === 'vc' ? 25 + Math.random() * 15 :
+                55 + Math.random() * 15;
+      return `${x},${y}`;
+    });
+    trendLine.setAttribute('points', points.join(' '));
+    trendLine.style.stroke = emp.color;
+
+    trendSvg.appendChild(trendLine);
+    track.appendChild(trendSvg);
+
+    // Event dots
+    emp.events.forEach((e, j) => {
+      const dot = document.createElement('div');
+      dot.className = `event-dot ${e.type}`;
+      dot.id = `dot-${i}-${j}`;
+      const leftPct = (e.month / (MONTHS.length - 1)) * 100;
+      dot.style.left = `${leftPct}%`;
+      dot.innerHTML = `<div class="event-label">${e.label}</div>`;
+      track.appendChild(dot);
+    });
+
+    row.appendChild(label);
+    row.appendChild(track);
+    rowsContainer.appendChild(row);
+  });
+}
+
+function runAnimation() {
+  // Reset
+  const foto = document.getElementById('phaseFoto');
+  const peli = document.getElementById('phasePelicula');
+  const trans = document.getElementById('transLabel');
+  const legend = document.getElementById('legend');
+
+  foto.classList.remove('hidden');
+  peli.classList.remove('visible');
+  trans.classList.remove('show');
+  legend.classList.remove('visible');
+
+  // Reset all dots
+  document.querySelectorAll('.event-dot').forEach(d => d.classList.remove('appear'));
+  document.querySelectorAll('.trend-line').forEach(l => l.classList.remove('drawn'));
+  document.querySelectorAll('.paritaria-marker').forEach(m => m.classList.remove('visible'));
+
+  // Phase 1: Show the foto for a moment
+  timeout = setTimeout(() => {
+    // Show transition label
+    trans.classList.add('show');
+
+    timeout = setTimeout(() => {
+      // Crossfade to película
+      foto.classList.add('hidden');
+      peli.classList.add('visible');
+
+      // Stagger event dots
+      let delay = 400;
+      EMPRESAS.forEach((emp, i) => {
+        emp.events.forEach((e, j) => {
+          timeout = setTimeout(() => {
+            const dot = document.getElementById(`dot-${i}-${j}`);
+            if (dot) dot.classList.add('appear');
+          }, delay);
+          delay += EVENT_DELAY;
+        });
+      });
+
+      // Draw paritaria markers after some dots
+      timeout = setTimeout(() => {
+        EMPRESAS.forEach((_, i) => {
+          const marker = document.getElementById(`parit-${i}`);
+          if (marker) marker.classList.add('visible');
+        });
+      }, delay - EVENT_DELAY * 4);
+
+      // Draw trend lines
+      timeout = setTimeout(() => {
+        EMPRESAS.forEach((_, i) => {
+          const line = document.getElementById(`trend-${i}`);
+          if (line) line.classList.add('drawn');
+        });
+      }, delay + TREND_DELAY);
+
+      // Show legend
+      timeout = setTimeout(() => {
+        legend.classList.add('visible');
+      }, delay + TREND_DELAY + 600);
+
+    }, 1200);
+  }, FOTO_HOLD);
+}
+
+function replay() {
+  clearTimeout(timeout);
+  buildTimeline();
+  runAnimation();
+}
+
+// Init
+buildTimeline();
+runAnimation();
+</script>
+</body>
+</html>

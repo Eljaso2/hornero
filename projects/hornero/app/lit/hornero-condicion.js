@@ -549,7 +549,7 @@ class HorneroCondicion extends HoComponent {
     const keywords = [
       ['clase obrera', 'Clase obrera'], ['ice', 'Índice ICE'], ['smvm', 'SMVM'],
       ['salario mínimo', 'SMVM'], ['felicidad', 'Felicidad laboral'], ['ift', 'IFT'],
-      ['comportamiento', 'Comportamiento empresarial'], ['violencia', 'Violencia empresarial'],
+      ['comportamiento', 'Comportamiento empresarial'],
       ['canasta', 'Canasta básica'], ['distribución', 'Distribución del ingreso'],
       ['condición', 'Condición obrera'], ['panorama', 'Panorama'],
     ];
@@ -899,9 +899,9 @@ class HorneroCondicion extends HoComponent {
     const p = this._activePersona;
     const map = {
       'Cómo Somos': { title: 'Cómo Somos', body: 'Datos duros de la clase trabajadora argentina: composición, empleo, informalidad, desigualdad. Preguntame lo que quieras.' },
-      'Comportamiento Empresarial': { title: 'Comportamiento Empresarial', body: 'El Índice ICE mide 4 dimensiones de violencia empresarial: salarial, contractual, ambiental y sindical. ¿Qué dimensión te interesa?' },
+      'Comportamiento Empresarial': { title: 'Comportamiento Empresarial', body: 'El Índice ICE mide 4 dimensiones del comportamiento empresarial: salarial (¿paga lo justo?), contractual (¿estabiliza el empleo?), ambiental (¿cuida el territorio?), sindical (¿respeta la organización?). ¿Qué dimensión te interesa?' },
       'SMVM': { title: 'SMVM', body: 'Salario Mínimo Vital y Móvil vs. valor real, brecha de superexplotación, canasta básica. Preguntame.' },
-      'Índice de Felicidad': { title: 'Índice de Felicidad', body: 'IFT = SMVM × ICE. Un índice que cruza salario mínimo con violencia empresarial para medir la felicidad laboral. ¿Querés profundizar?' },
+      'Índice de Felicidad': { title: 'Índice de Felicidad', body: 'IFT = SMVM × ICE. Un índice que cruza salario mínimo con comportamiento empresarial para medir la felicidad laboral. ¿Querés profundizar?' },
     };
     const section = map[topic] || { title: topic, body: 'Preguntame lo que quieras sobre ' + topic + '.' };
     return { role: 'hornero', sections: [section], tags: ['panorama', 'explore'], persona: p, time: this._timeNow() };
@@ -916,11 +916,11 @@ class HorneroCondicion extends HoComponent {
     if (lower.match(/smvm|salario mínimo|salario minimo|canasta|brecha|superexplotación|superexplotacion/)) {
       return { role: 'hornero', sections: [{ title: 'SMVM', body: 'El Salario Mínimo Vital y Móvil es la frontera entre lo que la ley reconoce y lo que el trabajador necesita. La brecha entre el SMVM y la canasta básica revela la superexplotación: el trabajador no gana lo que necesita para vivir. ¿Querés que profundice en la canasta básica, la brecha salarial o el valor de la fuerza de trabajo?' }], tags: ['panorama', 'smvm'], persona: p, time: this._timeNow() };
     }
-    if (lower.match(/ice|comportamiento empresarial|violencia empresarial|dimensión/)) {
-      return { role: 'hornero', sections: [{ title: 'Comportamiento Empresarial', body: 'El Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones de violencia: salarial (¿paga lo justo?), contractual (¿estabiliza el empleo?), ambiental (¿cuida el territorio?), sindical (¿respeta la organización?). ¿Qué dimensión te interesa?' }], tags: ['panorama', 'ice'], persona: p, time: this._timeNow() };
+    if (lower.match(/ice|comportamiento empresarial|dimensión/)) {
+      return { role: 'hornero', sections: [{ title: 'Comportamiento Empresarial', body: 'El Índice de Comportamiento Empresarial (ICE) mide 4 dimensiones: salarial (¿paga lo justo?), contractual (¿estabiliza el empleo?), ambiental (¿cuida el territorio?), sindical (¿respeta la organización?). ¿Qué dimensión te interesa?' }], tags: ['panorama', 'ice'], persona: p, time: this._timeNow() };
     }
     if (lower.match(/felicidad|ift|felicidad laboral|índice de felicidad/)) {
-      return { role: 'hornero', sections: [{ title: 'Índice de Felicidad Laboral', body: 'El IFT = SMVM × ICE. Cruza lo que ganás con la violencia que sufrís. No es bienestar subjetivo — es un indicador material. Cuando el salario no alcanza y la violencia empresarial sube, el IFT baja. ¿Querés profundizar?' }], tags: ['panorama', 'felicidad'], persona: p, time: this._timeNow() };
+      return { role: 'hornero', sections: [{ title: 'Índice de Felicidad Laboral', body: 'El IFT = SMVM × ICE. Cruza lo que ganás con el comportamiento empresarial que sufrís. No es bienestar subjetivo — es un indicador material. Cuando el salario no alcanza y el comportamiento empresarial empeora, el IFT baja. ¿Querés profundizar?' }], tags: ['panorama', 'felicidad'], persona: p, time: this._timeNow() };
     }
     if (lower.match(/cómo somos|como somos|clase trabajadora|datos|composición/)) {
       return { role: 'hornero', sections: [{ title: 'Cómo Somos', body: 'Datos duros de la clase trabajadora argentina: composición sectorial, empleo, informalidad, desigualdad. ¿Qué aspecto te interesa?' }], tags: ['panorama', 'como-somos'], persona: p, time: this._timeNow() };

@@ -81,6 +81,13 @@ class HorneroConsulta extends HoComponent {
     } catch(e) {}
   }
 
+  // Emit session-save event so hornero-app can preserve active chat per screen
+  _emitSessionSave() {
+    if (this._sessionId) {
+      this.emit('session-save', { screen: this._chatSection || 'consulta', sessionId: this._sessionId, persona: this._activePersona || this.persona || '' });
+    }
+  }
+
   // Override render() to save chat drawer state before innerHTML destroys it
   render() {
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
@@ -327,6 +334,7 @@ class HorneroConsulta extends HoComponent {
 
     // No previous session found — start fresh
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
@@ -339,6 +347,7 @@ class HorneroConsulta extends HoComponent {
         const saved = await obtenerChatSessionMessages(sessionId);
         if (saved && saved.length > 0) {
           this._sessionId = sessionId;
+          this._emitSessionSave();
           this._bannerVisible = false; // Hide banner when restoring session
           this.messages = saved;
           this._historyLoaded = true;
@@ -381,6 +390,7 @@ class HorneroConsulta extends HoComponent {
   _startNewSession() {
     this.messages = [];
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
     this._historyLoaded = true;
     this._greetingRequested = false;
     this._activePersona = this.persona || this._activePersona; // Keep original persona choice, don't reset to abogado

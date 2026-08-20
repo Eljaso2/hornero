@@ -18,7 +18,7 @@ Funciona en el celular del afiliado como una app más, funciona sin conexión, y
 
 ### El sindicato ve la foto, pero no la película
 
-Las empresas tienen consultoras, estudios de opinión, analistas de riesgo, departamentos de comunicación. El sindicato tiene el diario, el grupo de WhatsApp y la experiencia del delegado. La asimetría no es solo económica — es **cognitiva**. La patronal ve la película de su estrategia en tiempo real. El sindicato ve fotogramas sueltos.
+Las empresas tienen consultoras, estudios de opinión, analistas de riesgo, departamentos de comunicación. El sindicato también tiene intelectuales orgánicos, asesores, consultoras, académicos comprometidos. La diferencia no es que al sindicato le falten cabezas — es que **el sistema produce datos para la patronal y no para el sindicato**. La información fluye estructurada hacia arriba: cámaras empresarias, medios, consultoras, Estado. Hacia el lado obrero, llega dispersa, fragmentada, sin procesar. La asimetría no es solo económica — es **estructural**. La patronal ve la película de su estrategia en tiempo real porque el sistema está diseñado para eso. El sindicato ve fotogramas sueltos porque necesita **producir sus propios datos** — y hoy no tiene la herramienta para hacerlo de forma sistemática.
 
 Hornero existe para cerrar esa brecha. Procesa, etiqueta y organiza la información para que el sindicato pueda:
 

@@ -41,6 +41,7 @@ class HorneroApp extends HoComponent {
     this.misReportesList = [];
     this._initialPersona = 'abogado'; // Persona selected from landing page
     this._initialSessionId = ''; // Session ID from Mis Conversaciones — load existing chat
+    this._activeSessions = {}; // Screen → { sessionId, persona } — preserves active chat per screen during session
     this._initialSection = ''; // Initial section/topic for condicion (e.g. 'comportamiento')
     this._viewInformeId = ''; // Informe ID — open popup viewer on gremial mount
     this._editInformeId = ''; // Informe ID — open correction chat on gremial mount
@@ -357,6 +358,12 @@ class HorneroApp extends HoComponent {
           box-sizing: border-box; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
+        /* Light mode: subtle dark gradient in safe-area so white status bar text is readable */
+        :host(.theme-light) .screen::before {
+          content: ''; position: absolute; top: 0; left: 0; right: 0;
+          height: env(safe-area-inset-top, 0px);
+          background: linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.02));
+          pointer-events: none; z-index: 50; }
         /* Mobile: sections-bar matches app bg — no border */
         .sections-bar { background: var(--ho-bg, var(--ho-dark-surface, #3F4E4A)); }
         .sections-btn { color: var(--ho-text-mid, var(--ho-text-light, #7A766C)); }
@@ -1567,6 +1574,16 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'clipping' && this.newClippingAvailable && typeof acknowledgeClipping === 'function') {
       acknowledgeClipping(this._newClipVersion);
     }
+    // Listen for session-save from child chat components — preserves active chat per screen
+    this.shadowRoot.addEventListener('session-save', (e) => {
+      const detail = e.detail || {};
+      if (detail.screen && detail.sessionId) {
+        this._activeSessions[detail.screen] = {
+          sessionId: detail.sessionId,
+          persona: detail.persona || '',
+        };
+      }
+    });
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
       const detail = e.detail || {};
@@ -1575,6 +1592,16 @@ class HorneroApp extends HoComponent {
       this._mateMes = detail.mateMes || null;
       if (detail.persona) {
         this._initialPersona = detail.persona;
+      }
+      // Save current screen's active session before navigating away
+      if (this.screen) {
+        const currentComp = this._getChatComponent(this.screen);
+        if (currentComp && currentComp._sessionId) {
+          this._activeSessions[this.screen] = {
+            sessionId: currentComp._sessionId,
+            persona: currentComp._activePersona || currentComp.persona || '',
+          };
+        }
       }
       // Intra-screen persona switch: just update persona, don't destroy component
       if (detail.screen === this.screen && detail.persona) {
@@ -1592,6 +1619,12 @@ class HorneroApp extends HoComponent {
           e.stopImmediatePropagation(); // Don't navigate — just re-render with new persona
           return;
         }
+      }
+      // Restore active session if available
+      const activeSess = this._activeSessions[detail.screen];
+      if (activeSess && activeSess.sessionId) {
+        this._initialSessionId = activeSess.sessionId;
+        if (activeSess.persona) this._initialPersona = activeSess.persona;
       }
       this._navigateTo(detail.screen);
     });
@@ -1684,6 +1717,19 @@ class HorneroApp extends HoComponent {
     return !openScreens.includes(screen);
   }
 
+  // ===== Get chat component for a given screen =====
+  _getChatComponent(screen) {
+    const chatScreens = {
+      'consulta': 'hornero-consulta',
+      'contenido': 'hornero-contenido',
+      'gremial': 'hornero-gremial',
+      'formacion': 'hornero-formacion',
+      'condicion': 'hornero-condicion',
+    };
+    const selector = chatScreens[screen];
+    return selector ? this.shadowRoot.querySelector(selector) : null;
+  }
+
   // ===== Navigation with History API =====
   _navigateTo(screen) {
     // Lazy login: if not logged in and screen requires login, show login popup instead
@@ -1692,6 +1738,22 @@ class HorneroApp extends HoComponent {
       this._loginOpen = true;
       this.render();
       return;
+    }
+    // Save current screen's active chat session before navigating away
+    if (this.screen && this.screen !== screen) {
+      const currentComp = this._getChatComponent(this.screen);
+      if (currentComp && currentComp._sessionId) {
+        this._activeSessions[this.screen] = {
+          sessionId: currentComp._sessionId,
+          persona: currentComp._activePersona || currentComp.persona || '',
+        };
+      }
+    }
+    // Restore active session for target screen if available
+    const activeSess = this._activeSessions[screen];
+    if (activeSess && activeSess.sessionId) {
+      this._initialSessionId = activeSess.sessionId;
+      if (activeSess.persona) this._initialPersona = activeSess.persona;
     }
     // Reset caches when navigating away from data screens
     if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
@@ -1780,8 +1842,9 @@ class HorneroApp extends HoComponent {
     newMeta.content = bg;
     head.appendChild(newMeta);
 
-    // Sync color-scheme — THIS is what controls overscroll/chrome bar colors
-    const cs = isLight ? 'light' : 'dark';
+    // Keep color-scheme: dark ALWAYS — switching to light makes the browser
+    // draw a separator line between system status bar and app content
+    const cs = 'dark';
     document.documentElement.style.setProperty('color-scheme', cs);
     const csMeta = document.querySelector('meta[name="color-scheme"]');
     if (csMeta) csMeta.setAttribute('content', cs);

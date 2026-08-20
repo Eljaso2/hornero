@@ -82,6 +82,13 @@ class HorneroContenido extends HoComponent {
     } catch(e) {}
   }
 
+  // Emit session-save event so hornero-app can preserve active chat per screen
+  _emitSessionSave() {
+    if (this._sessionId) {
+      this.emit('session-save', { screen: this._chatSection || 'contenido', sessionId: this._sessionId, persona: this._activePersona || this.persona || '' });
+    }
+  }
+
   // Override render() to save chat drawer state before innerHTML destroys it
   render() {
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
@@ -214,6 +221,7 @@ class HorneroContenido extends HoComponent {
         if (e.detail.sessionId === this._sessionId) {
           this.messages = [];
           this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
+          this._emitSessionSave();
           this.render();
         }
       });
@@ -305,16 +313,29 @@ class HorneroContenido extends HoComponent {
 
   async _loadChatHistory() {
     this._historyLoaded = true;
-    // If a sessionId was passed (from Mis Conversaciones), load that session
+    // If a sessionId was passed (from Mis Conversaciones or active session restore), load that session
     if (this.sessionId && this.sessionId.length > 0) {
       await this._loadSession(this.sessionId);
       this.sessionId = '';
       return;
     }
+    // Try to restore the most recent session for this section + username
+    if (typeof obtenerChatSessions === 'function' && this._username) {
+      try {
+        const sessions = await obtenerChatSessions(this._username);
+        const mySessions = sessions.filter(s => s.section === this._chatSection);
+        if (mySessions.length > 0) {
+          const latestSession = mySessions[0]; // sorted by timestamp desc
+          await this._loadSession(latestSession.sessionId);
+          return; // Session restored, no greeting needed
+        }
+      } catch(e) { console.warn('Contenido: session restore failed', e); }
+    }
     // Generate sessionId for new chat
     if (!this._sessionId) {
       this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
     }
+    this._emitSessionSave();
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
@@ -327,6 +348,7 @@ class HorneroContenido extends HoComponent {
         const saved = await obtenerChatSessionMessages(sessionId);
         if (saved && saved.length > 0) {
           this._sessionId = sessionId;
+          this._emitSessionSave();
           this._bannerVisible = false;
           this.messages = saved;
           this._historyLoaded = true;

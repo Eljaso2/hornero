@@ -88,6 +88,13 @@ class HorneroGremial extends HoComponent {
     } catch(e) {}
   }
 
+  // Emit session-save event so hornero-app can preserve active chat per screen
+  _emitSessionSave() {
+    if (this._sessionId) {
+      this.emit('session-save', { screen: this._chatSection || 'reporte', sessionId: this._sessionId, persona: this._activePersona || this.persona || '' });
+    }
+  }
+
   // Override render() to save chat drawer state before innerHTML destroys it
   render() {
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
@@ -915,6 +922,7 @@ class HorneroGremial extends HoComponent {
         if (e.detail.sessionId === this._sessionId) {
           this.messages = [];
           this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
+          this._emitSessionSave();
           this.render();
         }
       });
@@ -1035,6 +1043,7 @@ class HorneroGremial extends HoComponent {
     if (!this._sessionId) {
       this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
     }
+    this._emitSessionSave();
     if (this.messages.length === 0 && !this._greetingRequested) {
       this._requestGreeting();
     }
@@ -1058,6 +1067,7 @@ class HorneroGremial extends HoComponent {
         const saved = await obtenerChatSessionMessages(sessionId);
         if (saved && saved.length > 0) {
           this._sessionId = sessionId;
+          this._emitSessionSave();
           this._bannerVisible = false; // Hide banner when restoring session
           this.messages = saved;
           this._historyLoaded = true;
