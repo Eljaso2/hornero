@@ -85,10 +85,15 @@ class HorneroContenido extends HoComponent {
   disconnectedCallback() {
     // When the component is removed from DOM (e.g., user navigates to another screen or Perfil),
     // finalize any in-progress AI response and save to history before state is lost
-    if (this._progressiveRevealTimer || this._typing || this._pendingFinalizeMsg) {
+    if (this._progressiveRevealTimer || this._typing || this._pendingFinalizeMsg || this._streamAbortController) {
       if (this._progressiveRevealTimer) {
         clearInterval(this._progressiveRevealTimer);
         this._progressiveRevealTimer = null;
+      }
+      // Abort the streaming fetch — triggers catch block which saves partial response
+      if (this._streamAbortController) {
+        this._streamAbortController.abort();
+        this._streamAbortController = null;
       }
       if (this._pendingFinalizeMsg) {
         const msg = this._pendingFinalizeMsg;
@@ -560,6 +565,9 @@ class HorneroContenido extends HoComponent {
       sections: m.sections || [],
     }));
 
+    // AbortController to cancel the stream if user navigates away
+    this._streamAbortController = new AbortController();
+
     const response = await fetch(HorneroContenido.STREAM_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -571,6 +579,7 @@ class HorneroContenido extends HoComponent {
         sector: this.sector,
         requested_persona: this._activePersona,
       }),
+      signal: this._streamAbortController.signal,
     });
 
     if (!response.ok) throw new Error('Stream error: ' + response.status);
@@ -643,6 +652,7 @@ class HorneroContenido extends HoComponent {
                 this._activePersona = data.persona || this._activePersona;
                 // Always use typewriter reveal — if none running, start one
                 this._pendingFinalizeMsg = reportMsg;
+                this._streamAbortController = null; // Stream completed normally
                 if (!this._progressiveRevealTimer) {
                   const fullText = data.text || streamingText;
                   if (chatEl && fullText) {

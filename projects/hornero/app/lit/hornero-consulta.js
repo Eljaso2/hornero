@@ -84,11 +84,16 @@ class HorneroConsulta extends HoComponent {
   disconnectedCallback() {
     // When the component is removed from DOM (e.g., user navigates to another screen or Perfil),
     // finalize any in-progress AI response and save to history before state is lost
-    if (this._progressiveRevealTimer || this._typing || this._pendingFinalizeMsg) {
+    if (this._progressiveRevealTimer || this._typing || this._pendingFinalizeMsg || this._streamAbortController) {
       // Stop the typewriter timer immediately
       if (this._progressiveRevealTimer) {
         clearInterval(this._progressiveRevealTimer);
         this._progressiveRevealTimer = null;
+      }
+      // Abort the streaming fetch — triggers catch block which saves partial response
+      if (this._streamAbortController) {
+        this._streamAbortController.abort();
+        this._streamAbortController = null;
       }
       // If API already finished and left a pending finalize msg, add it to messages
       if (this._pendingFinalizeMsg) {
@@ -665,6 +670,9 @@ class HorneroConsulta extends HoComponent {
       sections: m.sections || [],
     }));
 
+    // AbortController to cancel the stream if user navigates away
+    this._streamAbortController = new AbortController();
+
     const response = await fetch(HorneroConsulta.STREAM_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -677,6 +685,7 @@ class HorneroConsulta extends HoComponent {
         requested_persona: this._activePersona,
         session_id: this._sessionId,
       }),
+      signal: this._streamAbortController.signal,
     });
 
     if (!response.ok) throw new Error('Stream error: ' + response.status);
@@ -751,6 +760,7 @@ class HorneroConsulta extends HoComponent {
                 };
                 // Always use typewriter reveal — if none running, start one
                 this._pendingFinalizeMsg = reportMsg;
+                this._streamAbortController = null; // Stream completed normally
                 if (!this._progressiveRevealTimer) {
                   // No reveal running — start one for the full response
                   const fullText = data.text || streamingText;

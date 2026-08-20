@@ -26,6 +26,7 @@ class HorneroApp extends HoComponent {
   constructor() {
     super();
     this.screen = 'home';
+    this._activeSessions = {}; // Screen → { sessionId, persona } — preserves active chat per screen during session
     this._navDirection = 'lateral'; // 'forward' | 'backward' | 'lateral' — screen transition direction
     this._loginOpen = false;        // Login popup visible
     this._pendingScreen = '';        // Screen user wanted before login popup appeared
@@ -41,7 +42,6 @@ class HorneroApp extends HoComponent {
     this.misReportesList = [];
     this._initialPersona = 'abogado'; // Persona selected from landing page
     this._initialSessionId = ''; // Session ID from Mis Conversaciones — load existing chat
-    this._activeSessions = {}; // Screen → { sessionId, persona } — preserves active chat per screen during session
     this._initialSection = ''; // Initial section/topic for condicion (e.g. 'comportamiento')
     this._viewInformeId = ''; // Informe ID — open popup viewer on gremial mount
     this._editInformeId = ''; // Informe ID — open correction chat on gremial mount
@@ -1191,7 +1191,6 @@ class HorneroApp extends HoComponent {
       btn.addEventListener('click', () => {
         // Perfil section → open profile popup instead of navigating
         if (btn.dataset.screen === 'perfil') {
-          await this._finalizeActiveChat();
           this._profileOpen = true;
           this.render();
           return;
@@ -1272,6 +1271,8 @@ class HorneroApp extends HoComponent {
         }
         // Reset initial section for other navigations
         this._initialSection = '';
+        // From Mesa de Trabajo: start fresh, don't restore active session
+        delete this._activeSessions[btn.dataset.screen];
         this._navigateTo(btn.dataset.screen);
       });
     });
@@ -1281,7 +1282,6 @@ class HorneroApp extends HoComponent {
         const screen = btn.dataset.screen;
         // Perfil button → open profile popup instead of navigating
         if (screen === 'perfil') {
-          await this._finalizeActiveChat();
           this._profileOpen = true;
           this.render();
           return;
@@ -1425,8 +1425,6 @@ class HorneroApp extends HoComponent {
       btn.addEventListener('click', () => {
         this._initialPersona = btn.dataset.persona || 'abogado';
         this._initialSessionId = '';
-        // From Mesa de Trabajo: start fresh, don't restore active session
-        delete this._activeSessions[btn.dataset.screen];
         this._navigateTo(btn.dataset.screen);
       });
     });
@@ -1585,12 +1583,6 @@ class HorneroApp extends HoComponent {
     // Listen for screen-change from child components (crosses Shadow DOM)
     this.shadowRoot.addEventListener('screen-change', (e) => {
       const detail = e.detail || {};
-      this._clipEdicion = detail.clipEdicion || null;
-      this._clipExpandId = detail.clipExpandId || null;
-      this._mateMes = detail.mateMes || null;
-      if (detail.persona) {
-        this._initialPersona = detail.persona;
-      }
       // Save current screen's active session before navigating away
       if (this.screen) {
         const currentComp = this._getChatComponent(this.screen);
@@ -1600,6 +1592,18 @@ class HorneroApp extends HoComponent {
             persona: currentComp._activePersona || currentComp.persona || '',
           };
         }
+      }
+      this._clipEdicion = detail.clipEdicion || null;
+      this._clipExpandId = detail.clipExpandId || null;
+      this._mateMes = detail.mateMes || null;
+      if (detail.persona) {
+        this._initialPersona = detail.persona;
+      }
+      // Restore active session if available
+      const activeSess = this._activeSessions[detail.screen];
+      if (activeSess && activeSess.sessionId) {
+        this._initialSessionId = activeSess.sessionId;
+        if (activeSess.persona) this._initialPersona = activeSess.persona;
       }
       // Intra-screen persona switch: just update persona, don't destroy component
       if (detail.screen === this.screen && detail.persona) {
@@ -1617,12 +1621,6 @@ class HorneroApp extends HoComponent {
           e.stopImmediatePropagation(); // Don't navigate — just re-render with new persona
           return;
         }
-      }
-      // Restore active session if available
-      const activeSess = this._activeSessions[detail.screen];
-      if (activeSess && activeSess.sessionId) {
-        this._initialSessionId = activeSess.sessionId;
-        if (activeSess.persona) this._initialPersona = activeSess.persona;
       }
       this._navigateTo(detail.screen);
     });
@@ -1715,19 +1713,6 @@ class HorneroApp extends HoComponent {
     return !openScreens.includes(screen);
   }
 
-  // ===== Get chat component for a given screen =====
-  _getChatComponent(screen) {
-    const chatScreens = {
-      'consulta': 'hornero-consulta',
-      'contenido': 'hornero-contenido',
-      'gremial': 'hornero-gremial',
-      'formacion': 'hornero-formacion',
-      'condicion': 'hornero-condicion',
-    };
-    const selector = chatScreens[screen];
-    return selector ? this.shadowRoot.querySelector(selector) : null;
-  }
-
   // ===== Navigation with History API =====
   _navigateTo(screen) {
     // Lazy login: if not logged in and screen requires login, show login popup instead
@@ -1738,8 +1723,7 @@ class HorneroApp extends HoComponent {
       return;
     }
     // Save current screen's active chat session before navigating away
-    // (including same-screen: the render will destroy the component, so we need to restore)
-    if (this.screen) {
+    if (this.screen && this.screen !== screen) {
       const currentComp = this._getChatComponent(this.screen);
       if (currentComp && currentComp._sessionId) {
         this._activeSessions[this.screen] = {
@@ -1759,13 +1743,11 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') this._misConvLoaded = false;
     if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
     // If navigating to same screen, force re-render to reset component state (e.g., expanded banner)
-    // but also pass the active session-id so the re-created component loads the existing conversation
     if (this.screen === screen) {
       this.set('screen', ''); // Clear first to force change
       this.set('screen', screen); // Re-render with fresh state
       this._initialSection = '';
       this._actualidadSubView = '';
-      this._initialSessionId = ''; // Clear after render picks it up as attribute
       return;
     }
     // Only push state if screen actually changes (avoid duplicate history entries)
@@ -1779,26 +1761,17 @@ class HorneroApp extends HoComponent {
     this._initialSessionId = '';
   }
 
-  // Finalize any in-progress AI response on the current chat screen before a render destroys it
-  // Returns a promise that resolves when all data is persisted to IndexedDB
-  async _finalizeActiveChat() {
-    const comp = this._getChatComponent(this.screen);
-    if (comp) {
-      if (typeof comp._finalizeCurrentReveal === 'function') {
-        comp._finalizeCurrentReveal();
-      }
-      // Wait for the chat history to be saved to IndexedDB before destroying the component
-      if (typeof comp._saveChatHistory === 'function' && comp.messages && comp.messages.some(m => m.role === 'user')) {
-        await comp._saveChatHistory();
-      }
-      // Save session info so we can restore the conversation later
-      if (comp._sessionId) {
-        this._activeSessions[this.screen] = {
-          sessionId: comp._sessionId,
-          persona: comp._activePersona || comp.persona || '',
-        };
-      }
-    }
+  // ===== Get chat component for a given screen =====
+  _getChatComponent(screen) {
+    const chatScreens = {
+      'consulta': 'hornero-consulta',
+      'contenido': 'hornero-contenido',
+      'gremial': 'hornero-gremial',
+      'formacion': 'hornero-formacion',
+      'condicion': 'hornero-condicion',
+    };
+    const selector = chatScreens[screen];
+    return selector ? this.shadowRoot.querySelector(selector) : null;
   }
 
   // Determine navigation direction for screen transitions
@@ -1868,10 +1841,11 @@ class HorneroApp extends HoComponent {
     newMeta.content = bg;
     head.appendChild(newMeta);
 
-    // DO NOT change color-scheme inline style OR meta tag during theme switch.
-    // Both trigger Chrome system chrome repaints that create a visible line
-    // at the status bar boundary on Android. The meta stays "dark light" (initial).
-    // Chrome 93+ auto-adapts status bar icon color based on theme-color luminance.
+    // Sync color-scheme — THIS is what controls overscroll/chrome bar colors
+    const cs = isLight ? 'light' : 'dark';
+    document.documentElement.style.setProperty('color-scheme', cs);
+    const csMeta = document.querySelector('meta[name="color-scheme"]');
+    if (csMeta) csMeta.setAttribute('content', cs);
 
     document.documentElement.style.setProperty('background', bg, 'important');
     document.body.style.setProperty('background', bg, 'important');

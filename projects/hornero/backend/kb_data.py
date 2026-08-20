@@ -1028,11 +1028,23 @@ DOCUMENTOS_CATALOG = {
 _CATALOG_BY_TENANT = {
     "prensa": {
         "convenios-colectivos": [
-            {"name": "CCT 301/75", "desc": "Convenio Colectivo de Prensa Escrita y Oral", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42291/norma.htm", "source": "infoleg", "_verify": "URL por verificar cuando InfoLEG vuelva"},
-            {"name": "CCT 124/75", "desc": "Convenio Colectivo de Prensa Televisada", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42104/norma.htm", "source": "infoleg", "_verify": "URL por verificar cuando InfoLEG vuelva"},
+            {"name": "CCT 301/75 — Prensa Escrita y Oral", "desc": "Convenio Colectivo de Prensa Escrita y Oral (Capital Federal)", "url": "https://www.sipreba.org/estatutos-y-convenios/convenio-de-prensa-escrita-y-oral-301-75/", "source": "sipreba"},
+            {"name": "CCT 124/75 — Prensa Televisada", "desc": "Convenio Colectivo de Prensa Televisada (CABA y 60km)", "url": "https://www.sipreba.org/estatutos-y-convenios/convenio-de-prensa-televisada-124-75/", "source": "sipreba"},
+            {"name": "CCT 541/08 — Diarios del Interior (FATPREN-ADIRA)", "desc": "Convenio Colectivo Nacional de Prensa para diarios del interior del país", "url": "https://www.sipreba.org/estatutos-y-convenios/convenio-colectivo-nacional-de-prensa-541-08/", "source": "sipreba"},
+            {"name": "Escala salarial prensa escrita 2026 — Grupo 1 (Diarios, Digitales, Agencias)", "desc": "Escala salarial abril-noviembre 2026 para diarios, portales y agencias nacionales e internacionales — CCT 301/75", "url": "https://www.sipreba.org/paritarias/escala-salarial-prensa-escrita/", "source": "sipreba"},
+            {"name": "Escala salarial prensa escrita 2026 — Grupo 2 (Revistas)", "desc": "Escala salarial abril-noviembre 2026 para revistas y revistas online — CCT 301/75", "url": "https://www.sipreba.org/paritarias/escala-salarial-prensa-escrita/", "source": "sipreba"},
+            {"name": "Escala salarial prensa radial 2026", "desc": "Escala salarial mayo-agosto 2026 para trabajadores de radios de CABA — CCT 301/75 Rama Radio", "url": "https://www.sipreba.org/paritarias/escala-salarial-prensa-radial/", "source": "sipreba"},
         ],
         "leyes-laborales": [
-            {"name": "Ley 12.908 — Estatuto del Periodista", "desc": "Estatuto del Periodista Profesional", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/10000-14999/11706/norma.htm", "source": "infoleg", "_verify": "URL por verificar cuando InfoLEG vuelva"},
+            {"name": "Ley 12.908 — Estatuto del Periodista Profesional", "desc": "Estatuto del Periodista Profesional (1946) — marco legal específico del periodismo: jornada 6hs/36hs, estabilidad, indemnización especial, salario mínimo profesional, matrícula, carnet, libertad de prensa", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/10000-14999/11706/norma.htm", "source": "infoleg"},
+            {"name": "Dec. Ley 13.839/46 — Estatuto del Empleado Administrativo de Empresas Periodísticas", "desc": "Estatuto del Personal Administrativo de Empresas Periodísticas (Ley 12.921) — empleados de publicidad, contaduría, circulación, expedición e intendencia", "url": "https://www.sipreba.org/estatutos-y-convenios/estatuto-del-empleado-administrativo-de-empresas-periodisticas/", "source": "sipreba"},
+            {"name": "Ley 20744 — LCT", "desc": "Ley de Contrato de Trabajo (marco general)", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/norma.htm", "source": "infoleg"},
+            {"name": "Ley 23551 — Asociaciones sindicales", "desc": "Régimen de asociaciones sindicales", "url": "https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=20993", "source": "infoleg"},
+            {"name": "Ley 24557 — Riesgos del trabajo", "desc": "Ley sobre Riesgos del Trabajo (LRT)", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/27971/norma.htm", "source": "infoleg"},
+            {"name": "Ley 19587 — Higiene y seguridad", "desc": "Ley de Higiene y Seguridad en el Trabajo", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/15000-19999/17612/norma.htm", "source": "infoleg"},
+        ],
+        "guia-sindical": [
+            {"name": "Guía del Delegado y la Delegada SIPREBA (2024)", "desc": "Pautas gremiales, formularios, elección de comisión interna, fueros, asambleas, medidas de fuerza, licencia gremial", "url": "https://www.sipreba.org/gremial/guia-del-delegado-y-la-delegada/", "source": "sipreba"},
         ],
     },
 }
@@ -1051,9 +1063,16 @@ def get_documentos_catalog_text(tenant: str = "aceiteros") -> str:
     backend_url = backend_url.rstrip("/")
 
     # Build merged catalog: shared + tenant-specific
+    # For non-aceiteros tenants, only include shared docs from the global catalog
+    # (aceiteros-specific PDFs like CCT 420/05 should not appear for prensa)
     merged = {}
     for category, docs in DOCUMENTOS_CATALOG.items():
-        merged[category] = list(docs)  # copy shared docs
+        if tenant == "aceiteros":
+            # Aceiteros sees everything in the global catalog
+            merged[category] = list(docs)
+        else:
+            # Other tenants: only docs without explicit tenant (shared) or matching tenant
+            merged[category] = [d for d in docs if d.get("tenant", "shared") in ("shared", tenant)]
 
     # Add tenant-specific extensions
     if tenant in _CATALOG_BY_TENANT:
@@ -1077,10 +1096,15 @@ def get_documentos_catalog_text(tenant: str = "aceiteros") -> str:
             lines.append("⚖️ LEYES LABORALES:")
         elif category == "prensa-sindical":
             lines.append("📰 PRENSA SINDICAL:")
+        elif category == "guia-sindical":
+            lines.append("📕 GUÍA SINDICAL:")
         for doc in docs:
             if doc.get("source") == "infoleg":
                 # Leyes: link directo a Infoleg
                 lines.append(f"  • {doc['name']} — {doc['desc']} [Ver en Infoleg]({doc['url']})")
+            elif doc.get("source") == "sipreba":
+                # Documentos SiPreBA: link a sipreba.org
+                lines.append(f"  • {doc['name']} — {doc['desc']} [Ver en SiPreBA]({doc['url']})")
             else:
                 # PDFs locales: link al backend
                 pdf_url = f"{backend_url}{doc['pdf']}"
