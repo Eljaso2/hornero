@@ -975,25 +975,58 @@ DOCUMENTOS_CATALOG = {
         {"name": "Decreto 351/79 — Reglamentario Ley 19587", "desc": "Reglamentación de la Ley de Higiene y Seguridad", "url": "https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=32030", "source": "infoleg"},
     ],
     "prensa-sindical": [
-        {"name": "El Trabajador Aceitero y Desmotador N°5", "desc": "Noviembre 2016 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_n05_noviembre_2016.pdf"},
-        {"name": "El Trabajador Aceitero y Desmotador N°7", "desc": "Abril 2019 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_7_abril_2019.pdf"},
+        {"name": "El Trabajador Aceitero y Desmotador N°5", "desc": "Noviembre 2016 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_n05_noviembre_2016.pdf", "tenant": "aceiteros"},
+        {"name": "El Trabajador Aceitero y Desmotador N°7", "desc": "Abril 2019 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_7_abril_2019.pdf", "tenant": "aceiteros"},
     ],
 }
 
+# --- Extensiones del catálogo por tenant ---
+_CATALOG_BY_TENANT = {
+    "prensa": {
+        "convenios-colectivos": [
+            {"name": "CCT 301/75", "desc": "Convenio Colectivo de Prensa Escrita y Oral", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42291/norma.htm", "source": "infoleg", "_verify": "URL por verificar cuando InfoLEG vuelva"},
+            {"name": "CCT 124/75", "desc": "Convenio Colectivo de Prensa Televisada", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42104/norma.htm", "source": "infoleg", "_verify": "URL por verificar cuando InfoLEG vuelva"},
+        ],
+        "leyes-laborales": [
+            {"name": "Ley 12.908 — Estatuto del Periodista", "desc": "Estatuto del Periodista Profesional", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/10000-14999/11706/norma.htm", "source": "infoleg", "_verify": "URL por verificar cuando InfoLEG vuelva"},
+        ],
+    },
+}
 
-def get_documentos_catalog_text() -> str:
+
+def get_documentos_catalog_text(tenant: str = "aceiteros") -> str:
     """Format the documents catalog as text for system prompt injection.
 
     Used when the user asks about available documents/leyes/convenios.
     PDF URLs are absolute (pointing to the backend) so they work as clickable links in chat.
+    Filters by tenant: shows shared documents + tenant-specific documents.
     """
     import os
     backend_url = os.getenv("APP_BACKEND_URL", "https://hornero-ia.onrender.com")
     # Remove trailing slash
     backend_url = backend_url.rstrip("/")
 
-    lines = ["=== DOCUMENTOS DISPONIBLES PARA CONSULTA ===", ""]
+    # Build merged catalog: shared + tenant-specific
+    merged = {}
     for category, docs in DOCUMENTOS_CATALOG.items():
+        merged[category] = list(docs)  # copy shared docs
+
+    # Add tenant-specific extensions
+    if tenant in _CATALOG_BY_TENANT:
+        for category, docs in _CATALOG_BY_TENANT[tenant].items():
+            if category not in merged:
+                merged[category] = []
+            merged[category].extend(docs)
+
+    # Filter prensa-sindical by tenant (if docs have tenant field)
+    if "prensa-sindical" in merged:
+        merged["prensa-sindical"] = [
+            d for d in merged["prensa-sindical"]
+            if d.get("tenant", "aceiteros") in (tenant, "shared")
+        ]
+
+    lines = ["=== DOCUMENTOS DISPONIBLES PARA CONSULTA ===", ""]
+    for category, docs in merged.items():
         if category == "convenios-colectivos":
             lines.append("📋 CONVENIOS COLECTIVOS Y PARITARIAS:")
         elif category == "leyes-laborales":
