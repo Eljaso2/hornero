@@ -1852,13 +1852,17 @@ class HorneroApp extends HoComponent {
     const bg = this.loggedIn ? appBg : loginBg;
     const bodyBg = this.loggedIn ? appBodyBg : '#1E2321';
 
-    // Force browser repaint: remove old theme-color metas, create fresh one
-    const head = document.head;
-    document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.remove());
-    const newMeta = document.createElement('meta');
-    newMeta.name = 'theme-color';
-    newMeta.content = bg;
-    head.appendChild(newMeta);
+    // Update theme-color: update existing meta instead of remove+recreate
+    // (remove+recreate leaves a gap where Chrome falls back to default status bar color)
+    const tcMeta = document.querySelector('meta[name="theme-color"]');
+    if (tcMeta) {
+      tcMeta.setAttribute('content', bg);
+    } else {
+      const m = document.createElement('meta');
+      m.name = 'theme-color';
+      m.content = bg;
+      document.head.appendChild(m);
+    }
 
     // Sync color-scheme — THIS is what controls overscroll/chrome bar colors
     const cs = isLight ? 'light' : 'dark';
