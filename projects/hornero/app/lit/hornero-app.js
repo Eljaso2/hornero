@@ -358,12 +358,6 @@ class HorneroApp extends HoComponent {
           box-sizing: border-box; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
-        /* Light mode: subtle dark gradient in safe-area so white status bar text is readable */
-        :host(.theme-light) .screen::before {
-          content: ''; position: absolute; top: 0; left: 0; right: 0;
-          height: env(safe-area-inset-top, 0px);
-          background: linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.02));
-          pointer-events: none; z-index: 50; }
         /* Mobile: sections-bar matches app bg — no border */
         .sections-bar { background: var(--ho-bg, var(--ho-dark-surface, #3F4E4A)); }
         .sections-btn { color: var(--ho-text-mid, var(--ho-text-light, #7A766C)); }
@@ -1838,33 +1832,23 @@ class HorneroApp extends HoComponent {
     // Login screen → always dark; main app → theme-aware
     const bg = this.loggedIn ? appBg : loginBg;
     const bodyBg = this.loggedIn ? appBodyBg : '#1E2321';
+    const cs = (this.loggedIn && isLight) ? 'light' : 'dark';
 
-    // NEVER change theme-color dynamically — that causes the browser to repaint
-    // the system status bar, creating a visible line during the transition.
-    // Keep it dark always; the app's visual theme is handled by CSS variables.
-    const chromeBg = '#1E2321';
-    const existingMeta = document.querySelector('meta[name="theme-color"]');
-    if (!existingMeta) {
-      const m = document.createElement('meta');
-      m.name = 'theme-color';
-      m.content = chromeBg;
-      document.head.appendChild(m);
-    }
+    // All chrome changes in one synchronous block — single paint frame
+    // 1. Update existing meta content (don't remove/recreate — avoids repaint flash)
+    const tcMeta = document.querySelector('meta[name="theme-color"]');
+    if (tcMeta) tcMeta.setAttribute('content', bg);
 
-    // color-scheme stays dark always — prevents system chrome repaint/line
-    document.documentElement.style.setProperty('color-scheme', 'dark');
+    // 2. color-scheme: controls status bar icon color + overscroll
+    document.documentElement.style.setProperty('color-scheme', cs);
 
-    // App background changes via CSS variables only — no system chrome repaint
+    // 3. iOS: black-translucent always — transparent status bar = no separator line
+    const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+    if (appleMeta) appleMeta.setAttribute('content', 'black-translucent');
+
+    // 4. CSS variables only for backgrounds — no inline background styles
     document.documentElement.style.setProperty('--ho-bg', bg);
     document.documentElement.style.setProperty('--ho-body-bg', bodyBg);
-    this.style.setProperty('--ho-bg', bg);
-    this.style.setProperty('--ho-body-bg', bodyBg);
-
-    // iOS: black-translucent always — transparent status bar, no separator
-    const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
-    if (appleMeta) {
-      appleMeta.setAttribute('content', 'black-translucent');
-    }
 
     // Apply CSS variable overrides on host element (cascades into Shadow DOM)
     this._applyTheme();
