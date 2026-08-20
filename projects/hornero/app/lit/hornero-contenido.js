@@ -433,7 +433,7 @@ class HorneroContenido extends HoComponent {
   }
 
   _handleUserMessage(text) {
-    this._stopProgressiveReveal();
+    this._finalizeCurrentReveal();
     if (this._bannerVisible) {
       this._bannerVisible = false;
     }
@@ -492,6 +492,33 @@ class HorneroContenido extends HoComponent {
     }
     this._progressiveRevealFull = '';
     this._progressiveRevealIndex = 0;
+  }
+
+  // Finalize the ongoing reveal immediately — show full text + save to messages
+  // Used when user sends a new message while AI is still typing
+  _finalizeCurrentReveal() {
+    if (!this._progressiveRevealTimer) return; // No reveal running
+    const fullText = this._progressiveRevealFull;
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    // Show the complete text immediately
+    if (chatEl && fullText) {
+      chatEl.updateStreamingText(fullText, true);
+    }
+    // If API already finished and left a pending finalize msg, apply it
+    if (this._pendingFinalizeMsg) {
+      const msg = this._pendingFinalizeMsg;
+      this._pendingFinalizeMsg = null;
+      this.iaStep++;
+      this._typing = false; this._greetingRequested = false;
+      if (chatEl) {
+        chatEl.finalizeStreamingMessage(msg);
+      } else {
+        this.messages = [...this.messages, msg];
+      }
+      this._saveChatHistory();
+    }
+    // Stop the timer
+    this._stopProgressiveReveal();
   }
 
   async _callBackendStream(text) {
@@ -754,6 +781,8 @@ class HorneroContenido extends HoComponent {
         this.messages = [...this.messages, msg];
         this.render();
       }
+      // Save after AI response is added to messages
+      this._saveChatHistory();
     });
   }
 
