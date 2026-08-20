@@ -227,6 +227,24 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
 
     idf = _get_idf()
 
+    # Cross-tenant boost detection: when the query explicitly mentions another sector,
+    # boost those chunks so they can compete with own-tenant chunks (+4 vs +5).
+    # This enables comparative queries like "me ofrecen pasar al convenio aceitero"
+    CROSS_TENANT_KEYWORDS = {
+        "aceiteros": {"aceitero", "aceitera", "aceiteros", "oleaginoso", "desmotador",
+                       "cct 420", "foeiap", "ftciod", "yofra", "expeller", "cct-420"},
+        "prensa": {"prensa", "periodista", "periodistico", "sipreba", "cronista",
+                    "corrector", "redaccion", "cct 301", "cct 124", "estatuto del periodista",
+                    "ley 12908", "cct-301", "cct-124", "adeba", "adepa"},
+    }
+    cross_tenant_boosts = {}
+    query_lower = query.lower()
+    for other_tenant, kws in CROSS_TENANT_KEYWORDS.items():
+        if other_tenant == tenant:
+            continue  # skip own tenant
+        if any(kw in query_lower for kw in kws):
+            cross_tenant_boosts[other_tenant] = 4.0  # almost as strong as own +5
+
     # Detect which categories are relevant to the query
     query_lower = query.lower()
     relevant_categories = set()
@@ -288,6 +306,10 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
             score += 5.0
         elif chunk_tenant == "shared":
             score += 1.0
+        elif chunk_tenant in cross_tenant_boosts:
+            # Cross-tenant boost: when the query explicitly mentions another sector,
+            # give those chunks a +4 bonus so they can compete with own-tenant chunks
+            score += cross_tenant_boosts[chunk_tenant]
         # other tenants: no bonus, but still searchable
 
         if score > 0:
