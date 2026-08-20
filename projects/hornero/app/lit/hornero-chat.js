@@ -83,6 +83,7 @@ class HorneroChat extends HoComponent {
     this._plusMenuOpen = false; // + dropdown menu state
     this.streamingText = ''; // Live streaming text — when non-empty, shows as "in progress" message
     this._streamingPersona = ''; // Persona for the streaming message
+    this._userScrolledUp = false; // True when user scrolled up — disables auto-scroll until they scroll back down
     this._savedInputValue = null; // Preserved input text across re-renders
     this._savedInputSelectionStart = 0; // Cursor position preserved across re-renders
     this._savedInputSelectionEnd = 0;
@@ -2410,6 +2411,19 @@ class HorneroChat extends HoComponent {
   }
 
   _afterRender() {
+    // === Track scroll position — disable auto-scroll when user scrolls up ===
+    const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+    if (scrollEl && !scrollEl._scrollTrackerBound) {
+      scrollEl._scrollTrackerBound = true;
+      scrollEl.addEventListener('scroll', () => {
+        if (this._isNearBottom()) {
+          this._userScrolledUp = false;
+        } else {
+          this._userScrolledUp = true;
+        }
+      }, { passive: true });
+    }
+
     // === Apply theme class to host for CSS selectors ===
     if (this.theme === 'light') {
       this.classList.add('theme-light');
@@ -2585,6 +2599,7 @@ class HorneroChat extends HoComponent {
           this._pendingAttachment = null;
         }
         if (text || detail.image || detail.video) {
+          this._userScrolledUp = false; // User sent a message — re-enable auto-scroll
           this.emit('chat-send', detail);
           inputField.value = '';
           this._savedInputValue = null; // Don't restore cleared input on next render
@@ -2656,6 +2671,7 @@ class HorneroChat extends HoComponent {
       btn.addEventListener('click', () => {
         const text = btn.textContent.trim();
         if (text) {
+          this._userScrolledUp = false; // Re-enable auto-scroll
           this.emit('chat-send', { text });
           this.suggestions = [];
           this.render();
@@ -3086,8 +3102,17 @@ class HorneroChat extends HoComponent {
 
   _autoScroll() {
     if (this.noAutoScroll) return;
+    if (this._userScrolledUp) return; // User scrolled up — don't force them back down
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll) scroll.scrollTop = scroll.scrollHeight;
+  }
+
+  // Check if user is near the bottom of the chat scroll
+  _isNearBottom() {
+    const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    if (!scroll) return true;
+    // Consider "at bottom" if within 80px of the bottom
+    return scroll.scrollHeight - scroll.scrollTop - scroll.clientHeight < 80;
   }
 
   // ===== Bind event listeners for newly added messages =====
