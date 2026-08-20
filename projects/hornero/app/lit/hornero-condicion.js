@@ -75,11 +75,12 @@ class HorneroCondicion extends HoComponent {
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    // Read _username BEFORE super.connectedCallback() triggers render → _afterRender → _loadChatHistory
     try {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
       if (session && session.username) this._username = session.username;
     } catch(e) {}
+    super.connectedCallback();
   }
 
   disconnectedCallback() {

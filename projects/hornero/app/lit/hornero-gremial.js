@@ -79,13 +79,13 @@ class HorneroGremial extends HoComponent {
   }
 
   connectedCallback() {
-    super.connectedCallback();
-    // Don't generate sessionId yet — _loadChatHistory will restore or create
-    // Get username from login session for per-user data isolation
+    // Read _username BEFORE super.connectedCallback() triggers render → _afterRender → _loadChatHistory
     try {
       const session = JSON.parse(localStorage.getItem('hornero-session'));
       if (session && session.username) this._username = session.username;
     } catch(e) {}
+    super.connectedCallback();
+    // Don't generate sessionId yet — _loadChatHistory will restore or create
   }
 
   disconnectedCallback() {
