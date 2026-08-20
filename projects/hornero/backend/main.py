@@ -401,7 +401,8 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
     # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable, ver knowledge_base)
     if extra_sources:
         system_prompt = get_legal_prompt_focused(extra_sources, grade=req.grade,
-                                                 recipient_chain=req.recipient_chain)
+                                                 recipient_chain=req.recipient_chain,
+                                                 tenant=tenant)
     # Determine effective persona string for fallback
     effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
     if req.requested_persona:
@@ -501,7 +502,8 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
     # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
     if extra_sources:
         system_prompt = get_legal_prompt_focused(extra_sources, grade=req.grade,
-                                                 recipient_chain=req.recipient_chain)
+                                                 recipient_chain=req.recipient_chain,
+                                                 tenant=tenant)
     effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
     if req.requested_persona:
         if req.requested_persona in PERSONA_NAME_MAP:
@@ -663,7 +665,8 @@ async def audio_chat_endpoint(
     )
     # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
     if extra_sources:
-        system_prompt = get_legal_prompt_focused(extra_sources, grade=grade)
+        system_prompt = get_legal_prompt_focused(extra_sources, grade=grade,
+                                                 tenant=audio_tenant)
     effective_persona = PERSONA_MAP.get(formato, 'abogado')
     if requested_persona:
         if requested_persona in PERSONA_NAME_MAP:
