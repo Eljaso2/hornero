@@ -13,6 +13,7 @@
 | Tiempo Argentino | https://www.tiempoargentino.com | Press | Labour, politics | Spanish |
 | Sonido Gremial | https://www.sonidogremial.com.ar | Press | Sindical, paritarias, conflictos laborales | Spanish |
 | InfoGremiales | https://www.infogremiales.com.ar | Press | Noticias sindicales, paritarias, despidos, reforma laboral | Spanish |
+| Identidad Sindical | https://www.identidadsindical.ar | Press sindical | Noticias sindicales, conflictos laborales, paritarias, despidos, organización gremial | Spanish |
 | CLATE | https://clate.net | Organización sindical | Noticias CLATE, OIT,movimiento obrero latinoamericano | Spanish |
 | SIPREBA | https://sipreba.org.ar | Sindical/Prensa | Defensa prensa laboral, despidos medios, libertad expresión, precarización periodística | Spanish |
 | SATSAID | https://satsaid.org.ar | Sindical/Audiovisual | Televisión, streaming, audiovisual; regularización laboral streaming bajo convenio | Spanish |
