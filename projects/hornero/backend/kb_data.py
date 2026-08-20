@@ -140,12 +140,15 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
         "tenant": "aceiteros",
         "tags": ["paritaria", "aceitera", "2026", "SOMU", "15%", "8%", "Caputo", "huelga", "basico", "SMVM", "convenio", "Yofra", "Vicentin", "concurso preventivo"],
         "title": "Paritaria aceitera 2026 — F.T.C.I.O.D y A.R.A./SOMU",
-        "text": """Paritaria aceitera 2026:
+        "text": """Paritaria aceitera 2026 — ACTUAL:
 - SOMU demanda 15% de aumento
 - Empresas ofrecen 8%
 - Vicentín argumenta concurso preventivo limita posibilidades
 - Básico junio 2026: $340.000 — no cubre alquiler Reconquista ($380.000)
 - Brecha salario-vivienda: básico 12% debajo del alquiler
+- Paritaria 2026 cerró en julio 2026 con básico $2.719.040 (desde septiembre 2026)
+
+NOTA — Paritaria ANTERIOR (2025):
 - Paritaria 2025 cerró después de 7 días de huelga nacional — forzó mano de Caputo""",
         "sources": ["Asamblea paritaria aceitera, junio 2026", "Gestión Sindical, diciembre 2025"],
         "quotes": [

@@ -870,10 +870,17 @@ def get_clipping_text(items: list) -> str:
             continue
 
         # Format: concise noticia entry
+        # Prepend year to fecha if not already present (helps LLM avoid year confusion)
+        year_hint = ""
+        if fecha and len(fecha) >= 4 and fecha[:4].isdigit():
+            year_hint = fecha[:4]  # e.g. "2026"
         entry = f"[NOTICIA: {titulo}"
         if bajada:
-            # Truncate bajada to ~80 chars for token efficiency
-            short_bajada = bajada[:80] + "..." if len(bajada) > 80 else bajada
+            # Truncate bajada to ~120 chars for context (increased from 80 to preserve year refs)
+            short_bajada = bajada[:120] + "..." if len(bajada) > 120 else bajada
+            # If bajada doesn't mention the year, prepend it
+            if year_hint and year_hint not in short_bajada:
+                short_bajada = f"({year_hint}) {short_bajada}"
             entry += f" — {short_bajada}"
         entry += f". Fuente: {fuente}, Fecha: {fecha}]"
         if tags:
