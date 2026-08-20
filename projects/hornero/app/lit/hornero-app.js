@@ -1859,39 +1859,43 @@ class HorneroApp extends HoComponent {
     const bg = this.loggedIn ? appBg : loginBg;
     const bodyBg = this.loggedIn ? appBodyBg : '#1E2321';
 
-    // Update theme-color: update existing meta instead of remove+recreate
-    // (remove+recreate leaves a gap where Chrome falls back to default status bar color)
-    const tcMeta = document.querySelector('meta[name="theme-color"]');
-    if (tcMeta) {
-      tcMeta.setAttribute('content', bg);
-    } else {
-      const m = document.createElement('meta');
-      m.name = 'theme-color';
-      m.content = bg;
-      document.head.appendChild(m);
-    }
+    // Batch ALL changes inside requestAnimationFrame so Chrome processes
+    // status bar + content in the same compositor frame — avoids the 1px
+    // line artifact that appears when the status bar repaints separately.
+    requestAnimationFrame(() => {
+      // 1. theme-color → status bar background (update, don't recreate)
+      const tcMeta = document.querySelector('meta[name="theme-color"]');
+      if (tcMeta) {
+        tcMeta.setAttribute('content', bg);
+      } else {
+        const m = document.createElement('meta');
+        m.name = 'theme-color';
+        m.content = bg;
+        document.head.appendChild(m);
+      }
 
-    // Sync color-scheme — THIS is what controls overscroll/chrome bar colors
-    const cs = isLight ? 'light' : 'dark';
-    document.documentElement.style.setProperty('color-scheme', cs);
-    const csMeta = document.querySelector('meta[name="color-scheme"]');
-    if (csMeta) csMeta.setAttribute('content', cs);
+      // 2. backgrounds — immediate inline for html/body (same frame as status bar)
+      document.documentElement.style.setProperty('background', bg, 'important');
+      document.body.style.setProperty('background', bg, 'important');
 
-    document.documentElement.style.setProperty('background', bg, 'important');
-    document.body.style.setProperty('background', bg, 'important');
+      // 3. CSS variables — same frame
+      document.documentElement.style.setProperty('--ho-bg', bg);
+      document.documentElement.style.setProperty('--ho-body-bg', bodyBg);
 
-    // Set CSS variables on :root so light DOM rules resolve correctly
-    document.documentElement.style.setProperty('--ho-bg', bg);
-    document.documentElement.style.setProperty('--ho-body-bg', bodyBg);
+      // 4. color-scheme: DO NOT set on documentElement.style — that triggers
+      //    a separate compositor repaint that draws the 1px line.
+      //    Only update the meta tag; Chrome 93+ auto-adapts status bar
+      //    icon color based on theme-color luminance.
+      const csMeta = document.querySelector('meta[name="color-scheme"]');
+      if (csMeta) csMeta.setAttribute('content', isLight ? 'light dark' : 'dark light');
 
-    // iOS: update apple status bar style (login always black-translucent)
-    const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
-    if (appleMeta) {
-      appleMeta.setAttribute('content', (!this.loggedIn || !isLight) ? 'black-translucent' : 'default');
-    }
+      // 5. iOS: black-translucent always
+      const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+      if (appleMeta) appleMeta.setAttribute('content', 'black-translucent');
 
-    // Apply CSS variable overrides on host element (cascades into Shadow DOM)
-    this._applyTheme();
+      // 6. Apply CSS variable overrides on host element (cascades into Shadow DOM)
+      this._applyTheme();
+    });
   }
 
   // Override attributeChangedCallback to update theme when screen/login changes
