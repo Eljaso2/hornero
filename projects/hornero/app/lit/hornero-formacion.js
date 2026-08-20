@@ -80,6 +80,13 @@ class HorneroFormacion extends HoComponent {
     } catch(e) {}
   }
 
+  // Emit session-save event so hornero-app can preserve active chat per screen
+  _emitSessionSave() {
+    if (this._sessionId) {
+      this.emit('session-save', { screen: this._chatSection || 'formacion', sessionId: this._sessionId, persona: this._activePersona || this.persona || '' });
+    }
+  }
+
   // Override render() to save chat drawer state before innerHTML destroys it
   render() {
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
@@ -415,6 +422,7 @@ class HorneroFormacion extends HoComponent {
         if (e.detail.sessionId === this._sessionId) {
           this.messages = [];
           this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
+          this._emitSessionSave();
           this.render();
         }
       });
@@ -553,6 +561,7 @@ class HorneroFormacion extends HoComponent {
 
     // No previous session found — start fresh with greeting
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
     this._showGreeting();
   }
 
@@ -562,6 +571,7 @@ class HorneroFormacion extends HoComponent {
         const saved = await obtenerChatSessionMessages(sessionId);
         if (saved && saved.length > 0) {
           this._sessionId = sessionId;
+          this._emitSessionSave();
           this._bannerVisible = false; // Hide banner when restoring session
           this.messages = saved;
           this._historyLoaded = true;
@@ -576,6 +586,7 @@ class HorneroFormacion extends HoComponent {
     this._stopProgressiveReveal();
     this.messages = [];
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
     this._historyLoaded = true;
     this._greetingRequested = false;
     this._activePersona = 'historiador';
@@ -586,6 +597,7 @@ class HorneroFormacion extends HoComponent {
   _showGreeting() {
     const efe = this._getEfemerideSemana();
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
 
     let efeText = '';
     if (efe) {

@@ -82,6 +82,13 @@ class HorneroCondicion extends HoComponent {
     } catch(e) {}
   }
 
+  // Emit session-save event so hornero-app can preserve active chat per screen
+  _emitSessionSave() {
+    if (this._sessionId) {
+      this.emit('session-save', { screen: this._chatSection || 'condicion', sessionId: this._sessionId, persona: this._activePersona || this.persona || '' });
+    }
+  }
+
   // Override render() to save chat drawer state before innerHTML destroys it
   render() {
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
@@ -215,6 +222,7 @@ class HorneroCondicion extends HoComponent {
         if (e.detail.sessionId === this._sessionId) {
           this.messages = [];
           this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+          this._emitSessionSave();
           this.render();
         }
       });
@@ -337,6 +345,7 @@ class HorneroCondicion extends HoComponent {
     // always start fresh with contextual greeting — don't restore old session
     if (this.initialSection && this.initialSection.length > 0) {
       this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+      this._emitSessionSave();
       this._showGreeting();
       return;
     }
@@ -356,6 +365,7 @@ class HorneroCondicion extends HoComponent {
 
     // No previous session found — start fresh with greeting
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
     this._showGreeting();
   }
 
@@ -365,6 +375,7 @@ class HorneroCondicion extends HoComponent {
         const saved = await obtenerChatSessionMessages(sessionId);
         if (saved && saved.length > 0) {
           this._sessionId = sessionId;
+          this._emitSessionSave();
           this._bannerVisible = false; // Hide banner when restoring session
           this.messages = saved;
           this._historyLoaded = true;
@@ -379,6 +390,7 @@ class HorneroCondicion extends HoComponent {
     this._stopProgressiveReveal();
     this.messages = [];
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
     this._historyLoaded = true;
     this._greetingRequested = false;
     this._activePersona = 'sociologo';
@@ -388,6 +400,7 @@ class HorneroCondicion extends HoComponent {
   // ===== Generate greeting =====
   _showGreeting() {
     this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
 
     // If coming from section bar (SMVM, Felicidad, Comp. Empre.), treat as a question
     const topicMap = {

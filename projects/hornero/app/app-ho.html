@@ -6,7 +6,7 @@
   <meta name="description" content="Asistente IA sindical para trabajadores argentinos">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="assets/hornero-logo-192.png" type="image/png">
-  <!-- theme-color: single meta, JS recreates on toggle to force browser repaint -->
+  <!-- theme-color: ALWAYS dark — never change, prevents status bar line on theme switch -->
   <meta name="theme-color" content="#1E2321">
   <meta name="color-scheme" content="dark">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,18 +14,17 @@
   <meta name="apple-mobile-web-app-title" content="Hornero">
   <link rel="apple-touch-icon" href="assets/hornero-logo-192.png">
 
-  <!-- Set theme colors IMMEDIATELY based on session + theme — zero flash of wrong color -->
+  <!-- Set theme CSS variables IMMEDIATELY — zero flash of wrong color -->
   <script>
     (function(){
       var s=null;
       try{s=JSON.parse(localStorage.getItem('hornero-session'))}catch(e){}
       var t=localStorage.getItem('hornero-theme')||'dark';
-      // Login is ALWAYS dark; only logged-in users see light mode
-      var c=(s&&t==='light')?'#F8F6F0':'#1E2321';
-      document.documentElement.style.setProperty('background',c,'important');
-      var m=document.querySelector('meta[name="theme-color"]');
-      if(m)m.setAttribute('content',c);
-      window._hoInitBg=c;
+      // Set --ho-bg on :root so CSS resolves correctly from first paint
+      var bg=(s&&t==='light')?'#F8F6F0':'#1E2321';
+      document.documentElement.style.setProperty('--ho-bg',bg);
+      // Never change theme-color or color-scheme — they stay dark always
+      window._hoInitBg=bg;
       window._hoInitTheme=t;
     })();
   </script>
@@ -84,7 +83,6 @@
 </head>
 <!-- Set body bg immediately — uses color from head script -->
 <body>
-<script>document.body.style.setProperty('background',window._hoInitBg||'#1E2321','important');</script>
   <!-- HoComponent app shell — Shadow DOM renders instantly via sync session -->
   <hornero-app></hornero-app>
 
@@ -183,6 +181,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=578"></script>
+  <script type="module" src="lit/hornero-components.js?ver=579"></script>
 </body>
 </html>

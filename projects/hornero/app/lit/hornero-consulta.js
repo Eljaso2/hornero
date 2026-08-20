@@ -222,6 +222,7 @@ class HorneroConsulta extends HoComponent {
         if (e.detail.sessionId === this._sessionId) {
           this.messages = [];
           this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
+          this._emitSessionSave();
           this.render();
         }
       });

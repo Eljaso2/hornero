@@ -1834,33 +1834,30 @@ class HorneroApp extends HoComponent {
     const bg = this.loggedIn ? appBg : loginBg;
     const bodyBg = this.loggedIn ? appBodyBg : '#1E2321';
 
-    // Force browser repaint: remove old theme-color metas, create fresh one
-    const head = document.head;
-    document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.remove());
-    const newMeta = document.createElement('meta');
-    newMeta.name = 'theme-color';
-    newMeta.content = bg;
-    head.appendChild(newMeta);
+    // NEVER change theme-color dynamically — that causes the browser to repaint
+    // the system status bar, creating a visible line during the transition.
+    // Keep it dark always; the app's visual theme is handled by CSS variables.
+    const chromeBg = '#1E2321';
+    const existingMeta = document.querySelector('meta[name="theme-color"]');
+    if (!existingMeta) {
+      const m = document.createElement('meta');
+      m.name = 'theme-color';
+      m.content = chromeBg;
+      document.head.appendChild(m);
+    }
 
-    // Keep color-scheme: dark ALWAYS — switching to light makes the browser
-    // draw a separator line between system status bar and app content
-    const cs = 'dark';
-    document.documentElement.style.setProperty('color-scheme', cs);
-    const csMeta = document.querySelector('meta[name="color-scheme"]');
-    if (csMeta) csMeta.setAttribute('content', cs);
+    // color-scheme stays dark always — prevents system chrome repaint/line
+    document.documentElement.style.setProperty('color-scheme', 'dark');
 
-    document.documentElement.style.setProperty('background', bg, 'important');
-    document.body.style.setProperty('background', bg, 'important');
-
-    // Set CSS variables on :root so light DOM rules resolve correctly
+    // App background changes via CSS variables only — no system chrome repaint
     document.documentElement.style.setProperty('--ho-bg', bg);
     document.documentElement.style.setProperty('--ho-body-bg', bodyBg);
+    this.style.setProperty('--ho-bg', bg);
+    this.style.setProperty('--ho-body-bg', bodyBg);
 
-    // iOS: update apple status bar style (login always black-translucent)
+    // iOS: black-translucent always — transparent status bar, no separator
     const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
     if (appleMeta) {
-      // Always keep black-translucent: no separator line between status bar and app
-      // iOS 15+ adapts status bar text color via color-scheme (light=dark text, dark=light text)
       appleMeta.setAttribute('content', 'black-translucent');
     }
 
