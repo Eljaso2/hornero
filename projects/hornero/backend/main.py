@@ -30,7 +30,7 @@ from llm_providers.deepseek import call_deepseek, call_deepseek_stream
 from llm_providers.claude import call_claude
 from clipping_cache import get_clipping, refresh
 from rag_retriever import retrieve_for_query
-from library_service.adapter_hornero import legal_sources_text  # puente Biblioteca (feature-flag)
+from library_service.adapter_hornero import legal_sources_text, resolve_tenant  # puente Biblioteca (feature-flag)
 from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, KB_TIPOS, refresh as kb_refresh
 from push_manager import subscribe as push_subscribe, unsubscribe as push_unsubscribe, notify_all, get_vapid_public_key, get_subscription_count
 
@@ -209,6 +209,7 @@ class GreetingRequest(BaseModel):
     section: str = "consulta"  # consulta|contenido|debate|historia
     grade: str = "A"
     sector: str = "aceitero"
+    tenant: str = ""  # explicit tenant override; if empty, derived from sector
     requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
     days_since_last_chat: int = 999  # Days since last chat session — affects greeting tone
@@ -296,11 +297,12 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
         effective_persona = PERSONA_MAP.get(req.section, 'abogado')
     # Greeting: inject efeméride chunks for Historiador so they have real data to cite
     greeting_chunk_ids = []
+    tenant = resolve_tenant(req.tenant if hasattr(req, 'tenant') else "", req.sector)
     if effective_persona == 'historiador' or req.section == 'historia':
         from rag_retriever import keyword_search
-        efem_results = keyword_search('efemeride aniversario conmemoracion', max_chunks=8)
+        efem_results = keyword_search('efemeride aniversario conmemoracion', max_chunks=8, tenant=tenant)
         greeting_chunk_ids = [c['id'] for c in efem_results if 'efemeride' in c.get('tags', [])]
-    system_prompt = get_system_prompt_rag(req.section, chunk_ids=greeting_chunk_ids, clipping_items=get_clipping(), requested_persona=req.requested_persona, grade=req.grade, incoming_reports=req.incoming_reports, recipient_chain=req.recipient_chain)
+    system_prompt = get_system_prompt_rag(req.section, chunk_ids=greeting_chunk_ids, clipping_items=get_clipping(), requested_persona=req.requested_persona, grade=req.grade, incoming_reports=req.incoming_reports, recipient_chain=req.recipient_chain, tenant=tenant)
     # Resolve effective section for greeting hint (requested_persona may override)
     greeting_section = req.section
     if req.requested_persona and req.requested_persona in PERSONA_NAME_MAP:
@@ -371,8 +373,9 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
         raise HTTPException(429, "Demasiadas solicitudes. Esperá un momento e intentá de nuevo.")
 
     # RAG retrieval: find relevant chunks based on user query + conversation context
+    tenant = resolve_tenant(req.tenant, req.sector)
     relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade,
-                                          conversation_history=req.history)
+                                          conversation_history=req.history, tenant=tenant)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
     # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
@@ -393,6 +396,7 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
         incoming_reports=req.incoming_reports,
         recipient_chain=req.recipient_chain,
         extra_sources_text=extra_sources,
+        tenant=tenant,
     )
     # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable, ver knowledge_base)
     if extra_sources:
@@ -471,7 +475,8 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
         raise HTTPException(429, "Demasiadas solicitudes. Esperá un momento e intentá de nuevo.")
 
     # RAG retrieval: find relevant KB chunks based on user query
-    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade)
+    tenant = resolve_tenant(req.tenant, req.sector)
+    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade, tenant=tenant)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
     # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
@@ -491,6 +496,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
         incoming_reports=req.incoming_reports,
         recipient_chain=req.recipient_chain,
         extra_sources_text=extra_sources,
+        tenant=tenant,
     )
     # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
     if extra_sources:
@@ -633,7 +639,8 @@ async def audio_chat_endpoint(
         parsed_history = []
 
     # 3. RAG retrieval with transcript as query
-    relevant_chunks = retrieve_for_query(transcript, formato, grade)
+    audio_tenant = resolve_tenant(tenant, sector)
+    relevant_chunks = retrieve_for_query(transcript, formato, grade, tenant=audio_tenant)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
     # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
@@ -652,6 +659,7 @@ async def audio_chat_endpoint(
         grade=grade,
         recipient_chain="",
         extra_sources_text=extra_sources,
+        tenant=audio_tenant,
     )
     # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
     if extra_sources:
