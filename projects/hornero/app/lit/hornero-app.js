@@ -1191,7 +1191,7 @@ class HorneroApp extends HoComponent {
       btn.addEventListener('click', () => {
         // Perfil section → open profile popup instead of navigating
         if (btn.dataset.screen === 'perfil') {
-          this._finalizeActiveChat();
+          await this._finalizeActiveChat();
           this._profileOpen = true;
           this.render();
           return;
@@ -1281,7 +1281,7 @@ class HorneroApp extends HoComponent {
         const screen = btn.dataset.screen;
         // Perfil button → open profile popup instead of navigating
         if (screen === 'perfil') {
-          this._finalizeActiveChat();
+          await this._finalizeActiveChat();
           this._profileOpen = true;
           this.render();
           return;
@@ -1780,10 +1780,24 @@ class HorneroApp extends HoComponent {
   }
 
   // Finalize any in-progress AI response on the current chat screen before a render destroys it
-  _finalizeActiveChat() {
+  // Returns a promise that resolves when all data is persisted to IndexedDB
+  async _finalizeActiveChat() {
     const comp = this._getChatComponent(this.screen);
-    if (comp && typeof comp._finalizeCurrentReveal === 'function') {
-      comp._finalizeCurrentReveal();
+    if (comp) {
+      if (typeof comp._finalizeCurrentReveal === 'function') {
+        comp._finalizeCurrentReveal();
+      }
+      // Wait for the chat history to be saved to IndexedDB before destroying the component
+      if (typeof comp._saveChatHistory === 'function' && comp.messages && comp.messages.some(m => m.role === 'user')) {
+        await comp._saveChatHistory();
+      }
+      // Save session info so we can restore the conversation later
+      if (comp._sessionId) {
+        this._activeSessions[this.screen] = {
+          sessionId: comp._sessionId,
+          persona: comp._activePersona || comp.persona || '',
+        };
+      }
     }
   }
 
@@ -1854,14 +1868,10 @@ class HorneroApp extends HoComponent {
     newMeta.content = bg;
     head.appendChild(newMeta);
 
-    // Sync color-scheme — skip inline style, only update meta tag
-    // Setting color-scheme on documentElement.style triggers a system chrome
-    // repaint that creates a visible line at the status bar boundary on Android.
-    // The meta tag alone is enough for the browser; Chrome 93+ auto-adapts
-    // status bar icon color based on theme-color luminance.
-    const cs = isLight ? 'light' : 'dark';
-    const csMeta = document.querySelector('meta[name="color-scheme"]');
-    if (csMeta) csMeta.setAttribute('content', cs);
+    // DO NOT change color-scheme inline style OR meta tag during theme switch.
+    // Both trigger Chrome system chrome repaints that create a visible line
+    // at the status bar boundary on Android. The meta stays "dark light" (initial).
+    // Chrome 93+ auto-adapts status bar icon color based on theme-color luminance.
 
     document.documentElement.style.setProperty('background', bg, 'important');
     document.body.style.setProperty('background', bg, 'important');
