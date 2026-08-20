@@ -431,14 +431,28 @@ SIPREBA es el sindicato que representa a los trabajadores de prensa de la Ciudad
 
 Organización:
 - Secretario General: Agustín Lecchi
-- Pertenece a la Federación de Periodistas (FEP) y a la Unión de Prensa de Buenos Aires (UPC)
-- Negocia paritarias con las cámaras patronales: ADEPA (Asociación de Entidades Periodísticas Argentinas) para prensa escrita, e IANA (Interamérica Asociaciones de Noticias de Argentina) para agencias
+- Federación: FATPREN (Federación Argentina de Trabajadores de Prensa) — fatpren.org.ar
 - Convenios colectivos: CCT 301/75 (Prensa Escrita y Oral) y CCT 124/75 (Prensa Televisada)
+- Cámaras patronales: ADEPA (prensa escrita), IANA (agencias)
+- Sede: Solís 1158, 4to piso, CABA
+- Email: contacto@sipreba.org
+- Web: sipreba.org
+- YouTube: SiPreBATV — https://www.youtube.com/c/SiPreBATV
+- Proyecto Memoria: memoria.sipreba.org
 
-SIPREBA defiende el derecho a la información, la libertad de prensa entendida como derecho de los trabajadores y del pueblo, y las condiciones laborales del periodismo profesional. Denuncia el vaciamiento de medios, los despidos masivos, y la precarización del trabajo periodístico. Promueve la democracia sindical y la participación de los trabajadores de prensa en las decisiones del gremio.
+Secretarías:
+- Acción Social
+- Mujeres y Géneros
+- Derechos Humanos
+- Cultura y Juventud
+- Asuntos Profesionales
+
+SIPREBA defiende el derecho a la información, la libertad de prensa entendida como derecho de los trabajadores y del pueblo, y las condiciones laborales del periodismo profesional. Denuncia el vaciamiento de medios (ej: planta de impresión de Clarín, 2026), los despidos masivos, y la precarización del trabajo periodístico. Promueve la democracia sindical y la participación de los trabajadores de prensa en las decisiones del gremio.
+
+Caja de Herramientas: serie de 7 videos sobre derechos laborales (Trabajo, Organización sindical, Salario, Licencias, Estatuto del Periodista, Convenios, Trabajo en plataformas) — disponibles en SiPreBATV.
 
 ⚠️ Verificar datos con fuentes oficiales de SIPREBA.""",
-        "sources": ["sipreba.org.ar", "CCT 301/75", "CCT 124/75"],
+        "sources": ["sipreba.org", "CCT 301/75", "CCT 124/75", "FATPREN"],
         "quotes": [],
         "grade_access": "open",
         "vigencia": "vigente",
@@ -686,6 +700,36 @@ La relación entre los sindicatos de prensa y las cámaras patronales es particu
 
 ⚠️ Verificar datos con fuentes oficiales.""",
         "sources": ["ADEPA", "SIPREBA comunicados"],
+        "quotes": [],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    # --- SIPREBA: CAJA DE HERRAMIENTAS ---
+    {
+        "id": "kb-sipreba-caja-herramientas",
+        "tipo": "multimedia",
+        "category": "documentos",
+        "tenant": "prensa",
+        "tags": ["caja de herramientas", "derechos laborales", "videos", "capacitación", "YouTube", "SiPreBATV", "herramientas legales", "formación", "trabajo", "organización", "salario", "licencias", "estatuto", "convenio", "plataformas"],
+        "title": "Caja de Herramientas del SIPREBA — Videos sobre tus derechos",
+        "text": """CAJA DE HERRAMIENTAS DEL SIPREBA — PARA CONOCER TUS DERECHOS
+
+SIPREBA ofrece una serie de videos explicativos para que los trabajadores de prensa conozcan sus derechos laborales. Son 7 capítulos disponibles en el canal de YouTube SiPreBATV:
+
+1. TRABAJO — Derechos fundamentales del trabajador de prensa.
+2. ORGANIZACIÓN SINDICAL — Cómo funciona el sindicato, por qué afiliarse, Comisión Interna.
+3. SALARIO — Componentes del salario profesional, básico, adicionales, paritaria.
+4. LICENCIAS — Vacaciones, licencias por enfermedad, maternidad, estudio, y especiales del periodista.
+5. ESTATUTO DEL PERIODISTA — Ley 12.908: qué protege, qué derechos específicos otorga.
+6. CONVENIOS COLECTIVOS — CCT 301/75 y CCT 124/75: qué dicen y cómo se aplican.
+7. TRABAJO EN PLATAFORMAS — Derechos del periodista que trabaja para medios digitales y plataformas.
+
+Canal de YouTube: https://www.youtube.com/c/SiPreBATV
+Página: https://www.sipreba.org/sindicato/caja-de-herramientas-del-sipreba-para-conocer-tus-derechos/
+
+Estos videos son una herramienta de formación gremial. Cuando un afiliado pregunta por sus derechos o necesita entender un tema legal, la Caja de Herramientas es el primer recurso recomendado.""",
+        "sources": ["SIPREBA — Caja de Herramientas", "https://www.sipreba.org/sindicato/caja-de-herramientas-del-sipreba-para-conocer-tus-derechos/"],
         "quotes": [],
         "grade_access": "open",
         "vigencia": "vigente",
