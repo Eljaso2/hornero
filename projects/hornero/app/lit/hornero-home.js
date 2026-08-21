@@ -307,11 +307,10 @@ class HorneroHome extends HoComponent {
       .icon-btn:hover { opacity: .8; }
       .icon-btn.locked { cursor: default; }
       .icon-btn.locked:hover { opacity: 1; }
-      .icon-btn .icon-lock { position: absolute; top: 4px; right: 4px;
-        width: 20px; height: 20px; background: rgba(30,35,33,.75);
+      .icon-btn .icon-lock { position: absolute; top: 6px; right: 6px;
+        width: 18px; height: 18px; background: rgba(30,35,33,.8);
         border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-      .icon-btn .icon-lock svg { width: 11px; height: 11px; stroke: #F2F1EC;
-        stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-btn .icon-lock svg { width: 10px; height: 10px; color: #F2F1EC; }
       .persona-home-img { width: 80px; height: 80px; border-radius: 0;
         object-fit: contain; object-position: center;
         filter: var(--ho-persona-filter, none); }
@@ -400,24 +399,21 @@ class HorneroHome extends HoComponent {
         padding: 2px 8px; border-radius: 6px; font-weight: 600;
         display: inline-block; margin-top: 6px; }
       .esfera-card .lock-icon { position: absolute; top: 10px; right: 12px;
-        width: 16px; height: 16px; }
-      .esfera-card .lock-icon svg { width: 14px; height: 14px; stroke: #9C988D;
-        stroke-width: 2; fill: none; stroke-linecap: round;
-        stroke-linejoin: round; }
+        width: 18px; height: 18px; }
+      .esfera-card .lock-icon svg { width: 18px; height: 18px; color: #9C988D; }
       /* Lock icon on hero cards (panorama, formacion, archivo) */
       .panorama-card.locked, .formacion-card.locked, .archivo-card.locked { cursor: default; }
       .panorama-card .lock-icon, .formacion-card .lock-icon, .archivo-card .lock-icon {
-        position: absolute; top: 10px; right: 12px; width: 24px; height: 24px;
+        position: absolute; top: 10px; right: 12px; width: 22px; height: 22px;
         background: rgba(30,35,33,.7); border-radius: 50%;
         display: flex; align-items: center; justify-content: center; z-index: 2; }
       .panorama-card .lock-icon svg, .formacion-card .lock-icon svg, .archivo-card .lock-icon svg {
-        width: 14px; height: 14px; stroke: #F2F1EC; stroke-width: 2; fill: none;
-        stroke-linecap: round; stroke-linejoin: round; }
+        width: 12px; height: 12px; color: #F2F1EC; }
     `;
   }
 
   _render() {
-    const lockSvg = '<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 0 0110 0v4"/></svg>';
+    const lockSvg = '<svg viewBox="0 0 24 24"><path d="M5 11h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z" fill="currentColor"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="16" r="1.2" fill="currentColor" opacity=".4"/></svg>';
 
     // --- Esfera 1: Actualidad — dynamic content ---
     let esfera1Content = '';
