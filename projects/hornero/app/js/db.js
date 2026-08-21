@@ -576,8 +576,8 @@ function obtenerChatSessions(username) {
           username: m.username || ''
         };
       }
-      // Capture persona from first message that has it (covers legacy sessions)
-      if (m.persona && !sessionsMap[m.sessionId].persona) {
+      // Capture persona from the latest AI message that has it (reflects persona switches mid-conversation)
+      if (m.persona && m.role !== 'user') {
         sessionsMap[m.sessionId].persona = m.persona;
       }
       sessionsMap[m.sessionId].messageCount++;
