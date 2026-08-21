@@ -857,8 +857,9 @@ class HorneroContenido extends HoComponent {
 
   _localResponse(userText) {
     const lower = userText.toLowerCase();
-    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {
-      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical. ¿Qué formato te interesa o qué tema querés comunicar?' }], tags: ['contenido', 'saludo'], time: this._timeNow() };
+    // Only match pure greetings — NOT "hola, me podes decir..."
+    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
+      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical. ¿Qué formato te interesa o qué tema querés comunicar?' }], tags: ['contenido', 'saludo'], persona: 'periodista', time: this._timeNow() };
     }
     if (lower.match(/podcast/)) {
       return { role: 'hornero', sections: [{ title: 'Podcast sindical', body: 'Audio narrado, 5-15 minutos. Se escucha en el colectivo, en la planta, en la asamblea. Contame tu tema y te propongo estructura, script y fuentes.' }, { title: '', body: '', quote: 'La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Asamblea paritaria aceitera, junio 2026' }], tags: ['podcast', 'contenido'], time: this._timeNow() };

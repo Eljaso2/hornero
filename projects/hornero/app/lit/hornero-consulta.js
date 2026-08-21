@@ -987,8 +987,9 @@ class HorneroConsulta extends HoComponent {
   _localResponse(userText) {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
-    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {
-      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Abogado — laboralista del gremio aceitero, te ayudo con derechos, convenio, CCT, legislación laboral. ¿Qué consulta tenés?' }], tags: ['consulta', 'saludo'], persona: p, time: this._timeNow() };
+    // Only match pure greetings — NOT "hola, me podes decir..."
+    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
+      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Abogado — laboralista del gremio aceitero, te ayudo con derechos, convenio, CCT, legislación laboral. ¿Qué consulta tenés?' }], tags: ['consulta', 'saludo'], persona: 'abogado', time: this._timeNow() };
     }
     if (lower.includes('yofra')) {
       return { role: 'hornero', sections: [{ title: 'Daniel Yofra', body: 'Secretario General de la F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines). Líder sindical aceitero, referente en paritaria, organización y resistencia.' }, { title: '', body: '', quote: 'Organizar es construir. No hay milagro sindical — hay trabajo, hay reunión, hay asamblea, hay debate.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Ciclo "Por las hendijas del Quebracho", enero 2021' }], tags: ['yofra', 'consulta'], persona: p, time: this._timeNow() };

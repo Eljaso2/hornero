@@ -1000,8 +1000,9 @@ class HorneroCondicion extends HoComponent {
   _localResponse(userText) {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
-    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)/)) {
-      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: p, time: this._timeNow() };
+    // Only match pure greetings — "hola" alone or "hola" + punctuation/whitespace, NOT "hola, me podes decir..."
+    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
+      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: 'sociologo', time: this._timeNow() };
     }
     if (lower.match(/smvm|salario mínimo|salario minimo|canasta|brecha|superexplotación|superexplotacion/)) {
       return { role: 'hornero', sections: [{ title: 'SMVM', body: 'El Salario Mínimo Vital y Móvil es la frontera entre lo que la ley reconoce y lo que el trabajador necesita. La brecha entre el SMVM y la canasta básica revela la superexplotación: el trabajador no gana lo que necesita para vivir. ¿Querés que profundice en la canasta básica, la brecha salarial o el valor de la fuerza de trabajo?' }], tags: ['panorama', 'smvm'], persona: p, time: this._timeNow() };
