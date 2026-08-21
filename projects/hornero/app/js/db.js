@@ -126,7 +126,7 @@ function initDB() {
 // Bumping version triggers re-run for all users on next load
 // v17: clear-all para desarrollo de chats — borra TODOS los datos de TODOS los usuarios piloto
 // Usa clear-user por cada usuario (endpoints que sí existen en el backend deployado)
-var PILOT_USERS = ['eljaso', 'test4', 'test3', 'test1c', 'test_guaycuru', 'test1a', 'test2', 'test1b'];
+var PILOT_USERS = ['eljaso', 'test4', 'test3', 'test1c', 'test_guaycuru', 'test1a', 'test2', 'test1b', 'test_prensa4', 'test_prensa3', 'test_prensa2', 'test_prensa1', 'emiliano', 'federico'];
 var _cleanupJustRan = false;
 function limpiarChatsYReportes() {
   if (localStorage.getItem('hornero-chats-cleared') === 'v17') return Promise.resolve(false);

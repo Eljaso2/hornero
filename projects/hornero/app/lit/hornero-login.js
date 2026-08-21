@@ -8,32 +8,55 @@ import { HoComponent, html, css } from './ho-component.js';
 // Usuarios piloto — se migran a backend JWT en Phase 1 real
 // 4 niveles de acceso para testing: B.d (4), B.c (3), B.b (2), B.a (1)
 // Agremiación: federación, sindicato, convenio, territorio (display), empresa, puesto — por usuario
+// category: 'tester' = cuenta de testeo, no usuario real de sindicato
+// email: contacto de la persona responsable de la cuenta tester
 const PILOT_USERS = {
+  // --- Admin Hornero ---
   'eljaso':   { password: 'hornero2026', grade: 'B.d', territory: 'norte-santa-fe', sector: 'hornero', nombre: 'Eljaso',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Administrador', federacion: 'Hornero', sindicato: 'Hornero', convenio: '', sectorName: '', territorio: 'Norte de Santa Fe', empresa: '', puesto: '' } },
+  // --- Aceitero — F.T.C.I.O.D y A.R.A. ---
   'test4':    { password: 'fed2026',     grade: 'B.d', territory: 'rosario', sector: 'aceitero', nombre: 'Tester N4 — Federación',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Secretario General de la Federación', federacion: 'F.T.C.I.O.D y A.R.A. (Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina)', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Rosario', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Rosario', empresa: 'Dreyfus', puesto: 'Operario de planta' } },
   'test3':    { password: 'sec2026',     grade: 'B.c', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N3 — Secretario General Sindicato Reconquista',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Secretario General del Sindicato', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: '', puesto: '' } },
   'test_guaycuru': { password: 'delguay2026', grade: 'B.b', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Delegado Desmotadora Guaycurú',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Delegado', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Desmotadora Guaycurú', puesto: 'Operario de desmotadora' } },
   'test2':    { password: 'del2026',     grade: 'B.b', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N2 — Delegada',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Delegado', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC', puesto: 'Operario de planta' } },
   'test1a':   { password: 'base2026',    grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 (base)',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC', puesto: 'Operario de planta' } },
   'test1b':   { password: 'adm2026',     grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1 (administración)',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Vicentín SAIC', puesto: 'Administración' } },
   'test1c':   { password: 'obrero2026',    grade: 'B.a', territory: 'norte-santa-fe', sector: 'aceitero', nombre: 'Tester N1C — Obrero Guaycurú',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'F.T.C.I.O.D y A.R.A.', sindicato: 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', convenio: 'CCT 420/05', sectorName: 'Industria aceitera', territorio: 'Norte de Santa Fe', empresa: 'Desmotadora Guaycurú', puesto: 'Operario de desmotadora' } },
   // --- SIPREBA — Piloto Prensa ---
   'test_prensa4':  { password: 'prensa2026',  grade: 'B.d', territory: 'caba', sector: 'prensa', nombre: 'Tester P4 — SIPREBA',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Secretario General de SIPREBA', federacion: 'SIPREBA', sindicato: 'SIPREBA (Sindicato de Prensa de Buenos Aires)', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: '' } },
   'test_prensa3':  { password: 'secprensa2026', grade: 'B.c', territory: 'caba', sector: 'prensa', nombre: 'Tester P3 — Secretario Seccional',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Secretario Seccional', federacion: 'SIPREBA', sindicato: 'SIPREBA', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: '' } },
   'test_prensa2':  { password: 'delprensa2026', grade: 'B.b', territory: 'caba', sector: 'prensa', nombre: 'Tester P2 — Delegado Prensa',
-    agremiacion: { rol: 'Delegado', federacion: 'SIPREBA', sindicato: 'SIPREBA', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: 'Cronista' } },
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
+    agremiacion: { rol: 'Delegado', federacion: 'SIPREBA', sindicato: 'SIPREBA', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: 'Cronista', puesto: 'Cronista' } },
   'test_prensa1':  { password: 'baseprensa2026', grade: 'B.a', territory: 'caba', sector: 'prensa', nombre: 'Tester P1 — Periodista Base',
+    category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'SIPREBA', sindicato: 'SIPREBA', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: 'Cronista' } },
+  // --- Testers reales (personas, no roles simulados) ---
+  'emiliano': { password: 'emiliano2026', grade: 'B.d', territory: '', sector: 'tester', nombre: 'Emiliano López',
+    category: 'tester', email: 'emiliano@thetricontinental.org',
+    agremiacion: { rol: 'Tester', federacion: '', sindicato: '', convenio: '', sectorName: '', territorio: '', empresa: '', puesto: '' } },
+  'federico': { password: 'federico2026', grade: 'B.d', territory: '', sector: 'tester', nombre: 'Federico Ávalos',
+    category: 'tester', email: 'PENDIENTE',
+    agremiacion: { rol: 'Tester', federacion: '', sindicato: '', convenio: '', sectorName: '', territorio: '', empresa: '', puesto: '' } },
 };
 
 class HorneroLogin extends HoComponent {
@@ -300,6 +323,8 @@ class HorneroLogin extends HoComponent {
       territory: user.territory,
       sector: user.sector,
       nombre: user.nombre,
+      category: user.category || '',
+      email: user.email || '',
       agremiacion: user.agremiacion || {},
       timestamp: Date.now(),
     };
