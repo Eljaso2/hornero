@@ -51,10 +51,10 @@ const PILOT_USERS = {
     category: 'tester', email: 'alejandro.jasinski@gmail.com',
     agremiacion: { rol: 'Trabajador de Base', federacion: 'SIPREBA', sindicato: 'SIPREBA', convenio: 'CCT 301/75', sectorName: 'Prensa y periodismo', territorio: 'CABA', empresa: '', puesto: 'Cronista' } },
   // --- Testers reales (personas, no roles simulados) ---
-  'emiliano': { password: 'emiliano2026', grade: 'B.d', territory: '', sector: 'tester', nombre: 'Emiliano López',
+  'emiliano': { password: 'emiliano2026', grade: 'B.d', territory: '', sector: 'hornero', nombre: 'Emiliano López',
     category: 'tester', email: 'emiliano@thetricontinental.org',
     agremiacion: { rol: 'Tester', federacion: '', sindicato: '', convenio: '', sectorName: '', territorio: '', empresa: '', puesto: '' } },
-  'federico': { password: 'federico2026', grade: 'B.d', territory: '', sector: 'tester', nombre: 'Federico Ávalos',
+  'federico': { password: 'federico2026', grade: 'B.d', territory: '', sector: 'hornero', nombre: 'Federico Ávalos',
     category: 'tester', email: 'PENDIENTE',
     agremiacion: { rol: 'Tester', federacion: '', sindicato: '', convenio: '', sectorName: '', territorio: '', empresa: '', puesto: '' } },
 };
