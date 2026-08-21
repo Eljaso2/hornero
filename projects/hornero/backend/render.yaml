@@ -42,6 +42,6 @@ services:
       - key: SMTP_PASSWORD
         sync: false
       - key: SMTP_FROM
-        value: "Hornero <noreply@hornero.federacion.org.ar>"
+        value: "Hornero <alejandro.jasinski@gmail.com>"
       - key: SMTP_TLS
         value: "true"
