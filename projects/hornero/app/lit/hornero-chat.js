@@ -1078,7 +1078,9 @@ class HorneroChat extends HoComponent {
       .chat-plus-btn.open { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .chat-plus-btn.open svg line:last-child { display: none; }
+      .chat-plus-btn.open svg line:nth-child(2) { display: none; }
+      .chat-plus-btn.open svg line:first-child { transform: translateY(6px) rotate(45deg); transform-origin: center; }
+      .chat-plus-btn.open svg line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); transform-origin: center; }
 
       /* Vertical panel — extends behind and below the + button */
       .chat-plus-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
@@ -1759,7 +1761,7 @@ class HorneroChat extends HoComponent {
           ${this.hidePersonaBar ? '' : html`
             <div class="chat-plus-wrapper">
               <button class="chat-plus-btn${this._plusMenuOpen ? ' open' : ''}" id="chatPlusBtn" title="${this._plusMenuOpen ? 'Cerrar' : 'Más opciones'}">
-                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
               </button>
               ${this._plusMenuOpen ? html`
               <div class="chat-plus-menu" id="chatPlusMenu">
