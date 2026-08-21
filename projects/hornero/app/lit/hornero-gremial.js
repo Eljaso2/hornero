@@ -19,38 +19,12 @@ class HorneroGremial extends HoComponent {
     };
   }
 
-  // ===== Backend URLs =====
-  static get API_URL() {
-    const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/chat';
-    }
-    return 'https://hornero-ia.onrender.com/api/chat';
-  }
-
-  static get GREETING_URL() {
-    const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/greeting';
-    }
-    return 'https://hornero-ia.onrender.com/api/greeting';
-  }
-
-  static get AUDIO_URL() {
-    const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/audio';
-    }
-    return 'https://hornero-ia.onrender.com/api/audio';
-  }
-
-  static get STREAM_URL() {
-    const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/chat/stream';
-    }
-    return 'https://hornero-ia.onrender.com/api/chat/stream';
-  }
+  // ===== Backend URLs (via shared HorneroAPI) =====
+  _getChatUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/chat'; }
+  _getGreetingUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/greeting'; }
+  _getAudioUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/audio'; }
+  _getStreamUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/chat/stream'; }
+  _getFeedbackUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/feedback'; }
 
   constructor() {
     super();
@@ -1062,6 +1036,23 @@ class HorneroGremial extends HoComponent {
     }
   }
 
+  // ===== Fetch with timeout — uses shared HorneroAPI if available =====
+  _fetchWithTimeout(url, options, timeoutMs = 30000) {
+    if (window.HorneroAPI && window.HorneroAPI.apiFetch) {
+      return window.HorneroAPI.apiFetch(url, options, 2, timeoutMs);
+    }
+    // Fallback for when HorneroAPI is not loaded
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .then(response => { clearTimeout(timeoutId); return response; })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') throw new Error('FETCH_TIMEOUT');
+        throw err;
+      });
+  }
+
   async _loadChatHistory() {
     this._historyLoaded = true;
     // If a sessionId was passed (from Mis Conversaciones), load that session
@@ -1231,7 +1222,8 @@ class HorneroGremial extends HoComponent {
     } catch(e) { /* ignore — use default */ }
 
     try {
-      const response = await fetch(HorneroGremial.GREETING_URL, {
+      if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
+      const response = await fetch(this._getGreetingUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1594,7 +1586,7 @@ class HorneroGremial extends HoComponent {
       sections: m.sections || [],
     }));
 
-    const response = await fetch(HorneroGremial.STREAM_URL, {
+    const response = await fetch(this._getStreamUrl(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1779,7 +1771,7 @@ class HorneroGremial extends HoComponent {
       sections: m.sections || [],
     }));
 
-    const response = await fetch(HorneroGremial.API_URL, {
+    const response = await fetch(this._getChatUrl(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -2604,7 +2596,7 @@ class HorneroGremial extends HoComponent {
     formData.append('requested_persona', 'companero');
     formData.append('history', JSON.stringify(history));
 
-    const response = await fetch(HorneroGremial.AUDIO_URL, {
+    const response = await fetch(this._getAudioUrl(), {
       method: 'POST',
       body: formData,
     });
@@ -2709,11 +2701,9 @@ class HorneroGremial extends HoComponent {
     if (!rating) return;
 
     try {
-      const h = window.location.hostname;
-      const baseUrl = (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.'))
-        ? 'http://' + h + ':8000' : 'https://hornero-ia.onrender.com';
+      const baseUrl = window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com';
 
-      await fetch(baseUrl + '/api/feedback', {
+      await fetch(this._getFeedbackUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
