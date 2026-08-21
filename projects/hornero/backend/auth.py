@@ -34,9 +34,11 @@ ACCESS_TOKEN_EXPIRE = 2 * 3600       # 2 hours
 REFRESH_TOKEN_EXPIRE = 30 * 86400    # 30 days
 CONFIRM_TOKEN_EXPIRE = 24 * 3600     # 24 hours
 
-# Email: Resend API (HTTP) — works on Render (blocks SMTP ports)
-RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
-EMAIL_FROM = os.getenv("EMAIL_FROM", "Hornero <noreply@hornero.federacion.org.ar>")
+# Email: Gmail API (OAuth2) — works on Render (HTTPS, no blocked ports)
+GMAIL_CLIENT_ID = os.getenv("GMAIL_CLIENT_ID", "")
+GMAIL_CLIENT_SECRET = os.getenv("GMAIL_CLIENT_SECRET", "")
+GMAIL_REFRESH_TOKEN = os.getenv("GMAIL_REFRESH_TOKEN", "")
+EMAIL_FROM = os.getenv("EMAIL_FROM", "alejandro.jasinski@gmail.com")
 
 # Allowed sectors
 ALLOWED_SECTORS = ["aceitero", "prensa", "hornero", "comercio", "otro"]
@@ -200,7 +202,7 @@ def _decode_token(token: str) -> dict | None:
 # ===== Email helpers =====
 
 async def _send_confirmation_email(email: str, nombre: str, token: str):
-    """Send confirmation email via Resend API (HTTP). Fails gracefully (logs error)."""
+    """Send confirmation email via Gmail API (OAuth2 HTTPS). Fails gracefully (logs error)."""
     confirm_url = f"https://eljaso2.github.io/hornero/confirm.html?token={token}"
     subject = "Confirmá tu cuenta en Hornero"
     body = f"""Hola {nombre},
@@ -216,29 +218,51 @@ El enlace expira en 24 horas.
 --
 Hornero · Asistente IA sindical"""
 
-    if not RESEND_API_KEY:
-        logger.warning(f"RESEND_API_KEY not set — confirmation email NOT sent to {email}. Token: {token}")
+    if not GMAIL_REFRESH_TOKEN:
+        logger.warning(f"GMAIL_REFRESH_TOKEN not set — confirmation email NOT sent to {email}. Token: {token}")
         logger.info(f"Confirmation URL (for testing): {confirm_url}")
         return
 
     try:
         import httpx
+        import base64
+
+        # 1. Get access token from refresh token
         async with httpx.AsyncClient(timeout=15) as client:
-            resp = await client.post(
-                "https://api.resend.com/emails",
-                headers={"Authorization": f"Bearer {RESEND_API_KEY}"},
-                json={
-                    "from": EMAIL_FROM,
-                    "to": [email],
-                    "subject": subject,
-                    "text": body,
+            token_resp = await client.post(
+                "https://oauth2.googleapis.com/token",
+                data={
+                    "client_id": GMAIL_CLIENT_ID,
+                    "client_secret": GMAIL_CLIENT_SECRET,
+                    "refresh_token": GMAIL_REFRESH_TOKEN,
+                    "grant_type": "refresh_token",
                 },
             )
-            if resp.status_code == 200:
-                data = resp.json()
-                logger.info(f"Confirmation email sent to {email} (id={data.get('id','?')})")
+            if token_resp.status_code != 200:
+                logger.error(f"Gmail token error ({token_resp.status_code}): {token_resp.text}")
+                return
+
+            access_token = token_resp.json()["access_token"]
+
+            # 2. Build raw MIME message (RFC 2822)
+            from email.mime.text import MIMEText
+            msg = MIMEText(body, "plain", "utf-8")
+            msg["From"] = EMAIL_FROM
+            msg["To"] = email
+            msg["Subject"] = subject
+            raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
+
+            # 3. Send via Gmail API
+            send_resp = await client.post(
+                "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+                headers={"Authorization": f"Bearer {access_token}"},
+                json={"raw": raw},
+            )
+            if send_resp.status_code == 200:
+                data = send_resp.json()
+                logger.info(f"Confirmation email sent to {email} (gmail_id={data.get('id','?')})")
             else:
-                logger.error(f"Resend API error ({resp.status_code}): {resp.text}")
+                logger.error(f"Gmail send error ({send_resp.status_code}): {send_resp.text}")
     except Exception as e:
         logger.error(f"Failed to send confirmation email to {email}: {e}")
 
@@ -632,6 +656,6 @@ def seed_pilot_users():
 
 def init_auth():
     """Initialize auth: create tables + seed pilot users. Called from main.py startup."""
-    logger.info(f"[STARTUP] RESEND_API_KEY={'set' if RESEND_API_KEY else 'NOT SET'}, EMAIL_FROM={EMAIL_FROM!r}")
+    logger.info(f"[STARTUP] GMAIL_REFRESH_TOKEN={'set' if GMAIL_REFRESH_TOKEN else 'NOT SET'}, EMAIL_FROM={EMAIL_FROM!r}")
     _init_db()
     seed_pilot_users()

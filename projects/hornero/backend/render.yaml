@@ -32,8 +32,12 @@ services:
         sync: false  # Set manually: python -c "import secrets; print(secrets.token_hex(32))"
       - key: HORNERO_DB_URL
         sync: false  # Set manually: Postgres connection string from Render Postgres add-on
-      # ===== Email (Resend API for confirmation) =====
-      - key: RESEND_API_KEY
-        sync: false  # Set manually: API key from resend.com
+      # ===== Email (Gmail API for confirmation) =====
+      - key: GMAIL_CLIENT_ID
+        sync: false
+      - key: GMAIL_CLIENT_SECRET
+        sync: false
+      - key: GMAIL_REFRESH_TOKEN
+        sync: false
       - key: EMAIL_FROM
-        sync: false  # Sender address (must be verified in Resend)
+        value: "alejandro.jasinski@gmail.com"
