@@ -220,6 +220,8 @@ El enlace expira en 24 horas.
 --
 Hornero · Asistente IA sindical"""
 
+    logger.info(f"[SMTP-CHECK] SMTP_HOST={SMTP_HOST!r}, SMTP_USER={SMTP_USER!r}, SMTP_PORT={SMTP_PORT}")
+
     if not SMTP_HOST:
         logger.warning(f"SMTP not configured — confirmation email NOT sent to {email}. Token: {token}")
         logger.info(f"Confirmation URL (for testing): {confirm_url}")
