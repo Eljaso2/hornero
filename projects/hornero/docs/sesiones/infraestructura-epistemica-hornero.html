@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Infraestructura Epistémica Hornero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Token system ===== */
+    :root {
+      --ground: #F5F3EF;
+      --surface: #ECEAE4;
+      --surface-raised: #E4E1DA;
+      --text: #2B2A26;
+      --text-mid: #6E6A60;
+      --text-muted: #9C988D;
+      --accent: #1A6B4A;
+      --accent-pale: #E0F0EB;
+      --accent-hover: #14553B;
+      --copper: #C4782D;
+      --copper-pale: #F5EBE0;
+      --code-bg: #E8E5DD;
+      --code-text: #4A4237;
+      --border: #D5D1C9;
+      --border-light: #E0DDD6;
+      --radius: 6px;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --measure: 68ch;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --ground: #131312;
+        --surface: #1C1B19;
+        --surface-raised: #252422;
+        --text: #E8E5DD;
+        --text-mid: #9C988D;
+        --text-muted: #6E6A60;
+        --accent: #2D9B6E;
+        --accent-pale: #1A2E24;
+        --accent-hover: #3DBF88;
+        --copper: #D4913E;
+        --copper-pale: #2A2218;
+        --code-bg: #1C1B19;
+        --code-text: #C4BFB3;
+        --border: #333129;
+        --border-light: #2A2824;
+      }
+    }
+    :root[data-theme="dark"] {
+      --ground: #131312;
+      --surface: #1C1B19;
+      --surface-raised: #252422;
+      --text: #E8E5DD;
+      --text-mid: #9C988D;
+      --text-muted: #6E6A60;
+      --accent: #2D9B6E;
+      --accent-pale: #1A2E24;
+      --accent-hover: #3DBF88;
+      --copper: #D4913E;
+      --copper-pale: #2A2218;
+      --code-bg: #1C1B19;
+      --code-text: #C4BFB3;
+      --border: #333129;
+      --border-light: #2A2824;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--ground);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== Layout ===== */
+    .page { max-width: 52rem; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+
+    /* ===== Hero ===== */
+    .hero {
+      margin-bottom: 3.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+      text-wrap: balance;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-mid);
+      max-width: 55ch;
+      line-height: 1.6;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+
+    /* ===== Section headings ===== */
+    .section { margin-top: 3.5rem; }
+    .section h2 {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent);
+      text-wrap: balance;
+    }
+    .section h3 {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+    }
+    .section h4 {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-top: 1.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ===== Body text ===== */
+    p { margin-bottom: 1rem; max-width: var(--measure); }
+    p:last-child { margin-bottom: 0; }
+    ul, ol { margin-bottom: 1rem; padding-left: 1.4rem; }
+    li { margin-bottom: 0.35rem; }
+    li::marker { color: var(--text-muted); }
+    strong { font-weight: 700; }
+
+    /* ===== Callout boxes ===== */
+    .callout {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1rem 1.2rem;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+    }
+    .callout.copper { border-left-color: var(--copper); }
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+    .callout.copper .callout-title { color: var(--copper); }
+    .callout p:last-child { margin-bottom: 0; }
+
+    /* ===== Decision markers ===== */
+    .decision {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--copper);
+      background: var(--copper-pale);
+      padding: 2px 8px;
+      border-radius: 3px;
+      vertical-align: middle;
+    }
+
+    /* ===== Tables ===== */
+    .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      font-variant-numeric: tabular-nums;
+    }
+    th {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-mid);
+      text-align: left;
+      padding: 0.5rem 0.8rem;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.55rem 0.8rem;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    td code, th code {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* ===== Tags/chips ===== */
+    .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: var(--surface-raised);
+      color: var(--text-mid);
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin: 1px 2px;
+      white-space: nowrap;
+    }
+    .tag.accent { background: var(--accent-pale); color: var(--accent); }
+    .tag.copper { background: var(--copper-pale); color: var(--copper); }
+
+    /* ===== Code blocks ===== */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin: 1.2rem 0;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: var(--code-text);
+    }
+    pre .comment { color: var(--text-muted); }
+    pre .key { color: var(--accent); }
+    pre .string { color: var(--copper); }
+    pre .num { color: var(--copper); font-variant-numeric: tabular-nums; }
+
+    /* ===== Mermaid diagrams ===== */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    .diagram pre { margin: 0; border: none; background: none; padding: 0; }
+
+    /* ===== Phase cards ===== */
+    .phases {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .phase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.2rem;
+    }
+    .phase-num {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .phase-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 0.4rem 0;
+    }
+    .phase-card p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.55;
+      margin: 0;
+      max-width: none;
+    }
+
+    /* ===== Separator ===== */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 640px) {
+      .page { padding: 1.5rem 1rem 4rem; }
+      .hero h1 { font-size: 1.8rem; }
+      .section h2 { font-size: 1.35rem; }
+      .phases { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- ===== HERO ===== -->
+    <header class="hero">
+      <div class="hero-eyebrow">Propuesta de arquitectura &middot; Agosto 2026</div>
+      <h1>Infraestructura epistémica para Hornero</h1>
+      <p class="hero-sub">
+        Un sistema de etiquetamiento no es un administrador de contenidos. Es el marco que determina <strong>qué puede ser encontrado</strong>, <strong>qué puede ser contado</strong> y <strong>qué permanece invisible</strong>. En un sindicato, la taxonomía es política.
+      </p>
+    </header>
+
+    <!-- ===== 1. DIAGNÓSTICO ===== -->
+    <section class="section">
+      <h2>1. Estado actual: lo que existe y lo que falta</h2>
+
+      <p>El ecosistema ya produce datos — lo que no tiene es una capa semántica que los conecte entre sí y los haga agregables. Sin ella, cada dato es una isla: el clipping dice "despidos" sin saber si los contó el informe del mismo sector; el informe habla de "EPP insuficiente" sin vincularlo a la dimensión ambiental del ICE.</p>
+
+      <h3>Lo que existe</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Fuente</th><th>Estructura</th><th>Etiquetado</th><th>Problema</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>KB Chunks</strong></td>
+              <td>5 categorías tipo, <code>tags</code> array libre</td>
+              <td><span class="tag">academico</span> <span class="tag">documentos</span> <span class="tag">prensa</span> <span class="tag">noticias</span> <span class="tag">audiovisual</span></td>
+              <td>La categoría es <em>tipo de fuente</em>, no <em>tema</em>. Los tags son libres.</td>
+            </tr>
+            <tr>
+              <td><strong>Clipping</strong></td>
+              <td><code>tags</code> array por noticia</td>
+              <td><span class="tag">despidos</span> <span class="tag">CGT</span> <span class="tag">FATE</span> <span class="tag">lock-out</span></td>
+              <td>266 tags únicos en 90 noticias. Sin control: <code>lockout</code> vs <code>lock-out</code> vs <code>lock out</code>. Mezcla actores, conceptos, datos.</td>
+            </tr>
+            <tr>
+              <td><strong>Informes</strong></td>
+              <td><code>etiquetas</code> objeto + <code>tags</code> array</td>
+              <td>6 familias: Condiciones, SyH, Org. sindical, Salario, Acción patronal, Situación personal</td>
+              <td>La mejor estructura existente — pero aislada del RAG y del clipping.</td>
+            </tr>
+            <tr>
+              <td><strong>ICE</strong></td>
+              <td>Conceptual: 4 dimensiones</td>
+              <td>Salarial · Contractual · Ambiental · Sindical</td>
+              <td>No hay datos detrás. Es texto de chat, no cálculo.</td>
+            </tr>
+            <tr>
+              <td><strong>VD/VC</strong></td>
+              <td>Deprecado ("en revisión")</td>
+              <td>Violencia Directa / Violencia Cultural</td>
+              <td>Las personas no deben usar VD/VC. Pero la distinción material/discursiva sigue siendo válida.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout copper">
+        <div class="callout-title">Diagnóstico central</div>
+        <p>Cada sistema de datos tiene <em>algún</em> etiquetado, pero no hablan el mismo idioma. El clipping no alimenta el RAG con estructura. El informe no alimenta el ICE con eventos contables. El RAG busca por keywords sueltas, no por relaciones semánticas.</p>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ===== 2. PRINCIPIOS ===== -->
+    <section class="section">
+      <h2>2. Principios de diseño</h2>
+
+      <p>Antes de definir qué etiquetas existen, hay que definir cómo se decide cuáles existen. Estos principios son deliberadamente políticos — no son neutros, porque la neutralidad en un sistema sindical beneficia al poder que ya tiene visibilidad.</p>
+
+      <ol>
+        <li><strong>Visible por defecto.</strong> Lo que no se etiqueta no se encuentra. Si algo entra al sistema (noticia, informe, chunk), debe ser etiquetable. La ausencia de etiqueta es una decisión editorial, no un descuido.</li>
+        <li><strong>Dos capas, una taxonomía.</strong> La capa semántica (para búsqueda RAG) y la capa estructural (para agregación estadística) comparten el mismo vocabulario controlado. Una noticia etiquetada <code class="tag accent">accion-patronal.lock-out</code> aparece en la búsqueda del Abogado y suma al índice ICE del mismo sector.</li>
+        <li><strong>Codiseñada, no impuesta.</strong> La taxonomía la define el sindicato en uso. Empieza con un núcleo de etiquetas basadas en los datos existentes y crece orgánicamente. <span class="decision">❓ DECISIÓN: ¿quién aprueba nuevas etiquetas?</span></li>
+        <li><strong>Auditable.</strong> Cada etiqueta tiene trazabilidad: quién la asignó (humano o LLM), cuándo, sobre qué dato. Un tag sin autoría es un tag sin autoridad.</li>
+        <li><strong>Multi-tenant.</strong> La taxonomía tiene una base compartida (derecho laboral, economía, acción sindical) y extensiones por gremio (CCT 420, CCT 301). Sigue el modelo own/shared/cross existente.</li>
+      </ol>
+    </section>
+
+    <hr>
+
+    <!-- ===== 3. TAXONOMÍA ===== -->
+    <section class="section">
+      <h2>3. Taxonomía propuesta: 5 capas</h2>
+
+      <p>En lugar de un plano de tags libres, propongo 5 capas que se combinan. Cada dato puede tener etiquetas en múltiples capas — una noticia de lock-out en FATE tiene actor, acción, dimensión, sector y tipología.</p>
+
+      <div class="diagram">
+        <pre class="mermaid">
+graph TB
+  subgraph "DATO ENTRANTE"
+    D[Noticia / Informe / Chunk]
+  end
+  subgraph "5 CAPAS DE ETIQUETAMIENTO"
+    A["ACTOR<br/>¿Quién?"]
+    B["ACCIÓN<br/>¿Qué pasó?"]
+    C["DIMENSIÓN<br/>¿Qué aspecto?"]
+    S["SECTOR<br/>¿Qué industria?"]
+    T["TIPOLOGÍA<br/>¿Qué tipo de violencia?"]
+  end
+  subgraph "DOS SALIDAS"
+    R["RAG — búsqueda semántica"]
+    P["Panorama — agregación estadística"]
+  end
+  D --> A & B & C & S & T
+  A & B & C & S & T --> R
+  A & B & C & S & T --> P
+        </pre>
+      </div>
+
+      <h3>Capa 1 — DIMENSIÓN</h3>
+      <p>Qué aspecto de la realidad laboral toca el dato. Mapea directamente a las 4 dimensiones del ICE.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Dimensión</th><th>Clave</th><th>Pregunta</th><th>Conecta con</th></tr></thead>
+          <tbody>
+            <tr><td>Salarial</td><td><code>d:salarial</code></td><td>¿Paga lo justo?</td><td>SMVM, paritarias, básico, canasta</td></tr>
+            <tr><td>Contractual</td><td><code>d:contractual</code></td><td>¿Estabiliza el empleo?</td><td>Tercerización, precarización, estabilidad</td></tr>
+            <tr><td>Ambiental</td><td><code>d:ambiental</code></td><td>¿Cuida el territorio?</td><td>EPP, salud, accidentes, medioambiente</td></tr>
+            <tr><td>Sindical</td><td><code>d:sindical</code></td><td>¿Respeta la organización?</td><td>Persecución, lock-out, despidos antisindicales</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Capa 2 — ACTOR</h3>
+      <p>Quién protagoniza el dato. No es un campo libre — es un vocabulario controlado que crece al agregar gremios.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tipo de actor</th><th>Clave</th><th>Ejemplos</th><th>Control</th></tr></thead>
+          <tbody>
+            <tr><td>Sindicato</td><td><code>a:sindicato.{slug}</code></td><td><code>a:sindicato.foeiap</code> · <code>a:sindicato.sipreba</code> · <code>a:sindicato.cgt</code></td><td>Controlado — SECTOR_PROFILES</td></tr>
+            <tr><td>Empresa</td><td><code>a:empresa.{slug}</code></td><td><code>a:empresa.vicentin</code> · <code>a:empresa.fate</code></td><td>Semi-controlado — crece con informes</td></tr>
+            <tr><td>Cámara patronal</td><td><code>a:camara.{slug}</code></td><td><code>a:camara.ciara</code> · <code>a:camara.adepa</code></td><td>Controlado</td></tr>
+            <tr><td>Estado / Gobierno</td><td><code>a:estado.{org}</code></td><td><code>a:estado.st</code> · <code>a:estado.ministerio-trabajo</code></td><td>Controlado</td></tr>
+            <tr><td>Referente</td><td><code>a:referente.{slug}</code></td><td><code>a:referente.yofra</code> · <code>a:referente.cremonte</code></td><td>Semi-controlado</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Capa 3 — ACCIÓN</h3>
+      <p>Qué pasó. Un vocabulario finito de eventos laborales. <span class="decision">❓ DECISIÓN: ¿lista cerrada o abierta?</span></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Acción</th><th>Clave</th><th>Dimensión típica</th></tr></thead>
+          <tbody>
+            <tr><td>Huelga</td><td><code>acc:huelga</code></td><td>Sindical</td></tr>
+            <tr><td>Paro</td><td><code>acc:paro</code></td><td>Sindical</td></tr>
+            <tr><td>Lock-out</td><td><code>acc:lockout</code></td><td>Sindical + Salarial</td></tr>
+            <tr><td>Despido antisindical</td><td><code>acc:despido-antisindical</code></td><td>Sindical + Contractual</td></tr>
+            <tr><td>Paritaria</td><td><code>acc:paritaria</code></td><td>Salarial</td></tr>
+            <tr><td>Reforma / DNU</td><td><code>acc:reforma</code></td><td>Contractual</td></tr>
+            <tr><td>Ajuste / privatización</td><td><code>acc:ajuste</code></td><td>Salarial + Contractual</td></tr>
+            <tr><td>Accidente laboral</td><td><code>acc:accidente</code></td><td>Ambiental</td></tr>
+            <tr><td>Incumplimiento EPP</td><td><code>acc:epp-incumplimiento</code></td><td>Ambiental</td></tr>
+            <tr><td>Ocupación / marcha</td><td><code>acc:movilizacion</code></td><td>Sindical</td></tr>
+            <tr><td>Deslegitimación mediática</td><td><code>acc:deslegitimacion</code></td><td>Sindical</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Capa 4 — SECTOR</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sector</th><th>Clave</th><th>Tenant</th></tr></thead>
+          <tbody>
+            <tr><td>Aceitero / oleaginoso</td><td><code>s:aceitero</code></td><td>aceiteros</td></tr>
+            <tr><td>Prensa / periodismo</td><td><code>s:prensa</code></td><td>prensa</td></tr>
+            <tr><td>Metalúrgico</td><td><code>s:metalurgico</code></td><td>— (futuro)</td></tr>
+            <tr><td>Docente</td><td><code>s:docente</code></td><td>—</td></tr>
+            <tr><td>Estatal</td><td><code>s:estatal</code></td><td>—</td></tr>
+            <tr><td>Textil</td><td><code>s:textil</code></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Capa 5 — TIPOLOGÍA de violencia/coerción</h3>
+      <p>Reemplaza VD/VC con una tripleta más precisa. No es que VD/VC estuvieran mal — es que congelaban una dicotomía que en la práctica es un espectro.</p>
+
+      <div class="callout">
+        <div class="callout-title">De VD/VC a Material / Discursiva / Estructural</div>
+        <p>La distinción original era valiosa: separar lo que te pegan de lo que te dicen. Pero "Violencia Cultural" mezclaba cosas demasiado distintas: un editorial de La Nación y un llamado de CIARA a "rebelarse contra el gremio" son intensidades diferentes. La nueva tripleta respeta la distinción original y la afina.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tipología</th><th>Clave</th><th>Definición</th><th>Ejemplo</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Material</strong></td>
+              <td><code>t:material</code></td>
+              <td>Acción directa antisindical: fuerza física, económica o jurídica contra trabajadores organizados</td>
+              <td>Lock-out, despido de delegado, represión, rompehuelgas</td>
+            </tr>
+            <tr>
+              <td><strong>Discursiva</strong></td>
+              <td><code>t:discursiva</code></td>
+              <td>Narrativa que debilita la posición sindical: deslegitimación, manipulación de datos, paternalismo</td>
+              <td>"Los millones del sindicalismo", "cada trabajador pierde X por paro", "estamos dispuestos a firmar hoy"</td>
+            </tr>
+            <tr>
+              <td><strong>Estructural</strong></td>
+              <td><code>t:estructural</code></td>
+              <td>Diseño normativo o económico que debilita derechos por estructura, no por acción puntual</td>
+              <td>Reforma laboral, retenciones reducidas que subsidian a empresas, vaciamiento previo a quiebra</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Una noticia puede tener más de una tipología. El lock-out de FATE es <code class="tag accent">t:material</code> + <code class="tag accent">t:estructural</code> (desguace productivo previo). El editorial de CIARA llamando a "rebelarse" es <code class="tag accent">t:discursiva</code>.</p>
+    </section>
+
+    <hr>
+
+    <!-- ===== 4. MODELO DE DATOS ===== -->
+    <section class="section">
+      <h2>4. Modelo de datos: cómo se etiqueta cada cosa</h2>
+
+      <p>El etiquetamiento no es un campo más — es una estructura anexa al dato existente. No modificamos el schema original de chunks, noticias o informes. Agregamos una capa de anotación que referencia el dato.</p>
+
+      <h3>Registro de etiqueta</h3>
+      <pre><span class="key">LABEL_SCHEMA</span> = {
+  <span class="key">"id"</span>:        <span class="string">"lbl-2026-08-19-001"</span>,
+  <span class="key">"target"</span>:    <span class="string">"noticia"</span>,             <span class="comment"># noticia | chunk | informe | correccion</span>
+  <span class="key">"target_id"</span>: <span class="string">"cd-2026-08-19-1"</span>,     <span class="comment"># id del dato etiquetado</span>
+  <span class="key">"layer"</span>:     <span class="string">"dimension"</span>,           <span class="comment"># dimension | actor | accion | sector | tipologia</span>
+  <span class="key">"value"</span>:     <span class="string">"d:sindical"</span>,
+  <span class="key">"confidence"</span>: <span class="num">0.92</span>,                  <span class="comment"># 1.0 = humano, 0-1 = LLM</span>
+  <span class="key">"source"</span>:    <span class="string">"auto"</span>,                 <span class="comment"># auto (LLM) | humano (editor/delegado)</span>
+  <span class="key">"author"</span>:    <span class="string">"llm-classifier"</span>,      <span class="comment"># quién asignó</span>
+  <span class="key">"timestamp"</span>: <span class="string">"2026-08-19T14:30:00Z"</span>,
+}</pre>
+
+      <h3>Dónde se almacena</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ubicación</th><th>Formato</th><th>Cuándo</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Backend SQLite</strong></td>
+              <td>Tabla <code>labels</code> con índice por <code>target</code>, <code>layer</code>, <code>value</code></td>
+              <td>Fase 1 — el backend ya tiene SQLite</td>
+            </tr>
+            <tr>
+              <td><strong>IndexedDB</strong></td>
+              <td>Store <code>labels</code> en la app, sincronizado con backend</td>
+              <td>Fase 2 — cuando la app necesite leer labels offline</td>
+            </tr>
+            <tr>
+              <td><strong>JSON en data/</strong></td>
+              <td><code>labels-2026-08.json</code> — export mensual para auditoría</td>
+              <td>Fase 2 — cuando haya volumen suficiente</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout copper">
+        <div class="callout-title">¿Inline o anexo?</div>
+        <p><span class="decision">❓ DECISIÓN</span> Hay dos formas: (a) agregar las labels directamente dentro del JSON de cada noticia/chunk/informe, o (b) mantenerlas en una tabla separada que referencia por ID. La opción (b) es mejor porque: permite auditar sin tocar el dato original, permite re-etiquetar sin mover archivos, y permite que la misma etiqueta sirva a múltiples datos. Pero requiere un join en lectura. Para el RAG, se resuelve cargando las labels en memoria junto con los chunks (como ya hace <code>ALL_CHUNKS</code>).</p>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ===== 5. MOTOR DE ETIQUETAMIENTO ===== -->
+    <section class="section">
+      <h2>5. Motor de etiquetamiento</h2>
+
+      <p>El etiquetamiento es mixto: la LLM clasifica, el humano corrige. No se etiqueta todo de una vez — se etiqueta a medida que los datos entran al sistema.</p>
+
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart LR
+  A["📥 Dato entra<br/>(noticia, informe,<br/>chunk nuevo)"] --> B{"¿Tiene tags<br/>previos?"}
+  B -->|Sí| C["Mapear tags libres<br/>→ vocabulario controlado"]
+  B -->|No| D["LLM clasifica<br/>en 5 capas"]
+  C --> E["Combinar:<br/>mapeo + LLM"]
+  D --> E
+  E --> F["📝 Labels con<br/>confidence < 1.0"]
+  F --> G{"¿confidence<br/>&ge; 0.85?"}
+  G -->|Sí| H["✅ Aceptar<br/>automáticamente"]
+  G -->|No| I["📋 Cola de<br/>revisión humana"]
+  I --> J["👤 Editor / delegado<br/>corrige o confirma"]
+  J --> K["✅ Labels con<br/>confidence = 1.0"]
+  H --> L["💾 Almacenar<br/>en tabla labels"]
+  K --> L
+        </pre>
+      </div>
+
+      <h3>Clasificador LLM</h3>
+      <p>Un prompt de clasificación que recibe el texto del dato y devuelve etiquetas en las 5 capas. No es una LLM cualquiera — es una llamada específica con el vocabulario controlado como constraint.</p>
+
+      <pre><span class="comment"># Prompt del clasificador (simplificado)</span>
+<span class="key">SYSTEM</span>: Clasificá el siguiente texto sindical usando SOLO las etiquetas
+del vocabulario controlado. No inventes etiquetas nuevas.
+Si no corresponde ninguna etiqueta de una capa, dejala vacía.
+
+<span class="key">VOCABULARIO</span>:
+  dimension: [d:salarial, d:contractual, d:ambiental, d:sindical]
+  actor:     [a:sindicato.*, a:empresa.*, a:camara.*, a:estado.*, a:referente.*]
+  accion:    [acc:huelga, acc:paro, acc:lockout, acc:despido-antisindical, ...]
+  sector:    [s:aceitero, s:prensa, s:metalurgico, s:docente, s:estatal, ...]
+  tipologia: [t:material, t:discursiva, t:estructural]
+
+<span class="key">OUTPUT</span>: JSON con cada capa + confidence por etiqueta</pre>
+
+      <h3>Mapeo de tags existentes</h3>
+      <p>Los 266 tags libres del clipping no se pierden — se mapean al vocabulario controlado. Una tabla de mapeo que se construye una vez y se mantiene.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tag libre (actual)</th><th>Mapeo a vocabulario</th></tr></thead>
+          <tbody>
+            <tr><td><code>despidos</code></td><td><code class="tag accent">acc:despido-antisindical</code> + <code class="tag accent">d:contractual</code></td></tr>
+            <tr><td><code>lock-out</code></td><td><code class="tag accent">acc:lockout</code> + <code class="tag accent">t:material</code> + <code class="tag accent">d:sindical</code></td></tr>
+            <tr><td><code>FATE</code></td><td><code class="tag accent">a:empresa.fate</code></td></tr>
+            <tr><td><code>CGT</code></td><td><code class="tag accent">a:sindicato.cgt</code></td></tr>
+            <tr><td><code>paritaria</code></td><td><code class="tag accent">acc:paritaria</code> + <code class="tag accent">d:salarial</code></td></tr>
+            <tr><td><code>reforma-laboral</code></td><td><code class="tag accent">acc:reforma</code> + <code class="tag accent">t:estructural</code></td></tr>
+            <tr><td><code>EPP</code></td><td><code class="tag accent">acc:epp-incumplimiento</code> + <code class="tag accent">d:ambiental</code></td></tr>
+            <tr><td><code>salario-mínimo</code></td><td><code class="tag accent">d:salarial</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Este mapeo se construye en Fase 1 como un JSON estático (<code>tag_map.json</code>) y se carga en el RAG como lookup. Las tags libres se preservan como campo legacy; las nuevas labels se usan para búsqueda y agregación.</p>
+    </section>
+
+    <hr>
+
+    <!-- ===== 6. INTEGRACIÓN RAG ===== -->
+    <section class="section">
+      <h2>6. Integración con el RAG</h2>
+
+      <p>El RAG actual busca por keywords sueltas en el campo <code>tags</code> de cada chunk. Con el sistema de etiquetamiento, la búsqueda se enriquece en dos niveles:</p>
+
+      <h3>Nivel 1: Enriquecimiento del índice</h3>
+      <p>Las labels se agregan al texto searchable de cada chunk. Cuando un chunk tiene <code class="tag accent">d:sindical</code> y <code class="tag accent">acc:lockout</code>, esos términos se suman al campo que el TF-IDF ya indexa. No se cambia el algoritmo — se enriquece el input.</p>
+
+      <h3>Nivel 2: Filtro por dimensión</h3>
+      <p>Cuando el Investigador recibe una pregunta sobre "comportamiento empresarial", el retriever puede filtrar chunks que tengan al menos una label de dimensión. Esto es más preciso que el CATEGORY_KEYWORDS actual, que busca palabras sueltas.</p>
+
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart TB
+  Q["Query del usuario"] --> E["Enhance query<br/>+ stemming"]
+  E --> S["keyword_search()<br/>TF-IDF scoring"]
+  S --> C["Candidates<br/>top-8"]
+  C --> F1["Filtro grade"]
+  F1 --> F2["Filtro vigencia"]
+  F2 --> F3["Filtro formato<br/>(persona → categorías)"]
+  F3 --> F4["Filtro labels<br/>(NUEVO: dimensión + sector)"]
+  F4 --> R["Top-5 chunks<br/>+ labels en metadata"]
+
+  subgraph "Enriquecimiento del índice"
+    CH["Chunk original<br/>tags: [paritaria, aceitera]"]
+    LB["+ Labels<br/>d:salarial, acc:paritaria, s:aceitero"]
+    CH --> LB --> IDX["Texto searchable<br/>aumentado"]
+  end
+        </pre>
+      </div>
+
+      <h3>Beneficio concreto</h3>
+      <p>Hoy, si alguien pregunta "¿cómo afecta el lock-out a la organización sindical?", el RAG busca "lock-out" y "organización" como keywords sueltas. Con labels, busca chunks etiquetados <code class="tag accent">acc:lockout</code> + <code class="tag accent">d:sindical</code> — los resultados son más precisos porque la etiqueta codifica la relación semántica, no solo la co-ocurrencia de palabras.</p>
+    </section>
+
+    <hr>
+
+    <!-- ===== 7. ICE ===== -->
+    <section class="section">
+      <h2>7. Índice de Comportamiento Empresarial (ICE)</h2>
+
+      <p>El ICE es la primera aplicación concreta del sistema de etiquetamiento. Hoy existe como texto de chat ("mide 4 dimensiones") pero no calcula nada. Con labels, el ICE se convierte en un índice computable.</p>
+
+      <h3>Definición</h3>
+      <p>El ICE mide el comportamiento empresarial acumulado en un período, para un actor empresarial específico, a partir de eventos documentados en informes y clipping.</p>
+
+      <div class="callout">
+        <div class="callout-title">Fórmula</div>
+        <p><strong>ICE(empresa, período) = Σ (peso_evento × intensidad) / N_eventos</strong></p>
+        <p>Donde cada evento es una noticia o informe etiquetado con <code>a:empresa.{slug}</code> y al menos una dimensión. El peso depende de la tipología; la intensidad depende del tipo de acción.</p>
+      </div>
+
+      <h3>Eventos que alimentan el ICE</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Dimensión</th><th>Evento (acción)</th><th>Peso</th><th>Tipología</th></tr>
+          </thead>
+          <tbody>
+            <tr><td rowspan="3"><strong>d:salarial</strong><br/>¿Paga lo justo?</td><td>Oferta paritaria &lt; inflación</td><td><code>2</code></td><td><code>t:estructural</code></td></tr>
+            <tr></tr>
+            <tr><td>Básico &lt; SMVM</td><td><code>3</code></td><td><code>t:material</code></td></tr>
+            <tr></tr>
+            <tr><td>Manipulación datos salariales</td><td><code>1</code></td><td><code>t:discursiva</code></td></tr>
+            <tr><td rowspan="3"><strong>d:contractual</strong><br/>¿Estabiliza?</td><td>Tercerización</td><td><code>2</code></td><td><code>t:estructural</code></td></tr>
+            <tr></tr>
+            <tr><td>Precarización / temporales</td><td><code>2</code></td><td><code>t:material</code></td></tr>
+            <tr></tr>
+            <tr><td>Despidos masivos</td><td><code>3</code></td><td><code>t:material</code></td></tr>
+            <tr><td rowspan="3"><strong>d:ambiental</strong><br/>¿Cuida?</td><td>Accidente laboral</td><td><code>3</code></td><td><code>t:material</code></td></tr>
+            <tr></tr>
+            <tr><td>EPP insuficiente</td><td><code>2</code></td><td><code>t:material</code></td></tr>
+            <tr></tr>
+            <tr><td>Contaminación / daño</td><td><code>2</code></td><td><code>t:estructural</code></td></tr>
+            <tr><td rowspan="3"><strong>d:sindical</strong><br/>¿Respeta?</td><td>Lock-out</td><td><code>3</code></td><td><code>t:material</code></td></tr>
+            <tr></tr>
+            <tr><td>Despido antisindical</td><td><code>3</code></td><td><code>t:material</code></td></tr>
+            <tr></tr>
+            <tr><td>Llamado a "rebelarse contra el gremio"</td><td><code>2</code></td><td><code>t:discursiva</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><span class="decision">❓ DECISIÓN</span> Los pesos (1/2/3) son un punto de partida. Deberían ser codiseñados con el sindicato. La estructura (tipología → peso) es la que importa — los valores exactos se ajustan en uso.</p>
+
+      <h3>Cómo se calcula</h3>
+
+      <div class="diagram">
+        <pre class="mermaid">
+flowchart LR
+  subgraph "FUENTES"
+    CL["Clipping<br/>noticias etiquetadas"]
+    IN["Informes<br/>G1-G4 etiquetados"]
+  end
+  CL & IN --> EV["Eventos<br/>a:empresa.X + d:Y + acc:Z + t:W"]
+  EV --> AG["Agregación por<br/>empresa + dimensión<br/>+ período"]
+  AG --> SC["Score por dimensión<br/>Σ(peso×intensidad) / N"]
+  SC --> ICE["ICE compuesto<br/>4 dimensiones"]
+  ICE --> PAN["Panorama<br/>visualización + tendencia"]
+  ICE --> CHAT["Chat Investigador<br/>respuestas con datos"]
+        </pre>
+      </div>
+
+      <h3>Ejemplo: ICE Vicentín, agosto 2026</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Dimensión</th><th>Eventos documentados</th><th>Score</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Salarial</strong></td>
+              <td>Oferta 0% en paritaria (peso 2) · Básico &lt; SMVM (peso 3)</td>
+              <td><strong>2.5</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Contractual</strong></td>
+              <td>Argumento "concurso limita" (peso 1, estructural)</td>
+              <td><strong>1.0</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Ambiental</strong></td>
+              <td>EPP insuficiente (peso 2) · Enfermería clausurada (peso 3) · 3 accidentes (peso 3×3)</td>
+              <td><strong>2.8</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Sindical</strong></td>
+              <td>Incremento ritmo +20% sin personal (peso 2)</td>
+              <td><strong>2.0</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Este ICE no es una opinión — es una agregación de eventos documentados con fuentes verificadas. Cada score se puede descomponer en los eventos que lo componen. El trabajador ve el número y puede bajar al dato.</p>
+    </section>
+
+    <hr>
+
+    <!-- ===== 8. PANORAMA ===== -->
+    <section class="section">
+      <h2>8. Integración con Panorama</h2>
+
+      <p>Hoy Panorama es un chat con el Investigador. Con el sistema de etiquetamiento, puede tener una capa visual de datos agregados <em>además</em> del chat.</p>
+
+      <h3>Qué se puede mostrar</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Índice</th><th>Fuente de datos</th><th>Agregación</th><th>Visualización</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>ICE por empresa</strong></td>
+              <td>Clipping + Informes</td>
+              <td>Labels <code>a:empresa.*</code> + <code>d:*</code></td>
+              <td>Radar 4 dimensiones + tendencia temporal</td>
+            </tr>
+            <tr>
+              <td><strong>ICE por sector</strong></td>
+              <td>Clipping + Informes</td>
+              <td>Labels <code>s:*</code> + <code>d:*</code></td>
+              <td>Barras comparativas entre sectores</td>
+            </tr>
+            <tr>
+              <td><strong>Mapa de acciones</strong></td>
+              <td>Clipping</td>
+              <td>Labels <code>acc:*</code> por período</td>
+              <td>Línea temporal: huelgas, lock-outs, despidos</td>
+            </tr>
+            <tr>
+              <td><strong>Tipología de violencia</strong></td>
+              <td>Clipping + Informes</td>
+              <td>Labels <code>t:*</code></td>
+              <td>Distribución material / discursiva / estructural</td>
+            </tr>
+            <tr>
+              <td><strong>IFT</strong></td>
+              <td>SMVM × ICE</td>
+              <td>Dato macro + agregado empresarial</td>
+              <td>Tendencia salarial vs comportamiento</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">Chat + datos, no chat vs datos</div>
+        <p>La visualización no reemplaza el chat del Investigador — lo alimenta. Cuando el trabajador pregunta "¿cómo viene FATE?", el Investigador puede responder con el ICE actual + los eventos que lo componen, en lugar de generar texto genérico. El dato hace que el chat sea más preciso. El chat hace que el dato sea más accesible.</p>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ===== 9. FASES ===== -->
+    <section class="section">
+      <h2>9. Fases de implementación</h2>
+
+      <div class="phases">
+        <div class="phase-card">
+          <div class="phase-num">FASE 1</div>
+          <h4>Vocabulario + mapeo</h4>
+          <p>Definir el vocabulario controlado (5 capas). Construir <code>tag_map.json</code> mapeando los 266 tags libres del clipping. Implementar tabla <code>labels</code> en SQLite. Cargar labels retroactivamente para los chunks y noticias existentes.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">FASE 2</div>
+          <h4>Clasificador + pipeline</h4>
+          <p>Implementar el clasificador LLM como endpoint del backend (<code>/api/classify</code>). Pipeline: dato entra → LLM clasifica → si confidence &lt; 0.85 → cola de revisión. Integrar labels en el <code>keyword_search</code> del RAG como enriquecimiento del índice.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">FASE 3</div>
+          <h4>Motor ICE</h4>
+          <p>Implementar agregación ICE por empresa/dimensión/período. Endpoint <code>/api/ice/{empresa}</code>. Integrar en el prompt del Investigador como datos concretos. Visualización mínima: tabla de ICE por empresa con desglose de eventos.</p>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">FASE 4</div>
+          <h4>Panorama visual</h4>
+          <p>Capa visual en la pantalla Panorama: gráficos de ICE, mapa de acciones, distribución de tipologías. IndexedDB store <code>labels</code> para lectura offline. Export mensual de labels + ICE como JSON para auditoría.</p>
+        </div>
+      </div>
+
+      <div class="callout copper">
+        <div class="callout-title">Sobre la Fase 1</div>
+        <p>La Fase 1 es la que desbloquea todo lo demás. No requiere código nuevo — es un trabajo de curación: revisar los 266 tags, decidir el mapeo, y definir qué entra en cada capa del vocabulario. Es el momento de la decisión política: qué cuenta y qué no. Todo lo técnico después es mecanismo.</p>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ===== 10. PUNTOS DE DECISIÓN ===== -->
+    <section class="section">
+      <h2>10. Puntos de decisión</h2>
+
+      <p>Las decisiones técnicas son fáciles. Las decisiones conceptuales son las que importan. Estas son las que necesitan deliberación:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Decisión</th><th>Opciones</th><th>Implicación</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>¿Lista de acciones: cerrada o abierta?</strong></td>
+              <td>(a) Cerrada: solo las 11 definidas<br>(b) Abierta: se agregan nuevas con aprobación</td>
+              <td>Cerrada = consistencia. Abierta = adaptabilidad. Recomendación: <em>cerrada con mecanismo de extensión por consenso</em>.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>¿Quién aprueba nuevas etiquetas?</strong></td>
+              <td>(a) Solo el equipo técnico<br>(b) Delegados del sindicato<br>(c) Ambos, según capa</td>
+              <td>Las capas Actor y Dimensión son políticas. Acción y Tipología son analíticas. Sector es organizacional.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>¿Labels inline o tabla anexa?</strong></td>
+              <td>(a) Dentro de cada noticia/chunk<br>(b) Tabla separada con target_id</td>
+              <td>Tabla anexa = auditable, re-etiquetable, sin tocar original. Pero más complejo en lectura.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>¿Pesos del ICE: fijos o configurables?</strong></td>
+              <td>(a) Hardcodeados<br>(b) Configurables por tenant</td>
+              <td>Un gremio puede considerar el lock-out más grave que otro. Recomendación: <em>configurables, con defaults</em>.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>¿La tipología triple reemplaza VD/VC o convive?</strong></td>
+              <td>(a) Reemplaza completamente<br>(b) VD/VC como alias de material/discursiva</td>
+              <td>Reemplazar es más limpio. Pero VD/VC ya circulan en el lenguaje sindical — puede ser útil mantener como alias.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ===== CIERRE ===== -->
+    <section class="section">
+      <h2>Lo que sigue</h2>
+
+      <p>Este documento es una propuesta — no una especificación. Los puntos de decisión necesitan conversación, y la Fase 1 necesita curación manual antes de que toque una línea de código.</p>
+
+      <p>Lo que sí es firme: <strong>sin etiquetamiento controlado, el ICE es una idea sin datos</strong>. Y sin ICE, el Panorama es un chat que improvisa en lugar de informar. La infraestructura epistémica — la capa que decide qué se cuenta y cómo — es el paso que convierte la app de experiencia en herramienta de conocimiento.</p>
+
+      <p style="margin-top: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+        Archivos clave referenciados:<br>
+        <code>backend/kb_data.py</code> · <code>backend/rag_retriever.py</code> · <code>backend/knowledge_base.py</code><br>
+        <code>backend/clipping_cache.py</code> · <code>app/data/clipping-*.json</code> · <code>app/lit/hornero-condicion.js</code><br>
+        <code>backend/library_service/library.py</code> · <code>app/js/db.js</code>
+      </p>
+    </section>
+
+  </div>
+</body>
+</html>
