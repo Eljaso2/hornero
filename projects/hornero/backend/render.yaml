@@ -32,16 +32,8 @@ services:
         sync: false  # Set manually: python -c "import secrets; print(secrets.token_hex(32))"
       - key: HORNERO_DB_URL
         sync: false  # Set manually: Postgres connection string from Render Postgres add-on
-      # ===== SMTP (email confirmation) =====
-      - key: SMTP_HOST
-        sync: false
-      - key: SMTP_PORT
-        value: "587"
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASSWORD
-        sync: false
-      - key: SMTP_FROM
-        value: "Hornero <alejandro.jasinski@gmail.com>"
-      - key: SMTP_TLS
-        value: "true"
+      # ===== Email (Resend API for confirmation) =====
+      - key: RESEND_API_KEY
+        sync: false  # Set manually: API key from resend.com
+      - key: EMAIL_FROM
+        sync: false  # Sender address (must be verified in Resend)

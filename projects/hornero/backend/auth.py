@@ -34,13 +34,9 @@ ACCESS_TOKEN_EXPIRE = 2 * 3600       # 2 hours
 REFRESH_TOKEN_EXPIRE = 30 * 86400    # 30 days
 CONFIRM_TOKEN_EXPIRE = 24 * 3600     # 24 hours
 
-# SMTP
-SMTP_HOST = os.getenv("SMTP_HOST", "")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USER = os.getenv("SMTP_USER", "")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
-SMTP_FROM = os.getenv("SMTP_FROM", "Hornero <noreply@hornero.federacion.org.ar>")
-SMTP_TLS = os.getenv("SMTP_TLS", "true").lower() == "true"
+# Email: Resend API (HTTP) — works on Render (blocks SMTP ports)
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+EMAIL_FROM = os.getenv("EMAIL_FROM", "Hornero <noreply@hornero.federacion.org.ar>")
 
 # Allowed sectors
 ALLOWED_SECTORS = ["aceitero", "prensa", "hornero", "comercio", "otro"]
@@ -204,7 +200,7 @@ def _decode_token(token: str) -> dict | None:
 # ===== Email helpers =====
 
 async def _send_confirmation_email(email: str, nombre: str, token: str):
-    """Send confirmation email via SMTP. Fails gracefully (logs error)."""
+    """Send confirmation email via Resend API (HTTP). Fails gracefully (logs error)."""
     confirm_url = f"https://eljaso2.github.io/hornero/confirm.html?token={token}"
     subject = "Confirmá tu cuenta en Hornero"
     body = f"""Hola {nombre},
@@ -220,31 +216,29 @@ El enlace expira en 24 horas.
 --
 Hornero · Asistente IA sindical"""
 
-    logger.info(f"[SMTP-CHECK] SMTP_HOST={SMTP_HOST!r}, SMTP_USER={SMTP_USER!r}, SMTP_PORT={SMTP_PORT}")
-
-    if not SMTP_HOST:
-        logger.warning(f"SMTP not configured — confirmation email NOT sent to {email}. Token: {token}")
+    if not RESEND_API_KEY:
+        logger.warning(f"RESEND_API_KEY not set — confirmation email NOT sent to {email}. Token: {token}")
         logger.info(f"Confirmation URL (for testing): {confirm_url}")
         return
 
     try:
-        import aiosmtplib
-        from email.mime.text import MIMEText
-
-        msg = MIMEText(body, "plain", "utf-8")
-        msg["Subject"] = subject
-        msg["From"] = SMTP_FROM
-        msg["To"] = email
-
-        await aiosmtplib.send(
-            msg,
-            hostname=SMTP_HOST,
-            port=SMTP_PORT,
-            username=SMTP_USER,
-            password=SMTP_PASSWORD,
-            start_tls=SMTP_TLS,
-        )
-        logger.info(f"Confirmation email sent to {email}")
+        import httpx
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.post(
+                "https://api.resend.com/emails",
+                headers={"Authorization": f"Bearer {RESEND_API_KEY}"},
+                json={
+                    "from": EMAIL_FROM,
+                    "to": [email],
+                    "subject": subject,
+                    "text": body,
+                },
+            )
+            if resp.status_code == 200:
+                data = resp.json()
+                logger.info(f"Confirmation email sent to {email} (id={data.get('id','?')})")
+            else:
+                logger.error(f"Resend API error ({resp.status_code}): {resp.text}")
     except Exception as e:
         logger.error(f"Failed to send confirmation email to {email}: {e}")
 
@@ -638,6 +632,6 @@ def seed_pilot_users():
 
 def init_auth():
     """Initialize auth: create tables + seed pilot users. Called from main.py startup."""
-    logger.info(f"[STARTUP] SMTP_HOST={SMTP_HOST!r} SMTP_USER={SMTP_USER!r} SMTP_PORT={SMTP_PORT}")
+    logger.info(f"[STARTUP] RESEND_API_KEY={'set' if RESEND_API_KEY else 'NOT SET'}, EMAIL_FROM={EMAIL_FROM!r}")
     _init_db()
     seed_pilot_users()
