@@ -257,7 +257,7 @@ class HorneroClipping extends HoComponent {
 
       /* ===== Calendar overlay ===== */
       .cal-overlay { position: fixed; inset: 0;
-        background: rgba(33,31,29,.55); z-index: 40;
+        background: rgba(33,31,29,.55); z-index: 200;
         display: flex; align-items: center; justify-content: center;
         animation: popfade .2s ease; }
 
@@ -337,7 +337,7 @@ class HorneroClipping extends HoComponent {
 
       /* ===== Popup overlay (noticia) ===== */
       .popup-overlay { position: fixed; inset: 0;
-        background: rgba(33,31,29,.65); z-index: 50;
+        background: rgba(33,31,29,.65); z-index: 200;
         display: flex; align-items: flex-start; justify-content: center;
         padding: 16px 16px 40px; overflow-y: auto; -webkit-overflow-scrolling: touch;
         animation: popfade .25s ease; }
