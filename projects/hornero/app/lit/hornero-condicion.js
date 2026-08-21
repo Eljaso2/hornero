@@ -986,7 +986,6 @@ class HorneroCondicion extends HoComponent {
     const hasGreeting = this.messages.some(m => m.role === 'hornero' && m.tags &&
       (m.tags.includes('greeting') || m.tags.includes('saludo')));
     if (!hasGreeting && lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
-    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
       return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: 'sociologo', time: this._timeNow() };
     }
     if (lower.match(/smvm|salario mínimo|salario minimo|canasta|brecha|superexplotación|superexplotacion/)) {
