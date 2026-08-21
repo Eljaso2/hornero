@@ -33,6 +33,7 @@ from rag_retriever import retrieve_for_query
 from library_service.adapter_hornero import legal_sources_text, resolve_tenant  # puente Biblioteca (feature-flag)
 from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, KB_TIPOS, refresh as kb_refresh
 from push_manager import subscribe as push_subscribe, unsubscribe as push_unsubscribe, notify_all, get_vapid_public_key, get_subscription_count
+from auth import router as auth_router, init_auth
 
 load_dotenv(override=True)
 
@@ -91,9 +92,10 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize clipping cache + KB chunks on startup."""
+    """Initialize clipping cache + KB chunks + auth on startup."""
     clip_count = refresh()
     kb_count = kb_refresh()
+    init_auth()  # Auth DB + seed pilot users
     print(f"Clipping cache initialized: {clip_count} items")
     print(f"KB chunks loaded: {kb_count} total (manual + PDF-extracted)")
 
@@ -107,11 +109,14 @@ if LOCAL_ORIGIN:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permissive for dev — tighten in production
+    allow_origins=[ALLOWED_ORIGIN, "http://localhost", "http://localhost:8000"],
     allow_credentials=True,
     allow_methods=["POST", "GET", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# ===== Auth router =====
+app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
 
 
 # ===== Helpers =====

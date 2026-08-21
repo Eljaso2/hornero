@@ -27,3 +27,21 @@ services:
           name: hornero-ia
           type: web
           property: hostUrl
+      # ===== Auth (JWT + Postgres) =====
+      - key: JWT_SECRET
+        sync: false  # Set manually: python -c "import secrets; print(secrets.token_hex(32))"
+      - key: HORNERO_DB_URL
+        sync: false  # Set manually: Postgres connection string from Render Postgres add-on
+      # ===== SMTP (email confirmation) =====
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        value: "Hornero <noreply@hornero.federacion.org.ar>"
+      - key: SMTP_TLS
+        value: "true"

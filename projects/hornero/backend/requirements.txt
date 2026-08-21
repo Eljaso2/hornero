@@ -4,3 +4,8 @@ httpx
 python-dotenv
 python-multipart
 pywebpush
+pyjwt
+passlib[bcrypt]
+psycopg[binary]
+email-validator
+aiosmtplib
