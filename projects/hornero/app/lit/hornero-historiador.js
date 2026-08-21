@@ -344,9 +344,26 @@ class HorneroHistoriador extends HoComponent {
     this._saveChatHistory();
     this.render();
 
-    // Try streaming first, fallback to non-streaming
-    this._callBackendStream(text).catch((err) => {
-      console.warn('Stream failed, falling back to non-streaming:', err);
+    // Race: backend stream vs timeout → fallback to non-streaming if too slow
+    const STREAM_TIMEOUT = 45000; // 45s max wait for first token (Render cold start can take 30-60s)
+    let streamStarted = false;
+
+    const streamPromise = this._callBackendStream(text, () => { streamStarted = true; }).then(() => {
+      // Stream completed successfully
+    });
+
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => {
+        if (!streamStarted) reject(new Error('STREAM_TIMEOUT'));
+      }, STREAM_TIMEOUT);
+    });
+
+    Promise.race([streamPromise, timeoutPromise]).catch((err) => {
+      if (err.message === 'STREAM_TIMEOUT') {
+        console.warn('Stream timed out after', STREAM_TIMEOUT, 'ms — falling back');
+      } else {
+        console.warn('Stream failed, falling back:', err);
+      }
       this._callBackend(text).catch((err2) => {
         if (err2.message === 'FETCH_TIMEOUT') {
           this._addWithProgressiveReveal({
@@ -410,7 +427,7 @@ class HorneroHistoriador extends HoComponent {
     this._progressiveRevealIndex = 0;
   }
 
-  async _callBackendStream(text) {
+  async _callBackendStream(text, onFirstToken) {
     const history = this.messages.map(m => ({
       role: m.role,
       text: m.text || '',
@@ -469,6 +486,8 @@ class HorneroHistoriador extends HoComponent {
             if (content) {
               streamingText += content;
               this._typing = false; // Hide typing dots once we have text
+              // Notify that stream has started (prevents premature timeout)
+              if (onFirstToken) { onFirstToken(); onFirstToken = null; }
               if (chatEl) {
                 // Always use progressive reveal for typewriter effect
                 if (this._progressiveRevealTimer) {

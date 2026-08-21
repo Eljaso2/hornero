@@ -374,6 +374,35 @@ La "Forestal Benefactora" — la versión hegemónica — se construyó sobre es
     },
 
     {
+        "id": "kb-jasinski-prologo-inigo-carrera",
+        "tipo": "academico",
+        "category": "academico",
+        "tenant": "shared",
+        "tags": ["La Forestal", "Jasinski", "Iñigo Carrera", "coacción", "coacción extraeconómica", "coacción económica", "violencia empresarial", "proletarización", "valor fuerza de trabajo", "lockout", "prólogo", "El encanto del tanino", "violencia-empresarial"],
+        "title": "Prólogo de Iñigo Carrera — Jasinski, El encanto del tanino (2023)",
+        "text": """PRÓLOGO DE IÑIGO CARRERA — Jasinski, El encanto del tanino (2023)
+
+El prólogo de El encanto del tanino fue escrito por Nicolás Iñigo Carrera, investigador del CICCUS y autor de "La violencia como potencia económica" (2010). Iñigo Carrera establece la distinción fundamental entre dos modalidades de la violencia empresarial:
+
+1. Coacción extraeconómica: la violencia física y represiva, aplicada directamente por la empresa o mediante el aparato estatal. Es el instrumento para instaurar las condiciones del sistema productivo — la que crea las condiciones de existencia del régimen de producción.
+
+2. Coacción económica: la que opera cuando la clase obrera no tiene propiedad de los medios de producción y se ve forzada a vender su fuerza de trabajo por un salario. Esta modalidad predomina cuando ya se formó la clase obrera. Es la que perpetúa el régimen.
+
+Dice Iñigo Carrera: "La coacción extraeconómica crea las condiciones y la coacción económica las perpetúa cuando ya se ha formado una clase obrera que a fuerza de tradición, educación, costumbre se somete al régimen de producción capitalista como si fuese una ley natural" (Iñigo Carrera, Prólogo a El encanto del tanino, p. 18).
+
+Agrega: el lockout patronal asienta su eficacia en la coacción económica — como cuando un obrero, al terminar el lockout, valoraba que "al fin" sus hijos tenían para comer. La sumisión se presentaba como gratitud, pero era supervivencia en un enclave sin alternativas.
+
+Jasinski retoma esta distinción a lo largo del libro para analizar las formas concretas que tomó la violencia empresarial de La Forestal: lockout (Cap. 6, pp. 157-165), destrucción de organizaciones, sometimiento y depuración de disidentes (Cap. 6, pp. 165-171). No existe una lista de "5 categorías" en el texto — la clasificación de Iñigo Carrera distingue dos grandes modalidades (extraeconómica y económica), y Jasinski las analiza en sus formas históricas concretas.""",
+        "sources": ["Iñigo Carrera, Nicolás — Prólogo a Jasinski, El encanto del tanino, Prometeo Libros 2023, pp. 15-22", "Jasinski, El encanto del tanino, Prometeo Libros 2023, Cap. 6 'La violencia empresarial', pp. 157-171"],
+        "quotes": [
+            {"text": "La coacción extraeconómica crea las condiciones y la coacción económica las perpetúa cuando ya se ha formado una clase obrera que a fuerza de tradición, educación, costumbre se somete al régimen de producción capitalista como si fuese una ley natural.", "author": "Nicolás Iñigo Carrera", "source": "Prólogo a El encanto del tanino, Prometeo 2023, p. 18"},
+            {"text": "Al fin nuestros hijos comen — la sumisión se presentaba como gratitud, pero era supervivencia en un enclave sin alternativas.", "author": "Alejandro Jasinski", "source": "El encanto del tanino, Prometeo 2023, Cap. 6, p. 171"},
+        ],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    {
         "id": "kb-jasinski-sindicalismo",
         "tipo": "academico",
         "category": "documentos",
