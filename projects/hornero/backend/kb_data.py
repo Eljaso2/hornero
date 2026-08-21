@@ -392,11 +392,44 @@ Dice Iñigo Carrera: "La coacción extraeconómica crea las condiciones y la coa
 
 Agrega: el lockout patronal asienta su eficacia en la coacción económica — como cuando un obrero, al terminar el lockout, valoraba que "al fin" sus hijos tenían para comer. La sumisión se presentaba como gratitud, pero era supervivencia en un enclave sin alternativas.
 
-Jasinski retoma esta distinción a lo largo del libro para analizar las formas concretas que tomó la violencia empresarial de La Forestal: lockout (Cap. 6, pp. 157-165), destrucción de organizaciones, sometimiento y depuración de disidentes (Cap. 6, pp. 165-171). No existe una lista de "5 categorías" en el texto — la clasificación de Iñigo Carrera distingue dos grandes modalidades (extraeconómica y económica), y Jasinski las analiza en sus formas históricas concretas.""",
+Jasinski retoma esta distinción en el Cap. 6 'La violencia empresarial' (pp. 157-171), donde desarrolla las formas concretas que tomó la violencia empresarial de La Forestal. Ver chunk 'kb-jasinski-formas-violencia' para la enumeración completa de las cinco formas.""",
         "sources": ["Iñigo Carrera, Nicolás — Prólogo a Jasinski, El encanto del tanino, Prometeo Libros 2023, pp. 15-22", "Jasinski, El encanto del tanino, Prometeo Libros 2023, Cap. 6 'La violencia empresarial', pp. 157-171"],
         "quotes": [
             {"text": "La coacción extraeconómica crea las condiciones y la coacción económica las perpetúa cuando ya se ha formado una clase obrera que a fuerza de tradición, educación, costumbre se somete al régimen de producción capitalista como si fuese una ley natural.", "author": "Nicolás Iñigo Carrera", "source": "Prólogo a El encanto del tanino, Prometeo 2023, p. 18"},
             {"text": "Al fin nuestros hijos comen — la sumisión se presentaba como gratitud, pero era supervivencia en un enclave sin alternativas.", "author": "Alejandro Jasinski", "source": "El encanto del tanino, Prometeo 2023, Cap. 6, p. 171"},
+        ],
+        "grade_access": "open",
+        "vigencia": "vigente",
+    },
+
+    {
+        "id": "kb-jasinski-formas-violencia",
+        "tipo": "academico",
+        "category": "academico",
+        "tenant": "shared",
+        "tags": ["La Forestal", "Jasinski", "violencia empresarial", "cinco violencias", "cinco formas", "formas de violencia", "lockout", "represión", "destruir organizaciones", "someter trabajadores", "depurar disidentes", "coacción extraeconómica", "coacción económica", "Iñigo Carrera", "guardia blanca", "listas negras", "expulsión", "enclave", "El encanto del tanino", "violencia-empresarial", "Cap. 6"],
+        "title": "Las cinco formas de violencia empresarial — Jasinski, El encanto del tanino, Cap. 6 (2023)",
+        "text": """LAS CINCO FORMAS DE VIOLENCIA EMPRESARIAL — Jasinski, El encanto del tanino, Cap. 6 (2023)
+
+Jasinski desarrolla en el Cap. 6 'La violencia empresarial' (pp. 157-171) las formas concretas que tomó la violencia empresarial de La Forestal, organizadas a partir de la distinción teórica de Iñigo Carrera entre coacción extraeconómica y coacción económica:
+
+1. REPRESIÓN Y MASACRE — Coacción extraeconómica directa. La Forestal desplegó guardias blancas (policía privada), represión armada contra huelgas, y la masacre de obreros de enero 1921 en los obrajes de La Gallareta y Villa Guillermina. La represión estatal actuó como brazo de la empresa: la policía y el ejército reprimieron a trabajadores por pedido de la gerencia. (Jasinski, pp. 157-160)
+
+2. LOCKOUT — Coacción económica por excelencia. La paralización deliberada de la producción fue la herramienta central. Entre 1921 y 1931, las fábricas funcionaron la mitad del tiempo. La Forestal usaba el lockout como "presión despótica" para aplacar protestas y negociar condiciones. La dependencia total del enclave convertía el cierre de fábrica en cierre del pueblo: no había otros medios de vida. (Jasinski, pp. 157-165)
+
+3. DESTRUIR LAS ORGANIZACIONES — Coacción extraeconómica institucional. Después de la masacre de 1921, la empresa destruyó los centros sociales, disolvió las comisiones internas, y prohibió la sindicalización. El objetivo era eliminar toda forma de organización autónoma de los trabajadores. (Jasinski, pp. 165-168)
+
+4. SOMETER A LOS TRABAJADORES — Coacción económica mediante control del espacio. Los pueblos eran propiedad de la empresa: las casas, la tienda, el médico. La dependencia material era total. El sometimiento se expresaba en la "deferencia obligada por el temor": los trabajadores aplaudían al gerente, agradecían las mejoras, pero era supervivencia en un enclave sin alternativas. "Al fin nuestros hijos comen" — la sumisión como gratitud forzada. (Jasinski, pp. 168-170)
+
+5. DEPURAR A LOS DISIDENTES — Coacción extraeconómica selectiva. Listas negras, expulsión de pueblos, prohibición de reingreso. Trabajadores con antecedentes sindicales eran echados y reemplazados por "manos limpias" — obreros sin experiencia de organización. La "Forestal Benefactora" se construyó sobre esta depuración: el consentimiento activo de los trabajadores fue obtenido después de expulsar, encarcelar, y matar a quienes se organizaron. (Jasinski, pp. 170-171)
+
+Marco teórico: Iñigo Carrera distingue dos modalidades — coacción extraeconómica (represión, destrucción, depuración) y coacción económica (lockout, sometimiento por dependencia). La primera crea las condiciones, la segunda las perpetúa. Jasinski aplica esta distinción para mostrar cómo La Forestal combinó ambas a lo largo de décadas.""",
+        "sources": ["Jasinski, El encanto del tanino, Prometeo Libros 2023, Cap. 6 'La violencia empresarial', pp. 157-171", "Iñigo Carrera, Nicolás — Prólogo a El encanto del tanino, Prometeo Libros 2023, pp. 15-22"],
+        "quotes": [
+            {"text": "La coacción extraeconómica crea las condiciones y la coacción económica las perpetúa cuando ya se ha formado una clase obrera que a fuerza de tradición, educación, costumbre se somete al régimen de producción capitalista como si fuese una ley natural.", "author": "Nicolás Iñigo Carrera", "source": "Prólogo a El encanto del tanino, Prometeo 2023, p. 18"},
+            {"text": "No existen otros medios de vida que los proporcionados por La Forestal.", "author": "Informe contemporáneo citado por Jasinski", "source": "El encanto del tanino, Prometeo 2023, p. 159"},
+            {"text": "Al fin nuestros hijos comen — la sumisión se presentaba como gratitud, pero era supervivencia en un enclave sin alternativas.", "author": "Alejandro Jasinski", "source": "El encanto del tanino, Prometeo 2023, Cap. 6, p. 171"},
+            {"text": "La violencia empresarial que no fue explícita o directa fue obviada, olvidándose las sugerencias de Gori, quien proponía estudiar el lockout como 'presión despótica' para aplacar las protestas.", "author": "Alejandro Jasinski", "source": "El encanto del tanino, Prometeo 2023, p. 25"},
         ],
         "grade_access": "open",
         "vigencia": "vigente",
