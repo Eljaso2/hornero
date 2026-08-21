@@ -2052,10 +2052,13 @@ class HorneroApp extends HoComponent {
       // Map persona key → display name (mirrors _getPersonaConfig in hornero-chat.js)
       const personaNameMap = { abogado: 'Abogado/a', companero: 'Compañero/a', periodista: 'Periodista', historiador: 'Historiador/a', sociologo: 'Investigador/a', hornero: 'Hornero', archivo: 'Archivo' };
       const personaName = personaNameMap[personaKey] || sec.label;
+      // Map persona key → icon image (mirrors _getPersonaConfig in hornero-chat.js)
+      const personaIconMap = { abogado: 'assets/personajes/iconos/a03.png', companero: 'assets/personajes/iconos/a02.png', periodista: 'assets/personajes/iconos/a04.png', historiador: 'assets/personajes/iconos/a01.png', sociologo: 'assets/personajes/iconos/a05.png', hornero: 'assets/hornero-logo-nobg.png', archivo: 'assets/personajes/iconos/a01.png' };
       const navPersona = personaKey === 'companero' ? 'companero' : personaKey === 'historiador' ? 'historiador' : personaKey === 'periodista' ? 'periodista' : 'abogado';
-      const imgSrc = sec.img;
+      const imgSrc = (s.persona && personaIconMap[s.persona]) || sec.img;
+      const avatarClass = (personaKey === 'periodista' ? ' periodista-full' : '') + (personaKey === 'abogado' ? ' abogado-crop' : '') + (personaKey === 'sociologo' ? ' investigador-crop' : '');
       const iconInner = imgSrc
-        ? '<img src="' + imgSrc + '" alt="' + personaName + '" class="history-item-persona-img' + (personaKey === 'periodista' ? ' periodista-full' : '') + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'"><span class="history-item-section-emoji" style="display:none">' + sec.emoji + '</span>'
+        ? '<img src="' + imgSrc + '" alt="' + personaName + '" class="history-item-persona-img' + avatarClass + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'"><span class="history-item-section-emoji" style="display:none">' + sec.emoji + '</span>'
         : '<span class="history-item-section-emoji">' + sec.emoji + '</span>';
       return '<div class="history-item" data-navigate-screen="' + navScreen + '" data-navigate-persona="' + navPersona + '" data-navigate-session="' + s.sessionId + '">' +
         '<div class="history-item-section ' + sectionClass + '">' +
