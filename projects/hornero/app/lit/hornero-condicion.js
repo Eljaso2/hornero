@@ -982,6 +982,10 @@ class HorneroCondicion extends HoComponent {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
     // Only match pure greetings — "hola" alone or "hola" + punctuation/whitespace, NOT "hola, me podes decir..."
+    // But skip duplicate greeting if one already exists in this session
+    const hasGreeting = this.messages.some(m => m.role === 'hornero' && m.tags &&
+      (m.tags.includes('greeting') || m.tags.includes('saludo')));
+    if (!hasGreeting && lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
     if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
       return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: 'sociologo', time: this._timeNow() };
     }

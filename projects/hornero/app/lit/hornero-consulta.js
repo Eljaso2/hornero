@@ -965,7 +965,10 @@ class HorneroConsulta extends HoComponent {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
     // Only match pure greetings — NOT "hola, me podes decir..."
-    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
+    // But skip duplicate greeting if one already exists in this session
+    const hasGreeting = this.messages.some(m => m.role === 'hornero' && m.tags &&
+      (m.tags.includes('greeting') || m.tags.includes('saludo')));
+    if (!hasGreeting && lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
       return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Abogado — laboralista del gremio aceitero, te ayudo con derechos, convenio, CCT, legislación laboral. ¿Qué consulta tenés?' }], tags: ['consulta', 'saludo'], persona: 'abogado', time: this._timeNow() };
     }
     if (lower.includes('yofra')) {

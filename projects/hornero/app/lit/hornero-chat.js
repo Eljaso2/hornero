@@ -2332,8 +2332,12 @@ class HorneroChat extends HoComponent {
         return `<div class="msg-section">${content}</div>${divider}`;
       }).join('');
     }
-    // Tags rendered for both text and sections modes (hide respuesta-libre in live chat)
-    const visibleTags = (m.tags || []).filter(t => t !== 'respuesta-libre');
+    // Tags rendered for both text and sections modes (hide internal/system tags in live chat)
+    const visibleTags = (m.tags || []).filter(t =>
+      !['respuesta-libre', 'consulta', 'contenido', 'reporte', 'greeting', 'saludo',
+        'explore', 'timeout', 'stream-partial', 'exportado', 'correccion-pendiente',
+        'historia', 'debate', 'archivo', 'formacion', 'condicion', 'ecosistema'].includes(t)
+    );
     const tagsHtml = visibleTags.length > 0 ?
       `<div class="msg-tags">${visibleTags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
     contentHtml += tagsHtml;

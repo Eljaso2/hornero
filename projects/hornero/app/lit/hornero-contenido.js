@@ -858,7 +858,10 @@ class HorneroContenido extends HoComponent {
   _localResponse(userText) {
     const lower = userText.toLowerCase();
     // Only match pure greetings — NOT "hola, me podes decir..."
-    if (lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
+    // But skip duplicate greeting if one already exists in this session
+    const hasGreeting = this.messages.some(m => m.role === 'hornero' && m.tags &&
+      (m.tags.includes('greeting') || m.tags.includes('saludo')));
+    if (!hasGreeting && lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
       return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical. ¿Qué formato te interesa o qué tema querés comunicar?' }], tags: ['contenido', 'saludo'], persona: 'periodista', time: this._timeNow() };
     }
     if (lower.match(/podcast/)) {
