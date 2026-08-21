@@ -583,11 +583,11 @@ class HorneroCondicion extends HoComponent {
     this.render();
 
     // Race: backend stream vs timeout → fallback to local if too slow
-    const STREAM_TIMEOUT = 20000; // 20s max wait for first token
+    const STREAM_TIMEOUT = 45000; // 45s max wait for first token (Render cold start can take 30-60s)
     let streamStarted = false;
 
-    const streamPromise = this._callBackendStream(text).then(() => {
-      streamStarted = true;
+    const streamPromise = this._callBackendStream(text, () => { streamStarted = true; }).then(() => {
+      // Stream completed successfully
     });
 
     const timeoutPromise = new Promise((_, reject) => {
@@ -730,7 +730,7 @@ class HorneroCondicion extends HoComponent {
     }, interval);
   }
 
-  async _callBackendStream(text) {
+  async _callBackendStream(text, onFirstToken) {
     const history = this.messages.map(m => ({
       role: m.role, text: m.text || '', sections: m.sections || [],
     }));
@@ -778,6 +778,8 @@ class HorneroCondicion extends HoComponent {
             if (content) {
               streamingText += content;
               this._typing = false;
+              // Notify that stream has started (prevents premature timeout)
+              if (onFirstToken) { onFirstToken(); onFirstToken = null; }
               if (chatEl) {
                 // Always use progressive reveal for typewriter effect
                 if (this._progressiveRevealTimer) {
