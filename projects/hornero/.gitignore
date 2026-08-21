@@ -1,0 +1,2 @@
+# PDFs are source material for the chunking pipeline, not needed at runtime
+backend/pdfs/
