@@ -376,5 +376,22 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
             filtered = []
     filtered = [c for c in filtered if c.get("vigencia", "vigente") == "vigente"]
 
+    # Step 6: Persona-domain tag filtering — prevent cross-domain contamination
+    # Certain chunks belong to a specific persona's domain even if they share
+    # the same category. Example: Perón discursos are category 'documentos'
+    # but should ONLY be served to the Historiadora, not to the Periodista
+    # or other personas who would answer instead of deriving.
+    DOMAIN_TAG_MAP = {
+        # Tags that lock chunks to a specific formato
+        'Perón': 'historia',            # Perón discursos → solo Historiadora
+        'G.O.U.': 'historia',           # G.O.U. documents → solo Historiadora
+        'revolución 43': 'historia',    # Revolución del 43 → solo Historiadora
+    }
+    if formato not in ('historia',):  # Historiadora gets everything in her domain
+        for tag, owner_formato in DOMAIN_TAG_MAP.items():
+            if formato != owner_formato:
+                filtered = [c for c in filtered
+                           if tag not in c.get('tags', [])]
+
     # Return top 5 after filtering (increased from 3 for better context)
     return filtered[:5]
