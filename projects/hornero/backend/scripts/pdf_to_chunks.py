@@ -54,16 +54,19 @@ except ImportError:
 
 # ===== PDF text extraction =====
 
-def extract_pdf_text(pdf_path: str) -> list:
+def extract_pdf_text(pdf_path: str, min_chars: int = 10) -> list:
     """Extract text from all pages of a PDF.
 
     Returns list of dicts: [{page_num, text, char_count}]
+
+    min_chars: skip pages with fewer chars (likely blank/covers).
+    Keep low (10) so section headers on otherwise-blank pages are captured.
     """
     doc = fitz.open(pdf_path)
     pages = []
     for i in range(len(doc)):
         text = doc[i].get_text().strip()
-        if text and len(text) > 50:  # Skip near-empty pages (covers, blank)
+        if text and len(text) >= min_chars:
             pages.append({
                 "page_num": i + 1,  # 1-indexed for readability
                 "text": text,
@@ -75,20 +78,45 @@ def extract_pdf_text(pdf_path: str) -> list:
 
 # ===== Chapter/section detection =====
 
+def detect_from_toc(toc_path: str, total_pages: int) -> list:
+    """Load a manual table of contents from a JSON file.
+
+    Format: [{title: str, start_page: int, author?: str, pub?: str}]
+    Returns sections list compatible with detect_chapters/detect_registros.
+    """
+    with open(toc_path, 'r', encoding='utf-8') as f:
+        toc = json.load(f)
+
+    sections = []
+    for i, entry in enumerate(toc):
+        start = entry["start_page"]
+        end = toc[i + 1]["start_page"] - 1 if i + 1 < len(toc) else total_pages
+        sections.append({
+            "title": entry["title"],
+            "start_page": start,
+            "end_page": end,
+            "doc_type": entry.get("pub", ""),   # reuse doc_type for publication origin
+            "doc_date": entry.get("author", ""),  # reuse doc_date for author info
+            "registro_num": i + 1,
+        })
+    return sections
+
+
 def detect_chapters(pages: list) -> list:
     """Detect chapter boundaries from page text.
 
     Looks for patterns like "Capítulo N", "Parte I/II/III", or section headers.
+    Captures multi-line titles (chapter number + subtitle on next lines).
     Returns list of sections: [{title, start_page, end_page}]
     """
     chapter_patterns = [
-        r'(?:Capítulo|Chapter)\s+(\d+)',     # "Capítulo 1"
-        r'Parte\s+(I|II|III|IV|V|1|2|3)',     # "Parte I"
-        r'Prólogo',
-        r'Introducción',
-        r'Agradecimientos',
-        r'Conclusión',
-        r'Epílogo',
+        (r'(?:Capítulo|Capítulo|Chapter)\s+(\d+)', True),   # "Capítulo 5" (capture subtitle)
+        (r'Parte\s+(I|II|III|IV|V|1|2|3|4|5)', True),       # "Parte I" (capture subtitle)
+        (r'Prólogo', False),
+        (r'Introducción', False),
+        (r'Agradecimientos', False),
+        (r'Conclusión', False),
+        (r'Epílogo', False),
     ]
 
     sections = []
@@ -96,34 +124,46 @@ def detect_chapters(pages: list) -> list:
 
     for page in pages:
         text = page["text"]
-        # Check first 500 chars for chapter headers
-        header_area = text[:500]
+        # Search entire page text for chapter headers (not just first N chars)
+        # because chapter titles can appear mid-page after front matter
 
-        for pattern in chapter_patterns:
-            match = re.search(pattern, header_area, re.IGNORECASE)
+        for pattern, capture_subtitle in chapter_patterns:
+            match = re.search(pattern, text, re.IGNORECASE)
             if match:
+                # Filter out cross-references: "ver Capítulo 5" is NOT a header.
+                # A real chapter header appears at the start of a line.
+                line_start = text.rfind('\n', 0, match.start()) + 1
+                prefix = text[line_start:match.start()].strip()
+                if len(prefix) > 15:
+                    continue  # Cross-reference within a paragraph
                 # Close previous section
                 if current_section["end_page"] is None:
                     current_section["end_page"] = page["page_num"] - 1
 
-                # Start new section
-                # Try to extract the full title line
-                title_line = ""
-                for line in text.split('\n')[:10]:
-                    line = line.strip()
-                    if re.search(pattern, line, re.IGNORECASE):
-                        title_line = line
-                        break
-                    if len(line) > 5 and len(line) < 200:
-                        # Might be the subtitle after the chapter number
-                        title_line = line
-                        break
+                # Build title: match text + following subtitle lines
+                title_parts = [match.group(0)]
+                if capture_subtitle:
+                    after = text[match.end():]
+                    for line in after.split('\n')[:6]:
+                        line = line.strip()
+                        if not line or len(line) < 3:
+                            continue
+                        # Stop at lines that look like body text (long paragraphs)
+                        if len(line) > 150:
+                            break
+                        # Stop at page numbers or footnote markers
+                        if re.match(r'^\d{1,3}\.?$', line):
+                            continue
+                        # This line is part of the subtitle
+                        title_parts.append(line)
+                        # Stop after collecting 3 subtitle lines max
+                        if len(title_parts) >= 4:
+                            break
 
-                if not title_line:
-                    title_line = match.group(0)
+                title = ': '.join(title_parts) if len(title_parts) > 1 else title_parts[0]
 
                 current_section = {
-                    "title": title_line,
+                    "title": title,
                     "start_page": page["page_num"],
                     "end_page": None,
                 }
@@ -136,6 +176,183 @@ def detect_chapters(pages: list) -> list:
     if not sections:
         # No chapters detected — treat whole book as one section
         sections = [{"title": "Libro completo", "start_page": 1, "end_page": len(pages) + 1}]
+
+    return sections
+
+
+def detect_registros(pages: list, content_start_page: int = 0) -> list:
+    """Detect 'Registro N.º/Registro N.o' entries across ALL page text.
+
+    Compilaciones like the BCN Perón series use 'Registro N.o X' as document
+    boundaries, with structured metadata on the following lines:
+      - Título descriptivo (lugar / ocasión)
+      - (Tipo de documento) — Discurso, Documento, Mensaje radial, etc.
+      - Fecha — Lunes 20 de diciembre, etc.
+
+    content_start_page: if > 0, any Registro on a page before this is treated as
+    index/TOC and skipped. Set to the first page of real content (1-indexed).
+    If 0, auto-detect: use heuristic based on first repeated Registro number.
+
+    Returns list of sections with rich metadata:
+      [{title, start_page, end_page, doc_type, doc_date, registro_num}]
+    """
+    # Pattern matches both "Registro N.º 1" and "Registro N.o 1"
+    registro_pat = re.compile(r'Registro\s+N\.?\s*[ºo]\s*(\d+)', re.IGNORECASE)
+
+    # Pattern for document type in parentheses: (Discurso), (Documento), (Mensaje radial), etc.
+    doc_type_pat = re.compile(r'\(([^)]+)\)')
+
+    # Auto-detect content_start_page if not given:
+    # Find the page where "Registro N.o 1" appears that is NOT in the index.
+    # Heuristic: the first page where a Registro N.o appears AND the same page
+    # or nearby pages have substantial text (not just short index references).
+    if content_start_page <= 0:
+        # Collect all Registro 1 occurrences
+        reg1_pages = []
+        for page in pages:
+            for match in registro_pat.finditer(page["text"]):
+                if int(match.group(1)) == 1:
+                    reg1_pages.append(page["page_num"])
+        if len(reg1_pages) >= 2:
+            # Second occurrence is the real content; first is the index
+            content_start_page = reg1_pages[1] if reg1_pages[1] > reg1_pages[0] else reg1_pages[0]
+            print(f"Auto-detected content start page: {content_start_page}")
+        elif reg1_pages:
+            content_start_page = reg1_pages[0]
+
+    # Build set of index pages: all pages before content_start_page
+    index_pages = set()
+    if content_start_page > 0:
+        for page in pages:
+            if page["page_num"] < content_start_page:
+                index_pages.add(page["page_num"])
+
+    sections = []
+    current_section = None
+    seen_registro_nums = set()
+
+    for page in pages:
+        text = page["text"]
+        page_num = page["page_num"]
+
+        # Skip index pages entirely
+        if page_num in index_pages:
+            continue
+
+        # Search the ENTIRE page text for Registro markers (not just header area)
+        for match in registro_pat.finditer(text):
+            reg_num = int(match.group(1))
+
+            # Filter out cross-references: "ver registro N.o 77" is NOT a section header.
+            # A real Registro header appears at the start of a line (or after just page number).
+            # Check if there's significant text before the match on the same line.
+            line_start = text.rfind('\n', 0, match.start()) + 1
+            prefix = text[line_start:match.start()].strip()
+            # Allow: empty, just a page number, or very short prefix (< 15 chars)
+            if len(prefix) > 15:
+                continue  # Cross-reference within a paragraph, not a header
+
+            # Skip if this Registro number was already seen (first occurrence = real content)
+            if reg_num in seen_registro_nums:
+                continue
+            seen_registro_nums.add(reg_num)
+
+            # Close previous section
+            if current_section is not None:
+                current_section["end_page"] = page_num - 1
+
+            # Extract metadata from lines following the Registro marker.
+            # Structure in BCN compilaciones:
+            #   Registro N.o X
+            #   Título descriptivo [nota al pie]
+            #   (Tipo de documento)
+            #   Fecha [nota al pie]
+            #   Texto del documento...
+            after = text[match.end():]
+            next_lines = after.split('\n')[:15]  # up to 15 lines after "Registro N.o X"
+
+            title_line = ""
+            doc_type = ""
+            doc_date = ""
+
+            for line in next_lines:
+                line = line.strip()
+                if not line or len(line) < 3:
+                    continue
+
+                # Skip standalone footnote numbers (e.g., "52", "130 / 131", "187", "70 / 71")
+                if re.match(r'^\d+\s*[/]\s*\d+\.?$', line) or re.match(r'^\d{1,3}\.?$', line):
+                    continue
+
+                # Check for document type: (Discurso), (Documento), (Mensaje radial), etc.
+                type_match = doc_type_pat.search(line)
+                if type_match and not doc_type:
+                    doc_type = type_match.group(1).strip()
+                    # If the whole line is just the type, skip to next
+                    if line.strip() == f"({doc_type})":
+                        continue
+
+                # Check if this looks like a date (before checking title)
+                date_words = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes',
+                              'sábado', 'domingo', 'enero', 'febrero', 'marzo',
+                              'abril', 'mayo', 'junio', 'julio', 'agosto',
+                              'septiembre', 'octubre', 'noviembre', 'diciembre']
+                is_date_line = any(w in line.lower() for w in date_words)
+
+                if not title_line and not is_date_line and len(line) > 5:
+                    # First substantial non-date line = title
+                    # Strip trailing footnote numbers from title
+                    title_line = re.sub(r'\s*\d{1,3}(/?\d*)\s*$', '', line).strip()
+                    continue
+
+                if title_line and is_date_line and not doc_date:
+                    # Date line — strip trailing footnote numbers
+                    doc_date = re.sub(r'\s*\d{1,3}\s*$', '', line).strip()
+                    break  # Got everything we need
+
+            # Build composite title
+            if title_line:
+                composite = f"Registro {reg_num}: {title_line}"
+            else:
+                composite = f"Registro {reg_num}"
+            if doc_type:
+                composite += f" ({doc_type})"
+            if doc_date:
+                composite += f" — {doc_date}"
+
+            current_section = {
+                "title": composite,
+                "start_page": page_num,
+                "end_page": None,
+                "doc_type": doc_type,
+                "doc_date": doc_date,
+                "registro_num": reg_num,
+            }
+            sections.append(current_section)
+
+    # Close last section
+    if current_section is not None:
+        current_section["end_page"] = pages[-1]["page_num"]
+
+    # If there are pages before the first Registro (preface, prologues, etc.),
+    # add them as a "Pre-texto" section so they don't get lost
+    if sections and sections[0]["start_page"] > content_start_page:
+        pre_text_start = content_start_page if content_start_page > 0 else 1
+        pre_section = {
+            "title": "Pre-texto (Prefacio, Prólogos)",
+            "start_page": pre_text_start,
+            "end_page": sections[0]["start_page"] - 1,
+            "doc_type": "academico",
+            "doc_date": "",
+            "registro_num": 0,
+        }
+        sections.insert(0, pre_section)
+
+    # If no Registros found, fall back to treating whole book as one section
+    if not sections:
+        sections = [{"title": "Libro completo", "start_page": 1,
+                     "end_page": pages[-1]["page_num"] if pages else 1,
+                     "doc_type": "", "doc_date": "", "registro_num": 0}]
 
     return sections
 
@@ -205,8 +422,16 @@ def chunk_section(pages: list, section: dict, max_words: int = 400) -> list:
 # ===== Main pipeline =====
 
 def process_pdf(pdf_path: str, bib_ref: str, tipo: str, category: str,
-                id_prefix: str, tags: list = None, grade_access: str = "open") -> list:
-    """Full pipeline: PDF → extract → detect chapters → chunk → structure for RAG.
+                id_prefix: str, tags: list = None, grade_access: str = "open",
+                mode: str = "chapters", toc_path: str = None,
+                content_start: int = 0) -> list:
+    """Full pipeline: PDF → extract → detect sections → chunk → structure for RAG.
+
+    Modes:
+      chapters  — detect Capítulo/Parte/Prólogo boundaries (default)
+      registros — detect Registro N.º/Registro N.o boundaries with rich metadata
+                  (for BCN-style compilations like Perón discursos)
+      toc       — use manual table of contents from --toc JSON file
 
     Returns list of KB_CHUNKS-compatible dicts.
     """
@@ -215,10 +440,23 @@ def process_pdf(pdf_path: str, bib_ref: str, tipo: str, category: str,
     print(f"Extracted {len(pages)} pages with text")
 
     # Step 2: Detect chapters/sections
-    sections = detect_chapters(pages)
+    if toc_path:
+        sections = detect_from_toc(toc_path, pages[-1]["page_num"] if pages else 1)
+        mode = "toc"
+    elif mode == "registros":
+        sections = detect_registros(pages, content_start_page=content_start)
+    else:
+        sections = detect_chapters(pages)
     print(f"Detected {len(sections)} sections/chapters:")
-    for s in sections:
-        print(f"  {s['title']} (p.{s['start_page']}-{s.get('end_page', '?')})")
+    for s in sections[:20]:  # Show first 20
+        extra = ""
+        if s.get("doc_type"):
+            extra += f" [{s['doc_type']}]"
+        if s.get("doc_date"):
+            extra += f" {s['doc_date']}"
+        print(f"  {s['title']}{extra} (p.{s['start_page']}-{s.get('end_page', '?')})")
+    if len(sections) > 20:
+        print(f"  ... and {len(sections) - 20} more")
 
     # Step 3: Chunk each section
     all_chunks = []
@@ -240,22 +478,46 @@ def process_pdf(pdf_path: str, bib_ref: str, tipo: str, category: str,
             # Auto-detect additional tags from content
             auto_tags = extract_auto_tags(sc["text"])
 
+            # Build title with rich metadata for registros/toc mode
+            if mode == "registros" and section.get("registro_num"):
+                title = sc["chapter"]  # Already has "Registro N: título (tipo) — fecha"
+            elif mode == "toc" and section.get("registro_num"):
+                title = sc["chapter"]
+                # doc_type holds pub, doc_date holds author
+                if section.get("doc_date"):
+                    title += f" — {section['doc_date']}"
+            else:
+                title = f"{section['title']} (p.{sc['start_page']}-{sc['end_page']}) — {bib_ref.split(',')[0]}"
+
             chunk = {
                 "id": chunk_id,
                 "tipo": tipo,
                 "category": category,
                 "tags": (tags or []) + auto_tags,
-                "title": f"{section['title']} (p.{sc['start_page']}-{sc['end_page']}) — {bib_ref.split(',')[0]}",
+                "title": title,
                 "text": sc["text"],
                 "excerpt": excerpt,
                 "sources": [f"{bib_ref}, pp. {sc['start_page']}-{sc['end_page']}"],
-                "quotes": [],  # Auto quote extraction could be added later
+                "quotes": [],
                 "grade_access": grade_access,
                 "vigencia": "vigente",
                 "book_ref": bib_ref,
                 "chapter": sc["chapter"],
                 "pages": f"{sc['start_page']}-{sc['end_page']}",
             }
+
+            # Add registro-specific metadata for RAG queries like "cuándo dijo Perón X"
+            if mode == "registros" and section.get("registro_num"):
+                chunk["doc_type"] = section.get("doc_type", "")
+                chunk["doc_date"] = section.get("doc_date", "")
+                chunk["registro_num"] = section["registro_num"]
+
+            # Add toc-specific metadata (author, publication origin)
+            if mode == "toc" and section.get("registro_num"):
+                chunk["author"] = section.get("doc_date", "")  # doc_date reused for author
+                chunk["pub_origin"] = section.get("doc_type", "")  # doc_type reused for pub
+                chunk["article_num"] = section["registro_num"]
+
             all_chunks.append(chunk)
 
     print(f"\nGenerated {len(all_chunks)} chunks")
@@ -354,6 +616,12 @@ if __name__ == "__main__":
     parser.add_argument("--grade", default="open", help="Minimum grade access: open|B.a|B.b|B.c|B.d")
     parser.add_argument("--output", default=None, help="Output JSON path (default: backend/kb_chunks.json)")
     parser.add_argument("--append", action="store_true", help="Append to existing kb_chunks.json instead of overwriting")
+    parser.add_argument("--mode", default="chapters", choices=["chapters", "registros"],
+                        help="Detection mode: 'chapters' (Capítulo/Parte) or 'registros' (Registro N.º with date/type metadata)")
+    parser.add_argument("--content-start", type=int, default=0,
+                        help="First page of real content (1-indexed). Registro entries on earlier pages are treated as index/TOC and skipped. 0 = auto-detect")
+    parser.add_argument("--toc", default=None,
+                        help="Path to a JSON file with manual table of contents. Format: [{title, start_page, author?, pub?}]")
 
     args = parser.parse_args()
 
@@ -371,6 +639,9 @@ if __name__ == "__main__":
         id_prefix=args.id_prefix,
         tags=args.tags,
         grade_access=args.grade,
+        mode=args.mode,
+        toc_path=args.toc,
+        content_start=args.content_start,
     )
 
     # Save
