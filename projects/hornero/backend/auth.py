@@ -418,10 +418,15 @@ async def confirm_email(token: str):
     # Check expiration (24h)
     sent_at = user.get("confirmation_sent_at")
     if sent_at:
-        if isinstance(sent_at, str):
-            sent_at = datetime.fromisoformat(sent_at.replace("Z", "+00:00"))
-        if datetime.now(timezone.utc) - sent_at > timedelta(hours=24):
-            raise HTTPException(410, "El enlace expiró. Solicitá uno nuevo desde la app.")
+        try:
+            if isinstance(sent_at, str):
+                sent_at = datetime.fromisoformat(sent_at.replace("Z", "+00:00"))
+            if hasattr(sent_at, 'tzinfo') and sent_at.tzinfo is None:
+                sent_at = sent_at.replace(tzinfo=timezone.utc)
+            if datetime.now(timezone.utc) - sent_at > timedelta(hours=24):
+                raise HTTPException(410, "El enlace expiró. Solicitá uno nuevo desde la app.")
+        except (ValueError, TypeError):
+            pass  # If we can't parse the date, allow confirmation
 
     # Confirm
     try:
