@@ -716,8 +716,11 @@ class HorneroChat extends HoComponent {
       .section-consulta .history-item-section-label { color: #4E9978; }
       .section-contenido .history-item-section-label { color: #B0863F; }
       .section-debate .history-item-section-label { color: #5A7EA8; }
-      .section-reporte .history-item-section-label { color: #3D6B56; }
-      .section-default .history-item-section-label { color: var(--ho-green-dark, #3D6B56); }
+      .section-reporte .history-item-section-label { color: #80CCA0; }
+      .section-historia .history-item-section-label { color: #9B8BC4; }
+      .section-panorama .history-item-section-label { color: #6BB896; }
+      .section-ecosistema .history-item-section-label { color: #6BB896; }
+      .section-default .history-item-section-label { color: var(--ho-green-light, #80CCA0); }
 
       .history-item-preview { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); line-height: 1.3;
@@ -758,7 +761,10 @@ class HorneroChat extends HoComponent {
       .section-consulta { color: #4E9978; }
       .section-contenido { color: #B0863F; }
       .section-debate { color: #5A7EA8; }
-      .section-reporte { color: #3D6B56; }
+      .section-reporte { color: #80CCA0; }
+      .section-historia { color: #9B8BC4; }
+      .section-panorama { color: #6BB896; }
+      .section-ecosistema { color: #6BB896; }
 
       /* Reporte card — formal document frame */
       .reporte-card { background: #F5F3EE;
@@ -1609,7 +1615,7 @@ class HorneroChat extends HoComponent {
                 const personaCfg = this._getPersonaConfig(personaKey);
                 const historyAvatarClass = `${personaKey === 'periodista' ? 'periodista-full' : ''}${personaKey === 'abogado' ? ' abogado-crop' : ''}${personaKey === 'sociologo' ? ' investigador-crop' : ''}`.trim();
                 const iconInner = (personaCfg.icon || personaCfg.img)
-                  ? `<img src="${personaCfg.icon || personaCfg.img}" alt="${sec.label}" class="history-item-persona-img ${historyAvatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
+                  ? `<img src="${personaCfg.icon || personaCfg.img}" alt="${personaCfg.name || sec.label}" class="history-item-persona-img ${historyAvatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="history-item-section-emoji" style="display:none">${sec.emoji}</span>`
                   : `<span class="history-item-section-emoji">${sec.emoji}</span>`;
                 // SVG icons for action buttons
                 const downloadIcon = '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
@@ -1618,7 +1624,7 @@ class HorneroChat extends HoComponent {
                 return `<div class="history-item${isActive ? ' active' : ''}" data-session-id="${s.sessionId}">
                   <div class="history-item-section ${sectionClass}">
                     <span class="history-item-section-icon">${iconInner}</span>
-                    <span class="history-item-section-label">${sec.label}</span>
+                    <span class="history-item-section-label">${personaCfg.name || sec.label}</span>
                   </div>
                   <div class="history-item-preview">${s.preview || 'Nuevo chat'}</div>
                   <div class="history-item-meta">

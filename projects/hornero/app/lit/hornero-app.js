@@ -653,8 +653,11 @@ class HorneroApp extends HoComponent {
       .section-consulta .history-item-section-label { color: var(--ho-green, #4E9978); }
       .section-contenido .history-item-section-label { color: #B0863F; }
       .section-debate .history-item-section-label { color: #5A7EA8; }
-      .section-reporte .history-item-section-label { color: #3D6B56; }
-      .section-default .history-item-section-label { color: var(--ho-green-dark, #3D6B56); }
+      .section-reporte .history-item-section-label { color: #80CCA0; }
+      .section-historia .history-item-section-label { color: #9B8BC4; }
+      .section-panorama .history-item-section-label { color: #6BB896; }
+      .section-ecosistema .history-item-section-label { color: #6BB896; }
+      .section-default .history-item-section-label { color: var(--ho-green-light, #80CCA0); }
       .history-item-preview { font-family: 'Archivo', sans-serif; font-size: .86rem;
         font-weight: 700; color: var(--ho-text, #E8E6E0); line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -2046,15 +2049,18 @@ class HorneroApp extends HoComponent {
       const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
       const navScreen = s.section === 'reporte' ? 'gremial' : s.section === 'contenido' ? 'contenido' : s.section === 'historia' ? 'formacion' : 'consulta';
       const personaKey = s.persona || sec.persona;
+      // Map persona key → display name (mirrors _getPersonaConfig in hornero-chat.js)
+      const personaNameMap = { abogado: 'Abogado/a', companero: 'Compañero/a', periodista: 'Periodista', historiador: 'Historiador/a', sociologo: 'Investigador/a', hornero: 'Hornero', archivo: 'Archivo' };
+      const personaName = personaNameMap[personaKey] || sec.label;
       const navPersona = personaKey === 'companero' ? 'companero' : personaKey === 'historiador' ? 'historiador' : personaKey === 'periodista' ? 'periodista' : 'abogado';
       const imgSrc = sec.img;
       const iconInner = imgSrc
-        ? '<img src="' + imgSrc + '" alt="' + sec.label + '" class="history-item-persona-img' + (personaKey === 'periodista' ? ' periodista-full' : '') + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'"><span class="history-item-section-emoji" style="display:none">' + sec.emoji + '</span>'
+        ? '<img src="' + imgSrc + '" alt="' + personaName + '" class="history-item-persona-img' + (personaKey === 'periodista' ? ' periodista-full' : '') + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'"><span class="history-item-section-emoji" style="display:none">' + sec.emoji + '</span>'
         : '<span class="history-item-section-emoji">' + sec.emoji + '</span>';
       return '<div class="history-item" data-navigate-screen="' + navScreen + '" data-navigate-persona="' + navPersona + '" data-navigate-session="' + s.sessionId + '">' +
         '<div class="history-item-section ' + sectionClass + '">' +
           '<span class="history-item-section-icon">' + iconInner + '</span>' +
-          '<span class="history-item-section-label">' + sec.label + '</span>' +
+          '<span class="history-item-section-label">' + personaName + '</span>' +
         '</div>' +
         '<div class="history-item-preview">' + (s.preview || 'Nuevo chat') + '</div>' +
         '<div class="history-item-meta">' +
