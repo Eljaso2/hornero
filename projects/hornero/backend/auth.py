@@ -596,20 +596,15 @@ PILOT_USERS_SEED = {
 
 
 def seed_pilot_users():
-    """Seed pilot users into Postgres. Called on startup if users table is empty."""
+    """Seed/UPSERT pilot users into Postgres. Always runs on startup — uses ON CONFLICT to update existing."""
     if not HORNERO_DB_URL:
         return
 
     try:
         with _get_conn() as conn:
-            count = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
-            if count > 0:
-                logger.info(f"Auth DB has {count} users — skip seeding")
-                return
-
-            logger.info("Seeding pilot users into auth DB...")
+            logger.info("Seeding pilot users into auth DB (UPSERT)...")
             for username, data in PILOT_USERS_SEED.items():
-                password_hash = pwd_context.hash(data['password'])
+                password_hash = _hash_password(data['password'])
                 user_id = f"pilot-{username}"
                 conn.execute("""
                     INSERT INTO users (id, email, username, password_hash, nombre, grade, territory, sector, category, agremiacion, email_confirmed)
