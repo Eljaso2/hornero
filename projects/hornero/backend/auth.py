@@ -89,7 +89,7 @@ def _init_db():
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS users (
                     id                  TEXT PRIMARY KEY,
-                    email               TEXT UNIQUE NOT NULL,
+                    email               TEXT NOT NULL,
                     username            TEXT UNIQUE NOT NULL,
                     password_hash       TEXT NOT NULL,
                     nombre              TEXT NOT NULL DEFAULT '',
@@ -107,6 +107,13 @@ def _init_db():
                     updated_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            # Migration: drop email UNIQUE constraint (pilot testers share same email)
+            try:
+                conn.execute("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_email_key")
+                logger.info("Dropped email UNIQUE constraint")
+            except Exception:
+                pass  # already dropped or never existed
+
             conn.execute("CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_users_confirmation_token ON users(confirmation_token)")
