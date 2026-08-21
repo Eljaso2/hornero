@@ -5,7 +5,7 @@ python-dotenv
 python-multipart
 pywebpush
 pyjwt
-passlib[bcrypt]
+bcrypt
 psycopg[binary]
 email-validator
 aiosmtplib

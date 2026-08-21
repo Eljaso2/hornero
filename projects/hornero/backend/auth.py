@@ -13,13 +13,13 @@ import time
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
+import bcrypt as _bcrypt
 import jwt
 import psycopg
 from dotenv import load_dotenv
 from email_validator import validate_email, EmailNotValidError
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer
-from passlib.context import CryptContext
 from pydantic import BaseModel
 
 load_dotenv(override=True)
@@ -45,8 +45,17 @@ SMTP_TLS = os.getenv("SMTP_TLS", "true").lower() == "true"
 # Allowed sectors
 ALLOWED_SECTORS = ["aceitero", "prensa", "hornero", "comercio", "otro"]
 
-# ===== Password hashing =====
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# ===== Password hashing (bcrypt directly) =====
+def _hash_password(password: str) -> str:
+    """Hash a password using bcrypt."""
+    return _bcrypt.hashpw(password.encode('utf-8'), _bcrypt.gensalt()).decode('utf-8')
+
+def _verify_password(password: str, password_hash: str) -> bool:
+    """Verify a password against a bcrypt hash."""
+    try:
+        return _bcrypt.checkpw(password.encode('utf-8'), password_hash.encode('utf-8'))
+    except Exception:
+        return False
 
 # ===== Auth rate limiting (in-memory) =====
 _auth_rate_limit = defaultdict(list)  # key → [timestamps]
@@ -337,7 +346,7 @@ async def register(req: RegisterRequest, request: Request):
 
             # Generate confirmation token
             confirmation_token = secrets.token_urlsafe(32)
-            password_hash = pwd_context.hash(req.password)
+            password_hash = _hash_password(req.password)
             user_id = secrets.token_urlsafe(16)
 
             # Default grade for new users
@@ -423,7 +432,7 @@ async def login(req: LoginRequest, request: Request):
         raise HTTPException(401, "Usuario o contraseña incorrectos")
 
     # Verify password
-    if not pwd_context.verify(req.password, user["password_hash"]):
+    if not _verify_password(req.password, user["password_hash"]):
         raise HTTPException(401, "Usuario o contraseña incorrectos")
 
     # Check active
