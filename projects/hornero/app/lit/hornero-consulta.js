@@ -70,6 +70,7 @@ class HorneroConsulta extends HoComponent {
     this._progressiveRevealFull = '';
     this._progressiveRevealIndex = 0;
     this._savedDrawerState = null; // Drawer state saved before re-render (prevents drawer closing)
+    this._audioProcessing = false; // Guard: prevent concurrent audio processing
   }
 
   connectedCallback() {
@@ -110,7 +111,7 @@ class HorneroConsulta extends HoComponent {
           role: 'hornero',
           text: this._progressiveRevealFull,
           tags: ['consulta', 'stream-partial'],
-          persona: this._activePersona,
+          persona: 'abogado',
           time: this._timeNow(),
         }];
         this.iaStep++;
@@ -471,7 +472,7 @@ class HorneroConsulta extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['consulta', 'greeting'],
-        persona: this._activePersona,
+        persona: 'abogado',
         redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
@@ -493,7 +494,7 @@ class HorneroConsulta extends HoComponent {
         { title: '', body: '¡Hola! Soy el Abogado — soy laboralista del gremio aceitero, te ayudo con derechos, convenio, CCT, legislación laboral. ¿Qué consulta tenés?' },
       ],
       tags: ['consulta', 'greeting'],
-      persona: this._activePersona,
+      persona: 'abogado',
       time: this._timeNow(),
     };
   }
@@ -589,7 +590,7 @@ class HorneroConsulta extends HoComponent {
             role: 'hornero',
             text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.',
             tags: ['consulta', 'timeout'],
-            persona: this._activePersona,
+            persona: 'abogado',
             time: this._timeNow(),
           });
         } else {
@@ -757,7 +758,7 @@ class HorneroConsulta extends HoComponent {
                   text: data.text || streamingText,
                   sections: data.sections || [],
                   tags: data.tags || ['consulta'],
-                  persona: this._activePersona, // Force: consulta screen keeps its original persona
+                  persona: 'abogado', // Force: consulta screen ALWAYS uses abogado — never swap actors mid-chat
                   redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
@@ -800,7 +801,7 @@ class HorneroConsulta extends HoComponent {
           role: 'hornero',
           text: streamingText,
           tags: ['consulta', 'stream-partial'],
-          persona: this._activePersona,
+          persona: 'abogado',
           time: this._timeNow(),
         };
         if (chatEl) {
@@ -849,7 +850,7 @@ class HorneroConsulta extends HoComponent {
       text: responseText,
       sections: data.sections || [],
       tags: data.tags || ['consulta'],
-      persona: this._activePersona,
+      persona: 'abogado', // Force: consulta screen ALWAYS uses abogado
       redirect_persona: data.redirect_persona || '',
       image: data.image || '',
       source_url: data.source_url || '',
@@ -861,6 +862,14 @@ class HorneroConsulta extends HoComponent {
 
   // ===== Audio message handling =====
   _handleAudioMessage(audioBlob, duration, fileName) {
+    // Guard: prevent double audio processing (race condition when two audios sent quickly)
+    if (this._audioProcessing) {
+      console.warn('Audio already being processed — ignoring duplicate');
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      return;
+    }
+    this._audioProcessing = true;
     const durationStr = duration ? `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}` : '0:00';
     const userMsg = { role: 'user', text: `🎤 Audio (${durationStr})`, audio: true, duration, time: this._timeNow() };
     const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
@@ -876,7 +885,7 @@ class HorneroConsulta extends HoComponent {
           role: 'hornero',
           text: 'No puedo procesar el audio ahora — el servidor está lento. Intentá de nuevo.',
           tags: ['consulta', 'audio', 'timeout'],
-          persona: this._activePersona,
+          persona: 'abogado',
           time: this._timeNow(),
         }];
       } else {
@@ -885,6 +894,7 @@ class HorneroConsulta extends HoComponent {
       }
       this.iaStep++;
       this._typing = false;
+      this._audioProcessing = false;
       if (chatEl) chatEl.resetAudioState();
       this.render();
     });
@@ -919,7 +929,7 @@ class HorneroConsulta extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['consulta', 'audio'],
-      persona: this._activePersona,
+      persona: 'abogado', // Force: consulta screen ALWAYS uses abogado
       redirect_persona: data.redirect_persona || '',
       image: data.image || '',
       source_url: data.source_url || '',
@@ -927,6 +937,7 @@ class HorneroConsulta extends HoComponent {
     };
     this.iaStep++;
     this._addWithProgressiveReveal(msg);
+    this._audioProcessing = false; // Reset audio guard
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) chatEl.resetAudioState();
   }

@@ -70,6 +70,7 @@ class HorneroContenido extends HoComponent {
     this._progressiveRevealFull = '';
     this._progressiveRevealIndex = 0;
     this._savedDrawerState = null; // Drawer state saved before re-render (prevents drawer closing)
+    this._audioProcessing = false; // Guard: prevent concurrent audio processing
   }
 
   connectedCallback() {
@@ -432,13 +433,13 @@ class HorneroContenido extends HoComponent {
       if (!response.ok) throw new Error('Greeting error: ' + response.status);
 
       const data = await response.json();
-      this._activePersona = data.persona || 'periodista';
+      // Force: contenido screen ALWAYS uses periodista — never swap actors mid-chat
       const msg = {
         role: 'hornero',
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['contenido', 'greeting'],
-        persona: this._activePersona,
+        persona: 'periodista',
         redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
@@ -641,25 +642,25 @@ class HorneroContenido extends HoComponent {
                 // This is the "done" event with full metadata
                 streamingPersona = data.persona || this._activePersona;
                 // Build the complete message
+                // Force: contenido screen ALWAYS uses periodista — never swap actors mid-chat
                 const reportMsg = {
                   role: 'hornero',
                   text: data.text || streamingText,
                   sections: data.sections || [],
                   tags: data.tags || ['contenido'],
-                  persona: data.persona || this._activePersona,
+                  persona: 'periodista',
                   redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
                   time: data.time || this._timeNow(),
                 };
-                this._activePersona = data.persona || this._activePersona;
                 // Always use typewriter reveal — if none running, start one
                 this._pendingFinalizeMsg = reportMsg;
                 this._streamAbortController = null; // Stream completed normally
                 if (!this._progressiveRevealTimer) {
                   const fullText = data.text || streamingText;
                   if (chatEl && fullText) {
-                    this._startProgressiveReveal(fullText, chatEl, this._activePersona);
+                    this._startProgressiveReveal(fullText, chatEl, 'periodista');
                   } else {
                     this._stopProgressiveReveal();
                     this.iaStep++;
@@ -742,13 +743,21 @@ class HorneroContenido extends HoComponent {
       source_url: data.source_url || '',
       time: data.time || this._timeNow(),
     };
-    this._activePersona = data.persona || this._activePersona;
+    // Force: contenido screen ALWAYS uses periodista
     this.iaStep++;
     this._addWithProgressiveReveal(reportMsg);
   }
 
   // ===== Audio message handling =====
   _handleAudioMessage(audioBlob, duration, fileName) {
+    // Guard: prevent double audio processing (race condition when two audios sent quickly)
+    if (this._audioProcessing) {
+      console.warn('Audio already being processed — ignoring duplicate');
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      return;
+    }
+    this._audioProcessing = true;
     const durationStr = duration ? `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}` : '0:00';
     const userMsg = { role: 'user', text: `🎤 Audio (${durationStr})`, audio: true, duration, time: this._timeNow() };
     const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
@@ -763,6 +772,7 @@ class HorneroContenido extends HoComponent {
       this._addWithProgressiveReveal(this._localResponse('audio fallback'));
       this.iaStep++;
       this._typing = false;
+      this._audioProcessing = false;
       if (chatEl) chatEl.resetAudioState();
       this.render();
     });
@@ -796,12 +806,13 @@ class HorneroContenido extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['contenido', 'audio'],
-      persona: data.persona || this._activePersona,
+      persona: 'periodista',
       time: data.time || this._timeNow(),
     };
-    this._activePersona = data.persona || this._activePersona;
+    // Force: contenido screen ALWAYS uses periodista
     this.iaStep++;
     this._addWithProgressiveReveal(msg);
+    this._audioProcessing = false; // Reset audio guard
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) chatEl.resetAudioState();
   }

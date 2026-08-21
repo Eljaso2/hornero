@@ -72,6 +72,7 @@ class HorneroCondicion extends HoComponent {
     this._progressiveRevealIndex = 0;
     this._pendingFinalizeMsg = null;
     this._savedDrawerState = null;
+    this._audioProcessing = false; // Guard: prevent concurrent audio processing
   }
 
   connectedCallback() {
@@ -102,7 +103,7 @@ class HorneroCondicion extends HoComponent {
           role: 'hornero',
           text: this._progressiveRevealFull,
           tags: ['panorama', 'stream-partial'],
-          persona: this._activePersona,
+          persona: 'sociologo',
           time: this._timeNow(),
         }];
         this.iaStep++;
@@ -608,7 +609,7 @@ class HorneroCondicion extends HoComponent {
             role: 'hornero',
             text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento.',
             tags: ['panorama', 'timeout'],
-            persona: this._activePersona,
+            persona: 'sociologo',
             time: this._timeNow(),
           });
         } else {
@@ -676,7 +677,7 @@ class HorneroCondicion extends HoComponent {
         text: data.text || '',
         sections: data.sections || [],
         tags: data.tags || ['panorama', 'greeting'],
-        persona: this._activePersona,
+        persona: 'sociologo',
         redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
@@ -697,7 +698,7 @@ class HorneroCondicion extends HoComponent {
         { title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Qué querés explorar?' },
       ],
       tags: ['panorama', 'greeting'],
-      persona: this._activePersona,
+      persona: 'sociologo',
       time: this._timeNow(),
     };
   }
@@ -797,7 +798,7 @@ class HorneroCondicion extends HoComponent {
                   text: data.text || streamingText,
                   sections: data.sections || [],
                   tags: data.tags || ['panorama'],
-                  persona: this._activePersona,
+                  persona: 'sociologo', // Force: condicion screen ALWAYS uses sociologo — never swap actors mid-chat
                   redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
@@ -829,7 +830,7 @@ class HorneroCondicion extends HoComponent {
         const partialMsg = {
           role: 'hornero', text: streamingText,
           tags: ['panorama', 'stream-partial'],
-          persona: this._activePersona, time: this._timeNow(),
+          persona: 'sociologo', time: this._timeNow(),
         };
         if (chatEl) {
           chatEl.finalizeStreamingMessage(partialMsg);
@@ -874,7 +875,7 @@ class HorneroCondicion extends HoComponent {
       text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['panorama'],
-      persona: this._activePersona,
+      persona: 'sociologo', // Force: condicion screen ALWAYS uses sociologo
       redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
@@ -886,6 +887,14 @@ class HorneroCondicion extends HoComponent {
 
   // ===== Audio =====
   _handleAudioMessage(audioBlob, duration, fileName) {
+    // Guard: prevent double audio processing (race condition when two audios sent quickly)
+    if (this._audioProcessing) {
+      console.warn('Audio already being processed — ignoring duplicate');
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) chatEl.resetAudioState();
+      return;
+    }
+    this._audioProcessing = true;
     const durationStr = duration ? `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}` : '0:00';
     const userMsg = { role: 'user', text: `🎤 Audio (${durationStr})`, audio: true, duration, time: this._timeNow() };
     this.messages = [...this.messages, userMsg];
@@ -899,12 +908,13 @@ class HorneroCondicion extends HoComponent {
           role: 'hornero',
           text: 'No puedo procesar el audio ahora — el servidor está lento. Intentá de nuevo.',
           tags: ['panorama', 'audio', 'timeout'],
-          persona: this._activePersona, time: this._timeNow(),
+          persona: 'sociologo', time: this._timeNow(),
         }];
       } else {
         this._addWithProgressiveReveal(this._localResponse('audio fallback'));
       }
       this._typing = false;
+      this._audioProcessing = false;
       const chatEl = this.shadowRoot.querySelector('hornero-chat');
       if (chatEl) chatEl.resetAudioState();
       this.render();
@@ -935,7 +945,7 @@ class HorneroCondicion extends HoComponent {
       role: 'hornero', text: data.text || '',
       sections: data.sections || [],
       tags: data.tags || ['panorama', 'audio'],
-      persona: this._activePersona,
+      persona: 'sociologo', // Force: condicion screen ALWAYS uses sociologo
       redirect_persona: data.redirect_persona || '',
         image: data.image || '',
         source_url: data.source_url || '',
@@ -943,6 +953,7 @@ class HorneroCondicion extends HoComponent {
     };
     this.iaStep++;
     this._addWithProgressiveReveal(msg);
+    this._audioProcessing = false; // Reset audio guard
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     if (chatEl) chatEl.resetAudioState();
   }
