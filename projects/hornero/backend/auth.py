@@ -638,5 +638,6 @@ def seed_pilot_users():
 
 def init_auth():
     """Initialize auth: create tables + seed pilot users. Called from main.py startup."""
+    logger.info(f"[STARTUP] SMTP_HOST={SMTP_HOST!r} SMTP_USER={SMTP_USER!r} SMTP_PORT={SMTP_PORT}")
     _init_db()
     seed_pilot_users()
