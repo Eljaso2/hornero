@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmar cuenta — Hornero</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #1E2321;
+      color: #E8E6E0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: #2A3230;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 32px 24px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+    }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+    h1 {
+      font-family: 'Archivo', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .message {
+      font-size: 0.92rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      color: #E8E6E0;
+    }
+    .message.error {
+      color: #CC8080;
+    }
+    .message.success {
+      color: #80CCA0;
+    }
+    .loading {
+      color: #9C988D;
+      font-size: 0.86rem;
+    }
+    .btn {
+      display: inline-block;
+      background: #4E9978;
+      color: #F2F1EC;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-family: 'Archivo', sans-serif;
+      font-weight: 700;
+      font-size: 0.86rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn:hover { background: #3D6B56; }
+    .btn.secondary {
+      background: #ECEAE3;
+      color: #1E2321;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <img src="assets/hornero-logo-192.png" alt="Hornero" />
+    </div>
+
+    <div id="loading-view">
+      <h1>Confirmando tu cuenta...</h1>
+      <p class="loading">Verificando el enlace de confirmación</p>
+    </div>
+
+    <div id="success-view" class="hidden">
+      <h1>✅ ¡Cuenta confirmada!</h1>
+      <p class="message success">Tu cuenta fue activada correctamente. Ya podés ingresar a Hornero.</p>
+      <a href="app-ho.html" class="btn">Ingresar a Hornero</a>
+    </div>
+
+    <div id="error-view" class="hidden">
+      <h1>❌ Error</h1>
+      <p id="error-message" class="message error"></p>
+      <a href="app-ho.html" class="btn secondary">Volver a Hornero</a>
+    </div>
+  </div>
+
+  <script>
+    // Get backend URL (same logic as db.js)
+    function getBackendUrl() {
+      var stored = null;
+      try { stored = localStorage.getItem('hornero-backend-url'); } catch(e) {}
+      if (stored) return stored;
+      // Detect production vs dev
+      if (window.location.origin === 'https://eljaso2.github.io') {
+        return 'https://hornero-ia.onrender.com';
+      }
+      return 'http://localhost:8000';
+    }
+
+    async function confirmAccount() {
+      var params = new URLSearchParams(window.location.search);
+      var token = params.get('token');
+
+      if (!token) {
+        showError('Enlace inválido — falta el token de confirmación.');
+        return;
+      }
+
+      var baseUrl = getBackendUrl();
+
+      try {
+        var res = await fetch(baseUrl + '/api/auth/confirm/' + encodeURIComponent(token));
+        var data = await res.json();
+
+        if (res.ok) {
+          // Success!
+          document.getElementById('loading-view').classList.add('hidden');
+          document.getElementById('success-view').classList.remove('hidden');
+        } else {
+          showError(data.detail || 'Error al confirmar la cuenta.');
+        }
+      } catch (e) {
+        showError('Error de conexión. Intentá de nuevo más tarde.');
+      }
+    }
+
+    function showError(msg) {
+      document.getElementById('loading-view').classList.add('hidden');
+      document.getElementById('error-message').textContent = msg;
+      document.getElementById('error-view').classList.remove('hidden');
+    }
+
+    // Run on load
+    confirmAccount();
+  </script>
+</body>
+</html>
