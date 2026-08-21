@@ -38,7 +38,7 @@ CONFIRM_TOKEN_EXPIRE = 24 * 3600     # 24 hours
 GMAIL_CLIENT_ID = os.getenv("GMAIL_CLIENT_ID", "")
 GMAIL_CLIENT_SECRET = os.getenv("GMAIL_CLIENT_SECRET", "")
 GMAIL_REFRESH_TOKEN = os.getenv("GMAIL_REFRESH_TOKEN", "")
-EMAIL_FROM = os.getenv("EMAIL_FROM", "alejandro.jasinski@gmail.com")
+EMAIL_FROM = os.getenv("EMAIL_FROM", "Hornero <alejandro.jasinski@gmail.com>")
 
 # Allowed sectors
 ALLOWED_SECTORS = ["aceitero", "prensa", "hornero", "comercio", "otro"]

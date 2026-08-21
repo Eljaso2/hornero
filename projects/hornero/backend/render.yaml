@@ -40,4 +40,4 @@ services:
       - key: GMAIL_REFRESH_TOKEN
         sync: false
       - key: EMAIL_FROM
-        value: "alejandro.jasinski@gmail.com"
+        value: "Hornero <alejandro.jasinski@gmail.com>"
