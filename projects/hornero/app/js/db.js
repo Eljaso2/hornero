@@ -647,7 +647,7 @@ function _fetchAndMergeRemoteInformes(username) {
   if (!username) return Promise.resolve();
   var baseUrl = _getChatSyncBaseUrl();
   var controller = new AbortController();
-  var timeout = setTimeout(function() { controller.abort(); }, 5000);
+  var timeout = setTimeout(function() { controller.abort(); }, 30000);
   return fetch(baseUrl + '/api/informes/all?username=' + encodeURIComponent(username), { signal: controller.signal })
     .then(function(r) { clearTimeout(timeout); return r.ok ? r.json() : []; })
     .then(function(remoteInformes) {
@@ -665,7 +665,7 @@ function _fetchAndMergeRemoteIncomingInformes(userGrade, territorio, empresa) {
   if (!userGrade || userGrade === 'B.a') return Promise.resolve();
   var baseUrl = _getChatSyncBaseUrl();
   var controller = new AbortController();
-  var timeout = setTimeout(function() { controller.abort(); }, 5000);
+  var timeout = setTimeout(function() { controller.abort(); }, 30000);
   var params = 'grade=' + encodeURIComponent(userGrade) +
                '&territorio=' + encodeURIComponent(territorio || '') +
                '&empresa=' + encodeURIComponent(empresa || '');
@@ -745,7 +745,7 @@ function _fetchAndMergeRemoteCorrecciones(informeId) {
   if (!informeId) return Promise.resolve([]);
   var baseUrl = _getChatSyncBaseUrl();
   var controller = new AbortController();
-  var timeout = setTimeout(function() { controller.abort(); }, 5000);
+  var timeout = setTimeout(function() { controller.abort(); }, 30000);
   return fetch(baseUrl + '/api/correcciones?informeId=' + encodeURIComponent(informeId), { signal: controller.signal })
     .then(function(r) { clearTimeout(timeout); return r.ok ? r.json() : []; })
     .then(function(remoteCorrecciones) {
@@ -810,6 +810,11 @@ function borrarInformesUsuario(username) {
 // Estrategia: local-first → push on save, pull on load, merge por id.
 
 function _getChatSyncBaseUrl() {
+  // Use shared HorneroAPI module if available
+  if (window.HorneroAPI && window.HorneroAPI.getBackendUrl) {
+    return window.HorneroAPI.getBackendUrl();
+  }
+  // Fallback for when hornero-api.js is not loaded
   var h = window.location.hostname;
   if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
     return 'http://' + h + ':8000';
@@ -839,7 +844,7 @@ function _fetchAndMergeRemoteSessions(username) {
   if (!username) return Promise.resolve();
   var baseUrl = _getChatSyncBaseUrl();
   var controller = new AbortController();
-  var timeout = setTimeout(function() { controller.abort(); }, 5000); // 5s timeout
+  var timeout = setTimeout(function() { controller.abort(); }, 30000); // 5s timeout
   return fetch(baseUrl + '/api/chat/sessions?username=' + encodeURIComponent(username), { signal: controller.signal })
     .then(function(r) { clearTimeout(timeout); return r.ok ? r.json() : []; })
     .then(function(remoteSessions) {

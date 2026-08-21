@@ -446,8 +446,16 @@ class HorneroLogin extends HoComponent {
 
     // Try backend auth first
     try {
-      const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() : '';
+      const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() :
+                       (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : '');
       if (baseUrl) {
+        // Wake up Render if hibernating (shows "Despertando..." message)
+        if (window.HorneroAPI) {
+          this.set('error', 'Despertando el servidor...');
+          await window.HorneroAPI.wakeUpBackend();
+          this.set('error', '');
+        }
+
         const res = await fetch(baseUrl + '/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

@@ -103,13 +103,16 @@
     </div>
   </div>
 
+  <script src="js/hornero-api.js"></script>
   <script>
-    // Get backend URL (same logic as db.js)
+    // Get backend URL (shared logic)
     function getBackendUrl() {
+      if (window.HorneroAPI && window.HorneroAPI.getBackendUrl) {
+        return window.HorneroAPI.getBackendUrl();
+      }
       var stored = null;
       try { stored = localStorage.getItem('hornero-backend-url'); } catch(e) {}
       if (stored) return stored;
-      // Detect production vs dev
       if (window.location.origin === 'https://eljaso2.github.io') {
         return 'https://hornero-ia.onrender.com';
       }
@@ -127,29 +130,46 @@
 
       var baseUrl = getBackendUrl();
 
-      // Step 1: Wake up Render (free tier hibernates after 15min)
+      // Use shared API module (wakeup + retry + timeout)
+      if (window.HorneroAPI && window.HorneroAPI.apiFetch) {
+        try {
+          var res = await window.HorneroAPI.apiFetch(
+            baseUrl + '/api/auth/confirm/' + encodeURIComponent(token),
+            { method: 'GET' },
+            3,    // 3 retries
+            30000 // 30s timeout per attempt
+          );
+          var data = await res.json();
+          if (res.ok) {
+            document.getElementById('loading-view').classList.add('hidden');
+            document.getElementById('success-view').classList.remove('hidden');
+          } else {
+            showError(data.detail || 'Error al confirmar la cuenta.');
+          }
+        } catch(e) {
+          showError('Error de conexión. El servidor puede estar iniciando — intentá de nuevo en 30 segundos.');
+        }
+        return;
+      }
+
+      // Fallback: manual retry (if HorneroAPI not loaded)
       try {
         await fetch(baseUrl + '/api/health', { signal: AbortSignal.timeout(60000) });
-      } catch (e) {
-        // First ping may timeout or 404 — that's OK, server is waking up
-      }
-      // Give server a moment to fully start
+      } catch (e) {}
       await new Promise(function(r) { setTimeout(r, 3000); });
 
-      // Step 2: Confirm the account (with retries)
       for (var attempt = 1; attempt <= 3; attempt++) {
         try {
-          var res = await fetch(baseUrl + '/api/auth/confirm/' + encodeURIComponent(token), {
+          var res2 = await fetch(baseUrl + '/api/auth/confirm/' + encodeURIComponent(token), {
             signal: AbortSignal.timeout(30000),
           });
-          var data = await res.json();
-
-          if (res.ok) {
+          var data2 = await res2.json();
+          if (res2.ok) {
             document.getElementById('loading-view').classList.add('hidden');
             document.getElementById('success-view').classList.remove('hidden');
             return;
           } else {
-            showError(data.detail || 'Error al confirmar la cuenta.');
+            showError(data2.detail || 'Error al confirmar la cuenta.');
             return;
           }
         } catch (e) {
