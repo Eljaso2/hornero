@@ -36,6 +36,8 @@
   <!-- Global CSS variables (used by all components) -->
   <link rel="stylesheet" href="css/hornero.css">
 
+  <!-- Shared API utilities (wakeup + retry + URL detection) -->
+  <script src="js/hornero-api.js"></script>
   <!-- Auth fetch wrapper (Bearer token + auto-refresh) -->
   <script src="js/auth-fetch.js"></script>
   <!-- IndexedDB (shared between vanilla and HoComponent) -->
@@ -185,6 +187,6 @@
   </script>
 
   <!-- Load HoComponent Web Components (ES module) — cache-bust via query param -->
-  <script type="module" src="lit/hornero-components.js?ver=605"></script>
+  <script type="module" src="lit/hornero-components.js?ver=610"></script>
 </body>
 </html>
