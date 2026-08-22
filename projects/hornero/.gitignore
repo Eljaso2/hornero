@@ -1,2 +1,3 @@
-# PDFs are source material for the chunking pipeline, not needed at runtime
-backend/pdfs/
+# PDFs in docs/fuentes/ are source material tracked in git.
+# Large PDFs that don't need deployment can be excluded per-file here.
+# (Previously backend/pdfs/ was ignored; that directory no longer exists.)
