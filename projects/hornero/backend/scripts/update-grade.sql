@@ -1,0 +1,16 @@
+-- Actualizar grade de usuario a B.d (grado 4: Federación)
+-- Ejecutar en Render Shell (psql) o en cualquier conexión a la DB
+--
+-- USO:
+-- 1. Ir a Render Dashboard → hornero-ia → Shell
+-- 2. Ejecutar: psql $HORNERO_DB_URL
+-- 3. Copiar y pegar las queries de abajo
+--
+-- Buscar el usuario por nombre o email:
+-- SELECT username, email, nombre, grade FROM users WHERE nombre ILIKE '%alejandro%' OR email ILIKE '%jasinski%';
+--
+-- Actualizar el grade:
+-- UPDATE users SET grade = 'B.d', updated_at = CURRENT_TIMESTAMP WHERE username = 'USERNAME_AQUI';
+--
+-- Verificar:
+-- SELECT username, email, nombre, grade FROM users WHERE grade = 'B.d';
