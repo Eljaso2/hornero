@@ -1183,7 +1183,6 @@ async def chat_sync(req: ChatSyncRequest, user: dict = Depends(require_auth)):
 async def chat_sessions(user: dict = Depends(require_auth)):
     """List chat sessions for a user. Returns session metadata."""
     username = user["username"]
-        return []
     conn = _get_chat_db()
     try:
         rows = conn.execute("""
@@ -1429,7 +1428,6 @@ async def informes_sync(req: InformeSyncRequest, user: dict = Depends(require_au
 async def informes_all(user: dict = Depends(require_auth)):
     """Obtener todos los informes de un usuario."""
     username = user["username"]
-        return []
     conn = _get_informes_db()
     try:
         rows = conn.execute("""
@@ -1536,7 +1534,6 @@ def _row_to_informe(r):
 async def informes_clear_user(user: dict = Depends(require_auth)):
     """Borrar todos los informes de un usuario."""
     username = user["username"]
-        return {"deleted": 0}
     conn = _get_informes_db()
     try:
         cursor = conn.execute("DELETE FROM informes WHERE username = ?", (username,))
@@ -1694,7 +1691,6 @@ def _row_to_correccion(r):
 async def chat_clear_user(user: dict = Depends(require_auth)):
     """Borrar todos los chats de un usuario (no borra los de otros usuarios)."""
     username = user["username"]
-        return {"deleted": 0}
     conn = _get_chat_db()
     try:
         cursor = conn.execute("DELETE FROM chat_messages WHERE username = ?", (username,))
