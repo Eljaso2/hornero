@@ -34,6 +34,13 @@ ACCESS_TOKEN_EXPIRE = 2 * 3600       # 2 hours
 REFRESH_TOKEN_EXPIRE = 30 * 86400    # 30 days
 CONFIRM_TOKEN_EXPIRE = 24 * 3600     # 24 hours
 
+# Admin emails: users confirming with these emails get grade B.d automatically
+# Comma-separated in ADMIN_EMAILS env var, or hardcoded fallback for pilot
+_ADMIN_EMAILS_ENV = os.getenv("ADMIN_EMAILS", "").strip()
+ADMIN_EMAILS = [e.strip().lower() for e in _ADMIN_EMAILS_ENV.split(",") if e.strip()] or [
+    # Alejandro Jasinski — admin piloto (add your email here if needed)
+]
+
 # Email: Gmail API (OAuth2) — works on Render (HTTPS, no blocked ports)
 GMAIL_CLIENT_ID = os.getenv("GMAIL_CLIENT_ID", "")
 GMAIL_CLIENT_SECRET = os.getenv("GMAIL_CLIENT_SECRET", "")
@@ -443,7 +450,9 @@ async def register(req: RegisterRequest, request: Request):
 
             # Default grade for new users
             grade = "B.a"
-            # Sector "hornero" = testers (internal team), others = usuarios reales
+            # Sector "hornero" = admin/tester (internal team) → grade B.d
+            if req.sector == "hornero":
+                grade = "B.d"
             category = "tester" if req.sector == "hornero" else "usuario"
 
             conn.execute("""
@@ -499,10 +508,23 @@ async def confirm_email(token: str):
     # Confirm
     try:
         with _get_conn() as conn:
-            conn.execute("""
-                UPDATE users SET email_confirmed = TRUE, confirmation_token = NULL, updated_at = CURRENT_TIMESTAMP
-                WHERE id = %s
-            """, (user["id"],))
+            # If admin email, assign grade B.d on confirmation
+            admin_grade = None
+            if ADMIN_EMAILS and user.get("email", "").lower() in ADMIN_EMAILS:
+                admin_grade = "B.d"
+                logger.info(f"Admin email confirmed: {user['email']} — assigning grade B.d")
+
+            if admin_grade:
+                conn.execute("""
+                    UPDATE users SET email_confirmed = TRUE, confirmation_token = NULL,
+                                    grade = %s, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = %s
+                """, (admin_grade, user["id"]))
+            else:
+                conn.execute("""
+                    UPDATE users SET email_confirmed = TRUE, confirmation_token = NULL, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = %s
+                """, (user["id"],))
             conn.commit()
     except Exception as e:
         logger.error(f"Confirmation DB error: {e}")
@@ -542,6 +564,17 @@ async def login(req: LoginRequest, request: Request):
     # Check email confirmed
     if not user.get("email_confirmed"):
         raise HTTPException(403, "Email no confirmado. Te enviamos un email de confirmación.")
+
+    # Auto-upgrade admin emails to B.d if not already
+    if ADMIN_EMAILS and user.get("email", "").lower() in ADMIN_EMAILS and user.get("grade") != "B.d":
+        try:
+            with _get_conn() as conn:
+                conn.execute("UPDATE users SET grade = 'B.d', updated_at = CURRENT_TIMESTAMP WHERE id = %s", (user["id"],))
+                conn.commit()
+                user["grade"] = "B.d"
+                logger.info(f"Login: auto-upgraded admin user {user['username']} to B.d")
+        except Exception as e:
+            logger.warning(f"Login: failed to upgrade admin grade: {e}")
 
     # Generate tokens
     access_token = _create_token(user, "access")
@@ -641,7 +674,23 @@ async def resend_confirmation(req: ResendConfirmationRequest, request: Request):
 
 @router.get("/me")
 async def get_me(user: dict = Depends(require_auth)):
-    """Return current user profile."""
+    """Return current user profile. Auto-upgrade admin users to B.d."""
+    # Auto-upgrade: admin emails or sector "hornero" → B.d
+    should_upgrade = False
+    if ADMIN_EMAILS and user.get("email", "").lower() in ADMIN_EMAILS and user.get("grade") != "B.d":
+        should_upgrade = True
+    if user.get("sector") == "hornero" and user.get("grade") != "B.d":
+        should_upgrade = True
+    if should_upgrade and HORNERO_DB_URL:
+        try:
+            with _get_conn() as conn:
+                conn.execute("UPDATE users SET grade = 'B.d', updated_at = CURRENT_TIMESTAMP WHERE id = %s", (user["id"],))
+                conn.commit()
+                user["grade"] = "B.d"
+                logger.info(f"/me: auto-upgraded {user['username']} to B.d")
+        except Exception as e:
+            logger.warning(f"/me: failed to upgrade admin grade: {e}")
+
     agremiacion = user.get("agremiacion", {})
     if isinstance(agremiacion, str):
         try:
