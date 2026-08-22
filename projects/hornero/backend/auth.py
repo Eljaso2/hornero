@@ -356,6 +356,13 @@ async def require_auth(user: dict = Depends(current_user)) -> dict:
     return user
 
 
+async def _optional_auth(user: dict = Depends(current_user)) -> dict | None:
+    """Return user if authenticated, None otherwise. No error if not authenticated."""
+    if not user or not user.get("active"):
+        return None
+    return user
+
+
 # ===== Pydantic models =====
 
 class RegisterRequest(BaseModel):
@@ -693,12 +700,16 @@ async def admin_list_users(user: dict = Depends(require_auth)):
 class UpdateGradeRequest(BaseModel):
     username: str
     grade: str  # 'B.a', 'B.b', 'B.c', 'B.d'
+    secret: str = ""  # Admin secret (alternative to JWT auth)
 
 @router.post("/admin/update-grade")
-async def admin_update_grade(req: UpdateGradeRequest, user: dict = Depends(require_auth)):
-    """Update a user's grade. Only accessible to authenticated admin users."""
+async def admin_update_grade(req: UpdateGradeRequest, user: dict = Depends(_optional_auth)):
+    """Update a user's grade. Accepts JWT auth OR admin secret."""
     if not HORNERO_DB_URL:
         raise HTTPException(500, "Auth not configured")
+    # Auth: either JWT or admin secret
+    if not user and not (NUKE_SECRET and req.secret == NUKE_SECRET):
+        raise HTTPException(401, "Autenticación requerida (JWT o admin secret)")
     valid_grades = ['B.a', 'B.b', 'B.c', 'B.d']
     if req.grade not in valid_grades:
         raise HTTPException(400, f"Grade inválido. Válidos: {', '.join(valid_grades)}")
