@@ -95,7 +95,28 @@ async def startup_event():
     """Initialize clipping cache + KB chunks + auth on startup."""
     clip_count = refresh()
     kb_count = kb_refresh()
-    init_auth()  # Auth DB + seed pilot users
+    init_auth()  # Auth DB (creates tables, optional nuke via HORNERO_NUKE_DATA=yes)
+
+    # One-time nuclear cleanup: wipe ALL SQLite data (chats, informes, correcciones)
+    # Triggered by HORNERO_NUKE_DATA=yes env var — set once, then remove after deploy
+    if os.environ.get("HORNERO_NUKE_DATA") == "yes":
+        logger.info("NUKE: wiping all SQLite data...")
+        for db_path in [CHAT_DB_PATH, INFORMES_DB_PATH]:
+            if os.path.exists(db_path):
+                try:
+                    os.remove(db_path)
+                    logger.info(f"NUKE: deleted {db_path}")
+                except Exception as e:
+                    logger.error(f"NUKE: failed to delete {db_path}: {e}")
+        # Push subscriptions too
+        try:
+            from push_manager import _db_path as push_db_path
+            if os.path.exists(push_db_path):
+                os.remove(push_db_path)
+                logger.info(f"NUKE: deleted {push_db_path}")
+        except Exception:
+            pass
+
     print(f"Clipping cache initialized: {clip_count} items")
     print(f"KB chunks loaded: {kb_count} total (manual + PDF-extracted)")
 

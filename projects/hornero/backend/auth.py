@@ -595,74 +595,28 @@ async def get_me(user: dict = Depends(require_auth)):
     }
 
 
-# ===== Seed pilot users =====
-
-PILOT_USERS_SEED = {
-    'eljaso':   {'password': 'hornero2026', 'grade': 'B.d', 'territory': 'norte-santa-fe', 'sector': 'hornero', 'nombre': 'Eljaso', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Administrador', 'federacion': 'Hornero', 'sindicato': 'Hornero', 'convenio': '', 'sectorName': '', 'territorio': 'Norte de Santa Fe', 'empresa': '', 'puesto': ''}},
-    'test4':    {'password': 'fed2026', 'grade': 'B.d', 'territory': 'rosario', 'sector': 'aceitero', 'nombre': 'Tester N4 — Federación', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Secretario General de la Federación', 'federacion': 'F.T.C.I.O.D y A.R.A.', 'sindicato': 'Sindicato de Obreros de la Industria Aceitera — Rosario', 'convenio': 'CCT 420/05', 'sectorName': 'Industria aceitera', 'territorio': 'Rosario', 'empresa': 'Dreyfus', 'puesto': 'Operario de planta'}},
-    'test3':    {'password': 'sec2026', 'grade': 'B.c', 'territory': 'norte-santa-fe', 'sector': 'aceitero', 'nombre': 'Tester N3 — Secretario General Sindicato', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Secretario General del Sindicato', 'federacion': 'F.T.C.I.O.D y A.R.A.', 'sindicato': 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', 'convenio': 'CCT 420/05', 'sectorName': 'Industria aceitera', 'territorio': 'Norte de Santa Fe', 'empresa': '', 'puesto': ''}},
-    'test_guaycuru': {'password': 'delguay2026', 'grade': 'B.b', 'territory': 'norte-santa-fe', 'sector': 'aceitero', 'nombre': 'Delegado Desmotadora Guaycurú', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Delegado', 'federacion': 'F.T.C.I.O.D y A.R.A.', 'sindicato': 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', 'convenio': 'CCT 420/05', 'sectorName': 'Industria aceitera', 'territorio': 'Norte de Santa Fe', 'empresa': 'Desmotadora Guaycurú', 'puesto': 'Operario de desmotadora'}},
-    'test2':    {'password': 'del2026', 'grade': 'B.b', 'territory': 'norte-santa-fe', 'sector': 'aceitero', 'nombre': 'Tester N2 — Delegada', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Delegado', 'federacion': 'F.T.C.I.O.D y A.R.A.', 'sindicato': 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', 'convenio': 'CCT 420/05', 'sectorName': 'Industria aceitera', 'territorio': 'Norte de Santa Fe', 'empresa': 'Vicentín SAIC', 'puesto': 'Operario de planta'}},
-    'test1a':   {'password': 'base2026', 'grade': 'B.a', 'territory': 'norte-santa-fe', 'sector': 'aceitero', 'nombre': 'Tester N1 (base)', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Trabajador de Base', 'federacion': 'F.T.C.I.O.D y A.R.A.', 'sindicato': 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', 'convenio': 'CCT 420/05', 'sectorName': 'Industria aceitera', 'territorio': 'Norte de Santa Fe', 'empresa': 'Vicentín SAIC', 'puesto': 'Operario de planta'}},
-    'test1b':   {'password': 'adm2026', 'grade': 'B.a', 'territory': 'norte-santa-fe', 'sector': 'aceitero', 'nombre': 'Tester N1 (administración)', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Trabajador de Base', 'federacion': 'F.T.C.I.O.D y A.R.A.', 'sindicato': 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', 'convenio': 'CCT 420/05', 'sectorName': 'Industria aceitera', 'territorio': 'Norte de Santa Fe', 'empresa': 'Vicentín SAIC', 'puesto': 'Administración'}},
-    'test1c':   {'password': 'obrero2026', 'grade': 'B.a', 'territory': 'norte-santa-fe', 'sector': 'aceitero', 'nombre': 'Tester N1C — Obrero Guaycurú', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Trabajador de Base', 'federacion': 'F.T.C.I.O.D y A.R.A.', 'sindicato': 'Sindicato de Obreros de la Industria Aceitera — Norte de Santa Fe', 'convenio': 'CCT 420/05', 'sectorName': 'Industria aceitera', 'territorio': 'Norte de Santa Fe', 'empresa': 'Desmotadora Guaycurú', 'puesto': 'Operario de desmotadora'}},
-    'test_prensa4':  {'password': 'prensa2026', 'grade': 'B.d', 'territory': 'caba', 'sector': 'prensa', 'nombre': 'Tester P4 — SIPREBA', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Secretario General de SIPREBA', 'federacion': 'SIPREBA', 'sindicato': 'SIPREBA (Sindicato de Prensa de Buenos Aires)', 'convenio': 'CCT 301/75', 'sectorName': 'Prensa y periodismo', 'territorio': 'CABA', 'empresa': '', 'puesto': ''}},
-    'test_prensa3':  {'password': 'secprensa2026', 'grade': 'B.c', 'territory': 'caba', 'sector': 'prensa', 'nombre': 'Tester P3 — Secretario Seccional', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Secretario Seccional', 'federacion': 'SIPREBA', 'sindicato': 'SIPREBA', 'convenio': 'CCT 301/75', 'sectorName': 'Prensa y periodismo', 'territorio': 'CABA', 'empresa': '', 'puesto': ''}},
-    'test_prensa2':  {'password': 'delprensa2026', 'grade': 'B.b', 'territory': 'caba', 'sector': 'prensa', 'nombre': 'Tester P2 — Delegado Prensa', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Delegado', 'federacion': 'SIPREBA', 'sindicato': 'SIPREBA', 'convenio': 'CCT 301/75', 'sectorName': 'Prensa y periodismo', 'territorio': 'CABA', 'empresa': 'Cronista', 'puesto': 'Cronista'}},
-    'test_prensa1':  {'password': 'baseprensa2026', 'grade': 'B.a', 'territory': 'caba', 'sector': 'prensa', 'nombre': 'Tester P1 — Periodista Base', 'email': 'alejandro.jasinski@gmail.com', 'category': 'tester',
-        'agremiacion': {'rol': 'Trabajador de Base', 'federacion': 'SIPREBA', 'sindicato': 'SIPREBA', 'convenio': 'CCT 301/75', 'sectorName': 'Prensa y periodismo', 'territorio': 'CABA', 'empresa': '', 'puesto': 'Cronista'}},
-    'emiliano': {'password': 'emiliano2026', 'grade': 'B.d', 'territory': '', 'sector': 'hornero', 'nombre': 'Emiliano López', 'email': 'emiliano@thetricontinental.org', 'category': 'tester',
-        'agremiacion': {'rol': 'Tester', 'federacion': '', 'sindicato': '', 'convenio': '', 'sectorName': '', 'territorio': '', 'empresa': '', 'puesto': ''}},
-    'federico': {'password': 'federico2026', 'grade': 'B.d', 'territory': '', 'sector': 'hornero', 'nombre': 'Federico Ávalos', 'email': 'PENDIENTE', 'category': 'tester',
-        'agremiacion': {'rol': 'Tester', 'federacion': '', 'sindicato': '', 'convenio': '', 'sectorName': '', 'territorio': '', 'empresa': '', 'puesto': ''}},
-}
-
-
-def seed_pilot_users():
-    """Seed/UPSERT pilot users into Postgres. Always runs on startup — uses ON CONFLICT to update existing."""
-    if not HORNERO_DB_URL:
-        return
-
-    try:
-        with _get_conn() as conn:
-            logger.info("Seeding pilot users into auth DB (UPSERT)...")
-            for username, data in PILOT_USERS_SEED.items():
-                password_hash = _hash_password(data['password'])
-                user_id = f"pilot-{username}"
-                conn.execute("""
-                    INSERT INTO users (id, email, username, password_hash, nombre, grade, territory, sector, category, agremiacion, email_confirmed)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, TRUE)
-                    ON CONFLICT(username) DO UPDATE SET
-                        password_hash=EXCLUDED.password_hash,
-                        email=EXCLUDED.email,
-                        email_confirmed=TRUE
-                """, (
-                    user_id, data['email'], username, password_hash,
-                    data['nombre'], data['grade'], data.get('territory', ''),
-                    data.get('sector', 'aceitero'), data.get('category', 'tester'),
-                    json.dumps(data.get('agremiacion', {}))
-                ))
-            conn.commit()
-            logger.info(f"Seeded {len(PILOT_USERS_SEED)} pilot users")
-    except Exception as e:
-        logger.error(f"Pilot users seeding failed: {e}")
-
 
 # ===== Init on import =====
 
+def _nuke_all_data():
+    """One-time nuclear cleanup: delete ALL users from Postgres.
+    Called once on startup, then disabled via env flag."""
+    if not HORNERO_DB_URL:
+        return
+    nuke = os.environ.get("HORNERO_NUKE_DATA", "")
+    if nuke != "yes":
+        return
+    try:
+        with _get_conn() as conn:
+            conn.execute("DELETE FROM users")
+            conn.commit()
+            logger.info("NUKE: deleted ALL users from auth DB")
+    except Exception as e:
+        logger.error(f"NUKE: failed to delete users: {e}")
+
+
 def init_auth():
-    """Initialize auth: create tables + seed pilot users. Called from main.py startup."""
+    """Initialize auth: create tables. Called from main.py startup."""
     logger.info(f"[STARTUP] GMAIL_REFRESH_TOKEN={'set' if GMAIL_REFRESH_TOKEN else 'NOT SET'}, EMAIL_FROM={EMAIL_FROM!r}")
     _init_db()
-    seed_pilot_users()
+    _nuke_all_data()
