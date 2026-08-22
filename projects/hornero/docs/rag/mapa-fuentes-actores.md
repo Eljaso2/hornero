@@ -1,6 +1,6 @@
 # RAG Hornero — Mapa de Fuentes por Actor
 
-## Resumen: 361 chunks totales
+## Resumen: 361 chunks totales (+ pendiente ingesta: Responsabilidad empresarial)
 
 | Fuente | Chunks | Categoría |
 |--------|--------|-----------|
@@ -8,6 +8,7 @@
 | Fuentes Lorca, *La gestión del delegado aceitero* (PDF) | 25 | historia-obrera |
 | Vogelmann & Soul, *Espacio y trabajo en el Polo Oleaginoso* (PDF) | 20 | historia-obrera |
 | Chunks manuales (kb_data.py) | 24 | mixtas |
+| **Secretaría DDHH/CELS/FLACSO, *Responsabilidad empresarial en delitos de lesa humanidad* (PDF→MD, 2 tomos)** | **1736** | **violencia-empresarial, dictadura-y-resistencia** |
 
 ---
 
@@ -16,6 +17,7 @@
 | Categoría | Chunks | Fuentes | Icono |
 |-----------|--------|---------|-------|
 | violencia-empresarial | 295 | Jasinski (292) + 3 manuales | 📚 |
+| dictadura-y-resistencia | ~500 | Responsabilidad empresarial (Tomo I+II) | 📚 |
 | historia-obrera | 45 | Lorca (25) + Vogelmann (20) | 📚 |
 | efemeride | 8 | 8 manuales (1° Mayo, CGTA, Cordobazo, Viborazo, Tampierazo, Tosco-Rucci, Santiagueñazo, Argentinazo) | 📅 |
 | referentes | 4 | 4 manuales (Yofra, Cremonte, discursos, Jasinski ref.) | 📰 |
@@ -58,11 +60,12 @@
 **Temperatura:** 0.4 (debate) / 0.2 (reporte) | **Max tokens:** 2000/3000
 
 ### 📜 Historiador/a (historia)
-**Categorías:** `referentes` · `historia-obrera` · `prensa-sindical` · `violencia-empresarial`
+**Categorías:** `referentes` · `historia-obrera` · `prensa-sindical` · `violencia-empresarial` · `dictadura-y-resistencia`
 **Fuentes concretas:**
 - Fuentes Lorca (25 chunks)
 - Vogelmann & Soul (20 chunks)
 - Jasinski completo (292 chunks)
+- **Responsabilidad empresarial en delitos de lesa humanidad** (Tomo I + II, 1736 chunks) — 22 casos de empresas durante la dictadura
 - Referentes Yofra, Cremonte, discursos, Jasinski ref.
 - 8 efemérides (solo en greeting, NO en RAG normal)
 **Temperatura:** 0.2 | **Max tokens:** 2000
@@ -89,6 +92,7 @@
 
 | Categoría | Investigador | Abogado | Compañero | Historiador | Periodista |
 |-----------|:-----------:|:-------:|:---------:|:-----------:|:----------:|
+| dictadura-y-resistencia | | | | ✅ | |
 | violencia-empresarial | ✅ | | | ✅ | |
 | smvm | ✅ | | | | |
 | condiciones | ✅ | | ✅ | | ✅ |
@@ -137,10 +141,12 @@
 
 4. **Sin embeddings/vector DB** — la búsqueda es keyword-only (TF-IDF). No hay búsqueda semántica. Planificado para Fase 4.
 
-5. **El libro de Jasinski domina** — 292 de 361 chunks (81%) son de un solo libro. La Historiadora y el Investigador ven casi exclusivamente La Forestal. Necesita más diversidad de fuentes.
+5. **El libro de Jasinski ya NO domina** — antes 292 de 361 chunks (81%). Con *Responsabilidad empresarial* (1736 chunks nuevos), el peso relativo baja a ~14%. La Historiadora ahora ve 22 casos de empresas represivas además de La Forestal. ✅ **Ingesta completada** (ago 2026).
 
 6. **historia-obrera sin chunks manuales** — los 45 chunks son todos de PDFs (Lorca, Vogelmann). No hay chunks curados manualmente.
 
 7. **condiciones con grade B.a** — los chunks de Vicentín, Guaycurú y condiciones 2026 requieren grade B.a. Los usuarios con grade "A" (no logueados) no los ven.
 
 8. **Periodista ahora ve 'documentos'** (fix ago 2026) — FORMATO_CATEGORY_MAP['contenido'] actualizado para incluir 'documentos', así el periodista accede a los chunks SIPREBA (Estatuto del Periodista, CCT 301/75, etc.). Antes solo veía prensa/academico/noticias/audiovisual y los chunks legales estaban filtrados.
+
+9. **✅ Responsabilidad empresarial: INGESTA COMPLETADA** — 1736 chunks de los dos tomos incorporados a `kb_chunks.json`. La Historiadora recupera Ford, Ledesma, Acindar, etc. correctamente. Categoría: `academico` (visible para Historiador, Investigador, Compañero).
