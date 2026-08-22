@@ -2099,13 +2099,14 @@ class HorneroChat extends HoComponent {
     text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img class="msg-md-img" src="$2" alt="$1" loading="lazy">');
     // Links: [text](url) → <a href="url" target="_blank">text</a>
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--ho-green,#4E9978);font-weight:600;text-decoration:none">$1</a>');
-    // Rewrite /pdfs/... links to point to the backend server
+    // Rewrite /fuentes/... and /pdfs/... links to point to the backend server
     const h = window.location.hostname;
     let pdfBase = 'https://hornero-ia.onrender.com';
     if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
       pdfBase = 'http://' + h + ':8000';
     }
-    text = text.replace(/href="\/pdfs\//g, 'href="' + pdfBase + '/pdfs/');
+    text = text.replace(/href="\/fuentes\//g, 'href="' + pdfBase + '/fuentes/');
+    text = text.replace(/href="\/pdfs\//g, 'href="' + pdfBase + '/fuentes/');
     // Bold: **text** → <strong>text</strong>
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     // Italic: *text* → <em>text</em> (single asterisk, not inside strong)
