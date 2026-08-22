@@ -18,7 +18,7 @@ from collections import defaultdict
 from datetime import datetime
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Form
+from fastapi import Depends, FastAPI, HTTPException, Request, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -33,7 +33,7 @@ from rag_retriever import retrieve_for_query
 from library_service.adapter_hornero import legal_sources_text, resolve_tenant  # puente Biblioteca (feature-flag)
 from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, KB_TIPOS, refresh as kb_refresh
 from push_manager import subscribe as push_subscribe, unsubscribe as push_unsubscribe, notify_all, get_vapid_public_key, get_subscription_count
-from auth import router as auth_router, init_auth
+from auth import router as auth_router, init_auth, require_auth
 
 load_dotenv(override=True)
 
@@ -284,7 +284,7 @@ async def get_config():
 
 
 @app.post("/api/greeting")
-async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
+async def greeting_endpoint(req: GreetingRequest, user: dict = Depends(require_auth)) -> GreetingResponse:
     """Generate the IA's opening message when user enters a chat section.
 
     The IA greets, explains what it is, and tells what the user can consult
@@ -292,6 +292,10 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
 
     RAG: greeting uses minimal context (no KB chunks needed — persona knows who it is).
     """
+    # Override grade/sector/tenant from JWT (prevent spoofing)
+    req.grade = user.get("grade", req.grade)
+    req.sector = user.get("sector", req.sector)
+    req.tenant = user.get("tenant", req.tenant) or req.tenant
     # Greeting: no RAG retrieval needed (persona + principles are sufficient)
     # Use requested_persona if provided, otherwise section-based default
     if req.requested_persona and req.requested_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"]:
@@ -364,13 +368,18 @@ async def greeting_endpoint(req: GreetingRequest) -> GreetingResponse:
 
 
 @app.post("/api/chat")
-async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatResponse:
+async def chat_endpoint(req: ChatRequest, request: Request = None, user: dict = Depends(require_auth)) -> ChatResponse:
     """Main chat endpoint — receives user message, returns structured IA response.
 
     RAG: retrieves relevant KB chunks based on user query, injects only
     those chunks into the system prompt instead of the full KNOWLEDGE_BASE.
     """
     start_time = time.time()
+
+    # Override grade/sector/tenant from JWT (prevent spoofing)
+    req.grade = user.get("grade", req.grade)
+    req.sector = user.get("sector", req.sector)
+    req.tenant = user.get("tenant", req.tenant) or req.tenant
 
     # Rate limiting
     client_ip = request.client.host if request else "unknown"
@@ -465,7 +474,7 @@ async def chat_endpoint(req: ChatRequest, request: Request = None) -> ChatRespon
 
 
 @app.post("/api/chat/stream")
-async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
+async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: dict = Depends(require_auth)):
     """Streaming chat endpoint — returns SSE events with tokens as they arrive.
 
     Events emitted:
@@ -475,6 +484,11 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
 
     Falls back to non-streaming if the LLM provider doesn't support streaming.
     """
+    # Override grade/sector/tenant from JWT (prevent spoofing)
+    req.grade = user.get("grade", req.grade)
+    req.sector = user.get("sector", req.sector)
+    req.tenant = user.get("tenant", req.tenant) or req.tenant
+
     # Rate limiting
     client_ip = request.client.host if request else "unknown"
     if not _check_rate_limit(client_ip):
@@ -616,6 +630,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None):
 
 @app.post("/api/audio")
 async def audio_chat_endpoint(
+    user: dict = Depends(require_auth),
     audio: UploadFile = File(...),
     formato: str = Form("consulta"),
     grade: str = Form("A"),
@@ -630,6 +645,10 @@ async def audio_chat_endpoint(
     Flow: audio blob → DashScope STT → transcribed text → RAG + LLM → ChatResponse
     Uses the same DEEPSEEK_API_KEY for STT (DashScope unified auth).
     """
+    # Override grade/sector/tenant from JWT (prevent spoofing)
+    grade = user.get("grade", grade)
+    sector = user.get("sector", sector)
+    tenant = user.get("tenant", tenant) or tenant
 
     # 1. Transcribe audio
     audio_bytes = await audio.read()
@@ -943,8 +962,8 @@ async def search_knowledge_base(q: str):
 
 
 @app.post("/api/refresh-clipping")
-async def refresh_clipping():
-    """Force refresh of clipping cache from GitHub Pages."""
+async def refresh_clipping(user: dict = Depends(require_auth)):
+    """Force refresh of clipping cache from GitHub Pages. Requires auth."""
     count = refresh()
     return {"status": "ok", "clipping_items": count, "timestamp": datetime.now().isoformat()}
 
@@ -960,7 +979,7 @@ class FeedbackRequest(BaseModel):
 
 
 @app.post("/api/feedback")
-async def feedback_endpoint(req: FeedbackRequest):
+async def feedback_endpoint(req: FeedbackRequest, user: dict = Depends(require_auth)):
     """Receive and log user feedback on chat responses.
 
     Feedback is logged to stdout for analysis. Future: persist to SQLite.
@@ -985,7 +1004,7 @@ async def get_push_vapid_key():
 
 
 @app.post("/api/push/subscribe")
-async def push_subscribe_endpoint(req: PushSubscriptionRequest):
+async def push_subscribe_endpoint(req: PushSubscriptionRequest, user: dict = Depends(require_auth)):
     """Register a push subscription from a user device."""
     subscription = {
         "endpoint": req.endpoint,
@@ -998,7 +1017,7 @@ async def push_subscribe_endpoint(req: PushSubscriptionRequest):
 
 
 @app.post("/api/push/unsubscribe")
-async def push_unsubscribe_endpoint(req: PushUnsubscribeRequest):
+async def push_unsubscribe_endpoint(req: PushUnsubscribeRequest, user: dict = Depends(require_auth)):
     """Remove a push subscription (user turned off notifications)."""
     success = push_unsubscribe(req.endpoint)
     if success:
@@ -1007,7 +1026,7 @@ async def push_unsubscribe_endpoint(req: PushUnsubscribeRequest):
 
 
 @app.post("/api/push/notify")
-async def push_notify_endpoint(req: PushNotifyRequest):
+async def push_notify_endpoint(req: PushNotifyRequest, user: dict = Depends(require_auth)):
     """Send a push notification to all subscribed devices.
 
     Called manually when a new clipping is published.
@@ -1081,9 +1100,10 @@ class ChatSyncRequest(BaseModel):
 
 
 @app.post("/api/chat/sync")
-async def chat_sync(req: ChatSyncRequest):
+async def chat_sync(req: ChatSyncRequest, user: dict = Depends(require_auth)):
     """Upsert batch of chat messages from a device. Fire-and-forget sync."""
-    if not req.username or not req.messages:
+    username = user["username"]  # From JWT, cannot be spoofed
+    if not req.messages:
         return {"synced": 0}
     conn = _get_chat_db()
     try:
@@ -1114,7 +1134,7 @@ async def chat_sync(req: ChatSyncRequest):
             """, (
                 msg.get("id"),
                 msg.get("sessionId", ""),
-                req.username,
+                username,
                 msg.get("section", ""),
                 msg.get("role", "user"),
                 msg.get("persona", ""),
@@ -1139,9 +1159,9 @@ async def chat_sync(req: ChatSyncRequest):
 
 
 @app.get("/api/chat/sessions")
-async def chat_sessions(username: str = ""):
+async def chat_sessions(user: dict = Depends(require_auth)):
     """List chat sessions for a user. Returns session metadata."""
-    if not username:
+    username = user["username"]
         return []
     conn = _get_chat_db()
     try:
@@ -1173,9 +1193,10 @@ async def chat_sessions(username: str = ""):
 
 
 @app.get("/api/chat/messages")
-async def chat_messages(username: str = "", sessionId: str = ""):
+async def chat_messages(sessionId: str = "", user: dict = Depends(require_auth)):
     """Get all messages for a specific chat session."""
-    if not username or not sessionId:
+    username = user["username"]
+    if not sessionId:
         return []
     conn = _get_chat_db()
     try:
@@ -1208,9 +1229,10 @@ async def chat_messages(username: str = "", sessionId: str = ""):
 
 
 @app.delete("/api/chat/session")
-async def chat_session_delete(username: str = "", sessionId: str = ""):
+async def chat_session_delete(sessionId: str = "", user: dict = Depends(require_auth)):
     """Delete all messages for a chat session."""
-    if not username or not sessionId:
+    username = user["username"]
+    if not sessionId:
         return {"deleted": 0}
     conn = _get_chat_db()
     try:
@@ -1224,8 +1246,8 @@ async def chat_session_delete(username: str = "", sessionId: str = ""):
 
 
 @app.delete("/api/chat/clear-all")
-async def chat_clear_all():
-    """Clear ALL chat messages for ALL users. Used for one-time cleanup."""
+async def chat_clear_all(user: dict = Depends(require_auth)):
+    """Clear ALL chat messages for ALL users. Requires auth."""
     conn = _get_chat_db()
     try:
         cursor = conn.execute("DELETE FROM chat_messages")
@@ -1317,9 +1339,10 @@ class InformeSyncRequest(BaseModel):
 
 
 @app.post("/api/informes/sync")
-async def informes_sync(req: InformeSyncRequest):
+async def informes_sync(req: InformeSyncRequest, user: dict = Depends(require_auth)):
     """Upsert batch de informes desde un dispositivo. Timestamp guard: solo actualiza si más nuevo."""
-    if not req.username or not req.informes:
+    username = user["username"]  # From JWT, cannot be spoofed
+    if not req.informes:
         return {"synced": 0}
     conn = _get_informes_db()
     try:
@@ -1358,7 +1381,7 @@ async def informes_sync(req: InformeSyncRequest):
                 inf.get("semana", ""),
                 inf.get("territorio", ""),
                 inf.get("estado", "pendiente"),
-                req.username,
+                username,
                 inf.get("empresa", ""),
                 inf.get("fecha", ""),
                 inf.get("timestamp", 0),
@@ -1382,9 +1405,9 @@ async def informes_sync(req: InformeSyncRequest):
 
 
 @app.get("/api/informes/all")
-async def informes_all(username: str = ""):
+async def informes_all(user: dict = Depends(require_auth)):
     """Obtener todos los informes de un usuario."""
-    if not username:
+    username = user["username"]
         return []
     conn = _get_informes_db()
     try:
@@ -1397,12 +1420,15 @@ async def informes_all(username: str = ""):
 
 
 @app.get("/api/informes/incoming")
-async def informes_incoming(grade: str = "", territorio: str = "", empresa: str = ""):
+async def informes_incoming(user: dict = Depends(require_auth)):
     """Informes visibles para un grado/territorio/empresa según jerarquía sindical.
     B.b (delegado): ve G1 pendiente/visto/aceptado de su territorio + empresa
     B.c (secretario): ve G2 pendiente/visto/aceptado de su territorio (todas las empresas)
     B.d (federación): ve G3 pendiente/visto/aceptado de todos los territorios
     """
+    grade = user.get("grade", "")
+    territorio = user.get("territory", "")
+    empresa = ""  # empresa filtering from request body not supported; use JWT territory only
     if not grade:
         return []
     conn = _get_informes_db()
@@ -1486,9 +1512,9 @@ def _row_to_informe(r):
 
 
 @app.delete("/api/informes/clear-user")
-async def informes_clear_user(username: str = ""):
+async def informes_clear_user(user: dict = Depends(require_auth)):
     """Borrar todos los informes de un usuario."""
-    if not username:
+    username = user["username"]
         return {"deleted": 0}
     conn = _get_informes_db()
     try:
@@ -1501,8 +1527,8 @@ async def informes_clear_user(username: str = ""):
 
 
 @app.delete("/api/informes/clear-all")
-async def informes_clear_all():
-    """Borrar TODOS los informes y correcciones de TODOS los usuarios. One-time cleanup."""
+async def informes_clear_all(user: dict = Depends(require_auth)):
+    """Borrar TODOS los informes y correcciones de TODOS los usuarios. Requires auth."""
     conn = _get_informes_db()
     try:
         inf_cursor = conn.execute("DELETE FROM informes")
@@ -1515,9 +1541,10 @@ async def informes_clear_all():
 
 
 @app.delete("/api/informes/delete")
-async def informe_delete(username: str = "", id: str = ""):
+async def informe_delete(id: str = "", user: dict = Depends(require_auth)):
     """Borrar un informe específico de un usuario + sus correcciones."""
-    if not username or not id:
+    username = user["username"]
+    if not id:
         return {"deleted": 0}
     conn = _get_informes_db()
     try:
@@ -1538,9 +1565,10 @@ class CorreccionSyncRequest(BaseModel):
 
 
 @app.post("/api/correcciones/sync")
-async def correcciones_sync(req: CorreccionSyncRequest):
+async def correcciones_sync(req: CorreccionSyncRequest, user: dict = Depends(require_auth)):
     """Upsert batch de correcciones desde un dispositivo. Timestamp guard: solo actualiza si más nuevo."""
-    if not req.username or not req.correcciones:
+    username = user["username"]  # From JWT, cannot be spoofed
+    if not req.correcciones:
         return {"synced": 0}
     conn = _get_informes_db()
     try:
@@ -1593,7 +1621,7 @@ async def correcciones_sync(req: CorreccionSyncRequest):
 
 
 @app.get("/api/correcciones")
-async def correcciones_get(informeId: str = ""):
+async def correcciones_get(informeId: str = "", user: dict = Depends(require_auth)):
     """Obtener correcciones de un informe."""
     if not informeId:
         return []
@@ -1608,8 +1636,8 @@ async def correcciones_get(informeId: str = ""):
 
 
 @app.delete("/api/correcciones/clear-all")
-async def correcciones_clear_all():
-    """Borrar TODAS las correcciones. One-time cleanup."""
+async def correcciones_clear_all(user: dict = Depends(require_auth)):
+    """Borrar TODAS las correcciones. Requires auth."""
     conn = _get_informes_db()
     try:
         cursor = conn.execute("DELETE FROM correcciones")
@@ -1642,9 +1670,9 @@ def _row_to_correccion(r):
 # ===== Chat: per-user clear =====
 
 @app.delete("/api/chat/clear-user")
-async def chat_clear_user(username: str = ""):
+async def chat_clear_user(user: dict = Depends(require_auth)):
     """Borrar todos los chats de un usuario (no borra los de otros usuarios)."""
-    if not username:
+    username = user["username"]
         return {"deleted": 0}
     conn = _get_chat_db()
     try:

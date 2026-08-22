@@ -521,10 +521,12 @@ async def refresh(request: Request):
     if not payload or payload.get("type") != "refresh":
         raise HTTPException(401, "Refresh token inválido o expirado")
 
-    # Verify user still exists and is active
+    # Verify user still exists, is active, and email confirmed
     user = _get_user_by_username(payload["sub"])
     if not user or not user.get("active"):
         raise HTTPException(401, "Cuenta desactivada")
+    if not user.get("email_confirmed"):
+        raise HTTPException(403, "Email no confirmado")
 
     # Issue new access token
     access_token = _create_token(user, "access")
