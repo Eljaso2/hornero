@@ -436,8 +436,8 @@ async def register(req: RegisterRequest, request: Request):
 
             # Default grade for new users
             grade = "B.a"
-            # Testers get B.d for now (adjust when real users come)
-            category = "tester"
+            # Sector "hornero" = testers (internal team), others = usuarios reales
+            category = "tester" if req.sector == "hornero" else "usuario"
 
             conn.execute("""
                 INSERT INTO users (id, email, username, password_hash, nombre, grade, sector, category, email_confirmed, confirmation_token, confirmation_sent_at, agremiacion)
@@ -686,6 +686,52 @@ async def admin_list_users(user: dict = Depends(require_auth)):
     except Exception as e:
         logger.error(f"Admin list users error: {e}")
         raise HTTPException(500, "Error al listar usuarios")
+
+
+# ===== Admin Nuke (on-demand, protected by secret) =====
+
+NUKE_SECRET = os.getenv("NUKE_SECRET", "").strip()
+
+class NukeRequest(BaseModel):
+    secret: str
+
+@router.post("/admin/nuke")
+async def admin_nuke(req: NukeRequest):
+    """Nuke ALL data: users, chats, informes, correcciones. Protected by NUKE_SECRET."""
+    if not NUKE_SECRET:
+        raise HTTPException(403, "NUKE_SECRET not configured on server")
+    if req.secret != NUKE_SECRET:
+        raise HTTPException(403, "Secret incorrecto")
+
+    results = {}
+
+    # 1. Delete all users from Postgres
+    if HORNERO_DB_URL:
+        try:
+            with _get_conn() as conn:
+                cursor = conn.execute("DELETE FROM users")
+                conn.commit()
+                results["users_deleted"] = cursor.rowcount if hasattr(cursor, 'rowcount') else -1
+                logger.info(f"NUKE: deleted {results['users_deleted']} users from auth DB")
+        except Exception as e:
+            results["users_error"] = str(e)
+            logger.error(f"NUKE: users delete failed: {e}")
+
+    # 2. Delete SQLite databases (chat + informes)
+    for label, path in [("chat", "/app/chat_history.db"), ("informes", "/app/informes.db")]:
+        try:
+            import os
+            if os.path.exists(path):
+                os.remove(path)
+                results[f"{label}_deleted"] = True
+                logger.info(f"NUKE: deleted {path}")
+            else:
+                results[f"{label}_deleted"] = False
+                results[f"{label}_note"] = "file not found"
+        except Exception as e:
+            results[f"{label}_error"] = str(e)
+
+    return {"status": "nuked", "results": results}
 
 
 
