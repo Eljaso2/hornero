@@ -688,6 +688,38 @@ async def admin_list_users(user: dict = Depends(require_auth)):
         raise HTTPException(500, "Error al listar usuarios")
 
 
+# ===== Admin: Update user grade =====
+
+class UpdateGradeRequest(BaseModel):
+    username: str
+    grade: str  # 'B.a', 'B.b', 'B.c', 'B.d'
+
+@router.post("/admin/update-grade")
+async def admin_update_grade(req: UpdateGradeRequest, user: dict = Depends(require_auth)):
+    """Update a user's grade. Only accessible to authenticated admin users."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+    valid_grades = ['B.a', 'B.b', 'B.c', 'B.d']
+    if req.grade not in valid_grades:
+        raise HTTPException(400, f"Grade inválido. Válidos: {', '.join(valid_grades)}")
+    try:
+        with _get_conn() as conn:
+            cursor = conn.execute(
+                "UPDATE users SET grade = %s, updated_at = CURRENT_TIMESTAMP WHERE username = %s",
+                [req.grade, req.username]
+            )
+            conn.commit()
+            if cursor.rowcount == 0:
+                raise HTTPException(404, f"Usuario '{req.username}' no encontrado")
+            logger.info(f"Admin: updated grade for {req.username} to {req.grade}")
+            return {"username": req.username, "grade": req.grade, "updated": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Admin update grade error: {e}")
+        raise HTTPException(500, "Error al actualizar grade")
+
+
 # ===== Admin Nuke (on-demand, protected by secret) =====
 
 NUKE_SECRET = os.getenv("NUKE_SECRET", "").strip()
