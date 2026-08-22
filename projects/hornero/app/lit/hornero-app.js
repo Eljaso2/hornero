@@ -1016,7 +1016,18 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'condicion') {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'sociologo') + '" session-id="' + (this._initialSessionId || '') + '" initial-section="' + (this._initialSection || '') + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
-      screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '" logged-in="' + (this.loggedIn ? 'true' : 'false') + '"></hornero-perfil>';
+      if (this.loggedIn) {
+        screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '" logged-in="true"></hornero-perfil>';
+      } else {
+        // Not logged in → show login/register popup instead of profile card
+        screenContent = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 20px;text-align:center">' +
+          '<div style="font-size:2.4rem;margin-bottom:16px">👤</div>' +
+          '<div style="font-family:Archivo,sans-serif;font-size:1.1rem;font-weight:700;color:var(--ho-text-off,#F2F1EC);margin-bottom:8px">Ingresá a Hornero</div>' +
+          '<div style="font-family:Public Sans,sans-serif;font-size:.82rem;color:var(--ho-text-mid,#9C988D);margin-bottom:24px;line-height:1.5">Registrate o iniciá sesión para acceder a tu perfil y todas las funciones</div>' +
+          '<button id="perfil-login-btn" style="background:var(--ho-green,#4E9978);color:var(--ho-text-off,#F2F1EC);border:none;border-radius:10px;padding:12px 32px;font-family:Archivo,sans-serif;font-weight:700;font-size:.86rem;cursor:pointer;width:80%;max-width:260px;margin-bottom:10px">Iniciar sesión</button>' +
+          '<button id="perfil-register-btn" style="background:transparent;color:var(--ho-text-mid,#9C988D);border:1px solid var(--ho-border,rgba(255,255,255,.12));border-radius:10px;padding:10px 32px;font-family:Archivo,sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;width:80%;max-width:260px">Registrarse</button>' +
+          '</div>';
+      }
     } else if (this.screen === 'recibidos') {
       screenContent = this._renderRecibidos();
     } else {
@@ -1638,6 +1649,20 @@ class HorneroApp extends HoComponent {
     const profileRegisterBtn = this.shadowRoot.querySelector('#profileRegisterBtn');
     if (profileRegisterBtn) profileRegisterBtn.addEventListener('click', () => {
       this._closeProfilePopup();
+      this._loginOpen = true;
+      this._initialLoginView = 'signup';
+      this.requestUpdate();
+    });
+
+    // Login/Register buttons in perfil screen (when not logged in)
+    const perfilLoginBtn = this.shadowRoot.querySelector('#perfil-login-btn');
+    if (perfilLoginBtn) perfilLoginBtn.addEventListener('click', () => {
+      this._loginOpen = true;
+      this._initialLoginView = 'login';
+      this.requestUpdate();
+    });
+    const perfilRegisterBtn = this.shadowRoot.querySelector('#perfil-register-btn');
+    if (perfilRegisterBtn) perfilRegisterBtn.addEventListener('click', () => {
       this._loginOpen = true;
       this._initialLoginView = 'signup';
       this.requestUpdate();
