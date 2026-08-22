@@ -37,7 +37,11 @@ CONFIRM_TOKEN_EXPIRE = 24 * 3600     # 24 hours
 # Admin emails: users confirming with these emails get grade B.d automatically
 # Comma-separated in ADMIN_EMAILS env var, or hardcoded fallback for pilot
 _ADMIN_EMAILS_ENV = os.getenv("ADMIN_EMAILS", "").strip()
-ADMIN_EMAILS = [e.strip().lower() for e in _ADMIN_EMAILS_ENV.split(",") if e.strip()] or [
+ADMIN_EMAILS = [e.strip().lower() for e in _ADMIN_EMAILS_ENV.split(",") if e.strip()]
+
+# Admin key for grade updates (simple shared secret for pilot)
+# Set ADMIN_KEY env var on Render. If not set, admin grade updates only via JWT.
+ADMIN_KEY = os.getenv("ADMIN_KEY", "").strip() or [
     # Alejandro Jasinski — admin piloto (add your email here if needed)
 ]
 
@@ -756,9 +760,9 @@ async def admin_update_grade(req: UpdateGradeRequest, user: dict = Depends(_opti
     """Update a user's grade. Accepts JWT auth OR admin secret."""
     if not HORNERO_DB_URL:
         raise HTTPException(500, "Auth not configured")
-    # Auth: either JWT or admin secret
-    if not user and not (NUKE_SECRET and req.secret == NUKE_SECRET):
-        raise HTTPException(401, "Autenticación requerida (JWT o admin secret)")
+    # Auth: either JWT or admin secret (NUKE_SECRET or ADMIN_KEY)
+    if not user and not (NUKE_SECRET and req.secret == NUKE_SECRET) and not (ADMIN_KEY and req.secret == ADMIN_KEY):
+        raise HTTPException(401, "Autenticación requerida (JWT o admin key)")
     valid_grades = ['B.a', 'B.b', 'B.c', 'B.d']
     if req.grade not in valid_grades:
         raise HTTPException(400, f"Grade inválido. Válidos: {', '.join(valid_grades)}")
