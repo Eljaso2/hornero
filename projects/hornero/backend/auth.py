@@ -717,10 +717,13 @@ async def get_me(user: dict = Depends(require_auth)):
 
 
 @router.get("/admin/users")
-async def admin_list_users(user: dict = Depends(require_auth)):
-    """List all registered users. Only accessible to authenticated users."""
+async def admin_list_users(user: dict = Depends(_optional_auth), admin_key: str = ""):
+    """List all registered users. Accepts JWT auth OR ADMIN_KEY query param."""
     if not HORNERO_DB_URL:
         raise HTTPException(500, "Auth not configured")
+    # Auth: either JWT or admin key
+    if not user and not (ADMIN_KEY and admin_key == ADMIN_KEY):
+        raise HTTPException(401, "Autenticación requerida")
     try:
         with _get_conn() as conn:
             rows = conn.execute("""
