@@ -459,35 +459,46 @@ class HorneroLogin extends HoComponent {
           return;
         }
 
-        // Backend returned error — check if email not confirmed
+        // Backend returned error — check specific cases
         const errData = await res.json().catch(() => ({}));
         if (res.status === 403 && errData.detail && errData.detail.includes('no confirmado')) {
           this.set('loading', false);
-          this.set('error', 'Email no confirmado. Revisá tu casilla de email. ¿No te registraste? Creá tu cuenta.');
+          this.set('error', 'Email no confirmado. Revisá tu casilla de email. Si no te registraste, creá tu cuenta primero.');
+          return;
+        }
+        if (res.status === 403 && errData.detail && errData.detail.includes('desactivada')) {
+          this.set('loading', false);
+          this.set('error', 'Cuenta desactivada. Contactá al administrador.');
           return;
         }
         // If backend is available but credentials wrong
         if (res.status === 401) {
           this.set('loading', false);
-          this.set('error', 'Usuario o contraseña incorrectos. ¿No tenés cuenta? Registrate.');
+          this.set('error', 'Usuario o contraseña incorrectos. Si no tenés cuenta, registrate primero.');
+          return;
+        }
+        // Rate limited
+        if (res.status === 429) {
+          this.set('loading', false);
+          this.set('error', errData.detail || 'Demasiados intentos. Esperá unos minutos.');
           return;
         }
         // Other backend error
         this.set('loading', false);
-        this.set('error', 'Error del servidor. Intentá de nuevo.');
+        this.set('error', 'Error del servidor (' + res.status + '). Intentá de nuevo.');
         return;
       }
     } catch(e) {
       // Network error — backend unavailable
       console.warn('Login: backend unavailable', e);
       this.set('loading', false);
-      this.set('error', 'Error de conexión. Intentá de nuevo. ¿No tenés cuenta? Registrate.');
+      this.set('error', 'No se pudo conectar al servidor. Verificá tu conexión e intentá de nuevo. Si no tenés cuenta, registrate primero.');
       return;
     }
 
-    // Should not reach here
+    // Should not reach here — no baseUrl available
     this.set('loading', false);
-    this.set('error', 'Error inesperado. Intentá de nuevo.');
+    this.set('error', 'Servidor no disponible. Recargá la página e intentá de nuevo.');
   }
 
   async _handleSignup() {

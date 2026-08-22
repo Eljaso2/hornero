@@ -26,6 +26,11 @@ class HorneroApp extends HoComponent {
   constructor() {
     super();
     this.screen = 'home';
+    this.userGrade = 'A';
+    this.userTerritory = '';
+    this.userSector = 'aceitero';
+    this.userName = '';
+    this.loggedIn = false;
     this._activeSessions = {}; // Screen → { sessionId, persona } — preserves active chat per screen during session
     this._navDirection = 'lateral'; // 'forward' | 'backward' | 'lateral' — screen transition direction
     this._loginOpen = false;        // Login popup visible
@@ -861,7 +866,7 @@ class HorneroApp extends HoComponent {
       .login-popup { background: var(--ho-card, #2A3230);
         border: 1px solid var(--ho-border, rgba(255,255,255,.12));
         border-radius: 16px; max-width: 100%; width: 340px;
-        overflow: hidden; }
+        max-height: 90vh; overflow-y: auto; }
       .login-popup-header { display: flex; align-items: center; justify-content: space-between;
         padding: 14px 16px 0; }
       .login-popup-title { font-family: 'Archivo', sans-serif; font-weight: 700;
@@ -1261,10 +1266,16 @@ class HorneroApp extends HoComponent {
     // Bind sections bar button clicks (top navigation)
     this.shadowRoot.querySelectorAll('.sections-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        // Perfil section → open profile popup instead of navigating
+        // Perfil section → open profile popup if logged in, login popup if not
         if (btn.dataset.screen === 'perfil') {
-          this._profileOpen = true;
-          this.render();
+          if (this.loggedIn) {
+            this._profileOpen = true;
+            this.render();
+          } else {
+            this._loginOpen = true;
+            this._initialLoginView = 'login';
+            this.render();
+          }
           return;
         }
         // Derecho section → navigate to consulta with abogado persona
@@ -1353,10 +1364,16 @@ class HorneroApp extends HoComponent {
     this.shadowRoot.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const screen = btn.dataset.screen;
-        // Perfil button → open profile popup instead of navigating
+        // Perfil button → open profile popup if logged in, login popup if not
         if (screen === 'perfil') {
-          this._profileOpen = true;
-          this.render();
+          if (this.loggedIn) {
+            this._profileOpen = true;
+            this.render();
+          } else {
+            this._loginOpen = true;
+            this._initialLoginView = 'login';
+            this.render();
+          }
           return;
         }
         // Reporte button → always open as Compañero chat
