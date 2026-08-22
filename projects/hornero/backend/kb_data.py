@@ -1061,17 +1061,17 @@ def get_chunks_text(chunk_ids: list) -> str:
 
 DOCUMENTOS_CATALOG = {
     "convenios-colectivos": [
-        {"name": "CCT 420/05", "desc": "Convenio Colectivo de Trabajo 420/05", "pdf": "/pdfs/convenios-colectivos/CCT-420-05.pdf", "tenant": "aceiteros"},
-        {"name": "Paritaria acuerdo dic 2023", "desc": "Acuerdo paritario diciembre 2023", "pdf": "/pdfs/convenios-colectivos/paritaria-acuerdo-2023-dic.pdf", "tenant": "aceiteros"},
-        {"name": "Paritaria acuerdo sep 2024", "desc": "Acuerdo paritario septiembre 2024", "pdf": "/pdfs/convenios-colectivos/paritaria-acuerdo-2024-sep.pdf", "tenant": "aceiteros"},
-        {"name": "Paritaria revisión abr 2024", "desc": "Revisión paritaria abril 2024", "pdf": "/pdfs/convenios-colectivos/paritaria-revision-2024-abr.pdf", "tenant": "aceiteros"},
-        {"name": "Paritaria reajuste ene 2024", "desc": "Reajuste paritario enero 2024", "pdf": "/pdfs/convenios-colectivos/paritaria-reajuste-2024-jan.pdf", "tenant": "aceiteros"},
-        {"name": "Paritaria acuerdo abr 2025", "desc": "Acuerdo paritario abril 2025", "pdf": "/pdfs/convenios-colectivos/paritaria-acuerdo-2025-abr.pdf", "tenant": "aceiteros"},
-        {"name": "Paritaria acuerdo nov 2025", "desc": "Acuerdo paritario con aumentos escalonados a noviembre 2025", "pdf": "/pdfs/convenios-colectivos/paritaria-acuerdo-2025-nov.pdf", "tenant": "aceiteros"},
-        {"name": "Paritaria suma extraordinaria nov 2025", "desc": "Suma extraordinaria acordada para noviembre 2025", "pdf": "/pdfs/convenios-colectivos/paritaria-suma-extraordinaria-2025-nov.pdf", "tenant": "aceiteros"},
-        {"name": "Acuerdo tercer y cuarto turno 2010", "desc": "Acuerdo de tercer y cuarto turno", "pdf": "/pdfs/convenios-colectivos/acuerdo-tercer-cuarto-turno-2010.pdf", "tenant": "aceiteros"},
-        {"name": "Acta clasificación categorías 2014", "desc": "Clasificación de categorías laborales", "pdf": "/pdfs/convenios-colectivos/acta-clasificacion-categorias-2014.pdf", "tenant": "aceiteros"},
-        {"name": "Actas comités mixtos 2016", "desc": "Actas de comités mixtos de salud y seguridad", "pdf": "/pdfs/convenios-colectivos/actas-comites-mixtos-2016.pdf", "tenant": "aceiteros"},
+        {"name": "CCT 420/05", "desc": "Convenio Colectivo de Trabajo 420/05", "pdf": "/fuentes/convenios-colectivos/CCT-420-05.pdf", "tenant": "aceiteros"},
+        {"name": "Paritaria acuerdo dic 2023", "desc": "Acuerdo paritario diciembre 2023", "pdf": "/fuentes/convenios-colectivos/paritaria-acuerdo-2023-dic.pdf", "tenant": "aceiteros"},
+        {"name": "Paritaria acuerdo sep 2024", "desc": "Acuerdo paritario septiembre 2024", "pdf": "/fuentes/convenios-colectivos/paritaria-acuerdo-2024-sep.pdf", "tenant": "aceiteros"},
+        {"name": "Paritaria revisión abr 2024", "desc": "Revisión paritaria abril 2024", "pdf": "/fuentes/convenios-colectivos/paritaria-revision-2024-abr.pdf", "tenant": "aceiteros"},
+        {"name": "Paritaria reajuste ene 2024", "desc": "Reajuste paritario enero 2024", "pdf": "/fuentes/convenios-colectivos/paritaria-reajuste-2024-jan.pdf", "tenant": "aceiteros"},
+        {"name": "Paritaria acuerdo abr 2025", "desc": "Acuerdo paritario abril 2025", "pdf": "/fuentes/convenios-colectivos/paritaria-acuerdo-2025-abr.pdf", "tenant": "aceiteros"},
+        {"name": "Paritaria acuerdo nov 2025", "desc": "Acuerdo paritario con aumentos escalonados a noviembre 2025", "pdf": "/fuentes/convenios-colectivos/paritaria-acuerdo-2025-nov.pdf", "tenant": "aceiteros"},
+        {"name": "Paritaria suma extraordinaria nov 2025", "desc": "Suma extraordinaria acordada para noviembre 2025", "pdf": "/fuentes/convenios-colectivos/paritaria-suma-extraordinaria-2025-nov.pdf", "tenant": "aceiteros"},
+        {"name": "Acuerdo tercer y cuarto turno 2010", "desc": "Acuerdo de tercer y cuarto turno", "pdf": "/fuentes/convenios-colectivos/acuerdo-tercer-cuarto-turno-2010.pdf", "tenant": "aceiteros"},
+        {"name": "Acta clasificación categorías 2014", "desc": "Clasificación de categorías laborales", "pdf": "/fuentes/convenios-colectivos/acta-clasificacion-categorias-2014.pdf", "tenant": "aceiteros"},
+        {"name": "Actas comités mixtos 2016", "desc": "Actas de comités mixtos de salud y seguridad", "pdf": "/fuentes/convenios-colectivos/actas-comites-mixtos-2016.pdf", "tenant": "aceiteros"},
     ],
     "leyes-laborales": [
         {"name": "Ley 20744 — LCT", "desc": "Ley de Contrato de Trabajo", "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/norma.htm", "source": "infoleg", "tenant": "shared"},
@@ -1084,8 +1084,8 @@ DOCUMENTOS_CATALOG = {
         {"name": "Decreto 351/79 — Reglamentario Ley 19587", "desc": "Reglamentación de la Ley de Higiene y Seguridad", "url": "https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=32030", "source": "infoleg", "tenant": "shared"},
     ],
     "prensa-sindical": [
-        {"name": "El Trabajador Aceitero y Desmotador N°5", "desc": "Noviembre 2016 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_n05_noviembre_2016.pdf", "tenant": "aceiteros"},
-        {"name": "El Trabajador Aceitero y Desmotador N°7", "desc": "Abril 2019 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/pdfs/prensa-sindical/el_trabajador_aceitero_y_desmotador_7_abril_2019.pdf", "tenant": "aceiteros"},
+        {"name": "El Trabajador Aceitero y Desmotador N°5", "desc": "Noviembre 2016 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/fuentes/prensa-sindical/el_trabajador_aceitero_y_desmotador_n05_noviembre_2016.pdf", "tenant": "aceiteros"},
+        {"name": "El Trabajador Aceitero y Desmotador N°7", "desc": "Abril 2019 — Periódico de la F.T.C.I.O.D y A.R.A.", "pdf": "/fuentes/prensa-sindical/el_trabajador_aceitero_y_desmotador_7_abril_2019.pdf", "tenant": "aceiteros"},
     ],
 }
 

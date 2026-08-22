@@ -1775,18 +1775,20 @@ def _validate_parsed_response(parsed: dict) -> bool:
 
 # ===== PDFs estáticos — fuentes RAG accesibles =====
 # Sirve los PDFs de convenios y leyes para consulta directa
+# Contenido unificado en docs/fuentes/ (antes backend/pdfs/)
 import pathlib as _pl
-_pdfs_dir = _pl.Path(__file__).parent / "pdfs"
-if _pdfs_dir.is_dir():
-    app.mount("/pdfs", StaticFiles(directory=str(_pdfs_dir)), name="pdfs")
-    logger.info(f"PDFs served from {_pdfs_dir}")
+_fuentes_dir = _pl.Path(__file__).parent.parent / "docs" / "fuentes"
+if _fuentes_dir.is_dir():
+    app.mount("/fuentes", StaticFiles(directory=str(_fuentes_dir)), name="fuentes")
+    logger.info(f"PDFs served from {_fuentes_dir}")
 
 
 @app.get("/api/pdfs")
 async def list_pdfs():
     """Lista los PDFs disponibles y leyes con enlace Infoleg para consulta."""
     pdfs = []
-    base = _pl.Path(__file__).parent / "pdfs"
+    # PDFs servidos desde docs/fuentes/ (unificado)
+    base = _fuentes_dir
     if base.is_dir():
         for f in sorted(base.rglob("*.pdf")):
             rel = f.relative_to(base)
@@ -1795,7 +1797,7 @@ async def list_pdfs():
                 "name": f.stem,
                 "category": category,
                 "filename": rel.as_posix(),
-                "url": f"/pdfs/{rel.as_posix()}",
+                "url": f"/fuentes/{rel.as_posix()}",
                 "size_kb": round(f.stat().st_size / 1024),
                 "source": "pdf",
             })
