@@ -39,6 +39,7 @@ GMAIL_CLIENT_ID = os.getenv("GMAIL_CLIENT_ID", "")
 GMAIL_CLIENT_SECRET = os.getenv("GMAIL_CLIENT_SECRET", "")
 GMAIL_REFRESH_TOKEN = os.getenv("GMAIL_REFRESH_TOKEN", "")
 EMAIL_FROM = os.getenv("EMAIL_FROM", "Hornero <alejandro.jasinski@gmail.com>")
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "alejandro.jasinski@gmail.com")  # Notificación de registros
 
 # Allowed sectors
 ALLOWED_SECTORS = ["aceitero", "prensa", "hornero", "comercio", "otro"]
@@ -267,6 +268,63 @@ Hornero · Asistente IA sindical"""
         logger.error(f"Failed to send confirmation email to {email}: {e}")
 
 
+async def _send_admin_notification(email: str, nombre: str, sector: str, username: str):
+    """Notify admin when a new user registers."""
+    if not GMAIL_REFRESH_TOKEN or not ADMIN_EMAIL:
+        logger.info(f"ADMIN NOTIFY (no Gmail): new user {username} — {nombre} ({email}) sector={sector}")
+        return
+
+    try:
+        import httpx
+        import base64
+        from email.mime.text import MIMEText
+
+        subject = f"🆕 Nuevo registro en Hornero: {nombre}"
+        body = f"""Se registró un nuevo usuario en Hornero:
+
+Nombre: {nombre}
+Email: {email}
+Username: {username}
+Sector: {sector}
+Fecha: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}
+
+El usuario aún no confirmó su email."""
+
+        async with httpx.AsyncClient(timeout=15) as client:
+            # Get access token (reuse the same flow)
+            token_resp = await client.post(
+                "https://oauth2.googleapis.com/token",
+                data={
+                    "client_id": GMAIL_CLIENT_ID,
+                    "client_secret": GMAIL_CLIENT_SECRET,
+                    "refresh_token": GMAIL_REFRESH_TOKEN,
+                    "grant_type": "refresh_token",
+                },
+            )
+            if token_resp.status_code != 200:
+                logger.error(f"Admin notify: Gmail token error ({token_resp.status_code})")
+                return
+
+            access_token = token_resp.json()["access_token"]
+            msg = MIMEText(body, "plain", "utf-8")
+            msg["From"] = EMAIL_FROM
+            msg["To"] = ADMIN_EMAIL
+            msg["Subject"] = subject
+            raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
+
+            send_resp = await client.post(
+                "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+                headers={"Authorization": f"Bearer {access_token}"},
+                json={"raw": raw},
+            )
+            if send_resp.status_code == 200:
+                logger.info(f"Admin notified: new user {username}")
+            else:
+                logger.error(f"Admin notify: Gmail send error ({send_resp.status_code}): {send_resp.text}")
+    except Exception as e:
+        logger.error(f"Failed to send admin notification: {e}")
+
+
 # ===== Auth dependency =====
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=False)
@@ -398,6 +456,9 @@ async def register(req: RegisterRequest, request: Request):
 
     # Send confirmation email
     await _send_confirmation_email(email, req.nombre.strip(), confirmation_token)
+
+    # Notify admin about new registration
+    await _send_admin_notification(email, req.nombre.strip(), req.sector, username)
 
     return {"message": "Te enviamos un email de confirmación. Hacé clic en el enlace para activar tu cuenta.", "email": email}
 
@@ -593,6 +654,38 @@ async def get_me(user: dict = Depends(require_auth)):
         "agremiacion": agremiacion,
         "email_confirmed": user.get("email_confirmed", False),
     }
+
+
+@router.get("/admin/users")
+async def admin_list_users(user: dict = Depends(require_auth)):
+    """List all registered users. Only accessible to authenticated users."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+    try:
+        with _get_conn() as conn:
+            rows = conn.execute("""
+                SELECT username, email, nombre, grade, sector, territory,
+                       category, email_confirmed, created_at
+                FROM users
+                ORDER BY created_at DESC
+            """).fetchall()
+            users = []
+            for r in rows:
+                users.append({
+                    "username": r["username"],
+                    "email": r["email"],
+                    "nombre": r["nombre"],
+                    "grade": r["grade"],
+                    "sector": r["sector"],
+                    "territory": r["territory"],
+                    "category": r["category"],
+                    "email_confirmed": r["email_confirmed"],
+                    "created_at": str(r["created_at"]) if r["created_at"] else "",
+                })
+            return {"total": len(users), "users": users}
+    except Exception as e:
+        logger.error(f"Admin list users error: {e}")
+        raise HTTPException(500, "Error al listar usuarios")
 
 
 
