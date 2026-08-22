@@ -127,16 +127,23 @@ function initDB() {
 // v18: simplified — PILOT_USERS removed, local-only cleanup (backend endpoints now require auth)
 var _cleanupJustRan = false;
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v18') return Promise.resolve(false);
-  console.log('DB: one-time cleanup v18 — clearing local stores only');
+  if (localStorage.getItem('hornero-chats-cleared') === 'v19') return Promise.resolve(false);
+  console.log('DB: one-time cleanup v19 — wiping ALL local data (fresh start)');
   return dbClearStore('chatHistory').then(function() {
     return dbClearStore('informes');
   }).then(function() {
     return dbClearStore('correcciones');
   }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v18');
+    // Also clear auth tokens and session (force re-register)
+    try { sessionStorage.removeItem('hornero-access-token'); } catch(e) {}
+    try { localStorage.removeItem('hornero-session'); } catch(e) {}
+    if (typeof dbDelete === 'function') {
+      try { dbDelete('uiState', 'session'); } catch(e) {}
+      try { dbDelete('uiState', 'auth_tokens'); } catch(e) {}
+    }
+    localStorage.setItem('hornero-chats-cleared', 'v19');
     _cleanupJustRan = true;
-    console.log('DB: local cleanup complete');
+    console.log('DB: local data wiped — fresh start');
     return true;
   }).catch(function(e) {
     console.warn('DB: cleanup failed', e);
