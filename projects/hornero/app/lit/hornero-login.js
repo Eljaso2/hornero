@@ -463,13 +463,13 @@ class HorneroLogin extends HoComponent {
         const errData = await res.json().catch(() => ({}));
         if (res.status === 403 && errData.detail && errData.detail.includes('no confirmado')) {
           this.set('loading', false);
-          this.set('error', 'Email no confirmado. Revisá tu casilla de email.');
+          this.set('error', 'Email no confirmado. Revisá tu casilla de email. ¿No te registraste? Creá tu cuenta.');
           return;
         }
-        // If backend is available but credentials wrong, show error (don't fallback)
+        // If backend is available but credentials wrong
         if (res.status === 401) {
           this.set('loading', false);
-          this.set('error', 'Usuario o contraseña incorrectos');
+          this.set('error', 'Usuario o contraseña incorrectos. ¿No tenés cuenta? Registrate.');
           return;
         }
         // Other backend error
@@ -481,7 +481,7 @@ class HorneroLogin extends HoComponent {
       // Network error — backend unavailable
       console.warn('Login: backend unavailable', e);
       this.set('loading', false);
-      this.set('error', 'Error de conexión con el servidor. Intentá de nuevo.');
+      this.set('error', 'Error de conexión. Intentá de nuevo. ¿No tenés cuenta? Registrate.');
       return;
     }
 
