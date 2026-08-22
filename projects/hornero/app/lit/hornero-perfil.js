@@ -17,6 +17,7 @@ class HorneroPerfil extends HoComponent {
       theme: String,
       pushEnabled: Boolean,
       pushPermission: String,
+      loggedIn: Boolean,
     };
   }
 
@@ -31,6 +32,7 @@ class HorneroPerfil extends HoComponent {
     this.theme = 'dark';
     this.pushEnabled = false;
     this.pushPermission = 'default';
+    this.loggedIn = false;
     this._editName = '';
     this._editEmail = '';
     this._sessionData = {};
@@ -201,6 +203,18 @@ class HorneroPerfil extends HoComponent {
         font-size: .82rem; cursor: pointer; width: 100%;
         margin-top: 16px; }
 
+      /* Login + Register (not logged in) */
+      .login-btn { background: var(--ho-green, #4E9978); color: var(--ho-text-off, #F2F1EC); border: none;
+        border-radius: 10px; padding: 12px 24px;
+        font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .82rem; cursor: pointer; width: 100%;
+        margin-top: 16px; }
+      .register-btn { background: transparent; color: var(--ho-text-mid, #9C988D); border: 1px solid var(--ho-border, rgba(255,255,255,.12));
+        border-radius: 10px; padding: 10px 24px;
+        font-family: 'Archivo', sans-serif; font-weight: 600;
+        font-size: .78rem; cursor: pointer; width: 100%;
+        margin-top: 8px; }
+
       /* Notification toggle */
       .notif-card { background: var(--ho-card, #2A3230);
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
@@ -289,8 +303,13 @@ class HorneroPerfil extends HoComponent {
           </div>
         </div>
 
-        <!-- Logout -->
-        <button class="logout-btn" id="logout-btn">Cerrar sesión</button>
+        <!-- Auth buttons -->
+        ${this.loggedIn ? html`
+          <button class="logout-btn" id="logout-btn">Cerrar sesión</button>
+        ` : html`
+          <button class="login-btn" id="login-btn">Iniciar sesión</button>
+          <button class="register-btn" id="register-btn">Registrarse</button>
+        `}
       </div>
     `;
   }
@@ -370,6 +389,22 @@ class HorneroPerfil extends HoComponent {
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
         this.emit('logout-request');
+      });
+    }
+
+    // Login button (when not logged in)
+    const loginBtn = this.shadowRoot.querySelector('#login-btn');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', () => {
+        this.emit('login-request');
+      });
+    }
+
+    // Register button (when not logged in)
+    const registerBtn = this.shadowRoot.querySelector('#register-btn');
+    if (registerBtn) {
+      registerBtn.addEventListener('click', () => {
+        this.emit('register-request');
       });
     }
 

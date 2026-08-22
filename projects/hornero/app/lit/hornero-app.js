@@ -29,6 +29,7 @@ class HorneroApp extends HoComponent {
     this._activeSessions = {}; // Screen → { sessionId, persona } — preserves active chat per screen during session
     this._navDirection = 'lateral'; // 'forward' | 'backward' | 'lateral' — screen transition direction
     this._loginOpen = false;        // Login popup visible
+    this._initialLoginView = 'login'; // 'login' or 'signup' — what the popup opens with
     this._pendingScreen = '';        // Screen user wanted before login popup appeared
     this.theme = localStorage.getItem('hornero-theme') || 'dark';
     this.updateAvailable = false;
@@ -84,32 +85,12 @@ class HorneroApp extends HoComponent {
           }
           localStorage.setItem('hornero-session', JSON.stringify(session));
         }
-        if (session && session.grade) {
-          this.loggedIn = true;
-          this.userGrade = session.grade;
-          this.userTerritory = session.territory;
-          this.userSector = session.sector || 'aceitero';
-          this.userName = session.nombre || session.username;
-        } else {
-          this.loggedIn = false;
-          this.userGrade = 'A';
-          this.userTerritory = '';
-          this.userSector = 'aceitero';
-          this.userName = '';
-        }
+        // DON'T set loggedIn here — _restoreSession() validates against backend first
+        // Only store the session data for _restoreSession to use
+        this._pendingSession = session || null;
       } catch(e) {
-        this.loggedIn = false;
-        this.userGrade = 'A';
-        this.userTerritory = '';
-        this.userSector = 'aceitero';
-        this.userName = '';
+        this._pendingSession = null;
       }
-    } else {
-      this.loggedIn = false;
-      this.userGrade = 'A';
-      this.userTerritory = '';
-      this.userSector = 'aceitero';
-      this.userName = '';
     }
 
     // 6 nav buttons: Inicio + 4 esferas implementadas + Perfil
@@ -290,7 +271,12 @@ class HorneroApp extends HoComponent {
   }
 
   async _restoreSession() {
-    // Try IndexedDB first, then localStorage
+    // One-time cleanup FIRST (v19 wipes old sessions on fresh start)
+    if (typeof limpiarChatsYReportes === 'function') {
+      await limpiarChatsYReportes();
+    }
+
+    // Try IndexedDB first, then localStorage, then _pendingSession from constructor
     let session = null;
     if (typeof dbGet === 'function') {
       try {
@@ -303,13 +289,10 @@ class HorneroApp extends HoComponent {
         try { session = JSON.parse(stored); } catch(e) { session = null; }
       }
     }
+    if (!session && this._pendingSession) {
+      session = this._pendingSession;
+    }
     if (session && session.grade) {
-      this.set('loggedIn', true);
-      this.set('userGrade', session.grade);
-      this.set('userTerritory', session.territory);
-      this.set('userSector', session.sector || 'aceitero');
-      this.set('userName', session.nombre || session.username);
-
       // Validate session against backend (JWT check + email_confirmed)
       try {
         const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() :
@@ -317,14 +300,9 @@ class HorneroApp extends HoComponent {
         if (baseUrl) {
           const res = await fetch(baseUrl + '/api/auth/me');
           if (res.ok) {
-            // Backend confirmed — update session with authoritative data
+            // Backend confirmed — set loggedIn + update session with authoritative data
             const userData = await res.json();
             if (userData) {
-              this.set('userGrade', userData.grade || session.grade);
-              this.set('userTerritory', userData.territory || session.territory);
-              this.set('userSector', userData.sector || session.sector || 'aceitero');
-              this.set('userName', userData.nombre || session.nombre || session.username);
-              // Update stored session with fresh data
               session.grade = userData.grade || session.grade;
               session.territory = userData.territory || session.territory;
               session.sector = userData.sector || session.sector || 'aceitero';
@@ -336,6 +314,11 @@ class HorneroApp extends HoComponent {
                 }
               } catch(e) {}
             }
+            this.set('loggedIn', true);
+            this.set('userGrade', session.grade);
+            this.set('userTerritory', session.territory);
+            this.set('userSector', session.sector || 'aceitero');
+            this.set('userName', session.nombre || session.username);
           } else if (res.status === 401 || res.status === 403) {
             // Backend says not authenticated / email not confirmed — clear session, show login
             localStorage.removeItem('hornero-session');
@@ -353,17 +336,22 @@ class HorneroApp extends HoComponent {
             return; // Don't run sync
           }
           // Network error / other status — keep session optimistically (Render cold start)
+          this.set('loggedIn', true);
+          this.set('userGrade', session.grade);
+          this.set('userTerritory', session.territory);
+          this.set('userSector', session.sector || 'aceitero');
+          this.set('userName', session.nombre || session.username);
         }
       } catch(e) {
         // Network error — keep session optimistically
         console.warn('Session validation failed (network?), keeping local session:', e.message);
+        this.set('loggedIn', true);
+        this.set('userGrade', session.grade);
+        this.set('userTerritory', session.territory);
+        this.set('userSector', session.sector || 'aceitero');
+        this.set('userName', session.nombre || session.username);
       }
 
-      // One-time cleanup: borrar chats + informes + correcciones (ALL users)
-      // Must run BEFORE full sync so pull doesn't re-fetch old data
-      if (typeof limpiarChatsYReportes === 'function') {
-        await limpiarChatsYReportes();
-      }
       // Iniciar full sync: pull datos remotos + push datos locales + syncQueue
       if (typeof iniciarFullSync === 'function') {
         iniciarFullSync(session.username);
@@ -1028,7 +1016,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'condicion') {
       screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'sociologo') + '" session-id="' + (this._initialSessionId || '') + '" initial-section="' + (this._initialSection || '') + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
-      screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-perfil>';
+      screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '" logged-in="' + (this.loggedIn ? 'true' : 'false') + '"></hornero-perfil>';
     } else if (this.screen === 'recibidos') {
       screenContent = this._renderRecibidos();
     } else {
@@ -1191,8 +1179,13 @@ class HorneroApp extends HoComponent {
               </div>
             </div>
 
-            <!-- Logout -->
-            <button style="background:#A6553E;color:var(--ho-text-off,#F2F1EC);border:none;border-radius:10px;padding:12px 24px;font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;width:100%;margin-top:16px" id="profileLogoutBtn">Cerrar sesión</button>
+            <!-- Auth buttons -->
+            ${this.loggedIn ? html`
+              <button style="background:#A6553E;color:var(--ho-text-off,#F2F1EC);border:none;border-radius:10px;padding:12px 24px;font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;width:100%;margin-top:16px" id="profileLogoutBtn">Cerrar sesión</button>
+            ` : html`
+              <button style="background:var(--ho-green,#4E9978);color:var(--ho-text-off,#F2F1EC);border:none;border-radius:10px;padding:12px 24px;font-family:Archivo,sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;width:100%;margin-top:16px" id="profileLoginBtn">Iniciar sesión</button>
+              <button style="background:transparent;color:var(--ho-text-mid,#9C988D);border:1px solid var(--ho-border,rgba(255,255,255,.12));border-radius:10px;padding:10px 24px;font-family:Archivo,sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;width:100%;margin-top:8px" id="profileRegisterBtn">Registrarse</button>
+            `}
           </div>
         </div>
       </div>
@@ -1208,7 +1201,7 @@ class HorneroApp extends HoComponent {
             <span class="login-popup-title">Ingresá a Hornero</span>
             <button class="login-popup-close" id="loginCloseBtn">✕</button>
           </div>
-          <hornero-login mode="popup"></hornero-login>
+          <hornero-login mode="popup" view="${this._initialLoginView || 'login'}"></hornero-login>
         </div>
       </div>
     `;
@@ -1216,6 +1209,7 @@ class HorneroApp extends HoComponent {
 
   _closeLoginPopup() {
     this._loginOpen = false;
+    this._initialLoginView = 'login'; // Reset to default
     const overlay = this.shadowRoot.querySelector('#loginOverlay');
     if (overlay) {
       overlay.style.transition = 'opacity .15s ease';
@@ -1634,6 +1628,21 @@ class HorneroApp extends HoComponent {
       this._handleLogout();
     });
 
+    // Login/Register buttons in profile popup (when not logged in)
+    const profileLoginBtn = this.shadowRoot.querySelector('#profileLoginBtn');
+    if (profileLoginBtn) profileLoginBtn.addEventListener('click', () => {
+      this._closeProfilePopup();
+      this._loginOpen = true;
+      this.requestUpdate();
+    });
+    const profileRegisterBtn = this.shadowRoot.querySelector('#profileRegisterBtn');
+    if (profileRegisterBtn) profileRegisterBtn.addEventListener('click', () => {
+      this._closeProfilePopup();
+      this._loginOpen = true;
+      this._initialLoginView = 'signup';
+      this.requestUpdate();
+    });
+
     // Acknowledge clipping when navigating to clipping screen
     if (this.screen === 'clipping' && this.newClippingAvailable && typeof acknowledgeClipping === 'function') {
       acknowledgeClipping(this._newClipVersion);
@@ -1730,6 +1739,19 @@ class HorneroApp extends HoComponent {
     // Listen for logout from any child component (Perfil screen)
     this.shadowRoot.addEventListener('logout-request', () => {
       this._handleLogout();
+    });
+
+    // Listen for login-request from <hornero-perfil> (when not logged in)
+    this.shadowRoot.addEventListener('login-request', () => {
+      this._loginOpen = true;
+      this.requestUpdate();
+    });
+
+    // Listen for register-request from <hornero-perfil> (switch to signup)
+    this.shadowRoot.addEventListener('register-request', () => {
+      this._loginOpen = true;
+      this._initialLoginView = 'signup';
+      this.requestUpdate();
     });
 
     // Listen for theme-change from <hornero-perfil> (dark/light toggle)
