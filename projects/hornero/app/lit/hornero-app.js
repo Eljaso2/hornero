@@ -1174,6 +1174,10 @@ class HorneroApp extends HoComponent {
               <span style="font-family:Public Sans,sans-serif;font-size:.78rem;color:var(--ho-text-mid,#9C988D);min-width:60px">Nivel</span>
               <span style="font-family:JetBrains Mono,monospace;font-size:.62rem;font-weight:600;letter-spacing:.10em;text-transform:uppercase;padding:2px 8px;border-radius:6px;${nivelBadgeStyle[gradeInfo.color] || ''}">N${gradeInfo.num} · ${gradeInfo.role}</span>
             </div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px">
+              <span style="font-family:Public Sans,sans-serif;font-size:.78rem;color:var(--ho-text-mid,#9C988D);min-width:60px">Sector</span>
+              <span style="font-family:Public Sans,sans-serif;font-size:.86rem;color:var(--ho-text,#E8E6E0);font-weight:600">${{aceitero:'Aceitero (F.T.C.I.O.D y A.R.A.)',prensa:'Prensa (SIPREBA)',comercio:'Comercio',hornero:'Hornero (admin)',otro:'Otro'}[sector] || sector}</span>
+            </div>
 
             <!-- Agremiación -->
             <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--ho-border,rgba(255,255,255,.08))">

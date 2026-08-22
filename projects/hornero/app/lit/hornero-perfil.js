@@ -316,6 +316,8 @@ class HorneroPerfil extends HoComponent {
 
   _renderInfoFields(gradeInfo, agremFields) {
     const email = this._sessionData.email || '';
+    const sectorLabels = { aceitero: 'Aceitero (F.T.C.I.O.D y A.R.A.)', prensa: 'Prensa (SIPREBA)', comercio: 'Comercio', hornero: 'Hornero (admin)', otro: 'Otro' };
+    const sectorLabel = sectorLabels[this.sector] || this.sector;
     return html`
       <div class="info-field">
         <span class="info-field-label">Usuario</span>
@@ -328,6 +330,10 @@ class HorneroPerfil extends HoComponent {
       <div class="info-field">
         <span class="info-field-label">Nivel</span>
         <span class="nivel-badge ${gradeInfo.color}">N${gradeInfo.num} · ${gradeInfo.role}</span>
+      </div>
+      <div class="info-field">
+        <span class="info-field-label">Sector</span>
+        <span class="info-field-value">${sectorLabel}</span>
       </div>
       ${agremFields.map(f =>
         '<div class="info-field">' +
