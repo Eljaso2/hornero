@@ -124,49 +124,19 @@ function initDB() {
 // ===== One-time cleanup: clear chatHistory + informes + correcciones (local + backend) =====
 // Runs only once (flag in localStorage), then auto-removes itself
 // Bumping version triggers re-run for all users on next load
-// v17: clear-all para desarrollo de chats — borra TODOS los datos de TODOS los usuarios piloto
-// Usa clear-user por cada usuario (endpoints que sí existen en el backend deployado)
-var PILOT_USERS = ['eljaso', 'test4', 'test3', 'test1c', 'test_guaycuru', 'test1a', 'test2', 'test1b', 'test_prensa4', 'test_prensa3', 'test_prensa2', 'test_prensa1', 'emiliano', 'federico'];
+// v18: simplified — PILOT_USERS removed, local-only cleanup (backend endpoints now require auth)
 var _cleanupJustRan = false;
 function limpiarChatsYReportes() {
-  if (localStorage.getItem('hornero-chats-cleared') === 'v17') return Promise.resolve(false);
-  console.log('DB: one-time cleanup — clearing chatHistory + informes + correcciones for ALL pilot users (local + backend)');
-  var baseUrl = _getChatSyncBaseUrl();
+  if (localStorage.getItem('hornero-chats-cleared') === 'v18') return Promise.resolve(false);
+  console.log('DB: one-time cleanup v18 — clearing local stores only');
   return dbClearStore('chatHistory').then(function() {
     return dbClearStore('informes');
   }).then(function() {
     return dbClearStore('correcciones');
   }).then(function() {
-    // Clear backend per-user (endpoints que SÍ existen en el backend deployado)
-    var backendPromises = [];
-    // Chat: clear-all existe
-    backendPromises.push(
-      fetch(baseUrl + '/api/chat/clear-all', { method: 'DELETE' })
-        .then(function(r) { return r.json(); })
-        .then(function(data) { console.log('DB: backend chat cleared', data); })
-        .catch(function(e) { console.warn('DB: backend chat clear failed', e); })
-    );
-    // Informes: clear-user por cada usuario (clear-all puede no existir aún)
-    PILOT_USERS.forEach(function(username) {
-      backendPromises.push(
-        fetch(baseUrl + '/api/informes/clear-user?username=' + encodeURIComponent(username), { method: 'DELETE' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) { console.log('DB: backend informes cleared for', username, data); })
-          .catch(function(e) { console.warn('DB: backend informes clear failed for', username, e); })
-      );
-    });
-    // Correcciones: clear-all puede no existir aún, intentar igual
-    backendPromises.push(
-      fetch(baseUrl + '/api/correcciones/clear-all', { method: 'DELETE' })
-        .then(function(r) { return r.json(); })
-        .then(function(data) { console.log('DB: backend correcciones cleared', data); })
-        .catch(function(e) { console.warn('DB: backend correcciones clear-all failed (expected if not deployed yet)', e); })
-    );
-    return Promise.all(backendPromises);
-  }).then(function() {
-    localStorage.setItem('hornero-chats-cleared', 'v17');
+    localStorage.setItem('hornero-chats-cleared', 'v18');
     _cleanupJustRan = true;
-    console.log('DB: cleanup complete — chatHistory + informes + correcciones cleared (ALL pilot users, local + backend)');
+    console.log('DB: local cleanup complete');
     return true;
   }).catch(function(e) {
     console.warn('DB: cleanup failed', e);

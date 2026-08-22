@@ -72,24 +72,15 @@ class HorneroApp extends HoComponent {
             const rolMap = { 'B.d': 'Secretario General de la Federación', 'B.c': 'Secretario General del Sindicato', 'B.b': 'Delegado', 'B.a': 'Trabajador de Base' };
             a.rol = rolMap[session.grade] || 'Trabajador de Base';
           }
-          // Migration: test4 should have Dreyfus/Rosario
-          if (session.username === 'test4') {
-            a.sindicato = 'Sindicato de Obreros de la Industria Aceitera — Rosario';
-            a.territorio = 'Rosario';
-            a.empresa = 'Dreyfus';
-            a.rol = 'Secretario General de la Federación';
-          }
           // Migration: split empresa/puesto if empresa has " — " separator (old format)
           if (a.empresa && a.empresa.includes(' — ') && !a.puesto) {
             const parts = a.empresa.split(' — ');
             a.empresa = parts[0].trim();
             a.puesto = parts[1].trim();
           }
-          // Migration: add puesto field based on username if missing
+          // Migration: add puesto field based on sector/grade if missing
           if (!a.puesto) {
-            const puestoMap = { 'test1b': 'Administración' };
-            if (puestoMap[session.username]) a.puesto = puestoMap[session.username];
-            else if (session.sector === 'aceitero' && session.grade === 'B.a') a.puesto = 'Operario de planta';
+            if (session.sector === 'aceitero' && session.grade === 'B.a') a.puesto = 'Operario de planta';
           }
           localStorage.setItem('hornero-session', JSON.stringify(session));
         }
@@ -274,6 +265,14 @@ class HorneroApp extends HoComponent {
     super.connectedCallback();
     await this._restoreSession();
 
+    // Listen for re-auth events from auth-fetch.js (401/403 from protected endpoints)
+    document.addEventListener('hornero-reauth-required', (e) => {
+      // Clear session and show login
+      this._handleLogout();
+      this._loginOpen = true;
+      this.requestUpdate();
+    });
+
     // ===== History API: device back button navigates within app =====
     history.replaceState({ screen: 'home' }, '', '');
 
@@ -310,6 +309,56 @@ class HorneroApp extends HoComponent {
       this.set('userTerritory', session.territory);
       this.set('userSector', session.sector || 'aceitero');
       this.set('userName', session.nombre || session.username);
+
+      // Validate session against backend (JWT check + email_confirmed)
+      try {
+        const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() :
+                         (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : '');
+        if (baseUrl) {
+          const res = await fetch(baseUrl + '/api/auth/me');
+          if (res.ok) {
+            // Backend confirmed — update session with authoritative data
+            const userData = await res.json();
+            if (userData) {
+              this.set('userGrade', userData.grade || session.grade);
+              this.set('userTerritory', userData.territory || session.territory);
+              this.set('userSector', userData.sector || session.sector || 'aceitero');
+              this.set('userName', userData.nombre || session.nombre || session.username);
+              // Update stored session with fresh data
+              session.grade = userData.grade || session.grade;
+              session.territory = userData.territory || session.territory;
+              session.sector = userData.sector || session.sector || 'aceitero';
+              session.nombre = userData.nombre || session.nombre || session.username;
+              try {
+                localStorage.setItem('hornero-session', JSON.stringify(session));
+                if (typeof dbPut === 'function') {
+                  dbPut('uiState', { key: 'session', ...session }).catch(function(){});
+                }
+              } catch(e) {}
+            }
+          } else if (res.status === 401 || res.status === 403) {
+            // Backend says not authenticated / email not confirmed — clear session, show login
+            localStorage.removeItem('hornero-session');
+            if (typeof dbDelete === 'function') {
+              try { await dbDelete('uiState', 'session'); } catch(e) {}
+            }
+            if (typeof horneroAuth !== 'undefined' && horneroAuth.clearTokens) {
+              horneroAuth.clearTokens();
+            }
+            this.set('loggedIn', false);
+            this.set('userGrade', 'A');
+            this.set('userTerritory', '');
+            this.set('userSector', 'aceitero');
+            this.set('userName', '');
+            return; // Don't run sync
+          }
+          // Network error / other status — keep session optimistically (Render cold start)
+        }
+      } catch(e) {
+        // Network error — keep session optimistically
+        console.warn('Session validation failed (network?), keeping local session:', e.message);
+      }
+
       // One-time cleanup: borrar chats + informes + correcciones (ALL users)
       // Must run BEFORE full sync so pull doesn't re-fetch old data
       if (typeof limpiarChatsYReportes === 'function') {

@@ -2,6 +2,7 @@
 // Intercepts all /api/* fetch calls:
 // - Attaches Authorization: Bearer <token> when available
 // - On 401: tries refresh token, retries once
+// - On 403 (email not confirmed): triggers re-auth
 // - If refresh fails: triggers re-auth (login popup)
 
 (function() {
@@ -86,10 +87,13 @@
   }
 
   // ===== Re-auth trigger =====
-  function triggerReauth() {
+  function triggerReauth(reason) {
     clearTokens();
     // Dispatch event so hornero-app shows login popup
-    document.dispatchEvent(new CustomEvent('hornero-reauth-required', { bubbles: true }));
+    document.dispatchEvent(new CustomEvent('hornero-reauth-required', {
+      bubbles: true,
+      detail: { reason: reason || 'session_expired' }
+    }));
   }
 
   // ===== Fetch interceptor =====
@@ -110,6 +114,11 @@
     }
 
     return originalFetch.call(this, url, options).then(function(response) {
+      // On 403 (email not confirmed), force re-auth
+      if (response.status === 403 && isHorneroApi) {
+        triggerReauth('email_not_confirmed');
+        return response;
+      }
       // On 401, try refresh once
       if (response.status === 401 && isHorneroApi && !_isRefreshing) {
         _isRefreshing = true;
@@ -122,7 +131,7 @@
             return originalFetch.call(this, url, options);
           }
           // Refresh failed — trigger re-auth
-          triggerReauth();
+          triggerReauth('session_expired');
           return response;  // Return original 401 response
         }.bind(this));
       }
