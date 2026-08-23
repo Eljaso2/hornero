@@ -12,6 +12,14 @@ class HorneroLogin extends HoComponent {
       showPassword: Boolean,
       mode: String,   // 'popup' = compact | default = full screen
       view: String,   // 'login' | 'signup' | 'confirm-pending'
+      // Signup: sindicato search
+      sindicatoQuery: String,
+      sindicatoResults: Array,
+      selectedSindicato: Object,   // { id, nombre, sector_key, federacion, convenio }
+      // Signup: cargo selection
+      cargo: String,               // 'trabajador' | 'delegado' | 'comision_directiva' | 'comision_federacion'
+      // Signup: verification feedback
+      verificationWarning: String,
     };
   }
 
@@ -23,6 +31,12 @@ class HorneroLogin extends HoComponent {
     this.mode = '';
     this.view = 'login';
     this._signupEmail = '';
+    this.sindicatoQuery = '';
+    this.sindicatoResults = [];
+    this.selectedSindicato = null;
+    this.cargo = 'trabajador';
+    this.verificationWarning = '';
+    this._searchDebounce = null;
   }
 
   _styles() {
@@ -182,6 +196,74 @@ class HorneroLogin extends HoComponent {
         font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: #7A7568; margin-top: 32px; text-align: center; }
 
+      /* Sindicato search */
+      .sind-search-wrap { position: relative; }
+      .sind-results {
+        position: absolute; top: 100%; left: 0; right: 0; z-index: 10;
+        background: #2A3230; border: 1px solid var(--ho-dark-mid, #536260);
+        border-radius: 0 0 10px 10px; max-height: 180px; overflow-y: auto;
+        box-shadow: 0 6px 18px rgba(0,0,0,.4);
+      }
+      .sind-results:empty { display: none; }
+      .sind-result-item {
+        padding: 10px 14px; cursor: pointer;
+        font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        color: #E8E6E0; transition: background .15s;
+        border-bottom: 1px solid #3A4A46;
+      }
+      .sind-result-item:last-child { border-bottom: none; }
+      .sind-result-item:hover { background: var(--ho-dark-mid, #536260); }
+      .sind-result-item .sind-sigla {
+        font-weight: 700; color: var(--ho-green, #4E9978);
+      }
+      .sind-result-item .sind-detail {
+        font-size: .72rem; color: #9C988D; margin-top: 2px;
+      }
+      .sind-chip {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: #2D4A3D; border: 1px solid var(--ho-green, #4E9978);
+        border-radius: 8px; padding: 6px 12px; margin-top: 6px;
+        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        color: #80CCA0; font-weight: 500;
+      }
+      .sind-chip-remove {
+        background: none; border: none; color: #80CCA0; cursor: pointer;
+        font-size: 1rem; line-height: 1; padding: 0 2px;
+      }
+      .sind-chip-remove:hover { color: #F2F1EC; }
+      .sind-fallback {
+        font-size: .78rem; color: #9C988D; margin-top: 6px;
+      }
+      .sind-fallback a { color: var(--ho-green, #4E9978); cursor: pointer; text-decoration: underline; }
+
+      /* Cargo selection pills */
+      .cargo-options {
+        display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;
+      }
+      .cargo-btn {
+        flex: 1 1 auto; min-width: 0;
+        background: var(--ho-dark-mid, #536260);
+        border: 1.5px solid var(--ho-dark-mid, #536260);
+        border-radius: 8px; padding: 8px 10px;
+        font-family: 'Public Sans', sans-serif; font-size: .76rem;
+        font-weight: 600; color: #C8C4BC; cursor: pointer;
+        text-align: center; transition: all .2s; white-space: nowrap;
+      }
+      .cargo-btn:hover { border-color: var(--ho-green, #4E9978); color: #E8E6E0; }
+      .cargo-btn.selected {
+        background: #2D4A3D; border-color: var(--ho-green, #4E9978);
+        color: #80CCA0;
+      }
+
+      /* Verification warning */
+      .warning-msg {
+        background: #5A4A2D; color: #E8D48B;
+        padding: 10px 14px; border-radius: 8px;
+        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        font-weight: 500; margin-top: 16px;
+        animation: apfade .3s ease;
+      }
+
       @keyframes apfade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
     `;
   }
@@ -210,6 +292,29 @@ class HorneroLogin extends HoComponent {
 
     // Signup view
     if (this.view === 'signup') {
+      const sindChip = this.selectedSindicato
+        ? html`<div class="sind-chip">
+            <span>${this.selectedSindicato.nombre}</span>
+            <button class="sind-chip-remove" id="remove-sindicato">✕</button>
+          </div>`
+        : '';
+      const sindResults = (this.sindicatoResults && this.sindicatoResults.length > 0 && !this.selectedSindicato)
+        ? html`<div class="sind-results" id="sind-results">
+            ${this.sindicatoResults.map(s => html`
+              <div class="sind-result-item" data-sind-id="${s.id}" data-sind-nombre="${s.nombre}" data-sind-sector="${s.sector_key}" data-sind-federacion="${s.federacion}" data-sind-convenio="${s.convenio}">
+                <div class="sind-sigla">${s.sigla || s.nombre}</div>
+                <div class="sind-detail">${s.federacion || s.nombre_full || ''}</div>
+              </div>
+            `).join('')}
+          </div>`
+        : '';
+      const cargoLabels = {
+        trabajador: 'Trabajador/a',
+        delegado: 'Delegado/a',
+        comision_directiva: 'Comisión Directiva',
+        comision_federacion: 'Comisión Federación',
+      };
+
       return html`
         <div class="login-wrap">
           <div class="logo-area">
@@ -228,14 +333,24 @@ class HorneroLogin extends HoComponent {
             </div>
 
             <div class="field">
-              <label for="signup-sector">Sector / Gremio</label>
-              <select id="signup-sector">
-                <option value="hornero">Hornero (admin/tester)</option>
-                <option value="aceitero">Aceitero (F.T.C.I.O.D y A.R.A.)</option>
-                <option value="prensa">Prensa (SIPREBA)</option>
-                <option value="comercio">Comercio</option>
-                <option value="otro">Otro</option>
-              </select>
+              <label for="signup-sindicato">Sindicato / Gremio</label>
+              <div class="sind-search-wrap">
+                <input type="text" id="signup-sindicato" placeholder="Buscá tu sindicato..." autocomplete="off" value="${this.selectedSindicato ? this.selectedSindicato.nombre : this.sindicatoQuery}" ${this.selectedSindicato ? 'readonly' : ''} />
+                ${sindResults}
+              </div>
+              ${sindChip}
+              ${!this.selectedSindicato && this.sindicatoQuery.length >= 2 && this.sindicatoResults.length === 0
+                ? html`<div class="sind-fallback">No encontramos tu sindicato. <a id="fallback-sector">Registrate sin sindicato</a></div>`
+                : ''}
+            </div>
+
+            <div class="field">
+              <label>Tu cargo</label>
+              <div class="cargo-options" id="cargo-options">
+                ${Object.entries(cargoLabels).map(([key, label]) => html`
+                  <button class="cargo-btn${this.cargo === key ? ' selected' : ''}" data-cargo="${key}">${label}</button>
+                `).join('')}
+              </div>
             </div>
 
             <div class="field field-password">
@@ -257,6 +372,7 @@ class HorneroLogin extends HoComponent {
             </button>
 
             ${this.error ? '<div class="error-msg">' + this.error + '</div>' : ''}
+            ${this.verificationWarning ? '<div class="warning-msg">' + this.verificationWarning + '</div>' : ''}
 
             <div class="toggle-view">
               Ya tenés cuenta? <a id="goto-login">Ingresar</a>
@@ -351,6 +467,76 @@ class HorneroLogin extends HoComponent {
     const signupBtn = this.shadowRoot.querySelector('#signup-btn');
     if (signupBtn) signupBtn.addEventListener('click', () => this._handleSignup());
 
+    // Sindicato search input
+    const sindInput = this.shadowRoot.querySelector('#signup-sindicato');
+    if (sindInput) {
+      sindInput.addEventListener('input', (e) => {
+        if (this.selectedSindicato) return; // readonly when selected
+        const q = e.target.value.trim();
+        this.set('sindicatoQuery', q);
+        this.set('sindicatoResults', []);
+        clearTimeout(this._searchDebounce);
+        if (q.length >= 2) {
+          this._searchDebounce = setTimeout(() => this._searchSindicatos(q), 300);
+        }
+      });
+      sindInput.addEventListener('focus', () => {
+        // If no sindicato selected and query is short, show all
+        if (!this.selectedSindicato && this.sindicatoQuery.length < 2) {
+          this._searchSindicatos('');
+        }
+      });
+    }
+
+    // Sindicato result click handlers
+    const sindResults = this.shadowRoot.querySelector('#sind-results');
+    if (sindResults) {
+      sindResults.querySelectorAll('.sind-result-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const sind = {
+            id: item.dataset.sindId,
+            nombre: item.dataset.sindNombre,
+            sector_key: item.dataset.sindSector,
+            federacion: item.dataset.sindFederacion,
+            convenio: item.dataset.sindConvenio,
+          };
+          this.set('selectedSindicato', sind);
+          this.set('sindicatoQuery', sind.nombre);
+          this.set('sindicatoResults', []);
+          this.set('error', '');
+        });
+      });
+    }
+
+    // Remove sindicato chip
+    const removeSind = this.shadowRoot.querySelector('#remove-sindicato');
+    if (removeSind) removeSind.addEventListener('click', () => {
+      this.set('selectedSindicato', null);
+      this.set('sindicatoQuery', '');
+      this.set('sindicatoResults', []);
+    });
+
+    // Cargo selection
+    const cargoOptions = this.shadowRoot.querySelector('#cargo-options');
+    if (cargoOptions) {
+      cargoOptions.querySelectorAll('.cargo-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.set('cargo', btn.dataset.cargo);
+          this.set('error', '');
+          this.set('verificationWarning', '');
+        });
+      });
+    }
+
+    // Fallback: register without sindicato
+    const fallbackLink = this.shadowRoot.querySelector('#fallback-sector');
+    if (fallbackLink) fallbackLink.addEventListener('click', () => {
+      this.set('selectedSindicato', null);
+      this.set('sindicatoQuery', '');
+      this.set('sindicatoResults', []);
+      this.set('error', '');
+    });
+
     const gotoSignup = this.shadowRoot.querySelector('#goto-signup');
     if (gotoSignup) gotoSignup.addEventListener('click', () => {
       this.set('view', 'signup');
@@ -378,6 +564,20 @@ class HorneroLogin extends HoComponent {
     if (signupPass2) signupPass2.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') this._handleSignup();
     });
+  }
+
+  async _searchSindicatos(q) {
+    try {
+      const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() : '';
+      if (!baseUrl) return;
+      const res = await fetch(baseUrl + '/api/auth/sindicatos?q=' + encodeURIComponent(q));
+      if (res.ok) {
+        const data = await res.json();
+        this.set('sindicatoResults', data.sindicatos || []);
+      }
+    } catch(e) {
+      console.warn('Sindicato search failed:', e);
+    }
   }
 
   async _handleLogin() {
@@ -433,6 +633,8 @@ class HorneroLogin extends HoComponent {
             category: user.category || '',
             email: user.email || '',
             agremiacion: user.agremiacion || {},
+            is_tester: user.is_tester || false,
+            sindicato_id: user.sindicato_id || '',
             timestamp: Date.now(),
           };
 
@@ -504,15 +706,16 @@ class HorneroLogin extends HoComponent {
   async _handleSignup() {
     const emailInput = this.shadowRoot.querySelector('#signup-email');
     const nombreInput = this.shadowRoot.querySelector('#signup-nombre');
-    const sectorInput = this.shadowRoot.querySelector('#signup-sector');
     const passInput = this.shadowRoot.querySelector('#signup-pass');
     const pass2Input = this.shadowRoot.querySelector('#signup-pass2');
 
     const email = (emailInput.value || '').trim();
     const nombre = (nombreInput.value || '').trim();
-    const sector = sectorInput.value;
     const password = (passInput.value || '').trim();
     const password2 = (pass2Input.value || '').trim();
+    const sindicatoId = this.selectedSindicato ? this.selectedSindicato.id : '';
+    const sector = this.selectedSindicato ? this.selectedSindicato.sector_key : 'otro';
+    const cargo = this.cargo || 'trabajador';
 
     if (!email || !nombre || !password) {
       this.set('error', 'Completá todos los campos');
@@ -530,6 +733,8 @@ class HorneroLogin extends HoComponent {
     }
 
     this.set('loading', true);
+    this.set('error', '');
+    this.set('verificationWarning', '');
 
     try {
       const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() : '';
@@ -542,12 +747,20 @@ class HorneroLogin extends HoComponent {
       const res = await fetch(baseUrl + '/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, nombre, sector })
+        body: JSON.stringify({ email, password, nombre, sector, sindicato_id: sindicatoId, cargo })
       });
 
       const data = await res.json();
 
       if (res.ok || res.status === 201) {
+        // Check if verification failed
+        if (data.verification_failed) {
+          const cargoLabels = { delegado: 'Delegado/a', comision_directiva: 'Comisión Directiva', comision_federacion: 'Comisión Federación' };
+          const claimedLabel = cargoLabels[data.claimed_cargo] || data.claimed_cargo;
+          this.set('verificationWarning',
+            `No pudimos verificar tu cargo de ${claimedLabel}. Te registramos como Trabajador/a. Si esto es un error, contactá a tu sindicato.`
+          );
+        }
         this._signupEmail = email;
         this.set('view', 'confirm-pending');
         this.set('error', '');

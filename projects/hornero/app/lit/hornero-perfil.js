@@ -89,6 +89,10 @@ class HorneroPerfil extends HoComponent {
     return labels[this.grade] || { num: 0, role: 'Sin acceso', color: '' };
   }
 
+  _isAdmin() {
+    return this._sessionData.is_tester || this.grade === 'B.d';
+  }
+
   // ===== Agremiación info from session =====
 
   _getAgremiacionInfo() {
@@ -203,6 +207,15 @@ class HorneroPerfil extends HoComponent {
         font-size: .82rem; cursor: pointer; width: 100%;
         margin-top: 16px; }
 
+      /* Admin button */
+      .admin-btn { background: var(--ho-dark-mid, #3A4340); color: var(--ho-green, #4E9978);
+        border: 1.5px solid var(--ho-green, #4E9978);
+        border-radius: 10px; padding: 12px 24px;
+        font-family: 'Archivo', sans-serif; font-weight: 700;
+        font-size: .82rem; cursor: pointer; width: 100%;
+        margin-top: 12px; transition: background .2s; }
+      .admin-btn:hover { background: #2D4A3D; }
+
       /* Login + Register (not logged in) */
       .login-btn { background: var(--ho-green, #4E9978); color: var(--ho-text-off, #F2F1EC); border: none;
         border-radius: 10px; padding: 12px 24px;
@@ -303,6 +316,11 @@ class HorneroPerfil extends HoComponent {
           </div>
         </div>
 
+        <!-- Admin panel button (only for testers/admins) -->
+        ${this._isAdmin() ? html`
+          <button class="admin-btn" id="admin-btn">⚙️ Panel Admin</button>
+        ` : ''}
+
         <!-- Auth buttons -->
         ${this.loggedIn ? html`
           <button class="logout-btn" id="logout-btn">Cerrar sesión</button>
@@ -395,6 +413,14 @@ class HorneroPerfil extends HoComponent {
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
         this.emit('logout-request');
+      });
+    }
+
+    // Admin button
+    const adminBtn = this.shadowRoot.querySelector('#admin-btn');
+    if (adminBtn) {
+      adminBtn.addEventListener('click', () => {
+        this.emit('open-admin');
       });
     }
 

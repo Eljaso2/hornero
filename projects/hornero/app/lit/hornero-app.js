@@ -56,6 +56,7 @@ class HorneroApp extends HoComponent {
     this._clipExpandId = null;
     this._mateMes = null;
     this._profileOpen = false;
+    this._adminOpen = false;
     this._pushEnabled = (typeof isPushSubscribed === 'function') ? isPushSubscribed() : false;
 
     // Synchronous session restore from localStorage (avoids login flash)
@@ -1104,6 +1105,7 @@ class HorneroApp extends HoComponent {
 
       ${this._profileOpen ? this._renderProfilePopup() : ''}
       ${this._loginOpen ? this._renderLoginPopup() : ''}
+      ${this._adminOpen ? this._renderAdminPanel() : ''}
     `;
   }
 
@@ -1242,6 +1244,26 @@ class HorneroApp extends HoComponent {
     this._profileOpen = false;
     // Just hide the overlay DOM — no full re-render to preserve screen state below
     const overlay = this.shadowRoot.querySelector('#profileOverlay');
+    if (overlay) {
+      overlay.style.transition = 'opacity .15s ease';
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.remove(), 150);
+    }
+  }
+
+  _renderAdminPanel() {
+    return html`
+      <div class="login-overlay" id="adminOverlay" style="z-index:200">
+        <div class="login-popup" style="max-height:90vh;width:95%;max-width:480px">
+          <hornero-admin></hornero-admin>
+        </div>
+      </div>
+    `;
+  }
+
+  _closeAdminPanel() {
+    this._adminOpen = false;
+    const overlay = this.shadowRoot.querySelector('#adminOverlay');
     if (overlay) {
       overlay.style.transition = 'opacity .15s ease';
       overlay.style.opacity = '0';
@@ -1797,6 +1819,18 @@ class HorneroApp extends HoComponent {
     this.shadowRoot.addEventListener('register-request', () => {
       this._loginOpen = true;
       this._initialLoginView = 'signup';
+      this.requestUpdate();
+    });
+
+    // Listen for open-admin from <hornero-perfil> (admin button)
+    this.shadowRoot.addEventListener('open-admin', () => {
+      this._adminOpen = true;
+      this.requestUpdate();
+    });
+
+    // Listen for close-admin from <hornero-admin>
+    this.shadowRoot.addEventListener('close-admin', () => {
+      this._adminOpen = false;
       this.requestUpdate();
     });
 
