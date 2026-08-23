@@ -480,12 +480,6 @@ class HorneroLogin extends HoComponent {
           this._searchDebounce = setTimeout(() => this._searchSindicatos(q), 300);
         }
       });
-      sindInput.addEventListener('focus', () => {
-        // If no sindicato selected and query is short, show all
-        if (!this.selectedSindicato && this.sindicatoQuery.length < 2) {
-          this._searchSindicatos('');
-        }
-      });
     }
 
     // Sindicato result click handlers
