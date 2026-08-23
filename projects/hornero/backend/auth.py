@@ -128,8 +128,79 @@ def _init_db():
             conn.execute("CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_users_confirmation_token ON users(confirmation_token)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_users_grade ON users(grade)")
+
+            # --- New columns for gremio verification ---
+            for col_ddl in [
+                "ALTER TABLE users ADD COLUMN is_tester BOOLEAN NOT NULL DEFAULT FALSE",
+                "ALTER TABLE users ADD COLUMN verificacion_pendiente BOOLEAN NOT NULL DEFAULT FALSE",
+                "ALTER TABLE users ADD COLUMN sindicato_id TEXT DEFAULT ''",
+            ]:
+                try:
+                    conn.execute(col_ddl)
+                    logger.info(f"Added column: {col_ddl.split('ADD COLUMN ')[1].split(' ')[0]}")
+                except Exception:
+                    pass  # column already exists
+
+            # --- Migrate existing hornero/tester users to is_tester ---
+            conn.execute("""
+                UPDATE users SET is_tester = TRUE
+                WHERE (sector = 'hornero' OR category = 'tester') AND is_tester = FALSE
+            """)
+
+            # --- Sindicatos table (for autocomplete search) ---
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS sindicatos (
+                    id              TEXT PRIMARY KEY,
+                    nombre          TEXT NOT NULL,
+                    nombre_full     TEXT NOT NULL DEFAULT '',
+                    sector_key      TEXT NOT NULL DEFAULT '',
+                    sigla           TEXT NOT NULL DEFAULT '',
+                    federacion      TEXT NOT NULL DEFAULT '',
+                    convenio        TEXT NOT NULL DEFAULT '',
+                    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+
+            # Seed sindicatos from known gremio data
+            seed_sindicatos = [
+                ("ftciod-ara", "F.T.C.I.O.D y A.R.A.",
+                 "Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina",
+                 "aceitero", "FTCIOD", "F.T.C.I.O.D y A.R.A.", "CCT 420/05"),
+                ("sipreba", "SIPREBA",
+                 "SIPREBA — Sindicato de Prensa de Buenos Aires",
+                 "prensa", "SIPREBA", "SIPREBA", "CCT 301/75"),
+            ]
+            for s in seed_sindicatos:
+                conn.execute(
+                    "INSERT INTO sindicatos (id, nombre, nombre_full, sector_key, sigla, federacion, convenio) "
+                    "VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", s
+                )
+
+            # Backfill sindicato_id for existing users based on sector
+            conn.execute("""
+                UPDATE users u SET sindicato_id = s.id
+                FROM sindicatos s
+                WHERE u.sindicato_id = '' AND u.sector = s.sector_key AND s.id != ''
+            """)
+
+            # --- Gremio verificación table (verified members per sindicato) ---
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS gremio_verificacion (
+                    id              TEXT PRIMARY KEY,
+                    sindicato_id    TEXT NOT NULL DEFAULT '',
+                    nombre          TEXT NOT NULL,
+                    cargo           TEXT NOT NULL DEFAULT '',
+                    empresa         TEXT NOT NULL DEFAULT '',
+                    territorio      TEXT NOT NULL DEFAULT '',
+                    active          BOOLEAN NOT NULL DEFAULT TRUE,
+                    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_gremio_verif_sindicato ON gremio_verificacion(sindicato_id)")
+
             conn.commit()
-            logger.info("Auth DB initialized")
+            logger.info("Auth DB initialized (v2: sindicatos + gremio_verificacion + is_tester)")
     except Exception as e:
         logger.error(f"Auth DB init failed: {e}")
 
@@ -138,12 +209,12 @@ def _get_user_by_username(username: str) -> dict | None:
     try:
         with _get_conn() as conn:
             row = conn.execute(
-                "SELECT id, email, username, password_hash, nombre, grade, territory, sector, tenant, category, agremiacion, email_confirmed, active FROM users WHERE username = %s",
+                "SELECT id, email, username, password_hash, nombre, grade, territory, sector, tenant, category, agremiacion, email_confirmed, active, is_tester, verificacion_pendiente, sindicato_id FROM users WHERE username = %s",
                 (username,)
             ).fetchone()
             if not row:
                 return None
-            cols = ["id", "email", "username", "password_hash", "nombre", "grade", "territory", "sector", "tenant", "category", "agremiacion", "email_confirmed", "active"]
+            cols = ["id", "email", "username", "password_hash", "nombre", "grade", "territory", "sector", "tenant", "category", "agremiacion", "email_confirmed", "active", "is_tester", "verificacion_pendiente", "sindicato_id"]
             return dict(zip(cols, row))
     except Exception as e:
         logger.error(f"DB error getting user {username}: {e}")
@@ -154,12 +225,12 @@ def _get_user_by_email(email: str) -> dict | None:
     try:
         with _get_conn() as conn:
             row = conn.execute(
-                "SELECT id, email, username, password_hash, nombre, grade, territory, sector, tenant, category, agremiacion, email_confirmed, active FROM users WHERE email = %s",
+                "SELECT id, email, username, password_hash, nombre, grade, territory, sector, tenant, category, agremiacion, email_confirmed, active, is_tester, verificacion_pendiente, sindicato_id FROM users WHERE email = %s",
                 (email,)
             ).fetchone()
             if not row:
                 return None
-            cols = ["id", "email", "username", "password_hash", "nombre", "grade", "territory", "sector", "tenant", "category", "agremiacion", "email_confirmed", "active"]
+            cols = ["id", "email", "username", "password_hash", "nombre", "grade", "territory", "sector", "tenant", "category", "agremiacion", "email_confirmed", "active", "is_tester", "verificacion_pendiente", "sindicato_id"]
             return dict(zip(cols, row))
     except Exception as e:
         logger.error(f"DB error getting user by email {email}: {e}")
@@ -336,7 +407,69 @@ El usuario aún no confirmó su email."""
         logger.error(f"Failed to send admin notification: {e}")
 
 
-# ===== Auth dependency =====
+async def _send_verification_failed_notification(email: str, nombre: str, claimed_cargo: str, sindicato_info: dict | None, username: str):
+    """Notify admin when a user's cargo verification fails during registration."""
+    if not GMAIL_REFRESH_TOKEN or not ADMIN_EMAIL:
+        logger.info(f"ADMIN VERIFY FAIL (no Gmail): {username} — {nombre} claimed {claimed_cargo}")
+        return
+
+    sindicato_nombre = sindicato_info["nombre"] if sindicato_info else "desconocido"
+    cargo_label = CARGO_ROL.get(claimed_cargo, claimed_cargo)
+
+    try:
+        import httpx
+        import base64
+        from email.mime.text import MIMEText
+
+        subject = f"⚠️ Verificación fallida: {nombre} reclamó {cargo_label}"
+        body = f"""Un usuario intentó registrarse con un cargo que NO pudimos verificar:
+
+Nombre: {nombre}
+Email: {email}
+Username: {username}
+Cargo reclamado: {cargo_label}
+Sindicato: {sindicato_nombre}
+Fecha: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}
+
+Se registró como Trabajador/a (B.a) con verificación pendiente.
+Revisá la tabla gremio_verificacion y actualizá el grado si corresponde.
+
+Para actualizar el grado:
+POST /api/auth/admin/update-user
+{{"username": "{username}", "grade": "B.b"}}  (o B.c / B.d según corresponda)"""
+
+        async with httpx.AsyncClient(timeout=15) as client:
+            token_resp = await client.post(
+                "https://oauth2.googleapis.com/token",
+                data={
+                    "client_id": GMAIL_CLIENT_ID,
+                    "client_secret": GMAIL_CLIENT_SECRET,
+                    "refresh_token": GMAIL_REFRESH_TOKEN,
+                    "grant_type": "refresh_token",
+                },
+            )
+            if token_resp.status_code != 200:
+                logger.error(f"Verify notify: Gmail token error ({token_resp.status_code})")
+                return
+
+            access_token = token_resp.json()["access_token"]
+            msg = MIMEText(body, "plain", "utf-8")
+            msg["From"] = EMAIL_FROM
+            msg["To"] = ADMIN_EMAIL
+            msg["Subject"] = subject
+            raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
+
+            send_resp = await client.post(
+                "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+                headers={"Authorization": f"Bearer {access_token}"},
+                json={"raw": raw},
+            )
+            if send_resp.status_code == 200:
+                logger.info(f"Admin notified: verification failed for {username}")
+            else:
+                logger.error(f"Verify notify: Gmail send error ({send_resp.status_code}): {send_resp.text}")
+    except Exception as e:
+        logger.error(f"Failed to send verification failed notification: {e}")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=False)
 
@@ -380,7 +513,9 @@ class RegisterRequest(BaseModel):
     email: str
     password: str
     nombre: str
-    sector: str = "aceitero"
+    sector: str = "aceitero"          # backward compat, derivado de sindicato_id si existe
+    sindicato_id: str = ""            # nuevo: ID de la tabla sindicatos
+    cargo: str = "trabajador"         # nuevo: trabajador | delegado | comision_directiva | comision_federacion
 
 class LoginRequest(BaseModel):
     username: str   # email OR username
@@ -394,10 +529,65 @@ class ResendConfirmationRequest(BaseModel):
 
 router = APIRouter()
 
+# Cargo → grade mapping
+CARGO_GRADE = {
+    "trabajador": "B.a",
+    "delegado": "B.b",
+    "comision_directiva": "B.c",
+    "comision_federacion": "B.d",
+}
+CARGO_ROL = {
+    "trabajador": "Trabajador de Base",
+    "delegado": "Delegado/a",
+    "comision_directiva": "Comisión Directiva del Sindicato",
+    "comision_federacion": "Comisión de la Unión o Federación",
+}
+VALID_CARGOS = list(CARGO_GRADE.keys())
+
+
+@router.get("/sindicatos")
+async def search_sindicatos(q: str = "", request: Request = None):
+    """Search sindicatos for signup autocomplete. Returns matches by name or sigla."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+
+    # Rate limit: 20 per IP per minute
+    client_ip = request.client.host if request and request.client else "unknown"
+    if not _check_auth_rate(f"sindicatos:{client_ip}", 20, 60):
+        raise HTTPException(429, "Demasiadas búsquedas. Esperá un minuto.")
+
+    try:
+        with _get_conn() as conn:
+            q_clean = q.strip()
+            if len(q_clean) < 2:
+                # Return all sindicatos when query is too short
+                rows = conn.execute(
+                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos ORDER BY nombre"
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos "
+                    "WHERE nombre ILIKE %s OR sigla ILIKE %s OR nombre_full ILIKE %s "
+                    "ORDER BY nombre",
+                    (f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%")
+                ).fetchall()
+
+            results = []
+            for r in rows:
+                results.append({
+                    "id": r[0], "nombre": r[1], "nombre_full": r[2],
+                    "sector_key": r[3], "sigla": r[4],
+                    "federacion": r[5], "convenio": r[6],
+                })
+            return {"sindicatos": results}
+    except Exception as e:
+        logger.error(f"Sindicatos search error: {e}")
+        raise HTTPException(500, "Error al buscar sindicatos")
+
 
 @router.post("/register")
 async def register(req: RegisterRequest, request: Request):
-    """Create account + send confirmation email."""
+    """Create account + send confirmation email. Verifies cargo against gremio_verificacion."""
     # Validate DB config
     if not HORNERO_DB_URL:
         raise HTTPException(500, "Auth not configured on server")
@@ -424,9 +614,88 @@ async def register(req: RegisterRequest, request: Request):
     if not req.nombre.strip():
         raise HTTPException(400, "El nombre es obligatorio")
 
-    # Validate sector
-    if req.sector not in ALLOWED_SECTORS:
+    # Validate cargo
+    if req.cargo not in VALID_CARGOS:
+        raise HTTPException(400, f"Cargo inválido. Permitidos: {', '.join(VALID_CARGOS)}")
+
+    # Resolve sindicato: if sindicato_id provided, look up sector_key + agremiacion data
+    sindicato_info = None
+    if req.sindicato_id:
+        try:
+            with _get_conn() as conn:
+                row = conn.execute(
+                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos WHERE id = %s",
+                    (req.sindicato_id,)
+                ).fetchone()
+                if row:
+                    sindicato_info = {
+                        "id": row[0], "nombre": row[1], "nombre_full": row[2],
+                        "sector_key": row[3], "sigla": row[4],
+                        "federacion": row[5], "convenio": row[6],
+                    }
+        except Exception as e:
+            logger.error(f"Error looking up sindicato {req.sindicato_id}: {e}")
+
+    # Derive sector from sindicato if found, otherwise use req.sector
+    sector = sindicato_info["sector_key"] if sindicato_info else req.sector
+    if sector not in ALLOWED_SECTORS:
         raise HTTPException(400, f"Sector inválido. Permitidos: {', '.join(ALLOWED_SECTORS)}")
+
+    # Verify cargo against gremio_verificacion
+    verification_passed = True
+    if req.cargo != "trabajador" and sindicato_info:
+        try:
+            with _get_conn() as conn:
+                # Normalize name for comparison: lowercase, strip, remove extra spaces
+                nombre_norm = " ".join(req.nombre.strip().lower().split())
+                row = conn.execute(
+                    "SELECT nombre, cargo FROM gremio_verificacion "
+                    "WHERE sindicato_id = %s AND active = TRUE "
+                    "AND (LOWER(nombre) ILIKE %s OR cargo = %s)",
+                    (req.sindicato_id, f"%{nombre_norm}%", req.cargo)
+                ).fetchone()
+                if not row:
+                    verification_passed = False
+                    logger.info(f"Cargo verification FAILED: {req.nombre} claimed {req.cargo} in {sindicato_info['nombre']}")
+        except Exception as e:
+            logger.error(f"Verification DB error: {e}")
+            # On DB error, be conservative: don't block registration
+            verification_passed = True
+
+    # Determine grade and rol
+    if verification_passed:
+        grade = CARGO_GRADE.get(req.cargo, "B.a")
+        rol = CARGO_ROL.get(req.cargo, "Trabajador de Base")
+    else:
+        grade = "B.a"
+        rol = "Trabajador de Base"
+    category = "usuario"
+
+    # Build agremiacion from sindicato data
+    if sindicato_info:
+        agremiacion = {
+            "rol": rol,
+            "federacion": sindicato_info["federacion"],
+            "sindicato": sindicato_info["nombre"],
+            "convenio": sindicato_info["convenio"],
+            "sectorName": sindicato_info["sector_key"],
+            "territorio": "",
+            "empresa": "",
+            "puesto": "",
+        }
+    else:
+        agremiacion = {
+            "rol": rol,
+            "federacion": "",
+            "sindicato": "",
+            "convenio": "",
+            "sectorName": sector,
+            "territorio": "",
+            "empresa": "",
+            "puesto": "",
+        }
+
+    verificacion_pendiente = not verification_passed and req.cargo != "trabajador"
 
     # Check if email already taken
     existing = _get_user_by_email(email)
@@ -452,20 +721,13 @@ async def register(req: RegisterRequest, request: Request):
             password_hash = _hash_password(req.password)
             user_id = secrets.token_urlsafe(16)
 
-            # Default grade for new users
-            grade = "B.a"
-            # Sector "hornero" = admin/tester (internal team) → grade B.d
-            if req.sector == "hornero":
-                grade = "B.d"
-            category = "tester" if req.sector == "hornero" else "usuario"
-
             conn.execute("""
-                INSERT INTO users (id, email, username, password_hash, nombre, grade, sector, category, email_confirmed, confirmation_token, confirmation_sent_at, agremiacion)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, FALSE, %s, CURRENT_TIMESTAMP, %s)
+                INSERT INTO users (id, email, username, password_hash, nombre, grade, sector, category, email_confirmed, confirmation_token, confirmation_sent_at, agremiacion, sindicato_id, verificacion_pendiente)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, FALSE, %s, CURRENT_TIMESTAMP, %s, %s, %s)
             """, (
                 user_id, email, username, password_hash, req.nombre.strip(),
-                grade, req.sector, category, confirmation_token,
-                json.dumps({"rol": "Trabajador de Base", "federacion": "", "sindicato": "", "convenio": "", "sectorName": "", "territorio": "", "empresa": "", "puesto": ""})
+                grade, sector, category, confirmation_token,
+                json.dumps(agremiacion), req.sindicato_id, verificacion_pendiente
             ))
             conn.commit()
     except psycopg.errors.UniqueViolation:
@@ -478,9 +740,17 @@ async def register(req: RegisterRequest, request: Request):
     await _send_confirmation_email(email, req.nombre.strip(), confirmation_token)
 
     # Notify admin about new registration
-    await _send_admin_notification(email, req.nombre.strip(), req.sector, username)
+    await _send_admin_notification(email, req.nombre.strip(), sector, username)
 
-    return {"message": "Te enviamos un email de confirmación. Hacé clic en el enlace para activar tu cuenta.", "email": email}
+    # If verification failed, send separate admin notification
+    if not verification_passed and req.cargo != "trabajador":
+        await _send_verification_failed_notification(email, req.nombre.strip(), req.cargo, sindicato_info, username)
+
+    result = {"message": "Te enviamos un email de confirmación. Hacé clic en el enlace para activar tu cuenta.", "email": email}
+    if not verification_passed:
+        result["verification_failed"] = True
+        result["claimed_cargo"] = req.cargo
+    return result
 
 
 @router.get("/confirm/{token}")
@@ -606,6 +876,9 @@ async def login(req: LoginRequest, request: Request):
             "tenant": user.get("tenant", ""),
             "category": user.get("category", ""),
             "agremiacion": agremiacion,
+            "is_tester": user.get("is_tester", False),
+            "verificacion_pendiente": user.get("verificacion_pendiente", False),
+            "sindicato_id": user.get("sindicato_id", ""),
         }
     }
 
@@ -679,11 +952,9 @@ async def resend_confirmation(req: ResendConfirmationRequest, request: Request):
 @router.get("/me")
 async def get_me(user: dict = Depends(require_auth)):
     """Return current user profile. Auto-upgrade admin users to B.d."""
-    # Auto-upgrade: admin emails or sector "hornero" → B.d
+    # Auto-upgrade: admin emails → B.d (sector=hornero upgrade replaced by is_tester)
     should_upgrade = False
     if ADMIN_EMAILS and user.get("email", "").lower() in ADMIN_EMAILS and user.get("grade") != "B.d":
-        should_upgrade = True
-    if user.get("sector") == "hornero" and user.get("grade") != "B.d":
         should_upgrade = True
     if should_upgrade and HORNERO_DB_URL:
         try:
@@ -713,6 +984,9 @@ async def get_me(user: dict = Depends(require_auth)):
         "category": user.get("category", ""),
         "agremiacion": agremiacion,
         "email_confirmed": user.get("email_confirmed", False),
+        "is_tester": user.get("is_tester", False),
+        "verificacion_pendiente": user.get("verificacion_pendiente", False),
+        "sindicato_id": user.get("sindicato_id", ""),
     }
 
 
@@ -728,7 +1002,7 @@ async def admin_list_users(user: dict = Depends(_optional_auth), admin_key: str 
         with _get_conn() as conn:
             rows = conn.execute("""
                 SELECT username, email, nombre, grade, sector, territory,
-                       category, email_confirmed, created_at
+                       category, email_confirmed, created_at, is_tester, verificacion_pendiente, sindicato_id
                 FROM users
                 ORDER BY created_at DESC
             """).fetchall()
@@ -744,6 +1018,9 @@ async def admin_list_users(user: dict = Depends(_optional_auth), admin_key: str 
                     "category": r["category"],
                     "email_confirmed": r["email_confirmed"],
                     "created_at": str(r["created_at"]) if r["created_at"] else "",
+                    "is_tester": r["is_tester"] if "is_tester" in r.keys() else False,
+                    "verificacion_pendiente": r["verificacion_pendiente"] if "verificacion_pendiente" in r.keys() else False,
+                    "sindicato_id": r["sindicato_id"] if "sindicato_id" in r.keys() else "",
                 })
             return {"total": len(users), "users": users}
     except Exception as e:
@@ -807,6 +1084,188 @@ async def admin_update_user(req: UpdateUserRequest, user: dict = Depends(_option
     except Exception as e:
         logger.error(f"Admin update grade error: {e}")
         raise HTTPException(500, "Error al actualizar grade")
+
+
+# ===== Admin: Set tester flag =====
+
+class SetTesterRequest(BaseModel):
+    username: str
+    is_tester: bool
+    secret: str = ""
+
+@router.post("/admin/set-tester")
+async def admin_set_tester(req: SetTesterRequest, user: dict = Depends(_optional_auth)):
+    """Mark/unmark a user as tester. Accepts JWT auth OR admin key."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+    if not user and not (NUKE_SECRET and req.secret == NUKE_SECRET) and not (ADMIN_KEY and req.secret == ADMIN_KEY):
+        raise HTTPException(401, "Autenticación requerida (JWT o admin key)")
+    try:
+        with _get_conn() as conn:
+            cursor = conn.execute(
+                "UPDATE users SET is_tester = %s, updated_at = CURRENT_TIMESTAMP WHERE username = %s",
+                (req.is_tester, req.username)
+            )
+            conn.commit()
+            if cursor.rowcount == 0:
+                raise HTTPException(404, f"Usuario '{req.username}' no encontrado")
+            logger.info(f"Admin: set is_tester={req.is_tester} for {req.username}")
+            return {"username": req.username, "is_tester": req.is_tester, "updated": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Admin set-tester error: {e}")
+        raise HTTPException(500, "Error al actualizar tester")
+
+
+# ===== Admin: Gremio verificación CRUD =====
+
+class GremioVerificacionRequest(BaseModel):
+    sindicato_id: str
+    nombre: str
+    cargo: str          # "delegado" | "comision_directiva" | "comision_federacion"
+    empresa: str = ""
+    territorio: str = ""
+    secret: str = ""
+
+class GremioVerificacionUpdateRequest(BaseModel):
+    nombre: str = ""
+    cargo: str = ""
+    empresa: str = ""
+    territorio: str = ""
+    active: bool = True
+    secret: str = ""
+
+
+@router.get("/admin/gremio-verificacion")
+async def admin_list_verificacion(user: dict = Depends(_optional_auth), admin_key: str = "", sindicato_id: str = ""):
+    """List gremio verification records. Optional filter by sindicato_id."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+    if not user and not (ADMIN_KEY and admin_key == ADMIN_KEY):
+        raise HTTPException(401, "Autenticación requerida")
+    try:
+        with _get_conn() as conn:
+            if sindicato_id:
+                rows = conn.execute(
+                    "SELECT id, sindicato_id, nombre, cargo, empresa, territorio, active, created_at, updated_at "
+                    "FROM gremio_verificacion WHERE sindicato_id = %s ORDER BY nombre",
+                    (sindicato_id,)
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    "SELECT id, sindicato_id, nombre, cargo, empresa, territorio, active, created_at, updated_at "
+                    "FROM gremio_verificacion ORDER BY sindicato_id, nombre"
+                ).fetchall()
+            records = []
+            for r in rows:
+                records.append({
+                    "id": r[0], "sindicato_id": r[1], "nombre": r[2],
+                    "cargo": r[3], "empresa": r[4], "territorio": r[5],
+                    "active": r[6],
+                    "created_at": str(r[7]) if r[7] else "",
+                    "updated_at": str(r[8]) if r[8] else "",
+                })
+            return {"total": len(records), "records": records}
+    except Exception as e:
+        logger.error(f"Admin list verificacion error: {e}")
+        raise HTTPException(500, "Error al listar verificaciones")
+
+
+@router.post("/admin/gremio-verificacion")
+async def admin_add_verificacion(req: GremioVerificacionRequest, user: dict = Depends(_optional_auth)):
+    """Add a verified gremio member. Accepts JWT auth OR admin key."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+    if not user and not (NUKE_SECRET and req.secret == NUKE_SECRET) and not (ADMIN_KEY and req.secret == ADMIN_KEY):
+        raise HTTPException(401, "Autenticación requerida")
+    if req.cargo not in ["delegado", "comision_directiva", "comision_federacion"]:
+        raise HTTPException(400, "Cargo inválido. Permitidos: delegado, comision_directiva, comision_federacion")
+    if not req.nombre.strip():
+        raise HTTPException(400, "El nombre es obligatorio")
+    try:
+        with _get_conn() as conn:
+            record_id = secrets.token_urlsafe(12)
+            conn.execute(
+                "INSERT INTO gremio_verificacion (id, sindicato_id, nombre, cargo, empresa, territorio) "
+                "VALUES (%s, %s, %s, %s, %s, %s)",
+                (record_id, req.sindicato_id, req.nombre.strip(), req.cargo, req.empresa.strip(), req.territorio.strip())
+            )
+            conn.commit()
+            logger.info(f"Admin: added verificacion {req.nombre} ({req.cargo}) for sindicato {req.sindicato_id}")
+            return {"id": record_id, "sindicato_id": req.sindicato_id, "nombre": req.nombre.strip(),
+                    "cargo": req.cargo, "empresa": req.empresa.strip(), "territorio": req.territorio.strip(), "created": True}
+    except Exception as e:
+        logger.error(f"Admin add verificacion error: {e}")
+        raise HTTPException(500, "Error al agregar verificación")
+
+
+@router.put("/admin/gremio-verificacion/{record_id}")
+async def admin_update_verificacion(record_id: str, req: GremioVerificacionUpdateRequest, user: dict = Depends(_optional_auth)):
+    """Update a gremio verification record. Accepts JWT auth OR admin key."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+    if not user and not (NUKE_SECRET and req.secret == NUKE_SECRET) and not (ADMIN_KEY and req.secret == ADMIN_KEY):
+        raise HTTPException(401, "Autenticación requerida")
+    if req.cargo and req.cargo not in ["delegado", "comision_directiva", "comision_federacion"]:
+        raise HTTPException(400, "Cargo inválido")
+    try:
+        with _get_conn() as conn:
+            sets = []
+            values = []
+            if req.nombre:
+                sets.append("nombre = %s")
+                values.append(req.nombre.strip())
+            if req.cargo:
+                sets.append("cargo = %s")
+                values.append(req.cargo)
+            if req.empresa:
+                sets.append("empresa = %s")
+                values.append(req.empresa.strip())
+            if req.territorio:
+                sets.append("territorio = %s")
+                values.append(req.territorio.strip())
+            sets.append("active = %s")
+            values.append(req.active)
+            sets.append("updated_at = CURRENT_TIMESTAMP")
+            if not sets:
+                raise HTTPException(400, "Nada para actualizar")
+            values.append(record_id)
+            cursor = conn.execute(
+                f"UPDATE gremio_verificacion SET {', '.join(sets)} WHERE id = %s", values
+            )
+            conn.commit()
+            if cursor.rowcount == 0:
+                raise HTTPException(404, f"Registro '{record_id}' no encontrado")
+            logger.info(f"Admin: updated verificacion {record_id}")
+            return {"id": record_id, "updated": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Admin update verificacion error: {e}")
+        raise HTTPException(500, "Error al actualizar verificación")
+
+
+@router.delete("/admin/gremio-verificacion/{record_id}")
+async def admin_delete_verificacion(record_id: str, user: dict = Depends(_optional_auth), admin_key: str = ""):
+    """Delete a gremio verification record. Accepts JWT auth OR admin key."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+    if not user and not (ADMIN_KEY and admin_key == ADMIN_KEY):
+        raise HTTPException(401, "Autenticación requerida")
+    try:
+        with _get_conn() as conn:
+            cursor = conn.execute("DELETE FROM gremio_verificacion WHERE id = %s", (record_id,))
+            conn.commit()
+            if cursor.rowcount == 0:
+                raise HTTPException(404, f"Registro '{record_id}' no encontrado")
+            logger.info(f"Admin: deleted verificacion {record_id}")
+            return {"id": record_id, "deleted": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Admin delete verificacion error: {e}")
+        raise HTTPException(500, "Error al eliminar verificación")
 
 
 # ===== Admin Nuke (on-demand, protected by secret) =====
