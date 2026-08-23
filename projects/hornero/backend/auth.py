@@ -751,35 +751,57 @@ async def admin_list_users(user: dict = Depends(_optional_auth), admin_key: str 
         raise HTTPException(500, "Error al listar usuarios")
 
 
-# ===== Admin: Update user grade =====
+# ===== Admin: Update user (grade + sector) =====
 
-class UpdateGradeRequest(BaseModel):
+class UpdateUserRequest(BaseModel):
     username: str
-    grade: str  # 'B.a', 'B.b', 'B.c', 'B.d'
+    grade: str = ""  # 'B.a', 'B.b', 'B.c', 'B.d' (empty = no change)
+    sector: str = ""  # 'aceitero', 'prensa', 'comercio', 'hornero', 'otro' (empty = no change)
     secret: str = ""  # Admin secret (alternative to JWT auth)
 
-@router.post("/admin/update-grade")
-async def admin_update_grade(req: UpdateGradeRequest, user: dict = Depends(_optional_auth)):
-    """Update a user's grade. Accepts JWT auth OR admin secret."""
+@router.post("/admin/update-user")
+async def admin_update_user(req: UpdateUserRequest, user: dict = Depends(_optional_auth)):
+    """Update a user's grade and/or sector. Accepts JWT auth OR admin key."""
     if not HORNERO_DB_URL:
         raise HTTPException(500, "Auth not configured")
     # Auth: either JWT or admin secret (NUKE_SECRET or ADMIN_KEY)
     if not user and not (NUKE_SECRET and req.secret == NUKE_SECRET) and not (ADMIN_KEY and req.secret == ADMIN_KEY):
         raise HTTPException(401, "Autenticación requerida (JWT o admin key)")
     valid_grades = ['B.a', 'B.b', 'B.c', 'B.d']
-    if req.grade not in valid_grades:
+    valid_sectors = ['aceitero', 'prensa', 'comercio', 'hornero', 'otro']
+    if req.grade and req.grade not in valid_grades:
         raise HTTPException(400, f"Grade inválido. Válidos: {', '.join(valid_grades)}")
+    if req.sector and req.sector not in valid_sectors:
+        raise HTTPException(400, f"Sector inválido. Válidos: {', '.join(valid_sectors)}")
+    if not req.grade and not req.sector:
+        raise HTTPException(400, "Especificá grade y/o sector para actualizar")
     try:
         with _get_conn() as conn:
+            # Build dynamic UPDATE
+            sets = []
+            values = []
+            if req.grade:
+                sets.append("grade = %s")
+                values.append(req.grade)
+            if req.sector:
+                sets.append("sector = %s")
+                values.append(req.sector)
+                # Also update category for sector hornero
+                if req.sector == "hornero":
+                    sets.append("category = 'tester'")
+                else:
+                    sets.append("category = 'usuario'")
+            sets.append("updated_at = CURRENT_TIMESTAMP")
+            values.append(req.username)
             cursor = conn.execute(
-                "UPDATE users SET grade = %s, updated_at = CURRENT_TIMESTAMP WHERE username = %s",
-                [req.grade, req.username]
+                f"UPDATE users SET {', '.join(sets)} WHERE username = %s",
+                values
             )
             conn.commit()
             if cursor.rowcount == 0:
                 raise HTTPException(404, f"Usuario '{req.username}' no encontrado")
-            logger.info(f"Admin: updated grade for {req.username} to {req.grade}")
-            return {"username": req.username, "grade": req.grade, "updated": True}
+            logger.info(f"Admin: updated {req.username} — grade={req.grade or 'same'}, sector={req.sector or 'same'}")
+            return {"username": req.username, "grade": req.grade or "same", "sector": req.sector or "same", "updated": True}
     except HTTPException:
         raise
     except Exception as e:
