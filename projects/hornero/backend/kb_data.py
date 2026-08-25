@@ -1189,34 +1189,50 @@ KB_CATEGORY_META = {
 # ===== Dynamic loading: merge manual + PDF-extracted chunks =====
 
 def _load_pdf_chunks() -> list:
-    """Load auto-extracted chunks from kb_chunks.json (PDF pipeline output).
+    """Load auto-extracted chunks from per-source .chunks.json files.
+
+    Scans docs/fuentes/ (later biblioteca/fuentes/) recursively for
+    *.chunks.json files. Each file is a JSON array of chunk objects,
+    placed alongside its source material (PDF/MD).
 
     Assigns default tenant to PDF chunks that lack one:
     - Jasinski / La Forestal chunks → "shared"
     - All others → "aceiteros" (backward compat: existing PDFs are from aceitero sector)
     """
-    json_path = os.path.join(os.path.dirname(__file__), "kb_chunks.json")
-    try:
-        with open(json_path, "r", encoding="utf-8") as f:
-            pdf_chunks = json.load(f)
-        # Assign default tenant to PDF chunks that lack one
-        for chunk in pdf_chunks:
-            if "tenant" not in chunk:
-                # Jasinski / La Forestal chunks are shared history
-                chunk_id = chunk.get("id", "")
-                chunk_title = chunk.get("title", "")
-                if "jasinski" in chunk_id.lower() or "forestal" in chunk_title.lower() or "tanino" in chunk_title.lower():
-                    chunk["tenant"] = "shared"
-                else:
-                    chunk["tenant"] = "aceiteros"  # backward compat
-        print(f"Loaded {len(pdf_chunks)} PDF-extracted chunks from {json_path}")
-        return pdf_chunks
-    except FileNotFoundError:
-        print(f"No kb_chunks.json found at {json_path} — using only manual chunks")
+    fuentes_dir = os.path.join(os.path.dirname(__file__), "..", "docs", "fuentes")
+    fuentes_dir = os.path.abspath(fuentes_dir)
+
+    if not os.path.isdir(fuentes_dir):
+        print(f"No fuentes directory at {fuentes_dir} — using only manual chunks")
         return []
-    except json.JSONDecodeError as e:
-        print(f"Error parsing kb_chunks.json: {e}")
-        return []
+
+    all_chunks = []
+    chunks_files = []
+
+    for root, dirs, files in os.walk(fuentes_dir):
+        for fname in sorted(files):
+            if fname.endswith(".chunks.json"):
+                chunks_files.append(os.path.join(root, fname))
+
+    for chunks_path in chunks_files:
+        try:
+            with open(chunks_path, "r", encoding="utf-8") as f:
+                chunks = json.load(f)
+            # Assign default tenant to PDF chunks that lack one
+            for chunk in chunks:
+                if "tenant" not in chunk:
+                    chunk_id = chunk.get("id", "")
+                    chunk_title = chunk.get("title", "")
+                    if "jasinski" in chunk_id.lower() or "forestal" in chunk_title.lower() or "tanino" in chunk_title.lower():
+                        chunk["tenant"] = "shared"
+                    else:
+                        chunk["tenant"] = "aceiteros"  # backward compat
+            all_chunks.extend(chunks)
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"Error reading {chunks_path}: {e}")
+
+    print(f"Loaded {len(all_chunks)} chunks from {len(chunks_files)} .chunks.json files in {fuentes_dir}")
+    return all_chunks
 
 
 def get_all_chunks() -> list:
