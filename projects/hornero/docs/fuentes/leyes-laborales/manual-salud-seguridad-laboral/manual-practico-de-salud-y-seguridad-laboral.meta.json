@@ -1,0 +1,16 @@
+{
+  "pdf_path": "/Users/eljaso/Downloads/manual_practico_salud_seguridad_laboral-comprimido.pdf",
+  "pdf_name": "manual_practico_salud_seguridad_laboral-comprimido",
+  "bib": "Manual Práctico de Salud y Seguridad Laboral, Ministerio de Trabajo, Empleo y Seguridad Social",
+  "category": "documentos",
+  "id_prefix": "manual-ssl",
+  "mode": "chapters",
+  "pages": 62,
+  "total_chars": 95640,
+  "md_chars": 101112,
+  "num_chunks": 4,
+  "slug": "manual-practico-de-salud-y-seguridad-laboral",
+  "md_path": "/Users/eljaso/Downloads/manual-practico-de-salud-y-seguridad-laboral.md",
+  "md_bytes": 102854,
+  "chunks_dir": "/Users/eljaso/Downloads/manual-practico-de-salud-y-seguridad-laboral.chunks"
+}

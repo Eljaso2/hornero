@@ -6,10 +6,11 @@ dividiendo por artículo para citación precisa.
 """
 
 import json
+import os
 import re
 
-MD_PATH = "/Users/eljaso/Downloads/SIPREBA/2024-Guia-del-delegado-y-la-delegada-SIPREBA-Ed-web_compressed.md"
-OUTPUT_PATH = "/Users/eljaso/Workspace/projects/hornero/backend/kb_chunks.json"
+MD_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "docs", "fuentes", "prensa-sindical", "SIPREBA-guia-delegado", "2024-guia-del-delegado-sipreba.md")
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "kb_chunks.json")
 
 # ── Definición de las unidades legislativas ──
 # start_marker / end_marker: texto único que aparece en el MD
@@ -187,6 +188,13 @@ def split_by_articles(text, id_prefix, law_info):
 
 
 def main():
+    # Verificar que el MD fuente existe
+    if not os.path.exists(MD_PATH):
+        print(f"❌ No encuentro el MD fuente en: {MD_PATH}")
+        print(f"   Los 423 chunks SIPREBA ya están en kb_chunks.json (cargados manualmente).")
+        print(f"   Si necesitás regenerar, colocá el MD en esa ruta y re-ejecutá.")
+        return
+
     # Leer MD
     with open(MD_PATH, 'r', encoding='utf-8') as f:
         full_text = f.read()
