@@ -32,7 +32,7 @@ hornero/
 |---------------|-----------|------------|------------|
 | `leyes-laborales/` | LCT, Higiene y Seguridad, Empleo, etc. | 8 leyes + 1 manual | ✅ Chunks junto al PDF |
 | `convenios-colectivos/` | CCT aceiteros, paritarias, comités | 3+ CCT aceiteros + 5 CCT prensa | ✅ Chunks junto al PDF |
-| `articulos-academicos/` | Iñigo Carrera, Jasinski, Vogelmann, etc. | 7 autores/obras | ⚠️ Algunos sin PDF |
+| `articulos-academicos/` | Iñigo Carrera, Jasinski, Vogelmann, Krotoschin, etc. | 8 obras | ⚠️ 3 sin PDF |
 | `prensa-sindical/` | Guía SIPREBA, El Trabajador Aceitero | 2 periódicos + 1 guía | ✅ Chunks junto al MD |
 | `fuentes-primarias/` | Documentos históricos (Perón 1943-44) | 1 colección | ✅ Chunks junto al PDF |
 | `entrevistas-discursos/` | Cremonte (7), Yofra (4) | 11 artículos | ✅ En kb_data.py |

@@ -1,6 +1,9 @@
-# Núcleo 7 — Centro de Documentación Laboral: Inventario de Materiales
+# Inventario de materiales — Ecosistema Hornero
 
-> Listado de documentos a digitalizar, subir y procesar para el Centro de Documentación Laboral del Ecosistema Hornero.
+> Listado de documentos a digitalizar, subir y procesar. Estado curatorial: pendientes, prioridades, URLs fuente.
+>
+> **Este archivo** = estado curatorial (qué falta subir, qué URLs fuente hay, prioridades de descarga).
+> **CATALOGO.md** = estado técnico (qué está en RAG, cuántos chunks, IDs, estado de carga).
 
 ---
 
