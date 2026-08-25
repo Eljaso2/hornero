@@ -1223,10 +1223,11 @@ def _load_pdf_chunks() -> list:
 def get_all_chunks() -> list:
     """Return merged list: manual KB_CHUNKS + PDF-extracted chunks from kb_chunks.json.
 
-    This is the canonical source for RAG retrieval and Archivo UI.
+    All content now lives in biblioteca/rag/**/*.chunks.json.
+    KB_CHUNKS is kept as a legacy reference but no longer included in the response.
     """
     pdf_chunks = _load_pdf_chunks()
-    return KB_CHUNKS + pdf_chunks
+    return pdf_chunks  # KB_CHUNKS migrated to rag/ as .chunks.json
 
 
 # ===== Lazy-loaded ALL_CHUNKS (populated on startup) =====
