@@ -1199,7 +1199,7 @@ def _load_pdf_chunks() -> list:
     - Jasinski / La Forestal chunks → "shared"
     - All others → "aceiteros" (backward compat: existing PDFs are from aceitero sector)
     """
-    fuentes_dir = os.path.join(os.path.dirname(__file__), "..", "docs", "fuentes")
+    fuentes_dir = os.path.join(os.path.dirname(__file__), "..", "biblioteca", "fuentes")
     fuentes_dir = os.path.abspath(fuentes_dir)
 
     if not os.path.isdir(fuentes_dir):

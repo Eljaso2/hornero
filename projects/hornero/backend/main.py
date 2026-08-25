@@ -1775,9 +1775,9 @@ def _validate_parsed_response(parsed: dict) -> bool:
 
 # ===== PDFs estáticos — fuentes RAG accesibles =====
 # Sirve los PDFs de convenios y leyes para consulta directa
-# Contenido unificado en docs/fuentes/ (antes backend/pdfs/)
+# Contenido unificado en biblioteca/fuentes/ (antes docs/fuentes/)
 import pathlib as _pl
-_fuentes_dir = _pl.Path(__file__).parent.parent / "docs" / "fuentes"
+_fuentes_dir = _pl.Path(__file__).parent.parent / "biblioteca" / "fuentes"
 if _fuentes_dir.is_dir():
     app.mount("/fuentes", StaticFiles(directory=str(_fuentes_dir)), name="fuentes")
     logger.info(f"PDFs served from {_fuentes_dir}")

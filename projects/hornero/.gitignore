@@ -1,3 +1,9 @@
+# macOS
+.DS_Store
+
+# SQLite runtime databases (generated at runtime, not source code)
+*.db
+
 # PDFs in docs/fuentes/ are source material tracked in git.
 # Large PDFs that don't need deployment can be excluded per-file here.
 # (Previously backend/pdfs/ was ignored; that directory no longer exists.)
