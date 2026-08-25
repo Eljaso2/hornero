@@ -55,5 +55,17 @@
     "chapter": "Cada Empresa determinará el modo y la forma en que se debe proceder para el registro de",
     "pages": "18-18",
     "pdf_url": "/fuentes/convenios-colectivos/CCT-420-05.pdf"
+  },
+  {
+    "id": "kb-cct-420",
+    "tipo": "documento",
+    "norma": "CCT-420/05",
+    "articulo": "",
+    "capa": "sectorial",
+    "tenant": "aceiteros",
+    "vigencia": "vigente",
+    "titulo": "CCT 420/05 — Aceiteros, Resolución ST 343/2005",
+    "texto": "CCT 420/05 homologado por Resolución ST 343/2005\n- 4 categorías obreras (A-D: Inicial → Superior) + 4 administrativas (E-H)\n- Nocturno: +25% sobre básico\n- Horas extras: +100% (doble)\n- Antigüedad: 1% por año\n- Presentismo: premio por asistencia\n- Día del Aceitero: 29 de octubre\n- Enfermería: Art. 42 CCT — obligatoria, la clausura es violación\n- Contribución solidaria: 1% mensual + 6% semestral extraordinaria",
+    "fuente": "CCT 420/05, Resolución ST 343/2005"
   }
 ]

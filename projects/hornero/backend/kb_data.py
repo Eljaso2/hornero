@@ -31,6 +31,7 @@ KB_CATEGORIES = [
 
 KB_CHUNKS = [
     # --- ORGANIZACIÓN (ACEITEROS) ---
+    # LEGACY: migrated to biblioteca/rag/fuentes-primarias/organizacion-aceitera/
     {
         "id": "kb-org-federacion",
         "tipo": "documento",
@@ -79,35 +80,11 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
         "vigencia": "vigente",
     },
 
-    {
-        "id": "kb-org-vicentin",
-        "tipo": "documento",
-        "category": "documentos",
-        "tenant": "aceiteros",
-        "tags": ["Vicentín", "SAIC", "empresa aceitera", "concurso preventivo", "paritaria", "Reconquista", "Santa Fe", "expeller", "refinado", "retencion exportacion", "condiciones"],
-        "title": "Vicentín SAIC — Empresa aceitera",
-        "text": """VICENTÍN SAIC — Empresa aceitera argentina. En concurso preventivo. Planta funcionando al 80% de capacidad. Argumenta que concurso limita posibilidades en paritaria. Prioriza expeller sobre refinado (menor retención exportación = empresa ahorra impuestos).""",
-        "sources": ["Informe gremial FOEIAP, junio 2026"],
-        "quotes": [],
-        "grade_access": "B.a",
-        "vigencia": "vigente",
-    },
-
-    {
-        "id": "kb-org-guaycuru",
-        "tipo": "documento",
-        "category": "documentos",
-        "tenant": "aceiteros",
-        "tags": ["Guaycurú", "desmotadora", "algodon", "planta auxiliar", "trabajadores temporales", "polvo algodon", "EPP", "Chaco", "condiciones"],
-        "title": "Guaycurú — Desmotadora de algodón",
-        "text": """GUAYCURÚ — Desmotadora de algodón (planta aceitera auxiliar). 1 línea de 2 operativa. Trabajadores temporales sin cobrar días no trabajados. Polvo de algodón sin máscaras adecuadas.""",
-        "sources": ["Informe gremial FOEIAP, junio 2026"],
-        "quotes": [],
-        "grade_access": "B.a",
-        "vigencia": "vigente",
-    },
+    # DELETED: kb-org-vicentin — simulation data, not a source document
+    # DELETED: kb-org-guaycuru — simulation data, not a source document
 
     # --- CONVENIO (ACEITEROS) ---
+    # LEGACY: kb-cct-420 migrated to biblioteca/rag/fuentes-primarias/convenios-colectivos/CCT-420-05-aceiteros/
     {
         "id": "kb-cct-420",
         "tipo": "documento",
@@ -133,6 +110,7 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     },
 
     # --- PARITARIA (ACEITEROS) ---
+    # LEGACY: kb-paritaria-2026 migrated to biblioteca/rag/fuentes-primarias/convenios-colectivos/paritarias-aceiteras/
     {
         "id": "kb-paritaria-2026",
         "tipo": "documento",
@@ -159,6 +137,7 @@ NOTA — Paritaria ANTERIOR (2025):
     },
 
     # --- SMVM (SHARED) ---
+    # LEGACY: kb-smvm-basico migrated to biblioteca/rag/fuentes-primarias/organizacion-aceitera/
     {
         "id": "kb-smvm-basico",
         "tipo": "academico",
@@ -182,6 +161,7 @@ NOTA — Paritaria ANTERIOR (2025):
     },
 
     # --- CONDICIONES (ACEITEROS) ---
+    # LEGACY: kb-condiciones-2026 migrated to biblioteca/rag/fuentes-primarias/organizacion-aceitera/
     {
         "id": "kb-condiciones-2026",
         "tipo": "documento",
@@ -207,6 +187,7 @@ NOTA — Paritaria ANTERIOR (2025):
     },
 
     # --- DISCURSOS YOFRA (ACEITEROS) ---
+    # LEGACY: migrated to biblioteca/rag/fuentes-primarias/entrevistas-discursos-opinion/
     {
         "id": "kb-discursos-yofra",
         "tipo": "multimedia",
@@ -246,6 +227,7 @@ NOTA — Paritaria ANTERIOR (2025):
     },
 
     # --- DISCURSOS CREMONTE (SHARED) ---
+    # LEGACY: migrated to biblioteca/rag/fuentes-primarias/entrevistas-discursos-opinion/
     {
         "id": "kb-discursos-cremonte",
         "tipo": "academico",
@@ -298,6 +280,7 @@ NOTA — Paritaria ANTERIOR (2025):
     },
 
     # --- JASINSKI: La Forestal (SHARED) ---
+    # LEGACY: all kb-jasinski-* migrated to biblioteca/rag/investigaciones/jasinski-encanto-del-tanino/
     {
         "id": "kb-jasinski-forestal-fenomeno",
         "tipo": "academico",
@@ -480,7 +463,8 @@ Rogelio Lamazón — Dirigente yrigoyenista. La Forestal le inculpaba tener part
     },
 
     # ===== SIPREBA — SINDICATO DE PRENSA DE BUENOS AIRES =====
-    # ⚠️ Chunks escritos desde conocimiento — verificar con textos oficiales cuando InfoLEG vuelva
+    # LEGACY: law/CCT chunks migrated to biblioteca/rag/fuentes-primarias/leyes-laborales/ and convenios-colectivos/
+    # LEGACY: org chunks migrated to biblioteca/rag/fuentes-primarias/prensa-sindical/SIPREBA-guia-delegado/
 
     # --- SIPREBA: ORGANIZACIÓN ---
     {
@@ -801,6 +785,7 @@ Estos videos son una herramienta de formación gremial. Cuando un afiliado pregu
     },
 
     # ===== EFEMÉRIDES DE HISTORIA OBRERA =====
+    # LEGACY: all kb-efem-* migrated to biblioteca/rag/investigaciones/efemerides-historia-obrera/
 
     {
         "id": "kb-efem-1-mayo",

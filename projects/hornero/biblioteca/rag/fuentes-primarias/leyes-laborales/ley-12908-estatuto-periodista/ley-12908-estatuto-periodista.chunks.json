@@ -4330,5 +4330,17 @@
     "grade_access": "open",
     "vigencia": "vigente",
     "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+  },
+  {
+    "id": "kb-sipreba-estatuto",
+    "tipo": "documento",
+    "norma": "",
+    "articulo": "",
+    "capa": "sectorial",
+    "tenant": "prensa",
+    "vigencia": "vigente",
+    "titulo": "Ley 12.908 — Estatuto del Periodista Profesional",
+    "texto": "LEY 12.908 — ESTATUTO DEL PERIODISTA PROFESIONAL (1946)\n\nLa Ley 12.908 es el Estatuto del Periodista Profesional, sancionada en 1946 durante el primer gobierno peronista. Establece el marco legal específico para el ejercicio del periodismo profesional en Argentina. Es una ley de protección especial — reconoce la particularidad del trabajo periodístico y lo protege con derechos superiores a los del trabajador común.\n\nDisposiciones clave:\n- DEFINICIÓN: Es periodista profesional quien practica el periodismo como ocupación habitual y vive de ello (art. 2).\n- JORNADA: 6 horas diarias / 36 horas semanales para tareas de redacción. Excepciones reglamentadas.\n- SALARIO MÍNIMO PROFESIONAL: Fija un piso salarial diferenciado por categoría, por encima del salario mínimo general.\n- ESTABILIDAD: El periodista profesional tiene estabilidad en el empleo. Despido sin causa genera indemnización especial (doble de la LCT). El empleador debe reincorporar o indemnizar.\n- LICENCIAS: Vacaciones de 20 días corridos, licencia por enfermedad con goce de sueldo, licencia por maternidad, y licencia por estudio.\n- LIBERTAD DE CONCIENCIA: El periodista no puede ser obligado a escribir contra sus convicciones (art. 12). La cláusula de conciencia protege la independencia profesional.\n- REGISTRO: Los periodistas profesionales deben inscribirse en el registro correspondiente.\n- SEPTIMO DÍA: Descanso obligatorio.\n\nEl Estatuto fue pionero en América Latina y sigue vigente como marco protector del periodismo. Fue reglamentado por el Decreto 410/97. La Ley 24.521 y otras modificaciones posteriores actualizaron algunos artículos sin alterar el núcleo protector.\n\n⚠️ Texto reconstruido desde conocimiento — verificar con texto oficial cuando InfoLEG vuelva.",
+    "fuente": "Ley 12.908 — Estatuto del Periodista Profesional, Decreto reglamentario 410/97"
   }
 ]
