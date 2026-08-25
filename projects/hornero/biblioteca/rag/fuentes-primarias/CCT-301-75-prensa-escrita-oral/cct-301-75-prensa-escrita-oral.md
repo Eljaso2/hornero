@@ -1,0 +1,402 @@
+---
+tipo: cct
+norma: 301/75
+nombre: Convenio Colectivo de Prensa Escrita y Oral
+capa: sectorial
+tenant: prensa
+vigencia: vigente
+camara: ADEPA
+sindicato: SIPREBA
+extraido_de: Guía del Delegado SIPREBA 2024
+---
+
+# CCT 301/75 — Prensa Escrita y Oral
+
+> Extraído de la Guía del Delegado SIPREBA 2024. Texto reconstruido desde chunks RAG.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+na el artículo 17º de la Ley deContrato de Trabajo, en cuanto sean más favorablesal trabajador, en relación a las normas legales oconvencionales y de acuerdo con las reglamentacionesque se dictaren.## TÍTULO II## ESCALAFÓN Y NORMAS LABORALES## ESPECÍFICAS
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 1º) – Los trabajadores comprendidos en la presente Con-vención Colectiva que se desempeñen en los noticiosos u otrosservicios periodísticos de las emisoras (periodismo oral), seregirán en cuanto a remuneraciones y condiciones de trabajo,beneficios económicos, laborales y sociales, por las normas es-tablecidas en los títulos precedentes de esta convención y porlas siguientes disposiciones que regirán exclusivamente para larama periodismo oral.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 1º) – Firmantes: Asociación de Periodistas de Buenos Airesy Sindicato de Prensa de Capital Federal y Gran Buenos Aires(Filial de FATPREN); y Canales 2 de la Ciudad de La Plata, y 7, 9,11 y 13 de Buenos Aires.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Artículo 2º del Estatuto del PersonalAdministrativo de Empresas Periodísticas (Decreto 13.839/46,Ley 12.921 y complementarias).
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 2º) Carnet Profesional: El personal que ingresa a los ser-vicios noticiosos radiales deberá acreditar su condición profe-sional mediante la exhibición del carnet que lo acredite comotal. En caso de no poseerlo deberá ingresar a la categoría deAspirante, conforme lo determinado por la Ley 12.908 y suscomplementarias.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 2º) – Trabajadores Comprendidos: La presente Conven-ción Colectiva de Trabajo rige para el personal de los Noticie-ros de Televisión, cuyas tareas están comprendidas en la LeyNº 12.908 y sus complementarias (Leyes Nros. 13.503, 13.904,15.532 y 16.792) y Decreto Nº 13.839/46 y Ley Nº 12.921 y suscomplementarias (Leyes Nros. 13.502 y 15.635).
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 3º) – Dotaciones del Servicio Informativo Radiofónico: Elservicio periodístico de noticiosos radiales requerirá la presen-cia permanente del siguiente personal:a) Plantel mínimo de personal superior: Un Jefe de Informati-vo que tendrá la categoría de Jefe de Redacción.b) Plantel mínimo de personal de redacción: En las emisorasque transmiten veinticuatro horas por día, se contará de lunesa viernes con un plantel mínimo de siete Redactores y tres Jefesde Turno que tendrán la categoría de Secretario de Redacción.En las emisoras que transmiten menos de veinticuatro horas,el plantel mínimo será proporcional al horario de transmisión.La tarea del Redactor no será mayor de seis carillas, tamañooficio a dos espacios.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 3º) – Zona de Aplicación: La presente Convención regirápara la Capital Federal y hasta un radio de sesenta (60) kilóme-tros.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 4º) – Grabaciones – Reportajes:a) Los reportajes o grabaciones realizados por el personal pe-riodístico de la emisora, no podrán ser transmitidos o repro-ducidos por otras dentro del ámbito que establece la presenteconvención, salvo cuando se irradien simultáneamente en ca-
+
+/ 29 // SiPreBA /## NORMAS PARA LA RAMA RADIO DEL## CONVENIO 73/73, VIGENTES DE ACUERDO## A LA PRÓRROGA DISPUESTA EN ELART. 4º (PARTE GENERAL) DEL## PRESENTE CONVENIO.Día del Periodista (ex art. 8º): Se acuerda establecer el 7 dejunio, fecha de aparición de la Gaceta de Buenos Aires, comoDía del Periodista. A todos los efectos legales, se lo consideraráen las mismas condiciones que los feriados nacionales.Licencia Sin Goce de Sueldo (ex art. 9º): Todo empleado conmás de dos años de antigüedad en las empresas, tendrá dere-cho a una licencia de hasta sesenta días por año, sin goce desueldo, debiendo solicitarla con una antelación mínima de 30días e indicar las causas que la motivan, las que estarán debi-damente justificadas. Estas licencias no podrán repetirse hastaque transcurran otros dos períodos anuales consecutivos.Suspensiones (ex art. 11º): De acuerdo con lo reglado por el art.41º de la Ley 12.908 y el art. 21º de la Ley 12.921, la situación desuspensión deberá estar debidamente documentada, dándoseal afectado oportunidad de descargo, previa a toda sanción. Ladisposición del empleador podrá ser recurrida por el empleado,de acuerdo con lo que determinan las disposiciones vigentes.Francos por Viajes (ex art. 12º): En caso de viajes al interior oexterior del país se compensarán al trabajador inmediatamentede reintegrado al lugar de trabajo, los francos comprendidos enel período de su labor. Dicha compensación se efectivizará, a op-ción del trabajador, pecuniariamente o mediante el goce de fran-cos compensatorios, parcial o totalmente. En ningún caso dejaráde tener un descanso mínimo de veinticuatro horas al regresarde un viaje, descanso éste que no se computará como franco.Adelanto por Gastos (ex art. 13º): Los gastos que tenga el tra-bajador resultante de su propia función, le serán adelantadospor la empresa antes de partir al interior o exterior del país.todos los casos de fuerza mayor o necesidades del servicio enque un integrante del turno deba reemplazar al jefe de turnoo cargo superior, percibirá la diferencia entre su sueldo y el delreemplazado siempre y cuando el reemplazado lo sea durantetres días seguidos o cinco alternados dentro del mes calendario.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 4º) – Período de Vigencia-Plazo de Denuncia: La vigenciade este Convenio será de un año. El plazo de la denuncia seestablecerá de acuerdo con lo que reglamente el Ministerio deTrabajo de la Nación.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 5º) – Reemplazantes: Los reemplazantes o suplentes delpersonal periodístico estable de radioemisoras, deberán cum-plir con los requisitos de profesionalidad establecidos en elartículo 37º de la presente convención.A los demás efectos quedarán comprendidos y amparados en elartículo 8º de la presente convención percibiendo las proporcio-nes de la remuneración correspondiente al Redactor, salvo loscasos de contrato de trabajo de tipo eventual (artículo 108º de laLey 20.744). Gozarán asimismo de preferencia para la coberturade las vacantes permanentes que se produzcan. Las ausenciasprevistas de los titulares por distintas razones deberán ser cu-biertas aún por una sola jornada de labor.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 5º) – Autoridad de Aplicación: El Ministerio de Trabajo dela Nación será el organismo de aplicación de esta ConvenciónColectiva de Trabajo quedando las partes intervinientes obliga-das a su estricta observancia. La violación o inobservancia dela presente Convención Colectiva de Trabajo será sancionadaconforme a las normas legales vigentes.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 6º) – Categorías: Todas las categorías que se enuncian enla presente Convención quedan fijadas en orden ascendente eimplican remuneraciones distintas; en el mismo orden, los sala-rios que se establezcan para cada categoría, quedarán asimis-Convenio de Prensa Escrita y Oral Nº 301/75
+
+/ 20 // Sindicato de Prensa de Buenos Aires /•Redactor con conocimientos de idiomas: El queposea conocimiento de idiomas extranjeros y los usehabitualmente en sus tareas.•Traductor: Especializado en materias técnicas.•Tituleros.F. Encargado o Jefe de Sección; Subjefe de Noticias; Jefede Archivo; Corrección y Fotografía.G. Editorialista.H. Prosecretario de Redacción; Jefe de Noticias.I. Secretario de Redacción; Jefe de Arte.J. Prosecretario General de Redacción.K. Secretario General de Redacción o subjefe deRedacción.L. Jefe de Redacción y Subdirector Periodístico.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 6º) – Adjudicación Equitativa de Trabajo: Las grabacio-nes, reportajes o entrevistas, viajes, salidas u otras tareas querepresenten mayor retribución serán distribuidas en formaequitativa teniendo en cuenta un orden de lista, salvo que lacapacidad y especialización del periodista así como sus circuns-tancias personales en relación con la misión que se el enco-mienden, aconsejen la alteración de ese orden de lista.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 6º) – Comisión Paritaria: Todas las cuestiones emergentesde la aplicación y/o interpretación del presente convenio seránresueltas por una comisión paritaria integrada por cuatro repre-sentantes de la parte empresaria y cuatro de la parte gremialy presidida por un funcionario del Ministerio de Trabajo, y seregirá por el Art. 70 y siguientes de la Ley Nº 12.908 (CapítuloComisiones Paritarias).
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 7º) – Representación de la Empresa: En todos los casoslas coberturas especiales, así como las que sean solventadastotal o parcialmente por las empresas cuando se trate de tareasperiodísticas, serán realizadas por el personal permanente delservicio informativo, teniendo en cuenta la capacidad y espe-cialización del profesional que asuma la representación de laempresa y la equitativa adjudicación de las misiones.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 7º) – Prórroga de Cláusulas no derogadas ni sustituidas:Considéranse prorrogadas por la presente Convención Colec-tiva de Trabajo todas aquellas disposiciones resultantes de laConvención Colectiva de Trabajo Nº 361/73 y anteriores que nohayan sido modificadas o derogadas hasta el presente o que nolo sean expresamente en esta oportunidad, las cuales se ade-cuarán a la nueva legislación vigente.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 8º) – Volantes: El personal comprendido en la definición delart. 65º del Estatuto del Periodista (Ley 12.905) percibirá comoretribución mínima, por jornada o unidad de trabajo la veinteavaparte (1/20) del sueldo normal mensual correspondiente a Cronis-ta. Cuando efectúe comentarios o notas firmadas o bien cuandoreleve a Redactores en el caso de suplentes, percibirá la veinteavaparte (1/20) del sueldo mensual de la categoría de Redactor.El que se limite a transmitir las noticias de la índole expresadoen el art. 65º del Estatuto del Periodista (Ley 12.908), percibirácomo retribución la treintava parte (1/30) del sueldo mensual dela categoría de Reportero.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 8º)- Horas Extras: La redacción, información y/o locuciónde boletines informativos o comentarios realizados fuera delhorario habitual, serán remunerados como trabajos extras, nopudiendo computarse en menos de una hora extra. Las siguien-tes se abonarán de cinco a treinta minutos como media hora ysuperando los treinta minutos como una hora completa.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 8º) – Vigencia de Acuerdos Internos, Usos y Costumbres:A.	 Acuerdos internos: Serán de cumplimiento obligatoriolos acuerdos pactados oportunamente en las respectivasEmpresas, como así también los que se formalicen a partirde la vigencia del presente Convenio Colectivo de Trabajo.Estos acuerdos se considerarán incorporados al mismo.B.	 Usosy costumbres: Los usos, costumbres y prácticasde las respectivas empresas serán respetados y tendrán elalcance que determine el Art. 17 de la Ley de Contrato deTrabajo, en cuanto sean más favorables al trabajador enrelación con las normas legales o convencionales.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 9º) – Corresponsales: Se hace extensiva la norma del artí-culo 63º del Estatuto del Periodista (Ley 12.908), a la ciudad deMar del Plata.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 9º) – Tareas Ajenas: Los periodistas de los servicios infor-mativos no podrán ser obligados a desempeñar tareas ajenas asu función específica o las que corresponden por categoría. Enla suma resultante del veinticinco por ciento (25%) del primeraumento total mensual otorgado por el presente Convenio.Los importes retenidos a los afiliados de cualquiera de las or-ganizaciones sindicales firmantes del presente convenio serándepositados a la orden de cada una de ellas y en sus respec-tivas cuentas bancarias.Respecto de los trabajadores no afilia-dos a ninguna de ellas, así como a los que tengan afiliación aambas, la retención se depositará dividiéndola por mitades, esdecir, 50 por ciento de la misma a la orden de la Asociación dePeriodistas de Buenos Aires y el 50 por ciento a la orden delSindicato de Prensa de Capital Federal y Gran Buenos Aires.”## CLAÚSULAS QUE REGIRÁN## EXCLUSIVAMENTE PARA LA RAMA RADIO
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 9º) – Definición de Noticiero: Para la aplicación delpresente Convenio Colectivo de Trabajo, se entiende por NO-TICIERO DE TELEVISIÓN el programa de emisión diaria regularmediante el cual se difunden noticias de interés general sobrehechos de actualidad cotidiana que abarquen diversas áreasde información. No se consideran NOTICIERO DE TELEVISIÓN,aunque eventualmente se emitan en los horarios de éstos, losprogramas cuyo contenido se limite a información específicao referida a un solo tema o especificidad o sea retrospectivo.Tampoco se considerarán NOTICIERO DE TELEVISIÓN los pro-gramas en los cuales se alterne o mezcle la difusión de noticiascon números artísticos o de verdad.## TÍTULO II## NORMAS LABORALES ESPECÍFICAS
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 10º) – Diagramación: Los periodistas, hasta la categoría deRedactor inclusive, que aparte de su función propia aceptasenrealizar tareas de diagramación, percibirán además de su remu-neración una bonificación equivalente al diez por ciento (10%)del salario profesional establecido para el diagramador.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 10º) – Programación Periodística: Comprenderá comomínimo un 10% de las horas que insuma la transmisión diaria yestará a cargo del personal estable de los servicios informativos.Deberá respetarse la programación confeccionada por la empre-sa el día anterior, salvo causas ajenas a la voluntad de aquella.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 10º) – Funcionalidad de las Distintas Areas: De acuerdoal ordenamiento vigente NOTICIERO DE TELEVISION tiene su ejede decisión en el Jefe de Redacción. Del mismo, y de acuerdo allineamiento común de actividades, dependen funcionalmentelas siguientes áreas: REDACCION, CAMARAS, COMPAGINACION,ARCHIVO, LABORATORIO y PERSONAL ADMINISTRATIVO de Em-presas Periodísticas contemplado por el Estatuto del PeriodistaProfesional (Ley 12.908 y complementarias). Cada una de ellasdepende del plan de tareas trazado por el Jefe de Redacción yesto también es válido en el campo laboral. Las diferentes cate-gorías que se establecen a continuación son –por lo tanto– au-tónomas unas de otras para cada Sección. Cabe consignar quetanto Redacción, Cámaras, Compaginación, Archivo, Laboratorioy el personal administrativo periodístico tienen un sistema depromoción autónomo. De aquí que la función específica del Jefede Redacción, es la coordinación de las diferentes secciones.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 11º) – Correctores: El lugar de trabajo contará con sufi-ciente luz y buena ventilación, en un ambiente separado delTaller Gráfico.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 11º) – Contratistas: Cuando las radioemisoras cedan, denen concesión o contrato, espacios de emisión que demanden eldesempeño de trabajadores de prensa, serán solidariamenteresponsables de las obligaciones del concesionario o contratistarespecto de su personal y del estricto cumplimiento de las nor-mas del Estatuto del Periodista y de esta convención. Cuandolas remuneraciones no sean abonadas en los términos de laLey de Contrato de Trabajo por el contratista, deberá abonar-las la emisora directamente. Las radioemisoras garantizarán elfiel e íntegro cumplimiento de las leyes previsionales, socialesy laborales, así como las retenciones, aportes y contribucionescorrespondientes, incluso las de cuota sindical.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 11º) – Redacción: Es tarea específica de la Redacción de unNoticiero de Televisión, recibir las noticias, procesarlas, clasifi-## TÍTULO I## DISPOSICIONES GENERALES
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 12º) – Coordinador Especializado: El que desempeñe enforma permanente la tarea de seleccionar los elementos gráfi-cos, ambientales, de vestuario, mobiliario, modelos y elementosde todo tipo para la realización de tomas fotográficas de modas,decoración, etc. Estarán equiparados a los efectos salariales a lacategoría de Redactor.Asistente de Coordinación: Asiste y secunda al Coordinadorespecializado. Su remuneración se equiparará a la correspon-diente a la de Cronista.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 12º) – Asuetos: Las emisoras concederán asueto o loscorrespondientes francos compensatorios al personal com-prendido en esta convención, cuando en los días no laborablesestablecidos por el Decreto 2.446/56 opte la empresa por decla-rar la no laboralidad de algunos de esos días.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 13º) – Equiparaciones: Establécense las siguientes equiva-d.	 Teletipista, Operador de Télex, Radioteléfono, Radio:O equipos similares de comunicación de los serviciosperiodísticos. La promoción a la correspondiente calificacióndentro de la de Redactor será automática al cumplirdieciocho meses de desempeño. Aquellos que perforenperiódicamente en un idioma que no sea el español o el dela nacionalidad de origen de la empresa, recibirán un plusdel 5% (cinco por ciento) del salario correspondiente.e. Dictafonista.f. Corrector de Pruebas: Con hasta dieciocho meses deantigüedad.g. Traductor: El que traduce noticias o informacionesperiodísticas. Por cada idioma adicional que utilice ensu trabajo, desde el segundo en adelante percibiráuna bonificación del 5% (cinco por ciento) del salarioprofesional de la categoría.h.	 Archivero Calificado: Quienes tengan a su cargoseleccionar y apartar el material para su calificación. Estaránequiparados a los efectos salariales a la categoría de Cronista.Promoción de Cronistas: Cumplido un año de desempeñocomo Cronista o antes en caso de existir vacante, elperiodista que se considere capacitado podrá solicitar quesea comprobada su idoneidad para ser calificado comoRedactor, de acuerdo con el procedimiento normado en elart. 37 del presente Convenio.De resultar comprobada su idoneidad, el ascenso a Redactorse efectivizará al producirse vacante en esta categoría.E) Redactor: El periodista que realice las tareas señaladascon esta calificación por el Estatuto del Periodista.Asimismo, estarán comprendidas en esta categoría lassiguientes calificaciones:a. Cablero: El periodista encargado de preparar ocorregir para su publicación o difusión las informacionestelegráficas telefónicas, telex, radiofónicas, audiovisuales,etc., recibidas de los corresponsales del exterior o interioro de agencias noticiosas y, además, deban sintetizar,aumentar, fusionar, comentar y/o titular los despachos.b. Corrector: Con dieciocho meses de antigüedad en eldesempeño profesional dentro de la categoría de Cronistaen la empresa.c. Teletipista: Operador de telex; radioteléfono; radios oequipos similares de comunicación, al cumplir dieciochomeses de antigüedad.d. Diagramador, Retratista, Caricaturista, Ilustrador,Dibujante Calificado: Así como quienes realicen dibujocreativo de modelos o moldes.e. Los Redactores comprendidos en la siguiente sub-calificación, percibirán un plus mensual del 10% (diez porciento) sobre el salario de la categoría:•Redactor con conocimientos de idiomas: El queposea conocimiento de idiomas extranjeros y los usehabitualmente en sus tareas.
+
+/ 21 // SiPreBA /inmediatos del personal superior.f.	 Liquidador de sueldos y jornales: El que proporcionelas pautas para las liquidaciones de salarios de acuerdo alas leyes laborales y sociales vigentes.g.	 Gestor: Habitual ante reparticiones públicas con poderpermanente extendido por la empresa y cuya gestióncompromete legalmente a ésta. De esta calificación se excluyea los Cobradores, salvo que realicen la función anterior.h.	 Cajero: Personal administrativo de Caja que manejedinero o valores en forma permanente, como, asimismo,el personal administrativo cuya tarea principal en formapermanente sea la mencionada. Exceptuando Caja Chica yFondos Fijos.i.	 Precios: Quienes habitualmente se ocupen decompaginar la orden de publicación de avisos notables decuentas corrientes, tasando los avisos de acuerdo con laorden de publicación y registrando los mismos en planillaspara cargos en sus respectivas cuentas corrientes. Estánincluidos quienes se ocupan de verificar y controlar lastareas enunciadas.j.	 Receptores/as de publicidad avisos al contado:Quienes atiendan habitualmente al público recibiendoavisos al contado, interpretando el texto, encuadrándolodentro de las normas, asignando rubros, tarifando yadosando las formalidades que aseguran un ingreso ydespacho correctos y aplicando las disposiciones sobredescuentos y bonificaciones que correspondan. Seexceptúa el personal de agencias y sucursales. Estáncomprendidos quienes atiendan agencias de publicidady receptorías que avisan al contado, verificando tasación,clasificación y efectuando las comisiones establecidas.k.	 Receptor de reclamos de avisos con errores: Quienesatiendan habitualmente las recepciones de suspensiones yreclamos de avisos con errores, buscando los antecedentespara verificar el origen y la causa del error, certificandoa quien corresponde la responsabilidad y efectuando lascompensaciones según las instrucciones que en cada casoreciban de su superior inmediato.l.	 Recepción, registro y despacho de avisos: Quienesatiendan habitualmente la recepción de todo el materialadelantado en la víspera, como asimismo de lo que ingresaen el día confeccionando orden al taller, verificando,compaginando y comprobando el ingreso simultáneo deloriginal, reclamándolos cuando faltaren y verificando sicada pedido ingresa de acuerdo con las normas que reglanla toma de avisos.5.  Auxiliar Especializado: Los 
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 13º) – Producciones Integrales: En las producciones inte-grales de las emisoras se tenderá a utilizar preferentemente alpersonal periodístico estable, el cual en cuanto a modalidadesde pago quedará sujeto a los que establece el artículo 11º.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 14º) – Categorías: En cumplimiento de lo dispuesto por laLey 15.535, las partes convienen el siguiente escalafón para elpersonal administrativo de las empresas periodísticas. Las cate-gorías serán las siguientes:Cadete: Todo empleado no especializado, menor de dieciochoaños que se desempeñe en secciones administrativas. Al cumplirdieciocho años de edad se le asignarán tareas administrativas.1.	 Ayudantes: Los empleados mayores de dieciocho añosdesde su ingreso y hasta alcanzar dos años de antigüedad.Se incluyen en esta categoría a los Telefonistas que pasarána la categoría de Auxiliar a los dos años de desempeño.2.	 Auxiliar: Los empleados con dos años de desempeñoen la categoría anterior, o bien, quienes sin cumplir esetérmino realicen funciones que impliquen conocimientosacabados de las tareas de su sección. Quedan incluidosen esta categoría desde su ingreso los Telefonistas-Recepcionistas que serán los encargados de recibir yatender al público visitante.3.	 Auxiliar Primero: Todo empleado administrativo conmás de dos años de antigüedad en la categoría anterior,con excepción de los Telefonistas.4.	 Auxiliar Calificado: Los empleados que se desempeñenen cualquiera de las siguientes funciones:a.	 Taquidactilógrafo: Con ochenta palabras por minutoen la toma y cincuenta en la versión.b.	 Operador de máquina de contabilidad; Operadorde computadora; Perfoverificador: Los empleados quese desempeñen en cualquiera de estas funciones, previaprueba de capacidad.c.	 Corresponsal: El empleado a cargo de la confecciónde todo tipo de correspondencia con redacción propia yautorización para inicialarla.d.	 Diagramador de Publicidad: Quienes confeccionan eldiagrama o mono de la ubicación de la publicidad.e.	 Secretario/a: Quienes se desempeñen como asistentes
+
+/ 22 // Sindicato de Prensa de Buenos Aires /más de dos años de antigüedad.3.	 Auxiliar y Operario Calificados: El personalque atienda o maneje maquinas semiautomáticas oautomáticas de expedición.4.	 Capataz: Quienes tengan a su cargo dirigir la labor de sussubordinados y realicen control del desarrollo de las tareas.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 14º) – Bonificación por Antigüedad: Se conviene que labonificación por antigüedad será de 1,20% mensual del básicode Redactor por año aniversario.
+
+/ 30 // Sindicato de Prensa de Buenos Aires /
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 15º) – Las calificaciones y categorías del personal de inten-dencia y/o servicios generales, se establecerán de acuerdo alsiguiente escalafón:Cadete: Los menores de dieciocho años.1.	 Peón: Personal sin especialidad determinada y conmenos de dos años de antigüedad en el empleo.2.	 Auxiliar: El personal con dos años de antigüedad enla categoría anterior. Asimismo, están comprendidos enesta categoría los Ordenanzas, Ciclistas, Ascensoristas,Porteros, Recepcionistas, Serenos, Mozos con relación dedependencia con la empresa y operarios de mantenimientode edificio u oficios varios no especializados.3.	 Auxiliar Primero: El personal con más de dos años dedesempeño será automática al cumplir esa antigüedadexcepto para el Peón (inciso 1º de este artículo). Asimismo,están comprendidos en esta categoría los Choferes,Motociclistas y Operarios de mantenimiento de edificios uoficios varios con calificación de medio oficial.4.	 Personal Calificado: Están comprendidos en estacategoría los Operarios de mantenimiento de edificiosu oficios varios con calificación de Oficial. A los dosaños de antigüedad en la categoría se incrementará suremuneración en el 50% de la diferencia que media entre elsalario básico de su categoría y el de Capataz.5.	 Capataz: Quienes tengan a su cargo dirigir la labor desus subordinados y realicen control de desarrollo de lastareas.Expedición
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 16º) – Las categorías escalafonarias del personal de Expedi-ción serán las siguientes:1.	 Ayudante: El trabajador sin especialización que fueraincorporado a las tareas generales de expedición, hasta losdos años de antigüedad.2.	 Auxiliar y Operario: El trabajador de expedición con
+
+/ 23 // SiPreBA /en dicho caso deberá justificar la ausencia con el certificado médicoexpedido por la institución donde se hubiera producido la donación.REEMPLAZOS y CATEGORIZACIÓN
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 17º) – Las dotaciones de personal deberán ser de un vo-lumen tal que permitan el desarrollo normal de las tareas to-mando en consideración la cobertura de trabajo habitual, lasausencias derivadas del régimen de francos y el nivel de inasis-tencia por otros motivos.En los períodos de vacaciones las empresas deberán mantenerplanteles suficientes para la realización de las tareas incorporan-do en su caso el personal temporario que se requiera para tal fin.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 18º) – Ropa de Trabajo: El personal de Expedición seráprovisto de dos equipos de ropa de trabajo por año, así comode un buzo rompevientos para el invierno. A quienes trabajenhabitualmente a la intemperie, se les proveerá de capa imper-meable y saco de cuero u otra prenda similar que cumpla losfines de abrigo.## TITULO III## CONDICIONES GENERALES DE TRABAJO## CLÁUSULAS COMUNES A TODO EL PERSONAL## COMPRENDIDO EN ESTE CONVENIO.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 19º) – Régimen de Licencias: Sustitúyense en su totalidadlos regímenes establecidos en materia de vacaciones y licenciasestímulo establecidos en las leyes 12.908, 20.744, Decreto Nº13.839/46 y todos los incluidos en las anteriores convencionescolectivas de la actividad que se refieren al tema, por el siguiente:•	Hasta 5 años de antigüedad: 19 días corridos.•	De más de 5 hasta 10 años de antigüedad: 26 días corridos.•	De más de 10 hasta 20 años de antigüedad: 33 días corridos.•	De más de 20 años de antigüedad: 40 días corridos.En los demás regirán las normas de la Ley 20.744.Continuará vigente la norma establecida en el último párrafodel artículo 35º del Estatuto del Periodista.Estatuto del Periodista, artículo 35º:“Disfrutarán de un descanso mayor de tres, cinco y siete días, cuan-do realizaren tareas habitualmente nocturnas.”
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 20º) – Cuando el trabajador debiera desempeñarse en díaferiado nacional establecido por la legislación o esta convencióncolectiva, gozará de francos compensatorios de tiempo equiva-lente. El mismo se tomará dentro de los quince días, en fecha aelección del trabajador.traduzca más de un idioma y le sea requerido, del salariobásico una bonificación equivalente al 10% del mismo. Enlas publicaciones en idioma extranjero, se exceptúa al quehable o escriba en el idioma de la misma.c.	 Secretaria taquidactilógrafa bilingüe: Quienes sedesempeñen en las tareas propias de su denominación,tomando taquidactilografía en dos idiomas con ochentapalabras por minuto en la toma y cincuenta en la versión.d.	 Promotor o Productor Publicitarios: En relación dedependencia cuya tarea es promover y/o vender espaciopublicitario, actuando como nexo entre la empresaperiodística y anunciantes y/o agencias publicitarias.Intendencia y servicios generales
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 21º) – Franco Compensatorio por Viajes: Cuando el tra-bajador realice viajes de servicio al interior del país, por los quedeba pernoctar fuera de su domicilio, gozará de los siguientesfrancos compensatorios.a.	 De dos a seis días de viaje: un franco compensatorio.b.	 De más de seis días de viaje: dos francoscompensatorios.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 22º) – Personal Suplente y/o Transitorio: El personal su-plente y/o transitorio que se desempeñe por jornadas, gozaráde un franco pago, cada cinco días de labor.Licencias Especiales: (ex art. 17º, inc. b del convenio 73/73;Cláusula originada en el convenio nacional 13/59. Vigente por elart. 4º del presente convenio):Las empresas periodísticas a su personal de redacción, adminis-tración e intendencia licencia especial con goce de sueldo y endías corridos por las siguientes causas:1.	 Contraer matrimonio: diez días que podrán seracumulados a la licencia anual;2.	 Nacimiento de hijos: dos días al padre;3.	 Fallecimiento de padres, cónyuges, hijos y hermanos;padres, hermanos e hijos políticos: tres días en cada caso.4.	 Examen del personal que curse estudios secundarioso universitarios: quince días hábiles por año, que elbeneficiario podrá distribuir en la forma que mejorconvenga a sus necesidades, previa comunicación a laempresa en cada caso. La utilización de esta licencia deberáacreditarse con el respectivo certificado del establecimientoque corresponda que otorgue la constancia de haberrendido examen.5.	 El personal femenino gozará de licencia remuneradacon el cincuenta por ciento de su retribución durantelas cuatro semanas anteriores y las seis posteriores alalumbramiento. Este beneficio no modifica ni alterala situación particular de que en cada caso goceeste personal dentro de las empresas cuando seansuperiores a las estipuladas en este inciso. Durantelos seis meses posteriores al alumbramiento, a partirde la reincorporación al trabajo, la jornada legal de laempleada será reducida en una hora treinta minutosdiarios quedando supeditado a acuerdo con el empleadorla determinación del momento en que se efectúa lareducción, o sea, si se hace a la iniciación o a la terminaciónde la jornada.Dador de Sangre: (es art. 12º del Convenio 73/73). El personal quehubiera donado sangre dos veces en el año como máximo, tendráderecho a la percepción de los salarios correspondientes a esos días;
+
+/ 24 // Sindicato de Prensa de Buenos Aires /1.	 Seguridada.	 Artefactos y accesorios, e instalaciones, útiles yherramientas, deberán tener su ubicación y conservaciónde acuerdo a las técnicas más modernas.b.	 Protección de máquinas en las instalaciones respectivas;protección en las instalaciones eléctricas.c.	 Equipos de protección individual adaptados a cada tipode tareas.d.	 Identificación y rotulado de sustancias nocivas yseñalamiento de lugares peligrosos.e.	 Prevención y protección contra incendios y siniestros.6.	 Higienea.	 Características del diseño de las plantas industriales,establecimientos: locales, centros y puestos de trabajo.b.	 Factores físicos y químicos en especial los referidosa cubaje, ventilación, carga térmica, presión, humedad,iluminación, ruidos y radiaciones.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 23º) – Reemplazos: Durante el descanso hebdomadario ylos períodos de licencia, todos los reemplazos serán efectuadospreferentemente por personal de la misma categoría, ordenjerárquico o especialidad de función y no podrá obligarse alreemplazante a realizar esta tarea suplementaria, correspon-diente a la licencia, más de una vez por año y más de dos díaspor semana en caso de descanso hebdomadario.Cuando por necesidades de servicio, originadas en licencias oausencias por otras causas, del o los empleados, por más decinco días, la empresa resolviera el reemplazo en forma tran-sitoria y no pudiera hacerlo con personal propio de acuerdoa las normas precedentes deberá contratar el o los suplentesnecesario, quienes percibirán la remuneración correspondientea la categoría del reemplazado.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 24º) Categorización: Conforme a lo normado por el artí-culo 86º de la Ley 20.744, se reputarán las nuevas tareas o fun-ciones como definitivas, si transcurridos los siguientes plazos, eltrabajador continuase en su desempeño:a.	 50 días corridos o 100 discontinuos en el añoaniversario, para los reemplazos de nivel superiorcorrespondientes a categorías no jerárquicas.b.	 80 días corridos o 160 discontinuos en año aniversario,en el caso de reemplazos correspondientes a ausenciastemporarias de personal con cargo o función jerárquica.Se exceptúa del presente artículo el reemplazo originado encasos de licencia por maternidad contemplados en los artículos199 y 200 de la Ley 20.744.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 25º) – Afectación de Vehículo: En el caso de que en virtuddel contrato de trabajo original, o con posterioridad se convengacon el trabajador la utilización de un vehículo de su propiedadpara el desempeño del cargo en que revista, deberá acordarseentre el trabajador y empleador una compensación adecuada,actualizándola semestralmente cuando ello fuera necesario. Talcompensación no alcanzará a las remuneraciones convenidasdentro del mismo concepto hasta el 31-5-75 pero deberá apli-carse a estos casos la actualización semestral a partir del 1-6-75.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 26º) – Provisión de Materiales: Las empresas proveerán entodos los casos las herramientas útiles, materiales y todo tipo deaccesorios necesarios para el tratamiento.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 27º) – Vestimenta: En caso de que la empresa exigiera alpersonal determinada vestimenta o prenda en el desempeño deLas agencias noticiosas concederán a los empleados compren-didos en este Convenio, cuando trabajan el 1º de enero y/o lunesde Carnaval descanso compensatorio de tiempo equivalente.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 28º) – Funciones Específicas: No podrá exigírsele al Re-dactor Periodístico encuadrado en el Estatuto del Periodista(Ley 12.908) que cumpla funciones de Redactor Publicitario,comprendido a su vez en el
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 29º) – Privación de Libertad: Cuando los trabajadores, porrazones ideológicas, políticas, gremiales o religiosas, fueran pri-vados de su libertad, las empresas les reservarán el puesto portodo el tiempo de detención hasta la sentencia definitiva. Tam-poco podrán despedir al trabajador a quien se prive de libertadcon imputación de delitos comunes, siempre que no constituyade por sí una injuria laboral suficiente, hasta que no mediesentencia firme de la autoridad competente en la instanciajudicial. Si la detención se produjere durante y con motivo delejercicio de su función profesional, la empresa deberá defen-derlo corriendo con los gastos judiciales, abonándole ademáslos salarios correspondientes, salvo el caso de culpa, negligenciainexcusable o dolo.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 30º) – Guardería: En aquellos establecimientos que ocupenpersonal femenino y donde no haya guardería, deberá brindar-se un servicio de guardería privada de primera categoría. En sudefecto se reintegrará a la empleada el precio de una guarderíasimilar contra la presentación de los respectivos compromisos.El otorgamiento de estos beneficios, se extenderá hasta que elniño/a cumpla los dos años de edad.## TÍTULO IVHIGIENE y SEGURIDAD EN EL TRABAJOEnfermedades
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 31º) – Enfermedades y Accidentes del Trabajo: Durante elperíodo en que el trabajador se encuentre en uso de licencia porenfermedad o incapacidad, deberán abonársele los sueldos enlas mismas fechas y plazos que a los trabajadores en actividad.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 32º) – Higiene y Seguridad: A los efectos de obtener el ma-yor grado de prevención y protección de la vida e integridad psi-cofísica de los trabajadores, los empleados adoptarán las normastécnicas y medidas sanitarias precautorias a efectos de prevenir,eliminar, reducir o aislar los riesgos profesionales en todos loslugares de trabajo, como el medio más eficaz de la lucha contralos accidentes de trabajo y las enfermedades profesionales.A tal fin se deberán cumplimentar las siguientes medidas fun-damentales, acordes con las reglamentaciones actualmentevigentes y con las normas básicas referidas en el Decreto-LeyNº 19.587/72:
+
+/ 25 // SiPreBA /cargo superior percibirá la remuneración que tuvieraanteriormente. De serle asignada la función superior, sereajustará su salario al de la nueva categoría, con efectoretroactivo al día en que se inició la prueba de idoneidad.Vacantes: A los efectos de la correcta interpretación de estetérmino en el articulado del presente Convenio, se considera-rán tales aquella cuya cobertura resuelva la empresa. Duranteun lapso de un año, a partir de la fecha producida la vacante, sila empresa decidiera cubrirla deberá recurrir al procedimientodel artículo 37º del presente Convenio.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 33º) – Ambientes: Los lugares de trabajo deberán contarcon equipos adecuados de iluminación, ventilación y calefac-ción, en perfecto estado de funcionamiento. Todas las instala-ciones, especialmente las sanitarias, deberán estar en perfectascondiciones de higiene.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 34º) – Servicios Médicos Preventivos: Las empresas es-tablecerán sistemas de exámenes médicos precaucionales yexámenes médicos, acorde con el tipo de actividad y mediosambientales en que deban desempeñarse los trabajadores. Laspartes se obligan a estimular y desarrollar una actividad positi-va a través de las organizaciones empresarias y de los serviciosasistenciales sindicales, con respecto a la prevención de acci-dentes o enfermedades que guarden relación de causa a efectocon la actividad laboral y a cumplir una política de capacitación yesclarecimiento entre el personal en todos sus niveles.## TÍTULO VFORMACIÓN y CAPACITACIÓN## PROFESIONAL
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 35º) – Programas de Capacitación: Las empresas se com-prometen a adoptar dentro de sus establecimientos, programasde formación y capacitación profesional o, en su defecto, contri-buir y colaborar en los programas de igual índole que encaren orealicen las organizaciones gremiales que suscriben este Conve-nio, a los fines de la capacitación técnica del trabajador y de laelevación del nivel de productividad, a través del estímulo de laenseñanza técnica y del entretenimiento y reentrenamiento delpersonal, de conformidad con los avances tecnológicos y profe-sionales de la actividad. Dichos programas se coordinarán conel Plan Nacional, teniendo en cuenta no sólo las necesidades dela empresa sino, también las correspondientes al mejoramientotecnológico que requiere mano de obra especializada con el finsu tarea, deberá proporcionársela sin cargo.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 36º) – Carteleras Gremiales: En todas las empresas sedispondrá de una cartelera sindical en un lugar adecuado parapoder fijar las comunicaciones gremiales. Según la magnitud ycaracterísticas edilicias del establecimiento y a pedido de las or-ganizaciones sindicales, se podrán habilitar con el mismo objetootras carteleras. Las mismas deberán estar protegidas por untransparente.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 37º) – Vacantes y Promociones: Producida una vacante de-finitiva en cualquier departamento o sector de una empresa en elque se desempeñen trabajadores comprendidos en la presenteconvención, o en los supuestos en que ésta refiera las promocio-nes al procedimiento señalado en este artículo, se observarán lassiguientes normas:a. La empresa quedará obligada a llenarla dando prioridadal personal que se encuentre prestando servicios en lamisma, dentro del nivel escalafonario inmediatamenteinferior al de la vacante.b. La idoneidad se comprobará asignándole al o a losinteresados las tareas correspondientes a la funciónsuperior a la que aspire durante un período preestablecidopor la empresa no mayor de treinta días. En caso de servarios los aspirantes al cargo de que se trate, las pruebasse tomarán en períodos sucesivos comenzándose por eltrabajador de mayor antigüedad. La vacante será asignadaal que haya demostrado más idoneidad.c. Para el sector periodístico se admitirá la concurrenciaa la prueba de idoneidad de un candidato ajeno a laempresa, que posea carnet profesional con la categoría aque aspire o superior, siendo seleccionado para la pruebaen la forma en que la empresa lo determine.d. La empresa deberá comunicar por escrito a cadainteresado, con copia a la organización gremial, sudecisión sobre los resultados de la prueba consignando losfundamentos de la misma.e. En caso de disconformidad del interesado con ladecisión empresaria, éste o la organización gremial podránrecurrir de la misma ante la comisión paritaria establecidaen el artículo 70º del Estatuto del Periodista (Ley 12.908), oen el caso de los trabajadores comprendidos en el régimendel Estatuto del Personal Administrativo de EmpresasPeriodísticas (Decreto 13.839/46) a la comisión paritariaestablecida en el artículo 38º del presente Convenio. Deno producirse la decisión de la comisión paritaria en eltérmino de quince días hábiles, se tendrá por válida laresolución de la empresa.f. Durante el período de prueba, el aspirante al
+
+/ 26 // Sindicato de Prensa de Buenos Aires /D) Escalafón de ExpediciónAyudante4.200Auxiliar u Operario4.600Auxiliar u Operario Calificado5.000Capataz6.300
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 38º) – Paritarias: Las cuestiones de interpretación de lasdisposiciones del presente Convenio referidas al personal com-prendido en el Estatuto del Periodista (Ley 12.908), serán enten-didas por la Comisión Paritaria Permanente establecida en elartículo 70º de dicha ley. Asimismo, créase una Comisión ParitariaPermanente que se renovará cada dos años para entender enlas cuestiones relativas al personal comprendido en el Estatutodel Personal Administrativo de Empresas Periodísticas (Decreto13.839 / Ley 12.921) con referencia a los artículos del presenteConvenio que la mencionen. La misma se constituirá con dos re-presentantes sindicales y dos de los empleados y será presididapor el mismo funcionario que la Comisión Paritaria PermanentePeriodística. Para las delegaciones así como en cuanto a los pro-cedimientos, esta comisión adoptará las normas de los artículos71º a 74º de la Ley 12.908.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 39º) – Mutuales: Las empresas deberán efectuar las re-tenciones correspondientes a las mutuales organizadas por lostrabajadores de prensa, cuando las mismas estén inscriptas enel Instituto Nacional de Acción Mutual (INAM) o gocen de perso-nería jurídica (artículo 146º inciso c) y d) de la Ley 20.744).
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 40º) – Se agregan al artículo 34º del Estatuto del Periodista(Ley 12.908) y al artículo 8º del Estatuto del Personal Administra-tivo de Empresas Periodísticas (Decreto 13.839 / Ley 12.921) lassiguientes disposiciones:1. Las empresas determinarán las jornadas de laborde acuerdo a las normas legales citadas. Se respetarán,asimismo las prácticas preexistentes, es decir, no seexcederá la cantidad de horas que en promedio semanal sevinieran realizando, si ésta fuera menor al máximo legal.2.	 El descanso hebdomadario será de cuarenta y ocho horas,preferentemente ininterrumpidas que recaerán en orden deprelación de acuerdo a las necesidades de servicios:3. En sábado y domingo;4. En viernes y sábado o bien en domingo y lunes;5. En días distintos a los anteriores.6. Las normas precedentes deberán aplicarse atendiendoa mantener u obtener eficientes de productividad.7. La aplicación de este artículo comenzará a partir de losde evitar desplazamiento de trabajadores a otras áreas.## TÍTULO VIRELACIONES GREMIALES y LABORALES
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 41º) – Salarios Profesionales: En cumplimiento de lasdisposiciones del
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 42º) – Aumentos Mínimos: El personal comprendido en lapresente convención, ingresado con anterioridad al 31 de mayode 1975, percibirá los aumentos mínimos que a continuación seconsignan, cuando por aplicación del emergente de la fijacióndel salario profesional no resulte uno mayor:A) Escalafón PeriodísticoAspirante1.000Archivero1.100Reportero1.300Cronista1.450Redactor1.620Jefe o Encargado de Sección1.850Prosecretario de Redacción2.000Editorialista2.000Secretario de Redacción2.200Prosecretario General2.300Secretario General o Subjefe de Redacción2.400Jefe de Redacción o Subdirector Periodístico2.500B) Escalafón AdministrativoAyudante1.000Auxiliar1.100Auxiliar Primero1.200Auxiliar Calificado1.400Auxiliar Especializado1.620C) Escalafón de Intendencia y Servicios GeneralesPeón1.000Auxiliar1.100Auxiliar Primero1.200Personal Calificado1.300Capataz1.500D) Escalafón de ExpediciónAyudante1.000Auxiliar u Operario1.100Auxiliar u Operario Calificado1.200Capataz1.500quince días corridos de la firma del presente Convenio.## TÍTULO VII## CLAÚSULAS ECONÓMICAS GENERALES
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 43º) – Salario de Menores: El salario de los menores seregirá por las normas legales generales, excepto en cuanto a sumonto. Este no podrá ser inferior al ochenta por ciento (80%) delsalario inicial del correspondiente escalafón.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 44º) – Bonificación por Antigüedad: La bonificaciónpor antigüedad será la suma de veinticinco pesos ($ 25) men-suales, por año de servicios en la empresa, que se percibiránanualmente por el trabajador, a partir del mes que cumpla elaniversario de servicios. Esta bonificación se modificará en lasoportunidades en que lo sea el salario del Aspirante y en igualproporción que éste. Su importe se consignará en los recibosde pago como rubro separado.* Para la Rama Radio en acta de fecha 2 de febrero de 2024 delacuerdo suscripto en SIPREBA y ARPA se estableció:  «modificara partir del mes de marzo de 2024 el Adicional por Antigüedadprevisto en el
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Artículo 44 del CCT 301/75 y que en la actualidad esdel 2% por año de antigüedad de cada trabajador/a, el que se man-tendrá en ese porcentaje para el cómputo de la antigüedad hastael 31 de diciembre de 2020, incrementándose en un 1% adicionaly respecto de la antigüedad que se compute desde el año 2021 yen adelante, beneficio convencional que regirá a partir del mes demarzo de 2024 y se reflejará y registrará en los recibos de haberescomo “Adicional por Antigüedad al 2020” por un lado y “Nuevo Adi-cional por Antigüedad desde 2021”,por el otro».
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 45º) – Vale de Comida: Cuando las empresas periodísticas notengan a su cargo comedor o buffet para su personal, abonarán asus empleados la cantidad de treinta pesos ($ 30) en concepto dereembolso por comida cuando:a) Por razones de servicio el empleado debe desempeñarse fue-ra de su lugar de trabajo, pero dentro de la localidad sede de laempresa. Durante el horario de almuerzo o cena siempre que elmismo no coincida con su horario habitual de trabajo.b) Cuando por razones de servicio sea retenido en el lugar detrabajo durante el horario de almuerzo o cena y esa retención noemerja del cumplimiento de su horario o jornada habitual asig-nados. Se aclara respecto de estos dos incisos que los beneficiosexistentes con alcance individual en las empresas periodísticas,análogos o superiores a los que anteceden, no serán disminui-
+
+/ 28 // Sindicato de Prensa de Buenos Aires /dena. En caso contrario, las reproducciones serán abonadascomo colaboraciones extraordinarias, tantas veces como seandifundidas por una o más emisoras.b) El periodista cuya tarea específica habitual constituya sali-das personales al aire desde fuentes de información dondeestuviera acreditado, percibirá una bonificación del 20% de suretribución mensual. Asimismo, el periodista que realice salidasal aire, en forma no habitual, desde exteriores por orden dela dirección de la emisora, percibirá una bonificación del 20%sobre su salario diario por cada día que realice esa tarea. Losalcances del presente artículo no comprenden al periodista quese desempeñe a la vez como locutor profesional.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 46º) – Fallas de Caja: El empleado que en forma habitualmaneje dinero en efectivo y sea responsable de las diferencias,percibirá un plus de doscientos cincuenta pesos ($ 250) men-suales en concepto de compensación mientras desempeñe estafunción, además del sueldo que le corresponda por su categoría.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 47º) – Plus para Telefonistas: El empleado que tenga a sucargo en forma habitual un conmutador general con no menosde diez líneas externas y treinta internos, percibirá un plus dedoscientos pesos ($ 200) mensuales, además del sueldo que lecorresponda por su categoría.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 48º) – Servicio Militar: el personal convocado bajo ban-dera, percibirá del empleador una remuneración mensual deun mil quinientos pesos ($ 1.500) durante el tiempo que per-manezca en tal condición y por ende impedido de prestar sustareas normales. Asimismo, la totalidad del tiempo que dure suservicio, le será computado a todos los fines vinculados con elcontrato de trabajo, debiendo reincorporarse al mismo dentrode los treinta (30) días subsiguientes a su baja.## CLAÚSULAS TRANSITORIAS
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 49º) – En el caso de que el Ministerio de Trabajo resolvierala cuestión sobre encuadramiento de personal de empresasperiodísticas afectado a tarea de perforación y/o preparaciónde bandas para composición automática, fotocomposición,componedores u otros sistemas similares en el sentido de quese trata de trabajadores comprendidos en el gremio de prensa,su encasillamiento dentro del escalafón periodístico o del esca-lafón administrativo del presente Convenio, quedará sometidoa la consideración conjunta de las comisiones paritarias perma-nentes del artículo 70º del Estatuto del Periodista (Ley 12.908)y del artículo 38º del presente Convenio que se constituirán alefecto como organismo de evaluación de tareas y funciones confacultad de arbitraje inapelable.El personal referido en este artículo percibirá hasta su ubicaciónescalafonaria definitiva, una remuneración de cinco mil nove-cientos pesos ($ 5.900) mensuales.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Art. 50º) – Retención: De acuerdo al artículo 7º del Decreto1.045/74, reglamentario del artículo 41º de la Ley 20.615 deAsociaciones Profesionales, substituyéndose el artículo 25º dela Convención Colectiva Nº 73/73, por el siguiente:“Las empresas retendrán a su personal y depositarán a nom-bre de las entidades que integran la representación gremial,Este aumento mínimo garantizado se calculará tomando encuenta la categoría en la que el personal resulte encuadradopor aplicación de las normas de este Convenio. Quedan ab-sorbidos por los aumentos resultantes de la aplicación de lasescalas profesionales establecidas en la presente convención yde la garantía a que se refiere el párrafo precedente, todos losaumentos, incrementos, plus, etc., otorgados individual o colec-tivamente sobre los básicos del Convenio 73/73. Cualquiera seasu naturaleza o denominación con anterioridad a la fecha defirma de esta convención.
+
+
+## CCT 301/75 — Convenio Colectivo de Prensa Escrita y Oral
+
+Artículo 133 de la Ley 20.744, las partes con-vienen en establecer por primera vez los salarios profesionalesa la actividad, y que son los que más abajo se especifican. Enconsecuencia, los mencionados salarios profesionales, que co-rresponden a una nueva y diferente categorización profesional,ya incluyen: a) el salario conformado al 31 de mayo de 1975, elcual se integra con las mayores remuneraciones por cualquierconcepto prevenientes de aumentos generales y colectivos –si-multáneos o no- o individuales, ya sea que fueran acordadosentre las partes o concedidos unilateralmente por el empleadorcon anterioridad a la fecha de la firma del presente Convenio; yb) el aumento de remuneraciones pactado en esta oportunidad:A) Escalafón PeriodísticoAspirante4.200Archivero4.600Reportero5.400Cronista6.100Redactor6.800Jefe o Encargado de Sección7.800Prosecretario de Redacción8.400Editorialista8.400Secretario de Redacción9.250Prosecretario General9.650Secretario General o Subjefe de Redacción10.000Jefe de Redacción o Subdirector Periodístico10.500B) Escalafón AdministrativoAyudante4.200Auxiliar4.600Auxiliar Primero5.000Auxiliar Calificado5.900Auxiliar Especializado6.800C) Escalafón de Intendencia y Servicios GeneralesPeón4.200Auxiliar4.600Auxiliar Primero5.000Personal Calificado5.400Capataz6.300
+
+/ 27 // SiPreBA /dos por vía de interpretación ni aplicación de lo establecidoprecedentemente. El importe de $30 (treinta pesos) por vale decomida en las condiciones pactadas se hará efectivo a partir del1-7-75 y se modificará en las oportunidades que lo sea el salariodel Aspirante y en igual proporción que éste.
