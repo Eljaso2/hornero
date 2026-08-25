@@ -56,8 +56,7 @@
 
 | Fuente | Tipo | Ubicación | RAG chunks | ID prefix | Estado |
 |--------|------|-----------|------------|-----------|--------|
-| Perón 1943-1944 | Documento histórico | [fuentes-primarias/peron-1943-1944/](fuentes-primarias/peron-1943-1944/) | — | — | 📄 PDF sin procesar |
-| Perón BCN Compilación | Compilación | [fuentes-primarias/peron-BCN-compilacion/](fuentes-primarias/peron-BCN-compilacion/) | 776 | `kb-peron-bcn-*` | 🔴 Sin PDF fuente |
+| Perón, *Discursos... 1943-1944* (BCN 2022) | Compilación histórica | [fuentes-primarias/peron-1943-1944/](fuentes-primarias/peron-1943-1944/) | 776 | `kb-peron-43-44-*` | ✅ PDF + MD + chunks |
 
 ## Entrevistas y discursos
 
