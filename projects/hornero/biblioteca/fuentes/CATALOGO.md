@@ -74,10 +74,10 @@
 
 ---
 
-## Data stores operativos (backend/)
+## Data stores operativos
 
-| Archivo | Contenido | Chunks |
-|---------|-----------|--------|
-| `backend/kb_chunks.json` | RAG production (auto-extracted) | 3,678 |
-| `backend/kb_data.py` | RAG manual curado | 36 |
-| `backend/library_service/library.db` | Biblioteca next-gen (feature-flagged) | 743 |
+| Archivo | Contenido | Cantidad |
+|---------|-----------|----------|
+| `biblioteca/fuentes/**/*.chunks.json` | RAG per-source (auto-extracted) | 3,678 chunks en 21 archivos |
+| `backend/kb_data.py` (KB_CHUNKS) | RAG manual curado | 36 |
+| `backend/library_service/library.db` | Biblioteca next-gen (feature-flagged) | 743 artículos |

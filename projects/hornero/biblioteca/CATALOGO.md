@@ -1,48 +1,81 @@
-# Catálogo maestro de documentación — Ecosistema Hornero
+# Catálogo maestro — Ecosistema Hornero
 
-> Mapa completo de la documentación del proyecto. Cada sección enlaza a su catálogo o índice detallado.
-
----
-
-## 📂 Estructura de `docs/`
-
-```
-docs/
-├── fuentes/          ← Material documental (leyes, CCT, artículos, clipping, entrevistas)
-├── planes/           ← Planes de desarrollo, núcleos, RAG, ICE
-├── biblioteca/       ← Guías de curación bibliográfica
-├── comunicacion/     ← Guías de construcción paso a paso
-├── fundacion/        ← Diseño conceptual y arquitectura técnica
-└── sesiones/         ← Transcripciones de sesiones de prueba
-```
+> Mapa completo del proyecto. La biblioteca contiene el material documental; el taller, la documentación del proyecto.
 
 ---
 
-## 📚 `fuentes/` — Material documental
+## 📂 Estructura del proyecto
+
+```
+hornero/
+├── app/              ← Frontend PWA (HTML, Lit, CSS, JS)
+├── backend/          ← Servidor Python (FastAPI, RAG, auth)
+├── biblioteca/       ← Biblioteca: fuentes documentales + chunks RAG
+│   ├── fuentes/      ← Textos, leyes, PDFs, artículos, chunks
+│   └── curacion/     ← Guías de curación bibliográfica
+├── taller/           ← Documentación del proyecto
+│   ├── fundacion/    ← Diseño conceptual y arquitectura
+│   ├── planes/       ← Planes de desarrollo, núcleos, ICE
+│   ├── comunicacion/ ← Guías de construcción (EN/ES)
+│   └── sesiones/     ← Transcripciones de sesiones de prueba
+├── feedback/         ← Screenshots de bugs
+└── promo/            ← Demos, presentaciones, video pitch
+```
+
+---
+
+## 📚 `biblioteca/fuentes/` — Material documental
 
 > Catálogo detallado: [fuentes/CATALOGO.md](fuentes/CATALOGO.md)
 
 | Subdirectorio | Contenido | Documentos | Estado RAG |
 |---------------|-----------|------------|------------|
-| `leyes-laborales/` | LCT, Higiene y Seguridad, Empleo, etc. | 8 leyes + 1 manual | ✅ Mayoría en RAG |
-| `convenios-colectivos/` | CCT aceiteros, paritarias, comités | 3+ CCT aceiteros + 5 CCT prensa | ✅ En RAG |
+| `leyes-laborales/` | LCT, Higiene y Seguridad, Empleo, etc. | 8 leyes + 1 manual | ✅ Chunks junto al PDF |
+| `convenios-colectivos/` | CCT aceiteros, paritarias, comités | 3+ CCT aceiteros + 5 CCT prensa | ✅ Chunks junto al PDF |
 | `articulos-academicos/` | Iñigo Carrera, Jasinski, Vogelmann, etc. | 7 autores/obras | ⚠️ Algunos sin PDF |
-| `prensa-sindical/` | Guía SIPREBA, El Trabajador Aceitero | 2 periódicos + 1 guía | ✅ 423 chunks |
-| `fuentes-primarias/` | Documentos históricos (Perón 1943-44) | 1 colección | 📄 Sin procesar |
+| `prensa-sindical/` | Guía SIPREBA, El Trabajador Aceitero | 2 periódicos + 1 guía | ✅ Chunks junto al MD |
+| `fuentes-primarias/` | Documentos históricos (Perón 1943-44) | 1 colección | ✅ Chunks junto al PDF |
 | `entrevistas-discursos/` | Cremonte (7), Yofra (4) | 11 artículos | ✅ En kb_data.py |
 | `coyuntura/` | Clipping semanal, Mirador MATE | 2 series | ✅ En app |
 
-### Data stores operativos (backend/)
+### Chunks RAG: por fuente, no en monolito
 
-| Archivo | Contenido | Chunks |
-|---------|-----------|--------|
-| `backend/kb_chunks.json` | RAG production (auto-extracted) | 3,678 |
-| `backend/kb_data.py` | RAG manual curado | 36 |
-| `backend/library_service/library.db` | Biblioteca next-gen (feature-flagged) | 743 |
+Los chunks viven en archivos `.chunks.json` junto a su material de origen. El backend escanea `biblioteca/fuentes/**/*.chunks.json` al arrancar y los carga todos en memoria.
+
+| Archivo .chunks.json | Chunks | Ubicación |
+|---|---|---|
+| `responsabilidad-empresarial-t1.chunks.json` | 970 | `articulos-academicos/responsabilidad-empresarial-lesa-humanidad/` |
+| `responsabilidad-empresarial-t2.chunks.json` | 766 | `articulos-academicos/responsabilidad-empresarial-lesa-humanidad/` |
+| `peron-1943-1944.chunks.json` | 776 | `fuentes-primarias/peron-1943-1944/` |
+| `inigo-carrera-violencia-potencia-economica.chunks.json` | 220 | `articulos-academicos/inigo-carrera-violencia-potencia-economica/` |
+| `sipreba-guia-delegado.chunks.json` | 423 | `prensa-sindical/SIPREBA-guia-delegado/` |
+| `ley-20744-lct.chunks.json` | 58 | `leyes-laborales/LCT-20.744/` |
+| `ley-19587-higiene-seguridad.chunks.json` | 72 | `leyes-laborales/higiene-seguridad-19.587/` |
+| `jasinski-encanto-del-tanino.chunks.json` | 161 | `articulos-academicos/jasinski-encanto-del-tanino/` |
+| + otros 13 archivos | | |
+
+**Total: 3,678 chunks en 21 archivos .chunks.json**
+
+### Data stores operativos
+
+| Archivo | Contenido | Cantidad |
+|---------|-----------|----------|
+| `biblioteca/fuentes/**/*.chunks.json` | RAG per-source (auto-extracted) | 3,678 chunks en 21 archivos |
+| `backend/kb_data.py` (KB_CHUNKS) | RAG manual curado | 36 |
+| `backend/library_service/library.db` | Biblioteca next-gen (feature-flagged) | 743 artículos |
 
 ---
 
-## 📋 `planes/` — Planes y diseño
+## 📖 `biblioteca/curacion/` — Curación bibliográfica
+
+| Archivo | Contenido |
+|---------|-----------|
+| `BIBLIO-DERECHO-LABORAL-GUIA-CURACION.md` | Guía curación derecho laboral |
+| `BIBLIO-HISTORIA-OBRERA-GUIA-CURACION.md` | Guía curación historia obrera |
+
+---
+
+## 🔧 `taller/planes/` — Planes y diseño
 
 | Archivo / Dir | Contenido |
 |---------------|-----------|
@@ -65,25 +98,7 @@ docs/
 
 ---
 
-## 📖 `biblioteca/` — Curación bibliográfica
-
-| Archivo | Contenido |
-|---------|-----------|
-| `BIBLIO-DERECHO-LABORAL-GUIA-CURACION.md` | Guía curación derecho laboral |
-| `BIBLIO-HISTORIA-OBRERA-GUIA-CURACION.md` | Guía curación historia obrera |
-
----
-
-## 🏗️ `comunicacion/` — Guías de construcción
-
-| Archivo | Contenido |
-|---------|-----------|
-| `BUILD-STEP-BY-STEP-EN.md` | Build guide (inglés) |
-| `CONSTRUCCION-PASO-A-PASO-ES.md` | Construcción paso a paso (español) |
-
----
-
-## 🏛️ `fundacion/` — Diseño fundacional
+## 🏛️ `taller/fundacion/` — Diseño fundacional
 
 | Archivo | Contenido |
 |---------|-----------|
@@ -94,7 +109,16 @@ docs/
 
 ---
 
-## 💬 `sesiones/` — Transcripciones de prueba
+## 🏗️ `taller/comunicacion/` — Guías de construcción
+
+| Archivo | Contenido |
+|---------|-----------|
+| `BUILD-STEP-BY-STEP-EN.md` | Build guide (inglés) |
+| `CONSTRUCCION-PASO-A-PASO-ES.md` | Construcción paso a paso (español) |
+
+---
+
+## 💬 `taller/sesiones/` — Transcripciones de prueba
 
 | Archivo | Contenido |
 |---------|-----------|
