@@ -992,7 +992,7 @@ class HorneroChat extends HoComponent {
         max-width: 82%; background: var(--ho-green-light, #80CCA0);
         color: var(--ho-bg, #1E2321);
         border-radius: 18px 18px 4px 18px; padding: 10px 14px;
-        font-family: 'Public Sans', sans-serif; font-size: .96rem;
+        font-family: 'Public Sans', sans-serif; font-size: 1.02rem;
         font-weight: 600;
         line-height: 1.35; position: relative;
         display: inline-block; }
@@ -1208,7 +1208,7 @@ class HorneroChat extends HoComponent {
       .msg-informes-btn:hover { background: var(--ho-green-light, #D4DCC0);
         transform: scale(1.04); box-shadow: 0 2px 8px rgba(255,255,255,.1); }
 
-      .msg-text { font-family: 'Public Sans', sans-serif; font-size: .98rem;
+      .msg-text { font-family: 'Public Sans', sans-serif; font-size: 1.04rem;
         color: var(--ho-text, #E8E6E0); line-height: 1.55;
         margin-bottom: 8px; }
       .msg-text p { margin-bottom: 10px; }
@@ -1231,7 +1231,7 @@ class HorneroChat extends HoComponent {
         list-style: none; }
       .msg-text .msg-md-ul li, .msg-section-body .msg-md-ul li, .reporte-card-section-body .msg-md-ul li
         { position: relative; margin-bottom: 5px;
-        font-family: 'Public Sans', sans-serif; font-size: .96rem;
+        font-family: 'Public Sans', sans-serif; font-size: 1.02rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5; }
       .msg-text .msg-md-ul li::before, .msg-section-body .msg-md-ul li::before, .reporte-card-section-body .msg-md-ul li::before
         { content: '•'; position: absolute;
@@ -1240,7 +1240,7 @@ class HorneroChat extends HoComponent {
         list-style: none; counter-reset: md-ol; }
       .msg-text .msg-md-ol li, .msg-section-body .msg-md-ol li, .reporte-card-section-body .msg-md-ol li
         { position: relative; margin-bottom: 5px;
-        font-family: 'Public Sans', sans-serif; font-size: .96rem;
+        font-family: 'Public Sans', sans-serif; font-size: 1.02rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5;
         counter-increment: md-ol; }
       .msg-text .msg-md-ol li::before, .msg-section-body .msg-md-ol li::before, .reporte-card-section-body .msg-md-ol li::before
@@ -1252,15 +1252,15 @@ class HorneroChat extends HoComponent {
         { margin: 6px 0 10px; padding-left: 18px; list-style: none; }
       .msg-section-body .msg-md-ol, .reporte-card-section-body .msg-md-ol
         { margin: 6px 0 10px; padding-left: 22px; list-style: none; counter-reset: md-ol; }
-      .msg-md-code { font-family: 'JetBrains Mono', monospace; font-size: .82rem;
+      .msg-md-code { font-family: 'JetBrains Mono', monospace; font-size: .88rem;
         background: var(--ho-warm-gray, #E6E3DB); padding: 2px 6px;
         border-radius: 4px; color: var(--ho-text, #E8E6E0); }
 
       .msg-section { margin-bottom: 12px; }
       .msg-section:last-child { margin-bottom: 0; }
       .msg-section-title { font-family: 'Public Sans', sans-serif; font-weight: 400;
-        font-size: .96rem; color: var(--ho-text, #E8E6E0); margin-bottom: 6px; }
-      .msg-section-body { font-family: 'Public Sans', sans-serif; font-size: .94rem;
+        font-size: 1.02rem; color: var(--ho-text, #E8E6E0); margin-bottom: 6px; }
+      .msg-section-body { font-family: 'Public Sans', sans-serif; font-size: 1rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.4; }
       .msg-section-body p { margin-bottom: 4px; }
 
@@ -1272,7 +1272,7 @@ class HorneroChat extends HoComponent {
       .msg-quote { background: var(--ho-green-pale, #E0F0EB);
         border-left: 3px solid var(--ho-green, #4E9978);
         border-radius: 0 10px 10px 0; padding: 10px 14px;
-        font-family: 'Public Sans', sans-serif; font-size: .96rem;
+        font-family: 'Public Sans', sans-serif; font-size: 1.02rem;
         color: #E8E6E0; line-height: 1.55;
         margin: 8px 0; font-style: italic; }
       .msg-quote-icon { font-size: .72rem; color: var(--ho-green, #4E9978);
@@ -1361,7 +1361,7 @@ class HorneroChat extends HoComponent {
 
       .chat-input-field { flex: 1; background: var(--ho-card, #2A3230);
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 22px; padding: 6px 14px; font-size: .96rem;
+        border-radius: 22px; padding: 6px 14px; font-size: 1.02rem;
         color: var(--ho-text, #E8E6E0); font-family: 'Public Sans', sans-serif;
         outline: none; transition: border-color .2s;
         min-height: 34px; max-height: 120px;
@@ -3371,7 +3371,7 @@ h1 { font-family: 'Archivo', sans-serif; font-weight: 800; color: #3D6B56; borde
 .msg-role.user { color: #4E9978; }
 .msg-role.hornero { color: #3D6B56; }
 .msg-time { font-family: monospace; font-size: .7rem; color: #9C988D; }
-.msg-content { margin: 6px 0; font-size: 1.02rem; }
+.msg-content { margin: 6px 0; font-size: 1.08rem; }
 .msg-section-title { font-family: 'Archivo', sans-serif; font-weight: 700; color: #3D6B56; margin-top: 10px; }
 .msg-section-body { margin: 4px 0; }
 .msg-quote { border-left: 3px solid #4E9978; background: #E0F0EB; padding: 10px 14px; margin: 8px 0; font-style: italic; border-radius: 0 8px 8px 0; }
