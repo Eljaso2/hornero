@@ -35,9 +35,11 @@ Cuando el trabajador ingresa a esta sección, ve:
 | Business and Human Rights / UNGP | Marco de derechos humanos aplicado a empresas | "¿Violan los Principios Rectores de la ONU?" |
 | Tesis de doctorado (Jasinski 2021) | Tipología de VE, casos históricos, marco teórico | "¿Cómo clasificamos esto según la tipología?" |
 | El Encanto del Tanino | Historia de La Forestal, violencia en territorio | "¿Qué pasó en Villa Ana con la empresa?" |
-| Convenios OIT | Libertad sindical (87, 98), salud laboral (155, 187) | "¿Esto viola el Convenio 87?" |
+| Convenios OIT | Libertad sindical (87, 98), salud laboral (155, 187), trabajo forzado (29) | "¿Esto viola el Convenio 87?" |
 | Leyes laborales / LCT | Normativa nacional, convenios colectivos | "¿Qué dice la LCT sobre esto?" |
 | Manuales de administración | Estrategia patronal, management, organización del trabajo | "¿Cómo piensa el empresario según la teoría de management?" |
+
+**Referencia:** los aceiteros tienen un equipo de abogados que hace análisis de balances empresariales. El chat debe poder hacer algo similar — pero desde la perspectiva del trabajador, no del empresario.
 
 **Componente 2 — Índice de Comportamiento Empresarial:** índice compuesto que se visualiza por empresa, región, rama y general. Ver sección 12 (Fórmula y metodología).
 
@@ -82,6 +84,15 @@ Además del flujo desde Reporte Gremial, Comportamiento Empresarial tiene un **e
 - **N2 (Laboratorio):** el etiquetador de VE es un producto del Laboratorio.
 - **N5b (Reporte Gremial):** fuente primaria de datos.
 - **N13 (Felicidad / IFT):** ICE×SMVM alimenta directamente el IFT.
+
+### Repositorio del núcleo
+
+Qué datos trabaja este núcleo. Todos los núcleos consumen la librería base (N2) — taxonomía, pipeline, stack, formatos de salida, categorías morfológicas, reglas de protección. Lo específico de N11 va aquí.
+
+- **Repositorio:** Informes VE de federaciones (mensuales), datos de IS (N6 — etiquetas Familia 1 conflicto, Familia 2 condiciones, Familia 4 estrategia patronal), convenios y leyes (N7/Nuestro Derecho), datos salariales (SMVM + convenio + canasta básica), jurisprudencia DDHH, **información empresarial (balances, registros públicos, datos corporativos, inversión/desinversión, reestructuración)**, **tesis de doctorado (Jasinski 2021)**, **El Encanto del Tanino**, **convenios OIT**, **Business and Human Rights / UNGP**, **análisis de RSE**, **manuales de administración y management**, **librería BHR** (biblioteca sobre espectro de severidad RSE→BHR→complicidad→crímenes intl.→crímenes econ. C/H — ver `../../empresas-violencia-justicia/sources/LIBRERIA-BHR-violencia.md`), **routing de noticias VDH-BHR desde N10 Coyuntura**
+- **Corpus:** Casos de VE etiquetados por dimensión, informes VE mensuales de federaciones, datos salariales sectoriales, series IVE×SMVM dinámicas, **balances empresariales organizados por empresa/sector/período**, **datos de estrategia patronal**, **discursos y apariciones públicas de empresarios**, **informes de RSE y filantropismo**
+- **Fuente primaria:** Informes de violencia empresarial producidos por federaciones, observaciones IS que detectan VE, datos SMVM del INDEC, convenios con escalas salariales (N7/Nuestro Derecho), **balances y registros públicos de empresas, datos del INDEC sobre empresas, información financiera sindical**, **carga espontánea de trabajadores** (situaciones vividas, material sugerido)
+- **Corpus de fine-tuning (N2):** Corpus VE etiquetado — cada caso clasificado por dimensión, sector, intensidad, correlación salarial — para entrenar el etiquetador VE y el detector de correlaciones IVE×SMVM.
 
 ---
 
@@ -286,6 +297,29 @@ Premisa: dentro del propio sistema capitalista existe la irresponsabilidad empre
 **RSE declarada vs. RSE verificada:** toda buena práctica debe distinguirse entre lo que la empresa comunica (discurso institucional) y lo que se puede constatar (práctica verificable). La genuinidad es el instrumento operativo de esta distinción.
 
 **Pacto Global de la ONU — referencia, no dimensión:** los 10 principios del Pacto Global no se incorporan como categoría o dimensión del índice. Sirven como **marco de referencia externo** para pensar qué cuenta como buena práctica (y, por inversa, qué cuenta como mala práctica). El principio 3 (libertad sindical) ilumina qué implica una buena práctica en relación gremial; el principio 6 (no discriminación) ilumina qué implica en políticas de personal; etc. Pero no es una dimensión del ICE.
+
+---
+
+## 5b. Marco teórico: genealogía de la tipología
+
+La tipología se construye a partir de tres tradiciones:
+
+1. **Galtung** — Triángulo de la violencia: directa, estructural, cultural. La violencia atenta contra la autorrealización humana (satisfacción de necesidades básicas, materiales y no materiales). La violencia directa es "destrucción corporal repentina, física o psicológica"; la estructural "impide la satisfacción de necesidades mediante la explotación, penetración, fragmentación y marginación"; la cultural "aporta el marco legitimador y niega la existencia de necesidades".
+
+2. **Almeida** — Tipología específica para el ámbito laboral: violencias física, económica, psicológica, simbólica y política, seguidas de sus formas de normalización (naturalización). Distingue entre violencias que ocurren *en* el trabajo y violencias *del* trabajo.
+
+3. **Sutherland** — Delito de cuello blanco empresarial: antisindical, negación/interferencia/restricción de convenios colectivos, coerción, discriminación, intimidación, espionaje, violencia física (gases, golpizas).
+
+La tesis integra también:
+- **"Prácticas empresariales represivas"** (Informe Responsabilidad Empresarial, Argentina): espionaje, entrega de información de trabajadores a fuerzas represivas, vinculación secuestro/desaparición con despido, financiación de la represión, formación de policías privadas.
+- **Gilly**: "puesta en libertad sin mediaciones del despotismo industrial".
+- **Hirsch**: "reprivatización de la violencia coercitiva física" por las clases dominantes.
+- **Dejours** y **Faria/Meneghetti**: banalización de la injusticia social, miedo al despido, control psicológico, interiorización de normas.
+
+**La reorganización en dimensiones mantiene estas tradiciones pero las reordena operativamente:**
+- Galtung: directa → **Directa**, estructural → **Estructural**, cultural → **Simbólica**
+- Almeida: física/política → **Directa**, económica → **Estructural**, psicológica → **Directa** + **Simbólica**, simbólica → **Simbólica**
+- Sutherland: antisindical/coerción/intimidación/espionaje → **Directa**, violación convenios → **Estructural** + **Directa**
 
 ---
 
@@ -1100,6 +1134,19 @@ Un tipo de hecho con dos acciones:
 
 ---
 
+## 11b. Del etiquetado al ICE: lógica de cálculo
+
+1. Cada etiqueta tiene **polaridad** (positiva si es buena práctica, negativa si es violencia)
+2. Cada ocurrencia se pondera por las dimensiones transversales (severidad × reiteración × confirmación × alcance × recencia)
+3. La lectura de violencia cultural agrega un componente de peso (un evento que además naturaliza la violencia pesa más que uno que la expone)
+4. La violencia estructural (propiedad del actor) actúa como modificador que amplifica el peso de los eventos
+5. Se agregan las ocurrencias **por empresa, por dimensión y por período**
+6. El puntaje se normaliza a escala fija
+
+**El ICE es una capa que se calcula sobre el etiquetado, no una clasificación aparte.** Cuando se agrega una etiqueta nueva, automáticamente queda disponible para el cálculo.
+
+---
+
 ## 12. ICE — Fórmula y metodología de cálculo
 
 ### Cambio organizativo
@@ -1143,11 +1190,11 @@ Donde:
 
 | Dimensión | Peso violencia | Peso buenas prácticas | Justificación |
 |-----------|---------------|----------------------|---------------|
-| Remuneración | **0.25** | **0.05** | La más cotidiana y extendida — incumplimiento salarial, salario por debajo de la canasta, discrecionalidad en recompensas |
-| Condiciones de trabajo | **0.25** | **0.05** | La más persistente — afecta la salud y seguridad cotidianamente |
-| Estrategias de producción | **0.15** | **0.05** | Tercerización fraudulenta, cadena de proveedores sin responsabilidad |
-| Estrategias de realización | **0.10** | **0.05** | Producto nocivo, publicidad engañosa, precios abusivos |
-| Medio social | **0.15** | **0.05** | Daño al territorio, opacidad, captura de instituciones |
+| Remuneración | **0.25** | **0.05** | La más cotidiana y extendida — incumplimiento salarial, salario por debajo de la canasta, discrecionalidad en recompensas. Las buenas prácticas (equidad remunerativa, salario digno) son obligaciones, no privilegios |
+| Condiciones de trabajo | **0.25** | **0.05** | La más persistente — afecta la salud y seguridad cotidianamente: control externo del ritmo, accidentes, enfermedades, maltrato. Las buenas prácticas (consenso en producción, S&H) son obligaciones básicas |
+| Estrategias de producción | **0.15** | **0.05** | Tercerización fraudulenta, cadena de proveedores sin responsabilidad. Las buenas prácticas (responsabilidad extendida, auditoría de cadena) son obligaciones |
+| Estrategias de realización | **0.10** | **0.05** | Producto nocivo, publicidad engañosa, precios abusivos — violencia silente hacia el consumidor. Las buenas prácticas (juego limpio, calidad, trazabilidad) son obligaciones |
+| Medio social | **0.15** | **0.05** | Daño al territorio, opacidad, captura de instituciones, dependencia económica local. Las buenas prácticas (protección ambiental, transparencia, integración social) son obligaciones |
 
 **Total violencia: Σ = 0.90 | Total buenas prácticas: Σ = 0.25**
 
@@ -1178,13 +1225,15 @@ F_buenas_i = incidentes_buenas_dim_i reportados en período / N_trabajadores_sec
 
 #### Intensidad (I) — Buenas prácticas
 
-| Nivel | Denominación | Descripción |
-|-------|-------------|-------------|
-| 1 | Básica | Práctica que cumple obligación mínima |
-| 2 | Moderada | Práctica que va beyond obligación mínima |
-| 3 | Significativa | Práctica con impacto visible y sostenido |
-| 4 | Destacada | Práctica reconocida, con impacto sectorial |
-| 5 | Excepcional | Práctica que establece precedente |
+| Nivel | Denominación | Descripción | Ejemplo |
+|-------|-------------|-------------|---------|
+| 1 | Básica | Práctica que cumple obligación mínima | Enfermería operativa (CT), salario según convenio (R) |
+| 2 | Moderada | Práctica que va beyond obligación mínima | Programas de salud adicionales (CT), participación en ganancias (R) |
+| 3 | Significativa | Práctica con impacto visible y sostenido | Certificación ISO seguridad (CT), contratación directa 100% (EP) |
+| 4 | Destacada | Práctica reconocida, con impacto sectorial | RSE con participación sindical (CT), inversión en territorio (MS) |
+| 5 | Excepcional | Práctica que establece precedente | Empresa modelo en sector, cambio de cultura empresarial |
+
+**Nota:** las buenas prácticas de nivel 1 (básica) son obligaciones — no "bonus". Se registran para que el índice no penalice a empresas que cumplen lo mínimo.
 
 #### Amplitud (A)
 
@@ -1226,14 +1275,62 @@ ICE_ER = (IVE_ER × 0.10 + IBP_ER × 0.05) × 100 / ICE_max_ER
 ICE_MS = (IVE_MS × 0.15 + IBP_MS × 0.05) × 100 / ICE_max_MS
 ```
 
+Esto produce un **perfil de Comportamiento Empresarial** del sector: qué dimensión es más intensa/frecuente.
+
+**Ejemplo (sector aceitero, simulación Vicentín):**
+
+| Dimensión | F violencia (hip.) | I violencia | A | peso | Componente IVE | F buenas | I buenas | A | peso | Componente IBP |
+|-----------|-------------------|-------------|---|------|---------------|---------|-----------|---|------|---------------|
+| Remuneración | 0.050 (salario, discrecionalidad) | 2 | 0.30 | 0.25 | 0.0075 | 0.005 (salario convenio) | 1 | 0.30 | 0.05 | 0.00075 |
+| Condiciones de trabajo | 0.030 (EPP, fuga, ritmo) | 3 | 0.10 | 0.25 | 0.00225 | 0.010 (enfermería) | 1 | 0.10 | 0.05 | 0.0005 |
+| Estrategias de producción | 0.020 (tercerización, cadena) | 2 | 0.30 | 0.15 | 0.0018 | 0.005 (auditoría) | 1 | 0.30 | 0.05 | 0.00075 |
+| Estrategias de realización | 0.010 (publicidad, producto) | 2 | 0.30 | 0.10 | 0.0006 | 0.002 (trazabilidad) | 1 | 0.10 | 0.05 | 0.0001 |
+| Medio social | 0.040 (captura, dependencia, daño) | 3 | 0.30 | 0.15 | 0.0054 | 0.002 (RSE territorio) | 2 | 0.30 | 0.05 | 0.0006 |
+
+**Perfil aceitero:** Remuneración y Medio social predominan como violencia → comportamiento negativo con compensación insuficiente. ICE probablemente en rango naranja (40-60).
+
 ---
 
 ### Índice por empresa, región, rama, general
 
-- **ICE-empresa**: datos de una empresa específica
-- **ICE-región**: agregación ponderada por número de trabajadores
-- **ICE-rama (sector)**: agregación ponderada por participación económica
-- **ICE-general (país)**: agregación nacional
+El ICE se calcula a 4 niveles:
+
+#### ICE-empresa
+
+```
+ICE_empresa = (IVE_empresa × 0.90 + IBP_empresa × 0.25) normalizado × 100
+```
+
+Calculado con datos de una empresa específica. Permite comparar empresas dentro de un sector.
+
+**Ejemplo:**
+- ICE_Vicentín ≈ 55 (naranja) — violencia en remuneración y medio social predominante, RSE insuficiente
+- ICE_Dreyfus ≈ 45 (naranja) — similar pero con más buenas prácticas reportadas
+- ICE_Local_pyme ≈ 30 (amarillo) — violencia en remuneración menor, condiciones aceptables
+
+#### ICE-región
+
+```
+ICE_región = Σ ICE_empresa_j × N_trabajadores_empresa_j / Σ N_trabajadores_región
+```
+
+Agregación ponderada por número de trabajadores. Permite ver la violencia regional.
+
+#### ICE-rama (sector)
+
+```
+ICE_sector = Σ ICE_empresa_j × peso_económico_j / Σ peso_económico_j
+```
+
+Agregación ponderada por participación económica. Permite comparar sectores.
+
+#### ICE-general (país)
+
+```
+ICE_país = Σ ICE_sector_j × peso_económico_j / Σ peso_económico_j
+```
+
+Agregación nacional.
 
 ---
 
@@ -1259,19 +1356,28 @@ VDH-sector = Σ incidentes_VDH_i / Σ incidentes_VE_total × ICE_violencia_secto
 
 ### Conexión con IVE×SMVM
 
-La dimensión **Remuneración** se articula directamente con el IVE×SMVM. La brecha salario real vs. SMVM, las horas trabajadas para llegar a SMVM, la tercerización que oculta salario real.
+La dimensión **Remuneración** se articula directamente con el IVE×SMVM (Índice de Violencia Empresarial × Salario Mínimo Vital y Móvil):
 
-**Articulación con IFT (N13):** ICE_Remuneración×SMVM alimenta directamente el Índice de Felicidad del Trabajador.
+- **ICE_Remuneración-SMVM directo:** relación entre el componente Remuneración del ICE y la posición salarial respecto al SMVM
+- **ICE_Remuneración-SMVM dinámico:** cómo evoluciona el componente Remuneración cuando el SMVM cambia
+- **Sub-índice de violencia económica salarial:** salario real vs. SMVM, horas trabajadas para llegar a SMVM, tercerización que oculta salario real
+
+**Articulación con IFT (N13):** ICE_Remuneración×SMVM alimenta directamente el Índice de Felicidad del Trabajador — la misma data que muestra lo que daña (ICE) alimenta el diagnóstico de lo que importa (IFT).
 
 ---
 
 ### Limitaciones y notas
 
-1. **Datos incompletos:** el ICE solo refleja lo que la APP recibe. VE no reportada no se cuenta.
-2. **Pesos provisionales:** siempre reportar pesos usados.
-3. **Buenas prácticas como control:** su peso es deliberadamente menor que el de la violencia.
-4. **Metodología en desarrollo:** se definirá con datos del piloto aceitero.
-5. **No es índice de conflicto:** mide comportamiento empresarial, no conflicto laboral.
+1. **Datos incompletos:** el ICE solo refleja lo que la APP recibe. VE no reportada no se cuenta. La cobertura del sector es un factor que se debe reportar junto al ICE.
+
+2. **Pesos provisionales:** los pesos no son universales. Son definidos por el campo y revisables. Un ICE con diferentes pesos da resultados diferentes → siempre reportar pesos usados.
+
+3. **Buenas prácticas como control:** las "buenas prácticas" (paternalismo, RSE, filantropismo) son frecuentemente también formas de control. Se registran como "positivo" para balancear, pero su peso es deliberadamente menor que el de la violencia.
+
+4. **Metodología en desarrollo:** la fórmula, los pesos, y la normalización aún no están completamente definidos. Se desarrollarán con datos del piloto aceitero y revisión periódica del Laboratorio.
+
+5. **No es índice de conflicto:** el ICE no mide conflicto laboral (ya medido por Coyuntura). Mide **comportamiento empresarial** — lo que la empresa hace.
+
 6. **El ICE es una herramienta, no un juicio:** lectura procesada con categorías definidas por el campo.
 
 ---
