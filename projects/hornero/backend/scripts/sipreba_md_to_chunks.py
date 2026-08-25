@@ -9,8 +9,8 @@ import json
 import os
 import re
 
-MD_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "docs", "fuentes", "prensa-sindical", "SIPREBA-guia-delegado", "2024-guia-del-delegado-sipreba.md")
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "kb_chunks.json")
+MD_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "biblioteca", "fuentes", "prensa-sindical", "SIPREBA-guia-delegado", "2024-guia-del-delegado-sipreba.md")
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "biblioteca", "fuentes", "prensa-sindical", "SIPREBA-guia-delegado", "sipreba-guia-delegado.chunks.json")
 
 # ── Definición de las unidades legislativas ──
 # start_marker / end_marker: texto único que aparece en el MD

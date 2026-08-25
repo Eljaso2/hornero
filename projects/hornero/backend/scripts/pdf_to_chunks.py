@@ -1,7 +1,8 @@
 """PDF → JSON chunks pipeline for Hornero RAG.
 
 Reads a PDF, extracts all text, chunks by chapter/section (~300-500 words),
-preserves structure (chapter, section, pages), and outputs kb_chunks.json.
+preserves structure (chapter, section, pages), and outputs a per-source
+.chunks.json file next to the PDF in biblioteca/fuentes/.
 
 Categorías por tipo de fuente:
   academico   — Libros, artículos, papers, efemérides de Historia Obrera
@@ -36,7 +37,7 @@ Usage:
     --bib "CCT 420/05" \
     --category documentos --id-prefix doc-01 --append
 
-Output: backend/kb_chunks.json (merged with existing chunks from kb_data.py)
+Output: <pdf_stem>.chunks.json in the same directory as the PDF
 """
 
 import json
@@ -614,8 +615,8 @@ if __name__ == "__main__":
     parser.add_argument("--id-prefix", default="doc", help="Prefix for chunk IDs: kb-{prefix}-0, kb-{prefix}-1...")
     parser.add_argument("--tags", nargs="*", default=[], help="Extra tags for all chunks")
     parser.add_argument("--grade", default="open", help="Minimum grade access: open|B.a|B.b|B.c|B.d")
-    parser.add_argument("--output", default=None, help="Output JSON path (default: backend/kb_chunks.json)")
-    parser.add_argument("--append", action="store_true", help="Append to existing kb_chunks.json instead of overwriting")
+    parser.add_argument("--output", default=None, help="Output JSON path (default: <pdf_stem>.chunks.json next to the PDF)")
+    parser.add_argument("--append", action="store_true", help="Append to existing .chunks.json instead of overwriting")
     parser.add_argument("--mode", default="chapters", choices=["chapters", "registros"],
                         help="Detection mode: 'chapters' (Capítulo/Parte) or 'registros' (Registro N.º with date/type metadata)")
     parser.add_argument("--content-start", type=int, default=0,
@@ -625,10 +626,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # Default output path
+    # Default output path: write <pdf_stem>.chunks.json next to the PDF
     if not args.output:
-        script_dir = Path(__file__).parent.parent  # backend/
-        args.output = str(script_dir / "kb_chunks.json")
+        pdf_stem = Path(args.pdf_path).stem
+        pdf_dir = Path(args.pdf_path).parent
+        args.output = str(pdf_dir / f"{pdf_stem}.chunks.json")
 
     # Process
     chunks = process_pdf(

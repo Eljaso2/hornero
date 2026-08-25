@@ -9,6 +9,8 @@ Reemplaza las 10 categorías temáticas por 5 categorías de tipo de fuente:
 
 El tema viejo se agrega como tag para no perder la granularidad.
 
+Ahora escanea biblioteca/fuentes/**/*.chunks.json en vez del monolito.
+
 Uso:
   python scripts/migrate_categories.py --dry-run   # Ver cambios sin guardar
   python scripts/migrate_categories.py              # Aplicar cambios
@@ -76,41 +78,36 @@ def migrate_chunk(chunk: dict) -> dict:
 def main():
     dry_run = "--dry-run" in sys.argv
 
-    backend_dir = Path(__file__).parent.parent
-    kb_chunks_path = backend_dir / "kb_chunks.json"
+    fuentes_dir = Path(__file__).parent.parent.parent / "biblioteca" / "fuentes"
 
-    # 1. Migrate kb_chunks.json (PDF chunks)
-    if kb_chunks_path.exists():
-        with open(kb_chunks_path, "r", encoding="utf-8") as f:
-            pdf_chunks = json.load(f)
-
-        print(f"kb_chunks.json: {len(pdf_chunks)} PDF chunks")
-
-        # Count before
-        from collections import Counter
-        before_cats = Counter(c.get("category", "?") for c in pdf_chunks)
-        print(f"  Categorías antes: {dict(before_cats)}")
-
-        # Migrate
-        new_pdf_chunks = [migrate_chunk(c) for c in pdf_chunks]
-
-        # Count after
-        after_cats = Counter(c.get("category", "?") for c in new_pdf_chunks)
-        print(f"  Categorías después: {dict(after_cats)}")
-
-        # Verify tags were added
-        tags_added = sum(1 for old, new in zip(pdf_chunks, new_pdf_chunks)
-                        if len(new["tags"]) > len(old["tags"]))
-        print(f"  Tags de tema agregados: {tags_added}")
-
-        if not dry_run:
-            with open(kb_chunks_path, "w", encoding="utf-8") as f:
-                json.dump(new_pdf_chunks, f, ensure_ascii=False, indent=2)
-            print(f"  ✅ Guardado kb_chunks.json")
-        else:
-            print(f"  🔍 DRY RUN — no se guardó")
+    # 1. Migrate per-source .chunks.json files
+    chunks_files = sorted(fuentes_dir.rglob("*.chunks.json"))
+    if not chunks_files:
+        print(f"No se encontraron .chunks.json en {fuentes_dir}")
     else:
-        print(f"⚠️ No encontrado: {kb_chunks_path}")
+        print(f"Encontrados {len(chunks_files)} archivos .chunks.json en {fuentes_dir}")
+        total_chunks = 0
+        total_migrated = 0
+
+        for chunks_path in chunks_files:
+            with open(chunks_path, "r", encoding="utf-8") as f:
+                chunks = json.load(f)
+
+            old_count = len(chunks)
+            new_chunks = [migrate_chunk(c) for c in chunks]
+            tags_added = sum(1 for old, new in zip(chunks, new_chunks)
+                            if len(new["tags"]) > len(old["tags"]))
+            total_chunks += old_count
+            total_migrated += tags_added
+
+            if not dry_run:
+                with open(chunks_path, "w", encoding="utf-8") as f:
+                    json.dump(new_chunks, f, ensure_ascii=False, indent=2)
+                print(f"  ✅ {chunks_path.relative_to(fuentes_dir.parent)}: {old_count} chunks, {tags_added} tags agregados")
+            else:
+                print(f"  🔍 {chunks_path.relative_to(fuentes_dir.parent)}: {old_count} chunks, {tags_added} tags agregados (DRY RUN)")
+
+        print(f"\nTotal: {total_chunks} chunks procesados, {total_migrated} tags de tema agregados")
 
     # 2. Show kb_data.py migration instructions
     print()
