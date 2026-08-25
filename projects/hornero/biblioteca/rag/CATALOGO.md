@@ -41,20 +41,20 @@
 
 ---
 
-## Artículos académicos y libros
+## Investigaciones (artículos académicos, libros, ensayos)
 
 | Fuente | Tipo | Ubicación | RAG chunks | ID prefix | Estado |
 |--------|------|-----------|------------|-----------|--------|
-| Iñigo Carrera, *La violencia como potencia económica* | Libro | [inigo-carrera-violencia-potencia-economica/](articulos-academicos/inigo-carrera-violencia-potencia-economica/) | 220 | `kb-inigo-violencia-*` | ✅ |
-| Iñigo Carrera, *La superpoblación relativa* | Libro | [inigo-carrera-superpoblacion-relativa/](articulos-academicos/inigo-carrera-superpoblacion-relativa/) | 30 | `kb-inigo-superpob-*` | ✅ |
-| Iñigo Carrera, *La huelga general* | Paper | [inigo-carrera-huelga-general/](articulos-academicos/inigo-carrera-huelga-general/) | 13 | `kb-inigo-huelga-*` | ✅ |
-| Jasinski, *El encanto del tanino* | Libro | [jasinski-encanto-del-tanino/](articulos-academicos/jasinski-encanto-del-tanino/) | 161 | `kb-jasinski-*` | 🔴 Sin PDF fuente — ver [README.md](articulos-academicos/jasinski-encanto-del-tanino/README.md) |
-| Fuentes Lorca, *La gestión del delegado aceitero* | Tesis | [fuentes-lorca-gestion-delegado/](articulos-academicos/fuentes-lorca-gestion-delegado/) | 25 | `kb-fuentes-lorca-*` | 🔴 Sin PDF fuente — ver [README.md](articulos-academicos/fuentes-lorca-gestion-delegado/README.md) |
-| Vogelmann & Soul, *Espacio y trabajo en el Polo Oleaginoso* | Libro | [vogelmann-espacio-trabajo/](articulos-academicos/vogelmann-espacio-trabajo/) | 20 | `kb-vogelmann-*` | 🔴 Sin PDF fuente — ver [README.md](articulos-academicos/vogelmann-espacio-trabajo/README.md) |
-| Krotoschin, *Manual del derecho del trabajo* | Doctrina | [krotoschin-manual-derecho-trabajo/](articulos-academicos/krotoschin-manual-derecho-trabajo/) | — | — | 📄 Ficha bibliográfica, sin texto |
-| Responsabilidad empresarial en delitos de lesa humanidad (T1+T2) | Compilación | [responsabilidad-empresarial-lesa-humanidad/](articulos-academicos/responsabilidad-empresarial-lesa-humanidad/) | 1,736 | `kb-respemp-*` | ✅ MD + PDF |
+| Iñigo Carrera, *La violencia como potencia económica* | Libro | [inigo-carrera-violencia-potencia-economica/](investigaciones/inigo-carrera-violencia-potencia-economica/) | 220 | `kb-inigo-violencia-*` | ✅ |
+| Iñigo Carrera, *La superpoblación relativa* | Libro | [inigo-carrera-superpoblacion-relativa/](investigaciones/inigo-carrera-superpoblacion-relativa/) | 30 | `kb-inigo-superpob-*` | ✅ |
+| Iñigo Carrera, *La huelga general* | Paper | [inigo-carrera-huelga-general/](investigaciones/inigo-carrera-huelga-general/) | 13 | `kb-inigo-huelga-*` | ✅ |
+| Jasinski, *El encanto del tanino* | Libro | [jasinski-encanto-del-tanino/](investigaciones/jasinski-encanto-del-tanino/) | 161 | `kb-jasinski-*` | 🔴 Sin PDF fuente — ver [README.md](investigaciones/jasinski-encanto-del-tanino/README.md) |
+| Fuentes Lorca, *La gestión del delegado aceitero* | Tesis | [fuentes-lorca-gestion-delegado/](investigaciones/fuentes-lorca-gestion-delegado/) | 25 | `kb-fuentes-lorca-*` | 🔴 Sin PDF fuente — ver [README.md](investigaciones/fuentes-lorca-gestion-delegado/README.md) |
+| Vogelmann & Soul, *Espacio y trabajo en el Polo Oleaginoso* | Libro | [vogelmann-espacio-trabajo/](investigaciones/vogelmann-espacio-trabajo/) | 20 | `kb-vogelmann-*` | 🔴 Sin PDF fuente — ver [README.md](investigaciones/vogelmann-espacio-trabajo/README.md) |
+| Krotoschin, *Manual del derecho del trabajo* | Doctrina | [krotoschin-manual-derecho-trabajo/](investigaciones/krotoschin-manual-derecho-trabajo/) | — | — | 📄 Ficha bibliográfica, sin texto |
+| Responsabilidad empresarial en delitos de lesa humanidad (T1+T2) | Compilación | [responsabilidad-empresarial-lesa-humanidad/](investigaciones/responsabilidad-empresarial-lesa-humanidad/) | 1,736 | `kb-respemp-*` | ✅ MD + PDF |
 
-**Catálogos de categoría:** [_catalogo-articulos-derecho-laboral.md](articulos-academicos/_catalogo-articulos-derecho-laboral.md) (artículos DNU 70, pendientes), [responsabilidad-empresarial-lesa-humanidad/catalogo-responsabilidad-empresarial.md](articulos-academicos/responsabilidad-empresarial-lesa-humanidad/catalogo-responsabilidad-empresarial.md)
+**Catálogos de categoría:** [_catalogo-articulos-derecho-laboral.md](investigaciones/_catalogo-articulos-derecho-laboral.md) (artículos DNU 70, pendientes), [responsabilidad-empresarial-lesa-humanidad/catalogo-responsabilidad-empresarial.md](investigaciones/responsabilidad-empresarial-lesa-humanidad/catalogo-responsabilidad-empresarial.md)
 
 ---
 

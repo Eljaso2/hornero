@@ -9,7 +9,7 @@ Reemplaza las 10 categorías temáticas por 5 categorías de tipo de fuente:
 
 El tema viejo se agrega como tag para no perder la granularidad.
 
-Ahora escanea biblioteca/fuentes/**/*.chunks.json en vez del monolito.
+Ahora escanea biblioteca/rag/**/*.chunks.json en vez del monolito.
 
 Uso:
   python scripts/migrate_categories.py --dry-run   # Ver cambios sin guardar
@@ -78,7 +78,7 @@ def migrate_chunk(chunk: dict) -> dict:
 def main():
     dry_run = "--dry-run" in sys.argv
 
-    fuentes_dir = Path(__file__).parent.parent.parent / "biblioteca" / "fuentes"
+    fuentes_dir = Path(__file__).parent.parent.parent / "biblioteca" / "rag"
 
     # 1. Migrate per-source .chunks.json files
     chunks_files = sorted(fuentes_dir.rglob("*.chunks.json"))

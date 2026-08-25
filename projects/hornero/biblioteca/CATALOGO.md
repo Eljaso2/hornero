@@ -10,8 +10,8 @@
 hornero/
 ├── app/              ← Frontend PWA (HTML, Lit, CSS, JS)
 ├── backend/          ← Servidor Python (FastAPI, RAG, auth)
-├── biblioteca/       ← Biblioteca: fuentes documentales + chunks RAG
-│   ├── fuentes/      ← Textos, leyes, PDFs, artículos, chunks
+├── biblioteca/       ← Biblioteca: corpus RAG + guías de curación
+│   ├── rag/          ← Corpus: textos, leyes, PDFs, artículos, chunks
 │   └── curacion/     ← Guías de curación bibliográfica
 ├── taller/           ← Documentación del proyecto
 │   ├── fundacion/    ← Diseño conceptual y arquitectura
@@ -24,15 +24,15 @@ hornero/
 
 ---
 
-## 📚 `biblioteca/fuentes/` — Material documental
+## 📚 `biblioteca/rag/` — Corpus RAG
 
-> Catálogo detallado: [fuentes/CATALOGO.md](fuentes/CATALOGO.md)
+> Catálogo detallado: [rag/CATALOGO.md](rag/CATALOGO.md)
 
 | Subdirectorio | Contenido | Documentos | Estado RAG |
 |---------------|-----------|------------|------------|
 | `leyes-laborales/` | LCT, Higiene y Seguridad, Empleo, etc. | 8 leyes + 1 manual | ✅ Chunks junto al PDF |
 | `convenios-colectivos/` | CCT aceiteros, paritarias, comités | 3+ CCT aceiteros + 5 CCT prensa | ✅ Chunks junto al PDF |
-| `articulos-academicos/` | Iñigo Carrera, Jasinski, Vogelmann, Krotoschin, etc. | 8 obras | ⚠️ 3 sin PDF |
+| `investigaciones/` | Iñigo Carrera, Jasinski, Vogelmann, Krotoschin, etc. | 8 obras | ⚠️ 3 sin PDF |
 | `prensa-sindical/` | Guía SIPREBA, El Trabajador Aceitero | 2 periódicos + 1 guía | ✅ Chunks junto al MD |
 | `fuentes-primarias/` | Documentos históricos, efemérides | 1 colección + 8 efemérides | ✅ Chunks junto al PDF |
 | `entrevistas-discursos/` | Cremonte (6), Yofra (5) | 11 artículos | ✅ .chunks.json + kb_data.py |
@@ -40,18 +40,18 @@ hornero/
 
 ### Chunks RAG: por fuente, no en monolito
 
-Los chunks viven en archivos `.chunks.json` junto a su material de origen. El backend escanea `biblioteca/fuentes/**/*.chunks.json` al arrancar y los carga todos en memoria.
+Los chunks viven en archivos `.chunks.json` junto a su material de origen. El backend escanea `biblioteca/rag/**/*.chunks.json` al arrancar y los carga todos en memoria.
 
 | Archivo .chunks.json | Chunks | Ubicación |
 |---|---|---|
-| `responsabilidad-empresarial-t1.chunks.json` | 970 | `articulos-academicos/responsabilidad-empresarial-lesa-humanidad/` |
-| `responsabilidad-empresarial-t2.chunks.json` | 766 | `articulos-academicos/responsabilidad-empresarial-lesa-humanidad/` |
+| `responsabilidad-empresarial-t1.chunks.json` | 970 | `investigaciones/responsabilidad-empresarial-lesa-humanidad/` |
+| `responsabilidad-empresarial-t2.chunks.json` | 766 | `investigaciones/responsabilidad-empresarial-lesa-humanidad/` |
 | `peron-1943-1944.chunks.json` | 776 | `fuentes-primarias/peron-1943-1944/` |
-| `inigo-carrera-violencia-potencia-economica.chunks.json` | 220 | `articulos-academicos/inigo-carrera-violencia-potencia-economica/` |
+| `inigo-carrera-violencia-potencia-economica.chunks.json` | 220 | `investigaciones/inigo-carrera-violencia-potencia-economica/` |
 | `sipreba-guia-delegado.chunks.json` | 423 | `prensa-sindical/SIPREBA-guia-delegado/` |
 | `ley-20744-lct.chunks.json` | 58 | `leyes-laborales/LCT-20.744/` |
 | `ley-19587-higiene-seguridad.chunks.json` | 72 | `leyes-laborales/higiene-seguridad-19.587/` |
-| `jasinski-encanto-del-tanino.chunks.json` | 161 | `articulos-academicos/jasinski-encanto-del-tanino/` |
+| `jasinski-encanto-del-tanino.chunks.json` | 161 | `investigaciones/jasinski-encanto-del-tanino/` |
 | + otros 13 archivos | | |
 | `entrevistas-discursos.chunks.json` | 11 | `entrevistas-discursos/` 🆕 library.db schema |
 | `efemerides-historia-obrera.chunks.json` | 8 | `fuentes-primarias/efemerides-historia-obrera/` 🆕 library.db schema |
@@ -62,7 +62,7 @@ Los chunks viven en archivos `.chunks.json` junto a su material de origen. El ba
 
 | Archivo | Contenido | Cantidad |
 |---------|-----------|----------|
-| `biblioteca/fuentes/**/*.chunks.json` | RAG per-source (auto-extracted) | 3,695 chunks en 24 archivos |
+| `biblioteca/rag/**/*.chunks.json` | RAG per-source (auto-extracted) | 3,695 chunks en 24 archivos |
 | `backend/kb_data.py` (KB_CHUNKS) | RAG manual curado | 36 |
 | `backend/library_service/library.db` | Biblioteca next-gen (feature-flagged) | 743 artículos |
 

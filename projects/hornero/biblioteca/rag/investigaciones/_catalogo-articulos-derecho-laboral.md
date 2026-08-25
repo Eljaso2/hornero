@@ -1,5 +1,5 @@
 ---
-tipo: catalogo-articulos-academicos
+tipo: catalogo-investigaciones
 tema: Derecho laboral — Reforma DNU 70/2023 y Ley Bases 27.742
 fecha_creacion: 2026-06-22
 etiquetas: [derecho-laboral, DNU-70, reforma-laboral, Milei, constitucionalidad, convenios-colectivos, indemnización]

@@ -26,22 +26,22 @@ FUENTES_DIR = BACKEND_DIR.parent / "docs" / "fuentes"
 # For prefixes with wildcards, use a function matcher instead.
 CHUNK_MAP = {
     # Responsabilidad empresarial (2 tomos)
-    "kb-respemp-t1": ("articulos-academicos/responsabilidad-empresarial-lesa-humanidad", "responsabilidad-empresarial-t1.chunks.json"),
-    "kb-respemp-t2": ("articulos-academicos/responsabilidad-empresarial-lesa-humanidad", "responsabilidad-empresarial-t2.chunks.json"),
+    "kb-respemp-t1": ("investigaciones/responsabilidad-empresarial-lesa-humanidad", "responsabilidad-empresarial-t1.chunks.json"),
+    "kb-respemp-t2": ("investigaciones/responsabilidad-empresarial-lesa-humanidad", "responsabilidad-empresarial-t2.chunks.json"),
     # Perón 1943-1944
     "kb-peron-43": ("fuentes-primarias/peron-1943-1944", "peron-1943-1944.chunks.json"),
     # Íñigo Carrera
-    "kb-inigo-chaco": ("articulos-academicos/inigo-carrera-violencia-potencia-economica", "inigo-carrera-violencia-potencia-economica.chunks.json"),
-    "kb-inigo-superpob": ("articulos-academicos/inigo-carrera-superpoblacion-relativa", "inigo-carrera-superpoblacion-relativa.chunks.json"),
-    "kb-inigo-huelga": ("articulos-academicos/inigo-carrera-huelga-general", "inigo-carrera-huelga-general.chunks.json"),
+    "kb-inigo-chaco": ("investigaciones/inigo-carrera-violencia-potencia-economica", "inigo-carrera-violencia-potencia-economica.chunks.json"),
+    "kb-inigo-superpob": ("investigaciones/inigo-carrera-superpoblacion-relativa", "inigo-carrera-superpoblacion-relativa.chunks.json"),
+    "kb-inigo-huelga": ("investigaciones/inigo-carrera-huelga-general", "inigo-carrera-huelga-general.chunks.json"),
     # Jasinski - La Forestal
-    "kb-jasinski": ("articulos-academicos/jasinski-encanto-del-tanino", "jasinski-encanto-del-tanino.chunks.json"),
+    "kb-jasinski": ("investigaciones/jasinski-encanto-del-tanino", "jasinski-encanto-del-tanino.chunks.json"),
     # Manual salud y seguridad laboral
     "kb-manual-ssl": ("leyes-laborales/manual-salud-seguridad-laboral", "manual-salud-seguridad-laboral.chunks.json"),
     # Lorca
-    "kb-lorca-01": ("articulos-academicos/fuentes-lorca-gestion-delegado", "fuentes-lorca-gestion-delegado.chunks.json"),
+    "kb-lorca-01": ("investigaciones/fuentes-lorca-gestion-delegado", "fuentes-lorca-gestion-delegado.chunks.json"),
     # Vogelmann
-    "kb-vogelmann-01": ("articulos-academicos/vogelmann-espacio-trabajo", "vogelmann-espacio-trabajo.chunks.json"),
+    "kb-vogelmann-01": ("investigaciones/vogelmann-espacio-trabajo", "vogelmann-espacio-trabajo.chunks.json"),
     # Paritarias aceiteras
     "kb-par": ("convenios-colectivos/paritarias-aceiteras", "paritarias-aceiteras.chunks.json"),
     # CCT 420/05

@@ -57,8 +57,8 @@
 
 | # | Documento | Estado | Fuente | Notas |
 |---|-----------|--------|--------|-------|
-| 20 | **Catálogo artículos DNU 70 y derecho laboral** | 🟢 | CONICET / Dialnet / SciELO | [Catálogo creado](articulos-academicos/catalogo-articulos-derecho-laboral.md) con 6 artículos identificados (Pirolo, Neffa, Zelarayán, Morondo, Barbagelata, Marquiegui). PDFs pendientes. |
-| 21 | **Krotoschin — Manual del derecho del trabajo** (1972nd edn, 1993) | 🟢 | Ediciones Depalma | [Ficha creada](articulos-academicos/krotoschin-manual-derecho-trabajo.md). Referencia doctrinal fundacional ⭐⭐⭐⭐⭐. |
+| 20 | **Catálogo artículos DNU 70 y derecho laboral** | 🟢 | CONICET / Dialnet / SciELO | [Catálogo creado](investigaciones/catalogo-articulos-derecho-laboral.md) con 6 artículos identificados (Pirolo, Neffa, Zelarayán, Morondo, Barbagelata, Marquiegui). PDFs pendientes. |
+| 21 | **Krotoschin — Manual del derecho del trabajo** (1972nd edn, 1993) | 🟢 | Ediciones Depalma | [Ficha creada](investigaciones/krotoschin-manual-derecho-trabajo.md). Referencia doctrinal fundacional ⭐⭐⭐⭐⭐. |
 
 ---
 
