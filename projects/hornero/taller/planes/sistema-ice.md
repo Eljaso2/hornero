@@ -1100,7 +1100,7 @@ Un tipo de hecho con dos acciones:
 
 ---
 
-## 11. ICE — Fórmula y metodología de cálculo
+## 12. ICE — Fórmula y metodología de cálculo
 
 ### Cambio organizativo
 

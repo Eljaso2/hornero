@@ -34,8 +34,8 @@ hornero/
 | `convenios-colectivos/` | CCT aceiteros, paritarias, comités | 3+ CCT aceiteros + 5 CCT prensa | ✅ Chunks junto al PDF |
 | `articulos-academicos/` | Iñigo Carrera, Jasinski, Vogelmann, Krotoschin, etc. | 8 obras | ⚠️ 3 sin PDF |
 | `prensa-sindical/` | Guía SIPREBA, El Trabajador Aceitero | 2 periódicos + 1 guía | ✅ Chunks junto al MD |
-| `fuentes-primarias/` | Documentos históricos (Perón 1943-44) | 1 colección | ✅ Chunks junto al PDF |
-| `entrevistas-discursos/` | Cremonte (7), Yofra (4) | 11 artículos | ✅ En kb_data.py |
+| `fuentes-primarias/` | Documentos históricos, efemérides | 1 colección + 8 efemérides | ✅ Chunks junto al PDF |
+| `entrevistas-discursos/` | Cremonte (6), Yofra (5) | 11 artículos | ✅ .chunks.json + kb_data.py |
 | `coyuntura/` | Clipping semanal, Mirador MATE | 2 series | ✅ En app |
 
 ### Chunks RAG: por fuente, no en monolito
@@ -53,14 +53,16 @@ Los chunks viven en archivos `.chunks.json` junto a su material de origen. El ba
 | `ley-19587-higiene-seguridad.chunks.json` | 72 | `leyes-laborales/higiene-seguridad-19.587/` |
 | `jasinski-encanto-del-tanino.chunks.json` | 161 | `articulos-academicos/jasinski-encanto-del-tanino/` |
 | + otros 13 archivos | | |
+| `entrevistas-discursos.chunks.json` | 11 | `entrevistas-discursos/` 🆕 library.db schema |
+| `efemerides-historia-obrera.chunks.json` | 8 | `fuentes-primarias/efemerides-historia-obrera/` 🆕 library.db schema |
 
-**Total: 3,678 chunks en 21 archivos .chunks.json**
+**Total: 3,697 chunks en 23 archivos .chunks.json**
 
 ### Data stores operativos
 
 | Archivo | Contenido | Cantidad |
 |---------|-----------|----------|
-| `biblioteca/fuentes/**/*.chunks.json` | RAG per-source (auto-extracted) | 3,678 chunks en 21 archivos |
+| `biblioteca/fuentes/**/*.chunks.json` | RAG per-source (auto-extracted) | 3,695 chunks en 24 archivos |
 | `backend/kb_data.py` (KB_CHUNKS) | RAG manual curado | 36 |
 | `backend/library_service/library.db` | Biblioteca next-gen (feature-flagged) | 743 artículos |
 
