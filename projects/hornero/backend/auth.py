@@ -1363,6 +1363,31 @@ NUKE_SECRET = os.getenv("NUKE_SECRET", "").strip()
 class NukeRequest(BaseModel):
     secret: str
 
+class DeleteUserRequest(BaseModel):
+    username: str
+    secret: str
+
+@router.post("/admin/delete-user")
+async def admin_delete_user(req: DeleteUserRequest):
+    """Delete a single user by username. Protected by ADMIN_KEY or NUKE_SECRET."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+    if not (NUKE_SECRET and req.secret == NUKE_SECRET) and not (ADMIN_KEY and req.secret == ADMIN_KEY):
+        raise HTTPException(401, "Autenticación requerida (admin key)")
+    try:
+        with _get_conn() as conn:
+            cursor = conn.execute("DELETE FROM users WHERE username = %s", (req.username,))
+            conn.commit()
+            if cursor.rowcount == 0:
+                raise HTTPException(404, f"Usuario '{req.username}' no encontrado")
+            logger.info(f"Admin: deleted user {req.username}")
+            return {"username": req.username, "deleted": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Admin delete user error: {e}")
+        raise HTTPException(500, "Error al eliminar usuario")
+
 @router.post("/admin/nuke")
 async def admin_nuke(req: NukeRequest):
     """Nuke ALL data: users, chats, informes, correcciones. Protected by NUKE_SECRET."""
