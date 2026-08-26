@@ -1803,6 +1803,9 @@ class HorneroChat extends HoComponent {
               </button>
               ${this._plusMenuOpen ? html`
               <div class="chat-plus-menu" id="chatPlusMenu">
+                <button class="chat-plus-item" id="chatInfoBtn" title="Información de la sección">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </button>
                 <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
                   <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
                   ${this.informeBadge ? '' : ''}
@@ -1819,9 +1822,6 @@ class HorneroChat extends HoComponent {
                     ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
                   </button>
                 ` : ''}
-                <button class="chat-plus-item" id="chatInfoBtn" title="Información de la sección">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                </button>
               </div>
               ` : ''}
             </div>
@@ -3609,6 +3609,9 @@ ${msgs.map(m => {
     menu.className = 'chat-plus-menu';
     menu.id = 'chatPlusMenu';
     menu.innerHTML = `
+      <button class="chat-plus-item" id="chatInfoBtn" title="Información de la sección">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </button>
       <button class="chat-plus-item" id="chatHistoryBtn" title="Mis Conversaciones">
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       </button>
@@ -3620,9 +3623,6 @@ ${msgs.map(m => {
         <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
         ${this._recibidosBadge ? '<span class="item-badge gold"></span>' : ''}
       </button>` : ''}
-      <button class="chat-plus-item" id="chatInfoBtn" title="Información de la sección">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      </button>
     `;
     wrapper.appendChild(menu);
     this._bindPlusMenuItems();
