@@ -1371,8 +1371,8 @@ class HorneroChat extends HoComponent {
       .msg-action-btn.disliked svg.thumb-down { fill: var(--ho-gold, #B0863F); }
 
       /* Typing indicator — no bubble, just dots inline */
-      .typing-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 14px;
-        animation: msgin .2s ease; }
+      .typing-row { display: flex; align-items: flex-end; gap: 8px; margin: 0 16px 8px;
+        padding-top: 4px; flex-shrink: 0; animation: msgin .2s ease; }
       .typing-avatar { width: 32px; height: 32px;
         display: flex; align-items: center; justify-content: center; flex: none; }
       .typing-avatar img { width: 28px; height: 28px; object-fit: cover;
@@ -1839,8 +1839,9 @@ class HorneroChat extends HoComponent {
       <div class="chat-scroll">
         ${messagesHtml}
         ${streamingHtml}
-        ${typingHtml}
       </div>
+
+      ${typingHtml}
 
       ${suggestionsHtml}
 
