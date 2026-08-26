@@ -975,10 +975,10 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 66px; /* 64px top bar + 2px gap */
+        padding-top: 88px; /* 64px bar + 4px gap + 20px label */
         min-height: 0; /* allow shrink so input bar stays visible */
         -webkit-overflow-scrolling: touch; }
-      :host([reduce-top-pad]) .chat-scroll { padding-top: 66px; }
+      :host([reduce-top-pad]) .chat-scroll { padding-top: 88px; }
 
       /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }
@@ -3860,22 +3860,22 @@ ${msgs.map(m => {
 
   showTyping() {
     this.typing = true;
-    // Incremental: add typing dots to DOM without full re-render
-    const scroll = this.shadowRoot.querySelector('.chat-scroll');
-    if (scroll && !scroll.querySelector('.typing-row')) {
+    // Insert typing dots OUTSIDE chat-scroll (between scroll and input)
+    if (!this.shadowRoot.querySelector('.typing-row')) {
+      const scroll = this.shadowRoot.querySelector('.chat-scroll');
       const typingDiv = document.createElement('div');
       typingDiv.className = `typing-row persona-${this.persona}`;
       typingDiv.innerHTML = `
         <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>`;
-      scroll.appendChild(typingDiv);
+      // Insert after chat-scroll, before chat-input
+      scroll.after(typingDiv);
       this._autoScroll();
     }
   }
   hideTyping() {
     this.typing = false;
-    // Incremental: remove typing dots from DOM without full re-render
     const typingRow = this.shadowRoot.querySelector('.typing-row');
     if (typingRow) typingRow.remove();
   }
