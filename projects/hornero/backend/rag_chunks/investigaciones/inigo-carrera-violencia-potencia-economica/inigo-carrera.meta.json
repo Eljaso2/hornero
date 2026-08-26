@@ -1,0 +1,16 @@
+{
+  "pdf_path": "/Users/eljaso/Workspace/projects/hornero/biblioteca/rag/investigaciones/inigo-carrera-violencia-potencia-economica/inigo-carrera-violencia-potencia-economica.pdf",
+  "pdf_name": "inigo-carrera-violencia-potencia-economica",
+  "bib": "Iñigo Carrera, Nicolás — La violencia como potencia económica, CICCUS 2010",
+  "category": "academico",
+  "id_prefix": "inigo-violencia",
+  "mode": "chapters",
+  "pages": 227,
+  "total_chars": 690929,
+  "md_chars": 719191,
+  "num_chunks": 21,
+  "slug": "inigo-carrera",
+  "md_path": "biblioteca/rag/investigaciones/inigo-carrera-violencia-potencia-economica/inigo-carrera.md",
+  "md_bytes": 734495,
+  "chunks_dir": "biblioteca/rag/investigaciones/inigo-carrera-violencia-potencia-economica/inigo-carrera.chunks"
+}

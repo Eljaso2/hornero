@@ -1,0 +1,16 @@
+{
+  "pdf_path": "/Users/eljaso/Workspace/projects/hornero/biblioteca/rag/investigaciones/inigo-carrera-superpoblacion-relativa/inigo-carrera-superpoblacion-relativa-2012.pdf",
+  "pdf_name": "inigo-carrera-superpoblacion-relativa-2012",
+  "bib": "Iñigo Carrera, Nicolás — La superpoblación relativa, 2012",
+  "category": "academico",
+  "id_prefix": "inigo-superpob",
+  "mode": "chapters",
+  "pages": 30,
+  "total_chars": 141357,
+  "md_chars": 151147,
+  "num_chunks": 4,
+  "slug": "inigo-carrera",
+  "md_path": "biblioteca/rag/investigaciones/inigo-carrera-superpoblacion-relativa/inigo-carrera.md",
+  "md_bytes": 154707,
+  "chunks_dir": "biblioteca/rag/investigaciones/inigo-carrera-superpoblacion-relativa/inigo-carrera.chunks"
+}

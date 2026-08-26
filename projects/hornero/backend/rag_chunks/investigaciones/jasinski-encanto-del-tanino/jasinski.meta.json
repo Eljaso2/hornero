@@ -1,0 +1,16 @@
+{
+  "pdf_path": "/Users/eljaso/Documents/Investigación/La Forestal/04 - El encanto del tanino - prometeo/El encanto del tanino_Jasinski septima.pdf",
+  "pdf_name": "El encanto del tanino_Jasinski septima",
+  "bib": "Jasinski, Alejandro — El encanto del tanino, Prometeo Libros 2023",
+  "category": "academico",
+  "id_prefix": "jasinski",
+  "mode": "chapters",
+  "pages": 302,
+  "total_chars": 786049,
+  "md_chars": 814814,
+  "num_chunks": 26,
+  "slug": "jasinski",
+  "md_path": "/Users/eljaso/Workspace/projects/hornero/biblioteca/rag/investigaciones/jasinski-encanto-del-tanino/jasinski.md",
+  "md_bytes": 836960,
+  "chunks_dir": "/Users/eljaso/Workspace/projects/hornero/biblioteca/rag/investigaciones/jasinski-encanto-del-tanino/jasinski.chunks"
+}

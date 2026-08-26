@@ -1,0 +1,516 @@
+[
+  {
+    "id": "oit-ramacciotti-01",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [],
+    "title": "Preámbulo",
+    "text": "Karina Ramacciotti",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-02",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "salud",
+      "américa",
+      "artículo",
+      "circulación",
+      "contactos",
+      "discusiones",
+      "fueron",
+      "gonzález",
+      "herrera",
+      "internacionales",
+      "laborales",
+      "latina",
+      "políticas",
+      "siglo",
+      "sociales"
+    ],
+    "title": "Introducción",
+    "text": "Este artículo 1 se inserta en una preocupación de más largo aliento, que es buscar las distancias y cercanías entre las políticas sociales durante la primera mitad del siglo XX en los diferentes países de América Latina. En función de este objetivo general, nos centraremos en examinar cómo fueron analizadas las políticas sociales de América Latina en una publicación científica argentina que tuvo circulación entre los años cuarenta y cincuenta del siglo XX y que mantuvo contactos nutridos con referentes de los organismos internacionales de trabajo y de salud. Este trabajo dialoga con dos de las corrientes historiográficas que buscaron entender el peso de las discusiones que se dieron por fuera de las fronteras del país en torno a las políticas sociales. Con el siglo XXI surgieron investigaciones que pusieron el foco en el estudio de las organizaciones internacionales a la hora de impulsar agencias estatales; marcos normativos; redes de contactos y de cooperación técnica en las áreas de políticas laborales y sanitarias en América Latina (Yáñez Andrade, 2000; Cueto, 2004; Herrera León y Herrera González, 2013). En el campo historiográfico argentino, el interés por los debates y la circulación internacional sobre los modos de afrontar las 1 La investigación y parte del financiamiento de este artículo se realizó con el proyecto PIP individual “Efectos locales de las discusiones trasnacionales sobre la salud laboral, Argentina (1915-1949)”. Karina Ramacciotti cuestiones sociales y laborales en el contexto local y cómo estas influyeron en el armado de las políticas locales es aún más reciente (Salvatore, 2007, Plotkin y Zimmermann, 2012; Morresi y Vommaro, 2012; González Leandri, 2013; Lobato y Suriano, 2014; Caruso, 2014). En línea con estos aportes, consideramos que las revistas científicas constituyen una vía para asir qué ideas se difundían, quiénes publicaban, qué aspectos fueron considerados relevantes y cuáles fueron los diálogos e influencias de ideas en materia de seguridad social. Desde la perspectiva de la historia cultural, las revistas son un objeto tan representativo de una época como los libros; tienen una circulación diferente porque están pensadas para un consumo inmediato y buscan una intervención directa en el presente de la enunciación; esa búsqueda constituye una marca valiosa para entender las discusiones en torno a las políticas sociales en un momento determinado. Las revistas ayudan a comprender y visibilizar las intencionalidades explícitas e implícitas de un grupo, permiten reconocer sus posicionamientos políticos frente a los diferentes gobiernos, observar cómo se despliegan estrategias de clausura y admisión, qué temas se priorizan en determinadas épocas, cuáles son las relaciones con otros grupos y organizaciones del país y del extranjero, y qué tipo de redes se van construyendo (Beigel, 2003; Fiorucci, 2011). En este sentido, el Boletín Informativo de Leyes de Trabajo, cuyo primer número se publicó en el mes de enero de 1942, nos permite aproximarnos a cuáles fueron los temas, saberes y actores que se tomaban como referentes del contexto latinoamericano y cuáles fueron utilizados en calidad de insumo informativo y como validación internacional para las discusiones de las políticas sociales locales y en la región. La hipótesis que atraviesa este trabajo es que la búsqueda de ideas de otras latitudes o la difusión de las emanadas por los organismos internacionales tales como la Organización Internacional del Trabajo (OIT) o las agencias internacionales de salud pública, fueron usadas para validar la importancia de sancionar marcos normativos e institucionales y también intentaron invisibilizar la complejidad política local, que, para el caso de la Argentina, se refería al peso del peronismo en la ampliación de los derechos sociales. Así pues, la complejidad histórica quedó subsumida a grandes líneas de similitudes y homologación con el contexto internacional. Bucear en las ideas de esta publicación nos permitirá identificar qué principios fueron los más habituales y recurrentes en los saberes y discursos El Boletín Informativo de Leyes de Trabajo sobre las políticas sociales del período. Se intentará indagar, en las voces de América Latina seleccionadas, qué aspectos se privilegiaron en el debate. Asimismo, revisaremos cómo fue la ligazón con las autoridades laborales del interior y cómo fueron visualizados los cambios políticos sucedidos en los años cuarenta en la Argentina.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-03",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "legislación",
+      "oit",
+      "seguridad",
+      "hacia",
+      "internacional",
+      "leyes",
+      "luego",
+      "objetivo",
+      "particular",
+      "política",
+      "políticas",
+      "primera",
+      "problemas",
+      "profesionales"
+    ],
+    "title": "Mirar hacia adentro (1)",
+    "text": "El Boletín Informativo de Leyes de Trabajo se publicó por primera vez en el mes de enero de 1942 y tuvo una frecuencia trimestral hasta 1946; entre ese año y 1948 tuvo una periodicidad anual; con el fallecimiento de su creador y director Amadeo Alita (1949) no se publicó por un año, y se retomó en 1950 con la dirección de Ricardo Moles. El objetivo de la publicación fue estudiar e investigar los problemas sociales contemporáneos y constituirse en una base informativa y consultiva sobre las leyes del trabajo. Este era un tema de relevancia social y política dado que diferentes voces profesionales y políticas venían proclamando la necesidad de sancionar un fuero particular para la legislación laboral y de esta forma tener uno propio (Stagnaro, 2016). El Boletín se lanzó dentro de un contexto político internacional particular del cual sus artículos se hicieron eco y con el que dialogaron constantemente. Luego de la Primera Guerra Mundial (1914-1919) se crearon organismos supranacionales que intentaran delinear políticas y acuerdos entre las naciones para evitar nuevos conflictos bélicos. En este sentido, la Organización Internacional del Trabajo (OIT), creada en 1919, respondió a este objetivo y tuvo la intención de mejorar las condiciones sociales y sanitarias de trabajo de los trabajadores, contemplar los efectos del desempleo, lograr mecanismos preventivos en torno a los accidentes de trabajo y enfermedades profesionales y resolver problemas de la vejez y la invalidez (Caruso, 2014). Hacia la década de 1940, los convenios firmados por la OIT se convirtieron en marco de referencia para las legislaciones de los países que enviaban delegados. Asimismo, luego de la Gran Depresión y los efectos de la Segunda Guerra Mundial se implementaron reformas en los sistemas de seguridad social en Estados Unidos, Australia, Canadá y Gran Bretaña que pusieron en la agenda de la política latinoamericana la mora que existía en lo concerniente a la seguridad social y la importancia de uniformar las prestaciones sociales; ampliar las instancias Karina Ramacciotti de inclusión poblacional por medio de la universalización de las prestaciones sociales y sanitarias en las fases preventiva, curativa y de rehabilitación. El Boletín Informativo de Leyes del Trabajo fue creado en 1942 por Amadeo Alita, quien, como anticipamos, dirigió la publicación entre ese año y 1948. Alita fue un periodista de la ciudad de La Plata dedicado a las cuestiones relacionadas con la legislación obrera. En 1915, durante el gobierno radical de Hipólito Yrigoyen, se incorporó a la administración provincial en calidad de secretario de la Legislatura de La Plata; cargo que desempeñó hasta el golpe de Estado de 1930. En 1945 fue designado secretario de la Cámara de Alquileres de La Plata, donde ocupó la presidencia hasta su fallecimiento en 1948. Las relaciones que entabló durante esos años constituyeron la plataforma para vincularse con el mundo comercial e industrial de la época. La publicación, si bien no da cuenta de la complejidad del pensamiento de los sectores patronales, permite reflejar y reconstruir las demandas vigentes, las preocupaciones en torno al conflicto social, el rol adjudicado al Estado, entre otras cuestiones. En la editorial de su primer número enunciaba que su propósito era convertirse en una “publicación de carácter eminentemente técnico, que aborde la realidad del ambiente industrial y obrero de nuestro país, reflejando y sugiriendo problemas y soluciones con miras a facilitar las relaciones del capital y del trabajo”. Se proponía resolver de manera conciliatoria los problemas de ambos factores de la producción, ya que se consideraban “elementos no antagónicos, sino antes por el contrario, fuerzas concurrentes” (Nuestros Propósitos, 1942, p. 12). De hecho, las publicaciones de 1942 y 1943 tuvieron en la tapa leyendas vinculadas con esta idea y dibujos que apelaban a reflejar un mundo laboral sin mayor conflictividad social. La del mes de junio de 1942 decía “El capital y el trabajo constituyen elementos indispensables e indisolubles que representan la vida misma de los pueblos”; la de septiembre del mismo año, “el capital y el trabajo constituyen las fuerzas vivas de una nación y su perfecto ensamble en materia de justicia social, es la resultante lógica del derecho humano”; y la del mes de marzo: “El trabajo y el capital –en fecunda alianza– son, recíproca e indistintamente, palanca y punto de apoyo, en el esfuerzo progresista de las fuerzas todas de la Nación”. El Boletín fue una publicación especializada en temas jurídicos y médico-sociales del ámbito laboral y estaba integrada por profesores especializados en legislación del trabajo, por médicos dedicados a la medicina del El Boletín Informativo de Leyes de Trabajo trabajo y por representantes de los departamentos de Trabajo de las provincias.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-04",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "derechos",
+      "jornada",
+      "obrera",
+      "agencias",
+      "algunos",
+      "demandas",
+      "denuncias",
+      "estado",
+      "hacia",
+      "intereses",
+      "laboral",
+      "laborales",
+      "martínez",
+      "obreras"
+    ],
+    "title": "Mirar hacia adentro (2)",
+    "text": "Es decir, los saberes especializados en materia jurídica y en medicina laboral se entrelazaron con las agencias laborales del Estado con el objetivo de conciliar los intereses de los sectores patronales y obreros, privilegiando más a los primeros que a los segundos. El tono componedor y técnico de la revista licuaba la complejidad de las demandas sociales del mundo obrero; estas quedaban mediadas por las denuncias que realizaban los presidentes de las agencias laborales del interior del país o algunos de los articulistas con una mayor sensibilidad o empatía hacia las demandas obreras. Tal como lo señala Ana Teresa Martínez, en la Argentina de los años cuarenta ya no era posible ignorar los derechos laborales y el papel que debía tener el Estado en el proceso de la ampliación de la ciudadanía social y en el estímulo a la industrialización (Martínez, 2008, p. 73-92). Como demostró Mirta Lobato (2009, p. 99-140), los trabajadores contaban con una extensa tradición de denunciar las condiciones de trabajo por medio de su prensa gremial. La inseguridad en los ambientes de trabajo, la irresponsabilidad patronal en la prevención de enfermedades infectocontagiosas, las características de la jornada laboral, los efectos de la desocupación sobre las familias obreras fueron algunos de los tópicos que visibilizó la prensa obrera y, desde los años treinta, el Estado comenzó a actuar como un interlocutor posible en las regulaciones laborales. Debido a que el Boletín estaba ligado a los intereses patronales, en él las denuncias sobre las injusticias dentro de los espacios fabriles aparecieron más mediatizadas y esa cercanía, si bien estaba muy presente, no aparecía como en La Concordia o en Criterio . Ambas publicaciones, analizadas por María Ester Rapalo (2013, p. 227-228), tuvieron entre 1918 y 1930 la misión explícita de defender a los patrones, promover políticas represivas ante los conflictos sociales y coartar las libertades y los derechos que facilitaran el desarrollo autónomo de los trabajadores. Las políticas sociales eran visualizadas como una intromisión del Estado que afectaba el carácter privado y contractual de las relaciones laborales. Los rasgos nucleares de estas publicaciones estaban ligados a los sectores de la derecha conservadora más reaccionaria. A diferencia de aquellas, en el Boletín se mantuvo durante todo el período de estudio la apelación a la intervención del Estado y a sus agencias. Desde esta vitrina impulsaban iniciativas legislativas de políticas sociales tales como Karina Ramacciotti las modificaciones a la ley de trabajo de menores en las fábricas, la de accidentes de trabajo; propuestas de salario mínimo; de indemnización por despido; sobre trabajo a domicilio, accidentes de trabajo, etc. Entonces, la puesta en discusión de estas reformas siempre se hacía desde el marco de “los principios liberales y democráticos que constituyen la esencia de nuestra nacionalidad” (Las efemérides patrias en los ámbitos del trabajo, 1942, p. 5). Las reformas se justificaban en función de “fortalecer a la industria, salvaguardar la salud moral de una parte de la población y evitar motivos de rozamientos entre empleados y patrones, rozamientos que a la larga se traducen en la generalización de una mala voluntad recíproca (…) la mejor consejera para la estrecha armonía es la colaboración tripartita del estado, los empleados y los empleadores” (1942, p. 5). Si bien la aspiración máxima era lograr el seguro social, las leyes sociales que se iban implementando eran bienvenidas ya que evitaban los “rozamientos entre empleadores y obreros” (Lo que urge en materia de legislación de trabajo, 1942, p. 5). La igualdad social no era vista como un valor absoluto que podía y debía ser procurado –como sí lo era para los sectores de izquierda– sino que debería ceder frente a la libertad y a la seguridad. Los cambios sociales eran aceptados solo de un modo gradual y tutelado, y se mostraba escepticismo ante los avances de actores que trastocaban el orden establecido desde abajo, pero se aceptaban las transformaciones de envergadura cuando eran impulsadas desde arriba (Bohoslavsky y Morresi, 2011, p. 4). Las abundantes publicidades que tuvo el Boletín estuvieron ligadas al mundo comercial, de servicios e industrial de la pequeña y mediana empresa. Se destacaron los rubros textiles, metalúrgicos, de transporte y alimenticios de origen nacional. Las empresas que publicitaban en el Boletín habían crecido al calor del proceso de sustitución de importaciones acentuado luego de los años treinta, y, en cierta medida, la publicación planteaba un horizonte alentador para el desarrollo de futuras industrias ligadas al pequeño y mediano mercado (La industria argentina debe adaptarse a las condiciones del momento actual, 1942, p. 29). Durante la etapa de la dirección de Alita predominaron los anuncios diseñados con leyendas y fueron minoritarios los que incluyeron ilustraciones, caricaturas o fotografías.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-05",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "delegación",
+      "delegado",
+      "salud",
+      "seguridad",
+      "ciencias",
+      "comisión",
+      "desaparecieron",
+      "durante",
+      "facultad",
+      "mundo",
+      "publicación",
+      "publicidades",
+      "señalar",
+      "social"
+    ],
+    "title": "Mirar hacia adentro (3)",
+    "text": "Si bien nos resulta imposible abordar la forma de financiamiento de la revista, la publicación de propagandas comerciales parece haber sido la principal fuente de recursos El Boletín Informativo de Leyes de Trabajo para la edición durante el período 1942-1947. Bajo la dirección de Moles (1950-1951) el Boletín tuvo un cambio radical en su estética. Desaparecieron las publicidades de comercios e industrias y las portadas con grandes ilustraciones ligadas a imágenes conciliatorias del mundo del trabajo dejaron de tener un lugar central para la identificación de la publicación. El Boletín , a tono con un matiz internacionalizado –como veremos más adelante– tomó características más técnicas y con más similitudes respecto de los formatos de las publicaciones científicas. A modo de hipótesis podemos señalar que con el fallecimiento de Alita también se interrumpieron los vínculos con el mundo comercial e industrial, y por tal motivo las publicidades desaparecieron. Varios de los autores que escribían tenían estrechos vínculos con el Estado, por ser integrantes de las agencias laborales de las provincias, y con la Comisión de Seguridad Social creada en la Universidad Nacional de la Plata por el socialista Alfredo Palacios durante su rectorado en 1943. Cabe señalar que esta Comisión estuvo formada por Carlos Desmarás de la Facultad de Ciencias Jurídicas y Sociales; Francisco D. Vidio, Vicente Ruiz y Amador Barros Hurtado de la Facultad de Ciencias Médicas; Arturo Caral de la Facultad de Medicina Veterinaria; Domingo Borea de la Facultad de Agronomía; Jorge Ursino de la Facultad de Química y Farmacia, y un delegado estudiantil propuesto por la delegación universitaria. Se planteó como objetivo el estudio del seguro y de la asistencia social; resolver el régimen jubilatorio, la invalidez, vejez, muerte; la prevención de los riesgos y la defensa de la salud. Asimismo, aspiraba a estar desligado de toda filiación política militante y enfocar el problema desde una “serena valoración de todas las fuerzas, factores, circunstancias”. Como sostiene Osvaldo Graciano, el rasgo distintivo de estas comisiones fue que su actuación se realizaba por fuera de los marcos de la organización disciplinar y académica y lograba integrar propuestas interdisciplinarias con un fuerte sesgo ligado a la planificación social (Graciano, 2008, p. 272). La creación de la Comisión en la Universidad Nacional de La Plata fue bien recibida por la publicación. No obstante, en una nota editorial en la cual se hacía referencia a esta Comisión se destacaba que los pequeños y medianos industriales también deberían ser incluidos en los mecanismos de previsión social y que la riqueza de la Nación no solamente estaba constituida por los sectores trabajadores. Con esta alusión se reforzaba el vínculo de la publicación con los sectores industriales y se mostraba cierta cautela hacia Karina Ramacciotti los partidos políticos que habían demandado políticas sociales, en particular el Socialista (En la Universidad Nacional de La Plata se ha creado la Comisión de Seguridad Social, 1943, p. 47-48). El Boletín recibía informes sobre la situación social de las provincias realizados por la Comisión y los publicaba; de este modo se convertía en un medio de divulgación más amplio del estado de las relaciones laborales y sociales en el interior. Pretendía servir como una fuente de información teórica, sugerir soluciones prácticas y transformarse en un espacio en el cual se pudieran divulgar aspectos de la realidad nacional y extranjera. En sus números se editaron notas de la situación sociolaboral de las provincias argentinas, que le dieron un cariz federalista durante el primer año y medio, y se publicaron artículos sobre las provincias, algunos de ellos anónimos y otros con firmas. Dentro de los primeros podemos destacar informes de las provincias de Buenos Aires, Mendoza, La Rioja, Santa Fe, Entre Ríos. Entre los autores con firma se destacan Andrés Breppe Espeche, presidente del Departamento del Trabajo de Catamarca; Amalio Olmos Castro, director del Departamento del Trabajo de Santiago del Estero; Jorge Francisco Arraya, secretario general del Departamento del Trabajo de Córdoba; Manuel Ossorio y Florit, jefe de estudios de Previsión Social de la Caja Popular de Ahorros de Córdoba; Enrique Aznárez, profesor adjunto de Tisiología de la Facultad de Ciencias Médicas de la Universidad Nacional de Córdoba; Juan Zanetti, presidente de la Federación Provincial de Bibliotecas y Asociaciones Culturales de Córdoba; Eloy López, inspector del Departamento Provincial del Trabajo de Entre Ríos; Felipe Alberto Villagra, funcionario de Tucumán.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-06",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "derechos",
+      "remuneración",
+      "abogados",
+      "accidentes",
+      "acuerdos",
+      "castro",
+      "departamento",
+      "estado",
+      "estero",
+      "igual",
+      "intervención",
+      "obreros",
+      "olmos",
+      "patrones"
+    ],
+    "title": "Mirar hacia adentro (4)",
+    "text": "Uno de los representantes de las agencias laborales del Estado que tuvo un papel importante en el Boletín fue el director general del Departamento de Trabajo de Santiago del Estero Amalio Olmos Castro, quien planteó la necesidad de la mediación del Estado en los conflictos entre patrones y obreros y convocó a los sindicatos constituidos a inscribirse en el Departamento del Trabajo, para poder así enfrentar sus diferencias de igual a igual con sus patrones, gracias a la intervención del Estado (Martínez, 2008, p. 73-92). Sus discursos –algunos reproducidos en el Boletín– se caracterizaron por agudas reflexiones sobre la situación de su provincia y por denunciar, por ejemplo, la exigua y paupérrima ley de accidentes de trabajo. Entre las razones que argüía estaban las acciones de “los abogados inescrupulosos, la ignorancia de la víctimas de sus derechos y El Boletín Informativo de Leyes de Trabajo las influencias políticas”. Sostenía que solo un cuatro por ciento de los accidentes producidos en Santiago del Estero se retribuían como estipulaba la ley. Los demás se arreglaban mediante acuerdos personales entre el patrón y la víctima con la intervención de algún “ave negra”, alusión que hacía en referencia a los abogados. Estos acuerdos personales traían desventajas para los obreros. Según él, otro actor de este panorama desalentador lo constituían las compañías aseguradoras que, con anuencia de los patrones, lesionaban los intereses de los obreros (Olmos Castro, 1942a, p. 63-65). Los informes publicados sobre las realidades diferentes del interior dan cuenta de que el despliegue estatal del siglo XX no se había desarrollado de la misma manera en todo el país y permiten rastrear cuáles eran las demandas y/o las críticas a los procesos de implementación de los marcos normativos en los contextos provinciales (Ortiz Bergia, 2015). Así, entre otras cuestiones, se enunciaba el decreto que establecía la remuneración mínima a los contratistas viñateros en Mendoza; se reclamaba la sanción de salarios mínimos para los empleados estatales en La Rioja; se solicitaban acciones para evitar los despidos en la provincia de Buenos Aires; se promovían mejoras en las condiciones de trabajo de los obreros zafreros en Catamarca; surgieron duras acusaciones sobre las condiciones de trabajo en Santiago del Estero; se denunció el incumplimiento de la ley sobre trabajo a domicilio en Tucumán. Todas las notas publicadas colocaban a las agencias provinciales del Trabajo en un lugar central y aumentaban sus responsabilidades y su control respecto a las leyes obreras sancionadas. Los temas vinculados a las normativas laborales, su proceso de implementación, sus limitaciones y la desigual distribución regional estuvieron en el centro de la agenda política.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-07",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "oit",
+      "américa",
+      "claridad",
+      "comenzar",
+      "intercambio",
+      "internacionales",
+      "moles",
+      "médico",
+      "partir",
+      "países",
+      "reuniones",
+      "tercer"
+    ],
+    "title": "Mirar hacia afuera (1)",
+    "text": "En el texto editorial del tercer año se enunció con claridad la importancia de incluir notas sobre otros países y de ligarse a la agenda médico-social latinoamericana que se venía complejizando desde los años 20. Si bien anteriormente ya se habían publicado artículos que se referían a otras realidades geográficas, esta ligazón quedó reforzada a partir de 1943 y con más claridad a partir de 1944. Este fue un momento en que, como veremos más adelante, también se buscó difundir los acuerdos logrados con la reanudación de las reuniones de la OIT: “Los fenómenos sociales y de los regímenes legales Karina Ramacciotti ocurridos en el extranjero interesan porque por encima de los detalles que lo diferencian está el principio generador que los produce” (Al comenzar el tercer año, 1944, p. 1). Se dio preferencia a las colaboraciones de los autores latinoamericanos pues se consideraba que “los países de América constituyen una unidad no solo geográfica, sino también moral y política ya que sus problemas presentan caracteres análogos y semejante debe ser la solución que se les da” (Al comenzar el tercer año, 1944, p. 1). Esta atención puesta en las cuestiones internacionales dialogó con el contexto de la Segunda Guerra Mundial en el cual se multiplicaron las instancias de intercambio regional representado por numerosos espacios de reuniones, conferencias, organismos y asociaciones en las cuales América Latina comenzó a ser concebida como un actor económico diferenciado (Caravaca y Espeche, 2016). En 1950, cuando asumió Ricardo Moles como director de la revista, se insistió en el mantenimiento de las relaciones con otros países por medio de las instituciones, cátedras, publicaciones, intercambio de intelectuales y actividades de cooperación. Moles fue un funcionario de envergadura en los foros internacionales. Doctor en Filosofía y Letras por la Universidad de Buenos Aires, estuvo ligado al gremialismo médico –fue bibliotecario de la Confederación Médica Argentina en los años cuarenta– y en los sesenta fue un referente nacional e internacional de la previsión y la seguridad social. Ocupó importantes puestos en organizaciones internacionales tales como la OIT y la Asociación Internacional de Seguridad Social y fue director de la Oficina Regional Americana. Se desempeñó como consultor tanto en la Argentina como en otros países de América (Costa Rica, Ecuador) y en 1962 publicó el libro Historia de la Seguridad Social en Hispanoamérica . En sus alocuciones de los años sesenta, en línea con el perfil que tuvo el Boletín durante su dirección, fue muy enfático en su recomendación de incluir el financiamiento estatal en los sistemas de seguridad social en Latinoamérica y mantuvo como eje la importancia de incorporar a la seguridad social como objetivo de desarrollo y como tarea necesaria para quienes elaboraran planes nacionales (Dvoskin, 2015, p. 147 y 183). A partir de 1950, el Boletín pretendió revisar cómo se había dado solución en otros países a problemas similares y se aspiraba a lograr la unificación legal internacional de todos los estatutos (Nuevas Orientaciones y finalidades, 1950, p. 7). Es decir, es válido plantearse que la discusión sobre El Boletín Informativo de Leyes de Trabajo las políticas sociales en Argentina no se restringía a los límites que imponían los diálogos nacionales sino que era parte de un debate latinoamericano más amplio en el cual lo que se intentaba marcar eran las condiciones similares a lo largo del continente. Las complejidades y diferencias locales quedaban opacadas en la búsqueda de un horizonte similar. Dentro del plano de las ideas estaba lograr “la obra común americana” y la “cooperación continental” (El mundo necesita sociólogos preparados, 1951, p. 6). Como anticipamos, desde mediados de 1943 el Boletín publicó notas de otros países de América y se propuso brindar a los lectores trabajos de autores internacionales en el campo de la legislación obrera o referidos al conocimiento legal o médico, que sistematizaban aspectos de las experiencias regionales ligadas a los logros alcanzados en materia de seguridad y de previsión social. Este concepto se entendía como la implementación de normas y prácticas que permitieran prevenir situaciones de inseguridad o de enfermedad en los ámbitos fabriles; brindar protección al trabajador y su familia frente a las consecuencias ocasionadas por la falta de trabajo; crear mecanismos solidarios para constituir fondos para financiar los momentos de desempleo, enfermedad, licencias maternales, “incapacidades” y vejez. Se publicaron colaboraciones (traducidas al español por los integrantes del cuerpo editorial) provenientes de EE.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-08",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "constitucional",
+      "convenio",
+      "derecho",
+      "legislación",
+      "seguridad",
+      "alfredo",
+      "algunos",
+      "américa",
+      "artículos",
+      "brasil",
+      "brasileño",
+      "canadá",
+      "chile",
+      "fueron"
+    ],
+    "title": "Mirar hacia afuera (2)",
+    "text": "UU., Brasil y Canadá; otras provenían de Chile, Perú, Ecuador, República Dominicana, Guatemala, Paraguay, México y Bolivia y varios otros artículos fueron escritos por referentes locales que sistematizaban las experiencias foráneas. 2 2 Algunos ejemplos de artículos vinculados a América publicados en diferentes números del Boletín Informativo de leyes de Trabajo entre 1942 a 1950 son: “Seguridad Social en los Estados Unidos” (Alfredo Giardino); “De la Protección al Económicamente débil en el Derecho Brasileño” (M. Cavalcanti Carvalho); “Las funciones económicas del Seguro Social (Brasil)” (Rudolf Aladar Metall); “La organización financiera del seguro social Brasileño” (Helvecio Xavier Lopes); “La reconstrucción social del Canadá. Consideraciones al Plan Marsh” (Carlos Desmarás); “Características del Derecho del Trabajo (Perú)” (Eduardo Rosales Puentes); “Alcance que tiene en el orden interno el texto de un convenio Internacional del Trabajo ratificado por Chile” (Alberto Stoehrel Maes); “Servicio de la Madre y el Niño en la Caja de Seguro Obligatorio” (Margarita Jiménez Duhau); “Introducción al Estudio del derecho del trabajo (Chile)” (Alfredo Gaete Berrios); “La medicina del Trabajo” (Exequiel Figueroa Araya); “El derecho del Trabajo” y “La legislación social agrícola durante el imperio incaico y la colonia en algunos países de América” (Moisés Poblete Troncoso); “Principios financieros del régimen de Seguridad Social de Guatemala” (Oscar Barahona Streber); “Fundamentos constitucional del derecho de trabajo paraguayo, sus proyecciones y sus posibilidades” (Boris Acharan Blau). Karina Ramacciotti El intercambio de revistas académicas era un aspecto destacado dentro de las secciones y muestra las relaciones locales e internacionales que se fueron tejiendo. Se recibía y difundía material bibliográfico de tres tipos: boletines de los departamentos del Trabajo provinciales como los de las provincias de Buenos Aires, Entre Ríos, Mendoza, Santa Fe, Santiago del Estero y Tucumán; publicaciones científicas tales como Derecho del Trabajo, Clínica del Trabajo o Trabajo y Seguro Social –dirigida por el brasileño M. Cavalcanti Carvalho–; así como libros vinculados a temas sociales y jurídicos de los que se elaboraban breves reseñas. Algunos de los textos reseñados fueron El seguro social y El Trabajo del presidente del Departamento de Trabajo de Santiago del Estero Amalio Olmos Castro; varios libros del médico chileno especializado en medicina social Gustavo Molina Guzmán; Rumbos de política sanitaria del médico higienista peruano Carlos Enrique Paz Soldán ; La situación de la clase obrera en Inglaterra de Federico Engels ; Storia del movimiento Operaio Italiano (Milán) de Rigola Rinaldo; Libertad y planificación de Karl Mannheim; El derecho del trabajo y la seguridad social en Chile y Problemas sociales y económicos de América Latina de Moisés Poblete Troncoso . La experiencia de Chile en materia de legislación social fue la que tuvo un mayor protagonismo en la publicación. Así, el referente chileno en cuanto al conocimiento de la legislación social del continente americano, Moisés Poblete Troncoso, tuvo un lugar destacado. 3 Este abogado y profesor de la Universidad de Chile, director de la Oficina del Trabajo, subsecretario del Ministerio de Higiene y jefe del grupo latinoamericano de la OIT de Ginebra entre 1927 a 1940 publicó en el Boletín el artículo “El derecho del Trabajo”, en el cual sostenía que los países de América no podían inventar un derecho propio ya que los problemas del trabajo eran similares, por lo tanto requerían las mismas soluciones y les era de utilidad aprovechar otras experiencias. Solo los problemas propios que exigían una modalidad especial –tales como el “problema del trabajador indígena” o el “trabajo agrícola”– podían llegar a tener alguna particularidad, pero insistía en que no se modificaban las bases fundamentales y globales del problema. Hizo una asociación entre las ciencias naturales y las ciencias sociales: “un enfermo de cáncer o del corazón 3 Sobre Poblete Troncoso y sus vínculos con la OIT así como con dirigentes sindicales latinoamericanos –especialmente Vicente Toledano- veáse el capítulo de Herrera González en esta compilación. El Boletín Informativo de Leyes de Trabajo no va a recibir un tratamiento diverso de un país a otro” (Poblete Troncoso, 1942, p. 12-13). Asimismo señalaba la importancia que tuvieron la Organización Internacional del Trabajo y los convenios internacionales del trabajo en la inspiración de la legislación social de América Latina. También destacaba el impacto que habían tenido en la región las dos Conferencias americanas del trabajo –en Santiago de Chile (1936) y en La Habana (1939)– y las Conferencias panamericanas de Montevideo (1933) y en Lima (1938).",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-09",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "enfermedad",
+      "legislación",
+      "oit",
+      "seguridad",
+      "becerra",
+      "chile",
+      "desmarás",
+      "experiencia",
+      "instituto",
+      "locales",
+      "materia",
+      "mejía",
+      "partir",
+      "previsión"
+    ],
+    "title": "Mirar hacia afuera (3)",
+    "text": "En este sentido, resaltaba el papel de los organismos internacionales y no particularizaba en los recorridos históricos puntuales ni en las relaciones de fuerza locales, a pesar de ser uno de los intelectuales de la región que más había estudiado dichas particularidades a partir de sus relaciones con la OIT (Yáñez Andrade, 2013, p. 52). Carlos Desmarás, profesor de Legislación del Trabajo de la Universidad Nacional de La Plata y presidente de la ya mencionada Comisión de Seguridad Social, destacó el esfuerzo realizado por Chile en 1924 en materia de seguridad social. Señaló que la experiencia trasandina sirvió para perfeccionar el sistema de ese país y también el de los restantes. Enumeró las características de la Ley 4.054 de 1924 que implementó el seguro obligatorio por enfermedad e invalidez. Según el autor, la influencia de la OIT a partir de la segunda década del siglo XX fue un parte aguas para la incorporación en las agendas locales de las cuestiones relacionadas con la seguridad social. Asimismo reconoció la importancia del profesor chileno Eduardo Cruz Coke en la organización de la medicina preventiva (Desmarás, 1943, p. 23). Es interesante señalar que Manuel Mejía Becerra, funcionario del Instituto de Previsión Social de Ecuador, al realizar un racconto de la sanción del seguro social en Ecuador y la creación del Instituto de Previsión Social en dicho país también remitió a la experiencia chilena, ya que desde allí se habían contratado los actuarios para elaborar los censos, la clasificación de trabajadores y el relevamiento de los riesgos laborales a cubrir (Mejía Becerra, 1950, p. 10). La experiencia temprana de Chile en materia de seguridad social generó saberes técnicos que fueron aprovechados en otras latitudes a la hora de diseñar e implementar políticas sociales, así como destacados y referenciados en la publicación. En el Boletín se difundían los viajes realizados por técnicos o funcionarios de otros países, tal como el de J. N. Perrot, técnico del Consejo Interamericano de Seguridad de EE. UU. e integrante de la entidad que tenía a su Karina Ramacciotti cargo el estudio y la coordinación sobre los problemas ligados a los accidentes de trabajo y a su prevención. Perrot organizó en Brasil una Asociación para la prevención de accidentes y realizó un intercambio en Cuba, Panamá, Venezuela, Puerto Rico (Arribo a nuestro país un técnico en previsión de accidentes, 1942, p. 61). Asimismo, se daban a conocer los viajes de las delegaciones de técnicos de la Argentina a otros países. En 1943, Francisco Dovidio y Carlos Desmarás, ambos profesores de la Universidad Nacional de La Plata, concurrieron al país trasandino para estudiar el funcionamiento del sistema previsional y recorrieron la Caja de Seguro Obligatorio, sanatorios y policlínicos en Santiago y en Valparaíso. En su informe, publicado en el Boletín , sostenían que era indispensable fomentar en las universidades argentinas este tipo de intercambios para que se fortalecieran las miradas sobre la previsión social. Se veía con mucho entusiasmo la sanción del seguro obrero obligatorio en 1924 en Chile y destacaban que la sanción de la Ley de Medicina Preventiva en 1938 (Ley N.º 6.174) permitió recuperar a los enfermos de sífilis, de enfermedades cardiovasculares y de tuberculosis de manera gratuita. Al final del informe se reflexionaba sobre la necesidad de resolver el problema de la seguridad social en la Argentina y se convocaba a la solidaridad de las universidades, los organismos provinciales y la activa participación del Estado (Francisco Dovidio y Carlos Desmarás, 1943, p. 15-16). Otro ejemplo lo constituye el viaje realizado por Oscar Meana y Moles en 1946 para estudiar la organización estadística en los Servicios de Previsión Social de Chile. Sus impresiones fueron publicadas en el Boletín pues se consideraba que el sistema previsional chileno constituía un modelo a seguir (Moles, 1946, p. 33-39 y 1947, p. 27). También se resaltaba que la sanción en 1938 en Chile de la Ley de Medicina Preventiva había intentado ampliar la protección entre la población en general y había impulsado la asistencia médica curativa y preventiva y las pensiones de invalidez y de vejez. Esta exaltación de los logros de las políticas implementadas en otros países –en este caso en el Estado trasandino– debe leerse a la luz de la necesidad de buscar insumos informativos, validación internacional y de legitimar el lugar de expertos desde el cual que se piensan y diseñan políticas sociales. El chileno Exequiel Figueroa Araya publicó su artículo “La Medicina del Trabajo”, que había sido galardonado con el premio anual que otorgaba El Boletín Informativo de Leyes de Trabajo la Caja de Seguro Obrero en Chile. Allí sintetizaba el rol de los médicos y de las visitadoras sociales en el ámbito fabril y explicaba el funcionamiento de la Sección Accidentes de Trabajo de la Caja Nacional creada en 1927.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-10",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "educación",
+      "enfermedad",
+      "legislación",
+      "salud",
+      "asistencia",
+      "compañías",
+      "hospital",
+      "medio",
+      "médica",
+      "nacional",
+      "organizado",
+      "territorio",
+      "trabajadores"
+    ],
+    "title": "Mirar hacia afuera (4)",
+    "text": "A partir de los fondos recaudados se había organizado en Santiago la atención médica por medio del Hospital Traumatológico, el cual fue inaugurado a fines de 1937 y estuvo bajo la dirección de Teodoro Gebauer Weisner. Este hospital, considerado de vanguardia y equipado con la más moderna tecnología de la época, se convirtió en una competencia para las compañías aseguradoras, y las organizaciones obreras impulsaban que los trabajadores denunciasen a los patrones que se inclinaran por compañías comerciales, y promovían que hicieran los aportes en la Sección Accidentes de Trabajo de la Caja Nacional de Ahorros. Además su acción se extendía a las provincias por medio de “postas traumatológicas” que pretendían asegurar el tratamiento en cualquier punto del territorio (Figueroa Araya, 1944, p. 59). Juan Atilio Bramuglia, por entonces abogado de la Unión Ferroviaria, publicó un artículo sobre legislación comparada y destacó la experiencia de Perú, donde se impulsaron medidas activas en las áreas de salud y de educación. En 1936 se creó la Caja Nacional de Seguro Social Obrero (Ley N.º 8.433) cuya concreción más destacada fue la inauguración en 1940 del Hospital Obrero de Lima, organizado por el médico Guillermo Almenara Irigoyen, Edgardo Rebagliati y Juan José Calle. Se pretendió una marcada profesionalización técnica y para tal fin se contrataron equipos médicos de Estados Unidos; también se introdujeron técnicas y procedimientos asistenciales y de administración que buscaban optimizar el tiempo y mejorar la asistencia en el territorio nacional de los trabajadores de la industria, del comercio y de la agricultura, los aprendices, los trabajadores a domicilio y los del servicio doméstico. Los riesgos cubiertos serían los de enfermedad, la maternidad, invalidez, vejez, muerte y la rehabilitación. Se acordaron prestaciones de asistencia médica, hospitalaria, terapéutica, subsidios, pensiones y material ortopédico, y se lo financió con las cotizaciones de los asegurados, los patronos y el Estado (Bramuglia, 1943, p. 39). Es destacable la similitud entre Perú y Chile en los años treinta en cuanto al intento de concretar sistemas más abarcadores de seguridad social. Es muy probable que los importantes encuentros auspiciados por la OIT influyeran significativamente en sendos países para rectificar marcos legales que ya se Karina Ramacciotti encontraban enunciados, para, de esta forma, reforzar y difundir modelos existentes. Cabe recordar que en 1936 se realizó en Chile la Conferencia del Trabajo de los Estados Americanos; en 1941, la Conferencia Interamericana de Previsión Social en Lima; y en 1942, la Primera Conferencia Interamericana de Seguridad Social en Santiago de Chile, que tuvo como objetivo fundamental intensificar la cooperación de los países de América en el campo de la seguridad social para preservar y mejorar la salud y la capacidad productiva de los trabajadores y sus familias. En particular, la Conferencia Interamericana de Seguridad Social en Santiago de Chile (1942) consideró la aplicación de seguros sociales a los trabajadores agrícolas, a los independientes y al personal doméstico; la eficacia económica de las prestaciones médicas y farmacéuticas en el seguro de enfermedad; reflexionó sobre un programa de invalidez; planteó la necesidad de instaurar el seguro social y las relaciones con la sanidad pública y la asistencia social así como la de crear un sistema uniforme de bioestadística. Como sostiene Patricia Flier, estas conferencias marcaron tendencias en la política laboral y social de la época: la creciente intervención del Estado en la regulación de diversas esferas de la vida social; la aceptación progresiva por parte de los empresarios de la necesidad de tal intervención; la integración creciente de los sindicatos en las estructuras del Estado; el descrédito de las políticas liberales; el auge del pleno empleo; la gradual universalización de la seguridad social y la preocupación por el desmejoramiento psicofísico del trabajador, debido a su situación económica, la insalubridad, el exceso del trabajo y la fatiga (Flier, 2006, p. 197-226; Gaggero y Garro, 2004, p. 175-192). A partir de la segunda y tercera década del siglo XX, las resoluciones de los convenios fueron ratificadas por las dinámicas de las políticas locales de los Estados miembros de América Latina. La publicación se hizo eco del accionar de la OIT a mediados de 1944, cuando se reanudaron las reuniones de los organismos internacionales; difundía las noticias sobre los encuentros y sus acuerdos centrales, e insistía en que los acuerdos de la OIT eran tomados por las legislaciones nacionales “a la manera como la Constitución de un Estado lo hace con relación a las leyes que en los mismos se dictan” (La organización internacional del trabajo y los problemas de post-guerra, 1944, p. 33-34). La OIT jugó un papel destacado en la difusión de la agenda reformista y en el desarrollo del derecho laboral en los países del continente.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-11",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "conferencia",
+      "educación",
+      "higiene",
+      "igualdad",
+      "oit",
+      "acuerdo",
+      "construcción",
+      "contra",
+      "estados",
+      "filadelfia",
+      "internacional",
+      "machera",
+      "representantes",
+      "salubridad"
+    ],
+    "title": "Mirar hacia afuera (5)",
+    "text": "El Boletín Informativo de Leyes de Trabajo Asimismo, su accionar reconoció los hábitos y la diversidad cultural, ideológica y religiosa que le otorgaban una fisonomía diferente a la región (Herrera González, 2013, p. 230). En 1945, Armando David Machera esbozó una referencia a los temas planteados en la Declaración de Filadelfia aprobada en la Reunión N.º 26 de la OIT en 1944. Los principios allí estipulados reafirmaron que el trabajo no era una mercancía; que la libertad de expresión y de asociación son esenciales para el progreso y deberían ser constantes; que la pobreza, en cualquier lugar, constituye un peligro para la prosperidad de todos; que la lucha contra la necesidad debe proseguirse con incesante energía dentro de cada nación y mediante un esfuerzo internacional continuo y concertado, en el cual los representantes de los trabajadores y de los empleadores colaboren en un pie de igualdad con los representantes de los gobiernos, participen en discusiones libres y en decisiones de carácter democrático, a fin de promover el bienestar común (Machera, 1945, p. 3-8). También se informó en la publicación sobre los aspectos que se debatirían en las reuniones de la Conferencia Internacional del Trabajo en Filadelfia (1944), en San Francisco (1948) y en Ginebra (1950). Se difundieron y se calificaron positivamente los resultados de la cooperación interamericana en los problemas de salubridad pública, como el acuerdo firmado en 1942 entre Bolivia y Estados Unidos. Como resultado de ese acuerdo, Estados Unidos financió un programa de construcción hospitalaria (hospitales de Guayamerín y Riberalta), la creación de dispensarios fijos y móviles, la construcción del edificio donde funcionó el Ministerio de Higiene y Salubridad en la ciudad de La Paz, equipamiento tecnológico, capacitación de médicos, enfermeras y visitadores sociales, acciones contra el paludismo, obras de ingeniería sanitaria e instalación de servicios de educación higiénica (Noticiario, 1947, p. 41-47). Asimismo, se dieron a conocer noticias de personalidades de la OIT, como el homenaje que se le hizo a Osvaldo Stein, subdirector de la organización, a causa de su fallecimiento el 29 de diciembre de 1943. Dentro de su accionar se destacaba su saber técnico, sus logros vinculados al seguro social y sus estudios sobre el bienestar económico de los trabajadores (Desmarás, 1943, p. 72). Albert Thomas, creador de la OIT, también tuvo un lugar en la publicación. Juan Sívori (1947, p. 23-26), director de Bioestadística y Geografía, médico social y director de Estadística y Geografía policial de la provincia Karina Ramacciotti de Buenos Aires durante el peronismo, destacó su personalidad a partir de su propio recuerdo de las redes que había entablado con Thomas. Este homenaje a uno de los referentes de la OIT, que apelaba a los vínculos entablados por un funcionario argentino con el referente del organismo internacional de políticas laborales, le servía para legitimar su lugar como técnico experto en la administración pública. El Boletín otorgó una amplia cobertura a la Tercera Conferencia Interamericana de Seguridad Social realizada en Buenos Aires entre el 12 al 27 de marzo de 1951. Como señalamos, la Primera Conferencia se había realizado en Chile en 1942. La Tercera Conferencia fue presidida por Eva Perón y contó con las participaciones de Pierre Laroque, director general de Seguridad del Trabajo francés y uno de los fundadores de la seguridad social de aquel país, y de Leo Wildman, presidente de la Asociación Internacional de Seguridad Social, enmarcada en la OIT. Entre las discusiones centrales estuvieron el planteo del estado de la seguridad social en las Américas; el debate sobre los medios de percepción de pagos de la cotizaciones; los métodos de control y sistemas de inspección y el logro de la coordinación de los seguros de enfermedad e invalidez (Conferencia Interamericana de Seguridad Social, 1951: 8). Como consecuencia de las discusiones allí entabladas se creó, con sede en la dirección del Boletín, el Seminario Argentino de Seguridad Social, cuyo objetivo fue capacitar a profesionales –se refería a economistas y sociólogos– para difundir, perfeccionar y promover el estudio de la seguridad social, organizar laboratorios de investigación, crear un Fichero Bibliográfico de seguridad social con información actualizada sobre doctrina, legislación, sistemas de aplicación contable-administrativo. Buscaba ser un vínculo entre cátedras universitarias y expertos nacionales e internacionales y estuvo bajo la dirección de Sívori y Moles (Seminario Argentino de Seguridad Social. Su fundación, 1951, p. 24 y 25).",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-12",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "oit",
+      "salud",
+      "creación",
+      "dinámico",
+      "experiencias",
+      "fueron",
+      "internacionales",
+      "intervención",
+      "morresi",
+      "organismos",
+      "partir",
+      "referentes",
+      "saberes",
+      "sociales"
+    ],
+    "title": "Mirar hacia afuera (6)",
+    "text": "En este sentido, las redes internacionales que se establecieron a partir de los canjes de revistas y libros de la especialidad, los viajes de referentes locales al exterior, la publicación de experiencias extranjeras, la difusión de artículos de especialistas extranjeros, la divulgación de noticias de los organismos internacionales de trabajo y de salud y el intercambio de experiencias contribuyeron a conformar un dinámico campo de referentes especializados El Boletín Informativo de Leyes de Trabajo en cuestiones sociales que, a partir de sus intervenciones, fueron brindando un mayor consenso a la creación de políticas sociales con sustrato regional y a la intervención de organismos supranacionales. Junto con Sergio Morresi y Gabriel Vommaro, consideramos que la producción y la circulación –nacional e internacional– de saberes y de personas actúan algunas veces como productores-exportadores, otras como receptores-importadores de saber y siempre como generadores-reproductores de los discursos originados en esos saberes (Morresi y Vommaro, 2012, p. 15). Esta red trasnacional, si bien tiene sus antecedentes más institucionalizados a partir de la creación de la OIT en la década del veinte, mantuvo un dinámico crecimiento luego de la finalización de la Segunda Guerra Mundial. Los temas tratados en el Boletín fueron un indicador de los tópicos revisados en materia de intervención social del Estado y de aquellos actores, como Moles, que tuvieron un papel destacado en las décadas siguientes.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-13",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "derechos",
+      "legislación",
+      "peronismo",
+      "seguridad",
+      "creación",
+      "nacional",
+      "planteaba",
+      "política",
+      "previsión",
+      "publicación",
+      "secretaría",
+      "social"
+    ],
+    "title": "Mirar la política local (1)",
+    "text": "La publicación no tuvo relación directa con el Estado ni con partidos políticos ya que se autorreferenciaba como “prescindente de vinculaciones partidista” y en algunas notas se insistía en que era muy importante para toda reforma social “prescindir de toda filiación político-social militante y unilateral” (En la Universidad Nacional de La Plata se ha creado la Comisión de Seguridad Social, 1943, p. 3). Asimismo, se planteaba “no abusar del término “justicia” que se supone quitar lo que es de uno para darlo a otro, porque su recto sentimiento es de dar a cada uno lo suyo, es decir, lo que cada uno ha apropiado con esfuerzo y visión del porvenir”. Se reforzaba la idea de poner “coto al desborde de estatismo que desde hace años viene desnaturalizando la esencia misma de lo nacional” (Límites infranqueables, 1943, p.7). Esa pretendida desvinculación era habitual en aquellos discursos que se proclamaban técnicos y por lo tanto alejados de los intereses supuestamente impuros de la política. La figura más mencionada, con mayor protagonismo, fue la de Juan Domingo Perón cuando asumió la Secretaría de Trabajo y Previsión por el Decreto-Ley 15.074 del 23 de noviembre de 1943; cuestión destacable dada la retórica que se planteaba desde los primeros números, ligada a la necesidad de centralizar e implementar la legislación laboral auspiciada “desde arriba”. Una de las estrategias que adoptó la publicación para evitar Karina Ramacciotti tomar partido sobre el impacto del peronismo en el derrotero de la política fue publicar los decretos de la creación de la Secretaría de Trabajo y Previsión (STyP) y luego del Ministerio de Trabajo y Previsión que se consideraban en línea con los ejes del Boletín . Algunos de ellos fueron los que daban pasos importantes para apuntalar la seguridad social; los de creación de los Tribunales del Trabajo; la concesión de licencias laborales y vacaciones pagas y la Declaración de los Derechos del Trabajador. En el número XV de 1945 se publicó un editorial sobre la función que debería tener la STyP: “puede ser un poderoso instrumento de pacificación social, que puede realizarse mediante una sostenida y elevada política de conciliación y acercamiento entre empleadores y empleados, que procure la armonización de intereses aparentemente divergentes pero en la realidad indisolublemente unidos por las leyes fatales de la economía” (Función de la Secretaría de Trabajo y Previsión, 1945, p. 17-18). Tal cual se venía sosteniendo desde sus inicios, la conciliación y el arbitraje se ponderaban como las estrategias para gestionar las relaciones laborales y era ese sentido el que se destacaba de la acción política. A pesar de que no hubo una clara ni sostenida referencia al contexto político de la época, existieron ciertos guiños que posicionaban al Boletín dentro de las ideas e intereses que se enunciaban desde la creación de la STyP. Así pues, la aprobación del decreto-ley de Medicina Preventiva y Curativa N.° 30.656 el 15 de noviembre de 1944 y la creación del Instituto de Medicina Preventiva y Curativa fueron medidas celebradas por el Boletín ya que se consideró que respondían a una “prédica, que a través de la pluma de nuestros colaboradores hemos venido haciendo desde estas páginas”. En este sentido, la revista se distanciaba de la mirada rupturista que la STyP pretendía dar a su gestión. Como sostiene María Paula Luciani (2014, p. 328), el peronismo hizo aparecer la creación de la agencia laboral como un absoluto y decisivo quiebre en la historia de las políticas sociales y se aspiraba a imprimir la idea de que de las realizaciones impulsadas nacía la doctrina. De manera contraria a la retórica del gobierno, el Boletín buscó rescatar su tradición y su accionar en el impulso de ideas y proyectos de legislación social y remarcar el influjo de los acuerdos de la OIT, el Informe Beveridge y la gestión de sus técnicos. Como señalan Morresi y Vommaro (2012, p. 14), se pretendía dar prioridad al discurso técnico y lograr una intervención sobre lo social que tendería a unir varios espacios soEl Boletín Informativo de Leyes de Trabajo ciales, de modo de construir consensos durables sobre la necesidad y la justeza de ese discurso y de los dispositivos e instituciones asociados a él. En el volumen de fines de 1944 no solamente se publicó el decreto de la creación sino que se reforzó la idea de encontrar una ligazón unificadora con las soluciones en materia de política social de otras latitudes. Una vez más, la remisión al contexto internacional permitía evitar un claro posicionamiento político y no adentrarse en las particularidades del proceso de implementación. Cabe señalar que el decreto-ley de Medicina Preventiva y Curativa respondió al interés –planteado en la segunda posguerra– de lograr un sistema de seguridad social universal con prestaciones mínimas y uniformes para los riesgos de enfermedad, maternidad, enfermedades profesionales, accidentes de trabajo, desocupación, invalidez, vejez y muerte.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-14",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "oit",
+      "salud",
+      "capacidad",
+      "estrategia",
+      "instituto",
+      "local",
+      "nacional",
+      "organismo",
+      "política",
+      "social"
+    ],
+    "title": "Mirar la política local (2)",
+    "text": "En función de este objetivo se creó en octubre de 1944 el Instituto Nacional de Previsión Social (INPS), primer paso hacia la constitución del proyecto del seguro social con el que se aspiraba a cubrir con recursos estatales los riesgos del individuo y de la familia por medio de un organismo centralizador, coordinador y asesor de las actividades sociales del Estado. Con el INPS, organismo estatal encargado de administrar los fondos, se pretendía ejercer un control preventivo sobre ciertos padecimientos que repercutían en la capacidad física y técnica del trabajador; además de focalizar en la detección de enfermedades que podrían causar severos problemas clínicos a futuro y limitar la capacidad para trabajar (Instituto de Medicina Preventiva y Curativa, 1944, p. 55). A partir de 1947, la publicación perdió periodicidad y mantuvo referencias cada vez más aisladas e impersonales sobre los fenómenos de la política local. Sostuvo la estrategia de reproducir noticias de otros países de América Latina, publicar los acuerdos de la OIT y los referidos a la salud pública. El contexto regional e internacional fue la estrategia utilizada para evitar tomar partido sobre los sucesos locales y asimismo buscar legitimaciones externas que no se explicaran por el derrotero político nacional.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-15",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "derechos",
+      "oit",
+      "peronismo",
+      "seguridad",
+      "actores",
+      "análisis",
+      "biernat",
+      "cuarenta",
+      "demandas",
+      "ideas",
+      "internacionales",
+      "políticas",
+      "proceso",
+      "ramacciotti"
+    ],
+    "title": "A modo de cierre",
+    "text": "En otros trabajos hemos señalado que para el estudio de la historia de las políticas sociales son de utilidad tanto el abordaje de los conflictos sociales y las demandas realizadas por diversos actores sociales como también la relación entre las demandas del Estado y los conocimientos ofrecidos desde Karina Ramacciotti los ámbitos profesionales. Este abanico de demandas y propuestas posibilita analizar a la política social como el resultado o la síntesis de los intereses de distintos actores que procuran brindar respuestas sobre cuestiones consideradas prioritarias en un momento determinado (Ramacciotti, 2009; Biernat y Ramacciotti, 2012; Biernat y Ramacciotti, 2013). En este texto intentamos recorrer otra dimensión de las políticas sociales: el análisis del peso de las ideas internacionales en el ámbito local y cómo la utilización de dicho utillaje de ideas y de redes sociales con anclaje regional sirvió como una estrategia para intentar no tomar partido respecto del peronismo, movimiento político que puso en escena como nunca antes la concreción de los derechos sociales. Así pues, se rastrearon las ideas internacionales que circularon y repercutieron sobre la conceptualización de la seguridad social en Argentina en los años cuarenta del siglo XX a partir del análisis de una publicación vinculada a los saberes técnicos y estatales y que también estuvo relacionada con los sectores industriales ligados al proceso de crecimiento por sustitución de importaciones. Los 22 números del Boletín Informativo de Leyes de Trabajo nos permitieron estudiar cómo el pensar las políticas sociales en los años cuarenta remitió a un proceso regional intenso signado por el peso de la OIT. Las políticas sociales fueron legitimadas, por un lado, por un proceso regional en el cual se intentó buscar ideas, experiencias y relaciones; y por otro lado, se procuró homologar ciertas condiciones sociales en todo el territorio nacional apelando a los puentes de comunicación gestados con los referentes de las agencias laborales del interior del país. Estas relaciones técnicas y políticas tuvieron un espacio de difusión en los medios de comunicación, y en este sentido nos interesó esta publicación, en la medida que, por medio de un trabajo de intervención en los medios, les permitió a los saberes técnicos y políticos ganar notoriedad pública y al mismo tiempo “educar” a la sociedad en la identificación de los problemas y en la búsqueda de soluciones (Morresi y Vommaro, 2012, p. 17). Este trabajo pretendió asir la dimensión trasnacional en la construcción de las políticas sociales, entendida como la posibilidad de pensar las conexiones, las redes, los movimientos, así como los flujos de personas, prácticas y bienes (Silva, 2015, p. 102). Buscamos no desatender las implicancias políticas que poseía la circulación, ya que apelar a los modelos extranjeros para fundamentar e impulsar transformaciones nacionales otorgó legitimidad a los marcos legales e institucionales ligados a la seguridad social y también sirvió El Boletín Informativo de Leyes de Trabajo para invisibilizar los procesos políticos locales y el variado abanico de intereses y demandas sociales que se venían formulando desde décadas anteriores.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-16",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "legislación",
+      "seguridad",
+      "aires",
+      "bibliografía",
+      "biblos",
+      "biernat",
+      "buenos",
+      "informativo",
+      "latinoamericana",
+      "leyes",
+      "ramacciotti",
+      "social"
+    ],
+    "title": "Bibliografía y Fuentes (1)",
+    "text": "**Artículos citados del Boletín Informativo de Leyes de Trabajo** Al comenzar el tercer año. (1944). Boletín Informativo de Leyes de Trabajo, 3 (13), 1. Arribo a nuestro país un técnico en previsión de accidentes. (1942). Boletín Informativo de Leyes de Trabajo , 1 (2), 61. En la Universidad Nacional de La Plata se ha creado la Comisión de Seguridad Social. (1943). Boletín Informativo de Leyes del Trabajo, 2 (6), 47-48. Instituto de Medicina Preventiva y Curativa (1944). Boletín Informativo de Leyes del Trabajo, 3 (13), 55. La industria argentina debe adaptarse a las condiciones del momento actual. (1942). Boletín Informativo de Leyes del Trabajo , 1 (2), 29. La organización internacional del trabajo y los problemas de post-guerra (1944). Boletín Informativo de Leyes del Trabajo , 2 (11), 33-34. Las efemérides patrias en los ámbitos del Trabajo. (1942). Boletín Informativo de Leyes del Trabajo , 1 (12), 5. Límites infranqueables (1943). Boletín Informativo de Leyes del Trabajo. II (VIII), 17. Lo que urge en materia de legislación de trabajo. (1942). Boletín Informativo de Leyes del Trabajo, 1 (2), 5. Noticiario. (1948). Boletín Informativo de Leyes de Trabajo, 7 (24-25), 41- 47. Nuestros Propósitos. (1942). Boletín Informativo de Leyes del Trabajo , 1 (1),12. Nuevas orientaciones y finalidades. (1950). Boletín Informativo de Leyes del Trabajo, 9 (26-27), 7-8. Seminario Argentino de Seguridad Social. Su fundación. (1951 ). Boletín Informativo de Leyes de Trabajo , 3 (1-3), 24 y 25.\n\n**Bibliografía**\n\nBeigel, F. (2003). Las revistas culturales como documentos de la historia latinoamericana. Utopía y Praxis Latinoamericana, 20 , 105-115. Karina Ramacciotti Biernat, C. y Ramacciotti, K. (Comp.). (2012). Políticas sociales: entre demandas y resistencias. Buenos Aires: Biblos. Biernat, C. y Ramacciotti, K. (Comp.). (2013). Crecer y Multiplicarse. La política sanitaria materno infantil. Argentina, 1900-1960. Buenos Aires: Biblos. Bohoslavsky, E. y Morresi, S. ( 2011). Las derechas argentinas en el siglo XX: ensayo sobre su vínculo con la democracia. Iberoamérica Global, 4 (2), 17-48. Recuperado de: http://www.ungs.edu.ar/ms_idh/wp-content/uploads/2012/09/iberoamerica-global.pdf Bramuglia, J. (1943). Acción Internacional y Legislación Comparada. Boletín Informativo de Leyes de Trabajo , 2( 8 ), 31-39. Caravaca, J. y Espeche, X. (2016). América Latina como problema y como solución: Robert Triffin, Daniel Cosio Villegas y Raúl Prebish antes del Manifiesto Latinoamericano 1944-1946. Desarrollo Económico 55 (217) , 411-433. Caruso, L. (2014). La política laboral argentina en la inmediata posguerra: una perspectiva internacional, 1907-1925. Relaciones. Estudios de historia y sociedad , 35 (138), 11-43. Conferencia Interamericana de Seguridad Social. (1951). Boletín Informativo de Leyes de Trabajo , 3 , 1-38. Cueto, M. (2004). El valor de la salud. Historia de la Organización Panamericana de la Salud. Washington: Organización Panamericana de la Salud. Desmarás, C. (1943). Dr. Osvaldo Stein. Subdirector de lo Oficina Internacional del Trabajo. Boletín Informativo de Leyes de Trabajo , 2 (9), 72. Dovidio, F. y Desmarás, C. (1943). Chile y el seguro social. Boletín Informativo de Leyes del Trabajo, 2 (8), 15-16. Dvoskin, N. (2015). La seguridad social argentina entre el desarrollismo y el neoliberalismo (1957-1994). Ideas y teorías económicas en los debates sobre su reforma . Tesis de doctorado Facultad de Ciencias Sociales. Universidad de Buenos Aires. Figueroa Araya, E (1944). La Medicina del Trabajo. Boletín Informativo de Leyes de Trabajo, 2 (9), 59. Fiorucci, F. (2011). Intelectuales y peronismo (1945-1955). Buenos Aires: Biblos. Flier, P. (2006). Las organizaciones internacionales y las recomendaciones de política de seguridad social para América Latina: el caso de la Conferencia de Seguridad Social. En D. Lvovich y J. Suriano (Comps.). Las El Boletín Informativo de Leyes de Trabajo políticas sociales en perspectiva histórica, Argentina, 1870-1952 , (pp. 197-226) . Buenos Aires: Prometeo. Función de la Secretaría y Previsión. (1945). Boletín Informativo de Leyes del Trabajo , 4(15), 17-18. Gaggero, H. y Garro, A. (2004). La política de seguridad social peronista. En P. Berrotarán, A. Jáuregui, y M. Rougier, (Eds.), Sueños de bienestar en la nueva Argentina. Estado y política pública durante el peronismo, 1946-1955 , (pp.175-192). Buenos Aires: Imago Mundi. González Leandri, R. (2013). Internacionalidad, higiene y cuestión social en Buenos Aires (1850-1910). Tres momentos. Revista de Indias , 73 (257), 23-54. Graciano, O. (2008). Entre la torre de marfil y el compromiso político. Intelectuales en la izquierda en la Argentina, 1918-1955. Bernal: Universidad de Quilmes. Herrera González, P. (2013). La primera conferencia regional del trabajo en América: Su influencia en el movimiento obrero, 1936. En F. Herrera León, y P.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  },
+  {
+    "id": "oit-ramacciotti-17",
+    "tipo": "articulo",
+    "category": "investigaciones",
+    "tenant": "shared",
+    "tags": [
+      "boletín",
+      "derecho",
+      "legislación",
+      "obrera",
+      "peronismo",
+      "aires",
+      "buenos",
+      "castro",
+      "comps",
+      "edhasa",
+      "informativo",
+      "instituciones",
+      "laborales",
+      "leyes",
+      "lobato"
+    ],
+    "title": "Bibliografía y Fuentes (2)",
+    "text": "Herrera González, (Coords.), América Latina y la Organización Internacional del Trabajo: redes, cooperación técnica e institucionalidad social, 1919-1950. México: Instituto de Investigaciones Históricas. Universidad Michoacana de San Nicolás de Hidalgo. Lobato, M. (2009). La prensa obrera. Buenos Aires: Edhasa. Lobato, M. y Suriano J. (2014). Trabajo, cuestión social e intervención social. En M. Lobato y J. Suriano (Comps.). La Sociedad del trabajo. Las instituciones laborales en la Argentina (1900-1955), (pp.9-56) . Buenos Aires: Edhasa. Luciani, M. (2014). José María Freire, de secretario a ministro: un funcionario obrero en el área de Trabajo y Previsión. En M. Lobato, y J. Suriano (Comps.). La Sociedad del trabajo. Las instituciones laborales en la Argentina (1900-1955), (pp.328) . Buenos Aires: Edhasa. Machera, A. (1945). La declaración de Filadelfia. Boletín Informativo de Leyes del Trabajo, 4 (15), 3-8. Martínez, A. (2008). La prehistoria del peronismo en Santiago del Estero. Laborismo, radicalismo y política criolla en las elecciones de 1946. Quinto Sol , 12 , 73-92. Recuperado en 2 http://www.scielo.org.ar/pdf/quisol/n12/ n12a04.pdf. Karina Ramacciotti Mejía Becerra, M. (1950). Como fue concebido el seguro social en la República del Ecuador. Boletín Informativo de Leyes del Trabajo , 9(26- 27), 9-16. Moles, R. (1946). Estadística social. Boletín Informativo de Leyes del Trabajo, 5 (19-20), 33-39. Moles, R. (1947). Estadística social (Continuación). Boletín Informativo de Leyes del Trabajo, 6 (21-22), 27. Morresi, S. y Vommaro, G., (Comps.) (2011). Saber lo que se hace. Expertos y política en la Argentina. Buenos Aires: Prometeo. Olmos Castro, A. (1942a). Incumplimiento de leyes obreras. Boletín Informativo de Leyes de Trabajo, 1 (5), 63-65. Olmos Castro, A. (1942b). El derecho del trabajo. Boletín Informativo de Leyes de Trabajo, 1 (5), 9-14. Olmos Castro, A. (1943). La legislación social agrícola durante el imperio incaico y la colonia en algunos países de América. Boletín Informativo de Leyes de Trabajo , 2 (9), 45-48. Ortiz Bergia, M (2015). El Estado en el interior nacional en la primera mitad del siglo XX. Aproximaciones historiográficas a un objeto en constante revisión. Estudios Sociales del Estado , 1 (1), 59-84. Recuperado de http:// estudiossocialesdelestado.org/index.php/ese/article/view/24 Plotkin, M. y Zimmerman, E. (2012). Introducción de Saberes de Estado en la Argentina, siglos XIX y XX. En M. Plotkin, y E. Zimmerman, (Eds.). Los Saberes de Estado, (pp. 9-28). Buenos Aires: Edhasa. Ramacciotti, K. (2009). La política sanitaria del peronismo. Buenos Aires: Biblos. Rapalo, M. (2012). Patrones y obreros. La ofensiva de la clase propietaria, **1918-1930. Buenos Aires : Siglo XXI.** Rosales Puente, E. (1943). Tribunales y normas procesales del trabajo en la República de Perú. Boletín Informativo de Leyes de Trabajo, 2 (9), 61-67. Salvatore, R. (comp.). (2007). Los lugares del saber. Contextos locales y redes transnacionales en la formación del conocimiento moderno. Rosario: Beatriz Viterbo Editora. Siebel Jensen, W. (1943). El Régimen de beneficios de la Caja de Previsión de Empleados Particulares de Chile. Boletín Informativo de Leyes de Trabajo, 2 (8), 13-17. El Boletín Informativo de Leyes de Trabajo Silva, J. (2015). Reformas carcelarias en Argentina y Chile de entreguerras. Ideas, políticas públicas y cambios institucionales. Estudios Sociales del Estado , 1 (1), 87-114. Recuperado de: file:///C:/Users/Karina/Downloads/19-64-1-PB.pdf Sivori, J. (1947), La notable personalidad de Albert Thomas. Boletín Informativo de Leyes de Trabajo , 6 (21-22), 23-26. Stagnaro, A. (2016). La ley de Accidentes del Trabajo y los debates promovidos para la creación del fuero laboral (Argentina, 1904-1946). Estudios Sociales , 50 , 111-144. Yáñez Andrade, J. (2000). Chile y la Organización Internacional del Trabajo (1919-1925). Hacia una legislación social universal. Revista de Estudios Histórico-Jurídicos , 22, Valparaíso. Yáñez Andrade, J. (2013). La OIT y la red sudamericana de corresponsales. El caso de Moisés Poblete, 1922-1946. En F. Herrera León y P. Herrera González (Coords.), América Latina y la Organización Internacional del Trabajo: redes, cooperación técnica e institucionalidad social, 1919-1950, (pp. 23-54) . México: Instituto de Investigaciones Históricas. Universidad Michoacana de San Nicolás de Hidalgo.",
+    "sources": [
+      "Ramacciotti, K. (2017). El Boletín Informativo de Leyes de Trabajo. En Caruso & Stagnaro (Eds.), Una historia regional de la OIT. La Plata: UNLP, pp. 185-211"
+    ],
+    "quotes": [],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "Caruso, L. & Stagnaro, A. (2017). Una historia regional de la OIT. La Plata: UNLP."
+  }
+]

@@ -1207,7 +1207,7 @@ def _load_pdf_chunks() -> list:
     - Jasinski / La Forestal chunks → "shared"
     - All others → "aceiteros" (backward compat: existing PDFs are from aceitero sector)
     """
-    # RAG_DIR env var takes priority (for Render where repo root != backend/)
+    # RAG_DIR env var takes priority (for custom deployments)
     env_rag_dir = os.environ.get("RAG_DIR", "")
     if env_rag_dir and os.path.isdir(env_rag_dir):
         fuentes_dir = os.path.abspath(env_rag_dir)
@@ -1222,6 +1222,13 @@ def _load_pdf_chunks() -> list:
                 fuentes_dir = os.path.abspath(_test)
                 break
             _project_root = os.path.dirname(_project_root)
+
+        # Fallback: backend/rag_chunks/ (chunks copied into backend for Render)
+        if not fuentes_dir:
+            _test = os.path.join(_here, "rag_chunks")
+            if os.path.isdir(_test):
+                fuentes_dir = os.path.abspath(_test)
+                print(f"Using fallback RAG directory: {fuentes_dir}")
 
         if not fuentes_dir:
             print(f"No fuentes directory found (searched from {_here}) — using only manual chunks")

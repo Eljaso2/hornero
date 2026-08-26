@@ -1,0 +1,16 @@
+{
+  "pdf_path": "/Users/eljaso/Workspace/projects/hornero/biblioteca/rag/investigaciones/inigo-carrera-huelga-general/inigo-carrera-huelga-general-2009.pdf",
+  "pdf_name": "inigo-carrera-huelga-general-2009",
+  "bib": "Iñigo Carrera, Nicolás — La huelga general, 2009",
+  "category": "academico",
+  "id_prefix": "inigo-huelga",
+  "mode": "chapters",
+  "pages": 13,
+  "total_chars": 34566,
+  "md_chars": 35535,
+  "num_chunks": 1,
+  "slug": "inigo-carrera",
+  "md_path": "biblioteca/rag/investigaciones/inigo-carrera-huelga-general/inigo-carrera.md",
+  "md_bytes": 36156,
+  "chunks_dir": null
+}
