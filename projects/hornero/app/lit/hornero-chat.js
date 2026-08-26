@@ -1057,7 +1057,7 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 3; }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 4px; padding: 0;
+        scrollbar-width: none; gap: 10px; padding: 0;
         justify-content: flex-start; scroll-behavior: smooth; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-center { scroll-padding: 0 48px; }
@@ -1194,7 +1194,7 @@ class HorneroChat extends HoComponent {
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
-        padding: 2px 3px; transition: opacity .2s; position: relative;
+        padding: 4px 0; transition: opacity .2s; position: relative;
         flex-shrink: 0; }
       .chat-persona-icon:hover { opacity: .85; }
       .chat-persona-icon.active { opacity: 1; }
