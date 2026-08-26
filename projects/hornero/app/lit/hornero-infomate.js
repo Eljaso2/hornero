@@ -115,7 +115,7 @@ class HorneroInfomate extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .cintillo-center { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .cintillo-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
       .cintillo-spacer { flex: 1; }
       .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
@@ -312,7 +312,7 @@ class HorneroInfomate extends HoComponent {
         '<div class="cintillo-date">' + this._formatMes(meta.mes) + '</div>' +
       '</div>' +
       '<button class="cintillo-nav-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + ' title="Siguiente">' + chevRight + '</button>' +
-      '<div class="cintillo-spacer"></div>' +
+      
       '<div class="chat-plus-wrapper">' +
         '<button class="chat-plus-btn' + (this._plusMenuOpen ? ' open' : '') + '" id="matePlusBtn" title="' + (this._plusMenuOpen ? 'Cerrar' : 'Más opciones') + '">' +
           '<svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' +
