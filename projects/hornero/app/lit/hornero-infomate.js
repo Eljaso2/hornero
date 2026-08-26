@@ -380,11 +380,11 @@ class HorneroInfomate extends HoComponent {
   // ===== After-render =====
 
   _afterRender() {
-    // Collapsed Actualidad banner
+    // Collapsed Actualidad banner → back to home (actualidad = esfera interna)
     const actBanner = this.shadowRoot.querySelector('#actBanner');
     if (actBanner) actBanner.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('ho-navigate', {
-        detail: { screen: 'actualidad' },
+        detail: { screen: 'home' },
         bubbles: true, composed: true
       }));
     });
@@ -406,11 +406,11 @@ class HorneroInfomate extends HoComponent {
       });
     });
 
-    // Cintillo back button → navigate to Actualidad
+    // Cintillo back button → navigate to home
     const cintilloBack = this.shadowRoot.querySelector('#cintilloBack');
     if (cintilloBack) cintilloBack.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('ho-navigate', {
-        detail: { screen: 'actualidad' },
+        detail: { screen: 'home' },
         bubbles: true, composed: true
       }));
     });

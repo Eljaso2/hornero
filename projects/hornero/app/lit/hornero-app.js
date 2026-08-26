@@ -51,7 +51,6 @@ class HorneroApp extends HoComponent {
     this._initialSection = ''; // Initial section/topic for condicion (e.g. 'comportamiento')
     this._viewInformeId = ''; // Informe ID — open popup viewer on gremial mount
     this._editInformeId = ''; // Informe ID — open correction chat on gremial mount
-    this._actualidadSubView = ''; // Sub-view for actualidad: 'clipping' | 'infomate' | 'sindical'
     this._clipEdicion = null;
     this._clipExpandId = null;
     this._mateMes = null;
@@ -99,11 +98,11 @@ class HorneroApp extends HoComponent {
       }
     }
 
-    // 6 nav buttons: Inicio + 4 esferas implementadas + Perfil
-    // (Formación y Archivo accesibles desde Home cards, no en bottom nav)
+    // 6 nav buttons: Inicio + Clipping + Chat + Reporte + Panorama + Perfil
+    // (InfoMate accesible desde sections bar y Home; Actualidad = esfera interna sin pantalla propia)
     this.navDefBase = [
       { id: 'home', label: 'Inicio', img: 'assets/hornero-logo-nobg.png', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
-      { id: 'actualidad', label: 'Actualidad', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
+      { id: 'clipping', label: 'Clipping', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
       { id: 'chat', label: 'Chat', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
       { id: 'misReportes', label: 'Reporte', svg: '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>' },
       { id: 'condicion', label: 'Panorama', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
@@ -117,9 +116,9 @@ class HorneroApp extends HoComponent {
     this._misRepLoaded = false;
 
     // Sections bar — ALL screens (scrollable horizontal tabs below header)
+    // Actualidad = esfera interna, no tiene tab propio; clipping e infomate son sus outlets visibles
     this.sectionsDef = [
       { id: 'home', label: 'Inicio' },
-      { id: 'actualidad', label: 'Actualidad' },
       { id: 'clipping', label: 'Clipping' },
       { id: 'infomate', label: 'InfoMate' },
       { id: 'misReportes', label: 'Reporte' },
@@ -137,7 +136,6 @@ class HorneroApp extends HoComponent {
 
     this.titles = {
       home: 'Inicio',
-      actualidad: 'Actualidad',
       chat: 'Chat',
       derecho: 'Derecho',
       consulta: 'Chateá con tu interlocutor/a',
@@ -154,7 +152,7 @@ class HorneroApp extends HoComponent {
       argumento: 'Argumento',
       comunicador: 'Comunicador',
       contenido: 'Producción de contenido',
-      // Actualidad sub-screens
+      // Actualidad outlets (esfera interna, sin pantalla propia)
       clipping: 'Clipping de noticias',
       infomate: 'InfoMate',
       gremial: 'Reporte Gremial',
@@ -165,7 +163,6 @@ class HorneroApp extends HoComponent {
 
     // Parent screen map — back button navigation
     this._parentScreen = {
-      actualidad: 'home',
       chat: 'home',
       gremial: 'chat',
       consulta: 'chat',
@@ -174,9 +171,9 @@ class HorneroApp extends HoComponent {
       is: 'home',
       condicion: 'home',
       perfil: 'home',
-      // Actualidad sub-screens → back to actualidad
-      clipping: 'actualidad',
-      infomate: 'actualidad',
+      // Actualidad outlets → back to home (actualidad = esfera interna, sin pantalla)
+      clipping: 'home',
+      infomate: 'home',
       // Condicion sub-screens → back to condicion
       smvm: 'condicion',
       felicidad: 'condicion',
@@ -195,9 +192,8 @@ class HorneroApp extends HoComponent {
     this._parentScreen.recibidos = 'chat';
     // Map sub-screens to their parent bottom-nav button
     this._navParentMap = {
-      actualidad: 'actualidad',
       clipping: 'clipping',
-      infomate: 'infomate',
+      infomate: 'clipping',
       chat: 'chat',
       consulta: 'chat',
       contenido: 'chat',
@@ -219,7 +215,6 @@ class HorneroApp extends HoComponent {
     };
     // Map sub-screens to their parent section in the sections bar
     this._sectionParentMap = {
-      actualidad: 'actualidad',
       clipping: 'clipping',
       infomate: 'infomate',
       chat: 'chat',
@@ -941,12 +936,6 @@ class HorneroApp extends HoComponent {
       screenContent = '<hornero-home grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-home>';
     } else if (this.screen === 'is') {
       screenContent = '<hornero-is grade="' + this.userGrade + '" sector="' + this.userSector + '"></hornero-is>';
-    } else if (this.screen === 'actualidad') {
-      const subViewAttr = this._actualidadSubView ? ' active-sub-view="' + this._actualidadSubView + '"' : '';
-      const clipEdAttr = this._clipEdicion ? ' clip-edicion="' + this._clipEdicion + '"' : '';
-      const mateMesAttr = this._mateMes ? ' mate-mes="' + this._mateMes + '"' : '';
-      screenContent = '<hornero-actualidad grade="' + this.userGrade + '" sector="' + this.userSector + '"' + subViewAttr + clipEdAttr + mateMesAttr + '></hornero-actualidad>';
-      this._actualidadSubView = '';
     } else if (this.screen === 'clipping') {
       const edicionAttr = this._clipEdicion ? ' edicion="' + this._clipEdicion + '"' : '';
       const expandAttr = this._clipExpandId ? ' expand-id="' + this._clipExpandId + '"' : '';
@@ -963,9 +952,9 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-ecosistema>';
     } else if (this.screen === 'formacion') {
-      screenContent = '<hornero-formacion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-formacion>';
+      screenContent = '<hornero-formacion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '" warm-resume="' + this._isWarmResume() + '"></hornero-formacion>';
     } else if (this.screen === 'archivo') {
-      screenContent = '<hornero-archivo grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-archivo>';
+      screenContent = '<hornero-archivo grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '" warm-resume="' + this._isWarmResume() + '"></hornero-archivo>';
     } else if (this.screen === 'chat') {
       // Chat landing — personas + grade-based extras (Mis Chats / Mis Reportes / Recibidos)
       const grade = this.userGrade;
@@ -1030,11 +1019,11 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'misReportes') {
       screenContent = this._renderMisReportes();
     } else if (this.screen === 'consulta') {
-      screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'abogado') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-consulta>';
+      screenContent = '<hornero-consulta grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'abogado') + '" session-id="' + (this._initialSessionId || '') + '" warm-resume="' + this._isWarmResume() + '"></hornero-consulta>';
     } else if (this.screen === 'contenido') {
-      screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'periodista') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-contenido>';
+      screenContent = '<hornero-contenido grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'periodista') + '" session-id="' + (this._initialSessionId || '') + '" warm-resume="' + this._isWarmResume() + '"></hornero-contenido>';
     } else if (this.screen === 'condicion') {
-      screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'sociologo') + '" session-id="' + (this._initialSessionId || '') + '" initial-section="' + (this._initialSection || '') + '"></hornero-condicion>';
+      screenContent = '<hornero-condicion grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'sociologo') + '" session-id="' + (this._initialSessionId || '') + '" initial-section="' + (this._initialSection || '') + '" warm-resume="' + this._isWarmResume() + '"></hornero-condicion>';
     } else if (this.screen === 'perfil') {
       if (this.loggedIn) {
         screenContent = '<hornero-perfil grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '" logged-in="true"></hornero-perfil>';
@@ -1103,7 +1092,7 @@ class HorneroApp extends HoComponent {
                 const iconHtml = imgSrc
                   ? '<img class="' + (n.id === 'home' && this.theme === 'light' ? 'nav-bird-icon' : '') + '" src="' + imgSrc + '" alt="' + n.label + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><svg viewBox="0 0 24 24" style="display:none">' + n.svg + '</svg>'
                   : '<svg viewBox="0 0 24 24">' + n.svg + '</svg>';
-                const badgeHtml = (this.newClippingAvailable && n.id === 'actualidad') ? '<span class="nav-badge"></span>' : '';
+                const badgeHtml = (this.newClippingAvailable && n.id === 'clipping') ? '<span class="nav-badge"></span>' : '';
                 // Resolve active nav: sub-screens map to parent nav button
                 const activeNav = this._navParentMap[this.screen] || this.screen;
                 return '<button class="nav-btn' + (n.id === activeNav ? ' active' : '') + '" data-screen="' + n.id + '">' +
@@ -1892,8 +1881,8 @@ class HorneroApp extends HoComponent {
 
   // ===== Access control — which screens require login =====
   _requiresLogin(screen) {
-    // Screens accessible without login (Actualidad + its sub-screens + home)
-    const openScreens = ['home', 'actualidad', 'clipping', 'infomate'];
+    // Screens accessible without login (clipping/infomate = outlets de Actualidad + home)
+    const openScreens = ['home', 'clipping', 'infomate'];
     return !openScreens.includes(screen);
   }
 
@@ -1960,7 +1949,6 @@ class HorneroApp extends HoComponent {
       this.set('screen', ''); // Clear first to force change
       this.set('screen', screen); // Re-render with fresh state
       this._initialSection = '';
-      this._actualidadSubView = '';
       return;
     }
     // Only push state if screen actually changes (avoid duplicate history entries)
