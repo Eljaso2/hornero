@@ -970,7 +970,7 @@ class HorneroFormacion extends HoComponent {
     this._addWithProgressiveReveal(local);
 
     try {
-      if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
+      if (window.HorneroAPI) window.HorneroAPI.wakeUpBackend();
       const response = await this._fetchWithTimeout(this._getGreetingUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
