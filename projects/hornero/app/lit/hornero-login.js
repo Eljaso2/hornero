@@ -283,22 +283,27 @@ class HorneroLogin extends HoComponent {
     `;
   }
 
-  // Save form input values before re-render (innerHTML replacement)
+  // Save form input values + focused element before re-render (innerHTML replacement)
   _saveFormValues() {
     if (this.view !== 'signup') return;
-    const ids = ['signup-email', 'signup-nombre', 'signup-pass', 'signup-pass2'];
+    const ids = ['signup-email', 'signup-nombre', 'signup-pass', 'signup-pass2', 'signup-sindicato'];
     const saved = {};
     for (const id of ids) {
       const el = this.shadowRoot.querySelector('#' + id);
       if (el) saved[id] = el.value;
     }
-    // Also save sindicato input if not readonly
-    const sindEl = this.shadowRoot.querySelector('#signup-sindicato');
-    if (sindEl && !sindEl.readOnly) saved['signup-sindicato'] = sindEl.value;
+    // Save which input was focused (and cursor position)
+    const active = this.shadowRoot.activeElement;
+    if (active && active.id && ids.includes(active.id)) {
+      this._focusedField = active.id;
+      this._focusedCursor = active.selectionStart;
+    } else {
+      this._focusedField = null;
+    }
     if (Object.keys(saved).length > 0) this._savedFormValues = saved;
   }
 
-  // Restore form input values after re-render
+  // Restore form input values + focus after re-render
   _restoreFormValues() {
     if (!this._savedFormValues || this.view !== 'signup') return;
     const saved = this._savedFormValues;
@@ -308,6 +313,18 @@ class HorneroLogin extends HoComponent {
       if (el && value !== undefined && value !== '') {
         el.value = value;
       }
+    }
+    // Restore focus and cursor position
+    if (this._focusedField) {
+      const el = this.shadowRoot.querySelector('#' + this._focusedField);
+      if (el) {
+        el.focus();
+        if (this._focusedCursor != null && el.setSelectionRange) {
+          try { el.setSelectionRange(this._focusedCursor, this._focusedCursor); } catch(e) {}
+        }
+      }
+      this._focusedField = null;
+      this._focusedCursor = null;
     }
   }
 
@@ -382,7 +399,7 @@ class HorneroLogin extends HoComponent {
             <div class="field">
               <label for="signup-sindicato">Sindicato / Gremio</label>
               <div class="sind-search-wrap">
-                <input type="text" id="signup-sindicato" placeholder="Buscá tu sindicato..." autocomplete="off" value="${this.selectedSindicato ? this.selectedSindicato.nombre : this.sindicatoQuery}" ${this.selectedSindicato ? 'readonly' : ''} />
+                <input type="text" id="signup-sindicato" placeholder="Buscá tu sindicato..." autocomplete="off" ${this.selectedSindicato ? 'value="' + this.selectedSindicato.nombre + '" readonly' : ''} />
                 ${sindResults}
               </div>
               ${sindChip}
@@ -520,21 +537,21 @@ class HorneroLogin extends HoComponent {
       sindInput.addEventListener('input', (e) => {
         if (this.selectedSindicato) return; // readonly when selected
         const q = e.target.value.trim();
-        this.set('sindicatoQuery', q);
-        if (this.sindicatoResults.length > 0) this.set('sindicatoResults', []);
-        if (this.sindicatoSearching) this.set('sindicatoSearching', false);
+        // Direct assignment — NO set() to avoid re-render that destroys input
+        this.sindicatoQuery = q;
         clearTimeout(this._searchDebounce);
         if (q.length >= 1) {
-          this.set('sindicatoSearching', true);
           this._searchDebounce = setTimeout(() => this._searchSindicatos(q), 300);
+        } else {
+          // Hide dropdown if query cleared
+          if (this.sindicatoResults.length > 0) this.set('sindicatoResults', []);
         }
       });
-      // On focus, trigger search if empty or short query (show available sindicatos)
+      // On focus, trigger search if empty (show available sindicatos)
       sindInput.addEventListener('focus', () => {
         if (this.selectedSindicato) return;
         const q = sindInput.value.trim();
-        if (!q && this.sindicatoResults.length === 0) {
-          this.set('sindicatoSearching', true);
+        if (!q && this.sindicatoResults.length === 0 && !this.sindicatoSearching) {
           this._searchSindicatos('');
         }
       });
@@ -634,8 +651,13 @@ class HorneroLogin extends HoComponent {
 
   async _searchSindicatos(q) {
     try {
-      const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() : '';
-      if (!baseUrl) { this.set('sindicatoSearching', false); return; }
+      const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() :
+                       (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : '');
+      if (!baseUrl) { this.sindicatoSearching = false; return; }
+      // Wake up backend if hibernating (synchronous ping, no spinner needed)
+      if (window.HorneroAPI) {
+        try { await window.HorneroAPI.wakeUpBackend(); } catch(e) {}
+      }
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 8000);
       const res = await fetch(baseUrl + '/api/auth/sindicatos?q=' + encodeURIComponent(q), { signal: controller.signal });
@@ -647,7 +669,8 @@ class HorneroLogin extends HoComponent {
     } catch(e) {
       if (e.name !== 'AbortError') console.warn('Sindicato search failed:', e);
     } finally {
-      this.set('sindicatoSearching', false);
+      // Only set if still searching (avoid unnecessary re-render)
+      if (this.sindicatoSearching) this.set('sindicatoSearching', false);
     }
   }
 
@@ -808,11 +831,19 @@ class HorneroLogin extends HoComponent {
     this.set('verificationWarning', '');
 
     try {
-      const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() : '';
+      const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() :
+                       (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : '');
       if (!baseUrl) {
         this.set('loading', false);
         this.set('error', 'Error de conexión con el servidor');
         return;
+      }
+
+      // Wake up Render if hibernating
+      if (window.HorneroAPI) {
+        this.set('error', 'Despertando el servidor...');
+        await window.HorneroAPI.wakeUpBackend();
+        this.set('error', '');
       }
 
       const res = await fetch(baseUrl + '/api/auth/register', {
