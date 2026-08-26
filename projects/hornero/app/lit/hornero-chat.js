@@ -1159,12 +1159,12 @@ class HorneroChat extends HoComponent {
         padding: 0; transition: opacity .2s, transform .15s; position: relative;
         flex-shrink: 0; scroll-snap-align: center; }
       .chat-persona-icon:hover { opacity: .8; transform: scale(1.08); }
-      .chat-persona-icon.active { opacity: 1; }
+      .chat-persona-icon.active { opacity: 1; transform: scale(1.12); }
       .persona-icon-inner { width: 32px; height: 32px; box-sizing: border-box;
         display: flex; align-items: center; justify-content: center;
         border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         overflow: hidden; background: transparent;
-        transition: background .2s, border-color .2s; }
+        transition: background .2s, border-color .2s, width .2s, height .2s, box-shadow .2s; }
       .chat-persona-icon:hover .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .persona-icon-inner img { width: 100%; height: 100%; object-fit: cover;
@@ -1173,13 +1173,15 @@ class HorneroChat extends HoComponent {
       .persona-icon-inner img.abogado-crop { object-position: center 25%; }
       .persona-icon-inner img.investigador-crop { object-position: center 30%; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
-      .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green, #4E9978); }
+      .chat-persona-icon.active .persona-icon-inner { width: 38px; height: 38px;
+        background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green, #4E9978);
+        box-shadow: 0 0 0 2px var(--ho-green, #4E9978); }
       .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
         font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        white-space: nowrap; }
+        white-space: nowrap; transition: font-size .2s, color .2s; }
       .chat-persona-icon:hover .persona-cintillo-label { color: var(--ho-green, #4E9978); }
-      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); }
+      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); font-size: .58rem; font-weight: 700; }
 
       /* === Redirect derivation button in message === */
       .msg-redirect-btn { display: inline-flex; align-items: center; gap: 6px;
@@ -1481,32 +1483,16 @@ class HorneroChat extends HoComponent {
         <div class="chat-progress-label">${this.progress}%</div>
       </div>` : '';
 
-    const typingPersona = this._getPersonaConfig(this.persona);
-    const typingClass = `${this.persona === 'periodista' ? 'periodista-full' : ''}${this.persona === 'abogado' ? ' abogado-crop' : ''}${this.persona === 'sociologo' ? ' investigador-crop' : ''}`.trim();
-    const typingAvatarInner = (typingPersona.icon || typingPersona.img)
-      ? `<img src="${typingPersona.icon || typingPersona.img}" alt="H" class="${typingClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
-      : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
     const typingHtml = this.typing && !this.streamingText ?
       `<div class="typing-row persona-${this.persona}">
-        <div class="typing-avatar">${typingAvatarInner}</div>
         <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>
       </div>` : '';
 
     // Streaming message — live text building token-by-token
-    const streamingPersona = this._streamingPersona || this.persona;
-    const streamingPersonaCfg = this._getPersonaConfig(streamingPersona);
-    const streamingAvatarClass = `${streamingPersona === 'periodista' ? 'periodista-full' : ''}${streamingPersona === 'abogado' ? ' abogado-crop' : ''}${streamingPersona === 'sociologo' ? ' investigador-crop' : ''}`;
-    const streamingAvatarInner = (streamingPersonaCfg.icon || streamingPersonaCfg.img)
-      ? `<img src="${streamingPersonaCfg.icon || streamingPersonaCfg.img}" alt="H" class="${streamingAvatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${streamingPersonaCfg.emoji}</span>`
-      : `<span class="msg-avatar-emoji">${streamingPersonaCfg.emoji}</span>`;
     const streamingHtml = this.streamingText ?
       `<div class="msg-row hornero streaming">
-        <div class="msg-avatar-row persona-${streamingPersona}">
-          <div class="msg-avatar">${streamingAvatarInner}</div>
-          <div class="msg-avatar-name" style="color:${streamingPersonaCfg.color}">${streamingPersonaCfg.name}</div>
-        </div>
         <div class="msg-content">
           <div class="msg-text streaming-text">${this._formatMarkdown(this.streamingText)}</div>
           <div class="streaming-cursor"></div>
@@ -2169,17 +2155,7 @@ class HorneroChat extends HoComponent {
     // === HORNERO message: NO bubble — plain text ===
     const timeHtml = m.time ? `<div class="msg-time hornero-time">${m.time}</div>` : '';
 
-    // Avatar + name row — persona-aware
-    const personaCfg = this._getPersonaConfig(m.persona || this.persona);
-    const avatarPersona = m.persona || this.persona;
-    const avatarClass = `${avatarPersona === 'periodista' ? 'periodista-full' : ''}${avatarPersona === 'abogado' ? ' abogado-crop' : ''}${avatarPersona === 'sociologo' ? ' investigador-crop' : ''}`.trim();
-    const avatarInner = (personaCfg.icon || personaCfg.img)
-      ? `<img src="${personaCfg.icon || personaCfg.img}" alt="H" class="${avatarClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${personaCfg.emoji}</span>`
-      : `<span class="msg-avatar-emoji">${personaCfg.emoji}</span>`;
-    const avatarRow = `<div class="msg-avatar-row persona-${m.persona || this.persona}">
-      <div class="msg-avatar">${avatarInner}</div>
-      <div class="msg-avatar-name" style="color:${personaCfg.color}">${personaCfg.name}</div>
-    </div>`;
+    // No avatar row for AI messages — user has green bubble, IA text is plain
 
     // === REPORTE DESPLEGABLE: if tags include 'reporte-generado' or looks like a reporte ===
     const tags = m.tags || [];
@@ -2246,7 +2222,6 @@ class HorneroChat extends HoComponent {
           : 'Armé tu Reporte Gremial. Revisalo y si está todo bien, aprobalo.');
 
       return `<div class="msg-row hornero">
-        ${avatarRow}
         <div class="msg-content">
           <div class="reporte-card" data-report-key="report-${msgIndex}" data-open-reporte-popup="${msgIndex}">
             <div class="reporte-card-header">
@@ -2271,7 +2246,6 @@ class HorneroChat extends HoComponent {
     if (looksLikeTextReporte) {
       const promptText = 'Armé tu Reporte Gremial. Revisalo y si está todo bien, aprobalo.';
       return `<div class="msg-row hornero">
-        ${avatarRow}
         <div class="msg-content">
           <div class="reporte-card" data-report-key="report-${msgIndex}" data-open-reporte-popup="${msgIndex}">
             <div class="reporte-card-header">
@@ -3722,14 +3696,9 @@ ${msgs.map(m => {
     // Incremental: add typing dots to DOM without full re-render
     const scroll = this.shadowRoot.querySelector('.chat-scroll');
     if (scroll && !scroll.querySelector('.typing-row')) {
-      const typingPersona = this._getPersonaConfig(this.persona);
-      const typingAvatarInner = (typingPersona.icon || typingPersona.img)
-        ? `<img src="${typingPersona.icon || typingPersona.img}" alt="H" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${typingPersona.emoji}</span>`
-        : `<span class="typing-avatar-emoji">${typingPersona.emoji}</span>`;
       const typingDiv = document.createElement('div');
       typingDiv.className = `typing-row persona-${this.persona}`;
       typingDiv.innerHTML = `
-        <div class="typing-avatar">${typingAvatarInner}</div>
         <div class="typing-dots">
           <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
         </div>`;
