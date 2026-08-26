@@ -550,8 +550,8 @@ class HorneroLogin extends HoComponent {
       if (el) el.addEventListener('blur', () => this._persistSignupForm());
     });
 
-    // Restore draft values on first signup render
-    this._restoreSignupDraft();
+    // Show saved draft as placeholder on focus (not auto-fill)
+    this._offerDraftOnFocus();
 
     // Sindicato input: local filter (no API calls, no re-render on typing)
     const sindInput = this.shadowRoot.querySelector('#signup-sindicato');
@@ -694,31 +694,43 @@ class HorneroLogin extends HoComponent {
     } catch(e) {}
   }
 
-  // Restore signup form from localStorage
-  _restoreSignupDraft() {
+  // Offer saved draft as placeholder on focus, not auto-fill
+  _offerDraftOnFocus() {
     try {
       const raw = localStorage.getItem('hornero-signup-draft');
       if (!raw) return;
-      const data = JSON.parse(raw);
-      for (const [id, value] of Object.entries(data)) {
-        if (id === 'sindicato') {
-          // Find sindicato by id from available list
-          const all = this.sindicatoList.length > 0 ? this.sindicatoList : this._fallbackSindicatos;
-          const sind = all.find(s => s.id === value);
-          if (sind) {
-            this.selectedSindicato = sind;
-            this.sindicatoQuery = sind.nombre;
-            if (sind.tipo === 'federacion') this.cargo = 'comision_federacion';
-          }
-          continue;
+      const draft = JSON.parse(raw);
+      // Restore sindicato + cargo silently (these are selections, not typed text)
+      if (draft.sindicato) {
+        const all = this.sindicatoList.length > 0 ? this.sindicatoList : this._fallbackSindicatos;
+        const sind = all.find(s => s.id === draft.sindicato);
+        if (sind) {
+          this.selectedSindicato = sind;
+          this.sindicatoQuery = sind.nombre;
+          if (sind.tipo === 'federacion') this.cargo = 'comision_federacion';
         }
-        if (id === 'cargo') {
-          this.cargo = value;
-          continue;
-        }
-        const el = this.shadowRoot.querySelector('#' + id);
-        if (el && value) el.value = value;
       }
+      if (draft.cargo) this.cargo = draft.cargo;
+      // For text fields: show saved value as placeholder hint on focus
+      ['signup-email', 'signup-nombre'].forEach(id => {
+        const savedVal = draft[id];
+        if (!savedVal) return;
+        const el = this.shadowRoot.querySelector('#' + id);
+        if (!el) return;
+        const origPlaceholder = el.placeholder;
+        el.addEventListener('focus', () => {
+          if (!el.value) {
+            el.placeholder = savedVal;
+          }
+        });
+        el.addEventListener('input', () => {
+          // Once user types, restore original placeholder
+          el.placeholder = origPlaceholder;
+        });
+        el.addEventListener('blur', () => {
+          el.placeholder = origPlaceholder;
+        });
+      });
     } catch(e) {}
   }
 
