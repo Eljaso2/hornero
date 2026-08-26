@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "2026-06-v3",
+    "version": "2026-06-v4",
     "tipo": "mate",
     "mes": "2026-06",
     "fuente": "MATE — Mirador de la Actualidad del Trabajo y la Economía",
@@ -20,43 +20,43 @@
   "secciones": [
     {
       "id": "inf-2026-06-1",
-      "titulo": "Inflación",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-3.jpg",
+      "tema": "inflacion",
+      "titulo": "12,3% en 4 meses",
       "bajada": "2,6% mensual en abril. En 4 meses se acumuló 12,3% de incremento de precios. El pronóstico oficial anunciaba 10,1% para todo 2026.",
       "datos": ["INDEC: 2,6% mensual (abril)", "Acumulado ene-abr: 12,3%", "Pronóstico oficial: 10,1% para todo 2026"]
     },
     {
       "id": "inf-2026-06-2",
-      "titulo": "Salario",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-4.jpg",
+      "tema": "salarios",
+      "titulo": "Salarios en caída",
       "bajada": "Salario estatal -22% real, pérdida de $13,3M por trabajador. Privado -9%, pérdida de $2,4M. Jubilaciones -24%, mínima -30%.",
       "datos": ["Estatal: -22% real, -$13.294.824", "Privado: -9% real, -$2.399.595", "Jubilación media: -24%, -$6.588.400", "Mínima: -30% poder de compra"]
     },
     {
       "id": "inf-2026-06-3",
-      "titulo": "Transferencia y ganancias",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-7.jpg",
+      "tema": "transferencia",
+      "titulo": "85,9 billones de transferencia",
       "bajada": "85,9 billones de transferencia de ingresos por caída del costo salarial. Deuda familiar +36 billones. Morosidad: personal 14,2%, tarjetas 11,7%.",
       "datos": ["Bolsillo asalariados: -61,8 billones", "Recaudación seguridad social: -15,9 billones", "Obras sociales/sindicatos: -6,7 billones", "Deuda familiar: +36 billones", "Mora personal: 14,2%", "Mora tarjetas: 11,7%"]
     },
     {
       "id": "inf-2026-06-4",
-      "titulo": "Empleo",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-13-1.jpg",
+      "tema": "empleo",
+      "titulo": "La industria destruye puestos",
       "bajada": "Privado -205.680, público -79.077. La industria y la construcción son los sectores que más puestos destruyeron. Consumo 10 puntos debajo de 2023.",
       "datos": ["Privado: -205.680", "Público: -79.077", "Casas particulares: -10.567", "Total: -295.324", "Industria: -71.473", "Construcción: -59.944"]
     },
     {
       "id": "inf-2026-06-5",
-      "titulo": "Ajuste",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-15-1.jpg",
+      "tema": "recortes",
+      "titulo": "144 billones de recortes",
       "bajada": "El Estado se achica cada vez más. Recaudación -19,2%, pérdida acumulada $40,7 billones. Recortes totalizan 144 billones: obra pública, jubilaciones, salarios, educación.",
       "datos": ["Obra pública: -34,5 billones", "Programas sociales: -22,7 billones", "Jubilaciones: -15,9 billones", "Salarios: -15,2 billones", "Subsidios energía: -10,2 billones", "Educación: -9,8 billones"]
     },
     {
       "id": "inf-2026-06-6",
-      "titulo": "Fuga de capitales",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/07/2026-06-18.jpg",
+      "tema": "fuga-capitales",
+      "titulo": "1.546M USD de giros en 5 meses",
       "bajada": "Giros de utilidades al exterior: 1.546M USD en 5 meses. Petróleo lidera con 581M. El modelo solo cierra por la deuda: economía real 48.088M vs financiera 76.304M USD.",
       "datos": ["Giros 5 meses: 1.546M USD", "Petróleo: 581M", "Metales: 279M", "Alimentos: 162M", "Economía real: 48.088M USD", "Economía financiera: 76.304M USD"]
     }

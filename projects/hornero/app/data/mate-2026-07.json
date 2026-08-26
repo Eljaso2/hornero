@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "2026-07-v1",
+    "version": "2026-07-v2",
     "tipo": "mate",
     "mes": "2026-07",
     "fuente": "MATE — Mirador de la Actualidad del Trabajo y la Economía",
@@ -20,57 +20,57 @@
   "secciones": [
     {
       "id": "inf-2026-07-1",
-      "titulo": "Inflación",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/08/INFOMATES-2026-07-3.jpg",
+      "tema": "inflacion",
+      "titulo": "La inflación sigue de pie",
       "bajada": "1,9% mensual en junio. En 12 meses se acumuló 33,5% de incremento de precios. La inflación sigue de pie mientras caen salarios, empleo y acceso a salud, educación y vivienda.",
       "datos": ["INDEC: 1,9% mensual (junio)", "Interanual: 33,5%", "Mayo: 2,8%", "Abril: 2,9%", "Marzo: 1,9%", "Febrero: 1,6%"]
     },
     {
       "id": "inf-2026-07-2",
-      "titulo": "Salario",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/08/INFOMATES-2026-07-4.jpg",
+      "tema": "salarios",
+      "titulo": "Salarios en caída libre",
       "bajada": "Salario estatal -23% real, pérdida de $14,9M por trabajador. Privado -9%, pérdida de $2,9M. Estatales nacionales -40%, provinciales recuperaron parcialmente.",
       "datos": ["Estatal: -23% real, -$14.946.532", "Nacional: índice 60 (sep-nov 23=100)", "Provincial: índice 77 (sep-nov 23=100)", "Privado: -9% real, -$2.857.456", "Ambos sectores en caída hace 1 año", "Salario real privado: índice 91"]
     },
     {
       "id": "inf-2026-07-3",
-      "titulo": "Transferencia de ingresos",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/08/INFOMATES-2026-07-8.jpg",
+      "tema": "transferencia",
+      "titulo": "97,3 billones de transferencia",
       "bajada": "97,3 billones de pesos de transferencia de ingresos por la caída del costo salarial. Además del bolsillo asalariado, pierde el Estado y se desfinancian obras sociales y sindicatos.",
       "datos": ["Bolsillo asalariados: -69,3 billones", "Recaudación seguridad social: -18,5 billones", "Obras sociales/sindicatos: -7,8 billones", "Sindicatos: -1,7 billones"]
     },
     {
       "id": "inf-2026-07-4",
+      "tema": "jubilados",
       "titulo": "Jubilaciones y deuda familiar",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/08/INFOMATES-2026-07-9.jpg",
       "bajada": "Jubilación media -23% de poder de compra, pérdida $7,3M por jubilado. Mínima -30%, equivale a 8,4 jubilaciones de 2023 perdidas. Morosidad personal 15,9%, tarjetas 13,1%: niveles históricos.",
       "datos": ["Jubilación media: -23%, -$7.303.008", "Mínima: -30% poder de compra", "Mora personales: 15,9%", "Mora tarjetas: 13,1%", "Proveedores no financieros: 58,4% mora", "Fintech/electrodomésticos: 44,3% mora"]
     },
     {
       "id": "inf-2026-07-5",
-      "titulo": "Actividad económica",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/08/INFOMATES-2026-07-12.jpg",
+      "tema": "actividad",
+      "titulo": "La economía volvió a caer",
       "bajada": "La economía volvió a caer en mayo: tres meses de caída y dos de crecimiento en 2026. Petróleo y minería +30,3% vs 2023; industria -15,1%, construcción -15,4%, comercio -9,3%.",
       "datos": ["Petróleo y minería: +30,3% vs 2023, +15,7% vs 2025", "Agricultura: +4,6% vs 2023", "Intermediación financiera: +16,4% vs 2023", "Industria: -15,1% vs 2023, -5,6% vs 2025", "Construcción: -15,4% vs 2023, +2,0% vs 2025", "Comercio: -9,3% vs 2023, -4,4% vs 2025"]
     },
     {
       "id": "inf-2026-07-6",
-      "titulo": "Empleo",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/08/INFOMATES-2026-07-15.jpg",
+      "tema": "empleo",
+      "titulo": "367 empleos formales por día",
       "bajada": "La economía pierde 367 empleos formales por día. Privado -235.419, público -80.384, total -334.675. Solo Neuquén (+10.176) y Río Negro (+3.092) ganaron empleo.",
       "datos": ["Privado: -235.419", "Público: -80.384", "Casas particulares: -18.872", "Total: -334.675", "Bs. As.: -78.957 | CABA: -42.771", "Córdoba: -16.881 | Santa Fe: -15.074"]
     },
     {
       "id": "inf-2026-07-7",
-      "titulo": "Ajuste",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/08/INFOMATES-2026-07-19.jpg",
+      "tema": "recortes",
+      "titulo": "149 billones de recortes",
       "bajada": "Recaudación -18%, pérdida acumulada $48,8 billones APN. Recortes totalizan 149 billones desde que gobierna Milei. Obra pública, programas sociales y jubilaciones lideran los recortes.",
       "datos": ["Obra pública: -39,4 billones", "Programas sociales: -27,7 billones", "Jubilaciones: -23,6 billones", "Subsidios energía: -19,5 billones", "Salarios: -16,6 billones", "Educación: -10,8 billones"]
     },
     {
       "id": "inf-2026-07-8",
-      "titulo": "Sector externo",
-      "foto": "https://mateconomia.com.ar/wp-content/uploads/sites/23/2026/08/INFOMATES-2026-07-23.jpg",
+      "tema": "exportaciones",
+      "titulo": "El modelo solo cierra por la deuda",
       "bajada": "Dólar +10% en 3 meses (1.489 jul-26). Giros de utilidades 3.037M USD en 7 meses. Economía real genera 55.211M USD vs 84.828M USD que consume la financiera. El modelo solo cierra por la deuda.",
       "datos": ["Dólar: $1.489 (jul-26), +10% desde abr", "Giros 7 meses: 3.037M USD", "Petróleo: 881M USD", "Alimentos: 297M USD", "Economía real: 55.211M USD", "Economía financiera: 84.828M USD", "Nueva deuda pública: 23.689M USD", "Nueva deuda privada: 56.448M USD"]
     }

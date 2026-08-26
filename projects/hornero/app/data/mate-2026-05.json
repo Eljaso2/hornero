@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "2026-05-v1",
+    "version": "2026-05-v2",
     "tipo": "mate",
     "mes": "2026-05",
     "fuente": "MATE — Mirador de la Actualidad del Trabajo y la Economía",
@@ -20,27 +20,32 @@
   },
   "secciones": [
     {
-      "titulo": "Inflación",
+      "tema": "inflacion",
+      "titulo": "Inflación obrera duplica la oficial",
       "bajada": "334% general acumulado vs 760% servicios básicos. Inflación obrera real duplica la oficial.",
       "datos": ["INDEC: 3.4% mensual", "Servicios básicos: +760% anual", "Canasta obrera: +$1.800.000"]
     },
     {
-      "titulo": "Salario",
+      "tema": "salarios",
+      "titulo": "SMVM no cubre canasta básica",
       "bajada": "Salario medio registrado $900K. Brecha de género 29.1%. SMVM no cubre canasta básica.",
       "datos": ["SMVM: $2.344.000", "Medio registrado: $900.000", "Brecha género: 29.1%"]
     },
     {
-      "titulo": "Transferencia y ganancias",
+      "tema": "transferencia",
+      "titulo": "18 privatizadas +55% profits",
       "bajada": "18 privatizadas +55% profits. Mindlin, Vila-Manzano, Eurnekian concentran ganancias mientras despiden.",
       "datos": ["18 privatizadas: +55% profits", "Mindlin grupo: +$2.1B", "Vila-Manzano: +$1.8B"]
     },
     {
-      "titulo": "Empleo",
+      "tema": "empleo",
+      "titulo": "26.500 empresas cerradas",
       "bajada": "Ejército activo 13.2M (71%). Reserva flotante 2.4M. Informalidad crece. 26.500 empresas cerradas.",
       "datos": ["Total: 18.5M", "Activo: 13.2M (71%)", "Flotante: 2.4M (13%)", "Pauperización: 1.4M (8%)"]
     },
     {
-      "titulo": "Ajuste",
+      "tema": "recortes",
+      "titulo": "Vaciamiento del Estado",
       "bajada": "Vaciamiento del Estado: CONICET, CNEA, INTI, INTA bajo ataque. Milei-Caputo-Petri-Bullrich desguace coordinado.",
       "datos": ["CONICET: 379 becarios en riesgo", "CNEA: -57.8%", "INTA: 897 expulsados", "Gendarmería en INTI"]
     }
