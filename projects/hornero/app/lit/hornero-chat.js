@@ -1058,7 +1058,7 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; gap: 10px; padding: 0;
-        justify-content: flex-start; scroll-behavior: smooth; }
+        justify-content: center; scroll-behavior: smooth; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-center { scroll-padding: 0 48px; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
@@ -1192,8 +1192,8 @@ class HorneroChat extends HoComponent {
       .chat-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
-      .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
-        gap: 3px; background: none; border: none; cursor: pointer;
+      .chat-persona-icon { display: flex; flex-direction: row; align-items: center;
+        gap: 4px; background: none; border: none; cursor: pointer;
         padding: 4px 0; transition: opacity .2s; position: relative;
         flex-shrink: 0; }
       .chat-persona-icon:hover { opacity: .85; }
@@ -1375,8 +1375,8 @@ class HorneroChat extends HoComponent {
       .typing-avatar img.abogado-crop { object-position: center 25%; }
       .typing-avatar img.investigador-crop { object-position: center 30%; }
       :host(.theme-light) .typing-row.persona-hornero .typing-avatar img { filter: brightness(0.35); }
-      .typing-dots { display: flex; gap: 5px; align-items: center; }
-      .typing-dot { width: 8px; height: 8px; border-radius: 50%;
+      .typing-dots { display: flex; gap: 4px; align-items: center; }
+      .typing-dot { width: 5px; height: 5px; border-radius: 50%;
         background: var(--ho-green-light, #80CCA0); animation: dotbounce 1.4s ease infinite; }
       .typing-dot:nth-child(2) { animation-delay: .2s; }
       .typing-dot:nth-child(3) { animation-delay: .4s; }
