@@ -49,7 +49,7 @@ class HorneroGremial extends HoComponent {
     this._progressiveRevealIndex = 0; // Current reveal position
     this._pendingFinalizeMsg = null; // Message waiting for progressive reveal to finish
     this._savedDrawerState = null; // Drawer state saved before re-render (prevents drawer closing)
-    this._bannerVisible = true;
+    this._bannerVisible = false;
     this._exploreOpen = false;
   }
 

@@ -23,7 +23,7 @@ class HorneroEcosistema extends HoComponent {
     this.sector = 'aceitero';
     this.messages = [];
     this._typing = false;
-    this._bannerVisible = true;
+    this._bannerVisible = false;
     this._exploreOpen = false;
     this._greetingPushed = false;
     this._eventsBound = false;
@@ -542,7 +542,7 @@ class HorneroEcosistema extends HoComponent {
     this.messages = [];
     this._sessionId = this._genId();
     this._greetingPushed = false;
-    this._bannerVisible = true;
+    this._bannerVisible = false;
     this._exploreOpen = false;
     this._showGreeting();
   }

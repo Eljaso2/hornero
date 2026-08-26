@@ -39,7 +39,7 @@ class HorneroArchivo extends HoComponent {
     this._greetingShown = false;
     this._greetingRequested = false;
     this._historyLoaded = false;
-    this._bannerVisible = true;
+    this._bannerVisible = false;
     this._docsOpen = false;
     this._docs = [];
     this._docsLoaded = false;

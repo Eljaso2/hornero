@@ -34,7 +34,7 @@ class HorneroConsulta extends HoComponent {
     this._chatSection = 'consulta'; // Section key for history
     this.messages = [];
     this.iaStep = 0;
-    this._bannerVisible = true;
+    this._bannerVisible = false;
     this._exploreOpen = false;
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;

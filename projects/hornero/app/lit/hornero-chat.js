@@ -975,10 +975,10 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 96px; /* 64px bar + 4px gap + 28px label clearance */
+        padding-top: 86px; /* bar + label + gap */
         min-height: 0; /* allow shrink so input bar stays visible */
         -webkit-overflow-scrolling: touch; }
-      :host([reduce-top-pad]) .chat-scroll { padding-top: 96px; }
+      :host([reduce-top-pad]) .chat-scroll { padding-top: 86px; }
 
       /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }
@@ -1220,11 +1220,11 @@ class HorneroChat extends HoComponent {
       /* Active persona: full color + light colored background, no green border/glow */
       .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
-      .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif; display: none; text-align: center;
+      .chat-persona-icon .persona-cintillo-label { font-family: .Archivo., sans-serif; display: none; text-align: center; margin-top: 2px;
         font-size: .76rem; font-weight: 700; color: var(--ho-green, #4E9978);
-        position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-        margin-top: 2px; white-space: nowrap; pointer-events: none; z-index: 30;
-        text-shadow: 0 1px 4px var(--ho-bg, #1E2321), 0 0 8px var(--ho-bg, #1E2321);
+        
+        white-space: nowrap; pointer-events: none;
+        text-shadow: 0 0 6px var(--ho-bg, #1E2321);
         transition: color .2s, filter .3s; }
       /* Inactive label: also grayscale */
       .chat-persona-icon:not(.active) .persona-cintillo-label { filter: grayscale(1); opacity: .6; }
@@ -1839,9 +1839,8 @@ class HorneroChat extends HoComponent {
       <div class="chat-scroll">
         ${messagesHtml}
         ${streamingHtml}
+        ${typingHtml}
       </div>
-
-      ${typingHtml}
 
       ${suggestionsHtml}
 
@@ -3846,8 +3845,8 @@ ${msgs.map(m => {
 
   showTyping() {
     this.typing = true;
-    if (!this.shadowRoot.querySelector('.typing-row')) {
-      const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    const scroll = this.shadowRoot.querySelector('.chat-scroll');
+    if (scroll && !scroll.querySelector('.typing-row')) {
       const cfg = this._getPersonaConfig(this.persona);
       const avatarClass = this.persona === 'periodista' ? 'periodista-full' : this.persona === 'abogado' ? 'abogado-crop' : this.persona === 'sociologo' ? 'investigador-crop' : '';
       const avatarHtml = cfg.img
@@ -3856,7 +3855,7 @@ ${msgs.map(m => {
       const typingDiv = document.createElement('div');
       typingDiv.className = `typing-row persona-${this.persona}`;
       typingDiv.innerHTML = `${avatarHtml}<div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-      scroll.after(typingDiv);
+      scroll.appendChild(typingDiv);
       this._autoScroll();
     }
   }

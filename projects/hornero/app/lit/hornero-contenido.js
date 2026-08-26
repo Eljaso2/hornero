@@ -62,7 +62,7 @@ class HorneroContenido extends HoComponent {
     this.iaStep = 0;
     this._typing = false; this._greetingRequested = false;
     this._historyLoaded = false;
-    this._bannerVisible = true;
+    this._bannerVisible = false;
     this._exploreOpen = false;
     this._sessionId = ''; // Current session ID — new on each visit
     this._activePersona = 'periodista'; // Default persona for contenido section

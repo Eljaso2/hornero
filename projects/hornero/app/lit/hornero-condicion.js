@@ -36,7 +36,7 @@ class HorneroCondicion extends HoComponent {
     this._greetingShown = false;
     this._greetingRequested = false;
     this._historyLoaded = false;
-    this._bannerVisible = true;
+    this._bannerVisible = false;
     this._exploreOpen = false;
     this._sessionId = '';
     this._activePersona = 'sociologo';
