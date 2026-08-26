@@ -158,46 +158,57 @@ def _init_db():
                     federacion      TEXT NOT NULL DEFAULT '',
                     convenio        TEXT NOT NULL DEFAULT '',
                     keywords        TEXT NOT NULL DEFAULT '',
+                    tipo            TEXT NOT NULL DEFAULT 'sindicato',
                     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
 
-            # Migration: add keywords column if missing (existing tables)
-            try:
-                conn.execute("ALTER TABLE sindicatos ADD COLUMN keywords TEXT NOT NULL DEFAULT ''")
-                logger.info("Added keywords column to sindicatos")
-            except Exception:
-                pass  # column already exists
+            # Migration: add columns if missing (existing tables)
+            for col_ddl in [
+                "ALTER TABLE sindicatos ADD COLUMN keywords TEXT NOT NULL DEFAULT ''",
+                "ALTER TABLE sindicatos ADD COLUMN tipo TEXT NOT NULL DEFAULT 'sindicato'",
+            ]:
+                try:
+                    conn.execute(col_ddl)
+                    logger.info(f"Added column: {col_ddl.split('ADD COLUMN ')[1].split(' ')[0]}")
+                except Exception:
+                    pass  # column already exists
 
             # Seed sindicatos from known gremio data
             seed_sindicatos = [
                 ("ftciod-ara", "F.T.C.I.O.D y A.R.A.",
                  "Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina",
-                 "aceitero", "FTCIOD", "F.T.C.I.O.D y A.R.A.", "CCT 420/05",
-                 "aceitero aceitera oleaginoso aceite desmotadores algodón soja girasol Fatica FATICORA F.T.C.I.O.D"),
+                 "aceitero", "F.T.C.I.O.D", "F.T.C.I.O.D y A.R.A.", "CCT 420/05",
+                 "aceitero aceitera oleaginoso aceite desmotadores algodón soja girasol Fatica FATICORA F.T.C.I.O.D",
+                 "federacion"),
                 ("sipreba", "SIPREBA",
                  "SIPREBA — Sindicato de Prensa de Buenos Aires",
                  "prensa", "SIPREBA", "SIPREBA", "CCT 301/75",
-                 "prensa periodista periodismo medios comunicación prensa gráfica"),
+                 "prensa periodista periodismo medios comunicación prensa gráfica",
+                 "sindicato"),
                 ("hornero-admin", "Hornero (Admin/Tester)",
                  "Hornero — Acceso administrativo y de testing",
                  "hornero", "Hornero", "", "",
-                 "hornero admin tester administración testing desarrollo"),
+                 "hornero admin tester administración testing desarrollo",
+                 "admin"),
             ]
             for s in seed_sindicatos:
                 conn.execute(
-                    "INSERT INTO sindicatos (id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords) "
-                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", s
+                    "INSERT INTO sindicatos (id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords, tipo) "
+                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", s
                 )
 
-            # Backfill keywords for existing rows that don't have them yet
+            # Backfill keywords + tipo for existing rows
             conn.execute("""
-                UPDATE sindicatos SET keywords = 'aceitero aceitera oleaginoso aceite desmotadores algodón soja girasol Fatica FATICORA F.T.C.I.O.D'
-                WHERE id = 'ftciod-ara' AND keywords = ''
+                UPDATE sindicatos SET keywords = 'aceitero aceitera oleaginoso aceite desmotadores algodón soja girasol Fatica FATICORA F.T.C.I.O.D',
+                                     tipo = 'federacion',
+                                     sigla = 'F.T.C.I.O.D'
+                WHERE id = 'ftciod-ara' AND (keywords = '' OR tipo = 'sindicato')
             """)
             conn.execute("""
-                UPDATE sindicatos SET keywords = 'prensa periodista periodismo medios comunicación prensa gráfica'
-                WHERE id = 'sipreba' AND keywords = ''
+                UPDATE sindicatos SET keywords = 'prensa periodista periodismo medios comunicación prensa gráfica',
+                                     tipo = 'sindicato'
+                WHERE id = 'sipreba' AND (keywords = '' OR tipo = 'sindicato')
             """)
 
             # Backfill sindicato_id for existing users based on sector
@@ -603,13 +614,13 @@ async def search_sindicatos(q: str = "", request: Request = None):
             if len(q_clean) < 2:
                 # Return all sindicatos when query is too short
                 rows = conn.execute(
-                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords FROM sindicatos ORDER BY nombre"
+                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords, tipo FROM sindicatos ORDER BY tipo, nombre"
                 ).fetchall()
             else:
                 rows = conn.execute(
-                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords FROM sindicatos "
+                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords, tipo FROM sindicatos "
                     "WHERE nombre ILIKE %s OR sigla ILIKE %s OR nombre_full ILIKE %s OR keywords ILIKE %s "
-                    "ORDER BY nombre",
+                    "ORDER BY tipo, nombre",
                     (f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%")
                 ).fetchall()
 
@@ -619,6 +630,7 @@ async def search_sindicatos(q: str = "", request: Request = None):
                     "id": r[0], "nombre": r[1], "nombre_full": r[2],
                     "sector_key": r[3], "sigla": r[4],
                     "federacion": r[5], "convenio": r[6],
+                    "tipo": r[8] if len(r) > 8 else "sindicato",
                 })
             return {"sindicatos": results}
     except Exception as e:
@@ -665,7 +677,7 @@ async def register(req: RegisterRequest, request: Request):
         try:
             with _get_conn() as conn:
                 row = conn.execute(
-                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos WHERE id = %s",
+                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, tipo FROM sindicatos WHERE id = %s",
                     (req.sindicato_id,)
                 ).fetchone()
                 if row:
@@ -673,6 +685,7 @@ async def register(req: RegisterRequest, request: Request):
                         "id": row[0], "nombre": row[1], "nombre_full": row[2],
                         "sector_key": row[3], "sigla": row[4],
                         "federacion": row[5], "convenio": row[6],
+                        "tipo": row[7] if len(row) > 7 else "sindicato",
                     }
         except Exception as e:
             logger.error(f"Error looking up sindicato {req.sindicato_id}: {e}")
@@ -682,34 +695,42 @@ async def register(req: RegisterRequest, request: Request):
     if sector not in ALLOWED_SECTORS:
         raise HTTPException(400, f"Sector inválido. Permitidos: {', '.join(ALLOWED_SECTORS)}")
 
-    # Verify cargo against gremio_verificacion
-    verification_passed = True
-    if req.cargo != "trabajador" and sindicato_info:
-        try:
-            with _get_conn() as conn:
-                # Normalize name for comparison: lowercase, strip, remove extra spaces
-                nombre_norm = " ".join(req.nombre.strip().lower().split())
-                row = conn.execute(
-                    "SELECT nombre, cargo FROM gremio_verificacion "
-                    "WHERE sindicato_id = %s AND active = TRUE "
-                    "AND (LOWER(nombre) ILIKE %s OR cargo = %s)",
-                    (req.sindicato_id, f"%{nombre_norm}%", req.cargo)
-                ).fetchone()
-                if not row:
-                    verification_passed = False
-                    logger.info(f"Cargo verification FAILED: {req.nombre} claimed {req.cargo} in {sindicato_info['nombre']}")
-        except Exception as e:
-            logger.error(f"Verification DB error: {e}")
-            # On DB error, be conservative: don't block registration
-            verification_passed = True
+    # Federación → Grado 4 (B.d) automático
+    # Sindicato → Grado 1-3 según cargo (trabajador, delegado, comisión directiva)
+    sindicato_tipo = sindicato_info.get("tipo", "sindicato") if sindicato_info else "sindicato"
 
-    # Determine grade and rol
-    if verification_passed:
-        grade = CARGO_GRADE.get(req.cargo, "B.a")
-        rol = CARGO_ROL.get(req.cargo, "Trabajador de Base")
+    if sindicato_tipo == "federacion":
+        # En la Federación → siempre Grado 4
+        grade = "B.d"
+        rol = "Comisión de la Unión o Federación"
+        verification_passed = True
     else:
-        grade = "B.a"
-        rol = "Trabajador de Base"
+        # En un Sindicato → verificar cargo (grados 1-3)
+        verification_passed = True
+        if req.cargo != "trabajador" and sindicato_info:
+            try:
+                with _get_conn() as conn:
+                    nombre_norm = " ".join(req.nombre.strip().lower().split())
+                    row = conn.execute(
+                        "SELECT nombre, cargo FROM gremio_verificacion "
+                        "WHERE sindicato_id = %s AND active = TRUE "
+                        "AND (LOWER(nombre) ILIKE %s OR cargo = %s)",
+                        (req.sindicato_id, f"%{nombre_norm}%", req.cargo)
+                    ).fetchone()
+                    if not row:
+                        verification_passed = False
+                        logger.info(f"Cargo verification FAILED: {req.nombre} claimed {req.cargo} in {sindicato_info['nombre']}")
+            except Exception as e:
+                logger.error(f"Verification DB error: {e}")
+                verification_passed = True
+
+        # Determine grade and rol (sindicato: grados 1-3)
+        if verification_passed:
+            grade = CARGO_GRADE.get(req.cargo, "B.a")
+            rol = CARGO_ROL.get(req.cargo, "Trabajador de Base")
+        else:
+            grade = "B.a"
+            rol = "Trabajador de Base"
     category = "usuario"
 
     # Build agremiacion from sindicato data

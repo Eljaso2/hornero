@@ -43,9 +43,9 @@ class HorneroLogin extends HoComponent {
     this._sindClickOutside = null;
     // Static fallback sindicatos (used when backend is unreachable)
     this._fallbackSindicatos = [
-      { id: 'ftciod-ara', nombre: 'F.T.C.I.O.D y A.R.A.', nombre_full: 'Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina', sector_key: 'aceitero', sigla: 'FTCIOD', federacion: 'F.T.C.I.O.D y A.R.A.', convenio: 'CCT 420/05' },
-      { id: 'sipreba', nombre: 'SIPREBA', nombre_full: 'SIPREBA — Sindicato de Prensa de Buenos Aires', sector_key: 'prensa', sigla: 'SIPREBA', federacion: 'SIPREBA', convenio: 'CCT 301/75' },
-      { id: 'hornero-admin', nombre: 'Hornero (Admin/Tester)', nombre_full: 'Hornero — Acceso administrativo y de testing', sector_key: 'hornero', sigla: 'Hornero', federacion: '', convenio: '' },
+      { id: 'ftciod-ara', nombre: 'F.T.C.I.O.D y A.R.A.', nombre_full: 'Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina', sector_key: 'aceitero', sigla: 'F.T.C.I.O.D', federacion: 'F.T.C.I.O.D y A.R.A.', convenio: 'CCT 420/05', tipo: 'federacion' },
+      { id: 'sipreba', nombre: 'SIPREBA', nombre_full: 'SIPREBA — Sindicato de Prensa de Buenos Aires', sector_key: 'prensa', sigla: 'SIPREBA', federacion: 'SIPREBA', convenio: 'CCT 301/75', tipo: 'sindicato' },
+      { id: 'hornero-admin', nombre: 'Hornero (Admin/Tester)', nombre_full: 'Hornero — Acceso administrativo y de testing', sector_key: 'hornero', sigla: 'Hornero', federacion: '', convenio: '', tipo: 'admin' },
     ];
   }
 
@@ -364,8 +364,8 @@ class HorneroLogin extends HoComponent {
       const sindList = (!this.selectedSindicato && this.sindicatoDropdownOpen && filteredSindicatos.length > 0)
         ? html`<div class="sind-list" id="sind-list">
             ${filteredSindicatos.map(s => html`
-              <div class="sind-item" data-sind-id="${s.id}" data-sind-nombre="${s.nombre}" data-sind-sector="${s.sector_key}" data-sind-federacion="${s.federacion || ''}" data-sind-convenio="${s.convenio || ''}">
-                <div class="sind-sigla">${s.sigla || s.nombre}</div>
+              <div class="sind-item" data-sind-id="${s.id}" data-sind-nombre="${s.nombre}" data-sind-sector="${s.sector_key}" data-sind-federacion="${s.federacion || ''}" data-sind-convenio="${s.convenio || ''}" data-sind-tipo="${s.tipo || 'sindicato'}">
+                <div class="sind-sigla">${s.sigla || s.nombre} ${s.tipo === 'federacion' ? '(Federación)' : ''}</div>
                 <div class="sind-detail">${s.federacion || s.nombre_full || ''}</div>
               </div>
             `).join('')}
@@ -374,11 +374,15 @@ class HorneroLogin extends HoComponent {
         ? html`<div class="sind-list"><div class="sind-no-results">No encontramos tu sindicato. <a id="fallback-sector">Registrate sin sindicato</a></div></div>`
         : '';
 
+      // Grado options depend on sindicato type:
+      // Federación → Grado 4 automático (no elegir)
+      // Sindicato → Grado 1, 2 o 3
+      const sindTipo = this.selectedSindicato ? (this.selectedSindicato.tipo || 'sindicato') : 'sindicato';
+      const isFederacion = sindTipo === 'federacion';
       const cargoLabels = {
-        trabajador: 'Trabajador/a',
-        delegado: 'Delegado/a',
-        comision_directiva: 'Comisión Directiva',
-        comision_federacion: 'Comisión Federación',
+        trabajador: 'Trabajador/a (Grado 1)',
+        delegado: 'Delegado/a (Grado 2)',
+        comision_directiva: 'Comisión Directiva (Grado 3)',
       };
 
       return html`
@@ -408,11 +412,14 @@ class HorneroLogin extends HoComponent {
 
             <div class="field">
               <label>Grado</label>
-              <div class="cargo-options" id="cargo-options">
-                ${Object.entries(cargoLabels).map(([key, label]) => html`
-                  <button class="cargo-btn${this.cargo === key ? ' selected' : ''}" data-cargo="${key}">${label}</button>
-                `).join('')}
-              </div>
+              ${isFederacion
+                ? html`<div style="background:#2D4A3D;border:1px solid var(--ho-green,#4E9978);border-radius:8px;padding:10px 14px;font-family:'Public Sans',sans-serif;font-size:.82rem;color:#80CCA0;font-weight:500;">Federación → Grado 4 (automático)</div>`
+                : html`<div class="cargo-options" id="cargo-options">
+                    ${Object.entries(cargoLabels).map(([key, label]) => html`
+                      <button class="cargo-btn${this.cargo === key ? ' selected' : ''}" data-cargo="${key}">${label}</button>
+                    `).join('')}
+                  </div>`
+              }
             </div>
 
             <div class="field field-password">
@@ -568,10 +575,17 @@ class HorneroLogin extends HoComponent {
             sector_key: item.dataset.sindSector,
             federacion: item.dataset.sindFederacion,
             convenio: item.dataset.sindConvenio,
+            tipo: item.dataset.sindTipo || 'sindicato',
           };
           this.sindicatoQuery = sind.nombre;
           this.set('selectedSindicato', sind);
           this.set('sindicatoDropdownOpen', false);
+          // Federación → Grado 4 automático; Sindicato → reset cargo a trabajador
+          if (sind.tipo === 'federacion') {
+            this.set('cargo', 'comision_federacion');
+          } else {
+            this.set('cargo', 'trabajador');
+          }
           this.set('error', '');
         });
       });
@@ -657,8 +671,10 @@ class HorneroLogin extends HoComponent {
           const hasHornero = data.sindicatos.some(s => s.sector_key === 'hornero');
           const list = hasHornero ? data.sindicatos : [
             ...data.sindicatos,
-            { id: 'hornero-admin', nombre: 'Hornero (Admin/Tester)', nombre_full: 'Hornero — Acceso administrativo y de testing', sector_key: 'hornero', sigla: 'Hornero', federacion: '', convenio: '' }
+            { id: 'hornero-admin', nombre: 'Hornero (Admin/Tester)', nombre_full: 'Hornero — Acceso administrativo y de testing', sector_key: 'hornero', sigla: 'Hornero', federacion: '', convenio: '', tipo: 'admin' }
           ];
+          // Ensure tipo field exists on all items
+          list.forEach(s => { if (!s.tipo) s.tipo = s.sigla === 'F.T.C.I.O.D' ? 'federacion' : 'sindicato'; });
           this.set('sindicatoList', list);
         }
       }
