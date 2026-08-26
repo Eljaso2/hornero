@@ -1328,11 +1328,14 @@ class HorneroChat extends HoComponent {
       .msg-quote-source { font-family: 'JetBrains Mono', monospace; font-size: .64rem;
         color: var(--ho-text-mid, #6E6A60); margin-top: 5px; font-style: normal; }
 
-      /* Citation: icon + reference in italic, smaller */
+      /* Citation: icon + reference — prominent for historiadora credibility */
       .msg-citation { display: block; font-style: italic;
-        font-size: .7em; /* ~30% smaller than parent */
-        color: var(--ho-text-mid, #6E6A60); margin-top: 6px; }
-      .msg-citation .cite-icon { margin-right: 4px; font-style: normal; }
+        font-size: .78em; color: var(--ho-text-mid, #6E6A60);
+        margin-top: 8px; padding: 6px 10px;
+        background: var(--ho-green-pale-dim, rgba(78,153,120,.08));
+        border-left: 3px solid var(--ho-green, #4E9978);
+        border-radius: 0 6px 6px 0; }
+      .msg-citation .cite-icon { margin-right: 5px; font-style: normal; }
 
       /* Tags */
       .msg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
@@ -3421,8 +3424,8 @@ h1 { font-family: 'Archivo', sans-serif; font-weight: 800; color: #3D6B56; borde
 .msg-quote { border-left: 3px solid #4E9978; background: #E0F0EB; padding: 10px 14px; margin: 8px 0; font-style: italic; border-radius: 0 8px 8px 0; }
 .msg-quote-author { font-weight: 700; font-style: normal; color: #3D6B56; }
 .msg-quote-source { font-family: monospace; font-size: .7rem; color: #6E6A60; font-style: normal; }
-.msg-citation { display: block; font-style: italic; font-size: .7em; color: #6E6A60; margin-top: 6px; }
-.msg-citation .cite-icon { margin-right: 4px; font-style: normal; }
+.msg-citation { display: block; font-style: italic; font-size: .78em; color: #6E6A60; margin-top: 8px; padding: 6px 10px; background: rgba(78,153,120,.08); border-left: 3px solid #4E9978; border-radius: 0 6px 6px 0; }
+.msg-citation .cite-icon { margin-right: 5px; font-style: normal; }
 .msg-tags { margin-top: 6px; }
 .msg-tag { background: #E0F0EB; color: #3D6B56; padding: 2px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: .62rem; font-weight: 600; display: inline-block; margin-right: 4px; }
 .divider { border: none; border-top: 1px dashed #4E9978; margin: 24px 0; }
