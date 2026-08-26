@@ -1598,7 +1598,6 @@ class HorneroChat extends HoComponent {
       const label = shortLabels[p] || cfg.name;
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
         <span class="persona-icon-inner">${inner}</span>
-        <span class="persona-cintillo-label">${label}</span>
       </button>`;
     }).join('');
 
@@ -2740,18 +2739,42 @@ class HorneroChat extends HoComponent {
     });
 
     // === Persona icon buttons → navigate to that persona's screen ===
+    const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiador/a', 'sociologo': 'Investigador/a' };
+    let personaTooltip = null;
+    const showPersonaLabel = (btn) => {
+      hidePersonaLabel();
+      const p = btn.dataset.persona;
+      const label = shortLabels[p] || p;
+      const rect = btn.getBoundingClientRect();
+      const hostRect = this.getBoundingClientRect();
+      personaTooltip = document.createElement('div');
+      personaTooltip.className = 'persona-floating-label';
+      personaTooltip.textContent = label;
+      personaTooltip.style.cssText = `position:absolute;bottom:${hostRect.bottom - rect.top + 4}px;left:${rect.left - hostRect.left + rect.width / 2}px;transform:translateX(-50%);font-family:'Archivo',sans-serif;font-size:.76rem;font-weight:700;color:var(--ho-green,#4E9978);white-space:nowrap;pointer-events:none;z-index:30;text-shadow:0 1px 4px var(--ho-bg,#1E2321);`;
+      this.shadowRoot.appendChild(personaTooltip);
+    };
+    const hidePersonaLabel = () => {
+      if (personaTooltip) { personaTooltip.remove(); personaTooltip = null; }
+    };
     this.shadowRoot.querySelectorAll('.chat-persona-icon').forEach(btn => {
       btn.addEventListener('click', () => {
         // Toggle label on tap (mobile), remove from others
         this.shadowRoot.querySelectorAll('.chat-persona-icon.tapped').forEach(b => b.classList.remove('tapped'));
-        if (!btn.classList.contains('active')) btn.classList.add('tapped');
+        if (!btn.classList.contains('active')) {
+          btn.classList.add('tapped');
+          showPersonaLabel(btn);
+        } else {
+          hidePersonaLabel();
+        }
         const screen = btn.dataset.navScreen;
         const persona = btn.dataset.navPersona;
         if (screen) {
           this.emit('persona-navigate', { persona, screen });
         }
       });
-      // Scroll active persona into center of bar
+      btn.addEventListener('mouseenter', () => showPersonaLabel(btn));
+      btn.addEventListener('mouseleave', () => hidePersonaLabel());
+      // Scroll active persona into center of bar + show its label
       if (btn.classList.contains('active')) {
         requestAnimationFrame(() => {
           const center = btn.closest('.chat-top-bar-center');
@@ -2759,6 +2782,7 @@ class HorneroChat extends HoComponent {
             const btnLeft = btn.offsetLeft + btn.offsetWidth / 2;
             center.scrollTo({ left: btnLeft - center.offsetWidth / 2, behavior: 'smooth' });
           }
+          showPersonaLabel(btn);
         });
       }
     });
