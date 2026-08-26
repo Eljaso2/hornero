@@ -1124,7 +1124,7 @@ class HorneroChat extends HoComponent {
       .info-popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0;
         z-index: 200; background: rgba(0,0,0,.55); display: flex;
         align-items: center; justify-content: center; animation: fadeIn .2s ease; }
-      .info-popup { width: 92%; max-width: 380px; max-height: 80vh;
+      .info-popup { width: 88%; max-width: 310px; max-height: 80vh;
         background: var(--ho-bg, #1E2321); border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         border-radius: 18px; padding: 20px; overflow-y: auto;
         box-shadow: 0 8px 32px rgba(0,0,0,.4); animation: menuFadeIn .25s ease; }
