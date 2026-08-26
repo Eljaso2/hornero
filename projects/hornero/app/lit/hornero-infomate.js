@@ -15,6 +15,38 @@ class HorneroInfomate extends HoComponent {
     };
   }
 
+  // ===== Topic → image mapping (1 recurring image per lámina) =====
+  static get TOPIC_IMAGES() {
+    return {
+      inflacion:      'assets/infomate/inflacion.png',
+      salarios:       'assets/infomate/salarios.png',
+      transferencia:  'assets/infomate/transferencia.png',
+      jubilados:      'assets/infomate/jubilados.png',
+      actividad:      'assets/infomate/actividad.png',
+      empleo:         'assets/infomate/empleo.png',
+      recortes:       'assets/infomate/recortes.png',
+      exportaciones:  'assets/infomate/exportaciones.jpg',
+      'fuga-capitales': 'assets/infomate/fuga-capitales.png',
+      consumo:        'assets/infomate/consumo.png',
+    };
+  }
+
+  // Emoji fallback per topic (when no image available)
+  static get TOPIC_EMOJIS() {
+    return {
+      inflacion:      '📈',
+      salarios:       '💰',
+      transferencia:  '🔀',
+      jubilados:      '👴',
+      actividad:      '🏭',
+      empleo:         '👷',
+      recortes:       '✂️',
+      exportaciones:  '🚢',
+      'fuga-capitales': '💸',
+      consumo:        '🛒',
+    };
+  }
+
   constructor() {
     super();
     this.grade = 'A';
@@ -336,15 +368,19 @@ class HorneroInfomate extends HoComponent {
         '<span class="tag">' + d + '</span>'
       ).join('');
       const sId = s.id || ('sec-' + idx);
-      const imgHtml = s.foto
-        ? '<div class="feed-card-img-wrap"><img class="feed-card-img" src="' + s.foto + '" alt="" loading="lazy">'
-        : '<div class="feed-card-img-wrap"><div class="feed-card-img-placeholder"><span>' + (s.emoji || '📊') + '</span></div>';
+
+      // Resolve image: tema → topic image, else foto, else emoji placeholder
+      const topicImg = s.tema ? HorneroInfomate.TOPIC_IMAGES[s.tema] : null;
+      const topicEmoji = s.tema ? HorneroInfomate.TOPIC_EMOJIS[s.tema] : (s.emoji || '📊');
+      const imgHtml = topicImg
+        ? '<div class="feed-card-img-wrap"><img class="feed-card-img" src="' + topicImg + '" alt="" loading="lazy">'
+        : '<div class="feed-card-img-wrap"><div class="feed-card-img-placeholder"><span>' + topicEmoji + '</span></div>';
+
       return '<div class="feed-card" data-id="' + sId + '">' +
         imgHtml +
           '<div class="feed-card-img-overlay">' +
             '<span class="feed-card-fecha">' + this._formatMes(meta.mes) + '</span>' +
             '<span class="source-badge">📊</span>' +
-            (s.emoji ? '<span class="feed-card-emoji">' + s.emoji + '</span>' : '') +
           '</div></div>' +
         '<div class="feed-card-body">' +
           '<div class="feed-card-titulo">' + (s.titulo || '') + '</div>' +
@@ -371,9 +407,12 @@ class HorneroInfomate extends HoComponent {
       '<span class="tag">' + d + '</span>'
     ).join('');
 
-    const popupImgHtml = item.foto
-      ? '<img class="popup-img" src="' + item.foto + '" alt="" loading="lazy">'
-      : '<div class="feed-card-img-placeholder" style="height:180px"><span style="font-size:3rem">' + (item.emoji || '📊') + '</span></div>';
+    // Resolve image: tema → topic image, else foto (legacy), else emoji placeholder
+    const topicImg = item.tema ? HorneroInfomate.TOPIC_IMAGES[item.tema] : null;
+    const topicEmoji = item.tema ? HorneroInfomate.TOPIC_EMOJIS[item.tema] : (item.emoji || '📊');
+    const popupImgHtml = topicImg
+      ? '<img class="popup-img" src="' + topicImg + '" alt="" loading="lazy">'
+      : '<div class="feed-card-img-placeholder" style="height:180px"><span style="font-size:3rem">' + topicEmoji + '</span></div>';
 
     return '<div class="popup-overlay" id="popupOverlay">' +
       '<div class="popup-content">' +
@@ -381,7 +420,6 @@ class HorneroInfomate extends HoComponent {
         popupImgHtml +
         '<div class="popup-body">' +
           '<div class="popup-title-line">' +
-          (item.emoji ? '<span class="popup-emoji">' + item.emoji + '</span>' : '') +
           '<span class="popup-titulo">' + (item.titulo || '') + '</span></div>' +
           '<div class="popup-desarrollo">' + (item.desarrollo || item.bajada || '') + '</div>' +
           (item.fuente ? '<div class="popup-fuente">Fuente: ' + this._renderFuentes(item.fuente, item.fuente_url) + '</div>' : '') +

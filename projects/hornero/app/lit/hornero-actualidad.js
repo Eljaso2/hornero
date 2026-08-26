@@ -565,6 +565,22 @@ class HorneroActualidad extends HoComponent {
 
   // ===== Sub-view: InfoMate =====
 
+  // Topic → image mapping (shared with hornero-infomate)
+  static get TOPIC_IMAGES() {
+    return {
+      inflacion:      'assets/infomate/inflacion.png',
+      salarios:       'assets/infomate/salarios.png',
+      transferencia:  'assets/infomate/transferencia.png',
+      jubilados:      'assets/infomate/jubilados.png',
+      actividad:      'assets/infomate/actividad.png',
+      empleo:         'assets/infomate/empleo.png',
+      recortes:       'assets/infomate/recortes.png',
+      exportaciones:  'assets/infomate/exportaciones.jpg',
+      'fuga-capitales': 'assets/infomate/fuga-capitales.png',
+      consumo:        'assets/infomate/consumo.png',
+    };
+  }
+
   _renderInfoMateSubView() {
     const ed = this._mateEdiciones[this._mateIdx];
     if (!ed) return html`<div class="scroll"><div class="sindical-empty">No hay ediciones de InfoMate.</div></div>`;
@@ -606,7 +622,7 @@ class HorneroActualidad extends HoComponent {
       macroHtml = '<div class="macro-block"><div class="macro-grid">' + macroCards + '</div></div>';
     }
 
-    // Section cards
+    // Section cards — use tema→image instead of foto
     let cardsHtml = '';
     if (data.secciones) {
       for (const s of data.secciones) {
@@ -614,8 +630,10 @@ class HorneroActualidad extends HoComponent {
           '<span class="photo-tag">' + this._normalizeTag(t) + '</span>'
         ).join('');
 
+        const topicImg = s.tema ? HorneroActualidad.TOPIC_IMAGES[s.tema] : null;
+
         cardsHtml += '<div class="clip-card">' +
-          (s.foto ? '<img class="clip-card-img" src="' + s.foto + '" alt="" loading="lazy">' : '') +
+          (topicImg ? '<img class="clip-card-img" src="' + topicImg + '" alt="" loading="lazy">' : '') +
           '<div class="clip-card-body">' +
             '<div class="clip-card-titulo">' + (s.titulo || '') + '</div>' +
             (s.bajada ? '<div class="clip-card-bajada">' + s.bajada + '</div>' : '') +
@@ -694,7 +712,8 @@ class HorneroActualidad extends HoComponent {
     const mateSublabel = this._formatMes(ed.mes);
 
     const firstSection = mateRaw && mateRaw.secciones && mateRaw.secciones.length > 0 ? mateRaw.secciones[0] : null;
-    const foto = firstSection ? firstSection.foto : null;
+    // Use tema→image instead of foto
+    const foto = firstSection && firstSection.tema ? HorneroActualidad.TOPIC_IMAGES[firstSection.tema] : null;
     const hasFoto = !!foto;
     const firstTitle = firstSection ? firstSection.titulo : '';
 
