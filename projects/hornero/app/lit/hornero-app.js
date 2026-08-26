@@ -408,12 +408,12 @@ class HorneroApp extends HoComponent {
           height: 100%; overflow: hidden;
           padding-top: env(safe-area-inset-top, 0px);
           box-sizing: border-box; }
-        /* Cover Chrome status bar repaint artifact — 2px strip at safe-area boundary
-           matches app bg so invisible normally, covers the 1px line Chrome draws
+        /* Cover Chrome status bar repaint artifact — 1px line at safe-area boundary
+           matches app bg so invisible, covers the line Chrome draws
            when theme-color changes dynamically */
         .screen::before { content: ''; position: absolute;
-          top: env(safe-area-inset-top, 0px); left: 0; right: 0;
-          height: 3px; background: var(--ho-bg); z-index: 9999;
+          top: 0; left: 0; right: 0;
+          height: calc(env(safe-area-inset-top, 0px) + 6px); background: var(--ho-bg); z-index: 9999;
           pointer-events: none; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
