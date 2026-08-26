@@ -4,7 +4,7 @@
 // This means: push changes → open app → see changes immediately, no cache clearing
 // Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v683'
+var CACHE_NAME = 'hornero-v684'
 var ASSETS = [
   './css/hornero.css',
   './js/hornero-api.js',
@@ -71,16 +71,14 @@ var ASSETS = [
   './assets/personajes/a05.png',
   './assets/actualidad-bg.png',
   './assets/infomate-bg.png',
-  './assets/infomate/inflacion.png',
-  './assets/infomate/salarios.png',
-  './assets/infomate/transferencia.png',
-  './assets/infomate/jubilados.png',
-  './assets/infomate/actividad.png',
-  './assets/infomate/empleo.png',
-  './assets/infomate/recortes.png',
-  './assets/infomate/exportaciones.jpg',
-  './assets/infomate/fuga-capitales.png',
-  './assets/infomate/consumo.png',
+  './assets/infomate/inflacion.jpeg',
+  './assets/infomate/salarios.jpeg',
+  './assets/infomate/transferencia.jpeg',
+  './assets/infomate/jubilaciones.jpeg',
+  './assets/infomate/actividad.jpeg',
+  './assets/infomate/empleo.jpeg',
+  './assets/infomate/recortes.jpeg',
+  './assets/infomate/endeudamiento.jpeg',
   './assets/panorama-bg.png'
 ];
 

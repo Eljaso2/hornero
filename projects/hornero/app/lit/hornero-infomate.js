@@ -18,16 +18,14 @@ class HorneroInfomate extends HoComponent {
   // ===== Topic → image mapping (1 recurring image per lámina) =====
   static get TOPIC_IMAGES() {
     return {
-      inflacion:      'assets/infomate/inflacion.png',
-      salarios:       'assets/infomate/salarios.png',
-      transferencia:  'assets/infomate/transferencia.png',
-      jubilados:      'assets/infomate/jubilados.png',
-      actividad:      'assets/infomate/actividad.png',
-      empleo:         'assets/infomate/empleo.png',
-      recortes:       'assets/infomate/recortes.png',
-      exportaciones:  'assets/infomate/exportaciones.jpg',
-      'fuga-capitales': 'assets/infomate/fuga-capitales.png',
-      consumo:        'assets/infomate/consumo.png',
+      inflacion:      'assets/infomate/inflacion.jpeg',
+      salarios:       'assets/infomate/salarios.jpeg',
+      transferencia:  'assets/infomate/transferencia.jpeg',
+      jubilados:      'assets/infomate/jubilaciones.jpeg',
+      actividad:      'assets/infomate/actividad.jpeg',
+      empleo:         'assets/infomate/empleo.jpeg',
+      recortes:       'assets/infomate/recortes.jpeg',
+      endeudamiento:  'assets/infomate/endeudamiento.jpeg',
     };
   }
 
@@ -41,9 +39,7 @@ class HorneroInfomate extends HoComponent {
       actividad:      '🏭',
       empleo:         '👷',
       recortes:       '✂️',
-      exportaciones:  '🚢',
-      'fuga-capitales': '💸',
-      consumo:        '🛒',
+      endeudamiento:  '💳',
     };
   }
 
