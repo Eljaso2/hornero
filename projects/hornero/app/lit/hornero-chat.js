@@ -1133,6 +1133,17 @@ class HorneroChat extends HoComponent {
         font-size: 1.1rem; color: var(--ho-green, #4E9978); margin-bottom: 8px; }
       .info-popup-bajada { font-family: 'Public Sans', sans-serif; font-size: .88rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5; margin-bottom: 14px; }
+      .info-popup-explore { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+      .info-popup-explore-opt { font-family: 'Archivo', sans-serif; font-size: .76rem;
+        font-weight: 600; padding: 5px 12px; border-radius: 14px; cursor: pointer;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.12));
+        background: transparent; color: var(--ho-text-mid, #6E6A60);
+        transition: background .2s, border-color .2s, color .2s; }
+      .info-popup-explore-opt:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .info-popup-explore-opt { border-color: rgba(0,0,0,.08); color: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .info-popup-explore-opt:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
       .info-popup-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px;
         border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
