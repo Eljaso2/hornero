@@ -1055,7 +1055,7 @@ class HorneroChat extends HoComponent {
         height: 64px; display: flex; align-items: center;
         padding-top: 8px; background: var(--ho-bg, #1E2321); overflow: visible; }
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 3; min-width: 48px; justify-content: flex-start; }
-      .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
+      .chat-top-bar-center { flex: 1; overflow-x: auto; overflow-y: visible; display: flex; align-items: center;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; gap: 10px; padding: 0 8px;
         justify-content: center; scroll-behavior: smooth; }
@@ -1222,8 +1222,8 @@ class HorneroChat extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); }
       .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif; display: none; text-align: center;
         font-size: .76rem; font-weight: 700; color: var(--ho-green, #4E9978);
-        position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
-        white-space: nowrap; pointer-events: none; z-index: 25;
+        position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+        margin-top: 2px; white-space: nowrap; pointer-events: none; z-index: 30;
         text-shadow: 0 1px 4px var(--ho-bg, #1E2321), 0 0 8px var(--ho-bg, #1E2321);
         transition: color .2s, filter .3s; }
       /* Inactive label: also grayscale */
