@@ -179,6 +179,10 @@ def _init_db():
                  "SIPREBA — Sindicato de Prensa de Buenos Aires",
                  "prensa", "SIPREBA", "SIPREBA", "CCT 301/75",
                  "prensa periodista periodismo medios comunicación prensa gráfica"),
+                ("hornero-admin", "Hornero (Admin/Tester)",
+                 "Hornero — Acceso administrativo y de testing",
+                 "hornero", "Hornero", "", "",
+                 "hornero admin tester administración testing desarrollo"),
             ]
             for s in seed_sindicatos:
                 conn.execute(
