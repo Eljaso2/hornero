@@ -401,12 +401,14 @@ class HorneroLogin extends HoComponent {
           <div class="form-area">
             <div class="field">
               <label for="signup-email">Email</label>
-              <input type="email" id="signup-email" placeholder="tu@email.com" autocomplete="email" />
+              <input type="email" id="signup-email" placeholder="tu@email.com" autocomplete="email" list="draft-emails" />
+              <datalist id="draft-emails"></datalist>
             </div>
 
             <div class="field">
               <label for="signup-nombre">Nombre completo o Usuario</label>
-              <input type="text" id="signup-nombre" placeholder="Tu nombre o usuario" autocomplete="name" />
+              <input type="text" id="signup-nombre" placeholder="Tu nombre o usuario" autocomplete="name" list="draft-nombres" />
+              <datalist id="draft-nombres"></datalist>
             </div>
 
             <div class="field">
@@ -678,65 +680,66 @@ class HorneroLogin extends HoComponent {
     this._persistSignupForm();
   }
 
-  // Save signup form values to localStorage so user doesn't lose them
+  // Save signup form values to localStorage history (for datalist autocomplete)
   _persistSignupForm() {
     if (this.view !== 'signup') return;
     try {
-      const ids = ['signup-email', 'signup-nombre'];
-      const data = {};
-      for (const id of ids) {
+      const ids = { 'signup-email': 'hornero-draft-emails', 'signup-nombre': 'hornero-draft-nombres' };
+      for (const [id, storageKey] of Object.entries(ids)) {
         const el = this.shadowRoot.querySelector('#' + id);
-        if (el && el.value) data[id] = el.value;
+        if (!el || !el.value.trim()) continue;
+        let history = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        const val = el.value.trim();
+        history = history.filter(v => v !== val); // remove dup
+        history.unshift(val); // add to front
+        history = history.slice(0, 5); // keep max 5
+        localStorage.setItem(storageKey, JSON.stringify(history));
       }
-      if (this.selectedSindicato) data['sindicato'] = this.selectedSindicato.id;
-      if (this.cargo && this.cargo !== 'trabajador') data['cargo'] = this.cargo;
-      localStorage.setItem('hornero-signup-draft', JSON.stringify(data));
+      if (this.selectedSindicato) {
+        localStorage.setItem('hornero-draft-sindicato', this.selectedSindicato.id);
+      }
+      if (this.cargo && this.cargo !== 'trabajador') {
+        localStorage.setItem('hornero-draft-cargo', this.cargo);
+      }
     } catch(e) {}
   }
 
-  // Offer saved draft as placeholder on focus, not auto-fill
+  // Populate datalists from localStorage history + restore sindicato/cargo
   _offerDraftOnFocus() {
     try {
-      const raw = localStorage.getItem('hornero-signup-draft');
-      if (!raw) return;
-      const draft = JSON.parse(raw);
-      // Restore sindicato + cargo silently (these are selections, not typed text)
-      if (draft.sindicato) {
+      // Populate datalists with saved values
+      const datalistMap = { 'signup-email': 'draft-emails', 'signup-nombre': 'draft-nombres' };
+      for (const [inputId, datalistId] of Object.entries(datalistMap)) {
+        const storageKey = 'hornero-draft-' + inputId.replace('signup-', '') + 's';
+        const history = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        const dl = this.shadowRoot.querySelector('#' + datalistId);
+        if (dl && history.length > 0) {
+          dl.innerHTML = history.map(v => `<option value="${v}">`).join('');
+        }
+      }
+      // Restore sindicato + cargo (these are selections, not typed text)
+      const savedSind = localStorage.getItem('hornero-draft-sindicato');
+      if (savedSind) {
         const all = this.sindicatoList.length > 0 ? this.sindicatoList : this._fallbackSindicatos;
-        const sind = all.find(s => s.id === draft.sindicato);
+        const sind = all.find(s => s.id === savedSind);
         if (sind) {
           this.selectedSindicato = sind;
           this.sindicatoQuery = sind.nombre;
           if (sind.tipo === 'federacion') this.cargo = 'comision_federacion';
         }
       }
-      if (draft.cargo) this.cargo = draft.cargo;
-      // For text fields: show saved value as placeholder hint on focus
-      ['signup-email', 'signup-nombre'].forEach(id => {
-        const savedVal = draft[id];
-        if (!savedVal) return;
-        const el = this.shadowRoot.querySelector('#' + id);
-        if (!el) return;
-        const origPlaceholder = el.placeholder;
-        el.addEventListener('focus', () => {
-          if (!el.value) {
-            el.placeholder = savedVal;
-          }
-        });
-        el.addEventListener('input', () => {
-          // Once user types, restore original placeholder
-          el.placeholder = origPlaceholder;
-        });
-        el.addEventListener('blur', () => {
-          el.placeholder = origPlaceholder;
-        });
-      });
+      const savedCargo = localStorage.getItem('hornero-draft-cargo');
+      if (savedCargo) this.cargo = savedCargo;
     } catch(e) {}
   }
 
-  // Clear the persisted draft after successful registration
+  // Clear draft after successful registration
   _clearSignupDraft() {
-    try { localStorage.removeItem('hornero-signup-draft'); } catch(e) {}
+    try {
+      localStorage.removeItem('hornero-draft-sindicato');
+      localStorage.removeItem('hornero-draft-cargo');
+      // Keep email/nombre history — useful if they register again later
+    } catch(e) {}
   }
 
   // Load sindicatos from backend once (fallback to hardcoded list if unreachable)
