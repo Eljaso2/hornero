@@ -521,8 +521,8 @@ class HorneroLogin extends HoComponent {
         if (this.selectedSindicato) return; // readonly when selected
         const q = e.target.value.trim();
         this.set('sindicatoQuery', q);
-        this.set('sindicatoResults', []);
-        this.set('sindicatoSearching', false);
+        if (this.sindicatoResults.length > 0) this.set('sindicatoResults', []);
+        if (this.sindicatoSearching) this.set('sindicatoSearching', false);
         clearTimeout(this._searchDebounce);
         if (q.length >= 1) {
           this.set('sindicatoSearching', true);
@@ -540,12 +540,13 @@ class HorneroLogin extends HoComponent {
       });
     }
 
-    // Close sindicato dropdown on click outside
+    // Close sindicato dropdown on click outside — only if dropdown is actually open
     this._sindClickOutside = (e) => {
+      if (this.sindicatoResults.length === 0 && !this.sindicatoSearching) return; // nothing to close
       const wrap = this.shadowRoot.querySelector('.sind-search-wrap');
       if (wrap && !wrap.contains(e.composedPath()[0])) {
-        this.set('sindicatoResults', []);
-        this.set('sindicatoSearching', false);
+        if (this.sindicatoResults.length > 0) this.set('sindicatoResults', []);
+        if (this.sindicatoSearching) this.set('sindicatoSearching', false);
       }
     };
     document.addEventListener('click', this._sindClickOutside);
