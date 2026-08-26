@@ -975,10 +975,10 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 88px; /* 80px top bar + 8px gap */
+        padding-top: 84px; /* 80px top bar + 4px gap */
         min-height: 0; /* allow shrink so input bar stays visible */
         -webkit-overflow-scrolling: touch; }
-      :host([reduce-top-pad]) .chat-scroll { padding-top: 96px; }
+      :host([reduce-top-pad]) .chat-scroll { padding-top: 84px; }
 
       /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }
