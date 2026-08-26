@@ -12,6 +12,7 @@ class HorneroContenido extends HoComponent {
       sector: String,
       persona: String,  // Initial persona from Mesa de Trabajo landing
       sessionId: String, // Session ID — if set, load existing session instead of greeting
+      warmResume: Boolean, // True = warm resume (restore last session), false = cold start (new chat)
       messages: Array,
       iaStep: Number,
       _bannerVisible: Boolean,
@@ -366,8 +367,8 @@ class HorneroContenido extends HoComponent {
       this.sessionId = '';
       return;
     }
-    // Try to restore the most recent session for this section + username
-    if (typeof obtenerChatSessions === 'function' && this._username) {
+    // Try to restore the most recent session for this section + username (warm resume only)
+    if (this.warmResume && typeof obtenerChatSessions === 'function' && this._username) {
       try {
         const sessions = await obtenerChatSessions(this._username);
         const mySessions = sessions.filter(s => s.section === this._chatSection);

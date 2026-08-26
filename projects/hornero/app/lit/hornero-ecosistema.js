@@ -116,7 +116,7 @@ class HorneroEcosistema extends HoComponent {
 
   _render() {
     return html`
-      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}" style="display:none">
         <div class="hero-banner-title">Ecosistema Hornero</div>
         ${this._bannerVisible ? html`
         <div class="hero-bajada">
@@ -155,7 +155,7 @@ class HorneroEcosistema extends HoComponent {
           reduce-top-pad
           section="ecosistema"
           history-title="Historial"
-          no-auto-scroll="${this._bannerVisible}"
+          section-info='{"title":"Ecosistema Hornero","bajada":"IA Sindical: inteligencia artificial desde la clase trabajadora. Datos propios, categorías propias, infraestructura propia.","explore":["Laboratorio","Coyuntura","Panorama","Historia Obrera","Derecho","Contenido","Reporte Gremial"]}'
         ></hornero-chat>
       </div>
     `;
@@ -203,6 +203,11 @@ class HorneroEcosistema extends HoComponent {
           this._sessionId = this._genId();
           this.render();
         }
+      });
+      // Listen for explore-select from info popup
+      chatEl.addEventListener('explore-select', (e) => {
+        const topic = e.detail.option;
+        this._handleUserMessage('Contame sobre el núcleo ' + topic + ' del ecosistema');
       });
       chatEl.addEventListener('chat-message-delete', (e) => {
         const { msgIndex, msg } = e.detail;

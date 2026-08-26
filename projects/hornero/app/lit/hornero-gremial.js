@@ -11,6 +11,7 @@ class HorneroGremial extends HoComponent {
       sector: String,
       persona: String,  // Initial persona from Mesa de Trabajo landing
       sessionId: String, // Session ID — if set, load existing session instead of greeting
+      warmResume: Boolean, // True = warm resume (restore last session), false = cold start (new chat)
       viewInforme: String, // Informe ID — if set, open popup viewer on mount
       editInforme: String, // Informe ID — if set, open correction chat on mount
       messages: Array,
@@ -1071,7 +1072,19 @@ class HorneroGremial extends HoComponent {
       this.sessionId = '';
       return;
     }
-    // Generate sessionId for new chat
+    // Warm resume: try to restore the most recent session for this section + username
+    if (this.warmResume && typeof obtenerChatSessions === 'function' && this._username) {
+      try {
+        const sessions = await obtenerChatSessions(this._username);
+        const mySessions = sessions.filter(s => s.section === this._chatSection);
+        if (mySessions.length > 0) {
+          const latestSession = mySessions[0]; // sorted by timestamp desc
+          await this._loadSession(latestSession.sessionId);
+          return; // Session restored, no greeting needed
+        }
+      } catch(e) { console.warn('Gremial: session restore failed', e); }
+    }
+    // Cold start or no session found — generate sessionId for new chat
     if (!this._sessionId) {
       this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
     }

@@ -12,6 +12,7 @@ class HorneroArchivo extends HoComponent {
       sector: String,
       persona: String,     // Initial persona from navigation
       sessionId: String,   // Session ID — if set, load existing session
+      warmResume: Boolean, // True = warm resume (restore last session), false = cold start (new chat)
       messages: Array,
       _bannerVisible: Boolean,
       _docsOpen: Boolean,
@@ -226,7 +227,7 @@ class HorneroArchivo extends HoComponent {
     ` : '';
 
     return html`
-      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}" style="display:none">
         <div class="hero-banner-title">Archivo</div>
         ${this._bannerVisible ? html`
         <div class="hero-bajada">
@@ -248,7 +249,7 @@ class HorneroArchivo extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          no-auto-scroll="${this._bannerVisible}"
+          section-info='{"title":"Archivo","bajada":"Convenios, referentes, fuentes sindicales, documentos académicos. La memoria del sindicato.","explore":[]}'
         ></hornero-chat>
       </div>
     `;
@@ -275,6 +276,15 @@ class HorneroArchivo extends HoComponent {
           this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now();
           this.render();
         }
+      });
+      // Listen for explore-select from info popup
+      chatEl.addEventListener('explore-select', (e) => {
+        const topic = e.detail.option;
+        const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
+        this.messages = [...this.messages, userMsg];
+        this._addWithProgressiveReveal(this._exploreResponse(topic));
+        this._saveChatHistory();
+        this.render();
       });
       chatEl.addEventListener('chat-message-delete', (e) => {
         const { msgIndex, msg } = e.detail;
@@ -393,8 +403,8 @@ class HorneroArchivo extends HoComponent {
       return;
     }
 
-    // Try to restore the most recent session for this section + username
-    if (typeof obtenerChatSessions === 'function' && this._username) {
+    // Try to restore the most recent session for this section + username (warm resume only)
+    if (this.warmResume && typeof obtenerChatSessions === 'function' && this._username) {
       try {
         const sessions = await obtenerChatSessions(this._username);
         const mySessions = sessions.filter(s => s.section === this._chatSection);
