@@ -405,7 +405,7 @@ class HorneroFormacion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          section-info='{"title":"Historia Obrera","bajada":"Efemérides, ensayos, Mitín, colección La Argentina Peronista, retazos de historia, audio, video e ilustración.","explore":["Efemérides","Mitín","Colección","Retazos","Archivo"]}'
+          section-info='{"title":"Historia Obrera","bajada":"Acá la Historiadora te ayuda a recorrer el movimiento obrero: Efemérides trae los hechos de cada semana, Mitín publica ensayos de historia obrera argentina, la Colección La Argentina Peronista reúne libros y documentos, y Retazos rescata docuficción, audio, ilustraciones y música. Preguntale lo que busques o tocá un tema del menú Explorar."}'
         ></hornero-chat>
       </div>
     `;
@@ -621,9 +621,9 @@ class HorneroFormacion extends HoComponent {
 
     let efeText = '';
     if (efe) {
-      efeText = `¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nAcá podemos recorrer:\n\n• 📅 Efemérides — Hechos históricos de cada semana\n• 📖 Mitín — Ensayos de historia obrera argentina\n• 📚 Colección La Argentina Peronista — Libros y documentos\n• 🎬 Retazos — Docuficción, audio, ilustraciones, música\n\n${efe.emoji} Esta semana se conmemora el [**${efe.title}**](https://historiaobrera.com.ar/) (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\n¿Qué tema histórico querés explorar?`;
+      efeText = `¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nAcá podemos recorrer:\n\n• 📅 Efemérides — Hechos históricos de cada semana\n• 📖 Mitín — Ensayos de historia obrera argentina\n• 📚 Colección La Argentina Peronista — Libros y documentos\n• 🎬 Retazos — Docuficción, audio, ilustraciones, música\n\n${efe.emoji} Esta semana se conmemora el [**${efe.title}**](https://historiaobrera.com.ar/) (${efe.fecha}/${efe.year}).\n\n${efe.narrative}\n\n¿Qué tema histórico te interesa?`;
     } else {
-      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nAcá podemos recorrer:\n\n• 📅 Efemérides — Hechos históricos de cada semana\n• 📖 Mitín — Ensayos de historia obrera argentina\n• 📚 Colección La Argentina Peronista — Libros y documentos\n• 🎬 Retazos — Docuficción, audio, ilustraciones, música\n\n¿Qué tema histórico querés explorar?';
+      efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nAcá podemos recorrer:\n\n• 📅 Efemérides — Hechos históricos de cada semana\n• 📖 Mitín — Ensayos de historia obrera argentina\n• 📚 Colección La Argentina Peronista — Libros y documentos\n• 🎬 Retazos — Docuficción, audio, ilustraciones, música\n\n¿Qué tema histórico te interesa?';
     }
 
     // 1. Show typing dots for 1s
@@ -1009,7 +1009,7 @@ class HorneroFormacion extends HoComponent {
   }
 
   _localGreeting() {
-    return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Historiadora — conozco la historia del movimiento obrero: huelgas, masacres, lockouts, referentes que nadie recuerda. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Historiadora — conozco la historia del movimiento obrero: huelgas, masacres, lockouts, referentes que nadie recuerda. ¿Qué tema histórico te interesa?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
   // ===== Handle audio message =====

@@ -11,6 +11,7 @@ class HorneroHistoriador extends HoComponent {
       sector: String,
       persona: String,  // Initial persona from Mesa de Trabajo landing
       sessionId: String, // Session ID — if set, load existing session instead of greeting
+      warmResume: Boolean, // True = warm resume (restore last session), false = cold start (new chat)
       messages: Array,
     };
   }
@@ -204,8 +205,8 @@ class HorneroHistoriador extends HoComponent {
       return;
     }
 
-    // Try to restore the most recent session for this section + username
-    if (typeof obtenerChatSessions === 'function' && this._username) {
+    // Try to restore the most recent session for this section + username (warm resume only)
+    if (this.warmResume && typeof obtenerChatSessions === 'function' && this._username) {
       try {
         const sessions = await obtenerChatSessions(this._username);
         const mySessions = sessions.filter(s => s.section === this._chatSection);
@@ -311,7 +312,7 @@ class HorneroHistoriador extends HoComponent {
   }
 
   _localGreeting() {
-    return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Historiadora — conozco la historia del movimiento obrero: huelgas, masacres, lockouts, referentes que nadie recuerda. ¿Qué tema histórico querés explorar?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Historiadora — conozco la historia del movimiento obrero: huelgas, masacres, lockouts, referentes que nadie recuerda. ¿Qué tema histórico te interesa?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
   _handleUserMessage(text) {

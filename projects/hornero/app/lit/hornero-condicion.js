@@ -206,7 +206,7 @@ class HorneroCondicion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          section-info='{"title":"Panorama","bajada":"Condición obrera, comportamiento empresarial, Salario Mínimo, Vital y Móvil real, felicidad laboral.","explore":["Cómo Somos","Comportamiento Empresarial","SMVM","Índice de Felicidad"]}'
+          section-info='{"title":"Panorama","bajada":"El Sociólogo investiga la clase obrera en cuatro dimensiones: Cómo Somos describe la composición social y el mundo del trabajo, Comportamiento Empresarial rastrea las prácticas patronales, SMVM sigue el Salario Mínimo Vital y Móvil real, e Índice de Felicidad mide la calidad de vida laboral. Tocá cualquier tema en el menú Explorar o preguntale directamente."}'
         ></hornero-chat>
       </div>
     `;
@@ -453,7 +453,7 @@ class HorneroCondicion extends HoComponent {
     }
 
     // Default greeting (no specific topic)
-    const introText = '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **Explorar** 👆';
+    const introText = '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **ℹ️** 👆';
 
     // 1. Show typing dots for 1s
     this._typing = true;
@@ -684,7 +684,7 @@ class HorneroCondicion extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Qué querés explorar?' },
+        { title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Sobre qué querés consultar?' },
       ],
       tags: ['panorama', 'greeting'],
       persona: 'sociologo',

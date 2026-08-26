@@ -211,7 +211,7 @@ class HorneroConsulta extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          section-info='{"title":"Derecho","bajada":"Legislación laboral, convenios colectivos. Asesoramiento legal para trabajadores y delegados.","explore":["Paritaria","Condiciones laborales","SMVM y distribución","Reforma laboral","CCT 420/05","Organización sindical"]}'
+          section-info='{"title":"Derecho","bajada":"La Abogada te asesora en legislación laboral y convenios colectivos: paritarias, condiciones laborales, SMVM y distribución, reforma laboral, CCT 420/05 y organización sindical. Puede responder sobre otros gremios siempre indicando la fuente. Tocá un tema en el menú Explorar o preguntale directamente."}'
         ></hornero-chat>
       </div>
     `;
