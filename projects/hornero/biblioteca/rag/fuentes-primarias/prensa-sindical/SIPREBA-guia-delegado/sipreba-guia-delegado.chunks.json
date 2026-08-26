@@ -30,7 +30,8 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "quotes": []
   },
   {
     "id": "prensa-guia-delegados-sec2",
@@ -63,7 +64,8 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "quotes": []
   },
   {
     "id": "prensa-guia-delegados-sec3",
@@ -96,7 +98,8 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "quotes": []
   },
   {
     "id": "prensa-guia-delegados-sec4",
@@ -129,7 +132,8 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "quotes": []
   },
   {
     "id": "prensa-guia-delegados-sec5",
@@ -162,7 +166,8 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "quotes": []
   },
   {
     "id": "prensa-escala-escrita-g1-2026",
@@ -192,7 +197,8 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Escala Salarial Prensa Escrita Grupo 1, 2026"
+    "book_ref": "SiPreBA, Escala Salarial Prensa Escrita Grupo 1, 2026",
+    "quotes": []
   },
   {
     "id": "prensa-escala-escrita-g2-2026",
@@ -221,7 +227,8 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Escala Salarial Prensa Escrita Grupo 2, 2026"
+    "book_ref": "SiPreBA, Escala Salarial Prensa Escrita Grupo 2, 2026",
+    "quotes": []
   },
   {
     "id": "prensa-escala-radial-2026",
@@ -251,6 +258,7 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Escala Salarial Prensa Radial, 2026"
+    "book_ref": "SiPreBA, Escala Salarial Prensa Radial, 2026",
+    "quotes": []
   }
 ]

@@ -71,6 +71,20 @@ STEM_MAP = {
     "editoriales": "editorial",
     "posiciones": "posicion",
     "gremiales": "gremial",
+    # Historia obrera / OIT / derechos
+    "forzados": "forzado", "forzada": "forzado",
+    "esclavos": "esclavo", "esclavas": "esclavo",
+    "indígenas": "indígena",
+    "coloniales": "colonial",
+    "coacciones": "coaccion", "coacción": "coaccion",
+    "jubilaciones": "jubilacion",
+    "anarquistas": "anarquismo", "anarquista": "anarquismo",
+    "marítimos": "maritimo", "marítimo": "maritimo",
+    "criminologías": "criminologia", "criminología": "criminologia",
+    "legislaciones": "legislacion", "legislación": "legislacion",
+    # Geografía: andino es la forma adjetiva de Andes
+    "andino": "andes", "andina": "andes", "andinos": "andes", "andinas": "andes",
+    "andean": "andes",
 }
 
 
@@ -142,7 +156,14 @@ CATEGORY_KEYWORDS = {
                   "reparacion", "testimonio", "pueblo originario", "despojo", "territorio",
                   "cordobazo", "viborazo", "tampierazo", "argentinazo", "santiagueñazo",
                   "cgta", "efemeride", "aniversario", "conmemoracion", "1 de mayo", "tosco",
-                  "rucci", "ongaro", "reforma", "dnu", "ley bases", "flexibilizacion"],
+                  "rucci", "ongaro", "reforma", "dnu", "ley bases", "flexibilizacion",
+                  # Historia obrera / OIT / derechos laborales
+                  "forzado", "esclavo", "esclavitud", "indígena", "indígenas", "andino",
+                  "colonial", "colonialismo", "coacción", "mita", "pongueaje", "yanaconazgo",
+                  "oit", "organización internacional del trabajo", "negociación colectiva",
+                  "derecho laboral", "legislación laboral", "trabajo femenino", "trabajo marítimo",
+                  "disciplina laboral", "control social", "criminología", "política criminal",
+                  "jubilaciones", "anarquismo", "sindicalismo revolucionario", "socialismo"],
     "prensa": ["periodico", "comunicado", "volante", "editorial", "discurso", "opinion",
                "trabajador aceitero", "el trabajador aceitero", "desmotador", "posicion",
                "gremial", "ftciod", "foeiap", "federacion aceitera", "nota", "columna",
@@ -221,6 +242,21 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
     # Also add stemmed versions of terms
     stemmed_terms = [stem_term(t) for t in terms]
     all_terms = set(terms) | set(stemmed_terms)
+
+    # Reverse stem expansion: for each query term, find all variant forms
+    # that stem to the same canonical form (e.g., query "andes" → also search "andino", "andina")
+    reverse_stems = {}
+    for variant, canonical in STEM_MAP.items():
+        if canonical not in reverse_stems:
+            reverse_stems[canonical] = set()
+        reverse_stems[canonical].add(variant)
+        reverse_stems[canonical].add(canonical)  # include canonical itself
+
+    expanded_terms = set(all_terms)
+    for t in all_terms:
+        if t in reverse_stems:
+            expanded_terms |= reverse_stems[t]
+    all_terms = expanded_terms
 
     if not all_terms:
         return []
@@ -301,11 +337,16 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
 
         # Tenant priority bonus: +5 for own tenant, +1 for shared, 0 for other tenants
         # Regla: prioriza tu gremio, pero no te bloquea el acceso a otros
+        # Excepción: cuando la query es académica/histórica y el chunk es shared+academico,
+        # boost de +3 (en vez de +1) para que pueda competir con chunks del gremio propio
         chunk_tenant = chunk.get("tenant", "aceiteros")
         if chunk_tenant == tenant:
             score += 5.0
         elif chunk_tenant == "shared":
-            score += 1.0
+            if "academico" in relevant_categories and chunk_category == "academico":
+                score += 3.0  # Shared+académico: boost para competir con own-tenant
+            else:
+                score += 1.0
         elif chunk_tenant in cross_tenant_boosts:
             # Cross-tenant boost: when the query explicitly mentions another sector,
             # give those chunks a +4 bonus so they can compete with own-tenant chunks

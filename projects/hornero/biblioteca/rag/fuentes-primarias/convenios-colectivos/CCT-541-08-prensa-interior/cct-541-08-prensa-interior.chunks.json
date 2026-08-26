@@ -6,7 +6,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -30,7 +30,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art1",
@@ -39,7 +41,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -63,7 +65,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art2",
@@ -72,7 +76,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -96,7 +100,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art3",
@@ -105,7 +111,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -129,7 +135,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art4",
@@ -138,7 +146,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -162,7 +170,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art5",
@@ -171,7 +181,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -195,7 +205,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art6",
@@ -204,7 +216,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -228,7 +240,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art7",
@@ -237,7 +251,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -261,7 +275,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art8",
@@ -270,7 +286,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -294,7 +310,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art9",
@@ -303,7 +321,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -327,7 +345,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art10",
@@ -336,7 +356,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -360,7 +380,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art11",
@@ -369,7 +391,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -393,7 +415,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art12",
@@ -402,7 +426,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -426,7 +450,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art13",
@@ -435,7 +461,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -459,7 +485,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art14",
@@ -468,7 +496,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -492,7 +520,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art15",
@@ -501,7 +531,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -525,7 +555,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art16",
@@ -534,7 +566,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -558,7 +590,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art17",
@@ -567,7 +601,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -591,7 +625,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art18",
@@ -600,7 +636,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -624,7 +660,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art19",
@@ -633,7 +671,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -657,7 +695,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art20",
@@ -666,7 +706,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -690,7 +730,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art21",
@@ -699,7 +741,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -723,7 +765,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art22",
@@ -732,7 +776,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -756,7 +800,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art23",
@@ -765,7 +811,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -789,7 +835,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art24",
@@ -798,7 +846,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -822,7 +870,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art25",
@@ -831,7 +881,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -855,7 +905,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art26",
@@ -864,7 +916,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -888,7 +940,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art27",
@@ -897,7 +951,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -921,7 +975,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art28",
@@ -930,7 +986,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -954,7 +1010,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art29",
@@ -963,7 +1021,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -987,7 +1045,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art30",
@@ -996,7 +1056,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1020,7 +1080,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art31",
@@ -1029,7 +1091,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1053,7 +1115,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art32",
@@ -1062,7 +1126,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1086,7 +1150,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art33",
@@ -1095,7 +1161,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1119,7 +1185,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art34",
@@ -1128,7 +1196,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1152,7 +1220,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art35",
@@ -1161,7 +1231,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1185,7 +1255,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art36",
@@ -1194,7 +1266,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1218,7 +1290,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art37",
@@ -1227,7 +1301,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1251,7 +1325,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art38",
@@ -1260,7 +1336,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1284,7 +1360,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art39",
@@ -1293,7 +1371,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1317,7 +1395,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art40",
@@ -1326,7 +1406,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1350,7 +1430,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art41",
@@ -1359,7 +1441,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1383,7 +1465,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art42",
@@ -1392,7 +1476,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1416,7 +1500,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art43",
@@ -1425,7 +1511,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1449,7 +1535,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art44",
@@ -1458,7 +1546,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1482,7 +1570,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art45",
@@ -1491,7 +1581,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1515,7 +1605,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art46",
@@ -1524,7 +1616,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1548,7 +1640,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art47",
@@ -1557,7 +1651,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1581,7 +1675,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art48",
@@ -1590,7 +1686,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1614,7 +1710,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art49",
@@ -1623,7 +1721,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1647,7 +1745,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art50",
@@ -1656,7 +1756,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1680,7 +1780,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art51",
@@ -1689,7 +1791,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1713,7 +1815,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art52",
@@ -1722,7 +1826,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1746,7 +1850,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art53",
@@ -1755,7 +1861,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1779,7 +1885,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art54",
@@ -1788,7 +1896,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1812,7 +1920,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art55",
@@ -1821,7 +1931,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1845,7 +1955,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art58",
@@ -1854,7 +1966,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1878,7 +1990,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art56",
@@ -1887,7 +2001,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1911,7 +2025,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art57",
@@ -1920,7 +2036,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1944,7 +2060,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct541-art59",
@@ -1953,7 +2071,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 541/08",
+    "norma": "CCT 541/08 (Prensa Interior)",
     "capa": "sectorial",
     "tags": [
       "CCT 541/08",
@@ -1977,6 +2095,8 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   }
 ]

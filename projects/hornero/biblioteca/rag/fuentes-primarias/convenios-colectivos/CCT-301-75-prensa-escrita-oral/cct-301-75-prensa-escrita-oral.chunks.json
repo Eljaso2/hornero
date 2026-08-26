@@ -6,7 +6,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -35,7 +35,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art6",
@@ -44,7 +46,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -73,7 +75,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art8",
@@ -82,7 +86,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -111,7 +115,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art9",
@@ -120,7 +126,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -149,7 +155,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art10",
@@ -158,7 +166,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -187,7 +195,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art11",
@@ -196,7 +206,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -225,7 +235,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art12",
@@ -234,7 +246,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -263,7 +275,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art13",
@@ -272,7 +286,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -301,7 +315,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art14",
@@ -310,7 +326,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -339,7 +355,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art17",
@@ -348,7 +366,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -377,7 +395,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art18",
@@ -386,7 +406,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -415,7 +435,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art19",
@@ -424,7 +446,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -453,7 +475,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art20",
@@ -462,7 +486,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -491,7 +515,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art15",
@@ -500,7 +526,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -529,7 +555,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art16",
@@ -538,7 +566,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -567,7 +595,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art23",
@@ -576,7 +606,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -605,7 +635,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art24",
@@ -614,7 +646,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -643,7 +675,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art25",
@@ -652,7 +686,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -681,7 +715,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art26",
@@ -690,7 +726,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -719,7 +755,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art27",
@@ -728,7 +766,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -757,7 +795,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art21",
@@ -766,7 +806,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -795,7 +835,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art22",
@@ -804,7 +846,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -833,7 +875,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art33",
@@ -842,7 +886,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -871,7 +915,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art34",
@@ -880,7 +926,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -909,7 +955,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art35",
@@ -918,7 +966,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -947,7 +995,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art28",
@@ -956,7 +1006,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -985,7 +1035,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art2",
@@ -994,7 +1046,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1023,7 +1075,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art29",
@@ -1032,7 +1086,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1061,7 +1115,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art30",
@@ -1070,7 +1126,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1099,7 +1155,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art31",
@@ -1108,7 +1166,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1137,7 +1195,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art32",
@@ -1146,7 +1206,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1175,7 +1235,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art38",
@@ -1184,7 +1246,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1213,7 +1275,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art39",
@@ -1222,7 +1286,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1251,7 +1315,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art40",
@@ -1260,7 +1326,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1289,7 +1355,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art36",
@@ -1298,7 +1366,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1327,7 +1395,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art37",
@@ -1336,7 +1406,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1365,7 +1435,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art42",
@@ -1374,7 +1446,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1403,7 +1475,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art41",
@@ -1412,7 +1486,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1441,7 +1515,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art133",
@@ -1450,7 +1526,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1479,7 +1555,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art46",
@@ -1488,7 +1566,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1517,7 +1595,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art47",
@@ -1526,7 +1606,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1555,7 +1635,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art48",
@@ -1564,7 +1646,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1593,7 +1675,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art49",
@@ -1602,7 +1686,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1631,7 +1715,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art50",
@@ -1640,7 +1726,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1669,7 +1755,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art43",
@@ -1678,7 +1766,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1707,7 +1795,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art44",
@@ -1716,7 +1806,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1745,7 +1835,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art44",
@@ -1754,7 +1846,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1783,7 +1875,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art45",
@@ -1792,7 +1886,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1821,7 +1915,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art5",
@@ -1830,7 +1926,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1859,7 +1955,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art6",
@@ -1868,7 +1966,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1897,7 +1995,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art7",
@@ -1906,7 +2006,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1935,7 +2035,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art8",
@@ -1944,7 +2046,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -1973,7 +2075,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art9",
@@ -1982,7 +2086,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2011,7 +2115,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art1",
@@ -2020,7 +2126,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2049,7 +2155,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art2",
@@ -2058,7 +2166,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2087,7 +2195,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art3",
@@ -2096,7 +2206,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2125,7 +2235,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art4",
@@ -2134,7 +2246,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2163,7 +2275,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art10",
@@ -2172,7 +2286,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2201,7 +2315,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art11",
@@ -2210,7 +2326,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2239,7 +2355,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art12",
@@ -2248,7 +2366,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2277,7 +2395,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art13",
@@ -2286,7 +2406,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2315,7 +2435,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art14",
@@ -2324,7 +2446,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2353,7 +2475,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art8",
@@ -2362,7 +2486,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2391,7 +2515,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art9",
@@ -2400,7 +2526,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2429,7 +2555,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art10",
@@ -2438,7 +2566,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2467,7 +2595,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art11",
@@ -2476,7 +2606,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2505,7 +2635,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art1",
@@ -2514,7 +2646,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2543,7 +2675,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art2",
@@ -2552,7 +2686,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2581,7 +2715,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art3",
@@ -2590,7 +2726,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2619,7 +2755,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art4",
@@ -2628,7 +2766,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2657,7 +2795,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art5",
@@ -2666,7 +2806,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2695,7 +2835,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art6",
@@ -2704,7 +2846,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2733,7 +2875,9 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "prensa-cct301-art7",
@@ -2742,7 +2886,7 @@
     "tipo": "cct",
     "category": "documentos",
     "tenant": "prensa",
-    "norma": "CCT 301/75",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "capa": "sectorial",
     "tags": [
       "CCT 301/75",
@@ -2771,18 +2915,26 @@
     ],
     "grade_access": "open",
     "vigencia": "vigente",
-    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024"
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024",
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "quotes": []
   },
   {
     "id": "kb-sipreba-cct-301",
     "tipo": "documento",
-    "norma": "",
+    "norma": "CCT 301/75 (Prensa Escrita y Oral)",
     "articulo": "",
     "capa": "sectorial",
     "tenant": "prensa",
     "vigencia": "vigente",
     "titulo": "CCT 301/75 — Prensa Escrita y Oral",
     "texto": "CCT 301/75 — CONVENIO COLECTIVO DE TRABAJO DE PRENSSA ESCRITA Y ORAL\n\nEl CCT 301/75 es el convenio colectivo que rige las condiciones laborales de los trabajadores de prensa escrita y oral (diarios, revistas, agencias noticiosas, radio). Homologado en 1975, ha sido actualizado por múltiples resoluciones salariales.\n\nPrincipales disposiciones:\n- JORNADA: 6 horas diarias / 36 horas semanales para tareas de redacción. 7 horas / 42 horas para tareas administrativas y de taller.\n- CATEGORÍAS PROFESIONALES: Cronista (general, especial, jefe de sección), Corrector (de estilo, de pruebas), Editor, Diagramador/tipógrafo, Fotógrafo (reportero gráfico), Dibujante, Redactor, Secretario de redacción, Jefe de redacción, Director.\n- SALARIO PROFESIONAL: Escalafón por categoría con adicionales por antigüedad, título, y función.\n- HORAS EXTRA: Se pagan con recargo (50% o 100% según horario y día).\n- ESTABILIDAD: El periodista profesional goza de estabilidad en el empleo tras el período de prueba. Despido sin causa genera indemnización agravada.\n- LICENCIAS: Anual reglamentaria (mínimo 15 días hábiles), por enfermedad (conservando puesto y salario), por maternidad, y por estudio (para cursar carreras afines).\n- SEPTIMO DÍA: Descanso semanal obligatorio.\n\nCámara patronal: ADEPA (Asociación de Entidades Periodísticas Argentinas).\n\n⚠️ Texto reconstruido desde conocimiento — verificar con texto oficial del CCT cuando InfoLEG vuelva.",
-    "fuente": "CCT 301/75 — Prensa Escrita y Oral, InfoLEG (URL por verificar)"
+    "fuente": "SIPREBA — Sindicato de Prensa de Buenos Aires (guía del delegado 2024)",
+    "title": "CCT 301/75 — Prensa Escrita y Oral",
+    "text": "CCT 301/75 — CONVENIO COLECTIVO DE TRABAJO DE PRENSSA ESCRITA Y ORAL\n\nEl CCT 301/75 es el convenio colectivo que rige las condiciones laborales de los trabajadores de prensa escrita y oral (diarios, revistas, agencias noticiosas, radio). Homologado en 1975, ha sido actualizado por múltiples resoluciones salariales.\n\nPrincipales disposiciones:\n- JORNADA: 6 horas diarias / 36 horas semanales para tareas de redacción. 7 horas / 42 horas para tareas administrativas y de taller.\n- CATEGORÍAS PROFESIONALES: Cronista (general, especial, jefe de sección), Corrector (de estilo, de pruebas), Editor, Diagramador/tipógrafo, Fotógrafo (reportero gráfico), Dibujante, Redactor, Secretario de redacción, Jefe de redacción, Director.\n- SALARIO PROFESIONAL: Escalafón por categoría con adicionales por antigüedad, título, y función.\n- HORAS EXTRA: Se pagan con recargo (50% o 100% según horario y día).\n- ESTABILIDAD: El periodista profesional goza de estabilidad en el empleo tras el período de prueba. Despido sin causa genera indemnización agravada.\n- LICENCIAS: Anual reglamentaria (mínimo 15 días hábiles), por enfermedad (conservando puesto y salario), por maternidad, y por estudio (para cursar carreras afines).\n- SEPTIMO DÍA: Descanso semanal obligatorio.\n\nCámara patronal: ADEPA (Asociación de Entidades Periodísticas Argentinas).\n\n⚠️ Texto reconstruido desde conocimiento — verificar con texto oficial del CCT cuando InfoLEG vuelva.",
+    "category": "sectorial",
+    "tags": [],
+    "sources": [],
+    "quotes": []
   }
 ]
