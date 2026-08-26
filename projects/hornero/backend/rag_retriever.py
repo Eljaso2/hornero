@@ -85,6 +85,12 @@ STEM_MAP = {
     # Geografía: andino es la forma adjetiva de Andes
     "andino": "andes", "andina": "andes", "andinos": "andes", "andinas": "andes",
     "andean": "andes",
+    # Geografía andina: variantes de países
+    "boliviano": "bolivia", "boliviana": "bolivia", "bolivianos": "bolivia",
+    "peruano": "peru", "peruana": "peru", "peruanos": "peru",
+    "ecuatoriano": "ecuador", "ecuatoriana": "ecuador",
+    "colombiano": "colombia", "colombiana": "colombia",
+    "chileno": "chile", "chilena": "chile",
 }
 
 
@@ -160,6 +166,9 @@ CATEGORY_KEYWORDS = {
                   # Historia obrera / OIT / derechos laborales
                   "forzado", "forzoso", "esclavo", "esclavitud", "indígena", "indígenas", "andino",
                   "colonial", "colonialismo", "coacción", "mita", "pongueaje", "yanaconazgo",
+                  # Geografía andina / latinoamericana — boost cuando pregunta por la cordillera
+                  "andes", "bolivia", "perú", "ecuador", "colombia", "chile", "cordillera",
+                  "puna", "altiplano", "quechua", "aymara",
                   "oit", "organización internacional del trabajo", "negociación colectiva",
                   "derecho laboral", "legislación laboral", "trabajo femenino", "trabajo marítimo",
                   "disciplina laboral", "control social", "criminología", "política criminal",
@@ -208,7 +217,8 @@ TENANT_KEYWORDS = {
 }
 
 
-def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -> list:
+def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros",
+                    current_query: str = "") -> list:
     """Improved keyword search with TF-IDF scoring, stemming, and category boosting.
 
     Returns top-N chunks by relevance score.
@@ -222,7 +232,10 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
     if not query or not query.strip():
         return []
 
-    raw_terms = query.lower().split()
+    # Strip punctuation before tokenizing — "Andes?" → "andes", "forzoso." → "forzoso"
+    import re as _re
+    clean_query = _re.sub(r'[?!.,;:¿¡()"\'\[\]{}]', ' ', query.lower())
+    raw_terms = clean_query.split()
     # Filter out very short terms (1-2 chars) and common stopwords
     stop_words = {"que", "el", "la", "los", "las", "un", "una", "de", "del",
                   "en", "es", "se", "no", "si", "yo", "me", "mi", "tu",
@@ -261,6 +274,21 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
 
     if not all_terms:
         return []
+
+    # Extract current query terms for boosted scoring
+    # When conversation context is merged, terms from the current message
+    # should weigh more than context terms (e.g., "andes" in current query
+    # vs "forzado" from previous context)
+    current_terms = set()
+    if current_query:
+        cur_raw = current_query.lower().split()
+        cur_terms = [t for t in cur_raw if len(t) > 2 and t not in stop_words]
+        cur_stemmed = [stem_term(t) for t in cur_terms]
+        current_terms = set(cur_terms) | set(cur_stemmed)
+        # Expand with reverse stems
+        for t in list(current_terms):
+            if t in reverse_stems:
+                current_terms |= reverse_stems[t]
 
     idf = _get_idf()
 
@@ -316,15 +344,26 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
         searchable = (title_lower + " " + text_lower + " " + tags_lower + " " + sources_lower + " " + quotes_lower)
 
         # TF-IDF scoring: sum of IDF weights for matching terms
+        # Current query terms get 2x weight — the user's latest question
+        # matters more than conversation context (e.g., "andes" > "forzado")
         score = 0.0
         for t in all_terms:
             if t in searchable:
-                score += idf.get(t, 0.5)  # Default IDF for unknown terms
+                idf_weight = idf.get(t, 0.5)
+                # Double weight for terms from the current query (not context)
+                if current_terms and t in current_terms:
+                    score += idf_weight * 2.0
+                else:
+                    score += idf_weight
 
         # Title bonus: +3 per matching term in title (strong signal)
+        # Current query terms get 2x title bonus
         for t in all_terms:
             if t in title_lower:
-                score += 3.0
+                if current_terms and t in current_terms:
+                    score += 6.0
+                else:
+                    score += 3.0
 
         # Tag bonus: +2 per matching term in tags (curated, high signal)
         for t in all_terms:
@@ -339,13 +378,20 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
         # Tenant priority bonus: +5 for own tenant, +1 for shared, 0 for other tenants
         # Regla: prioriza tu gremio, pero no te bloquea el acceso a otros
         # Excepción: cuando la query es académica/histórica y el chunk es shared+investigaciones,
-        # boost de +3 (en vez de +1) para que pueda competir con chunks del gremio propio
+        # boost de +4 (en vez de +1) para que pueda competir con chunks del gremio propio
+        # La historiadora investiga toda Latinoamérica, no solo su sector —
+        # shared+investigaciones con términos andinos/latam sube a +5 (igual que own-tenant)
         chunk_tenant = chunk.get("tenant", "aceiteros")
         if chunk_tenant == tenant:
             score += 5.0
         elif chunk_tenant == "shared":
             if "investigaciones" in relevant_categories and chunk_category == "investigaciones":
-                score += 3.0  # Shared+académico: boost para competir con own-tenant
+                # Check if query has regional/latam terms — historiadora explores beyond sector
+                latam_terms = {"andes", "bolivia", "peru", "ecuador", "colombia", "chile",
+                               "andino", "andina", "cordillera", "puna", "altiplano",
+                               "latinoamerica", "latinoamericana", "regional"}
+                has_latam = bool(current_terms & latam_terms) if current_terms else False
+                score += 5.0 if has_latam else 4.0  # +5 when latam query, +4 otherwise
             else:
                 score += 1.0
         elif chunk_tenant in cross_tenant_boosts:
@@ -389,8 +435,10 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
 
     # Step 2: Keyword search with improved scoring (tenant-filtered)
     # Historia persona needs more context — search wider pool for research-heavy queries
-    search_limit = 12 if formato == 'historia' else 8
-    candidates = keyword_search(enhanced_query, max_chunks=search_limit, tenant=tenant)
+    # Pass current_query so keyword_search can weight current terms 2x vs context
+    search_limit = 20 if formato == 'historia' else 8
+    candidates = keyword_search(enhanced_query, max_chunks=search_limit, tenant=tenant,
+                                 current_query=query)
 
     # Step 3: Grade filtering
     filtered = [c for c in candidates if grade_satisfies(grade, c.get("grade_access", "open"))]
