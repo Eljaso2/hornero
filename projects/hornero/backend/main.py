@@ -512,7 +512,8 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
 
     # RAG retrieval: find relevant KB chunks based on user query
     tenant = resolve_tenant(req.tenant, req.sector)
-    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade, tenant=tenant)
+    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade,
+                                          conversation_history=req.history, tenant=tenant)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
     # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)

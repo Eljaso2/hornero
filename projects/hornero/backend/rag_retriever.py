@@ -72,7 +72,7 @@ STEM_MAP = {
     "posiciones": "posicion",
     "gremiales": "gremial",
     # Historia obrera / OIT / derechos
-    "forzados": "forzado", "forzada": "forzado",
+    "forzados": "forzado", "forzada": "forzado", "forzoso": "forzado", "forzosos": "forzado", "forzosa": "forzado",
     "esclavos": "esclavo", "esclavas": "esclavo",
     "indígenas": "indígena",
     "coloniales": "colonial",
@@ -158,7 +158,7 @@ CATEGORY_KEYWORDS = {
                   "cgta", "efemeride", "aniversario", "conmemoracion", "1 de mayo", "tosco",
                   "rucci", "ongaro", "reforma", "dnu", "ley bases", "flexibilizacion",
                   # Historia obrera / OIT / derechos laborales
-                  "forzado", "esclavo", "esclavitud", "indígena", "indígenas", "andino",
+                  "forzado", "forzoso", "esclavo", "esclavitud", "indígena", "indígenas", "andino",
                   "colonial", "colonialismo", "coacción", "mita", "pongueaje", "yanaconazgo",
                   "oit", "organización internacional del trabajo", "negociación colectiva",
                   "derecho laboral", "legislación laboral", "trabajo femenino", "trabajo marítimo",
@@ -388,7 +388,9 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
             enhanced_query = context + " " + query
 
     # Step 2: Keyword search with improved scoring (tenant-filtered)
-    candidates = keyword_search(enhanced_query, max_chunks=8, tenant=tenant)
+    # Historia persona needs more context — search wider pool for research-heavy queries
+    search_limit = 12 if formato == 'historia' else 8
+    candidates = keyword_search(enhanced_query, max_chunks=search_limit, tenant=tenant)
 
     # Step 3: Grade filtering
     filtered = [c for c in candidates if grade_satisfies(grade, c.get("grade_access", "open"))]
@@ -432,5 +434,6 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
                 filtered = [c for c in filtered
                            if not c.get('id', '').startswith(prefix)]
 
-    # Return top 5 after filtering (increased from 3 for better context)
-    return filtered[:5]
+    # Return top N after filtering (historiador gets 8 for richer research context)
+    result_limit = 8 if formato == 'historia' else 5
+    return filtered[:result_limit]
