@@ -4,7 +4,7 @@
 // This means: push changes → open app → see changes immediately, no cache clearing
 // Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v669'
+var CACHE_NAME = 'hornero-v670'
 var ASSETS = [
   './css/hornero.css',
   './js/hornero-api.js',
@@ -20,6 +20,9 @@ var ASSETS = [
   './data/mate-2026-06.json',
   './data/mate-2026-05.json',
   './data/clipping-index.json',
+  './data/clipping-2026-08-25.json',
+  './data/clipping-2026-08-19.json',
+  './data/clipping-2026-08-16.json',
   './data/clipping-2026-08-09.json',
   './data/clipping-2026-08-02.json',
   './data/clipping-2026-07-28.json',

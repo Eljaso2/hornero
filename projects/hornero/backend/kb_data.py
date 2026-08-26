@@ -1021,14 +1021,23 @@ def get_chunks_text(chunk_ids: list) -> str:
 
     lines = ["=== FUENTES RELEVANTES ===", ""]
 
+    # Category → citation icon map (shown in chunk header so AI knows how to cite)
+    CATEGORY_ICONS = {
+        'investigaciones': '📚',
+        'fuentes': '📄',
+        'actualidad': '📰',
+    }
+
     for chunk in chunks:
-        lines.append(f"[FUENTE: {chunk['title']}]")
+        cat = chunk.get('category', 'fuentes')
+        icon = CATEGORY_ICONS.get(cat, '📄')
+        lines.append(f"[{icon} FUENTE: {chunk['title']}] ({cat})")
         lines.append(chunk["text"].strip())
         for q in chunk.get("quotes", []):
             lines.append(f"Quote: \"{q['text']}\"")
             lines.append(f"— {q['author']}")
-            lines.append(f"Fuente: {q['source']}")
-        lines.append(f"Fuente: {', '.join(chunk['sources'])}")
+            lines.append(f"Referencia: {q['source']}")
+        lines.append(f"Referencia: {', '.join(chunk['sources'])}")
         # Include image and source URL if available
         if chunk.get("image"):
             lines.append(f"Imagen: {chunk['image']}")

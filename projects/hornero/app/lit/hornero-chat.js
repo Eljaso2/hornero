@@ -1328,6 +1328,12 @@ class HorneroChat extends HoComponent {
       .msg-quote-source { font-family: 'JetBrains Mono', monospace; font-size: .64rem;
         color: var(--ho-text-mid, #6E6A60); margin-top: 5px; font-style: normal; }
 
+      /* Citation: icon + reference in italic, smaller */
+      .msg-citation { display: block; font-style: italic;
+        font-size: .7em; /* ~30% smaller than parent */
+        color: var(--ho-text-mid, #6E6A60); margin-top: 6px; }
+      .msg-citation .cite-icon { margin-right: 4px; font-style: normal; }
+
       /* Tags */
       .msg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
       .msg-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -2147,6 +2153,10 @@ class HorneroChat extends HoComponent {
     text = text.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
     // Inline code: `text` → <code>text</code>
     text = text.replace(/`(.+?)`/g, '<code class="msg-md-code">$1</code>');
+    // Citation: <em> starting with 📚/📰/📄 → styled .msg-citation span
+    text = text.replace(/<em>(📚|📰|📄)\s*(.*?)<\/em>/g, '<span class="msg-citation"><span class="cite-icon">$1</span>$2</span>');
+    // Legacy backward compat: <strong>Fuente: ...</strong> → 📄 citation
+    text = text.replace(/<strong>Fuente:\s*(.*?)<\/strong>/g, '<span class="msg-citation"><span class="cite-icon">📄</span>$1</span>');
     return text;
   }
 
@@ -3411,6 +3421,8 @@ h1 { font-family: 'Archivo', sans-serif; font-weight: 800; color: #3D6B56; borde
 .msg-quote { border-left: 3px solid #4E9978; background: #E0F0EB; padding: 10px 14px; margin: 8px 0; font-style: italic; border-radius: 0 8px 8px 0; }
 .msg-quote-author { font-weight: 700; font-style: normal; color: #3D6B56; }
 .msg-quote-source { font-family: monospace; font-size: .7rem; color: #6E6A60; font-style: normal; }
+.msg-citation { display: block; font-style: italic; font-size: .7em; color: #6E6A60; margin-top: 6px; }
+.msg-citation .cite-icon { margin-right: 4px; font-style: normal; }
 .msg-tags { margin-top: 6px; }
 .msg-tag { background: #E0F0EB; color: #3D6B56; padding: 2px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: .62rem; font-weight: 600; display: inline-block; margin-right: 4px; }
 .divider { border: none; border-top: 1px dashed #4E9978; margin: 24px 0; }

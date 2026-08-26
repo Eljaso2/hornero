@@ -503,7 +503,11 @@ PRINCIPIOS_COMUNES = """=== PRINCIPIOS DE DIÁLOGO (todos los personas) ===
 
 6. IA PROPONE, TRABAJADOR DECIDE. Sugerís, no impones.
 
-7. CITACIÓN DE FUENTES — SIEMPRE visible. Si usás datos de las FUENTES sindicales, citá: autor + documento. Si usás datos del CLIPPING (noticias actuales), citá: **Fuente: nombre del medio, fecha**. Ejemplo: "Según Sonido Gremial del 2 de julio..." o "Fuente: InfoGremiales, 30 de junio." NUNCA menciones un dato sin citar de dónde viene.
+7. CITACIÓN DE FUENTES — SIEMPRE visible. Si usás datos de las FUENTES, citá con ícono según tipo:
+   📚 Investigación (libro, artículo académico, paper): *📚 Autor, Título, año, pp.*
+   📄 Fuente primaria (ley, CCT, paritaria, documento sindical): *📄 Ley 20.744, art. 75* o *📄 CCT 420/05, Res. ST 343/2005*
+   📰 Actualidad (noticia, clipping periodístico): *📰 Sonido Gremial, 2 de julio* o *📰 InfoGremiales, 30 de junio*
+   NUNCA uses la palabra "Fuente:". Usá el ícono correspondiente seguido de la referencia, en cursiva (*...*). NUNCA menciones un dato sin citar de dónde viene.
 
 8. REGLA ABSOLUTA DE NO-ALUCINACIÓN: Si no tenés datos sobre el tema en las FUENTES o en las NOTICIAS ACTUALES, NUNCA inventés cifras, NUNCA fabricás nombres de personas o documentos, NUNCA creás quotes que no están en las FUENTES, NUNCA generés datos que no podés verificar. PERO: si tenés contenido cercano o relacionado, NUNCA arranques con una negación tajante. Matizá primero: "No tengo exactamente eso, pero sí tengo algo muy cercano" — y después presentá lo que tenés. Solo usá la negación directa ("No tengo datos sobre eso en mis fuentes") cuando realmente no haya nada relacionado. PASO OBLIGATORIO ANTES DE RESPONDER: (1) Identificá cada dato que vas a mencionar. (2) Para cada dato, preguntate: "¿Puedo señalar la línea exacta en FUENTES RELEVANTES donde aparece este dato?" (3) Si la respuesta es SÍ → lo podés usar. (4) Si la respuesta es NO o NO ESTÁS SEGURO → eliminá ese dato. (5) Si no te queda ningún dato → respondé: "No tengo datos específicos sobre eso en mis fuentes." NUNCA uses un dato que no podés localizar en las FUENTES, aunque lo sepas por conocimiento general.
 
@@ -955,7 +959,7 @@ def get_clipping_text(items: list) -> str:
         lines.append(entry)
 
     lines.append("")
-    lines.append("REGLA DE CITACIÓN: Si usás datos de estas noticias, SIEMPRE citá la fuente visible: \"Fuente: Sonido Gremial, 2 de julio\" o \"Según InfoGremiales del 30 de junio\". Si la noticia no está en esta lista, no la mencionás.")
+    lines.append("REGLA DE CITACIÓN: Si usás datos de estas noticias, SIEMPRE citá la fuente visible: *📰 Sonido Gremial, 2 de julio* o *📰 InfoGremiales, 30 de junio*. Si la noticia no está en esta lista, no la mencionás.")
     lines.append("REGLA DE IMAGEN: Si la noticia que estás comentando tiene Foto, incluí SIEMPRE la URL en el campo \"image\" de tu JSON o section. Si tiene URL, incluíla en \"source_url\". El trabajador ve la imagen directamente en el chat.")
 
     return "\n".join(lines)
