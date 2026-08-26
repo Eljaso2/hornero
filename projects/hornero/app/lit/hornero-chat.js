@@ -1054,9 +1054,9 @@ class HorneroChat extends HoComponent {
         padding: 0; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 2; }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
-        scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 4px; padding: 0 4px;
-        justify-content: center; }
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; gap: 10px; padding: 0 12px;
+        justify-content: flex-start; scroll-behavior: smooth; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
@@ -1155,16 +1155,16 @@ class HorneroChat extends HoComponent {
 
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
-        gap: 2px; background: none; border: none; cursor: pointer;
-        padding: 0; transition: opacity .2s, transform .15s; position: relative;
-        flex-shrink: 0; scroll-snap-align: center; }
-      .chat-persona-icon:hover { opacity: .8; transform: scale(1.08); }
-      .chat-persona-icon.active { opacity: 1; transform: scale(1.12); }
-      .persona-icon-inner { width: 32px; height: 32px; box-sizing: border-box;
+        gap: 3px; background: none; border: none; cursor: pointer;
+        padding: 4px 2px; transition: opacity .2s; position: relative;
+        flex-shrink: 0; }
+      .chat-persona-icon:hover { opacity: .85; }
+      .chat-persona-icon.active { opacity: 1; }
+      .persona-icon-inner { width: 34px; height: 34px; box-sizing: border-box;
         display: flex; align-items: center; justify-content: center;
-        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        border-radius: 50%; border: 2px solid var(--ho-border, rgba(255,255,255,.08));
         overflow: hidden; background: transparent;
-        transition: background .2s, border-color .2s, width .2s, height .2s, box-shadow .2s; }
+        transition: background .25s, border-color .25s, box-shadow .25s; }
       .chat-persona-icon:hover .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .persona-icon-inner img { width: 100%; height: 100%; object-fit: cover;
@@ -1173,15 +1173,14 @@ class HorneroChat extends HoComponent {
       .persona-icon-inner img.abogado-crop { object-position: center 25%; }
       .persona-icon-inner img.investigador-crop { object-position: center 30%; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
-      .chat-persona-icon.active .persona-icon-inner { width: 38px; height: 38px;
-        background: var(--ho-green-pale, #E0F0EB);
+      .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green, #4E9978);
-        box-shadow: 0 0 0 2px var(--ho-green, #4E9978); }
+        box-shadow: 0 0 0 3px var(--ho-green, #4E9978), 0 0 12px rgba(78,153,120,.35); }
       .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
         font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        white-space: nowrap; transition: font-size .2s, color .2s; }
+        white-space: nowrap; transition: color .2s; }
       .chat-persona-icon:hover .persona-cintillo-label { color: var(--ho-green, #4E9978); }
-      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); font-size: .58rem; font-weight: 700; }
+      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); font-weight: 700; }
 
       /* === Redirect derivation button in message === */
       .msg-redirect-btn { display: inline-flex; align-items: center; gap: 6px;
@@ -2674,13 +2673,15 @@ class HorneroChat extends HoComponent {
           this.emit('persona-navigate', { persona, screen });
         }
       });
-      // Scroll active persona into view (horizontal only — avoid vertical body-scroll shift)
+      // Scroll active persona into center of bar
       if (btn.classList.contains('active')) {
-        const center = btn.closest('.chat-top-bar-center');
-        if (center) {
-          const btnLeft = btn.offsetLeft + btn.offsetWidth / 2;
-          center.scrollLeft = btnLeft - center.offsetWidth / 2;
-        }
+        requestAnimationFrame(() => {
+          const center = btn.closest('.chat-top-bar-center');
+          if (center) {
+            const btnLeft = btn.offsetLeft + btn.offsetWidth / 2;
+            center.scrollTo({ left: btnLeft - center.offsetWidth / 2, behavior: 'smooth' });
+          }
+        });
       }
     });
 
