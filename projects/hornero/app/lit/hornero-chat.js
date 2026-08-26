@@ -1164,23 +1164,28 @@ class HorneroChat extends HoComponent {
         display: flex; align-items: center; justify-content: center;
         border-radius: 50%; border: 2px solid var(--ho-border, rgba(255,255,255,.08));
         overflow: hidden; background: transparent;
-        transition: background .25s, border-color .25s, box-shadow .25s; }
+        transition: background .25s, border-color .25s, filter .3s; }
       .chat-persona-icon:hover .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
+      /* Inactive personas: grayscale */
+      .chat-persona-icon:not(.active) .persona-icon-inner img,
+      .chat-persona-icon:not(.active) .persona-icon-inner .msg-avatar-emoji { filter: grayscale(1); transition: filter .3s; }
       .persona-icon-inner img { width: 100%; height: 100%; object-fit: cover;
         filter: var(--ho-persona-filter, none); }
       .persona-icon-inner img.periodista-full { object-fit: contain; }
       .persona-icon-inner img.abogado-crop { object-position: center 25%; }
       .persona-icon-inner img.investigador-crop { object-position: center 30%; }
       .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
+      /* Active persona: full color + light colored background, no green border/glow */
       .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green, #4E9978);
-        box-shadow: 0 0 0 3px var(--ho-green, #4E9978), 0 0 12px rgba(78,153,120,.35); }
+        border-color: var(--ho-green-light, #80CCA0); }
       .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
         font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        white-space: nowrap; transition: color .2s; }
-      .chat-persona-icon:hover .persona-cintillo-label { color: var(--ho-green, #4E9978); }
-      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); font-weight: 700; }
+        white-space: nowrap; transition: color .2s, filter .3s; }
+      /* Inactive label: also grayscale */
+      .chat-persona-icon:not(.active) .persona-cintillo-label { filter: grayscale(1); opacity: .6; }
+      .chat-persona-icon:hover .persona-cintillo-label { color: var(--ho-green, #4E9978); filter: none; opacity: 1; }
+      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); font-weight: 700; filter: none; opacity: 1; }
 
       /* === Redirect derivation button in message === */
       .msg-redirect-btn { display: inline-flex; align-items: center; gap: 6px;
