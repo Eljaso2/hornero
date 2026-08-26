@@ -402,19 +402,12 @@ class HorneroApp extends HoComponent {
         .app-wrap { position: fixed; inset: 0; overflow: hidden;
           background: var(--ho-bg, #1E2321); }
         .phone { width: 100%; height: 100%; overflow: hidden;
-          background: var(--ho-bg, #1E2321); }
+          background: var(--ho-bg, #1E2321); border: none; }
         .screen { background: var(--ho-bg, #1E2321); display: flex;
           flex-direction: column; position: relative;
           height: 100%; overflow: hidden;
           padding-top: env(safe-area-inset-top, 0px);
-          box-sizing: border-box; }
-        /* Cover Chrome status bar repaint artifact — 1px line at safe-area boundary
-           matches app bg so invisible, covers the line Chrome draws
-           when theme-color changes dynamically */
-        .screen::before { content: ''; position: absolute;
-          top: 0; left: 0; right: 0;
-          height: calc(env(safe-area-inset-top, 0px) + 6px); background: var(--ho-bg); z-index: 9999;
-          pointer-events: none; }
+          box-sizing: border-box; border: none; outline: none; box-shadow: none; }
         /* Mobile/PWA: hide simulated status bar */
         .status-bar { display: none; }
         /* Mobile: sections-bar matches app bg — no border */
