@@ -510,15 +510,8 @@ class HorneroArchivo extends HoComponent {
 
     const greetingText = '¡Hola! Soy la Historiadora. En el archivo del sindicato encontrás convenios, referentes, fuentes sindicales, documentos académicos y más.\n\nAcá podemos buscar:\n\n• 🔍 Por palabra clave — Decime qué tema te interesa y busco en todo el archivo\n• 📄 Fuentes por categoría — Explorá los documentos organizados por tema: convenios, historia sindical, legislación laboral, etc.\n• 📚 Académicos — Artículos y papers de investigación sobre el mundo del trabajo\n• 📰 Multimedia — Notas periodísticas, audio, video (se irá sumando contenido)\n\nPreguntame lo que quieras o decime un tema y te busco las fuentes.';
 
-    // 1. Show typing dots for 1s
-    this._typing = true;
-    this.render();
-
-    setTimeout(() => {
-      // 2. Progressive reveal of greeting
-      this._typing = false;
-      this._revealMessage(greetingText, 'historiador', ['archivo', 'greeting', 'busqueda'], null);
-    }, 1000);
+    // Show greeting immediately (instant, no delay)
+    this._revealMessage(greetingText, 'historiador', ['archivo', 'greeting', 'busqueda'], null);
   }
 
   // ===== Progressive reveal: show text char by char via streaming =====
@@ -812,8 +805,11 @@ class HorneroArchivo extends HoComponent {
   // ===== Request greeting from backend =====
   async _requestGreeting() {
     this._greetingRequested = true;
-    this._typing = true;
-    this.render();
+
+    // Show local greeting immediately (instant, no backend wait)
+    const local = this._localGreeting();
+    this._typing = false;
+    this._addWithProgressiveReveal(local);
 
     try {
       if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
@@ -832,20 +828,30 @@ class HorneroArchivo extends HoComponent {
       if (!response.ok) throw new Error('Greeting error: ' + response.status);
 
       const data = await response.json();
-      const msg = {
-        role: 'hornero',
-        text: data.text || '',
-        sections: data.sections || [],
-        tags: data.tags || ['archivo', 'greeting'],
-        persona: 'historiador',
-        redirect_persona: data.redirect_persona || '',
-        time: data.time || this._timeNow(),
-      };
-      this._typing = false; this._greetingRequested = false;
-      this._addWithProgressiveReveal(msg);
+      // Only replace if backend returned something different from local greeting
+      const backendText = data.text || (data.sections && data.sections.map(s => (s.title ? s.title + ': ' : '') + s.body).join('\n')) || '';
+      if (backendText && backendText !== local.sections[0].body) {
+        const msg = {
+          role: 'hornero',
+          text: data.text || '',
+          sections: data.sections || [],
+          tags: data.tags || ['archivo', 'greeting'],
+          persona: 'historiador',
+          redirect_persona: data.redirect_persona || '',
+          time: data.time || this._timeNow(),
+        };
+        // Replace the first message with the backend version
+        if (this.messages.length > 0 && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
+          this.messages[0] = msg;
+          const chatEl = this.shadowRoot.querySelector('hornero-chat');
+          if (chatEl && chatEl.refreshMessages) chatEl.refreshMessages(this.messages);
+          else this.render();
+        }
+      }
+      this._greetingRequested = false;
     } catch (e) {
       this._typing = false; this._greetingRequested = false;
-      this._addWithProgressiveReveal(this._localGreeting());
+      // Local greeting already shown above — no fallback needed
     }
   }
 

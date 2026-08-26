@@ -969,8 +969,11 @@ class HorneroFormacion extends HoComponent {
   // ===== Request greeting from backend (like Historiador) =====
   async _requestGreeting() {
     this._greetingRequested = true;
-    this._typing = true;
-    this.render();
+
+    // Show local greeting immediately (instant, no backend wait)
+    const local = this._localGreeting();
+    this._typing = false;
+    this._addWithProgressiveReveal(local);
 
     try {
       if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
@@ -989,23 +992,32 @@ class HorneroFormacion extends HoComponent {
       if (!response.ok) throw new Error('Greeting error: ' + response.status);
 
       const data = await response.json();
-      this.messages = [{
-        role: 'hornero',
-        text: data.text || '',
-        sections: data.sections || [],
-        tags: data.tags || ['historia', 'greeting'],
-        persona: 'historiador',
-        redirect_persona: data.redirect_persona || '',
-        image: data.image || '',
-        source_url: data.source_url || '',
-        time: data.time || this._timeNow(),
-      }];
-      this._typing = false; this._greetingRequested = false;
-      this.render();
+      // Only replace if backend returned something different from local greeting
+      const backendText = data.text || (data.sections && data.sections.map(s => (s.title ? s.title + ': ' : '') + s.body).join('\n')) || '';
+      if (backendText && backendText !== local.sections[0].body) {
+        const msg = {
+          role: 'hornero',
+          text: data.text || '',
+          sections: data.sections || [],
+          tags: data.tags || ['historia', 'greeting'],
+          persona: 'historiador',
+          redirect_persona: data.redirect_persona || '',
+          image: data.image || '',
+          source_url: data.source_url || '',
+          time: data.time || this._timeNow(),
+        };
+        // Replace the first message with the backend version
+        if (this.messages.length > 0 && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
+          this.messages[0] = msg;
+          const chatEl = this.shadowRoot.querySelector('hornero-chat');
+          if (chatEl && chatEl.refreshMessages) chatEl.refreshMessages(this.messages);
+          else this.render();
+        }
+      }
+      this._greetingRequested = false;
     } catch (e) {
-      this._typing = false; this._greetingRequested = false;
-      this.messages = [this._localGreeting()];
-      this.render();
+      this._greetingRequested = false;
+      // Local greeting already shown — no fallback needed
     }
   }
 

@@ -275,15 +275,8 @@ class HorneroEcosistema extends HoComponent {
 
     const introText = '¡Hola! Soy Hornero — el pájaro que construye su nido con sus propios materiales, en su propio territorio. No usa nidos de otros.\n\nEsa es toda la filosofía: la organización no consume IA corporativa — crea su propia herramienta. Con sus propios datos. En su propia infraestructura. Con sus propias categorías.\n\nLa IA Sindical es inteligencia artificial puesta al servicio del trabajador. No es un chatbot neutral — es una herramienta posicionada desde la clase trabajadora. Argumenta desde la posición del trabajador, no desde la del empresario. Conoce el convenio, la paritaria, la jurisprudencia. Y lo más importante: los datos se quedan en la organización.\n\nLa distinción fundadora es consumir IA corporativa vs. crear IA propia. No es una distinción técnica sino política y epistemológica — determina quién controla categorías, datos, lógica y todo el ciclo del sistema. Consumir IA ajena es dejar que otro defina las categorías con las que pensás tu propia realidad. Crear IA propia es soberanía.\n\nCada eslabón de la cadena de valor es una decisión política: datos (quién los produce, cómo se etiquetan), arquitectura (quién diseña el sistema), fine-tuning (qué corpus, qué dirección), infraestructura (dónde se procesa, quién controla el server), interfaz (qué sesgo tiene, quién lo experimenta), gobernanza (quién decide qué se publica, qué se protege). Si no controlás uno, alguien más lo controla por vos.\n\nTocá el botón ℹ️ de cada sección para conocerla. O preguntame lo que quieras.';
 
-    // 1. Show typing dots for 1s
-    this._typing = true;
-    this.render();
-
-    setTimeout(() => {
-      // 2. Progressive reveal of greeting
-      this._typing = false;
-      this._revealMessage(introText, 'hornero', ['ecosistema', 'greeting'], null);
-    }, 1000);
+    // Show greeting immediately (instant, no delay)
+    this._revealMessage(introText, 'hornero', ['ecosistema', 'greeting'], null);
   }
 
   // ===== Progressive reveal: show text char by char via streaming =====

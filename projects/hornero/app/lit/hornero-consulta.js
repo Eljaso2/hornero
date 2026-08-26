@@ -435,8 +435,11 @@ class HorneroConsulta extends HoComponent {
 
   async _requestGreeting() {
     this._greetingRequested = true;
-    this._typing = true;
-    this.render();
+
+    // Show local greeting immediately (instant, no backend wait)
+    const local = this._localGreeting();
+    this._typing = false;
+    this._addWithProgressiveReveal(local);
 
     try {
       if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
@@ -466,12 +469,22 @@ class HorneroConsulta extends HoComponent {
         source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       };
-      this._typing = false; this._greetingRequested = false;
-      this._addWithProgressiveReveal(msg);
+      // Only replace if backend returned something different from local greeting
+      const backendText = data.text || (data.sections && data.sections.map(s => (s.title ? s.title + ': ' : '') + s.body).join('\n')) || '';
+      if (backendText && backendText !== local.sections[0].body) {
+        // Replace the first message with the backend version
+        if (this.messages.length > 0 && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
+          this.messages[0] = msg;
+          const chatEl = this.shadowRoot.querySelector('hornero-chat');
+          if (chatEl && chatEl.refreshMessages) chatEl.refreshMessages(this.messages);
+          else this.render();
+        }
+      }
+      this._greetingRequested = false;
     } catch (e) {
       // Fallback: local greeting
       this._typing = false; this._greetingRequested = false;
-      this._addWithProgressiveReveal(this._localGreeting());
+      // Local greeting already shown above — no fallback needed
     }
   }
 

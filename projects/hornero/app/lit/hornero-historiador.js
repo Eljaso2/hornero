@@ -244,9 +244,13 @@ class HorneroHistoriador extends HoComponent {
 
   async _requestGreeting() {
     this._greetingRequested = true;
-    this._typing = true;
-    this.render();
 
+    // Show local greeting immediately (instant, no backend wait)
+    const local = this._localGreeting();
+    this._typing = false;
+    this._addWithProgressiveReveal(local);
+
+    // Then try backend greeting in background (may enhance or redirect)
     try {
       if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
       const response = await this._fetchWithTimeout(this._getGreetingUrl(), {
@@ -264,23 +268,32 @@ class HorneroHistoriador extends HoComponent {
       if (!response.ok) throw new Error('Greeting error: ' + response.status);
 
       const data = await response.json();
-      const msg = {
-        role: 'hornero',
-        text: data.text || '',
-        sections: data.sections || [],
-        tags: data.tags || ['historia', 'greeting'],
-        persona: 'historiador', // Force: historiador screen ALWAYS uses historiador — never swap actors mid-chat
-        redirect_persona: data.redirect_persona || '',
-        image: data.image || '',
-        source_url: data.source_url || '',
-        time: data.time || this._timeNow(),
-      };
-      // Don't update _activePersona from backend — keep original
-      this._typing = false; this._greetingRequested = false;
-      this._addWithProgressiveReveal(msg);
+      // Only replace if backend returned something different from local greeting
+      const backendText = data.text || (data.sections && data.sections.map(s => (s.title ? s.title + ': ' : '') + s.body).join('\n')) || '';
+      if (backendText && backendText !== local.sections[0].body) {
+        const msg = {
+          role: 'hornero',
+          text: data.text || '',
+          sections: data.sections || [],
+          tags: data.tags || ['historia', 'greeting'],
+          persona: 'historiador',
+          redirect_persona: data.redirect_persona || '',
+          image: data.image || '',
+          source_url: data.source_url || '',
+          time: data.time || this._timeNow(),
+        };
+        // Replace the first message with the backend version
+        if (this.messages.length > 0 && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
+          this.messages[0] = msg;
+          const chatEl = this.shadowRoot.querySelector('hornero-chat');
+          if (chatEl && chatEl.refreshMessages) chatEl.refreshMessages(this.messages);
+          else this.render();
+        }
+      }
+      this._greetingRequested = false;
     } catch (e) {
-      this._typing = false; this._greetingRequested = false;
-      this._addWithProgressiveReveal(this._localGreeting());
+      this._greetingRequested = false;
+      // Local greeting already shown — no need for fallback
     }
   }
 

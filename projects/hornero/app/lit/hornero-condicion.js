@@ -436,11 +436,8 @@ class HorneroCondicion extends HoComponent {
       // Brief greeting + auto user question + Investigador response
       const greetingText = '¡Hola! Estamos en Panorama, la sección donde estudiamos la condición obrera desde distintos ángulos.';
 
-      this._typing = true;
-      this.render();
-      setTimeout(() => {
-        this._typing = false;
-        this._revealMessage(greetingText, 'sociologo', ['panorama', 'greeting'], () => {
+      // Show greeting immediately (instant, no delay)
+      this._revealMessage(greetingText, 'sociologo', ['panorama', 'greeting'], () => {
           // After greeting completes, auto-add user question + response
           this._bannerVisible = false;
           const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
@@ -449,21 +446,14 @@ class HorneroCondicion extends HoComponent {
           this._saveChatHistory();
           this.render();
         });
-      }, 1000);
       return;
     }
 
     // Default greeting (no specific topic)
     const introText = '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **ℹ️** 👆';
 
-    // 1. Show typing dots for 1s
-    this._typing = true;
-    this.render();
-    setTimeout(() => {
-      // 2. Progressive reveal of greeting
-      this._typing = false;
-      this._revealMessage(introText, 'sociologo', ['panorama', 'greeting'], null);
-    }, 1000);
+    // Show greeting immediately (instant, no delay)
+    this._revealMessage(introText, 'sociologo', ['panorama', 'greeting'], null);
   }
 
   // ===== Progressive reveal =====
@@ -642,8 +632,11 @@ class HorneroCondicion extends HoComponent {
   // ===== Greeting (backend) =====
   async _requestGreeting() {
     this._greetingRequested = true;
-    this._typing = true;
-    this.render();
+
+    // Show local greeting immediately (instant, no backend wait)
+    const local = this._localGreeting();
+    this._typing = false;
+    this._addWithProgressiveReveal(local);
 
     try {
       if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
@@ -673,11 +666,21 @@ class HorneroCondicion extends HoComponent {
         source_url: data.source_url || '',
         time: data.time || this._timeNow(),
       };
-      this._typing = false; this._greetingRequested = false;
-      this._addWithProgressiveReveal(msg);
+      // Only replace if backend returned something different from local greeting
+      const backendText = data.text || (data.sections && data.sections.map(s => (s.title ? s.title + ': ' : '') + s.body).join('\n')) || '';
+      if (backendText && backendText !== local.sections[0].body) {
+        // Replace the first message with the backend version
+        if (this.messages.length > 0 && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
+          this.messages[0] = msg;
+          const chatEl = this.shadowRoot.querySelector('hornero-chat');
+          if (chatEl && chatEl.refreshMessages) chatEl.refreshMessages(this.messages);
+          else this.render();
+        }
+      }
+      this._greetingRequested = false;
     } catch (e) {
       this._typing = false; this._greetingRequested = false;
-      this._addWithProgressiveReveal(this._localGreeting());
+      // Local greeting already shown above — no fallback needed
     }
   }
 
