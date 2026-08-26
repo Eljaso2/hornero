@@ -1222,8 +1222,8 @@ class HorneroChat extends HoComponent {
         border-color: var(--ho-green-light, #80CCA0); }
       .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif; display: none; text-align: center;
         font-size: .76rem; font-weight: 700; color: var(--ho-green, #4E9978);
-        position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-        white-space: nowrap; pointer-events: none; z-index: 5;
+        position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+        white-space: nowrap; pointer-events: none; z-index: 25;
         text-shadow: 0 1px 4px var(--ho-bg, #1E2321), 0 0 8px var(--ho-bg, #1E2321);
         transition: color .2s, filter .3s; }
       /* Inactive label: also grayscale */
