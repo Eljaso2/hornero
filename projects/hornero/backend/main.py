@@ -903,12 +903,24 @@ async def health():
     except Exception as e:
         ffmpeg_version = f"error: {type(e).__name__}"
 
+    # Diagnostic: show RAG directory path and whether it exists
+    rag_dir = os.path.join(os.path.dirname(__file__), "..", "biblioteca", "rag")
+    rag_dir = os.path.abspath(rag_dir)
+    rag_exists = os.path.isdir(rag_dir)
+    rag_chunk_files = 0
+    if rag_exists:
+        for root, dirs, files in os.walk(rag_dir):
+            rag_chunk_files += sum(1 for f in files if f.endswith(".chunks.json") and not f.endswith(".bak"))
+
     return {
         "status": "ok",
         "provider": LLM_PROVIDER,
         "clipping_items": len(get_clipping()),
         "kb_chunks": len(ALL_CHUNKS),
         "rag": "keyword",
+        "rag_dir": rag_dir,
+        "rag_exists": rag_exists,
+        "rag_chunk_files": rag_chunk_files,
         "audio": {
             "ffmpeg": ffmpeg_ok,
             "ffmpeg_version": ffmpeg_version,
