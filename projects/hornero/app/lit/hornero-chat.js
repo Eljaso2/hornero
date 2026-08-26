@@ -978,7 +978,7 @@ class HorneroChat extends HoComponent {
         padding-top: 64px; /* 56px top bar + 8px gap */
         min-height: 0; /* allow shrink so input bar stays visible */
         -webkit-overflow-scrolling: touch; }
-      :host([reduce-top-pad]) .chat-scroll { padding-top: 24px; }
+      :host([reduce-top-pad]) .chat-scroll { padding-top: 48px; }
 
       /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }
@@ -1054,16 +1054,16 @@ class HorneroChat extends HoComponent {
       .chat-top-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 20;
         height: 56px; display: flex; align-items: center;
         padding: 0; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
-      .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 3; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
+      .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 3; }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 6px; padding: 0;
+        scrollbar-width: none; gap: 4px; padding: 0;
         justify-content: flex-start; scroll-behavior: smooth; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-center { scroll-padding: 0 48px; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
-      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 3; position: relative; min-width: 48px; justify-content: flex-end; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
+      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 3; position: relative; min-width: 48px; justify-content: flex-end; }
 
       /* Wrapper: + button stays in place, panel is absolutely positioned behind it */
       .chat-plus-wrapper { position: relative; }
@@ -1182,7 +1182,7 @@ class HorneroChat extends HoComponent {
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
-        padding: 3px 4px; transition: opacity .2s; position: relative;
+        padding: 2px 3px; transition: opacity .2s; position: relative;
         flex-shrink: 0; }
       .chat-persona-icon:hover { opacity: .85; }
       .chat-persona-icon.active { opacity: 1; }

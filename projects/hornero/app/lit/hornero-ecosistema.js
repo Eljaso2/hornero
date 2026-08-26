@@ -155,7 +155,7 @@ class HorneroEcosistema extends HoComponent {
           reduce-top-pad
           section="ecosistema"
           history-title="Historial"
-          section-info='{"title":"Ecosistema Hornero","bajada":"IA Sindical: inteligencia artificial desde la clase trabajadora. Cada núcleo del ecosistema cumple una función: Laboratorio cocina las herramientas, Coyuntura rastrea las noticias, Panorama mide la condición obrera, Historia Obrera recupera la memoria, Derecho asesora legal, Contenido produce comunicación, Reporte Gremial documenta situaciones. Toca el botón ℹ️ de cada sección para conocerla en detalle."}'
+          section-info='{"title":"Ecosistema Hornero","bajada":"IA Sindical: inteligencia artificial desde la clase trabajadora. Cada núcleo cumple una función.","explore":["Laboratorio","Coyuntura","Panorama","Historia Obrera","Derecho","Contenido","Reporte Gremial"]}'
         ></hornero-chat>
       </div>
     `;

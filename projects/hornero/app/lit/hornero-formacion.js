@@ -406,7 +406,7 @@ class HorneroFormacion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          section-info='{"title":"Historia Obrera","bajada":"Acá la Historiadora te ayuda a recorrer el movimiento obrero: Efemérides trae los hechos de cada semana, Mitín publica ensayos de historia obrera argentina, la Colección La Argentina Peronista reúne libros y documentos, y Retazos rescata docuficción, audio, ilustraciones y música. Preguntale lo que busques o tocá un tema abajo."}'
+          section-info='{"title":"Historia Obrera","bajada":"La Historiadora te ayuda a recorrer el movimiento obrero: Efemérides, Mitín, Colección La Argentina Peronista y Retazos.","explore":["Efemérides","Mitín","Colección","Retazos","Archivo"]}'
         ></hornero-chat>
       </div>
     `;

@@ -250,7 +250,7 @@ class HorneroArchivo extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          section-info='{"title":"Archivo","bajada":"La memoria del sindicato: convenios colectivos, referentes sindicales, fuentes de consulta y documentos académicos. Tocá el menú Explorar para filtrar por tipo o preguntale a la Historiadora lo que necesites encontrar."}'
+          section-info='{"title":"Archivo","bajada":"La memoria del sindicato: convenios colectivos, referentes sindicales, fuentes de consulta y documentos académicos.","explore":[]}'
         ></hornero-chat>
       </div>
     `;
