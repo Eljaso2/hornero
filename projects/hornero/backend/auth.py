@@ -611,18 +611,32 @@ async def search_sindicatos(q: str = "", request: Request = None):
     try:
         with _get_conn() as conn:
             q_clean = q.strip()
-            if len(q_clean) < 2:
-                # Return all sindicatos when query is too short
-                rows = conn.execute(
-                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords, tipo FROM sindicatos ORDER BY tipo, nombre"
-                ).fetchall()
-            else:
-                rows = conn.execute(
-                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords, tipo FROM sindicatos "
-                    "WHERE nombre ILIKE %s OR sigla ILIKE %s OR nombre_full ILIKE %s OR keywords ILIKE %s "
-                    "ORDER BY tipo, nombre",
-                    (f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%")
-                ).fetchall()
+            # Try query with keywords+tipo columns, fallback without them (DB not yet migrated)
+            try:
+                if len(q_clean) < 2:
+                    rows = conn.execute(
+                        "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords, tipo FROM sindicatos ORDER BY tipo, nombre"
+                    ).fetchall()
+                else:
+                    rows = conn.execute(
+                        "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords, tipo FROM sindicatos "
+                        "WHERE nombre ILIKE %s OR sigla ILIKE %s OR nombre_full ILIKE %s OR keywords ILIKE %s "
+                        "ORDER BY tipo, nombre",
+                        (f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%")
+                    ).fetchall()
+            except Exception:
+                # Fallback: columns keywords/tipo don't exist yet
+                if len(q_clean) < 2:
+                    rows = conn.execute(
+                        "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos ORDER BY nombre"
+                    ).fetchall()
+                else:
+                    rows = conn.execute(
+                        "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos "
+                        "WHERE nombre ILIKE %s OR sigla ILIKE %s OR nombre_full ILIKE %s "
+                        "ORDER BY nombre",
+                        (f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%")
+                    ).fetchall()
 
             results = []
             for r in rows:
@@ -676,10 +690,17 @@ async def register(req: RegisterRequest, request: Request):
     if req.sindicato_id:
         try:
             with _get_conn() as conn:
-                row = conn.execute(
-                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, tipo FROM sindicatos WHERE id = %s",
-                    (req.sindicato_id,)
-                ).fetchone()
+                # Try with tipo column first, fallback without it (for DBs not yet migrated)
+                try:
+                    row = conn.execute(
+                        "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, tipo FROM sindicatos WHERE id = %s",
+                        (req.sindicato_id,)
+                    ).fetchone()
+                except Exception:
+                    row = conn.execute(
+                        "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos WHERE id = %s",
+                        (req.sindicato_id,)
+                    ).fetchone()
                 if row:
                     sindicato_info = {
                         "id": row[0], "nombre": row[1], "nombre_full": row[2],
