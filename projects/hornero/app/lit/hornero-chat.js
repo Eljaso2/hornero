@@ -2749,8 +2749,8 @@ class HorneroChat extends HoComponent {
       const hostRect = this.getBoundingClientRect();
       personaTooltip = document.createElement('div');
       personaTooltip.className = 'persona-floating-label';
-      personaTooltip.textContent = label;
-      personaTooltip.style.cssText = `position:absolute;bottom:${hostRect.bottom - rect.top + 4}px;left:${rect.left - hostRect.left + rect.width / 2}px;transform:translateX(-50%);font-family:'Archivo',sans-serif;font-size:.76rem;font-weight:700;color:var(--ho-green,#4E9978);white-space:nowrap;pointer-events:none;z-index:30;text-shadow:0 1px 4px var(--ho-bg,#1E2321);`;
+      personaTooltip.textContent = label.toUpperCase();
+      personaTooltip.style.cssText = `position:absolute;top:${rect.bottom - hostRect.top + 4}px;left:${rect.left - hostRect.left + rect.width / 2}px;transform:translateX(-50%);font-family:'Archivo',sans-serif;font-size:.76rem;font-weight:700;color:var(--ho-green,#4E9978);white-space:nowrap;pointer-events:none;z-index:30;text-shadow:0 1px 4px var(--ho-bg,#1E2321);`;
       this.shadowRoot.appendChild(personaTooltip);
     };
     const hidePersonaLabel = () => {
