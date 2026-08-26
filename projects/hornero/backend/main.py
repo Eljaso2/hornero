@@ -904,8 +904,20 @@ async def health():
         ffmpeg_version = f"error: {type(e).__name__}"
 
     # Diagnostic: show RAG directory path and whether it exists
-    rag_dir = os.path.join(os.path.dirname(__file__), "..", "biblioteca", "rag")
-    rag_dir = os.path.abspath(rag_dir)
+    from kb_data import _load_pdf_chunks
+    # Re-run the directory discovery to show the resolved path
+    import kb_data as _kb
+    _here = os.path.dirname(os.path.abspath(_kb.__file__))
+    rag_dir = None
+    _project_root = _here
+    for _ in range(5):
+        _test = os.path.join(_project_root, "biblioteca", "rag")
+        if os.path.isdir(_test):
+            rag_dir = os.path.abspath(_test)
+            break
+        _project_root = os.path.dirname(_project_root)
+    if not rag_dir:
+        rag_dir = os.path.abspath(os.path.join(_here, "..", "biblioteca", "rag"))
     rag_exists = os.path.isdir(rag_dir)
     rag_chunk_files = 0
     if rag_exists:

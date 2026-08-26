@@ -1207,11 +1207,40 @@ def _load_pdf_chunks() -> list:
     - Jasinski / La Forestal chunks → "shared"
     - All others → "aceiteros" (backward compat: existing PDFs are from aceitero sector)
     """
-    fuentes_dir = os.path.join(os.path.dirname(__file__), "..", "biblioteca", "rag")
-    fuentes_dir = os.path.abspath(fuentes_dir)
+    # Resolve project root: walk up from this file to find biblioteca/rag/
+    # On Render, __file__ may resolve to unexpected paths, so we try multiple locations
+    _here = os.path.dirname(os.path.abspath(__file__))
+    _candidate_dirs = [
+        os.path.join(_here, "..", "biblioteca", "rag"),            # backend/../biblioteca/rag (local)
+        os.path.join(_here, "biblioteca", "rag"),                  # backend/biblioteca/rag (fallback)
+    ]
+    # Also try relative to main.py's location (more reliable on Render)
+    try:
+        import main as _main_mod
+        _main_dir = os.path.dirname(os.path.abspath(_main_mod.__file__))
+        _candidate_dirs.insert(0, os.path.join(_main_dir, "..", "biblioteca", "rag"))
+    except (ImportError, AttributeError):
+        pass
 
-    if not os.path.isdir(fuentes_dir):
-        print(f"No fuentes directory at {fuentes_dir} — using only manual chunks")
+    fuentes_dir = None
+    for candidate in _candidate_dirs:
+        candidate = os.path.abspath(candidate)
+        if os.path.isdir(candidate):
+            fuentes_dir = candidate
+            break
+
+    if not fuentes_dir:
+        # Last resort: try to find biblioteca/rag anywhere in the repo tree
+        _project_root = _here
+        for _ in range(5):  # walk up max 5 levels
+            _test = os.path.join(_project_root, "biblioteca", "rag")
+            if os.path.isdir(_test):
+                fuentes_dir = os.path.abspath(_test)
+                break
+            _project_root = os.path.dirname(_project_root)
+
+    if not fuentes_dir:
+        print(f"No fuentes directory found (tried: {', '.join(os.path.abspath(c) for c in _candidate_dirs)}) — using only manual chunks")
         return []
 
     all_chunks = []
