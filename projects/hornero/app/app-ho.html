@@ -55,11 +55,13 @@
     /* App-level: theme-aware (head script sets _hoInitBg) */
     html { background: var(--ho-bg, #1E2321) !important;
       background-attachment: fixed !important;
-      height: 100%; height: -webkit-fill-available; }
+      height: 100%; height: -webkit-fill-available;
+      margin: 0; padding: 0; border: none; outline: none; }
     body { background: var(--ho-bg, #1E2321) !important;
       background-attachment: fixed !important;
       overscroll-behavior: none; overflow: hidden;
-      margin: 0; padding: 0; height: 100%; }
+      margin: 0; padding: 0; height: 100%;
+      border: none; outline: none; }
     /* Desktop: allow page scroll so phone frame is fully visible in short viewports */
     @media(min-width:500px) {
       html { height: auto; }
