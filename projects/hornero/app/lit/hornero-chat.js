@@ -1192,7 +1192,7 @@ class HorneroChat extends HoComponent {
       .chat-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
 
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
-      .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
+      .chat-persona-icon { display: flex; flex-direction: column; align-items: center; position: relative;
         gap: 4px; background: none; border: none; cursor: pointer;
         padding: 4px 0; transition: opacity .2s; position: relative;
         flex-shrink: 0; }
