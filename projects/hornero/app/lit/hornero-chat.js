@@ -3860,16 +3860,16 @@ ${msgs.map(m => {
 
   showTyping() {
     this.typing = true;
-    // Insert typing dots OUTSIDE chat-scroll (between scroll and input)
     if (!this.shadowRoot.querySelector('.typing-row')) {
       const scroll = this.shadowRoot.querySelector('.chat-scroll');
+      const cfg = this._getPersonaConfig(this.persona);
+      const avatarClass = this.persona === 'periodista' ? 'periodista-full' : this.persona === 'abogado' ? 'abogado-crop' : this.persona === 'sociologo' ? 'investigador-crop' : '';
+      const avatarHtml = cfg.img
+        ? `<div class="typing-avatar"><img src="${cfg.img}" class="${avatarClass}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="typing-avatar-emoji" style="display:none">${cfg.emoji}</span></div>`
+        : `<div class="typing-avatar"><span class="typing-avatar-emoji">${cfg.emoji}</span></div>`;
       const typingDiv = document.createElement('div');
       typingDiv.className = `typing-row persona-${this.persona}`;
-      typingDiv.innerHTML = `
-        <div class="typing-dots">
-          <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
-        </div>`;
-      // Insert after chat-scroll, before chat-input
+      typingDiv.innerHTML = `${avatarHtml}<div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
       scroll.after(typingDiv);
       this._autoScroll();
     }
