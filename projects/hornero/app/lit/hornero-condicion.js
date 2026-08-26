@@ -207,7 +207,7 @@ class HorneroCondicion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          section-info='{"title":"Panorama","bajada":"El Sociólogo investiga la clase obrera en cuatro dimensiones: Cómo Somos describe la composición social y el mundo del trabajo, Comportamiento Empresarial rastrea las prácticas patronales, SMVM sigue el Salario Mínimo Vital y Móvil real, e Índice de Felicidad mide la calidad de vida laboral. Tocá cualquier tema en el menú Explorar o preguntale directamente."}'
+          section-info='{"title":"Panorama","bajada":"El Sociólogo investiga la clase obrera en cuatro dimensiones: Cómo Somos describe la composición social y el mundo del trabajo, Comportamiento Empresarial rastrea las prácticas patronales, SMVM sigue el Salario Mínimo Vital y Móvil real, e Índice de Felicidad mide la calidad de vida laboral. Tocá cualquier tema abajo o preguntale directamente."}'
         ></hornero-chat>
       </div>
     `;

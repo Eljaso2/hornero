@@ -978,7 +978,7 @@ class HorneroChat extends HoComponent {
         padding-top: 64px; /* 56px top bar + 8px gap */
         min-height: 0; /* allow shrink so input bar stays visible */
         -webkit-overflow-scrolling: touch; }
-      :host([reduce-top-pad]) .chat-scroll { padding-top: 14px; }
+      :host([reduce-top-pad]) .chat-scroll { padding-top: 24px; }
 
       /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }
@@ -1057,7 +1057,7 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 3; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 14px; padding: 0;
+        scrollbar-width: none; gap: 6px; padding: 0;
         justify-content: flex-start; scroll-behavior: smooth; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-center { scroll-padding: 0 48px; }
@@ -1182,11 +1182,11 @@ class HorneroChat extends HoComponent {
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
-        padding: 5px 6px; transition: opacity .2s; position: relative;
+        padding: 3px 4px; transition: opacity .2s; position: relative;
         flex-shrink: 0; }
       .chat-persona-icon:hover { opacity: .85; }
       .chat-persona-icon.active { opacity: 1; }
-      .persona-icon-inner { width: 38px; height: 38px; box-sizing: border-box;
+      .persona-icon-inner { width: 42px; height: 42px; box-sizing: border-box;
         display: flex; align-items: center; justify-content: center;
         border-radius: 50%; border: 2px solid var(--ho-border, rgba(255,255,255,.08));
         overflow: hidden; background: transparent;
@@ -3663,7 +3663,7 @@ ${msgs.map(m => {
     if (existing) existing.remove();
     let info = {};
     try { info = JSON.parse(this.sectionInfo); } catch(e) {}
-    if (!info.title && !info.bajada) return;
+    if (!info.title && !info.bajada && (!info.explore || !info.explore.length)) return;
     const overlay = document.createElement('div');
     overlay.className = 'info-popup-overlay';
     const popup = document.createElement('div');
@@ -3672,6 +3672,13 @@ ${msgs.map(m => {
     let html = '';
     if (info.title) html += `<div class="info-popup-title">${info.title}</div>`;
     if (info.bajada) html += `<div class="info-popup-bajada">${info.bajada}</div>`;
+    if (info.explore && info.explore.length) {
+      html += `<div class="info-popup-explore">`;
+      info.explore.forEach(opt => {
+        html += `<button class="info-popup-explore-opt" data-explore-opt="${opt}">${opt}</button>`;
+      });
+      html += `</div>`;
+    }
     html += `<button class="info-popup-close" title="Cerrar"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>`;
     popup.innerHTML = html;
     overlay.appendChild(popup);
@@ -3682,6 +3689,14 @@ ${msgs.map(m => {
     });
     // Close on close button
     popup.querySelector('.info-popup-close').addEventListener('click', () => overlay.remove());
+    // Explore option → emit event + close
+    popup.querySelectorAll('.info-popup-explore-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const opt = btn.dataset.exploreOpt;
+        this.emit('explore-select', { option: opt });
+        overlay.remove();
+      });
+    });
   }
 
   // ===== Export confirmation popup =====

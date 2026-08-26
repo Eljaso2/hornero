@@ -230,7 +230,7 @@ class HorneroContenido extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          section-info='{"title":"Contenido","bajada":"La Periodista te ayuda a producir comunicación sindical: podcast, reels para Instagram, columnas de opinión, entrevistas y comunicados. Contale qué necesitás o tocá un formato en el menú Explorar y ella te guía paso a paso."}'
+          section-info='{"title":"Contenido","bajada":"La Periodista te ayuda a producir comunicación sindical: podcast, reels para Instagram, columnas de opinión, entrevistas y comunicados. Contale qué necesitás o tocá un formato abajo y ella te guía paso a paso."}'
         ></hornero-chat>
       </div>
     `;

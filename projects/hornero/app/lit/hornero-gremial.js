@@ -350,7 +350,7 @@ class HorneroGremial extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          section-info='{"title":"Reporte Gremial","bajada":"El Compañero te ayuda a armar reportes gremiales paso a paso: primero contás la situación (Relato), luego se clasifica automáticamente, podés hacer seguimiento del caso y finalmente se aprueba el informe. Todo es confidencial según tu grado de acceso. Empezá contando lo que pasó o tocá un paso en el menú Explorar."}'
+          section-info='{"title":"Reporte Gremial","bajada":"El Compañero te ayuda a armar reportes gremiales paso a paso: primero contás la situación (Relato), luego se clasifica automáticamente, podés hacer seguimiento del caso y finalmente se aprueba el informe. Todo es confidencial según tu grado de acceso. Empezá contando lo que pasó o tocá un paso abajo."}'
         ></hornero-chat>
       </div>
 
