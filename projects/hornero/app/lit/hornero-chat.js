@@ -32,6 +32,7 @@ class HorneroChat extends HoComponent {
       noAutoScroll: Boolean,   // Disable auto-scroll (e.g. when banner is visible above)
       topBarAccent: Boolean,   // Light mode: colored top bar (only Historia Obrera when banner hidden)
       reduceTopPad: Boolean,   // Reduce chat-scroll padding-top (e.g. when banner+cintillo replace top bar)
+      sectionInfo: String,    // JSON: { title, bajada, explore: [...] } — shown in info popup
     };
   }
 
@@ -59,6 +60,7 @@ class HorneroChat extends HoComponent {
     this.noAutoScroll = false;
     this.reduceTopPad = false;
     this.topBarAccent = false;
+    this.sectionInfo = '';   // JSON string — parsed on demand for info popup
     this._isRecording = false;  // audio recording state
     this._mediaRecorder = null; // MediaRecorder instance
     this._mediaStream = null;   // MediaStream from getUserMedia
@@ -1118,6 +1120,43 @@ class HorneroChat extends HoComponent {
         left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 2px;
         background: var(--ho-green, #4E9978); }
 
+      /* === Info popup (section info from hero-banner) === */
+      .info-popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 200; background: rgba(0,0,0,.55); display: flex;
+        align-items: center; justify-content: center; animation: fadeIn .2s ease; }
+      .info-popup { width: 92%; max-width: 380px; max-height: 80vh;
+        background: var(--ho-bg, #1E2321); border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        border-radius: 18px; padding: 20px; overflow-y: auto;
+        box-shadow: 0 8px 32px rgba(0,0,0,.4); animation: menuFadeIn .25s ease; }
+      .info-popup-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.1rem; color: var(--ho-green, #4E9978); margin-bottom: 8px; }
+      .info-popup-bajada { font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5; margin-bottom: 14px; }
+      .info-popup-explore-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
+        font-weight: 700; color: var(--ho-text-light, #5A5650); text-transform: uppercase;
+        letter-spacing: .06em; margin-bottom: 8px; }
+      .info-popup-explore { display: flex; flex-wrap: wrap; gap: 6px; }
+      .info-popup-explore-opt { font-family: 'Archivo', sans-serif; font-size: .76rem;
+        font-weight: 600; padding: 5px 12px; border-radius: 14px; cursor: pointer;
+        background: rgba(255,255,255,.06); border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        color: var(--ho-text-mid, #6E6A60); transition: background .2s, border-color .2s, color .2s; }
+      .info-popup-explore-opt:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
+      .info-popup-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px;
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+      .info-popup-close svg { width: 14px; height: 14px; stroke: var(--ho-text-mid, #6E6A60);
+        stroke-width: 2.5; fill: none; stroke-linecap: round; }
+      .info-popup-close:hover { background: rgba(255,255,255,.08); }
+      :host(.theme-light) .info-popup { background: var(--ho-bg, #F8F6F0);
+        border-color: rgba(0,0,0,.1); box-shadow: 0 8px 32px rgba(0,0,0,.15); }
+      :host(.theme-light) .info-popup-title { color: var(--ho-green, #2E6B4E); }
+      :host(.theme-light) .info-popup-bajada { color: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .info-popup-explore-opt { background: rgba(0,0,0,.04);
+        border-color: rgba(0,0,0,.08); color: var(--ho-text-light, #7A766C); }
+      :host(.theme-light) .info-popup-explore-opt:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
+
       /* History/Informes/Recibidos as cintillo items — inside scrollable center (legacy, kept for reference) */
       .chat-cintillo-action { display: flex; flex-direction: column; align-items: center;
         gap: 2px; background: none; border: none; cursor: pointer;
@@ -1771,6 +1810,9 @@ class HorneroChat extends HoComponent {
                     ${this._recibidosBadge ? html`<span class="item-badge gold"></span>` : ''}
                   </button>
                 ` : ''}
+                <button class="chat-plus-item" id="chatInfoBtn" title="Información de la sección">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </button>
               </div>
               ` : ''}
             </div>
