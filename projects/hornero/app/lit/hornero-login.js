@@ -260,13 +260,13 @@ class HorneroLogin extends HoComponent {
         display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;
       }
       .cargo-btn {
-        flex: 1 1 auto; min-width: 0;
+        flex: 1 1 45%; min-width: 0;
         background: var(--ho-dark-mid, #536260);
         border: 1.5px solid var(--ho-dark-mid, #536260);
-        border-radius: 8px; padding: 8px 10px;
-        font-family: 'Public Sans', sans-serif; font-size: .76rem;
+        border-radius: 8px; padding: 10px 8px;
+        font-family: 'Public Sans', sans-serif; font-size: .74rem;
         font-weight: 600; color: #C8C4BC; cursor: pointer;
-        text-align: center; transition: all .2s; white-space: nowrap;
+        text-align: center; transition: all .2s;
       }
       .cargo-btn:hover { border-color: var(--ho-green, #4E9978); color: #E8E6E0; }
       .cargo-btn.selected {
@@ -387,9 +387,9 @@ class HorneroLogin extends HoComponent {
       const sindTipo = this.selectedSindicato ? (this.selectedSindicato.tipo || 'sindicato') : 'sindicato';
       const isFederacion = sindTipo === 'federacion';
       const cargoLabels = {
-        trabajador: 'Trabajador/a (Grado 1)',
-        delegado: 'Delegado/a (Grado 2)',
-        comision_directiva: 'Comisión Directiva (Grado 3)',
+        trabajador: 'G1 · Trabajador/a',
+        delegado: 'G2 · Delegado/a',
+        comision_directiva: 'G3 · Comisión Directiva',
       };
 
       return html`
