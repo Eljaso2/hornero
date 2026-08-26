@@ -157,24 +157,44 @@ def _init_db():
                     sigla           TEXT NOT NULL DEFAULT '',
                     federacion      TEXT NOT NULL DEFAULT '',
                     convenio        TEXT NOT NULL DEFAULT '',
+                    keywords        TEXT NOT NULL DEFAULT '',
                     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+
+            # Migration: add keywords column if missing (existing tables)
+            try:
+                conn.execute("ALTER TABLE sindicatos ADD COLUMN keywords TEXT NOT NULL DEFAULT ''")
+                logger.info("Added keywords column to sindicatos")
+            except Exception:
+                pass  # column already exists
 
             # Seed sindicatos from known gremio data
             seed_sindicatos = [
                 ("ftciod-ara", "F.T.C.I.O.D y A.R.A.",
                  "Federación de Trabajadores del Complejo Industrial Oleaginoso, Desmotadores de Algodón y Afines de la República Argentina",
-                 "aceitero", "FTCIOD", "F.T.C.I.O.D y A.R.A.", "CCT 420/05"),
+                 "aceitero", "FTCIOD", "F.T.C.I.O.D y A.R.A.", "CCT 420/05",
+                 "aceitero aceitera oleaginoso aceite desmotadores algodón soja girasol Fatica FATICORA F.T.C.I.O.D"),
                 ("sipreba", "SIPREBA",
                  "SIPREBA — Sindicato de Prensa de Buenos Aires",
-                 "prensa", "SIPREBA", "SIPREBA", "CCT 301/75"),
+                 "prensa", "SIPREBA", "SIPREBA", "CCT 301/75",
+                 "prensa periodista periodismo medios comunicación prensa gráfica"),
             ]
             for s in seed_sindicatos:
                 conn.execute(
-                    "INSERT INTO sindicatos (id, nombre, nombre_full, sector_key, sigla, federacion, convenio) "
-                    "VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", s
+                    "INSERT INTO sindicatos (id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords) "
+                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", s
                 )
+
+            # Backfill keywords for existing rows that don't have them yet
+            conn.execute("""
+                UPDATE sindicatos SET keywords = 'aceitero aceitera oleaginoso aceite desmotadores algodón soja girasol Fatica FATICORA F.T.C.I.O.D'
+                WHERE id = 'ftciod-ara' AND keywords = ''
+            """)
+            conn.execute("""
+                UPDATE sindicatos SET keywords = 'prensa periodista periodismo medios comunicación prensa gráfica'
+                WHERE id = 'sipreba' AND keywords = ''
+            """)
 
             # Backfill sindicato_id for existing users based on sector
             conn.execute("""
@@ -564,7 +584,7 @@ VALID_CARGOS = list(CARGO_GRADE.keys())
 
 @router.get("/sindicatos")
 async def search_sindicatos(q: str = "", request: Request = None):
-    """Search sindicatos for signup autocomplete. Returns matches by name or sigla."""
+    """Search sindicatos for signup autocomplete. Returns matches by name, sigla, or keywords."""
     if not HORNERO_DB_URL:
         raise HTTPException(500, "Auth not configured")
 
@@ -579,14 +599,14 @@ async def search_sindicatos(q: str = "", request: Request = None):
             if len(q_clean) < 2:
                 # Return all sindicatos when query is too short
                 rows = conn.execute(
-                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos ORDER BY nombre"
+                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords FROM sindicatos ORDER BY nombre"
                 ).fetchall()
             else:
                 rows = conn.execute(
-                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio FROM sindicatos "
-                    "WHERE nombre ILIKE %s OR sigla ILIKE %s OR nombre_full ILIKE %s "
+                    "SELECT id, nombre, nombre_full, sector_key, sigla, federacion, convenio, keywords FROM sindicatos "
+                    "WHERE nombre ILIKE %s OR sigla ILIKE %s OR nombre_full ILIKE %s OR keywords ILIKE %s "
                     "ORDER BY nombre",
-                    (f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%")
+                    (f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%", f"%{q_clean}%")
                 ).fetchall()
 
             results = []
