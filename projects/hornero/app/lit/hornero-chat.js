@@ -2551,7 +2551,8 @@ class HorneroChat extends HoComponent {
 
     // === + button (cintillo right) → toggle dropdown menu ===
     const plusBtn = this.shadowRoot.querySelector('#chatPlusBtn');
-    if (plusBtn) {
+    if (plusBtn && !plusBtn._bound) {
+      plusBtn._bound = true;
       plusBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this._plusMenuOpen = !this._plusMenuOpen;
@@ -2559,59 +2560,15 @@ class HorneroChat extends HoComponent {
       });
     }
 
+    // Bind plus menu items (menu only exists in DOM when _plusMenuOpen is true)
+    this._bindPlusMenuItems();
+
 
 
     // === Input focus → emit event (parent can hide banner etc) ===
     if (inputField) {
       inputField.addEventListener('focus', () => {
         this.emit('chat-input-focus', {});
-      });
-    }
-
-    // === New chat button (dropdown menu item) → start fresh session ===
-    const newChatBtn = this.shadowRoot.querySelector('#chatNewChatBtn');
-    if (newChatBtn) {
-      newChatBtn.addEventListener('click', () => {
-        this._plusMenuOpen = false;
-        this.emit('chat-new-session', {});
-        this.render();
-      });
-    }
-
-    // === History button (dropdown menu item) → open drawer ===
-    const historyBtn = this.shadowRoot.querySelector('#chatHistoryBtn');
-    if (historyBtn) {
-      historyBtn.addEventListener('click', () => {
-        this._plusMenuOpen = false;
-        this._openHistoryDrawer();
-      });
-    }
-
-    // === Informes button (dropdown menu item) → open drawer ===
-    const informesBtn = this.shadowRoot.querySelector('#chatInformesBtn');
-    if (informesBtn) {
-      informesBtn.addEventListener('click', () => {
-        this._plusMenuOpen = false;
-        this._openInformesDrawer();
-        this.emit('informes-open', {});
-      });
-    }
-
-    // === Recibidos button (dropdown menu item) → open drawer ===
-    const recibidosBtn = this.shadowRoot.querySelector('#chatRecibidosBtn');
-    if (recibidosBtn) {
-      recibidosBtn.addEventListener('click', () => {
-        this._plusMenuOpen = false;
-        this._openRecibidosDrawer();
-      });
-    }
-
-    // === Info button → section info popup ===
-    const infoBtn = this.shadowRoot.querySelector('#chatInfoBtn');
-    if (infoBtn && this.sectionInfo) {
-      infoBtn.addEventListener('click', () => {
-        this._plusMenuOpen = false;
-        this._showInfoPopup();
       });
     }
 
