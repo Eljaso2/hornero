@@ -25,6 +25,8 @@
       document.documentElement.style.setProperty('background',c,'important');
       var m=document.querySelector('meta[name="theme-color"]');
       if(m)m.setAttribute('content',c);
+      var sb=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+      if(sb)sb.setAttribute('content',(t==='light')?'default':'black');
       window._hoInitBg=c;
       window._hoInitTheme=t;
     })();

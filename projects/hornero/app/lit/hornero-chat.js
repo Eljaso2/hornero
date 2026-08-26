@@ -978,7 +978,7 @@ class HorneroChat extends HoComponent {
         padding-top: 64px; /* 56px top bar + 8px gap */
         min-height: 0; /* allow shrink so input bar stays visible */
         -webkit-overflow-scrolling: touch; }
-      :host([reduce-top-pad]) .chat-scroll { padding-top: 8px; }
+      :host([reduce-top-pad]) .chat-scroll { padding-top: 14px; }
 
       /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }

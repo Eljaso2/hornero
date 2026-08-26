@@ -240,6 +240,7 @@ class HorneroArchivo extends HoComponent {
 
       <div class="chat-container">
         <hornero-chat
+          reduce-top-pad
           title="Archivo"
           input-placeholder="Buscar en el archivo..."
           messages="${JSON.stringify(this.messages)}"

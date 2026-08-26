@@ -204,6 +204,7 @@ class HorneroConsulta extends HoComponent {
 
       <div class="chat-container">
         <hornero-chat
+          reduce-top-pad
           title="Chateá con tu interlocutor/a"
           input-placeholder="Qué pensás..."
           messages="${JSON.stringify(this.messages)}"

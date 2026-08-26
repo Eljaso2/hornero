@@ -396,6 +396,7 @@ class HorneroFormacion extends HoComponent {
 
       <div class="chat-container">
         <hornero-chat
+          reduce-top-pad
           title="Historiador/a"
           input-placeholder="Qué pensás..."
           messages="${JSON.stringify(this.messages)}"

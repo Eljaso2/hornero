@@ -2064,9 +2064,9 @@ class HorneroApp extends HoComponent {
       const csMeta = document.querySelector('meta[name="color-scheme"]');
       if (csMeta) csMeta.setAttribute('content', isLight ? 'light dark' : 'dark light');
 
-      // 5. iOS: black-translucent always
+      // 5. iOS: match status bar to app background (no divider line)
       const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
-      if (appleMeta) appleMeta.setAttribute('content', 'black-translucent');
+      if (appleMeta) appleMeta.setAttribute('content', isLight ? 'default' : 'black');
 
       // 6. Apply CSS variable overrides on host element (cascades into Shadow DOM)
       this._applyTheme();
