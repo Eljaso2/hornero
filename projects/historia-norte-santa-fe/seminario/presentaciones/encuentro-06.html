@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Fin de una Era</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ground: #16120F;
+      --surface: #221D19;
+      --surface-2: #2D2722;
+      --text: #DDD5C8;
+      --text-dim: #A89B8A;
+      --muted: #6E6256;
+      --accent: #A8412B;
+      --accent-glow: rgba(168, 65, 43, 0.15);
+      --amber: #C48A3A;
+      --amber-dim: rgba(196, 138, 58, 0.12);
+      --rule: #3A332D;
+      --rule-light: rgba(58, 51, 45, 0.5);
+      --serif: 'DM Serif Display', Georgia, serif;
+      --body: 'Source Serif 4', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --max-w: 1100px;
+      --pad-x: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --ground: #F5F0E8;
+        --surface: #EDE6DB;
+        --surface-2: #E3DACE;
+        --text: #2A221A;
+        --text-dim: #6B5E4F;
+        --muted: #9E9080;
+        --accent: #8F3220;
+        --accent-glow: rgba(143, 50, 32, 0.08);
+        --amber: #A06E20;
+        --amber-dim: rgba(160, 110, 32, 0.08);
+        --rule: #D4CABB;
+        --rule-light: rgba(212, 202, 187, 0.6);
+      }
+    }
+    :root[data-theme="dark"] {
+      --ground: #16120F;
+      --surface: #221D19;
+      --surface-2: #2D2722;
+      --text: #DDD5C8;
+      --text-dim: #A89B8A;
+      --muted: #6E6256;
+      --accent: #A8412B;
+      --accent-glow: rgba(168, 65, 43, 0.15);
+      --amber: #C48A3A;
+      --amber-dim: rgba(196, 138, 58, 0.12);
+      --rule: #3A332D;
+      --rule-light: rgba(58, 51, 45, 0.5);
+    }
+    :root[data-theme="light"] {
+      --ground: #F5F0E8;
+      --surface: #EDE6DB;
+      --surface-2: #E3DACE;
+      --text: #2A221A;
+      --text-dim: #6B5E4F;
+      --muted: #9E9080;
+      --accent: #8F3220;
+      --accent-glow: rgba(143, 50, 32, 0.08);
+      --amber: #A06E20;
+      --amber-dim: rgba(160, 110, 32, 0.08);
+      --rule: #D4CABB;
+      --rule-light: rgba(212, 202, 187, 0.6);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text);
+      background: var(--ground);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+
+    /* ---- Progress bar ---- */
+    .progress {
+      position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
+      background: var(--accent);
+      width: 0%; transition: width 0.1s linear;
+    }
+
+    /* ---- Nav ---- */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+      background: rgba(22, 18, 15, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule-light);
+      transition: transform 0.3s ease;
+    }
+    @media (prefers-color-scheme: light) {
+      .nav { background: rgba(245, 240, 232, 0.92); }
+    }
+    :root[data-theme="light"] .nav { background: rgba(245, 240, 232, 0.92); }
+
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0.6rem var(--pad-x);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: var(--serif); font-size: 0.95rem;
+      color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .nav-brand span { color: var(--accent); font-size: 1.1rem; }
+    .nav-links { display: flex; gap: 0.2rem; }
+    .nav-links a {
+      font-family: var(--sans); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-dim); text-decoration: none;
+      padding: 0.4rem 0.65rem; border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--accent); background: var(--accent-glow);
+    }
+    .theme-toggle {
+      background: none; border: 1px solid var(--rule); border-radius: 6px;
+      color: var(--text-dim); cursor: pointer; padding: 0.3rem 0.5rem;
+      font-size: 0.85rem; line-height: 1;
+      font-family: var(--sans);
+    }
+    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ---- Hero ---- */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 6rem var(--pad-x) 4rem;
+      position: relative;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 30%, var(--accent-glow), transparent);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: var(--sans); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--amber); margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow span { color: var(--text-dim); }
+    .hero-title {
+      font-family: var(--serif); font-size: clamp(2.8rem, 7vw, 5.5rem);
+      line-height: 1.05; color: var(--text);
+      max-width: 800px; text-wrap: balance;
+    }
+    .hero-sub {
+      font-family: var(--body); font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--text-dim); max-width: 560px;
+      margin-top: 1.5rem; line-height: 1.6;
+    }
+    .hero-meta {
+      margin-top: 3rem; display: flex; gap: 2rem; flex-wrap: wrap;
+      font-family: var(--sans); font-size: 0.78rem; color: var(--muted);
+    }
+    .hero-meta div { display: flex; flex-direction: column; gap: 0.15rem; }
+    .hero-meta strong { color: var(--text-dim); font-size: 0.82rem; }
+
+    .hero-epigraph {
+      margin-top: 2.5rem; max-width: 520px;
+      border-left: 3px solid var(--accent); padding-left: 1.2rem;
+      font-style: italic; color: var(--text-dim); font-size: 0.98rem; line-height: 1.7;
+    }
+    .hero-epigraph cite {
+      display: block; margin-top: 0.5rem;
+      font-style: normal; font-family: var(--sans);
+      font-size: 0.75rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      padding: 5rem var(--pad-x);
+      max-width: var(--max-w); margin: 0 auto;
+    }
+    .section-label {
+      font-family: var(--sans); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--amber); margin-bottom: 0.5rem;
+    }
+    .section-num {
+      font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--text); margin-bottom: 1.5rem;
+    }
+    .section-num em {
+      font-style: normal; color: var(--accent); font-size: 0.5em;
+      vertical-align: super; margin-left: 0.15em;
+    }
+    .section h3 {
+      font-family: var(--serif); font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+      color: var(--text); margin-bottom: 1rem; line-height: 1.3;
+    }
+    .section p {
+      max-width: 68ch; margin-bottom: 1.2rem;
+    }
+
+    /* ---- Two-column layout ---- */
+    .split {
+      display: grid; gap: 3rem;
+      grid-template-columns: 1fr 340px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .split { grid-template-columns: 1fr; }
+    }
+    .split-main p { max-width: 62ch; }
+
+    /* ---- Sidebar cards ---- */
+    .sidebar-card {
+      background: var(--surface); border: 1px solid var(--rule);
+      border-radius: 8px; padding: 1.4rem; margin-bottom: 1.5rem;
+    }
+    .sidebar-card-label {
+      font-family: var(--sans); font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--amber); margin-bottom: 0.6rem;
+    }
+    .sidebar-card p {
+      font-size: 0.92rem; line-height: 1.65; color: var(--text-dim);
+    }
+    .sidebar-card .stat {
+      font-family: var(--serif); font-size: 2rem; color: var(--accent);
+      line-height: 1;
+    }
+    .sidebar-card .stat-label {
+      font-family: var(--sans); font-size: 0.72rem;
+      color: var(--muted); margin-top: 0.25rem;
+    }
+
+    /* ---- Pull quote ---- */
+    .pull {
+      border-left: 3px solid var(--accent); padding-left: 1.4rem;
+      margin: 2.5rem 0; max-width: 540px;
+    }
+    .pull p {
+      font-family: var(--serif); font-size: 1.15rem;
+      line-height: 1.55; color: var(--text); font-style: italic;
+    }
+    .pull cite {
+      display: block; margin-top: 0.6rem;
+      font-family: var(--sans); font-size: 0.72rem;
+      color: var(--muted); font-style: normal;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    /* ---- Data table ---- */
+    .data-table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+    .data-table {
+      width: 100%; border-collapse: collapse;
+      font-family: var(--sans); font-size: 0.82rem;
+    }
+    .data-table th {
+      text-align: left; padding: 0.6rem 0.8rem;
+      background: var(--surface-2); color: var(--text-dim);
+      font-weight: 500; font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border-bottom: 2px solid var(--rule);
+    }
+    .data-table td {
+      padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--rule-light);
+      color: var(--text-dim);
+    }
+    .data-table tr:hover td { color: var(--text); background: var(--surface); }
+    .data-table .accent { color: var(--accent); font-weight: 600; }
+    .data-table .amber { color: var(--amber); font-weight: 600; }
+    .data-table .closed { text-decoration: line-through; opacity: 0.55; }
+    .data-table caption {
+      text-align: left; padding: 0 0.8rem 0.5rem;
+      font-family: var(--sans); font-size: 0.7rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    /* ---- Full-bleed break ---- */
+    .break {
+      width: 100vw; margin-left: calc(-50vw + 50%);
+      padding: 4rem var(--pad-x);
+      background: var(--surface);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .break-inner {
+      max-width: var(--max-w); margin: 0 auto;
+    }
+    .break .timeline-year {
+      font-family: var(--serif); font-size: clamp(3rem, 8vw, 6rem);
+      color: var(--accent); opacity: 0.2; line-height: 1;
+    }
+    .break .timeline-event {
+      font-family: var(--body); font-size: 1.1rem;
+      color: var(--text); max-width: 50ch; margin-top: 0.8rem;
+    }
+    .break .timeline-source {
+      font-family: var(--sans); font-size: 0.7rem;
+      color: var(--muted); margin-top: 0.4rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    /* ---- Timeline strip ---- */
+    .timeline-strip {
+      display: flex; gap: 0; overflow-x: auto;
+      padding: 1rem 0; margin: 1.5rem 0;
+      scrollbar-width: thin;
+    }
+    .timeline-item {
+      flex: 0 0 auto; min-width: 160px;
+      padding: 0.8rem 1.2rem;
+      border-left: 2px solid var(--rule);
+      position: relative;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -5px; top: 1.1rem;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+    }
+    .timeline-item.closed::before { background: var(--muted); }
+    .timeline-item .ty {
+      font-family: var(--sans); font-size: 0.68rem;
+      color: var(--accent); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .timeline-item.closed .ty { color: var(--muted); }
+    .timeline-item .td {
+      font-family: var(--sans); font-size: 0.78rem;
+      color: var(--text-dim); margin-top: 0.25rem; line-height: 1.4;
+    }
+
+    /* ---- Sources / bibliography ---- */
+    .biblio {
+      font-family: var(--sans); font-size: 0.82rem; color: var(--text-dim);
+      line-height: 1.6;
+    }
+    .biblio li {
+      margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;
+      list-style: none;
+    }
+    .biblio li::before {
+      content: ''; position: absolute; left: 0; top: 0.55rem;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ---- TOC sidebar (floating) ---- */
+    .toc-float {
+      position: fixed; right: 1.5rem; top: 50%;
+      transform: translateY(-50%); z-index: 80;
+      display: flex; flex-direction: column; gap: 0.4rem;
+    }
+    .toc-float a {
+      display: flex; align-items: center; gap: 0.5rem;
+      text-decoration: none; color: var(--muted);
+      transition: color 0.2s;
+    }
+    .toc-float a:hover { color: var(--accent); }
+    .toc-float .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--rule); transition: background 0.3s, transform 0.3s;
+    }
+    .toc-float a.active .dot {
+      background: var(--accent); transform: scale(1.5);
+    }
+    .toc-float .tl {
+      font-family: var(--sans); font-size: 0.6rem;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      opacity: 0; transform: translateX(4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .toc-float a:hover .tl,
+    .toc-float a.active .tl {
+      opacity: 1; transform: translateX(0);
+    }
+    @media (max-width: 1100px) { .toc-float { display: none; } }
+
+    /* ---- Footer ---- */
+    .footer {
+      border-top: 1px solid var(--rule);
+      padding: 3rem var(--pad-x);
+      max-width: var(--max-w); margin: 0 auto;
+      font-family: var(--sans); font-size: 0.75rem;
+      color: var(--muted);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    .footer a { color: var(--text-dim); text-decoration: none; }
+    .footer a:hover { color: var(--accent); }
+
+    /* ---- Utility ---- */
+    .tag {
+      display: inline-block; font-family: var(--sans);
+      font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 0.2rem 0.55rem;
+      border-radius: 3px; background: var(--accent-glow);
+      color: var(--accent); border: 1px solid rgba(168,65,43,0.2);
+    }
+    .tag.amber {
+      background: var(--amber-dim); color: var(--amber);
+      border-color: rgba(196,138,58,0.2);
+    }
+    .fade-in {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ---- Focus ---- */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px; border-radius: 3px;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+      .hero { padding: 4rem 1.2rem 3rem; }
+      .section { padding: 3rem 1.2rem; }
+      .hero-meta { flex-direction: column; gap: 1rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand"><span>NsF</span> Seminario Norte de Santa Fe</a>
+    <div class="nav-links">
+      <a href="#s1">Bosque</a>
+      <a href="#s2">África</a>
+      <a href="#s3">Cierres</a>
+      <a href="#s4">Éxodo</a>
+      <a href="#s5">Resistencias</a>
+      <a href="#s6">Concepto</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Cambiar tema">☀</button>
+  </div>
+</nav>
+
+<!-- FLOATING TOC -->
+<div class="toc-float" id="tocFloat">
+  <a href="#s1"><span class="dot"></span><span class="tl">Bosque</span></a>
+  <a href="#s2"><span class="dot"></span><span class="tl">África</span></a>
+  <a href="#s3"><span class="dot"></span><span class="tl">Cierres</span></a>
+  <a href="#s4"><span class="dot"></span><span class="tl">Éxodo</span></a>
+  <a href="#s5"><span class="dot"></span><span class="tl">Resistencias</span></a>
+  <a href="#s6"><span class="dot"></span><span class="tl">Concepto</span></a>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="hero">
+  <div class="hero-eyebrow">
+    Seminario Permanente de Historia del Norte de Santa Fe &nbsp;·&nbsp; <span>Encuentro 6</span> &nbsp;·&nbsp; Unidad V
+  </div>
+  <h1 class="hero-title">El Fin de una Era</h1>
+  <p class="hero-sub">
+    El éxodo de La Forestal, el colapso de los pueblos forestales y las resistencias obreras en el norte santafesino (1955–1970).
+  </p>
+  <div class="hero-meta">
+    <div><strong>Período</strong>1955 – 1970</div>
+    <div><strong>Eje</strong>Deslocalización, éxodo y reconfiguración</div>
+    <div><strong>Coordinación</strong>Jasinski · L. Sánchez · Di Croce · G. Sánchez · Ríos Solís</div>
+  </div>
+  <blockquote class="hero-epigraph">
+    El cierre de la fábrica de Guillermina es más que un síntoma. Las máquinas paralizadas, la chimenea de la que se detuvo el torrentoso salir de volutas de humo, callado el otrora estridente silbato que llamaba al trabajo a los obrajeros. Todo ese silencio y quietud resulta de una paradojal significación como un grito de protesta de la selva devastada y un pedido de auxilio.
+    <cite>Juan José Rivas, 1952</cite>
+  </blockquote>
+</header>
+
+<!-- ============ 01 — EL BOSQUE PERDIDO ============ -->
+<section class="section fade-in" id="s1">
+  <div class="section-label">01</div>
+  <h2 class="section-num">El Bosque Perdido<em></em></h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>El agotamiento de los quebrachales</h3>
+      <p>
+        Durante más de medio siglo, La Forestal extrajo quebracho colorado del Chaco santafesino a un ritmo que no permitía la regeneración natural. El quebracho colorado (<em>Schinopsis balansae</em>) necesita entre 80 y 120 años para alcanzar diámetro comercial; la empresa talaba bosques enteros en décadas. Cuando Valentini publicó en 1960 su estudio sobre reforestación con quebracho colorado, el diagnóstico era claro: los bosques naturales del norte santafesino estaban exhaustos.
+      </p>
+      <p>
+        Pero el agotamiento no era un accidente ecológico: era el resultado de una estrategia empresarial diseñada para maximizar la extracción a corto plazo, externalizando el costo ambiental al territorio y a sus habitantes. La Forestal nunca reforestó significativamente. El "bosque perdido" —como lo titula Zarrilli— no fue consecuencia de la ignorancia sino del cálculo: la empresa sabía que la mimosa africana, cultivada en plantaciones, era el reemplazo planificado.
+      </p>
+
+      <blockquote class="pull">
+        <p>La Forestal se ha divorciado del quebracho y se ha ido con la mimosa, pero con el agravante que continúa haciéndole maliciosamente la corte al quebracho.</p>
+        <cite>Ricardo Marzorati, La industria del extracto de quebracho en la Argentina, 1960</cite>
+      </blockquote>
+
+      <h3>De la explotación al aprovechamiento</h3>
+      <p>
+        La creación de la Administración Provincial de Bosques (ley 4514, adhiriendo a la ley nacional 13.273) marcó un cambio conceptual: de "explotación" a "aprovechamiento" del bosque. Perfumo denunció en 1963 "la gran lección que brinda el agotamiento de los quebrachales". Pero la legislación llegó tarde: los bosques ya estaban diezmados, y la empresa que los había destruido estaba en proceso de abandonar el país.
+      </p>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Ciclo biológico</div>
+        <div class="stat">80–120</div>
+        <div class="stat-label">Años para que el quebracho colorado alcance diámetro comercial</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Concepto clave</div>
+        <p>La "solución espacial" no fue una respuesta a la crisis ecológica: fue la causa. La empresa diseñó la extracción destructiva sabiendo que tenía un reemplazo preparado.</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Lectura</div>
+        <p>Zarrilli, A. (2018). <em>El bosque perdido. Una historia ambiental del Norte santafesino (1890–2010)</em>. En Brac (Comp.), El norte forestal. CFI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- BREAK: 1955 ---- -->
+<div class="break">
+  <div class="break-inner">
+    <div class="timeline-year">1955</div>
+    <div class="timeline-event">Cierre definitivo de la fábrica de tanino de Villa Ana. La Forestal solo mantiene operativa La Gallareta en el norte santafesino.</div>
+    <div class="timeline-source">Fuente: Sánchez & Sánchez, 2019</div>
+  </div>
+</div>
+
+<!-- ============ 02 — LA MARCHA HACIA ÁFRICA ============ -->
+<section class="section fade-in" id="s2">
+  <div class="section-label">02</div>
+  <h2 class="section-num">La Larga Marcha hacia África<em></em></h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>La "solución espacial"</h3>
+      <p>
+        The Forestal Land, Timber and Railways Company —la casa matriz londinense— había tomado la decisión estratégica de trasladar la producción a África mucho antes de que el peronismo alterara las relaciones laborales en Argentina. Las plantaciones de mimosa (<em>Acacia mearnsii</em>) se determinaron en 1938; a los 10 años estuvieron en condiciones de explotarse (~1948–1950). Desde 1953, las fábricas de The Forestal en África proyectaron producir de 62 mil a 114 mil toneladas, pasando del 50% al 62% de la producción mundial de mimosa.
+      </p>
+      <p>
+        El conflicto de interés era estructural: The Forestal controlaba simultáneamente el 55,2% del quebracho argentino y la mayor parte de la producción de mimosa en Sudáfrica, Kenia y Rodesia. Los competidores de La Forestal en el quebracho controlaban a su vez el castaño europeo. En conjunto, los competidores de la mimosa controlaban el 78,7% de la industria quebrachera argentina, usando el quebracho como "trampolín" para introducir la mimosa.
+      </p>
+
+      <h3>La propaganda de la mimosa</h3>
+      <p>
+        El laboratorio Harpenden de The Forestal distribuyó folletos, circulares técnicas y entrevistas de prensa afirmando la superioridad de la mimosa y el agotamiento inminente del quebracho. G. H. Humphreys, jefe de los laboratorios, declaró: <em>"la era del quebracho ha terminado y la era de la mimosa ha comenzado"</em>. En la asamblea de accionistas de Londres de junio de 1953, Marzorati escuchó con "sorpresa" que se daba por descontado que las reservas de quebracho colorado estaban agotadas.
+      </p>
+
+      <blockquote class="pull">
+        <p>La mimosa valiéndose de sus subsidiarias argentinas que son a la vez los "caballos de Troya" de nuestra industria, unidos a varios productores argentinos de "menor capacidad" a quienes mantienen absorbidos por razones financieras y de otro orden, la así llamada industria del quebracho, impensadamente le hace el juego a su propio enemigo.</p>
+        <cite>Marzorati, 1960</cite>
+      </blockquote>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Inversión desplazada</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:0.5rem;">
+          <div>
+            <div style="font-family:var(--sans); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Mimosa (África)</div>
+            <div class="stat" style="font-size:1.4rem;">£9,2M</div>
+            <div class="stat-label">1958 (desde £900K en 1938)</div>
+          </div>
+          <div>
+            <div style="font-family:var(--sans); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Quebracho (Arg.)</div>
+            <div class="stat" style="font-size:1.4rem; color:var(--amber);">£5M</div>
+            <div class="stat-label">1958 (desde £6,5M en 1938)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Participación de mercado</div>
+        <div class="data-table-wrap" style="margin:0;">
+          <table class="data-table">
+            <thead>
+              <tr><th>Grupo</th><th>1936–38</th><th>1958</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Quebracho</td><td class="accent">61,7%</td><td>42,2%</td></tr>
+              <tr><td>Mimosa</td><td>10,4%</td><td class="amber">36,3%</td></tr>
+              <tr><td>Castaño</td><td>~28%</td><td>~21,5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.7rem; color:var(--muted); margin-top:0.5rem; font-family:var(--sans);">Fuente: Marzorati, 1960</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Lectura</div>
+        <p>Cowen, M. (1990). <em>Capital, nation and commodities: the case of Forestal Land, Timber and Railway Company in Argentina and Africa, 1900–1945</em>. En Capitalism in a mature economy. Edward Elgar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 — LA TIERRA ARRASADA ============ -->
+<section class="section fade-in" id="s3">
+  <div class="section-label">03</div>
+  <h2 class="section-num">La Tierra Arrasada<em></em></h2>
+
+  <h3>La secuencia de los cierres</h3>
+  <p>
+    Entre 1949 y 1963, La Forestal cerró todas sus fábricas de tanino en el norte santafesino. No fueron cierres progresivos: fueron una retirada planificada. Cada cierre seguía el mismo patrón: notificación individual a cada trabajador, negativa a pagar indemnizaciones completas, desalojo de viviendas, y finalmente, el desmantelamiento de la infraestructura productiva.
+  </p>
+
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <caption>Fábricas de La Forestal en el norte santafesino — Secuencia de cierres</caption>
+      <thead>
+        <tr><th>Fábrica</th><th>Cap. (ton/día, 1948)</th><th>Participación</th><th>Cierre</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Villa Guillermina</td><td>191,7</td><td>12,9%</td><td class="accent">Nov 1949</td><td><span class="tag">Desmantelada</span></td></tr>
+        <tr><td>Tartagal</td><td>137,5</td><td>9,2%</td><td class="accent">~1949–51</td><td><span class="tag">Desmantelada</span></td></tr>
+        <tr><td>Colonia Baranda (Chaco)</td><td>48,4</td><td>3,2%</td><td class="accent">~1950–51</td><td><span class="tag">Cerrada</span></td></tr>
+        <tr><td>Villa Ana</td><td>137,7</td><td>9,2%</td><td class="accent">1955</td><td><span class="tag">Cerrada</span></td></tr>
+        <tr><td>La Gallareta</td><td>176,4</td><td>11,9%</td><td class="accent">1963</td><td><span class="tag amber">Última en cerrar</span></td></tr>
+        <tr><td>Fontana (Chaco)</td><td>66,1</td><td>4,4%</td><td>Post-1955</td><td><span class="tag">Cerrada</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>Estrategia de tierra arrasada</h3>
+      <p>
+        Los cierres no dejaron fábricas inactivas sino carcassas vacías. Las máquinas se dispersaron para impedir la reactivación. Marzorati lo calificó como "enterrarlas en un cementerio". La estrategia era clara: si el Estado o los trabajadores lograban la expropiación o la reapertura, encontrarían una carcasa vacía. La tierra arrasada no era solo económica: era una precaución política contra la reversión.
+      </p>
+      <p>
+        El decreto 23.451/48 había establecido cuotas de exportación por fábrica, no por empresa, lo que frenaba a La Forestal: no podía cerrar una fábrica y concentrar su producción en otra de sus fábricas. Pero el decreto 3.546 de Frondizi (1959) cambió a cuota por empresa, habilitando la centralización. Marzorati lo denunció: "Solo favorece a La Forestal, por ser la única que posee más de una fábrica. Le permite centralizar la producción de sus diversas fábricas en una sola, manteniendo las demás paralizadas."
+      </p>
+
+      <h3>La ley que nadie publicó</h3>
+      <p>
+        En 1954, la Legislatura de Santa Fe aprobó por unanimidad una ley que prohibía a La Forestal remover instalaciones industriales sin autorización del poder ejecutivo. Era la última línea de defensa del territorio: si la empresa se iba, que se fuera, pero que no se llevara las máquinas. Pero la ley fue evadida: nunca se publicó en el boletín oficial, y las autorizaciones comunales —otorgadas por intendentes vinculados a la empresa— permitieron el desmantelamiento.
+      </p>
+
+      <blockquote class="pull">
+        <p>Siempre cuando se trata de La Forestal, hay una voluntad extraña que trabaja sigilosamente, y entre las sombras, no estuvo estado público, ni se publicó en el boletín oficial, logrando evadirla con autorizaciones comunales.</p>
+        <cite>Anacarsis Acevedo, Investigación a La Forestal, 1983</cite>
+      </blockquote>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Normativa</div>
+        <p><strong>1948:</strong> Cuota por fábrica (decreto 23.451) — frena el cierre</p>
+        <p style="margin-top:0.5rem;"><strong>1954:</strong> Ley provincial prohibe éxodo industrial — nunca publicada</p>
+        <p style="margin-top:0.5rem;"><strong>1959:</strong> Cuota por empresa (decreto 3.546, Frondizi) — habilita el cierre</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Lectura</div>
+        <p>Sánchez, L. & Sánchez, G. (2019). <em>Cierre de fábricas de tanino y éxodo de los habitantes de los pueblos forestales</em>. En Brac (Comp.), Pueblos forestales del norte santafesino. CFI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- BREAK: 1963 ---- -->
+<div class="break">
+  <div class="break-inner">
+    <div class="timeline-year">1963</div>
+    <div class="timeline-event">Cierre de La Gallareta, la última fábrica de La Forestal en el norte santafesino. Fin de un siglo de industria taninera.</div>
+    <div class="timeline-source">Fuente: Sánchez & Sánchez, 2019; Gori, 1991 (ed. orig. 1965)</div>
+  </div>
+</div>
+
+<!-- ============ 04 — LAS CIUDADES FANTASMAS ============ -->
+<section class="section fade-in" id="s4">
+  <div class="section-label">04</div>
+  <h2 class="section-num">Las Ciudades Fantasmas<em></em></h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>El éxodo</h3>
+      <p>
+        Los cierres de fábrica no produjeron desocupación: produjeron despoblamiento. Cuando La Forestal cerraba una fábrica, el pueblo entero perdía su razón de ser. La empresa era simultáneamente el empleador, el proveedor de vivienda, el hospital, la proveeduría, el club, la autoridad. Cuando se iba, no quedaba nada. Los obreros y sus familias emprendían un éxodo hacia Reconquista, Santa Fe, Rosario o Buenos Aires, cargando con lo que podían y dejando atrás casas, memorias y raíces.
+      </p>
+      <p>
+        El departamento 9 de Julio perdió más del 72% de sus obreros industriales en apenas ocho años. El departamento General Obligado perdió casi la mitad de su fuerza laboral. La economía del tanino no era un sector más de la economía regional: <em>era</em> la economía regional. Su colapso arrastró todo: los obrajes, los aserraderos, los comercios, los ferroviarios, los servicios.
+      </p>
+
+      <blockquote class="pull">
+        <p>Donde ayer hubo pueblos activos, hoy hay silencio. Donde ayer hubo chimeneas humeantes, hoy hay estructuras oxidadas contra el cielo. Donde ayer hubo trabajo, hoy hay pasto creciendo entre los rieles.</p>
+        <cite>Rodolfo Walsh, "Las ciudades fantasmas", El violento oficio de escribir</cite>
+      </blockquote>
+
+      <h3>¿Pueblos fantasmas?</h3>
+      <p>
+        La categoría "pueblo fantasma" es engañosa. Los pueblos no murieron: se transformaron. Algunos, como Villa Guillermina, perdieron más de la mitad de su población pero mantuvieron una comunidad residual que reconfiguró su identidad. Otros, como Tartagal, sufrieron un vaciamiento casi total. La pregunta no es si los pueblos murieron, sino cómo sobrevivieron los que se quedaron, y qué perdieron los que se fueron.
+      </p>
+      <p>
+        Las mujeres tejedoras e hilanderas de Fortín Olmos, estudiadas por Rinaldi (2021), son un caso emblemático: entre 1963 y 1975, un colectivo de mujeres transformó la devastación en una práctica económica y cultural de supervivencia. El tejido no era solo ingreso: era resistencia, memoria y comunidad.
+      </p>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Población desplazada</div>
+        <div class="stat">72%</div>
+        <div class="stat-label">Obreros industriales perdidos en depto. 9 de Julio en 8 años</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">~50%</div>
+        <div class="stat-label" style="margin-top:0;">Fuerza laboral perdida en depto. Gral. Obligado</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Gori, 1965</div>
+        <p><em>La Forestal, la tragedia del quebracho colorado</em>. Obra fundacional que documentó el impacto social del éxodo. Primera edición: 1965.</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Resistencia</div>
+        <p>Rinaldi, V. (2021). <em>Tejiendo historias. Transformaciones económicas, sociales y culturales: el caso del colectivo de mujeres tejedoras e hilanderas de Fortín Olmos (1963–1975)</em>. Tesis UBA.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline strip -->
+  <div class="timeline-strip">
+    <div class="timeline-item closed">
+      <div class="ty">Nov 1949</div>
+      <div class="td">Cierre de Villa Guillermina</div>
+    </div>
+    <div class="timeline-item closed">
+      <div class="ty">~1949–51</div>
+      <div class="td">Cierre de Tartagal</div>
+    </div>
+    <div class="timeline-item closed">
+      <div class="ty">~1950–51</div>
+      <div class="td">Cierre de Col. Baranda</div>
+    </div>
+    <div class="timeline-item closed">
+      <div class="ty">1955</div>
+      <div class="td">Cierre de Villa Ana</div>
+    </div>
+    <div class="timeline-item closed">
+      <div class="ty">1958</div>
+      <div class="td">CGT: "¿Cómo nos robaron el quebracho?"</div>
+    </div>
+    <div class="timeline-item">
+      <div class="ty">1963</div>
+      <div class="td">Cierre de La Gallareta</div>
+    </div>
+    <div class="timeline-item">
+      <div class="ty">1968</div>
+      <div class="td">Cristianismo y Revolución: "Los hacheros"</div>
+    </div>
+    <div class="timeline-item">
+      <div class="ty">1969</div>
+      <div class="td">Ocampazo: primera pueblada del país</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 — LAS RESISTENCIAS ============ -->
+<section class="section fade-in" id="s5">
+  <div class="section-label">05</div>
+  <h2 class="section-num">Las Resistencias<em></em></h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>FATITA y la lucha continua</h3>
+      <p>
+        La Federación Argentina de Trabajadores de la Industria del Tanino y Afines (FATITA) fue la organización que articuló la resistencia obrera durante los años de los cierres. Formada a partir de los sindicatos locales de Villa Guillermina, Villa Ana, La Gallareta y Tartagal, FATITA heredaba las conquistas del sindicalismo comunista (convenio colectivo, vacaciones pagas, ley 11.279) pero operaba en un tablero que la empresa ya dominaba. La pregunta que recorría cada asamblea era la misma: ¿se reabre la fábrica o no? Y si no se reabre: ¿qué hacemos con nuestras vidas?
+      </p>
+
+      <h3>El Ocampazo (1969)</h3>
+      <p>
+        Villa Ocampo, que tenía una industria diferente —el papel— pero compartía la dependencia de una empresa única, fue escenario de la primera "pueblada" del país. El Ocampazo de 1969 no fue solo una protesta obrera: fue una explosión social que involucró a toda la comunidad —obreros, comerciantes, empleados, estudiantes— contra las condiciones de vida impuestas por la crisis económica y la desatención del Estado. Masín (2011) lo describe como la convergencia entre la crisis local y la movilización social a nivel nacional, en los años previos al Cordobazo.
+      </p>
+      <p>
+        Scarpin (2019) reconstruyó el Ocampazo a través de crónicas y testimonios: "de la crisis local al primer 'azo' del país". Pagano (2009) lo analizó como crisis económica y movilización social. Mondino (2023) estudió la intervención del Partido Comunista en el proceso. El Ocampazo demostró que la resistencia no moría con las fábricas: se transformaba, pasando de la lucha laboral a la lucha territorial.
+      </p>
+
+      <h3>El padre Yacuzzi y el cooperativismo</h3>
+      <p>
+        Rafael Yacuzzi, sacerdote tercermundista, fue una figura central en la reconfiguración social del norte santafesino post-Forestal. Sánchez (2025) documenta su aporte a las luchas sociales entre 1966 y 2001. Yacuzzi y los curas tercermundistas promovieron el cooperativismo obrero como alternativa al modelo de la empresa única. Las cooperativas no resolvieron la crisis estructural, pero crearon espacios de autonomía y organización que la empresa había negado durante décadas.
+      </p>
+
+      <blockquote class="pull">
+        <p>Los hacheros del quebracho no esperaban que les devolvieran el monte. Esperaban que les devolvieran la dignidad que La Forestal les había quitado.</p>
+        <cite>Cristianismo y Revolución, julio de 1968</cite>
+      </blockquote>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">1969</div>
+        <div class="stat">Ocampazo</div>
+        <div class="stat-label">Primera pueblada del país. Crisis económica y movilización social en Villa Ocampo.</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Actores de la resistencia</div>
+        <p><strong>FATITA</strong> — Federación obrera taninera</p>
+        <p><strong>P. Rafael Yacuzzi</strong> — Curas tercermundistas y cooperativismo</p>
+        <p><strong>Cooperativas</strong> — Sericícola (1953), cooperativas obreras</p>
+        <p><strong>Partido Comunista</strong> — Intervención en el Ocampazo</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Lecturas</div>
+        <p>Scarpin, G. (2019). <em>Ocampazo '69. Crónicas y testimonios</em>. Librería de La Paz.</p>
+        <p style="margin-top:0.4rem;">Sánchez, L. (2025). <em>Rafael Yacuzzi. Un sacerdote por la liberación</em>. Añamembuí.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 — PROBLEMA CONCEPTUAL ============ -->
+<section class="section fade-in" id="s6">
+  <div class="section-label">06</div>
+  <h2 class="section-num">Problema Conceptual<em></em></h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>Éxodos, industria y deslocalización</h3>
+      <p>
+        El caso de La Forestal en el norte santafesino plantea un problema conceptual que excede la historia regional: ¿cómo se relacionan la deslocalización industrial, el extractivismo y los éxodos sociales? La empresa no se fue porque la industria fuera inviable: se fue porque la "solución espacial" —mover la producción a África donde los costos eran menores y la mano de obra más barata— era más rentable. El bosque se agotó porque la empresa diseñó la extracción sin reforestación, sabiendo que tenía un reemplazo preparado.
+      </p>
+      <p>
+        ¿Se puede comparar con lo sucedido con el cierre de los ingenios en Tucumán? En ambos casos, una industria extractiva colapsó bajo la presión de la reestructuración global y la violencia estatal. En Tucumán, la dictadura de Onganía cerró 11 de 27 ingenios entre 1966 y 1968. En el norte santafesino, los cierres fueron graduales pero igualmente devastadores. ¿Son estos casos tempranos de desindustrialización en Argentina? ¿O son casos de deslocalización planificada por empresas transnacionales?
+      </p>
+
+      <h3>El impacto societal</h3>
+      <p>
+        La salida de La Forestal no solo destruyó la economía regional: reconfiguró la sociedad entera. Los pueblos forestales pasaron de company towns —donde la empresa regulaba todos los aspectos de la vida— a comunas autónomas que debían construir su propio futuro sin recursos, sin infraestructura y sin experiencia de autogobierno. La transición fue traumática: décadas de paternalismo habían atrofiado la capacidad de iniciativa, como diagnosticó el gobernador Caesar en 1949 al definir el modelo como "explotación científica".
+      </p>
+      <p>
+        Pero la reconfiguración también abrió posibilidades. Las cooperativas, los curas tercermundistas, las Ligas Agrarias, el Ocampazo: todos estos movimientos nacieron de la crisis y no habrían sido posibles sin ella. La pregunta final: ¿la resistencia fue una respuesta a la devastación, o la devastación fue la condición para que emergieran formas nuevas de organización social?
+      </p>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Preguntas para el taller</div>
+        <p>1. ¿Se puede comparar el cierre de las fábricas de tanino con el cierre de los ingenios en Tucumán?</p>
+        <p style="margin-top:0.3rem;">2. ¿Casos tempranos de desindustrialización o deslocalización planificada?</p>
+        <p style="margin-top:0.3rem;">3. ¿Qué puede el sindicalismo cuando la empresa ya decidió irse?</p>
+        <p style="margin-top:0.3rem;">4. ¿La resistencia nació de la devastación o a pesar de ella?</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Taller: Trabajo con fuentes</div>
+        <p>Relevamiento de testimonios sobre la migración interna tras el cierre de los obrajes.</p>
+        <p style="margin-top:0.3rem;">Relevamiento de prensa y documentación municipal sobre los cierres y éxodos.</p>
+        <p style="margin-top:0.3rem;">Puesta en común de hallazgos o interpretación de fuentes ofrecidas.</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Marco teórico</div>
+        <p>Silver, B. J. (2005). <em>Fuerzas de trabajo. Los movimientos obreros y la globalización desde 1870</em>. Akal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BIBLIOGRAFÍA ============ -->
+<section class="section fade-in" id="biblio">
+  <div class="section-label">Bibliografía</div>
+  <h2 class="section-num" style="margin-bottom:2rem;">Lecturas y Fuentes<em></em></h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>Debate bibliográfico</h3>
+      <ul class="biblio">
+        <li>Gori, G. (1991). <em>La Forestal, la tragedia del quebracho colorado</em> (ed. orig. 1965). Distribuidora Litar.</li>
+        <li>Sánchez, L. & Sánchez, G. (2019). Cierre de fábricas de tanino y éxodo de los habitantes de los pueblos forestales. En Brac (Comp.), <em>Pueblos forestales del norte santafesino</em>. CFI, pp. 132-144.</li>
+        <li>Zarrilli, A. (2018). El bosque perdido. Una historia ambiental del Norte santafesino (1890-2010). En Brac (Comp.), <em>El norte forestal</em>. CFI.</li>
+      </ul>
+
+      <h3 style="margin-top:2rem;">Fuentes primarias</h3>
+      <ul class="biblio">
+        <li>Acevedo, A. (1983). <em>Investigación a La Forestal</em>. Centro Editor de América Latina.</li>
+        <li>La Forestal S.A. (1967). <em>La Forestal, al servicio de la grandeza argentina</em>. La Forestal Argentina S.A.</li>
+        <li>Vargas, J. B. (1977). <em>Sudor y sangre de quebracho</em>.</li>
+        <li>Marzorati, R. (1960). <em>La industria del extracto de quebracho en la Argentina</em>. Impacto Gráfico (selección).</li>
+        <li>Valentini, J. A. (1960). La reforestación con quebracho colorado y algunas normas silvícolas relacionadas con su aprovechamiento racional. <em>Bonplandia</em>, 1(1), 51-69.</li>
+      </ul>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Bibliografía complementaria</div>
+        <p>Romero, L. A. (1976). El ciclo del tanino en Argentina. <em>Revista Paraguaya de Sociología</em>.</p>
+        <p style="margin-top:0.4rem;">Gómez Lende, S. (2020). Extractivismo y acumulación por despojo en el norte argentino: el caso de La Forestal (1872-1963). <em>Geografia em Questão</em>, 13(1).</p>
+        <p style="margin-top:0.4rem;">Mónaco, L. (1998). <em>Algodón y quebracho. Riquezas argentinas en las arcas del imperio inglés</em>. Ediciones América Libre.</p>
+        <p style="margin-top:0.4rem;">Alderete, A. (2019). Una empresa, el monte, un árbol. En Brac (Comp.), <em>Pueblos forestales del norte santafesino</em>. CFI.</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Memoria y ficción</div>
+        <p>Walsh, R. (2007). Las ciudades fantasmas. En <em>El violento oficio de escribir</em>. Ediciones de La Flor.</p>
+        <p style="margin-top:0.4rem;">Soriano, O. (1974). Los esclavos del quebracho. <em>La Opinión</em>, Suplemento Cultural, 19 de mayo.</p>
+        <p style="margin-top:0.4rem;">Di Croce, C. (2025). <em>En lo profundo. Cuentos y relatos</em>. 13 mil.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div>
+    <strong style="color:var(--text-dim); font-size:0.8rem;">Seminario Permanente de Historia del Norte de Santa Fe (1870-1983)</strong><br>
+    Investigación, Conceptos, Archivos y Memorias<br>
+    1ra edición · 2026
+  </div>
+  <div style="text-align:right;">
+    Coordinación: A. Jasinski · L. Sánchez · C. Di Croce · G. Sánchez · J. Ríos Solís<br>
+    <a href="#hero">Volver al inicio ↑</a>
+  </div>
+</footer>
+
+<script>
+  // Progress bar
+  const progress = document.getElementById('progress');
+  function updateProgress() {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progress.style.width = Math.min(pct, 100) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  // Active section tracking
+  const sections = document.querySelectorAll('.section[id]');
+  const tocLinks = document.querySelectorAll('.toc-float a');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => {
+      const top = s.getBoundingClientRect().top;
+      if (top < window.innerHeight * 0.4) current = s.id;
+    });
+    tocLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+
+  // Fade-in on scroll
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Theme toggle
+  function toggleTheme() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const btn = document.getElementById('themeBtn');
+    if (current === 'dark') {
+      root.removeAttribute('data-theme');
+      btn.textContent = '☀';
+    } else if (current === 'light') {
+      root.setAttribute('data-theme', 'dark');
+      btn.textContent = '☾';
+    } else {
+      // system default → explicit light
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        root.setAttribute('data-theme', 'light');
+        btn.textContent = '☀';
+      } else {
+        root.setAttribute('data-theme', 'dark');
+        btn.textContent = '☾';
+      }
+    }
+  }
+
+  // Check initial theme preference
+  if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+    document.getElementById('themeBtn').textContent = '☾';
+  }
+</script>
+
+</body>
+</html>
