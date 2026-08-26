@@ -176,7 +176,7 @@ class HorneroCondicion extends HoComponent {
 
   _render() {
     return html`
-      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}" style="display:none">
         <div class="hero-banner-title">Panorama</div>
         ${this._bannerVisible ? html`
         <div class="hero-bajada" style="position:relative">
@@ -205,7 +205,7 @@ class HorneroCondicion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          no-auto-scroll="${this._bannerVisible}"
+          section-info='{"title":"Panorama","bajada":"Condición obrera, comportamiento empresarial, Salario Mínimo, Vital y Móvil real, felicidad laboral.","explore":["Cómo Somos","Comportamiento Empresarial","SMVM","Índice de Felicidad"]}'
         ></hornero-chat>
       </div>
     `;

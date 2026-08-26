@@ -22,7 +22,7 @@ LAWS = [
         "norma": "Ley 12.908",
         "tags": ["estatuto del periodista", "Ley 12.908", "periodista profesional", "jornada 36hs", "estabilidad", "salario mínimo", "matrícula", "carnet profesional", "indemnización especial", "libertad de prensa", "previsión", "vacaciones", "horas extras", "despido", "preaviso", "enfermedad inculpable", "accidente trabajo", "comisiones paritarias"],
         "vigencia": "vigente",
-        "capa": "sectorial",
+        "capa": "fuentes",
         # El Art. 1º) está antes del heading de MATRICULA en el MD
         "start_marker": "Art. 1º)– Quedan comprendidos",
         "end_marker": "(Dec. Ley 13.839/46, ratificado por la ley 12.291",
@@ -34,7 +34,7 @@ LAWS = [
         "norma": "Dec. Ley 13.839/46 (Ley 12.921)",
         "tags": ["empleado administrativo", "estatuto administrativo", "Dec. Ley 13.839", "Ley 12.921", "escalafón administrativo", "intendencia", "jornada 6.30hs", "preaviso", "indemnización", "cadete", "ayudante", "capataz"],
         "vigencia": "vigente",
-        "capa": "sectorial",
+        "capa": "fuentes",
         "start_marker": "(Dec. Ley 13.839/46, ratificado por la ley 12.291",
         "end_marker": "Convenio de Prensa Escrita y Oral Nº 301/75",
     },
@@ -45,7 +45,7 @@ LAWS = [
         "norma": "CCT 301/75",
         "tags": ["CCT 301/75", "prensa escrita", "prensa oral", "radio", "escalafón periodístico", "escalafón administrativo", "vacaciones", "licencias", "antigüedad", "bonificación", "vale de comida", "horas extras", "reemplazos", "categorización", "higiene seguridad", "formación profesional", "carteleras gremiales", "vacantes promociones"],
         "vigencia": "vigente",
-        "capa": "sectorial",
+        "capa": "fuentes",
         "start_marker": "Convenio de Prensa Escrita y Oral Nº 301/75",
         "end_marker": "Convenio de Prensa Televisada Nº 124/75",
     },
@@ -56,7 +56,7 @@ LAWS = [
         "norma": "CCT 124/75",
         "tags": ["CCT 124/75", "prensa televisada", "noticiero TV", "televisión", "cámaras", "compaginación", "auriconista", "redactor TV", "licencias TV", "horas extras TV", "misión riesgosa", "viajes servicio", "bonificación título", "salario móvil", "laboratorio", "archivo TV", "escalafón TV"],
         "vigencia": "vigente",
-        "capa": "sectorial",
+        "capa": "fuentes",
         "start_marker": "Convenio de Prensa Televisada Nº 124/75",
         "end_marker": "Convenio Colectivo Nacional de los trabajadores de Prensa N° 541/08",
     },
@@ -67,7 +67,7 @@ LAWS = [
         "norma": "CCT 541/08",
         "tags": ["CCT 541/08", "FATPREN", "ADIRA", "diarios del interior", "prensa gráfica interior", "escalafón interior", "zona desfavorable", "zona patagónica", "adicional por título", "espacios de cuidados", "día del trabajador de prensa", "comisión paritaria", "corresponsal"],
         "vigencia": "vigente",
-        "capa": "sectorial",
+        "capa": "fuentes",
         # El contenido real empieza con "PARTES CONTRATANTES" y la mención de FATPREN/ADIRA
         "start_marker": "PARTES CONTRATANTES:Representación sindical",
         "end_marker": "Convocatoria a Asambleas",  # Inicio de la guía práctica
@@ -79,7 +79,7 @@ LAWS = [
         "norma": "Guía SIPREBA 2024",
         "tags": ["guía del delegado", "SIPREBA", "comisión interna", "elección delegados", "fueros gremiales", "asamblea", "medida de fuerza", "paro", "notificación empresa", "licencia gremial", "formularios", "nota a empresa", "tutela sindical"],
         "vigencia": "vigente",
-        "capa": "sectorial",
+        "capa": "fuentes",
         "start_marker": "Convocatoria a Asambleas",
         "end_marker": None,  # hasta el final
     },
@@ -219,7 +219,7 @@ def main():
         for chunk in chunks:
             chunk.update({
                 "tipo": law_def["tipo"],
-                "category": "documentos",
+                "category": "fuentes",
                 "tenant": "prensa",
                 "norma": law_def["norma"],
                 "capa": law_def.get("capa", "sectorial"),

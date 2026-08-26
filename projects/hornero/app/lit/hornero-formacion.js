@@ -374,7 +374,7 @@ class HorneroFormacion extends HoComponent {
 
   _render() {
     return html`
-      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}" style="display:none">
         <div class="hero-banner-title">Historia Obrera <a class="hero-bajada-link" href="https://historiaobrera.com.ar/" target="_blank" rel="noopener">↗</a></div>
         ${this._bannerVisible ? html`
         <div class="hero-bajada">
@@ -404,7 +404,7 @@ class HorneroFormacion extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          no-auto-scroll="${this._bannerVisible}"
+          section-info='{"title":"Historia Obrera","bajada":"Efemérides, ensayos, Mitín, colección La Argentina Peronista, retazos de historia, audio, video e ilustración.","explore":["Efemérides","Mitín","Colección","Retazos","Archivo"]}'
         ></hornero-chat>
       </div>
     `;
@@ -432,6 +432,15 @@ class HorneroFormacion extends HoComponent {
           this._emitSessionSave();
           this.render();
         }
+      });
+      // Listen for explore-select from info popup
+      chatEl.addEventListener('explore-select', (e) => {
+        const topic = e.detail.option;
+        const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
+        this.messages = [...this.messages, userMsg];
+        this._addWithProgressiveReveal(this._exploreResponse(topic));
+        this._saveChatHistory();
+        this.render();
       });
       chatEl.addEventListener('chat-message-delete', (e) => {
         const { msgIndex, msg } = e.detail;

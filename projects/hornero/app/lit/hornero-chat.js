@@ -2575,6 +2575,15 @@ class HorneroChat extends HoComponent {
       });
     }
 
+    // === Info button → section info popup ===
+    const infoBtn = this.shadowRoot.querySelector('#chatInfoBtn');
+    if (infoBtn && this.sectionInfo) {
+      infoBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this._showInfoPopup();
+      });
+    }
+
     // === Export button (input toolbar) → confirm popup + download TXT ===
     const exportBtn = this.shadowRoot.querySelector('#chatExportBtn');
     if (exportBtn) {
@@ -3635,6 +3644,48 @@ ${msgs.map(m => {
   }
 
   // Plus menu only closes via the +/| button, not on outside click
+
+  // ===== Section info popup (replaces hero-banner) =====
+  _showInfoPopup() {
+    const existing = this.shadowRoot.querySelector('.info-popup-overlay');
+    if (existing) existing.remove();
+    let info = {};
+    try { info = JSON.parse(this.sectionInfo); } catch(e) {}
+    if (!info.title && !info.bajada && (!info.explore || !info.explore.length)) return;
+    const overlay = document.createElement('div');
+    overlay.className = 'info-popup-overlay';
+    const popup = document.createElement('div');
+    popup.className = 'info-popup';
+    popup.style.position = 'relative';
+    let html = '';
+    if (info.title) html += `'<div class="info-popup-title">${info.title}</div>';
+    if (info.bajada) html += `'<div class="info-popup-bajada">${info.bajada}</div>';
+    if (info.explore && info.explore.length) {
+      html += `'<div class="info-popup-explore-label">Explorar</div><div class="info-popup-explore">';
+      info.explore.forEach(opt => {
+        html += `'<button class="info-popup-explore-opt" data-explore-opt="${opt}">${opt}</button>';
+      });
+      html += '</div>';
+    }
+    html += `'<button class="info-popup-close" title="Cerrar"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>';
+    popup.innerHTML = html;
+    overlay.appendChild(popup);
+    this.shadowRoot.appendChild(overlay);
+    // Close on overlay click
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+    // Close on close button
+    popup.querySelector('.info-popup-close').addEventListener('click', () => overlay.remove());
+    // Explore options → emit event + close
+    popup.querySelectorAll('.info-popup-explore-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const opt = btn.dataset.exploreOpt;
+        this.emit('explore-select', { option: opt });
+        overlay.remove();
+      });
+    });
+  }
 
   // ===== Export confirmation popup =====
   // Custom modal: "¿Descargar la conversación?" → Descargar TXT / Cancelar

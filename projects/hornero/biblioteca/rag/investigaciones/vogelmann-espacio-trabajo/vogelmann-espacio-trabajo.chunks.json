@@ -1,8 +1,8 @@
 [
   {
     "id": "kb-vogelmann-01-0",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "empresa",
       "expulsión",
@@ -24,8 +24,8 @@
   },
   {
     "id": "kb-vogelmann-01-1",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "empresa",
       "capital",
@@ -49,8 +49,8 @@
   },
   {
     "id": "kb-vogelmann-01-2",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "capital",
       "expulsión",
@@ -74,8 +74,8 @@
   },
   {
     "id": "kb-vogelmann-01-3",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "historia-obrera"
     ],
@@ -94,8 +94,8 @@
   },
   {
     "id": "kb-vogelmann-01-4",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "empresa",
       "territorio",
@@ -116,8 +116,8 @@
   },
   {
     "id": "kb-vogelmann-01-5",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "Forestal",
       "condiciones",
@@ -139,8 +139,8 @@
   },
   {
     "id": "kb-vogelmann-01-6",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "empresa",
       "historia-obrera"
@@ -160,8 +160,8 @@
   },
   {
     "id": "kb-vogelmann-01-7",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "empresa",
       "capital",
@@ -184,8 +184,8 @@
   },
   {
     "id": "kb-vogelmann-01-8",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "empresa",
       "capital",
@@ -212,8 +212,8 @@
   },
   {
     "id": "kb-vogelmann-01-9",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "capital",
       "condiciones",
@@ -235,8 +235,8 @@
   },
   {
     "id": "kb-vogelmann-01-10",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "empresa",
       "condiciones",
@@ -259,8 +259,8 @@
   },
   {
     "id": "kb-vogelmann-01-11",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "fábrica",
@@ -287,8 +287,8 @@
   },
   {
     "id": "kb-vogelmann-01-12",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "fábrica",
@@ -313,8 +313,8 @@
   },
   {
     "id": "kb-vogelmann-01-13",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "huelga",
       "sindicato",
@@ -342,8 +342,8 @@
   },
   {
     "id": "kb-vogelmann-01-14",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "fábrica",
@@ -367,8 +367,8 @@
   },
   {
     "id": "kb-vogelmann-01-15",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "empresa",
       "capital",
@@ -393,8 +393,8 @@
   },
   {
     "id": "kb-vogelmann-01-16",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "empresa",
@@ -418,8 +418,8 @@
   },
   {
     "id": "kb-vogelmann-01-17",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "historia-obrera"
     ],
@@ -438,8 +438,8 @@
   },
   {
     "id": "kb-vogelmann-01-18",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "fábrica",
       "empresa",
@@ -465,8 +465,8 @@
   },
   {
     "id": "kb-vogelmann-01-19",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "obrero",
       "capital",

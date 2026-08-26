@@ -1,8 +1,8 @@
 [
   {
     "id": "kb-lorca-01-0",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "trust",
       "trabajo",
@@ -25,8 +25,8 @@
   },
   {
     "id": "kb-lorca-01-1",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "fábrica",
       "trabajo",
@@ -49,8 +49,8 @@
   },
   {
     "id": "kb-lorca-01-2",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "huelga",
       "obrero",
@@ -76,8 +76,8 @@
   },
   {
     "id": "kb-lorca-01-3",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "Santa Fe",
@@ -105,8 +105,8 @@
   },
   {
     "id": "kb-lorca-01-4",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "empresa",
@@ -133,8 +133,8 @@
   },
   {
     "id": "kb-lorca-01-5",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "obrero",
@@ -162,8 +162,8 @@
   },
   {
     "id": "kb-lorca-01-6",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "fábrica",
@@ -188,8 +188,8 @@
   },
   {
     "id": "kb-lorca-01-7",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "obrero",
@@ -214,8 +214,8 @@
   },
   {
     "id": "kb-lorca-01-8",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "obrero",
@@ -241,8 +241,8 @@
   },
   {
     "id": "kb-lorca-01-9",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "huelga",
       "sindicato",
@@ -267,8 +267,8 @@
   },
   {
     "id": "kb-lorca-01-10",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "obrero",
@@ -292,8 +292,8 @@
   },
   {
     "id": "kb-lorca-01-11",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "obrero",
@@ -321,8 +321,8 @@
   },
   {
     "id": "kb-lorca-01-12",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "huelga",
       "sindicato",
@@ -349,8 +349,8 @@
   },
   {
     "id": "kb-lorca-01-13",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "fábrica",
       "derecho",
@@ -375,8 +375,8 @@
   },
   {
     "id": "kb-lorca-01-14",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "obrero",
@@ -402,8 +402,8 @@
   },
   {
     "id": "kb-lorca-01-15",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "huelga",
       "obrero",
@@ -432,8 +432,8 @@
   },
   {
     "id": "kb-lorca-01-16",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "paritaria",
       "fábrica",
@@ -459,8 +459,8 @@
   },
   {
     "id": "kb-lorca-01-17",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "huelga",
       "fábrica",
@@ -487,8 +487,8 @@
   },
   {
     "id": "kb-lorca-01-18",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "obrero",
       "empresa",
@@ -514,8 +514,8 @@
   },
   {
     "id": "kb-lorca-01-19",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "empresa",
@@ -538,8 +538,8 @@
   },
   {
     "id": "kb-lorca-01-20",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "convenio",
@@ -566,8 +566,8 @@
   },
   {
     "id": "kb-lorca-01-21",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "obrero",
       "fábrica",
@@ -593,8 +593,8 @@
   },
   {
     "id": "kb-lorca-01-22",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "obrero",
@@ -622,8 +622,8 @@
   },
   {
     "id": "kb-lorca-01-23",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "obrero",
       "fábrica",
@@ -648,8 +648,8 @@
   },
   {
     "id": "kb-lorca-01-24",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tags": [
       "sindicato",
       "obrero",

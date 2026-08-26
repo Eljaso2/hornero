@@ -343,7 +343,7 @@ def detect_registros(pages: list, content_start_page: int = 0) -> list:
             "title": "Pre-texto (Prefacio, Prólogos)",
             "start_page": pre_text_start,
             "end_page": sections[0]["start_page"] - 1,
-            "doc_type": "academico",
+            "doc_type": "articulo",
             "doc_date": "",
             "registro_num": 0,
         }
@@ -610,8 +610,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PDF → RAG chunks pipeline")
     parser.add_argument("pdf_path", help="Path to PDF file")
     parser.add_argument("--bib", required=True, help="Bibliographic reference: 'Author, Title, Publisher Year, ISBN'")
-    parser.add_argument("--tipo", default="academico", choices=["academico", "prensa", "noticias", "documentos", "audiovisual"])
-    parser.add_argument("--category", default="academico")
+    parser.add_argument("--tipo", default="articulo", choices=["articulo", "documento", "ley", "cct", "prensa", "organizacion", "entrevista", "efemeride", "audiovisual"])
+    parser.add_argument("--category", default="investigaciones")
     parser.add_argument("--id-prefix", default="doc", help="Prefix for chunk IDs: kb-{prefix}-0, kb-{prefix}-1...")
     parser.add_argument("--tags", nargs="*", default=[], help="Extra tags for all chunks")
     parser.add_argument("--grade", default="open", help="Minimum grade access: open|B.a|B.b|B.c|B.d")

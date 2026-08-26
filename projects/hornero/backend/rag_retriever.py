@@ -149,8 +149,8 @@ def _get_idf() -> dict:
 # ===== Category boosting map =====
 # When query terms match these category keywords, boost chunks in that category
 CATEGORY_KEYWORDS = {
-    # --- Categorías por tipo de fuente ---
-    "academico": ["libro", "articulo", "paper", "investigacion", "academico", "universidad",
+    # --- Categorías alineadas con carpetas Biblioteca ---
+    "investigaciones": ["libro", "articulo", "paper", "investigacion", "academico", "universidad",
                   "forestal", "masacre", "lockout", "historia", "referente", "lafuente",
                   "antropologica", "concesion", "genocidio", "memoria", "verdad", "justicia",
                   "reparacion", "testimonio", "pueblo originario", "despojo", "territorio",
@@ -164,26 +164,27 @@ CATEGORY_KEYWORDS = {
                   "derecho laboral", "legislación laboral", "trabajo femenino", "trabajo marítimo",
                   "disciplina laboral", "control social", "criminología", "política criminal",
                   "jubilaciones", "anarquismo", "sindicalismo revolucionario", "socialismo"],
-    "prensa": ["periodico", "comunicado", "volante", "editorial", "discurso", "opinion",
+    "fuentes": ["convenio", "cct", "convenio colectivo", "basico", "categoria",
+               "paritaria", "aumento", "negociacion", "oferta", "salarial",
+               "smvm", "salario minimo", "piso legal", "minimo vital",
+               "sindicato", "organizacion", "asamblea", "delegado", "huelga",
+               "art", "seguridad", "enfermeria", "accidente", "salud",
+               "clase obrera", "clase trabajadora", "ejercito", "reserva",
+               "ice", "ift", "panorama", "condicion", "como somos",
+               "cremonte", "canasta",
+               # Prensa sindical (fuentes/prensa)
+               "periodico", "comunicado", "volante", "editorial", "discurso", "opinion",
                "trabajador aceitero", "el trabajador aceitero", "desmotador", "posicion",
                "gremial", "ftciod", "foeiap", "federacion aceitera", "nota", "columna",
-               "prensa oficial", "boletin sindical", "comunicado gremial"],
-    "noticias": ["noticia", "recorte", "medio", "informacion", "actualidad",
+               "prensa oficial", "boletin sindical", "comunicado gremial",
+               # Audiovisual (fuentes/audiovisual)
+               "podcast", "video", "documental", "docuficcion", "ilustracion",
+               "audio", "radio", "spotifi", "youtube", "multimedia"],
+    "actualidad": ["noticia", "recorte", "medio", "informacion", "actualidad",
                  "sonido gremial", "infogremiales", "cronica", "diario", "pagina 12",
                  "clipping", "agencia", "teleshow", "prensa comercial", "la nacion",
                  "clarin", "ambito financiero", "cronista", "telam"],
-    "documentos": ["convenio", "cct", "convenio colectivo", "basico", "categoria",
-                   "paritaria", "aumento", "negociacion", "oferta", "salarial",
-                   "smvm", "salario minimo", "piso legal", "minimo vital",
-                   "sindicato", "organizacion", "asamblea", "delegado", "huelga",
-                   "art", "seguridad", "enfermeria", "accidente", "salud",
-                   "clase obrera", "clase trabajadora", "ejercito", "reserva",
-                   "ice", "ift", "panorama", "condicion", "como somos",
-                   "cremonte", "canasta"],
-    "audiovisual": ["podcast", "video", "documental", "docuficcion", "ilustracion",
-                    "audio", "radio", "spotifi", "youtube", "multimedia"],
 }
-
 
 # ===== Tenant-specific keywords =====
 # Merged with CATEGORY_KEYWORDS during search for the active tenant
@@ -287,9 +288,9 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
     # Merge CATEGORY_KEYWORDS with tenant-specific keywords
     merged_cat_keywords = dict(CATEGORY_KEYWORDS)  # copy base
     tenant_kws = TENANT_KEYWORDS.get(tenant, [])
-    # Add tenant keywords to the "documentos" and "prensa" categories
+    # Add tenant keywords to the "fuentes" category
     if tenant_kws:
-        for cat_key in ("documentos", "prensa"):
+        for cat_key in ("fuentes",):
             existing = merged_cat_keywords.get(cat_key, [])
             merged_cat_keywords[cat_key] = existing + tenant_kws
     for cat, keywords in merged_cat_keywords.items():
@@ -337,13 +338,13 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros") -
 
         # Tenant priority bonus: +5 for own tenant, +1 for shared, 0 for other tenants
         # Regla: prioriza tu gremio, pero no te bloquea el acceso a otros
-        # Excepción: cuando la query es académica/histórica y el chunk es shared+academico,
+        # Excepción: cuando la query es académica/histórica y el chunk es shared+investigaciones,
         # boost de +3 (en vez de +1) para que pueda competir con chunks del gremio propio
         chunk_tenant = chunk.get("tenant", "aceiteros")
         if chunk_tenant == tenant:
             score += 5.0
         elif chunk_tenant == "shared":
-            if "academico" in relevant_categories and chunk_category == "academico":
+            if "investigaciones" in relevant_categories and chunk_category == "investigaciones":
                 score += 3.0  # Shared+académico: boost para competir con own-tenant
             else:
                 score += 1.0
@@ -399,12 +400,12 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
     # Each persona has its own domain. Chunks from other domains can confuse the LLM
     # and cause it to switch personas mid-conversation.
     FORMATO_CATEGORY_MAP = {
-        'panorama':   {'academico', 'documentos', 'noticias'},               # Investigador: data, indices, research
-        'consulta':   {'documentos', 'academico'},                           # Abogado: legal, CCT, rights
-        'debate':     {'documentos', 'academico', 'noticias'},               # Compañero: org, struggle, reports
-        'reporte':    {'documentos', 'academico', 'noticias'},               # Compañero (report mode)
-        'historia':   {'academico', 'prensa', 'audiovisual', 'documentos'},  # Historiador: history, referents, press
-        'contenido':  {'prensa', 'academico', 'noticias', 'audiovisual', 'documentos'},    # Periodista: content production, union press + su propia normativa profesional
+        'panorama':   {'investigaciones', 'fuentes', 'actualidad'},          # Investigador: data, indices, research
+        'consulta':   {'fuentes', 'investigaciones'},                        # Abogado: legal, CCT, rights
+        'debate':     {'fuentes', 'investigaciones', 'actualidad'},          # Compañero: org, struggle, reports
+        'reporte':    {'fuentes', 'investigaciones', 'actualidad'},          # Compañero (report mode)
+        'historia':   {'investigaciones', 'fuentes'},                        # Historiador: history, referents, press
+        'contenido':  {'fuentes', 'investigaciones', 'actualidad'},          # Periodista: content production, union press + su normativa profesional
         'ecosistema': set(),                                                  # Hornero: no KB chunks needed (its own philosophy)
     }
     allowed_categories = FORMATO_CATEGORY_MAP.get(formato)

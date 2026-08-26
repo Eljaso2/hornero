@@ -1,8 +1,8 @@
 [
   {
     "id": "kb-krotoschin-0",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -22,8 +22,8 @@
   },
   {
     "id": "kb-krotoschin-1",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -43,8 +43,8 @@
   },
   {
     "id": "kb-krotoschin-2",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -64,8 +64,8 @@
   },
   {
     "id": "kb-krotoschin-3",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -86,8 +86,8 @@
   },
   {
     "id": "kb-krotoschin-4",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -108,8 +108,8 @@
   },
   {
     "id": "kb-krotoschin-5",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -130,8 +130,8 @@
   },
   {
     "id": "kb-krotoschin-6",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -152,8 +152,8 @@
   },
   {
     "id": "kb-krotoschin-7",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -176,8 +176,8 @@
   },
   {
     "id": "kb-krotoschin-8",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "capital",
@@ -200,8 +200,8 @@
   },
   {
     "id": "kb-krotoschin-9",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "capital",
       "derecho",
@@ -223,8 +223,8 @@
   },
   {
     "id": "kb-krotoschin-10",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "empresa",
@@ -250,8 +250,8 @@
   },
   {
     "id": "kb-krotoschin-11",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "derecho",
@@ -273,8 +273,8 @@
   },
   {
     "id": "kb-krotoschin-12",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -295,8 +295,8 @@
   },
   {
     "id": "kb-krotoschin-13",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "convenio",
@@ -319,8 +319,8 @@
   },
   {
     "id": "kb-krotoschin-14",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "fábrica",
@@ -342,8 +342,8 @@
   },
   {
     "id": "kb-krotoschin-15",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -363,8 +363,8 @@
   },
   {
     "id": "kb-krotoschin-16",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "derecho",
@@ -385,8 +385,8 @@
   },
   {
     "id": "kb-krotoschin-17",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -407,8 +407,8 @@
   },
   {
     "id": "kb-krotoschin-18",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "derecho",
@@ -432,8 +432,8 @@
   },
   {
     "id": "kb-krotoschin-19",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "obrero",
@@ -458,8 +458,8 @@
   },
   {
     "id": "kb-krotoschin-20",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -482,8 +482,8 @@
   },
   {
     "id": "kb-krotoschin-21",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "convenio",
@@ -507,8 +507,8 @@
   },
   {
     "id": "kb-krotoschin-22",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -528,8 +528,8 @@
   },
   {
     "id": "kb-krotoschin-23",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "convenio",
@@ -555,8 +555,8 @@
   },
   {
     "id": "kb-krotoschin-24",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "capital",
@@ -578,8 +578,8 @@
   },
   {
     "id": "kb-krotoschin-25",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "convenio",
@@ -604,8 +604,8 @@
   },
   {
     "id": "kb-krotoschin-26",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -625,8 +625,8 @@
   },
   {
     "id": "kb-krotoschin-27",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -646,8 +646,8 @@
   },
   {
     "id": "kb-krotoschin-28",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -670,8 +670,8 @@
   },
   {
     "id": "kb-krotoschin-29",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -692,8 +692,8 @@
   },
   {
     "id": "kb-krotoschin-30",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -717,8 +717,8 @@
   },
   {
     "id": "kb-krotoschin-31",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "obrero",
@@ -741,8 +741,8 @@
   },
   {
     "id": "kb-krotoschin-32",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "fábrica",
       "empresa",
@@ -765,8 +765,8 @@
   },
   {
     "id": "kb-krotoschin-33",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "fábrica",
@@ -792,8 +792,8 @@
   },
   {
     "id": "kb-krotoschin-34",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "obrero",
@@ -818,8 +818,8 @@
   },
   {
     "id": "kb-krotoschin-35",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "convenio",
@@ -842,8 +842,8 @@
   },
   {
     "id": "kb-krotoschin-36",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "empresa",
@@ -865,8 +865,8 @@
   },
   {
     "id": "kb-krotoschin-37",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -890,8 +890,8 @@
   },
   {
     "id": "kb-krotoschin-38",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "patronal",
@@ -913,8 +913,8 @@
   },
   {
     "id": "kb-krotoschin-39",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -935,8 +935,8 @@
   },
   {
     "id": "kb-krotoschin-40",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -956,8 +956,8 @@
   },
   {
     "id": "kb-krotoschin-41",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -978,8 +978,8 @@
   },
   {
     "id": "kb-krotoschin-42",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "trabajo",
@@ -1000,8 +1000,8 @@
   },
   {
     "id": "kb-krotoschin-43",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1024,8 +1024,8 @@
   },
   {
     "id": "kb-krotoschin-44",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1047,8 +1047,8 @@
   },
   {
     "id": "kb-krotoschin-45",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1070,8 +1070,8 @@
   },
   {
     "id": "kb-krotoschin-46",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1092,8 +1092,8 @@
   },
   {
     "id": "kb-krotoschin-47",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "empresa",
@@ -1115,8 +1115,8 @@
   },
   {
     "id": "kb-krotoschin-48",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -1140,8 +1140,8 @@
   },
   {
     "id": "kb-krotoschin-49",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1163,8 +1163,8 @@
   },
   {
     "id": "kb-krotoschin-50",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1185,8 +1185,8 @@
   },
   {
     "id": "kb-krotoschin-51",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -1208,8 +1208,8 @@
   },
   {
     "id": "kb-krotoschin-52",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "empresa",
@@ -1233,8 +1233,8 @@
   },
   {
     "id": "kb-krotoschin-53",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1256,8 +1256,8 @@
   },
   {
     "id": "kb-krotoschin-54",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1279,8 +1279,8 @@
   },
   {
     "id": "kb-krotoschin-55",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1302,8 +1302,8 @@
   },
   {
     "id": "kb-krotoschin-56",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -1328,8 +1328,8 @@
   },
   {
     "id": "kb-krotoschin-57",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "trabajo",
@@ -1350,8 +1350,8 @@
   },
   {
     "id": "kb-krotoschin-58",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1372,8 +1372,8 @@
   },
   {
     "id": "kb-krotoschin-59",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1394,8 +1394,8 @@
   },
   {
     "id": "kb-krotoschin-60",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "derecho",
@@ -1419,8 +1419,8 @@
   },
   {
     "id": "kb-krotoschin-61",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1441,8 +1441,8 @@
   },
   {
     "id": "kb-krotoschin-62",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -1465,8 +1465,8 @@
   },
   {
     "id": "kb-krotoschin-63",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1488,8 +1488,8 @@
   },
   {
     "id": "kb-krotoschin-64",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "derecho",
@@ -1511,8 +1511,8 @@
   },
   {
     "id": "kb-krotoschin-65",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -1537,8 +1537,8 @@
   },
   {
     "id": "kb-krotoschin-66",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "trabajo"
@@ -1558,8 +1558,8 @@
   },
   {
     "id": "kb-krotoschin-67",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1581,8 +1581,8 @@
   },
   {
     "id": "kb-krotoschin-68",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "patronal",
       "derecho",
@@ -1603,8 +1603,8 @@
   },
   {
     "id": "kb-krotoschin-69",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "trabajo"
@@ -1624,8 +1624,8 @@
   },
   {
     "id": "kb-krotoschin-70",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "derecho",
@@ -1648,8 +1648,8 @@
   },
   {
     "id": "kb-krotoschin-71",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1670,8 +1670,8 @@
   },
   {
     "id": "kb-krotoschin-72",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "patronal",
       "derecho",
@@ -1693,8 +1693,8 @@
   },
   {
     "id": "kb-krotoschin-73",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "Santa Fe",
       "empresa",
@@ -1718,8 +1718,8 @@
   },
   {
     "id": "kb-krotoschin-74",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "derecho",
@@ -1742,8 +1742,8 @@
   },
   {
     "id": "kb-krotoschin-75",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "empresa",
@@ -1765,8 +1765,8 @@
   },
   {
     "id": "kb-krotoschin-76",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "empresa",
@@ -1789,8 +1789,8 @@
   },
   {
     "id": "kb-krotoschin-77",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -1813,8 +1813,8 @@
   },
   {
     "id": "kb-krotoschin-78",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1835,8 +1835,8 @@
   },
   {
     "id": "kb-krotoschin-79",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1858,8 +1858,8 @@
   },
   {
     "id": "kb-krotoschin-80",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "empresa",
@@ -1881,8 +1881,8 @@
   },
   {
     "id": "kb-krotoschin-81",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "derecho",
@@ -1903,8 +1903,8 @@
   },
   {
     "id": "kb-krotoschin-82",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1926,8 +1926,8 @@
   },
   {
     "id": "kb-krotoschin-83",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1948,8 +1948,8 @@
   },
   {
     "id": "kb-krotoschin-84",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -1969,8 +1969,8 @@
   },
   {
     "id": "kb-krotoschin-85",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1992,8 +1992,8 @@
   },
   {
     "id": "kb-krotoschin-86",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -2013,8 +2013,8 @@
   },
   {
     "id": "kb-krotoschin-87",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -2037,8 +2037,8 @@
   },
   {
     "id": "kb-krotoschin-88",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -2059,8 +2059,8 @@
   },
   {
     "id": "kb-krotoschin-89",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -2083,8 +2083,8 @@
   },
   {
     "id": "kb-krotoschin-90",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -2105,8 +2105,8 @@
   },
   {
     "id": "kb-krotoschin-91",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -2128,8 +2128,8 @@
   },
   {
     "id": "kb-krotoschin-92",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -2151,8 +2151,8 @@
   },
   {
     "id": "kb-krotoschin-93",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -2174,8 +2174,8 @@
   },
   {
     "id": "kb-krotoschin-94",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "convenio",
@@ -2199,8 +2199,8 @@
   },
   {
     "id": "kb-krotoschin-95",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -2223,8 +2223,8 @@
   },
   {
     "id": "kb-krotoschin-96",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -2248,8 +2248,8 @@
   },
   {
     "id": "kb-krotoschin-97",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -2270,8 +2270,8 @@
   },
   {
     "id": "kb-krotoschin-98",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "empresa",
@@ -2294,8 +2294,8 @@
   },
   {
     "id": "kb-krotoschin-99",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -2316,8 +2316,8 @@
   },
   {
     "id": "kb-krotoschin-100",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -2338,8 +2338,8 @@
   },
   {
     "id": "kb-krotoschin-101",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -2360,8 +2360,8 @@
   },
   {
     "id": "kb-krotoschin-102",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "empresa",
@@ -2383,8 +2383,8 @@
   },
   {
     "id": "kb-krotoschin-103",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -2404,8 +2404,8 @@
   },
   {
     "id": "kb-krotoschin-104",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "derecho",
@@ -2427,8 +2427,8 @@
   },
   {
     "id": "kb-krotoschin-105",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -2450,8 +2450,8 @@
   },
   {
     "id": "kb-krotoschin-106",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "derecho",
@@ -2473,8 +2473,8 @@
   },
   {
     "id": "kb-krotoschin-107",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "derecho",
@@ -2496,8 +2496,8 @@
   },
   {
     "id": "kb-krotoschin-108",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "derecho",
@@ -2518,8 +2518,8 @@
   },
   {
     "id": "kb-krotoschin-109",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -2541,8 +2541,8 @@
   },
   {
     "id": "kb-krotoschin-110",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -2567,8 +2567,8 @@
   },
   {
     "id": "kb-krotoschin-111",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -2590,8 +2590,8 @@
   },
   {
     "id": "kb-krotoschin-112",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -2614,8 +2614,8 @@
   },
   {
     "id": "kb-krotoschin-113",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "convenio",
@@ -2639,8 +2639,8 @@
   },
   {
     "id": "kb-krotoschin-114",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "derecho",
@@ -2663,8 +2663,8 @@
   },
   {
     "id": "kb-krotoschin-115",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -2688,8 +2688,8 @@
   },
   {
     "id": "kb-krotoschin-116",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "convenio",
@@ -2713,8 +2713,8 @@
   },
   {
     "id": "kb-krotoschin-117",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -2737,8 +2737,8 @@
   },
   {
     "id": "kb-krotoschin-118",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -2764,8 +2764,8 @@
   },
   {
     "id": "kb-krotoschin-119",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "obrero",
@@ -2790,8 +2790,8 @@
   },
   {
     "id": "kb-krotoschin-120",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -2813,8 +2813,8 @@
   },
   {
     "id": "kb-krotoschin-121",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "derecho",
@@ -2836,8 +2836,8 @@
   },
   {
     "id": "kb-krotoschin-122",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "obrero",
@@ -2861,8 +2861,8 @@
   },
   {
     "id": "kb-krotoschin-123",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "comunismo",
@@ -2886,8 +2886,8 @@
   },
   {
     "id": "kb-krotoschin-124",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "obrero",
@@ -2911,8 +2911,8 @@
   },
   {
     "id": "kb-krotoschin-125",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -2933,8 +2933,8 @@
   },
   {
     "id": "kb-krotoschin-126",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "obrero",
@@ -2961,8 +2961,8 @@
   },
   {
     "id": "kb-krotoschin-127",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "derecho",
@@ -2986,8 +2986,8 @@
   },
   {
     "id": "kb-krotoschin-128",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -3009,8 +3009,8 @@
   },
   {
     "id": "kb-krotoschin-129",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -3032,8 +3032,8 @@
   },
   {
     "id": "kb-krotoschin-130",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -3059,8 +3059,8 @@
   },
   {
     "id": "kb-krotoschin-131",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "convenio",
@@ -3085,8 +3085,8 @@
   },
   {
     "id": "kb-krotoschin-132",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "derecho",
@@ -3108,8 +3108,8 @@
   },
   {
     "id": "kb-krotoschin-133",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -3133,8 +3133,8 @@
   },
   {
     "id": "kb-krotoschin-134",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "trabajo",
@@ -3156,8 +3156,8 @@
   },
   {
     "id": "kb-krotoschin-135",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -3181,8 +3181,8 @@
   },
   {
     "id": "kb-krotoschin-136",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -3205,8 +3205,8 @@
   },
   {
     "id": "kb-krotoschin-137",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "convenio",
@@ -3230,8 +3230,8 @@
   },
   {
     "id": "kb-krotoschin-138",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -3255,8 +3255,8 @@
   },
   {
     "id": "kb-krotoschin-139",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -3279,8 +3279,8 @@
   },
   {
     "id": "kb-krotoschin-140",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -3302,8 +3302,8 @@
   },
   {
     "id": "kb-krotoschin-141",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "paritaria",
@@ -3328,8 +3328,8 @@
   },
   {
     "id": "kb-krotoschin-142",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "convenio",
@@ -3352,8 +3352,8 @@
   },
   {
     "id": "kb-krotoschin-143",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "convenio",
@@ -3375,8 +3375,8 @@
   },
   {
     "id": "kb-krotoschin-144",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "convenio",
@@ -3400,8 +3400,8 @@
   },
   {
     "id": "kb-krotoschin-145",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "paritaria",
@@ -3426,8 +3426,8 @@
   },
   {
     "id": "kb-krotoschin-146",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "empresa",
@@ -3453,8 +3453,8 @@
   },
   {
     "id": "kb-krotoschin-147",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "convenio",
@@ -3480,8 +3480,8 @@
   },
   {
     "id": "kb-krotoschin-148",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -3503,8 +3503,8 @@
   },
   {
     "id": "kb-krotoschin-149",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -3528,8 +3528,8 @@
   },
   {
     "id": "kb-krotoschin-150",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "Santa Fe",
       "obrero",
@@ -3552,8 +3552,8 @@
   },
   {
     "id": "kb-krotoschin-151",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -3575,8 +3575,8 @@
   },
   {
     "id": "kb-krotoschin-152",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "convenio",
@@ -3601,8 +3601,8 @@
   },
   {
     "id": "kb-krotoschin-153",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -3625,8 +3625,8 @@
   },
   {
     "id": "kb-krotoschin-154",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -3650,8 +3650,8 @@
   },
   {
     "id": "kb-krotoschin-155",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -3675,8 +3675,8 @@
   },
   {
     "id": "kb-krotoschin-156",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "Santa Fe",
@@ -3700,8 +3700,8 @@
   },
   {
     "id": "kb-krotoschin-157",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "empresa",
@@ -3725,8 +3725,8 @@
   },
   {
     "id": "kb-krotoschin-158",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -3751,8 +3751,8 @@
   },
   {
     "id": "kb-krotoschin-159",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -3775,8 +3775,8 @@
   },
   {
     "id": "kb-krotoschin-160",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -3801,8 +3801,8 @@
   },
   {
     "id": "kb-krotoschin-161",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -3825,8 +3825,8 @@
   },
   {
     "id": "kb-krotoschin-162",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "patronal",
@@ -3850,8 +3850,8 @@
   },
   {
     "id": "kb-krotoschin-163",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "empresa",
@@ -3875,8 +3875,8 @@
   },
   {
     "id": "kb-krotoschin-164",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "obrero",
@@ -3900,8 +3900,8 @@
   },
   {
     "id": "kb-krotoschin-165",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "convenio",
@@ -3926,8 +3926,8 @@
   },
   {
     "id": "kb-krotoschin-166",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "empresa",
@@ -3950,8 +3950,8 @@
   },
   {
     "id": "kb-krotoschin-167",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "paritaria",
@@ -3977,8 +3977,8 @@
   },
   {
     "id": "kb-krotoschin-168",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "patronal",
@@ -4002,8 +4002,8 @@
   },
   {
     "id": "kb-krotoschin-169",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "derecho",
@@ -4025,8 +4025,8 @@
   },
   {
     "id": "kb-krotoschin-170",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -4050,8 +4050,8 @@
   },
   {
     "id": "kb-krotoschin-171",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "patronal",
@@ -4074,8 +4074,8 @@
   },
   {
     "id": "kb-krotoschin-172",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "empresa",
@@ -4097,8 +4097,8 @@
   },
   {
     "id": "kb-krotoschin-173",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "Santa Fe",
@@ -4120,8 +4120,8 @@
   },
   {
     "id": "kb-krotoschin-174",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "convenio",
@@ -4147,8 +4147,8 @@
   },
   {
     "id": "kb-krotoschin-175",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "paritaria",
@@ -4171,8 +4171,8 @@
   },
   {
     "id": "kb-krotoschin-176",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -4196,8 +4196,8 @@
   },
   {
     "id": "kb-krotoschin-177",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "derecho",
@@ -4221,8 +4221,8 @@
   },
   {
     "id": "kb-krotoschin-178",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -4243,8 +4243,8 @@
   },
   {
     "id": "kb-krotoschin-179",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -4266,8 +4266,8 @@
   },
   {
     "id": "kb-krotoschin-180",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "derecho",
@@ -4290,8 +4290,8 @@
   },
   {
     "id": "kb-krotoschin-181",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -4313,8 +4313,8 @@
   },
   {
     "id": "kb-krotoschin-182",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo"
     ],
@@ -4333,8 +4333,8 @@
   },
   {
     "id": "kb-krotoschin-183",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "policía",
@@ -4358,8 +4358,8 @@
   },
   {
     "id": "kb-krotoschin-184",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "policía",
@@ -4383,8 +4383,8 @@
   },
   {
     "id": "kb-krotoschin-185",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -4408,8 +4408,8 @@
   },
   {
     "id": "kb-krotoschin-186",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -4430,8 +4430,8 @@
   },
   {
     "id": "kb-krotoschin-187",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -4454,8 +4454,8 @@
   },
   {
     "id": "kb-krotoschin-188",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -4476,8 +4476,8 @@
   },
   {
     "id": "kb-krotoschin-189",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "patronal",
@@ -4500,8 +4500,8 @@
   },
   {
     "id": "kb-krotoschin-190",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -4523,8 +4523,8 @@
   },
   {
     "id": "kb-krotoschin-191",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "derecho",
@@ -4546,8 +4546,8 @@
   },
   {
     "id": "kb-krotoschin-192",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo"
     ],
@@ -4566,8 +4566,8 @@
   },
   {
     "id": "kb-krotoschin-193",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -4590,8 +4590,8 @@
   },
   {
     "id": "kb-krotoschin-194",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "empresa",
@@ -4613,8 +4613,8 @@
   },
   {
     "id": "kb-krotoschin-195",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -4635,8 +4635,8 @@
   },
   {
     "id": "kb-krotoschin-196",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "convenio",
@@ -4659,8 +4659,8 @@
   },
   {
     "id": "kb-krotoschin-197",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -4681,8 +4681,8 @@
   },
   {
     "id": "kb-krotoschin-198",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -4703,8 +4703,8 @@
   },
   {
     "id": "kb-krotoschin-199",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "derecho",
@@ -4727,8 +4727,8 @@
   },
   {
     "id": "kb-krotoschin-200",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "empresa",
@@ -4753,8 +4753,8 @@
   },
   {
     "id": "kb-krotoschin-201",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -4775,8 +4775,8 @@
   },
   {
     "id": "kb-krotoschin-202",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "capital",
       "derecho",
@@ -4799,8 +4799,8 @@
   },
   {
     "id": "kb-krotoschin-203",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "capital",
@@ -4824,8 +4824,8 @@
   },
   {
     "id": "kb-krotoschin-204",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "derecho",
@@ -4846,8 +4846,8 @@
   },
   {
     "id": "kb-krotoschin-205",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "juicio"
     ],
@@ -4866,8 +4866,8 @@
   },
   {
     "id": "kb-krotoschin-206",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -4888,8 +4888,8 @@
   },
   {
     "id": "kb-krotoschin-207",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -4912,8 +4912,8 @@
   },
   {
     "id": "kb-krotoschin-208",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "empresa",

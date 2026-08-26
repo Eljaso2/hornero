@@ -10,12 +10,12 @@ import library
 
 # Fixtures sectoriales de EJEMPLO (claramente marcados — NO son el texto legal real)
 SAMPLES = [
-    {"id": "CCT_420_05-art-ejemplo", "tenant": "aceiteros", "capa": "sectorial",
+    {"id": "CCT_420_05-art-ejemplo", "tenant": "aceiteros", "capa": "fuentes",
      "tipo": "cct", "norma": "CCT 420/05 aceiteros [EJEMPLO]", "articulo": "X",
      "vigencia": "vigente", "titulo": "Jornada y recargos [ejemplo]",
      "texto": "[EJEMPLO — reemplazar por el CCT real] Recargo del 100% para "
               "sábados después de las 13, domingos y feriados.", "fuente": "EJEMPLO"},
-    {"id": "CCT_130_75-art-ejemplo", "tenant": "comercio", "capa": "sectorial",
+    {"id": "CCT_130_75-art-ejemplo", "tenant": "comercio", "capa": "fuentes",
      "tipo": "cct", "norma": "CCT 130/75 comercio [EJEMPLO]", "articulo": "X",
      "vigencia": "vigente", "titulo": "Escala salarial [ejemplo]",
      "texto": "[EJEMPLO — reemplazar por el CCT real] Categorías y escalas del "

@@ -1,7 +1,7 @@
 """Knowledge Base sindical — datos estructurados para RAG.
 
 Chunked del string KNOWLEDGE_BASE original, con metadata:
-- tipo: documento | academico | multimedia
+- tipo: articulo | documento | ley | cct | prensa | organizacion | entrevista | efemeride | audiovisual
 - category: tema principal
 - tags: etiquetas para búsqueda keyword
 - sources: fuentes citables
@@ -22,9 +22,9 @@ import os
 
 # ===== Taxonomía =====
 
-KB_TIPOS = ["academico", "prensa", "noticias", "documentos", "audiovisual"]
+KB_TIPOS = ["articulo", "documento", "ley", "cct", "prensa", "organizacion", "entrevista", "efemeride", "audiovisual"]
 KB_CATEGORIES = [
-    "academico", "prensa", "noticias", "documentos", "audiovisual",
+    "investigaciones", "fuentes", "actualidad",
 ]
 
 # ===== Chunks estructurados =====
@@ -35,7 +35,7 @@ KB_CHUNKS = [
     {
         "id": "kb-org-federacion",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "aceiteros",
         "tags": ["federacion", "aceitera", "FOEIAP", "F.T.C.I.O.D", "paritaria", "huelga", "democracia sindical", "formacion", "salud laboral", "tercerizacion", "precarizacion", "neoliberalismo", "UOM", "ATE", "URGARA", "organizacion"],
         "title": "Federación Aceitera — F.T.C.I.O.D y A.R.A.",
@@ -50,7 +50,7 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-org-yofra",
         "tipo": "documento",
-        "category": "academico",
+        "category": "investigaciones",
         "tenant": "aceiteros",
         "tags": ["yofra", "Daniel Yofra", "secretario general", "paritaria", "huelga", "FreSU", "organizacion", "convenio", "referente sindical", "referentes"],
         "title": "Daniel Yofra — Secretario General F.T.C.I.O.D y A.R.A.",
@@ -65,8 +65,8 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
 
     {
         "id": "kb-org-cremonte",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["Cremonte", "investigador", "labour", "derecho laboral", "distribucion del ingreso", "salario minimo", "reforma laboral", "SMVM", "ALAL", "OIT", "LCT", "principio protector", "ultraactividad", "referentes"],
         "title": "Cremonte — Investigador labour / ALAL / CIFRA",
@@ -88,7 +88,7 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-cct-420",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "aceiteros",
         "tags": ["CCT 420/05", "aceitero", "convenio", "Resolucion ST 343/2005", "categorias obreras", "nocturno", "extras", "antiguedad", "presentismo", "Dia del Aceitero", "enfermeria", "Art. 42", "contribucion solidaria", "basico"],
         "title": "CCT 420/05 — Aceiteros, Resolución ST 343/2005",
@@ -114,7 +114,7 @@ Nota: FOEIAP es una denominación anterior/histórica. La sigla oficial actual e
     {
         "id": "kb-paritaria-2026",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "aceiteros",
         "tags": ["paritaria", "aceitera", "2026", "SOMU", "15%", "8%", "Caputo", "huelga", "basico", "SMVM", "convenio", "Yofra", "Vicentin", "concurso preventivo"],
         "title": "Paritaria aceitera 2026 — F.T.C.I.O.D y A.R.A./SOMU",
@@ -140,8 +140,8 @@ NOTA — Paritaria ANTERIOR (2025):
     # LEGACY: kb-smvm-basico migrated to biblioteca/rag/fuentes-primarias/organizacion-aceitera/
     {
         "id": "kb-smvm-basico",
-        "tipo": "academico",
-        "category": "documentos",
+        "tipo": "articulo",
+        "category": "fuentes",
         "tenant": "shared",
         "tags": ["SMVM", "salario minimo", "basico convenio", "$2.344.000", "$340.000", "canasta basica", "inflacion obrera", "distribucion del ingreso", "Cremonte", "CIFRA", "piso legal", "violacion", "smvm"],
         "title": "SMVM y básico convenio — Cremonte 2023 / CIFRA 2025",
@@ -165,7 +165,7 @@ NOTA — Paritaria ANTERIOR (2025):
     {
         "id": "kb-condiciones-2026",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "aceiteros",
         "tags": ["condiciones laborales", "Vicentin", "80%", "EPP", "guantes", "botas", "enfermeria clausurada", "Art. 42", "accidentes", "prensa", "envasadora", "ritmo", "Guaycuru", "temporales", "polvo algodon", "barbijos", "informe gremial"],
         "title": "Condiciones laborales aceiteras — Informe gremial junio 2026",
@@ -191,7 +191,7 @@ NOTA — Paritaria ANTERIOR (2025):
     {
         "id": "kb-discursos-yofra",
         "tipo": "multimedia",
-        "category": "academico",
+        "category": "investigaciones",
         "tenant": "aceiteros",
         "tags": ["yofra", "discursos", "organizacion", "paritaria", "huelga", "guerra", "cretino", "Quebracho", "FreSU", "asamblea", "referentes"],
         "title": "Discursos de Daniel Yofra — Sec. Gral. F.T.C.I.O.D y A.R.A.",
@@ -230,8 +230,8 @@ NOTA — Paritaria ANTERIOR (2025):
     # LEGACY: migrated to biblioteca/rag/fuentes-primarias/entrevistas-discursos-opinion/
     {
         "id": "kb-discursos-cremonte",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["Cremonte", "discursos", "reforma laboral", "principio protector", "LCT", "ultraactividad", "banco de horas", "responsabilidad internacional", "OIT", "distribucion del ingreso", "convenio", "ALAL", "bargaining", "reforma-laboral"],
         "title": "Discursos de Cremonte — Investigador labour / ALAL / CIFRA",
@@ -283,8 +283,8 @@ NOTA — Paritaria ANTERIOR (2025):
     # LEGACY: all kb-jasinski-* migrated to biblioteca/rag/investigaciones/jasinski-encanto-del-tanino/
     {
         "id": "kb-jasinski-forestal-fenomeno",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["La Forestal", "tanino", "quebracho", "empresa", "monopolio", "enclave", "Chaco santafesino", "Villa Ana", "Villa Guillermina", "Violencia empresarial", "lockout", "historia obrera", "masacre 1921", "Jasinski", "benefactora", "autoritarismo", "violencia-empresarial"],
         "title": "La Forestal: el fenómeno — Jasinski, El encanto del tanino (2023)",
@@ -308,8 +308,8 @@ Jasinski reinterpretó el fenómeno: las luchas sociales (huelgas, rebeliones, s
 
     {
         "id": "kb-jasinski-lockout",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["La Forestal", "lockout", "cierre fábricas", "paralización", "Tartagal", "Villa Ana", "Villa Guillermina", "La Gallareta", "migración obrera", "violencia empresarial", "presión despótica", "Jasinski", "Chaco santafesino", "tanino", "1920s", "violencia-empresarial"],
         "title": "La mordaza del lockout — Jasinski, El encanto del tanino, Cap. 6 (2023)",
@@ -332,8 +332,8 @@ El Departamento Provincial del Trabajo solicitaba informes sobre la posibilidad 
 
     {
         "id": "kb-jasinski-destruir-someter",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["La Forestal", "violencia empresarial", "Destruir someter depurar", "masacre", "1921", "represión", "Villa Ana", "Villa Guillermina", "pueblos forestales", "Jasinski", "expulsión", "depuración", "listas negras", "violencia-empresarial"],
         "title": "Destruir, someter, depurar — Jasinski, El encanto del tanino, Cap. 6 (2023)",
@@ -358,8 +358,8 @@ La "Forestal Benefactora" — la versión hegemónica — se construyó sobre es
 
     {
         "id": "kb-jasinski-prologo-inigo-carrera",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["La Forestal", "Jasinski", "Iñigo Carrera", "coacción", "coacción extraeconómica", "coacción económica", "violencia empresarial", "proletarización", "valor fuerza de trabajo", "lockout", "prólogo", "El encanto del tanino", "violencia-empresarial"],
         "title": "Prólogo de Iñigo Carrera — Jasinski, El encanto del tanino (2023)",
@@ -387,8 +387,8 @@ Jasinski retoma esta distinción en el Cap. 6 'La violencia empresarial' (pp. 15
 
     {
         "id": "kb-jasinski-formas-violencia",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["La Forestal", "Jasinski", "violencia empresarial", "cinco violencias", "cuatro violencias", "formas de violencia", "violencia del trabajo", "violencia represiva", "normalización de la violencia", "violencia silente", "Galtung", "coacción extraeconómica", "coacción económica", "Iñigo Carrera", "lockout", "listas negras", "espionaje laboral", "delito económico-político", "accidentes laborales", "enfermedades laborales", "El encanto del tanino", "violencia-empresarial", "Cap. 1"],
         "title": "Las formas de la violencia empresarial — Jasinski, El encanto del tanino, Cap. 1 (2023)",
@@ -420,8 +420,8 @@ Iñigo Carrera, en el Prólogo (pp. 15-22), complementa con la distinción entre
 
     {
         "id": "kb-jasinski-sindicalismo",
-        "tipo": "academico",
-        "category": "documentos",
+        "tipo": "articulo",
+        "category": "fuentes",
         "tenant": "shared",
         "tags": ["La Forestal", "sindicalismo", "anarquismo", "comunismo", "huelga", "1918", "1921", "Teófilo Lafuente", "Villa Ana", "Villa Guillermina", "La Gallareta", "organización obrera", "Jasinski", "centro social", "masacre", "rebelión", "organizacion"],
         "title": "El sindicalismo metió la cola — Jasinski, El encanto del tanino, Cap. 7 (2023)",
@@ -442,8 +442,8 @@ Teófilo Lafuente fue el primer secretario general del tanino. Desde Villa Guill
 
     {
         "id": "kb-jasinski-referentes-forestal",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["La Forestal", "Teófilo Lafuente", "José Bernabé Vargas", "Rogelio Lamazón", "secretario general", "sindicalismo", "tanino", "Villa Guillermina", "Villa Ana", "comunismo", "anarquismo", "Jasinski", "1918", "1921", "1930s", "obrero comunista", "huelga", "referentes"],
         "title": "Referentes obreros de La Forestal — Jasinski, El encanto del tanino (2023)",
@@ -470,7 +470,7 @@ Rogelio Lamazón — Dirigente yrigoyenista. La Forestal le inculpaba tener part
     {
         "id": "kb-sipreba-org",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["SIPREBA", "Sindicato de Prensa", "UPC", "Unión de Prensa de Buenos Aires", "FEP", "Federación de Periodistas", "prensa", "periodista", "paritaria", "organización", "ADEPA", "IANA", "Agustín Lecchi", "secretario general", "derecho a la información"],
         "title": "SIPREBA — Sindicato de Prensa de Buenos Aires",
@@ -511,7 +511,7 @@ Caja de Herramientas: serie de 7 videos sobre derechos laborales (Trabajo, Organ
     {
         "id": "kb-sipreba-cct-301",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["CCT 301/75", "prensa escrita y oral", "convenio colectivo", "jornada 6 horas", "36 horas semanales", "categorías periodista", "cronista", "corrector", "diagramador", "editor", "fotógrafo", "salario profesional", "estabilidad", "licencias", "horas extra", "nocturno", "ADEPA"],
         "title": "CCT 301/75 — Prensa Escrita y Oral",
@@ -541,7 +541,7 @@ Cámara patronal: ADEPA (Asociación de Entidades Periodísticas Argentinas).
     {
         "id": "kb-sipreba-cct-124",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["CCT 124/75", "prensa televisada", "convenio colectivo", "televisión", "noticiero", "cámaras", "cronista TV", "productor", "editor TV", "movilero", "categorías TV", "horarios", "turnos"],
         "title": "CCT 124/75 — Prensa Televisada",
@@ -571,7 +571,7 @@ El CCT 124/75 ha sido complementado por múltiples actas paritarias y resolucion
     {
         "id": "kb-sipreba-estatuto",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["Ley 12.908", "estatuto del periodista", "periodista profesional", "derechos del periodista", "jornada 6 horas", "salario mínimo profesional", "estabilidad", "libertad de prensa", "derecho a la información", "registro profesional", "colegiatura"],
         "title": "Ley 12.908 — Estatuto del Periodista Profesional",
@@ -602,7 +602,7 @@ El Estatuto fue pionero en América Latina y sigue vigente como marco protector 
     {
         "id": "kb-sipreba-categorias",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["categorías", "escalafón", "cronista", "corrector", "editor", "fotógrafo", "diagramador", "redactor", "reportero gráfico", "jefe de redacción", "secretario de redacción", "director", "prensa escrita", "prensa televisada"],
         "title": "Categorías profesionales del periodismo — CCT 301/75 y 124/75",
@@ -643,7 +643,7 @@ CCT 124/75 — Prensa Televisada:
     {
         "id": "kb-sipreba-jornada",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["jornada", "6 horas", "36 horas", "horas extra", "trabajo nocturno", "descanso", "séptimo día", "guardia", "disponibilidad", "turnos", "estatuto del periodista"],
         "title": "Jornada del periodista — 6 horas / 36 horas semanales",
@@ -675,7 +675,7 @@ GUARDIAS Y DISPONIBILIDAD: En televisión y radio, existen regímenes de guardia
     {
         "id": "kb-sipreba-estabilidad",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["estabilidad", "despido", "indemnización agravada", "período de prueba", "preaviso", "cláusula de conciencia", "libertad de prensa", "Ley 12.908", "CCT 301/75", "periodista profesional"],
         "title": "Estabilidad del periodista profesional — Indemnización agravada",
@@ -702,7 +702,7 @@ Período de prueba: Durante el período de prueba, la protección es menor — p
     {
         "id": "kb-sipreba-licencias",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["licencias", "vacaciones", "enfermedad", "maternidad", "licencia por estudio", "20 días", "descanso", "CCT 301/75", "Ley 12.908"],
         "title": "Licencias del periodista — Vacaciones, enfermedad, maternidad, estudio",
@@ -729,7 +729,7 @@ ESTUDIO: Los CCTs prevén licencias por estudio para periodistas que cursen carr
     {
         "id": "kb-sipreba-camara",
         "tipo": "documento",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["ADEPA", "IANA", "cámara patronal", "prensa escrita", "agencias de noticias", "paritaria", "empleadores", "medios", "diarios", "revistas"],
         "title": "Cámaras patronales de la prensa — ADEPA e IANA",
@@ -758,7 +758,7 @@ La relación entre los sindicatos de prensa y las cámaras patronales es particu
     {
         "id": "kb-sipreba-caja-herramientas",
         "tipo": "multimedia",
-        "category": "documentos",
+        "category": "fuentes",
         "tenant": "prensa",
         "tags": ["caja de herramientas", "derechos laborales", "videos", "capacitación", "YouTube", "SiPreBATV", "herramientas legales", "formación", "trabajo", "organización", "salario", "licencias", "estatuto", "convenio", "plataformas"],
         "title": "Caja de Herramientas del SIPREBA — Videos sobre tus derechos",
@@ -789,8 +789,8 @@ Estos videos son una herramienta de formación gremial. Cuando un afiliado pregu
 
     {
         "id": "kb-efem-1-mayo",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["1° de Mayo", "Día Internacional de los Trabajadores", "Chicago", "ocho horas", "mártires de Chicago", "1886", "1889", "Segunda Internacional", "huelga", "anarquismo", "socialismo", "efemeride"],
         "title": "Efeméride: 1° de Mayo — Día Internacional de los Trabajadores",
@@ -811,8 +811,8 @@ Autor: Gustavo N. Contreras. Fuente: Historia Obrera — Efemérides.""",
 
     {
         "id": "kb-efem-cgta",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["CGT de los Argentinos", "Ongaro", "1968", "vandorismo", "anti-dictatorial", "anti-burocrática", "anti-imperialista", "Programa de Luchas", "Tosco", "Cordobazo", "efemeride"],
         "title": "Efeméride: La CGT de los Argentinos — 28 de marzo de 1968",
@@ -833,8 +833,8 @@ Autor: Pablo Ghigliani. Fuente: Historia Obrera — Efemérides. Recursos: afich
 
     {
         "id": "kb-efem-cordobazo",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["Cordobazo", "1969", "Onganía", "Tosco", "Torres", "Máximo Mena", "azos", "Córdoba", "huelga", "dictadura", "sábado inglés", "Luz y Fuerza", "SMATA", "efemeride"],
         "title": "Efeméride: El Cordobazo — 29 de mayo de 1969",
@@ -855,8 +855,8 @@ Autor: Laura Ortiz. Fuente: Historia Obrera — Efemérides. Bibliografía: Bren
 
     {
         "id": "kb-efem-viborazo",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["Viborazo", "1971", "Córdoba", "Uriburu", "Levingston", "SITRAC-SITRAM", "Fiat", "clasista", "Atilio López", "Tosco", "azos", "efemeride"],
         "title": "Efeméride: El Viborazo — 15 de marzo de 1971",
@@ -877,8 +877,8 @@ Autor: Rodolfo Laufer. Fuente: Historia Obrera — Efemérides. Bibliografía: B
 
     {
         "id": "kb-efem-tampierazo",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["Tampierazo", "1973", "San Francisco", "Córdoba", "Tampieri", "Liwacki", "CGT", "ocupación", "fábrica", "Cordobacito", "Sanfranciscazo", "efemeride"],
         "title": "Efeméride: El Tampierazo — 3 de julio de 1973",
@@ -899,8 +899,8 @@ Autor: Laura Ortiz. Fuente: Historia Obrera — Efemérides. Bibliografía: Góm
 
     {
         "id": "kb-efem-tosco-rucci",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["Tosco", "Rucci", "debate", "1973", "Canal 11", "Las dos campanas", "CGT de los Argentinos", "CGT Azopardo", "sindicalismo de liberación", "peronismo ortodoxo", "verticalismo", "efemeride"],
         "title": "Efeméride: El debate Tosco-Rucci — 13 de febrero de 1973",
@@ -921,8 +921,8 @@ Autor: Rodolfo Laufer. Fuente: Historia Obrera — Efemérides. Bibliografía: I
 
     {
         "id": "kb-efem-santiagueñazo",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["Santiagueñazo", "1993", "Santiago del Estero", "Menem", "Cavallo", "neoliberalismo", "ajuste", "Casa de Gobierno", "estallido social", "Cutral Có", "efemeride"],
         "title": "Efeméride: El Santiagueñazo — 16 de diciembre de 1993",
@@ -943,8 +943,8 @@ Autor: Gonzalo Pérez Álvarez. Fuente: Historia Obrera — Efemérides. Bibliog
 
     {
         "id": "kb-efem-argentinazo",
-        "tipo": "academico",
-        "category": "academico",
+        "tipo": "articulo",
+        "category": "investigaciones",
         "tenant": "shared",
         "tags": ["Argentinazo", "2001", "De la Rúa", "Cavallo", "corralito", "cacerolazo", "19 y 20", "piqueteros", "neoliberalismo", "que se vayan todos", "efemeride"],
         "title": "Efeméride: El Argentinazo — 19 de diciembre de 2001",
@@ -1163,11 +1163,9 @@ def get_documentos_catalog_text(tenant: str = "aceiteros") -> str:
 # ===== Categories metadata for UI =====
 
 KB_CATEGORY_META = {
-    "academico": {"label": "Académico", "icon": "📚", "desc": "Libros, artículos, papers, efemérides de Historia Obrera"},
-    "prensa": {"label": "Prensa gremial", "icon": "📰", "desc": "Prensa oficial de cada gremio: periódicos, comunicados, volantes, editoriales, notas de opinión sindicales"},
-    "noticias": {"label": "Noticias", "icon": "📋", "desc": "Noticias de actualidad y clipping: prensa comercial, agencias, medios de información"},
-    "documentos": {"label": "Documentos", "icon": "📄", "desc": "Convenios, paritarias, CCT, SMVM, condiciones, org sindical"},
-    "audiovisual": {"label": "Audiovisual", "icon": "🎬", "desc": "Podcasts, videos, docuficción, ilustraciones"},
+    "investigaciones": {"label": "Investigaciones", "icon": "📚", "desc": "Libros, artículos, papers, efemérides de Historia Obrera"},
+    "fuentes": {"label": "Fuentes", "icon": "📄", "desc": "Leyes, CCT, paritarias, prensa sindical, entrevistas, organización gremial"},
+    "actualidad": {"label": "Actualidad", "icon": "📋", "desc": "Noticias de actualidad y clipping: prensa comercial, agencias, medios de información"},
 }
 
 

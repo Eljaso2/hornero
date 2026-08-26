@@ -274,6 +274,20 @@ class HorneroApp extends HoComponent {
 
     // Set initial theme color
     this._updateThemeColor();
+
+    // ===== Warm resume / cold start detection =====
+    // Stamp sessionStorage on every visibility change → survives backgrounding, wiped on tab close
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        sessionStorage.setItem('hornero-last-active', Date.now().toString());
+      }
+    });
+    // Stamp on every chat message sent
+    this.addEventListener('chat-send', () => {
+      sessionStorage.setItem('hornero-last-active', Date.now().toString());
+    });
+    // Initial stamp
+    sessionStorage.setItem('hornero-last-active', Date.now().toString());
   }
 
   async _restoreSession() {
@@ -943,7 +957,7 @@ class HorneroApp extends HoComponent {
     } else if (this.screen === 'gremial') {
       const viewInfAttr = this._viewInformeId ? ' view-informe="' + this._viewInformeId + '"' : '';
       const editInfAttr = this._editInformeId ? ' edit-informe="' + this._editInformeId + '"' : '';
-      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'companero') + '" session-id="' + (this._initialSessionId || '') + '"' + viewInfAttr + editInfAttr + '></hornero-gremial>';
+      screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'companero') + '" session-id="' + (this._initialSessionId || '') + '" warm-resume="' + this._isWarmResume() + '"' + viewInfAttr + editInfAttr + '></hornero-gremial>';
     } else if (this.screen === 'historiador') {
       screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
@@ -1883,6 +1897,15 @@ class HorneroApp extends HoComponent {
     return !openScreens.includes(screen);
   }
 
+  // ===== Warm resume / cold start detection =====
+  // sessionStorage is wiped on tab close → cold start; survives backgrounding → warm resume
+  _isWarmResume() {
+    const lastActive = sessionStorage.getItem('hornero-last-active');
+    if (!lastActive) return false; // No record → cold start
+    const elapsed = Date.now() - parseInt(lastActive, 10);
+    return elapsed < 12 * 60 * 60 * 1000; // < 12 hours → warm resume
+  }
+
   // ===== Navigation with History API =====
   _navigateTo(screen) {
     // Lazy login: if not logged in and screen requires login, show login popup instead
@@ -1902,11 +1925,14 @@ class HorneroApp extends HoComponent {
         };
       }
     }
-    // Restore active session for target screen if available
-    const activeSess = this._activeSessions[screen];
+    // Restore active session for target screen if available (warm resume only)
+    const activeSess = this._isWarmResume() ? this._activeSessions[screen] : null;
     if (activeSess && activeSess.sessionId) {
       this._initialSessionId = activeSess.sessionId;
       if (activeSess.persona) this._initialPersona = activeSess.persona;
+    } else {
+      this._initialSessionId = '';
+      delete this._activeSessions[screen]; // Cold start → clear stale session
     }
     // Reset caches when navigating away from data screens
     if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
@@ -1922,11 +1948,14 @@ class HorneroApp extends HoComponent {
           persona: currentComp._activePersona || currentComp.persona || '',
         };
       }
-      // Restore active session so the new component instance gets it
-      const sameScreenSess = this._activeSessions[screen];
+      // Restore active session so the new component instance gets it (warm resume only)
+      const sameScreenSess = this._isWarmResume() ? this._activeSessions[screen] : null;
       if (sameScreenSess && sameScreenSess.sessionId) {
         this._initialSessionId = sameScreenSess.sessionId;
         if (sameScreenSess.persona) this._initialPersona = sameScreenSess.persona;
+      } else {
+        this._initialSessionId = '';
+        delete this._activeSessions[screen];
       }
       this.set('screen', ''); // Clear first to force change
       this.set('screen', screen); // Re-render with fresh state

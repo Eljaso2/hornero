@@ -390,8 +390,8 @@ def main():
     parser = argparse.ArgumentParser(description="PDF → Markdown pipeline for Hornero RAG")
     parser.add_argument("pdf_path", help="Path to PDF file")
     parser.add_argument("--bib", default="", help="Bibliographic reference: 'Author, Title, Publisher Year'")
-    parser.add_argument("--category", default="academico",
-                        choices=["academico", "prensa", "noticias", "documentos", "audiovisual"])
+    parser.add_argument("--category", default="investigaciones",
+                        choices=["investigaciones", "fuentes", "actualidad"])
     parser.add_argument("--id-prefix", default="", help="Prefix for RAG chunk IDs")
     parser.add_argument("--mode", default="chapters", choices=["chapters", "registros"],
                         help="Detection mode: chapters or registros (Registro N.º structure)")

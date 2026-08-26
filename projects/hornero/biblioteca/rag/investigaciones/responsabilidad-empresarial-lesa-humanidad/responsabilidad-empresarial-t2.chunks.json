@@ -1,8 +1,8 @@
 [
   {
     "id": "kb-respemp-t2-001",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "presentación",
@@ -29,8 +29,8 @@
   },
   {
     "id": "kb-respemp-t2-002",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "presentación",
@@ -57,8 +57,8 @@
   },
   {
     "id": "kb-respemp-t2-003",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "presentación",
@@ -85,8 +85,8 @@
   },
   {
     "id": "kb-respemp-t2-004",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "presentación",
@@ -113,8 +113,8 @@
   },
   {
     "id": "kb-respemp-t2-005",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "presentación",
@@ -141,8 +141,8 @@
   },
   {
     "id": "kb-respemp-t2-006",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "presentación",
@@ -169,8 +169,8 @@
   },
   {
     "id": "kb-respemp-t2-007",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -202,8 +202,8 @@
   },
   {
     "id": "kb-respemp-t2-008",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -235,8 +235,8 @@
   },
   {
     "id": "kb-respemp-t2-009",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -268,8 +268,8 @@
   },
   {
     "id": "kb-respemp-t2-010",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -301,8 +301,8 @@
   },
   {
     "id": "kb-respemp-t2-011",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -334,8 +334,8 @@
   },
   {
     "id": "kb-respemp-t2-012",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -367,8 +367,8 @@
   },
   {
     "id": "kb-respemp-t2-013",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -401,8 +401,8 @@
   },
   {
     "id": "kb-respemp-t2-014",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -435,8 +435,8 @@
   },
   {
     "id": "kb-respemp-t2-015",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -469,8 +469,8 @@
   },
   {
     "id": "kb-respemp-t2-016",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -503,8 +503,8 @@
   },
   {
     "id": "kb-respemp-t2-017",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -537,8 +537,8 @@
   },
   {
     "id": "kb-respemp-t2-018",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -571,8 +571,8 @@
   },
   {
     "id": "kb-respemp-t2-019",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -605,8 +605,8 @@
   },
   {
     "id": "kb-respemp-t2-020",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -641,8 +641,8 @@
   },
   {
     "id": "kb-respemp-t2-021",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -677,8 +677,8 @@
   },
   {
     "id": "kb-respemp-t2-022",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -713,8 +713,8 @@
   },
   {
     "id": "kb-respemp-t2-023",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -749,8 +749,8 @@
   },
   {
     "id": "kb-respemp-t2-024",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -785,8 +785,8 @@
   },
   {
     "id": "kb-respemp-t2-025",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -821,8 +821,8 @@
   },
   {
     "id": "kb-respemp-t2-026",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -857,8 +857,8 @@
   },
   {
     "id": "kb-respemp-t2-027",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -893,8 +893,8 @@
   },
   {
     "id": "kb-respemp-t2-028",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -929,8 +929,8 @@
   },
   {
     "id": "kb-respemp-t2-029",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -965,8 +965,8 @@
   },
   {
     "id": "kb-respemp-t2-030",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1001,8 +1001,8 @@
   },
   {
     "id": "kb-respemp-t2-031",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1037,8 +1037,8 @@
   },
   {
     "id": "kb-respemp-t2-032",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1073,8 +1073,8 @@
   },
   {
     "id": "kb-respemp-t2-033",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1111,8 +1111,8 @@
   },
   {
     "id": "kb-respemp-t2-034",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1149,8 +1149,8 @@
   },
   {
     "id": "kb-respemp-t2-035",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1187,8 +1187,8 @@
   },
   {
     "id": "kb-respemp-t2-036",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1225,8 +1225,8 @@
   },
   {
     "id": "kb-respemp-t2-037",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1263,8 +1263,8 @@
   },
   {
     "id": "kb-respemp-t2-038",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1301,8 +1301,8 @@
   },
   {
     "id": "kb-respemp-t2-039",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1339,8 +1339,8 @@
   },
   {
     "id": "kb-respemp-t2-040",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1377,8 +1377,8 @@
   },
   {
     "id": "kb-respemp-t2-041",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1415,8 +1415,8 @@
   },
   {
     "id": "kb-respemp-t2-042",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1453,8 +1453,8 @@
   },
   {
     "id": "kb-respemp-t2-043",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1491,8 +1491,8 @@
   },
   {
     "id": "kb-respemp-t2-044",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1529,8 +1529,8 @@
   },
   {
     "id": "kb-respemp-t2-045",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1567,8 +1567,8 @@
   },
   {
     "id": "kb-respemp-t2-046",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1605,8 +1605,8 @@
   },
   {
     "id": "kb-respemp-t2-047",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1643,8 +1643,8 @@
   },
   {
     "id": "kb-respemp-t2-048",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1681,8 +1681,8 @@
   },
   {
     "id": "kb-respemp-t2-049",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1719,8 +1719,8 @@
   },
   {
     "id": "kb-respemp-t2-050",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1757,8 +1757,8 @@
   },
   {
     "id": "kb-respemp-t2-051",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1795,8 +1795,8 @@
   },
   {
     "id": "kb-respemp-t2-052",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1833,8 +1833,8 @@
   },
   {
     "id": "kb-respemp-t2-053",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1871,8 +1871,8 @@
   },
   {
     "id": "kb-respemp-t2-054",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1909,8 +1909,8 @@
   },
   {
     "id": "kb-respemp-t2-055",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1947,8 +1947,8 @@
   },
   {
     "id": "kb-respemp-t2-056",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -1985,8 +1985,8 @@
   },
   {
     "id": "kb-respemp-t2-057",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2020,8 +2020,8 @@
   },
   {
     "id": "kb-respemp-t2-058",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2055,8 +2055,8 @@
   },
   {
     "id": "kb-respemp-t2-059",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2090,8 +2090,8 @@
   },
   {
     "id": "kb-respemp-t2-060",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2125,8 +2125,8 @@
   },
   {
     "id": "kb-respemp-t2-061",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2160,8 +2160,8 @@
   },
   {
     "id": "kb-respemp-t2-062",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2195,8 +2195,8 @@
   },
   {
     "id": "kb-respemp-t2-063",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2230,8 +2230,8 @@
   },
   {
     "id": "kb-respemp-t2-064",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2265,8 +2265,8 @@
   },
   {
     "id": "kb-respemp-t2-065",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2300,8 +2300,8 @@
   },
   {
     "id": "kb-respemp-t2-066",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2335,8 +2335,8 @@
   },
   {
     "id": "kb-respemp-t2-067",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2370,8 +2370,8 @@
   },
   {
     "id": "kb-respemp-t2-068",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2405,8 +2405,8 @@
   },
   {
     "id": "kb-respemp-t2-069",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2440,8 +2440,8 @@
   },
   {
     "id": "kb-respemp-t2-070",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2475,8 +2475,8 @@
   },
   {
     "id": "kb-respemp-t2-071",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2510,8 +2510,8 @@
   },
   {
     "id": "kb-respemp-t2-072",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2545,8 +2545,8 @@
   },
   {
     "id": "kb-respemp-t2-073",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2580,8 +2580,8 @@
   },
   {
     "id": "kb-respemp-t2-074",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2615,8 +2615,8 @@
   },
   {
     "id": "kb-respemp-t2-075",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2650,8 +2650,8 @@
   },
   {
     "id": "kb-respemp-t2-076",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2685,8 +2685,8 @@
   },
   {
     "id": "kb-respemp-t2-077",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2720,8 +2720,8 @@
   },
   {
     "id": "kb-respemp-t2-078",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2755,8 +2755,8 @@
   },
   {
     "id": "kb-respemp-t2-079",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Astillero Río Santiago",
@@ -2790,8 +2790,8 @@
   },
   {
     "id": "kb-respemp-t2-080",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -2823,8 +2823,8 @@
   },
   {
     "id": "kb-respemp-t2-081",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -2856,8 +2856,8 @@
   },
   {
     "id": "kb-respemp-t2-082",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -2889,8 +2889,8 @@
   },
   {
     "id": "kb-respemp-t2-083",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -2922,8 +2922,8 @@
   },
   {
     "id": "kb-respemp-t2-084",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -2955,8 +2955,8 @@
   },
   {
     "id": "kb-respemp-t2-085",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -2988,8 +2988,8 @@
   },
   {
     "id": "kb-respemp-t2-086",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3021,8 +3021,8 @@
   },
   {
     "id": "kb-respemp-t2-087",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3054,8 +3054,8 @@
   },
   {
     "id": "kb-respemp-t2-088",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3087,8 +3087,8 @@
   },
   {
     "id": "kb-respemp-t2-089",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3120,8 +3120,8 @@
   },
   {
     "id": "kb-respemp-t2-090",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3153,8 +3153,8 @@
   },
   {
     "id": "kb-respemp-t2-091",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3186,8 +3186,8 @@
   },
   {
     "id": "kb-respemp-t2-092",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3219,8 +3219,8 @@
   },
   {
     "id": "kb-respemp-t2-093",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3252,8 +3252,8 @@
   },
   {
     "id": "kb-respemp-t2-094",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3285,8 +3285,8 @@
   },
   {
     "id": "kb-respemp-t2-095",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3318,8 +3318,8 @@
   },
   {
     "id": "kb-respemp-t2-096",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3351,8 +3351,8 @@
   },
   {
     "id": "kb-respemp-t2-097",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3384,8 +3384,8 @@
   },
   {
     "id": "kb-respemp-t2-098",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3417,8 +3417,8 @@
   },
   {
     "id": "kb-respemp-t2-099",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3450,8 +3450,8 @@
   },
   {
     "id": "kb-respemp-t2-100",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3483,8 +3483,8 @@
   },
   {
     "id": "kb-respemp-t2-101",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3516,8 +3516,8 @@
   },
   {
     "id": "kb-respemp-t2-102",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3549,8 +3549,8 @@
   },
   {
     "id": "kb-respemp-t2-103",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3582,8 +3582,8 @@
   },
   {
     "id": "kb-respemp-t2-104",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3615,8 +3615,8 @@
   },
   {
     "id": "kb-respemp-t2-105",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3648,8 +3648,8 @@
   },
   {
     "id": "kb-respemp-t2-106",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3681,8 +3681,8 @@
   },
   {
     "id": "kb-respemp-t2-107",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3714,8 +3714,8 @@
   },
   {
     "id": "kb-respemp-t2-108",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3747,8 +3747,8 @@
   },
   {
     "id": "kb-respemp-t2-109",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3780,8 +3780,8 @@
   },
   {
     "id": "kb-respemp-t2-110",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3813,8 +3813,8 @@
   },
   {
     "id": "kb-respemp-t2-111",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3846,8 +3846,8 @@
   },
   {
     "id": "kb-respemp-t2-112",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3879,8 +3879,8 @@
   },
   {
     "id": "kb-respemp-t2-113",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3912,8 +3912,8 @@
   },
   {
     "id": "kb-respemp-t2-114",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3945,8 +3945,8 @@
   },
   {
     "id": "kb-respemp-t2-115",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -3978,8 +3978,8 @@
   },
   {
     "id": "kb-respemp-t2-116",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4011,8 +4011,8 @@
   },
   {
     "id": "kb-respemp-t2-117",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4044,8 +4044,8 @@
   },
   {
     "id": "kb-respemp-t2-118",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4077,8 +4077,8 @@
   },
   {
     "id": "kb-respemp-t2-119",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4110,8 +4110,8 @@
   },
   {
     "id": "kb-respemp-t2-120",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4143,8 +4143,8 @@
   },
   {
     "id": "kb-respemp-t2-121",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4176,8 +4176,8 @@
   },
   {
     "id": "kb-respemp-t2-122",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4209,8 +4209,8 @@
   },
   {
     "id": "kb-respemp-t2-123",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4242,8 +4242,8 @@
   },
   {
     "id": "kb-respemp-t2-124",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4275,8 +4275,8 @@
   },
   {
     "id": "kb-respemp-t2-125",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4308,8 +4308,8 @@
   },
   {
     "id": "kb-respemp-t2-126",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4341,8 +4341,8 @@
   },
   {
     "id": "kb-respemp-t2-127",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4374,8 +4374,8 @@
   },
   {
     "id": "kb-respemp-t2-128",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4407,8 +4407,8 @@
   },
   {
     "id": "kb-respemp-t2-129",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4440,8 +4440,8 @@
   },
   {
     "id": "kb-respemp-t2-130",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4473,8 +4473,8 @@
   },
   {
     "id": "kb-respemp-t2-131",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4506,8 +4506,8 @@
   },
   {
     "id": "kb-respemp-t2-132",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4539,8 +4539,8 @@
   },
   {
     "id": "kb-respemp-t2-133",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4572,8 +4572,8 @@
   },
   {
     "id": "kb-respemp-t2-134",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4605,8 +4605,8 @@
   },
   {
     "id": "kb-respemp-t2-135",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4638,8 +4638,8 @@
   },
   {
     "id": "kb-respemp-t2-136",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4671,8 +4671,8 @@
   },
   {
     "id": "kb-respemp-t2-137",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4704,8 +4704,8 @@
   },
   {
     "id": "kb-respemp-t2-138",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4737,8 +4737,8 @@
   },
   {
     "id": "kb-respemp-t2-139",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4770,8 +4770,8 @@
   },
   {
     "id": "kb-respemp-t2-140",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4803,8 +4803,8 @@
   },
   {
     "id": "kb-respemp-t2-141",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4836,8 +4836,8 @@
   },
   {
     "id": "kb-respemp-t2-142",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4869,8 +4869,8 @@
   },
   {
     "id": "kb-respemp-t2-143",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4902,8 +4902,8 @@
   },
   {
     "id": "kb-respemp-t2-144",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4935,8 +4935,8 @@
   },
   {
     "id": "kb-respemp-t2-145",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -4968,8 +4968,8 @@
   },
   {
     "id": "kb-respemp-t2-146",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5001,8 +5001,8 @@
   },
   {
     "id": "kb-respemp-t2-147",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5034,8 +5034,8 @@
   },
   {
     "id": "kb-respemp-t2-148",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5067,8 +5067,8 @@
   },
   {
     "id": "kb-respemp-t2-149",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5100,8 +5100,8 @@
   },
   {
     "id": "kb-respemp-t2-150",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5133,8 +5133,8 @@
   },
   {
     "id": "kb-respemp-t2-151",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5166,8 +5166,8 @@
   },
   {
     "id": "kb-respemp-t2-152",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5199,8 +5199,8 @@
   },
   {
     "id": "kb-respemp-t2-153",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5232,8 +5232,8 @@
   },
   {
     "id": "kb-respemp-t2-154",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5265,8 +5265,8 @@
   },
   {
     "id": "kb-respemp-t2-155",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5298,8 +5298,8 @@
   },
   {
     "id": "kb-respemp-t2-156",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5331,8 +5331,8 @@
   },
   {
     "id": "kb-respemp-t2-157",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5364,8 +5364,8 @@
   },
   {
     "id": "kb-respemp-t2-158",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5397,8 +5397,8 @@
   },
   {
     "id": "kb-respemp-t2-159",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5430,8 +5430,8 @@
   },
   {
     "id": "kb-respemp-t2-160",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5463,8 +5463,8 @@
   },
   {
     "id": "kb-respemp-t2-161",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5496,8 +5496,8 @@
   },
   {
     "id": "kb-respemp-t2-162",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5529,8 +5529,8 @@
   },
   {
     "id": "kb-respemp-t2-163",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5562,8 +5562,8 @@
   },
   {
     "id": "kb-respemp-t2-164",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5595,8 +5595,8 @@
   },
   {
     "id": "kb-respemp-t2-165",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5628,8 +5628,8 @@
   },
   {
     "id": "kb-respemp-t2-166",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5661,8 +5661,8 @@
   },
   {
     "id": "kb-respemp-t2-167",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5694,8 +5694,8 @@
   },
   {
     "id": "kb-respemp-t2-168",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5727,8 +5727,8 @@
   },
   {
     "id": "kb-respemp-t2-169",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5760,8 +5760,8 @@
   },
   {
     "id": "kb-respemp-t2-170",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5793,8 +5793,8 @@
   },
   {
     "id": "kb-respemp-t2-171",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5826,8 +5826,8 @@
   },
   {
     "id": "kb-respemp-t2-172",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5859,8 +5859,8 @@
   },
   {
     "id": "kb-respemp-t2-173",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5892,8 +5892,8 @@
   },
   {
     "id": "kb-respemp-t2-174",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5925,8 +5925,8 @@
   },
   {
     "id": "kb-respemp-t2-175",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Propulsora Siderúrgica",
@@ -5958,8 +5958,8 @@
   },
   {
     "id": "kb-respemp-t2-176",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -5988,8 +5988,8 @@
   },
   {
     "id": "kb-respemp-t2-177",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6018,8 +6018,8 @@
   },
   {
     "id": "kb-respemp-t2-178",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6048,8 +6048,8 @@
   },
   {
     "id": "kb-respemp-t2-179",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6078,8 +6078,8 @@
   },
   {
     "id": "kb-respemp-t2-180",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6108,8 +6108,8 @@
   },
   {
     "id": "kb-respemp-t2-181",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6138,8 +6138,8 @@
   },
   {
     "id": "kb-respemp-t2-182",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6168,8 +6168,8 @@
   },
   {
     "id": "kb-respemp-t2-183",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6198,8 +6198,8 @@
   },
   {
     "id": "kb-respemp-t2-184",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6228,8 +6228,8 @@
   },
   {
     "id": "kb-respemp-t2-185",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6258,8 +6258,8 @@
   },
   {
     "id": "kb-respemp-t2-186",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6288,8 +6288,8 @@
   },
   {
     "id": "kb-respemp-t2-187",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6318,8 +6318,8 @@
   },
   {
     "id": "kb-respemp-t2-188",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6348,8 +6348,8 @@
   },
   {
     "id": "kb-respemp-t2-189",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6378,8 +6378,8 @@
   },
   {
     "id": "kb-respemp-t2-190",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6408,8 +6408,8 @@
   },
   {
     "id": "kb-respemp-t2-191",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6438,8 +6438,8 @@
   },
   {
     "id": "kb-respemp-t2-192",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6468,8 +6468,8 @@
   },
   {
     "id": "kb-respemp-t2-193",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6498,8 +6498,8 @@
   },
   {
     "id": "kb-respemp-t2-194",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6528,8 +6528,8 @@
   },
   {
     "id": "kb-respemp-t2-195",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6558,8 +6558,8 @@
   },
   {
     "id": "kb-respemp-t2-196",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6588,8 +6588,8 @@
   },
   {
     "id": "kb-respemp-t2-197",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6618,8 +6618,8 @@
   },
   {
     "id": "kb-respemp-t2-198",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6648,8 +6648,8 @@
   },
   {
     "id": "kb-respemp-t2-199",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6678,8 +6678,8 @@
   },
   {
     "id": "kb-respemp-t2-200",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6708,8 +6708,8 @@
   },
   {
     "id": "kb-respemp-t2-201",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6738,8 +6738,8 @@
   },
   {
     "id": "kb-respemp-t2-202",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6768,8 +6768,8 @@
   },
   {
     "id": "kb-respemp-t2-203",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6798,8 +6798,8 @@
   },
   {
     "id": "kb-respemp-t2-204",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6828,8 +6828,8 @@
   },
   {
     "id": "kb-respemp-t2-205",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6858,8 +6858,8 @@
   },
   {
     "id": "kb-respemp-t2-206",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6888,8 +6888,8 @@
   },
   {
     "id": "kb-respemp-t2-207",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6918,8 +6918,8 @@
   },
   {
     "id": "kb-respemp-t2-208",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6948,8 +6948,8 @@
   },
   {
     "id": "kb-respemp-t2-209",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -6978,8 +6978,8 @@
   },
   {
     "id": "kb-respemp-t2-210",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7008,8 +7008,8 @@
   },
   {
     "id": "kb-respemp-t2-211",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7038,8 +7038,8 @@
   },
   {
     "id": "kb-respemp-t2-212",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7068,8 +7068,8 @@
   },
   {
     "id": "kb-respemp-t2-213",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7098,8 +7098,8 @@
   },
   {
     "id": "kb-respemp-t2-214",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7128,8 +7128,8 @@
   },
   {
     "id": "kb-respemp-t2-215",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7158,8 +7158,8 @@
   },
   {
     "id": "kb-respemp-t2-216",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7188,8 +7188,8 @@
   },
   {
     "id": "kb-respemp-t2-217",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7218,8 +7218,8 @@
   },
   {
     "id": "kb-respemp-t2-218",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7248,8 +7248,8 @@
   },
   {
     "id": "kb-respemp-t2-219",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7278,8 +7278,8 @@
   },
   {
     "id": "kb-respemp-t2-220",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7308,8 +7308,8 @@
   },
   {
     "id": "kb-respemp-t2-221",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7338,8 +7338,8 @@
   },
   {
     "id": "kb-respemp-t2-222",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7368,8 +7368,8 @@
   },
   {
     "id": "kb-respemp-t2-223",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7398,8 +7398,8 @@
   },
   {
     "id": "kb-respemp-t2-224",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7428,8 +7428,8 @@
   },
   {
     "id": "kb-respemp-t2-225",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7458,8 +7458,8 @@
   },
   {
     "id": "kb-respemp-t2-226",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7488,8 +7488,8 @@
   },
   {
     "id": "kb-respemp-t2-227",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7518,8 +7518,8 @@
   },
   {
     "id": "kb-respemp-t2-228",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7548,8 +7548,8 @@
   },
   {
     "id": "kb-respemp-t2-229",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7578,8 +7578,8 @@
   },
   {
     "id": "kb-respemp-t2-230",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7608,8 +7608,8 @@
   },
   {
     "id": "kb-respemp-t2-231",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7638,8 +7638,8 @@
   },
   {
     "id": "kb-respemp-t2-232",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7668,8 +7668,8 @@
   },
   {
     "id": "kb-respemp-t2-233",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7698,8 +7698,8 @@
   },
   {
     "id": "kb-respemp-t2-234",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7728,8 +7728,8 @@
   },
   {
     "id": "kb-respemp-t2-235",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7758,8 +7758,8 @@
   },
   {
     "id": "kb-respemp-t2-236",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7788,8 +7788,8 @@
   },
   {
     "id": "kb-respemp-t2-237",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7818,8 +7818,8 @@
   },
   {
     "id": "kb-respemp-t2-238",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7848,8 +7848,8 @@
   },
   {
     "id": "kb-respemp-t2-239",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7878,8 +7878,8 @@
   },
   {
     "id": "kb-respemp-t2-240",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Swift",
@@ -7908,8 +7908,8 @@
   },
   {
     "id": "kb-respemp-t2-241",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -7941,8 +7941,8 @@
   },
   {
     "id": "kb-respemp-t2-242",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -7974,8 +7974,8 @@
   },
   {
     "id": "kb-respemp-t2-243",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8007,8 +8007,8 @@
   },
   {
     "id": "kb-respemp-t2-244",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8040,8 +8040,8 @@
   },
   {
     "id": "kb-respemp-t2-245",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8073,8 +8073,8 @@
   },
   {
     "id": "kb-respemp-t2-246",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8106,8 +8106,8 @@
   },
   {
     "id": "kb-respemp-t2-247",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8139,8 +8139,8 @@
   },
   {
     "id": "kb-respemp-t2-248",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8172,8 +8172,8 @@
   },
   {
     "id": "kb-respemp-t2-249",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8205,8 +8205,8 @@
   },
   {
     "id": "kb-respemp-t2-250",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8238,8 +8238,8 @@
   },
   {
     "id": "kb-respemp-t2-251",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8271,8 +8271,8 @@
   },
   {
     "id": "kb-respemp-t2-252",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8304,8 +8304,8 @@
   },
   {
     "id": "kb-respemp-t2-253",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8337,8 +8337,8 @@
   },
   {
     "id": "kb-respemp-t2-254",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8370,8 +8370,8 @@
   },
   {
     "id": "kb-respemp-t2-255",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8403,8 +8403,8 @@
   },
   {
     "id": "kb-respemp-t2-256",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8436,8 +8436,8 @@
   },
   {
     "id": "kb-respemp-t2-257",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8469,8 +8469,8 @@
   },
   {
     "id": "kb-respemp-t2-258",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8502,8 +8502,8 @@
   },
   {
     "id": "kb-respemp-t2-259",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8535,8 +8535,8 @@
   },
   {
     "id": "kb-respemp-t2-260",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8568,8 +8568,8 @@
   },
   {
     "id": "kb-respemp-t2-261",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8601,8 +8601,8 @@
   },
   {
     "id": "kb-respemp-t2-262",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8634,8 +8634,8 @@
   },
   {
     "id": "kb-respemp-t2-263",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8667,8 +8667,8 @@
   },
   {
     "id": "kb-respemp-t2-264",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8700,8 +8700,8 @@
   },
   {
     "id": "kb-respemp-t2-265",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8733,8 +8733,8 @@
   },
   {
     "id": "kb-respemp-t2-266",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8766,8 +8766,8 @@
   },
   {
     "id": "kb-respemp-t2-267",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8799,8 +8799,8 @@
   },
   {
     "id": "kb-respemp-t2-268",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8832,8 +8832,8 @@
   },
   {
     "id": "kb-respemp-t2-269",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8865,8 +8865,8 @@
   },
   {
     "id": "kb-respemp-t2-270",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8898,8 +8898,8 @@
   },
   {
     "id": "kb-respemp-t2-271",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8931,8 +8931,8 @@
   },
   {
     "id": "kb-respemp-t2-272",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8964,8 +8964,8 @@
   },
   {
     "id": "kb-respemp-t2-273",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -8997,8 +8997,8 @@
   },
   {
     "id": "kb-respemp-t2-274",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9030,8 +9030,8 @@
   },
   {
     "id": "kb-respemp-t2-275",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9063,8 +9063,8 @@
   },
   {
     "id": "kb-respemp-t2-276",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9096,8 +9096,8 @@
   },
   {
     "id": "kb-respemp-t2-277",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9129,8 +9129,8 @@
   },
   {
     "id": "kb-respemp-t2-278",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9162,8 +9162,8 @@
   },
   {
     "id": "kb-respemp-t2-279",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9195,8 +9195,8 @@
   },
   {
     "id": "kb-respemp-t2-280",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9228,8 +9228,8 @@
   },
   {
     "id": "kb-respemp-t2-281",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9261,8 +9261,8 @@
   },
   {
     "id": "kb-respemp-t2-282",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9294,8 +9294,8 @@
   },
   {
     "id": "kb-respemp-t2-283",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9327,8 +9327,8 @@
   },
   {
     "id": "kb-respemp-t2-284",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9360,8 +9360,8 @@
   },
   {
     "id": "kb-respemp-t2-285",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9393,8 +9393,8 @@
   },
   {
     "id": "kb-respemp-t2-286",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9426,8 +9426,8 @@
   },
   {
     "id": "kb-respemp-t2-287",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9459,8 +9459,8 @@
   },
   {
     "id": "kb-respemp-t2-288",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9492,8 +9492,8 @@
   },
   {
     "id": "kb-respemp-t2-289",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9525,8 +9525,8 @@
   },
   {
     "id": "kb-respemp-t2-290",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9558,8 +9558,8 @@
   },
   {
     "id": "kb-respemp-t2-291",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9591,8 +9591,8 @@
   },
   {
     "id": "kb-respemp-t2-292",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9624,8 +9624,8 @@
   },
   {
     "id": "kb-respemp-t2-293",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9657,8 +9657,8 @@
   },
   {
     "id": "kb-respemp-t2-294",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Alpargatas",
@@ -9690,8 +9690,8 @@
   },
   {
     "id": "kb-respemp-t2-295",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -9725,8 +9725,8 @@
   },
   {
     "id": "kb-respemp-t2-296",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -9760,8 +9760,8 @@
   },
   {
     "id": "kb-respemp-t2-297",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -9796,8 +9796,8 @@
   },
   {
     "id": "kb-respemp-t2-298",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -9832,8 +9832,8 @@
   },
   {
     "id": "kb-respemp-t2-299",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -9868,8 +9868,8 @@
   },
   {
     "id": "kb-respemp-t2-300",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -9904,8 +9904,8 @@
   },
   {
     "id": "kb-respemp-t2-301",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -9940,8 +9940,8 @@
   },
   {
     "id": "kb-respemp-t2-302",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -9976,8 +9976,8 @@
   },
   {
     "id": "kb-respemp-t2-303",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10014,8 +10014,8 @@
   },
   {
     "id": "kb-respemp-t2-304",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10052,8 +10052,8 @@
   },
   {
     "id": "kb-respemp-t2-305",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10090,8 +10090,8 @@
   },
   {
     "id": "kb-respemp-t2-306",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10128,8 +10128,8 @@
   },
   {
     "id": "kb-respemp-t2-307",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10166,8 +10166,8 @@
   },
   {
     "id": "kb-respemp-t2-308",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10204,8 +10204,8 @@
   },
   {
     "id": "kb-respemp-t2-309",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10242,8 +10242,8 @@
   },
   {
     "id": "kb-respemp-t2-310",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10280,8 +10280,8 @@
   },
   {
     "id": "kb-respemp-t2-311",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10318,8 +10318,8 @@
   },
   {
     "id": "kb-respemp-t2-312",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10356,8 +10356,8 @@
   },
   {
     "id": "kb-respemp-t2-313",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10394,8 +10394,8 @@
   },
   {
     "id": "kb-respemp-t2-314",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10432,8 +10432,8 @@
   },
   {
     "id": "kb-respemp-t2-315",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10470,8 +10470,8 @@
   },
   {
     "id": "kb-respemp-t2-316",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10508,8 +10508,8 @@
   },
   {
     "id": "kb-respemp-t2-317",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10546,8 +10546,8 @@
   },
   {
     "id": "kb-respemp-t2-318",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10584,8 +10584,8 @@
   },
   {
     "id": "kb-respemp-t2-319",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10622,8 +10622,8 @@
   },
   {
     "id": "kb-respemp-t2-320",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10657,8 +10657,8 @@
   },
   {
     "id": "kb-respemp-t2-321",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10692,8 +10692,8 @@
   },
   {
     "id": "kb-respemp-t2-322",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10727,8 +10727,8 @@
   },
   {
     "id": "kb-respemp-t2-323",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10762,8 +10762,8 @@
   },
   {
     "id": "kb-respemp-t2-324",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10797,8 +10797,8 @@
   },
   {
     "id": "kb-respemp-t2-325",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10832,8 +10832,8 @@
   },
   {
     "id": "kb-respemp-t2-326",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10867,8 +10867,8 @@
   },
   {
     "id": "kb-respemp-t2-327",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10902,8 +10902,8 @@
   },
   {
     "id": "kb-respemp-t2-328",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10937,8 +10937,8 @@
   },
   {
     "id": "kb-respemp-t2-329",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -10972,8 +10972,8 @@
   },
   {
     "id": "kb-respemp-t2-330",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11007,8 +11007,8 @@
   },
   {
     "id": "kb-respemp-t2-331",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11042,8 +11042,8 @@
   },
   {
     "id": "kb-respemp-t2-332",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11077,8 +11077,8 @@
   },
   {
     "id": "kb-respemp-t2-333",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11112,8 +11112,8 @@
   },
   {
     "id": "kb-respemp-t2-334",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11147,8 +11147,8 @@
   },
   {
     "id": "kb-respemp-t2-335",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11182,8 +11182,8 @@
   },
   {
     "id": "kb-respemp-t2-336",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11217,8 +11217,8 @@
   },
   {
     "id": "kb-respemp-t2-337",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11252,8 +11252,8 @@
   },
   {
     "id": "kb-respemp-t2-338",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11287,8 +11287,8 @@
   },
   {
     "id": "kb-respemp-t2-339",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11322,8 +11322,8 @@
   },
   {
     "id": "kb-respemp-t2-340",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11357,8 +11357,8 @@
   },
   {
     "id": "kb-respemp-t2-341",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11392,8 +11392,8 @@
   },
   {
     "id": "kb-respemp-t2-342",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11427,8 +11427,8 @@
   },
   {
     "id": "kb-respemp-t2-343",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11462,8 +11462,8 @@
   },
   {
     "id": "kb-respemp-t2-344",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11497,8 +11497,8 @@
   },
   {
     "id": "kb-respemp-t2-345",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11532,8 +11532,8 @@
   },
   {
     "id": "kb-respemp-t2-346",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Molinos Río de La Plata",
@@ -11567,8 +11567,8 @@
   },
   {
     "id": "kb-respemp-t2-347",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11599,8 +11599,8 @@
   },
   {
     "id": "kb-respemp-t2-348",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11631,8 +11631,8 @@
   },
   {
     "id": "kb-respemp-t2-349",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11663,8 +11663,8 @@
   },
   {
     "id": "kb-respemp-t2-350",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11695,8 +11695,8 @@
   },
   {
     "id": "kb-respemp-t2-351",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11727,8 +11727,8 @@
   },
   {
     "id": "kb-respemp-t2-352",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11759,8 +11759,8 @@
   },
   {
     "id": "kb-respemp-t2-353",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11791,8 +11791,8 @@
   },
   {
     "id": "kb-respemp-t2-354",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11823,8 +11823,8 @@
   },
   {
     "id": "kb-respemp-t2-355",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11855,8 +11855,8 @@
   },
   {
     "id": "kb-respemp-t2-356",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11887,8 +11887,8 @@
   },
   {
     "id": "kb-respemp-t2-357",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11919,8 +11919,8 @@
   },
   {
     "id": "kb-respemp-t2-358",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11951,8 +11951,8 @@
   },
   {
     "id": "kb-respemp-t2-359",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -11983,8 +11983,8 @@
   },
   {
     "id": "kb-respemp-t2-360",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12015,8 +12015,8 @@
   },
   {
     "id": "kb-respemp-t2-361",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12047,8 +12047,8 @@
   },
   {
     "id": "kb-respemp-t2-362",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12079,8 +12079,8 @@
   },
   {
     "id": "kb-respemp-t2-363",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12111,8 +12111,8 @@
   },
   {
     "id": "kb-respemp-t2-364",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12143,8 +12143,8 @@
   },
   {
     "id": "kb-respemp-t2-365",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12175,8 +12175,8 @@
   },
   {
     "id": "kb-respemp-t2-366",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12207,8 +12207,8 @@
   },
   {
     "id": "kb-respemp-t2-367",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12239,8 +12239,8 @@
   },
   {
     "id": "kb-respemp-t2-368",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12271,8 +12271,8 @@
   },
   {
     "id": "kb-respemp-t2-369",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12303,8 +12303,8 @@
   },
   {
     "id": "kb-respemp-t2-370",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12335,8 +12335,8 @@
   },
   {
     "id": "kb-respemp-t2-371",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12367,8 +12367,8 @@
   },
   {
     "id": "kb-respemp-t2-372",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12399,8 +12399,8 @@
   },
   {
     "id": "kb-respemp-t2-373",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12431,8 +12431,8 @@
   },
   {
     "id": "kb-respemp-t2-374",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12463,8 +12463,8 @@
   },
   {
     "id": "kb-respemp-t2-375",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12495,8 +12495,8 @@
   },
   {
     "id": "kb-respemp-t2-376",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12527,8 +12527,8 @@
   },
   {
     "id": "kb-respemp-t2-377",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12559,8 +12559,8 @@
   },
   {
     "id": "kb-respemp-t2-378",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12591,8 +12591,8 @@
   },
   {
     "id": "kb-respemp-t2-379",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12623,8 +12623,8 @@
   },
   {
     "id": "kb-respemp-t2-380",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12655,8 +12655,8 @@
   },
   {
     "id": "kb-respemp-t2-381",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12687,8 +12687,8 @@
   },
   {
     "id": "kb-respemp-t2-382",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12719,8 +12719,8 @@
   },
   {
     "id": "kb-respemp-t2-383",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12751,8 +12751,8 @@
   },
   {
     "id": "kb-respemp-t2-384",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12783,8 +12783,8 @@
   },
   {
     "id": "kb-respemp-t2-385",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12815,8 +12815,8 @@
   },
   {
     "id": "kb-respemp-t2-386",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12847,8 +12847,8 @@
   },
   {
     "id": "kb-respemp-t2-387",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12879,8 +12879,8 @@
   },
   {
     "id": "kb-respemp-t2-388",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12911,8 +12911,8 @@
   },
   {
     "id": "kb-respemp-t2-389",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12943,8 +12943,8 @@
   },
   {
     "id": "kb-respemp-t2-390",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -12975,8 +12975,8 @@
   },
   {
     "id": "kb-respemp-t2-391",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13007,8 +13007,8 @@
   },
   {
     "id": "kb-respemp-t2-392",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13039,8 +13039,8 @@
   },
   {
     "id": "kb-respemp-t2-393",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13071,8 +13071,8 @@
   },
   {
     "id": "kb-respemp-t2-394",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13103,8 +13103,8 @@
   },
   {
     "id": "kb-respemp-t2-395",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13135,8 +13135,8 @@
   },
   {
     "id": "kb-respemp-t2-396",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13167,8 +13167,8 @@
   },
   {
     "id": "kb-respemp-t2-397",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13199,8 +13199,8 @@
   },
   {
     "id": "kb-respemp-t2-398",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13231,8 +13231,8 @@
   },
   {
     "id": "kb-respemp-t2-399",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13263,8 +13263,8 @@
   },
   {
     "id": "kb-respemp-t2-400",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13295,8 +13295,8 @@
   },
   {
     "id": "kb-respemp-t2-401",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13327,8 +13327,8 @@
   },
   {
     "id": "kb-respemp-t2-402",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13359,8 +13359,8 @@
   },
   {
     "id": "kb-respemp-t2-403",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13391,8 +13391,8 @@
   },
   {
     "id": "kb-respemp-t2-404",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13423,8 +13423,8 @@
   },
   {
     "id": "kb-respemp-t2-405",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13455,8 +13455,8 @@
   },
   {
     "id": "kb-respemp-t2-406",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13487,8 +13487,8 @@
   },
   {
     "id": "kb-respemp-t2-407",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13519,8 +13519,8 @@
   },
   {
     "id": "kb-respemp-t2-408",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13551,8 +13551,8 @@
   },
   {
     "id": "kb-respemp-t2-409",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13583,8 +13583,8 @@
   },
   {
     "id": "kb-respemp-t2-410",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13615,8 +13615,8 @@
   },
   {
     "id": "kb-respemp-t2-411",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13647,8 +13647,8 @@
   },
   {
     "id": "kb-respemp-t2-412",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13679,8 +13679,8 @@
   },
   {
     "id": "kb-respemp-t2-413",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13711,8 +13711,8 @@
   },
   {
     "id": "kb-respemp-t2-414",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13743,8 +13743,8 @@
   },
   {
     "id": "kb-respemp-t2-415",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13775,8 +13775,8 @@
   },
   {
     "id": "kb-respemp-t2-416",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13807,8 +13807,8 @@
   },
   {
     "id": "kb-respemp-t2-417",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13839,8 +13839,8 @@
   },
   {
     "id": "kb-respemp-t2-418",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13871,8 +13871,8 @@
   },
   {
     "id": "kb-respemp-t2-419",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13903,8 +13903,8 @@
   },
   {
     "id": "kb-respemp-t2-420",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13935,8 +13935,8 @@
   },
   {
     "id": "kb-respemp-t2-421",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13967,8 +13967,8 @@
   },
   {
     "id": "kb-respemp-t2-422",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -13999,8 +13999,8 @@
   },
   {
     "id": "kb-respemp-t2-423",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14031,8 +14031,8 @@
   },
   {
     "id": "kb-respemp-t2-424",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14063,8 +14063,8 @@
   },
   {
     "id": "kb-respemp-t2-425",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14095,8 +14095,8 @@
   },
   {
     "id": "kb-respemp-t2-426",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14127,8 +14127,8 @@
   },
   {
     "id": "kb-respemp-t2-427",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14159,8 +14159,8 @@
   },
   {
     "id": "kb-respemp-t2-428",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14191,8 +14191,8 @@
   },
   {
     "id": "kb-respemp-t2-429",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14223,8 +14223,8 @@
   },
   {
     "id": "kb-respemp-t2-430",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14255,8 +14255,8 @@
   },
   {
     "id": "kb-respemp-t2-431",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14287,8 +14287,8 @@
   },
   {
     "id": "kb-respemp-t2-432",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14319,8 +14319,8 @@
   },
   {
     "id": "kb-respemp-t2-433",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14351,8 +14351,8 @@
   },
   {
     "id": "kb-respemp-t2-434",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14383,8 +14383,8 @@
   },
   {
     "id": "kb-respemp-t2-435",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14415,8 +14415,8 @@
   },
   {
     "id": "kb-respemp-t2-436",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14447,8 +14447,8 @@
   },
   {
     "id": "kb-respemp-t2-437",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14479,8 +14479,8 @@
   },
   {
     "id": "kb-respemp-t2-438",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14511,8 +14511,8 @@
   },
   {
     "id": "kb-respemp-t2-439",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14543,8 +14543,8 @@
   },
   {
     "id": "kb-respemp-t2-440",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14575,8 +14575,8 @@
   },
   {
     "id": "kb-respemp-t2-441",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14607,8 +14607,8 @@
   },
   {
     "id": "kb-respemp-t2-442",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14639,8 +14639,8 @@
   },
   {
     "id": "kb-respemp-t2-443",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14671,8 +14671,8 @@
   },
   {
     "id": "kb-respemp-t2-444",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14703,8 +14703,8 @@
   },
   {
     "id": "kb-respemp-t2-445",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14735,8 +14735,8 @@
   },
   {
     "id": "kb-respemp-t2-446",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14767,8 +14767,8 @@
   },
   {
     "id": "kb-respemp-t2-447",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Fiat",
@@ -14799,8 +14799,8 @@
   },
   {
     "id": "kb-respemp-t2-448",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -14833,8 +14833,8 @@
   },
   {
     "id": "kb-respemp-t2-449",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -14867,8 +14867,8 @@
   },
   {
     "id": "kb-respemp-t2-450",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -14901,8 +14901,8 @@
   },
   {
     "id": "kb-respemp-t2-451",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -14936,8 +14936,8 @@
   },
   {
     "id": "kb-respemp-t2-452",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -14971,8 +14971,8 @@
   },
   {
     "id": "kb-respemp-t2-453",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15006,8 +15006,8 @@
   },
   {
     "id": "kb-respemp-t2-454",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15041,8 +15041,8 @@
   },
   {
     "id": "kb-respemp-t2-455",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15076,8 +15076,8 @@
   },
   {
     "id": "kb-respemp-t2-456",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15111,8 +15111,8 @@
   },
   {
     "id": "kb-respemp-t2-457",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15146,8 +15146,8 @@
   },
   {
     "id": "kb-respemp-t2-458",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15181,8 +15181,8 @@
   },
   {
     "id": "kb-respemp-t2-459",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15216,8 +15216,8 @@
   },
   {
     "id": "kb-respemp-t2-460",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15251,8 +15251,8 @@
   },
   {
     "id": "kb-respemp-t2-461",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15286,8 +15286,8 @@
   },
   {
     "id": "kb-respemp-t2-462",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15321,8 +15321,8 @@
   },
   {
     "id": "kb-respemp-t2-463",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15358,8 +15358,8 @@
   },
   {
     "id": "kb-respemp-t2-464",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15395,8 +15395,8 @@
   },
   {
     "id": "kb-respemp-t2-465",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15432,8 +15432,8 @@
   },
   {
     "id": "kb-respemp-t2-466",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15469,8 +15469,8 @@
   },
   {
     "id": "kb-respemp-t2-467",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15506,8 +15506,8 @@
   },
   {
     "id": "kb-respemp-t2-468",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15543,8 +15543,8 @@
   },
   {
     "id": "kb-respemp-t2-469",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15580,8 +15580,8 @@
   },
   {
     "id": "kb-respemp-t2-470",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15617,8 +15617,8 @@
   },
   {
     "id": "kb-respemp-t2-471",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15654,8 +15654,8 @@
   },
   {
     "id": "kb-respemp-t2-472",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15691,8 +15691,8 @@
   },
   {
     "id": "kb-respemp-t2-473",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15728,8 +15728,8 @@
   },
   {
     "id": "kb-respemp-t2-474",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15765,8 +15765,8 @@
   },
   {
     "id": "kb-respemp-t2-475",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15802,8 +15802,8 @@
   },
   {
     "id": "kb-respemp-t2-476",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15839,8 +15839,8 @@
   },
   {
     "id": "kb-respemp-t2-477",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15876,8 +15876,8 @@
   },
   {
     "id": "kb-respemp-t2-478",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15913,8 +15913,8 @@
   },
   {
     "id": "kb-respemp-t2-479",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15950,8 +15950,8 @@
   },
   {
     "id": "kb-respemp-t2-480",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -15987,8 +15987,8 @@
   },
   {
     "id": "kb-respemp-t2-481",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16024,8 +16024,8 @@
   },
   {
     "id": "kb-respemp-t2-482",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16061,8 +16061,8 @@
   },
   {
     "id": "kb-respemp-t2-483",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16098,8 +16098,8 @@
   },
   {
     "id": "kb-respemp-t2-484",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16135,8 +16135,8 @@
   },
   {
     "id": "kb-respemp-t2-485",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16172,8 +16172,8 @@
   },
   {
     "id": "kb-respemp-t2-486",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16209,8 +16209,8 @@
   },
   {
     "id": "kb-respemp-t2-487",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16246,8 +16246,8 @@
   },
   {
     "id": "kb-respemp-t2-488",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16283,8 +16283,8 @@
   },
   {
     "id": "kb-respemp-t2-489",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16320,8 +16320,8 @@
   },
   {
     "id": "kb-respemp-t2-490",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16357,8 +16357,8 @@
   },
   {
     "id": "kb-respemp-t2-491",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16394,8 +16394,8 @@
   },
   {
     "id": "kb-respemp-t2-492",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16431,8 +16431,8 @@
   },
   {
     "id": "kb-respemp-t2-493",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16468,8 +16468,8 @@
   },
   {
     "id": "kb-respemp-t2-494",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16505,8 +16505,8 @@
   },
   {
     "id": "kb-respemp-t2-495",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16542,8 +16542,8 @@
   },
   {
     "id": "kb-respemp-t2-496",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16579,8 +16579,8 @@
   },
   {
     "id": "kb-respemp-t2-497",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16616,8 +16616,8 @@
   },
   {
     "id": "kb-respemp-t2-498",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16653,8 +16653,8 @@
   },
   {
     "id": "kb-respemp-t2-499",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16690,8 +16690,8 @@
   },
   {
     "id": "kb-respemp-t2-500",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16727,8 +16727,8 @@
   },
   {
     "id": "kb-respemp-t2-501",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16764,8 +16764,8 @@
   },
   {
     "id": "kb-respemp-t2-502",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16801,8 +16801,8 @@
   },
   {
     "id": "kb-respemp-t2-503",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16838,8 +16838,8 @@
   },
   {
     "id": "kb-respemp-t2-504",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16875,8 +16875,8 @@
   },
   {
     "id": "kb-respemp-t2-505",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16910,8 +16910,8 @@
   },
   {
     "id": "kb-respemp-t2-506",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16945,8 +16945,8 @@
   },
   {
     "id": "kb-respemp-t2-507",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -16980,8 +16980,8 @@
   },
   {
     "id": "kb-respemp-t2-508",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17015,8 +17015,8 @@
   },
   {
     "id": "kb-respemp-t2-509",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17050,8 +17050,8 @@
   },
   {
     "id": "kb-respemp-t2-510",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17085,8 +17085,8 @@
   },
   {
     "id": "kb-respemp-t2-511",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17120,8 +17120,8 @@
   },
   {
     "id": "kb-respemp-t2-512",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17155,8 +17155,8 @@
   },
   {
     "id": "kb-respemp-t2-513",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17190,8 +17190,8 @@
   },
   {
     "id": "kb-respemp-t2-514",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17225,8 +17225,8 @@
   },
   {
     "id": "kb-respemp-t2-515",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17260,8 +17260,8 @@
   },
   {
     "id": "kb-respemp-t2-516",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17295,8 +17295,8 @@
   },
   {
     "id": "kb-respemp-t2-517",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17330,8 +17330,8 @@
   },
   {
     "id": "kb-respemp-t2-518",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17365,8 +17365,8 @@
   },
   {
     "id": "kb-respemp-t2-519",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17400,8 +17400,8 @@
   },
   {
     "id": "kb-respemp-t2-520",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17435,8 +17435,8 @@
   },
   {
     "id": "kb-respemp-t2-521",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17470,8 +17470,8 @@
   },
   {
     "id": "kb-respemp-t2-522",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17505,8 +17505,8 @@
   },
   {
     "id": "kb-respemp-t2-523",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17540,8 +17540,8 @@
   },
   {
     "id": "kb-respemp-t2-524",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17575,8 +17575,8 @@
   },
   {
     "id": "kb-respemp-t2-525",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17610,8 +17610,8 @@
   },
   {
     "id": "kb-respemp-t2-526",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17645,8 +17645,8 @@
   },
   {
     "id": "kb-respemp-t2-527",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17680,8 +17680,8 @@
   },
   {
     "id": "kb-respemp-t2-528",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17715,8 +17715,8 @@
   },
   {
     "id": "kb-respemp-t2-529",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17750,8 +17750,8 @@
   },
   {
     "id": "kb-respemp-t2-530",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17785,8 +17785,8 @@
   },
   {
     "id": "kb-respemp-t2-531",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17820,8 +17820,8 @@
   },
   {
     "id": "kb-respemp-t2-532",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17855,8 +17855,8 @@
   },
   {
     "id": "kb-respemp-t2-533",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17890,8 +17890,8 @@
   },
   {
     "id": "kb-respemp-t2-534",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17925,8 +17925,8 @@
   },
   {
     "id": "kb-respemp-t2-535",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17960,8 +17960,8 @@
   },
   {
     "id": "kb-respemp-t2-536",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -17995,8 +17995,8 @@
   },
   {
     "id": "kb-respemp-t2-537",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18030,8 +18030,8 @@
   },
   {
     "id": "kb-respemp-t2-538",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18065,8 +18065,8 @@
   },
   {
     "id": "kb-respemp-t2-539",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18100,8 +18100,8 @@
   },
   {
     "id": "kb-respemp-t2-540",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18135,8 +18135,8 @@
   },
   {
     "id": "kb-respemp-t2-541",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18170,8 +18170,8 @@
   },
   {
     "id": "kb-respemp-t2-542",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18205,8 +18205,8 @@
   },
   {
     "id": "kb-respemp-t2-543",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18240,8 +18240,8 @@
   },
   {
     "id": "kb-respemp-t2-544",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18275,8 +18275,8 @@
   },
   {
     "id": "kb-respemp-t2-545",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Las Marías",
@@ -18310,8 +18310,8 @@
   },
   {
     "id": "kb-respemp-t2-546",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18341,8 +18341,8 @@
   },
   {
     "id": "kb-respemp-t2-547",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18372,8 +18372,8 @@
   },
   {
     "id": "kb-respemp-t2-548",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18403,8 +18403,8 @@
   },
   {
     "id": "kb-respemp-t2-549",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18434,8 +18434,8 @@
   },
   {
     "id": "kb-respemp-t2-550",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18465,8 +18465,8 @@
   },
   {
     "id": "kb-respemp-t2-551",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18496,8 +18496,8 @@
   },
   {
     "id": "kb-respemp-t2-552",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18527,8 +18527,8 @@
   },
   {
     "id": "kb-respemp-t2-553",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18558,8 +18558,8 @@
   },
   {
     "id": "kb-respemp-t2-554",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18589,8 +18589,8 @@
   },
   {
     "id": "kb-respemp-t2-555",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18620,8 +18620,8 @@
   },
   {
     "id": "kb-respemp-t2-556",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18651,8 +18651,8 @@
   },
   {
     "id": "kb-respemp-t2-557",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18682,8 +18682,8 @@
   },
   {
     "id": "kb-respemp-t2-558",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18713,8 +18713,8 @@
   },
   {
     "id": "kb-respemp-t2-559",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18744,8 +18744,8 @@
   },
   {
     "id": "kb-respemp-t2-560",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18775,8 +18775,8 @@
   },
   {
     "id": "kb-respemp-t2-561",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18806,8 +18806,8 @@
   },
   {
     "id": "kb-respemp-t2-562",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18837,8 +18837,8 @@
   },
   {
     "id": "kb-respemp-t2-563",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18868,8 +18868,8 @@
   },
   {
     "id": "kb-respemp-t2-564",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18899,8 +18899,8 @@
   },
   {
     "id": "kb-respemp-t2-565",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18930,8 +18930,8 @@
   },
   {
     "id": "kb-respemp-t2-566",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18961,8 +18961,8 @@
   },
   {
     "id": "kb-respemp-t2-567",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -18992,8 +18992,8 @@
   },
   {
     "id": "kb-respemp-t2-568",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19023,8 +19023,8 @@
   },
   {
     "id": "kb-respemp-t2-569",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19054,8 +19054,8 @@
   },
   {
     "id": "kb-respemp-t2-570",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19085,8 +19085,8 @@
   },
   {
     "id": "kb-respemp-t2-571",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19116,8 +19116,8 @@
   },
   {
     "id": "kb-respemp-t2-572",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19147,8 +19147,8 @@
   },
   {
     "id": "kb-respemp-t2-573",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19178,8 +19178,8 @@
   },
   {
     "id": "kb-respemp-t2-574",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19209,8 +19209,8 @@
   },
   {
     "id": "kb-respemp-t2-575",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19240,8 +19240,8 @@
   },
   {
     "id": "kb-respemp-t2-576",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19271,8 +19271,8 @@
   },
   {
     "id": "kb-respemp-t2-577",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19302,8 +19302,8 @@
   },
   {
     "id": "kb-respemp-t2-578",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19333,8 +19333,8 @@
   },
   {
     "id": "kb-respemp-t2-579",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19364,8 +19364,8 @@
   },
   {
     "id": "kb-respemp-t2-580",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19395,8 +19395,8 @@
   },
   {
     "id": "kb-respemp-t2-581",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19426,8 +19426,8 @@
   },
   {
     "id": "kb-respemp-t2-582",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19457,8 +19457,8 @@
   },
   {
     "id": "kb-respemp-t2-583",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19488,8 +19488,8 @@
   },
   {
     "id": "kb-respemp-t2-584",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19519,8 +19519,8 @@
   },
   {
     "id": "kb-respemp-t2-585",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19550,8 +19550,8 @@
   },
   {
     "id": "kb-respemp-t2-586",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19581,8 +19581,8 @@
   },
   {
     "id": "kb-respemp-t2-587",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19612,8 +19612,8 @@
   },
   {
     "id": "kb-respemp-t2-588",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19643,8 +19643,8 @@
   },
   {
     "id": "kb-respemp-t2-589",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19674,8 +19674,8 @@
   },
   {
     "id": "kb-respemp-t2-590",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19705,8 +19705,8 @@
   },
   {
     "id": "kb-respemp-t2-591",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19736,8 +19736,8 @@
   },
   {
     "id": "kb-respemp-t2-592",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19767,8 +19767,8 @@
   },
   {
     "id": "kb-respemp-t2-593",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19798,8 +19798,8 @@
   },
   {
     "id": "kb-respemp-t2-594",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19829,8 +19829,8 @@
   },
   {
     "id": "kb-respemp-t2-595",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19860,8 +19860,8 @@
   },
   {
     "id": "kb-respemp-t2-596",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19891,8 +19891,8 @@
   },
   {
     "id": "kb-respemp-t2-597",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19922,8 +19922,8 @@
   },
   {
     "id": "kb-respemp-t2-598",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19953,8 +19953,8 @@
   },
   {
     "id": "kb-respemp-t2-599",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -19984,8 +19984,8 @@
   },
   {
     "id": "kb-respemp-t2-600",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20015,8 +20015,8 @@
   },
   {
     "id": "kb-respemp-t2-601",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20046,8 +20046,8 @@
   },
   {
     "id": "kb-respemp-t2-602",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20077,8 +20077,8 @@
   },
   {
     "id": "kb-respemp-t2-603",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20108,8 +20108,8 @@
   },
   {
     "id": "kb-respemp-t2-604",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20139,8 +20139,8 @@
   },
   {
     "id": "kb-respemp-t2-605",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20170,8 +20170,8 @@
   },
   {
     "id": "kb-respemp-t2-606",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20201,8 +20201,8 @@
   },
   {
     "id": "kb-respemp-t2-607",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20232,8 +20232,8 @@
   },
   {
     "id": "kb-respemp-t2-608",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20263,8 +20263,8 @@
   },
   {
     "id": "kb-respemp-t2-609",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20294,8 +20294,8 @@
   },
   {
     "id": "kb-respemp-t2-610",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "Loma Negra",
@@ -20325,8 +20325,8 @@
   },
   {
     "id": "kb-respemp-t2-611",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20356,8 +20356,8 @@
   },
   {
     "id": "kb-respemp-t2-612",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20387,8 +20387,8 @@
   },
   {
     "id": "kb-respemp-t2-613",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20418,8 +20418,8 @@
   },
   {
     "id": "kb-respemp-t2-614",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20449,8 +20449,8 @@
   },
   {
     "id": "kb-respemp-t2-615",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20480,8 +20480,8 @@
   },
   {
     "id": "kb-respemp-t2-616",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20511,8 +20511,8 @@
   },
   {
     "id": "kb-respemp-t2-617",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20542,8 +20542,8 @@
   },
   {
     "id": "kb-respemp-t2-618",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20573,8 +20573,8 @@
   },
   {
     "id": "kb-respemp-t2-619",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20604,8 +20604,8 @@
   },
   {
     "id": "kb-respemp-t2-620",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20635,8 +20635,8 @@
   },
   {
     "id": "kb-respemp-t2-621",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20666,8 +20666,8 @@
   },
   {
     "id": "kb-respemp-t2-622",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20697,8 +20697,8 @@
   },
   {
     "id": "kb-respemp-t2-623",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20728,8 +20728,8 @@
   },
   {
     "id": "kb-respemp-t2-624",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20759,8 +20759,8 @@
   },
   {
     "id": "kb-respemp-t2-625",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20790,8 +20790,8 @@
   },
   {
     "id": "kb-respemp-t2-626",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20821,8 +20821,8 @@
   },
   {
     "id": "kb-respemp-t2-627",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20852,8 +20852,8 @@
   },
   {
     "id": "kb-respemp-t2-628",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20883,8 +20883,8 @@
   },
   {
     "id": "kb-respemp-t2-629",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20914,8 +20914,8 @@
   },
   {
     "id": "kb-respemp-t2-630",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20945,8 +20945,8 @@
   },
   {
     "id": "kb-respemp-t2-631",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -20976,8 +20976,8 @@
   },
   {
     "id": "kb-respemp-t2-632",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21007,8 +21007,8 @@
   },
   {
     "id": "kb-respemp-t2-633",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21038,8 +21038,8 @@
   },
   {
     "id": "kb-respemp-t2-634",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21069,8 +21069,8 @@
   },
   {
     "id": "kb-respemp-t2-635",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21100,8 +21100,8 @@
   },
   {
     "id": "kb-respemp-t2-636",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21131,8 +21131,8 @@
   },
   {
     "id": "kb-respemp-t2-637",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21162,8 +21162,8 @@
   },
   {
     "id": "kb-respemp-t2-638",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21193,8 +21193,8 @@
   },
   {
     "id": "kb-respemp-t2-639",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21224,8 +21224,8 @@
   },
   {
     "id": "kb-respemp-t2-640",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21255,8 +21255,8 @@
   },
   {
     "id": "kb-respemp-t2-641",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21286,8 +21286,8 @@
   },
   {
     "id": "kb-respemp-t2-642",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21317,8 +21317,8 @@
   },
   {
     "id": "kb-respemp-t2-643",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21348,8 +21348,8 @@
   },
   {
     "id": "kb-respemp-t2-644",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21379,8 +21379,8 @@
   },
   {
     "id": "kb-respemp-t2-645",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21410,8 +21410,8 @@
   },
   {
     "id": "kb-respemp-t2-646",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21441,8 +21441,8 @@
   },
   {
     "id": "kb-respemp-t2-647",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21472,8 +21472,8 @@
   },
   {
     "id": "kb-respemp-t2-648",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21503,8 +21503,8 @@
   },
   {
     "id": "kb-respemp-t2-649",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21534,8 +21534,8 @@
   },
   {
     "id": "kb-respemp-t2-650",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21565,8 +21565,8 @@
   },
   {
     "id": "kb-respemp-t2-651",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21596,8 +21596,8 @@
   },
   {
     "id": "kb-respemp-t2-652",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21627,8 +21627,8 @@
   },
   {
     "id": "kb-respemp-t2-653",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21658,8 +21658,8 @@
   },
   {
     "id": "kb-respemp-t2-654",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21689,8 +21689,8 @@
   },
   {
     "id": "kb-respemp-t2-655",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21720,8 +21720,8 @@
   },
   {
     "id": "kb-respemp-t2-656",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21751,8 +21751,8 @@
   },
   {
     "id": "kb-respemp-t2-657",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21782,8 +21782,8 @@
   },
   {
     "id": "kb-respemp-t2-658",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21813,8 +21813,8 @@
   },
   {
     "id": "kb-respemp-t2-659",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21844,8 +21844,8 @@
   },
   {
     "id": "kb-respemp-t2-660",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21875,8 +21875,8 @@
   },
   {
     "id": "kb-respemp-t2-661",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21906,8 +21906,8 @@
   },
   {
     "id": "kb-respemp-t2-662",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21937,8 +21937,8 @@
   },
   {
     "id": "kb-respemp-t2-663",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21968,8 +21968,8 @@
   },
   {
     "id": "kb-respemp-t2-664",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -21999,8 +21999,8 @@
   },
   {
     "id": "kb-respemp-t2-665",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22030,8 +22030,8 @@
   },
   {
     "id": "kb-respemp-t2-666",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22061,8 +22061,8 @@
   },
   {
     "id": "kb-respemp-t2-667",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22092,8 +22092,8 @@
   },
   {
     "id": "kb-respemp-t2-668",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22123,8 +22123,8 @@
   },
   {
     "id": "kb-respemp-t2-669",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22154,8 +22154,8 @@
   },
   {
     "id": "kb-respemp-t2-670",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22185,8 +22185,8 @@
   },
   {
     "id": "kb-respemp-t2-671",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22216,8 +22216,8 @@
   },
   {
     "id": "kb-respemp-t2-672",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22247,8 +22247,8 @@
   },
   {
     "id": "kb-respemp-t2-673",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22278,8 +22278,8 @@
   },
   {
     "id": "kb-respemp-t2-674",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22309,8 +22309,8 @@
   },
   {
     "id": "kb-respemp-t2-675",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22340,8 +22340,8 @@
   },
   {
     "id": "kb-respemp-t2-676",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22371,8 +22371,8 @@
   },
   {
     "id": "kb-respemp-t2-677",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22402,8 +22402,8 @@
   },
   {
     "id": "kb-respemp-t2-678",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22433,8 +22433,8 @@
   },
   {
     "id": "kb-respemp-t2-679",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22464,8 +22464,8 @@
   },
   {
     "id": "kb-respemp-t2-680",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22495,8 +22495,8 @@
   },
   {
     "id": "kb-respemp-t2-681",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22526,8 +22526,8 @@
   },
   {
     "id": "kb-respemp-t2-682",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22557,8 +22557,8 @@
   },
   {
     "id": "kb-respemp-t2-683",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22588,8 +22588,8 @@
   },
   {
     "id": "kb-respemp-t2-684",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22619,8 +22619,8 @@
   },
   {
     "id": "kb-respemp-t2-685",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22650,8 +22650,8 @@
   },
   {
     "id": "kb-respemp-t2-686",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22681,8 +22681,8 @@
   },
   {
     "id": "kb-respemp-t2-687",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22712,8 +22712,8 @@
   },
   {
     "id": "kb-respemp-t2-688",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22743,8 +22743,8 @@
   },
   {
     "id": "kb-respemp-t2-689",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22774,8 +22774,8 @@
   },
   {
     "id": "kb-respemp-t2-690",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22805,8 +22805,8 @@
   },
   {
     "id": "kb-respemp-t2-691",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22836,8 +22836,8 @@
   },
   {
     "id": "kb-respemp-t2-692",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22867,8 +22867,8 @@
   },
   {
     "id": "kb-respemp-t2-693",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22898,8 +22898,8 @@
   },
   {
     "id": "kb-respemp-t2-694",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22929,8 +22929,8 @@
   },
   {
     "id": "kb-respemp-t2-695",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22960,8 +22960,8 @@
   },
   {
     "id": "kb-respemp-t2-696",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -22991,8 +22991,8 @@
   },
   {
     "id": "kb-respemp-t2-697",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23022,8 +23022,8 @@
   },
   {
     "id": "kb-respemp-t2-698",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23053,8 +23053,8 @@
   },
   {
     "id": "kb-respemp-t2-699",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23084,8 +23084,8 @@
   },
   {
     "id": "kb-respemp-t2-700",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23115,8 +23115,8 @@
   },
   {
     "id": "kb-respemp-t2-701",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23146,8 +23146,8 @@
   },
   {
     "id": "kb-respemp-t2-702",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23177,8 +23177,8 @@
   },
   {
     "id": "kb-respemp-t2-703",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23208,8 +23208,8 @@
   },
   {
     "id": "kb-respemp-t2-704",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23239,8 +23239,8 @@
   },
   {
     "id": "kb-respemp-t2-705",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23270,8 +23270,8 @@
   },
   {
     "id": "kb-respemp-t2-706",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23301,8 +23301,8 @@
   },
   {
     "id": "kb-respemp-t2-707",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23332,8 +23332,8 @@
   },
   {
     "id": "kb-respemp-t2-708",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23363,8 +23363,8 @@
   },
   {
     "id": "kb-respemp-t2-709",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23394,8 +23394,8 @@
   },
   {
     "id": "kb-respemp-t2-710",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23425,8 +23425,8 @@
   },
   {
     "id": "kb-respemp-t2-711",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23456,8 +23456,8 @@
   },
   {
     "id": "kb-respemp-t2-712",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23487,8 +23487,8 @@
   },
   {
     "id": "kb-respemp-t2-713",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23518,8 +23518,8 @@
   },
   {
     "id": "kb-respemp-t2-714",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23549,8 +23549,8 @@
   },
   {
     "id": "kb-respemp-t2-715",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23580,8 +23580,8 @@
   },
   {
     "id": "kb-respemp-t2-716",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23611,8 +23611,8 @@
   },
   {
     "id": "kb-respemp-t2-717",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23642,8 +23642,8 @@
   },
   {
     "id": "kb-respemp-t2-718",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23673,8 +23673,8 @@
   },
   {
     "id": "kb-respemp-t2-719",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23704,8 +23704,8 @@
   },
   {
     "id": "kb-respemp-t2-720",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23735,8 +23735,8 @@
   },
   {
     "id": "kb-respemp-t2-721",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23766,8 +23766,8 @@
   },
   {
     "id": "kb-respemp-t2-722",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23797,8 +23797,8 @@
   },
   {
     "id": "kb-respemp-t2-723",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23828,8 +23828,8 @@
   },
   {
     "id": "kb-respemp-t2-724",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23859,8 +23859,8 @@
   },
   {
     "id": "kb-respemp-t2-725",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23890,8 +23890,8 @@
   },
   {
     "id": "kb-respemp-t2-726",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23921,8 +23921,8 @@
   },
   {
     "id": "kb-respemp-t2-727",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23952,8 +23952,8 @@
   },
   {
     "id": "kb-respemp-t2-728",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -23983,8 +23983,8 @@
   },
   {
     "id": "kb-respemp-t2-729",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24014,8 +24014,8 @@
   },
   {
     "id": "kb-respemp-t2-730",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24045,8 +24045,8 @@
   },
   {
     "id": "kb-respemp-t2-731",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24076,8 +24076,8 @@
   },
   {
     "id": "kb-respemp-t2-732",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24107,8 +24107,8 @@
   },
   {
     "id": "kb-respemp-t2-733",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24138,8 +24138,8 @@
   },
   {
     "id": "kb-respemp-t2-734",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24169,8 +24169,8 @@
   },
   {
     "id": "kb-respemp-t2-735",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24200,8 +24200,8 @@
   },
   {
     "id": "kb-respemp-t2-736",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24231,8 +24231,8 @@
   },
   {
     "id": "kb-respemp-t2-737",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24262,8 +24262,8 @@
   },
   {
     "id": "kb-respemp-t2-738",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24293,8 +24293,8 @@
   },
   {
     "id": "kb-respemp-t2-739",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24324,8 +24324,8 @@
   },
   {
     "id": "kb-respemp-t2-740",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24355,8 +24355,8 @@
   },
   {
     "id": "kb-respemp-t2-741",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24386,8 +24386,8 @@
   },
   {
     "id": "kb-respemp-t2-742",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24417,8 +24417,8 @@
   },
   {
     "id": "kb-respemp-t2-743",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24448,8 +24448,8 @@
   },
   {
     "id": "kb-respemp-t2-744",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24479,8 +24479,8 @@
   },
   {
     "id": "kb-respemp-t2-745",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24510,8 +24510,8 @@
   },
   {
     "id": "kb-respemp-t2-746",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24541,8 +24541,8 @@
   },
   {
     "id": "kb-respemp-t2-747",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24572,8 +24572,8 @@
   },
   {
     "id": "kb-respemp-t2-748",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24603,8 +24603,8 @@
   },
   {
     "id": "kb-respemp-t2-749",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24634,8 +24634,8 @@
   },
   {
     "id": "kb-respemp-t2-750",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24665,8 +24665,8 @@
   },
   {
     "id": "kb-respemp-t2-751",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24696,8 +24696,8 @@
   },
   {
     "id": "kb-respemp-t2-752",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24727,8 +24727,8 @@
   },
   {
     "id": "kb-respemp-t2-753",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24758,8 +24758,8 @@
   },
   {
     "id": "kb-respemp-t2-754",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24789,8 +24789,8 @@
   },
   {
     "id": "kb-respemp-t2-755",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24820,8 +24820,8 @@
   },
   {
     "id": "kb-respemp-t2-756",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24851,8 +24851,8 @@
   },
   {
     "id": "kb-respemp-t2-757",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24882,8 +24882,8 @@
   },
   {
     "id": "kb-respemp-t2-758",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24913,8 +24913,8 @@
   },
   {
     "id": "kb-respemp-t2-759",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24944,8 +24944,8 @@
   },
   {
     "id": "kb-respemp-t2-760",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -24975,8 +24975,8 @@
   },
   {
     "id": "kb-respemp-t2-761",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -25006,8 +25006,8 @@
   },
   {
     "id": "kb-respemp-t2-762",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -25037,8 +25037,8 @@
   },
   {
     "id": "kb-respemp-t2-763",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -25068,8 +25068,8 @@
   },
   {
     "id": "kb-respemp-t2-764",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -25099,8 +25099,8 @@
   },
   {
     "id": "kb-respemp-t2-765",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",
@@ -25130,8 +25130,8 @@
   },
   {
     "id": "kb-respemp-t2-766",
-    "tipo": "academico",
-    "category": "academico",
+    "tipo": "articulo",
+    "category": "investigaciones",
     "tenant": "shared",
     "tags": [
       "La Nueva Provincia",

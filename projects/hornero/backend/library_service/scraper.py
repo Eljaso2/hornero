@@ -33,35 +33,35 @@ SOURCES = {
         "url": "http://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/27971/texact.htm",
         "tipo": "ley", "capa": "general", "tenant": "shared",
     },
-    # Capa SECTORIAL (por sindicato). El CCT 420/05 aceitero va con tenant='aceiteros'.
+    # Categoría FUENTES (por sindicato). El CCT 420/05 aceitero va con tenant='aceiteros'.
     # Fuente HTML (evita el OCR del PDF de Min. de Trabajo): ecofield publica el texto
     # completo homologado por Res. 343/05 ST. 55 artículos (Art. 1 → 55).
     "CCT_420_05": {
         "norma": "CCT 420/05 (Aceiteros)",
         "url": "http://www.ecofield.net/Legales/CCT/res343-05_ST_cct420-05.htm",
-        "tipo": "cct", "capa": "sectorial", "tenant": "aceiteros",
+        "tipo": "cct", "capa": "fuentes", "tenant": "aceiteros",
     },
     "CCT_130_75": {
         "norma": "CCT 130/75 (Empleados de Comercio)",
         "url": "https://www.ignacioonline.com.ar/cct-130-75-convenio-colectivo-de-empleados-de-comercio/",
-        "tipo": "cct", "capa": "sectorial", "tenant": "comercio",
+        "tipo": "cct", "capa": "fuentes", "tenant": "comercio",
     },
-    # Capa SECTORIAL (SIPREBA / Prensa).
+    # Categoría FUENTES (SIPREBA / Prensa).
     # ⚠️ URLs por verificar cuando InfoLEG vuelva a funcionar.
     "CCT_301_75": {
         "norma": "CCT 301/75 (Prensa Escrita y Oral)",
         "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42291/norma.htm",  # URL por verificar
-        "tipo": "cct", "capa": "sectorial", "tenant": "prensa",
+        "tipo": "cct", "capa": "fuentes", "tenant": "prensa",
     },
     "CCT_124_75": {
         "norma": "CCT 124/75 (Prensa Televisada)",
         "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42104/norma.htm",  # URL por verificar
-        "tipo": "cct", "capa": "sectorial", "tenant": "prensa",
+        "tipo": "cct", "capa": "fuentes", "tenant": "prensa",
     },
     "LEY_12908_estatuto_periodista": {
         "norma": "Ley 12.908 (Estatuto del Periodista)",
         "url": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/10000-14999/11706/norma.htm",  # URL por verificar
-        "tipo": "ley", "capa": "sectorial", "tenant": "prensa",
+        "tipo": "ley", "capa": "fuentes", "tenant": "prensa",
     },
 }
 

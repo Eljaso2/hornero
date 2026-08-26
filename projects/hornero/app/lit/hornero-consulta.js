@@ -181,7 +181,7 @@ class HorneroConsulta extends HoComponent {
 
   _render() {
     return html`
-      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}" style="display:none">
         <div class="hero-banner-title">Derecho</div>
         ${this._bannerVisible ? html`
         <div class="hero-bajada">
@@ -210,7 +210,7 @@ class HorneroConsulta extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          no-auto-scroll="${this._bannerVisible}"
+          section-info='{"title":"Derecho","bajada":"Legislación laboral, convenios colectivos. Asesoramiento legal para trabajadores y delegados.","explore":["Paritaria","Condiciones laborales","SMVM y distribución","Reforma laboral","CCT 420/05","Organización sindical"]}'
         ></hornero-chat>
       </div>
     `;
@@ -244,6 +244,15 @@ class HorneroConsulta extends HoComponent {
           this._emitSessionSave();
           this.render();
         }
+      });
+      // Listen for explore-select from info popup
+      chatEl.addEventListener('explore-select', (e) => {
+        const topic = e.detail.option;
+        const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
+        this.messages = [...this.messages, userMsg];
+        this._addWithProgressiveReveal(this._exploreResponse(topic));
+        this._saveChatHistory();
+        this.render();
       });
       // Delete individual message — remove from local array + IndexedDB
       chatEl.addEventListener('chat-message-delete', (e) => {

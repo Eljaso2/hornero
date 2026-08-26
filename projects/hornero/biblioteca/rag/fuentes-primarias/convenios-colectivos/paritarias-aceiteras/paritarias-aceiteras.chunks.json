@@ -1,8 +1,8 @@
 [
   {
     "id": "kb-par-acuerdo.2024.sep-0",
-    "tipo": "documentos",
-    "category": "documentos",
+    "tipo": "documento",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "aceitero",
@@ -31,8 +31,8 @@
   },
   {
     "id": "kb-par-acuerdo.2024.sep-1",
-    "tipo": "documentos",
-    "category": "documentos",
+    "tipo": "documento",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "aceitero",
@@ -59,8 +59,8 @@
   },
   {
     "id": "kb-par-acuerdo.2024.sep-2",
-    "tipo": "documentos",
-    "category": "documentos",
+    "tipo": "documento",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "aceitero",
@@ -86,8 +86,8 @@
   },
   {
     "id": "kb-par-reajuste.2024.jan-0",
-    "tipo": "documentos",
-    "category": "documentos",
+    "tipo": "documento",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "aceitero",
@@ -115,8 +115,8 @@
   },
   {
     "id": "kb-par-reajuste.2024.jan-1",
-    "tipo": "documentos",
-    "category": "documentos",
+    "tipo": "documento",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "aceitero",
@@ -139,8 +139,8 @@
   },
   {
     "id": "kb-par-reajuste.2024.jan-2",
-    "tipo": "documentos",
-    "category": "documentos",
+    "tipo": "documento",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "aceitero",
@@ -166,7 +166,7 @@
     "tipo": "documento",
     "norma": "paritaria-aceitera-2026",
     "articulo": "",
-    "capa": "sectorial",
+    "capa": "fuentes",
     "tenant": "aceiteros",
     "vigencia": "vigente",
     "titulo": "Paritaria aceitera 2026 — F.T.C.I.O.D y A.R.A./SOMU",
@@ -174,7 +174,7 @@
     "fuente": "Asamblea paritaria aceitera, junio 2026, Gestión Sindical, diciembre 2025",
     "title": "Paritaria aceitera 2026 — F.T.C.I.O.D y A.R.A./SOMU",
     "text": "Paritaria aceitera 2026 — ACTUAL:\n- SOMU demanda 15% de aumento\n- Empresas ofrecen 8%\n- Vicentín argumenta concurso preventivo limita posibilidades\n- Básico junio 2026: $340.000 — no cubre alquiler Reconquista ($380.000)\n- Brecha salario-vivienda: básico 12% debajo del alquiler\n- Paritaria 2026 cerró en julio 2026 con básico $2.719.040 (desde septiembre 2026)\n\nNOTA — Paritaria ANTERIOR (2025):\n- Paritaria 2025 cerró después de 7 días de huelga nacional — forzó mano de Caputo",
-    "category": "sectorial",
+    "category": "fuentes",
     "tags": [],
     "sources": [],
     "quotes": []

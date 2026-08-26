@@ -1,8 +1,8 @@
 [
   {
     "id": "kb-manual-ssl-0",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "trabajo"
@@ -22,8 +22,8 @@
   },
   {
     "id": "kb-manual-ssl-1",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "obrero",
@@ -50,8 +50,8 @@
   },
   {
     "id": "kb-manual-ssl-2",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "Santa Fe",
@@ -78,8 +78,8 @@
   },
   {
     "id": "kb-manual-ssl-3",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "patronal",
@@ -100,8 +100,8 @@
   },
   {
     "id": "kb-manual-ssl-4",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "fábrica",
@@ -124,8 +124,8 @@
   },
   {
     "id": "kb-manual-ssl-5",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo",
       "condiciones"
@@ -145,8 +145,8 @@
   },
   {
     "id": "kb-manual-ssl-6",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo",
       "condiciones"
@@ -166,8 +166,8 @@
   },
   {
     "id": "kb-manual-ssl-7",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "trabajo",
@@ -188,8 +188,8 @@
   },
   {
     "id": "kb-manual-ssl-8",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "capital",
       "trabajo"
@@ -209,8 +209,8 @@
   },
   {
     "id": "kb-manual-ssl-9",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "capital",
       "trabajo",
@@ -231,8 +231,8 @@
   },
   {
     "id": "kb-manual-ssl-10",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "Reconquista",
@@ -254,8 +254,8 @@
   },
   {
     "id": "kb-manual-ssl-11",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "fábrica",
@@ -276,8 +276,8 @@
   },
   {
     "id": "kb-manual-ssl-12",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo"
     ],
@@ -296,8 +296,8 @@
   },
   {
     "id": "kb-manual-ssl-13",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "fábrica",
       "empresa",
@@ -318,8 +318,8 @@
   },
   {
     "id": "kb-manual-ssl-14",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "fábrica",
@@ -342,8 +342,8 @@
   },
   {
     "id": "kb-manual-ssl-15",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -366,8 +366,8 @@
   },
   {
     "id": "kb-manual-ssl-16",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "derecho",
@@ -389,8 +389,8 @@
   },
   {
     "id": "kb-manual-ssl-17",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "Santa Fe",
       "convenio",
@@ -415,8 +415,8 @@
   },
   {
     "id": "kb-manual-ssl-18",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "derecho",
@@ -439,8 +439,8 @@
   },
   {
     "id": "kb-manual-ssl-19",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "Santa Fe",
@@ -466,8 +466,8 @@
   },
   {
     "id": "kb-manual-ssl-20",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "Santa Fe",
@@ -492,8 +492,8 @@
   },
   {
     "id": "kb-manual-ssl-21",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -514,8 +514,8 @@
   },
   {
     "id": "kb-manual-ssl-22",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "sindicato",
@@ -539,8 +539,8 @@
   },
   {
     "id": "kb-manual-ssl-23",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -562,8 +562,8 @@
   },
   {
     "id": "kb-manual-ssl-24",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "huelga",
       "obrero",
@@ -589,8 +589,8 @@
   },
   {
     "id": "kb-manual-ssl-25",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "trabajo"
@@ -610,8 +610,8 @@
   },
   {
     "id": "kb-manual-ssl-26",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo"
@@ -631,8 +631,8 @@
   },
   {
     "id": "kb-manual-ssl-27",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "patronal",
       "derecho",
@@ -653,8 +653,8 @@
   },
   {
     "id": "kb-manual-ssl-28",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "trabajo"
@@ -674,8 +674,8 @@
   },
   {
     "id": "kb-manual-ssl-29",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo",
       "justicia"
@@ -695,8 +695,8 @@
   },
   {
     "id": "kb-manual-ssl-30",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo"
     ],
@@ -715,8 +715,8 @@
   },
   {
     "id": "kb-manual-ssl-31",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo"
     ],
@@ -735,8 +735,8 @@
   },
   {
     "id": "kb-manual-ssl-32",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "patronal",
       "trabajo",
@@ -757,8 +757,8 @@
   },
   {
     "id": "kb-manual-ssl-33",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "derecho",
@@ -780,8 +780,8 @@
   },
   {
     "id": "kb-manual-ssl-34",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo"
     ],
@@ -800,8 +800,8 @@
   },
   {
     "id": "kb-manual-ssl-35",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "fábrica",
       "trabajo"
@@ -821,8 +821,8 @@
   },
   {
     "id": "kb-manual-ssl-36",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "paritaria",
       "trabajo"
@@ -842,8 +842,8 @@
   },
   {
     "id": "kb-manual-ssl-37",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "obrero",
       "trabajo"
@@ -863,8 +863,8 @@
   },
   {
     "id": "kb-manual-ssl-38",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "sindicato",
       "empresa",
@@ -887,8 +887,8 @@
   },
   {
     "id": "kb-manual-ssl-39",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "empresa",
@@ -911,8 +911,8 @@
   },
   {
     "id": "kb-manual-ssl-40",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -935,8 +935,8 @@
   },
   {
     "id": "kb-manual-ssl-41",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "patronal",
@@ -959,8 +959,8 @@
   },
   {
     "id": "kb-manual-ssl-42",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "trabajo",
       "reparación"
@@ -980,8 +980,8 @@
   },
   {
     "id": "kb-manual-ssl-43",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "convenio",
       "trabajo",
@@ -1002,8 +1002,8 @@
   },
   {
     "id": "kb-manual-ssl-44",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "empresa",
       "derecho",
@@ -1025,8 +1025,8 @@
   },
   {
     "id": "kb-manual-ssl-45",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "derecho",
       "trabajo",
@@ -1048,8 +1048,8 @@
   },
   {
     "id": "kb-manual-ssl-46",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "capital",
       "derecho",
@@ -1072,8 +1072,8 @@
   },
   {
     "id": "kb-manual-ssl-47",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [
       "Yofra",
       "derecho",
@@ -1097,8 +1097,8 @@
   },
   {
     "id": "kb-manual-ssl-48",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.63-63) — Censi",
     "text": "VOCAL SUPLENTE 1º  Marcelo Anselmo Acosta\nVOCAL SUPLENTE 2º  Walter Darío Gil\nVOCAL SUPLENTE 3º  Darío Alberto Nonis\nVOCAL SUPLENTE 4º  Luis Carlos Ruiz\nVOCAL SUPLENTE 5º  Julio César Dutra\nComisión Revisora de Cuentas\n1º REVISOR DE CUENTAS TITULAR  Diego Mariano Paciarotti\n2º REVISOR DE CUENTAS TITULAR  Alejandro Ezequiel Murar\n3º REVISOR DE CUENTAS TITULAR  Matías David Schenkel\nREVISOR DE CUENTAS SUPLENTE  Teresa Liliana Altamirano",
@@ -1115,8 +1115,8 @@
   },
   {
     "id": "kb-manual-ssl-49",
-    "tipo": "academico",
-    "category": "documentos",
+    "tipo": "articulo",
+    "category": "fuentes",
     "tags": [],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.64-64) — Censi",
     "text": "ctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m",

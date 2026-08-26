@@ -318,7 +318,7 @@ class HorneroGremial extends HoComponent {
 
   _render() {
     return html`
-      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}">
+      <div class="hero-banner${this._bannerVisible ? '' : ' collapsed'}" style="display:none">
         <div class="hero-banner-title">Reporte Gremial</div>
         ${this._bannerVisible ? html`
         <div class="hero-bajada">
@@ -348,7 +348,7 @@ class HorneroGremial extends HoComponent {
           persona="${this._activePersona}"
           username="${this._username}"
           grade="${this.grade}"
-          no-auto-scroll="${this._bannerVisible}"
+          section-info='{"title":"Reporte Gremial","bajada":"Elaboración de reportes gremiales, relato de situaciones, clasificación, seguimiento y aprobación.","explore":["Relato","Clasificación","Seguimiento","Aprobación"]}'
         ></hornero-chat>
       </div>
 
@@ -931,6 +931,15 @@ class HorneroGremial extends HoComponent {
           this._emitSessionSave();
           this.render();
         }
+      });
+      // Listen for explore-select from info popup
+      chatEl.addEventListener('explore-select', (e) => {
+        const topic = e.detail.option;
+        const userMsg = { role: 'user', text: 'Contame sobre ' + topic, time: this._timeNow() };
+        this.messages = [...this.messages, userMsg];
+        this._addWithProgressiveReveal(this._exploreResponse(topic));
+        this._saveChatHistory();
+        this.render();
       });
       // Delete individual message — remove from local array + IndexedDB
       chatEl.addEventListener('chat-message-delete', (e) => {
