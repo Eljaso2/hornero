@@ -1054,15 +1054,16 @@ class HorneroChat extends HoComponent {
       .chat-top-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 20;
         height: 56px; display: flex; align-items: center;
         padding: 0; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
-      .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 2; }
+      .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 3; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 10px; padding: 0 12px;
+        scrollbar-width: none; gap: 14px; padding: 0;
         justify-content: flex-start; scroll-behavior: smooth; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
+      .chat-top-bar-center { scroll-padding: 0 48px; }
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
-      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 2; position: relative; min-width: 48px; justify-content: flex-end; }
+      .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 3; position: relative; min-width: 48px; justify-content: flex-end; background: color-mix(in srgb, var(--ho-bg, #1E2321) 80%, transparent); }
 
       /* Wrapper: + button stays in place, panel is absolutely positioned behind it */
       .chat-plus-wrapper { position: relative; }
@@ -1070,7 +1071,7 @@ class HorneroChat extends HoComponent {
         background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
         transition: background .2s, border-color .2s, transform .15s;
-        position: relative; z-index: 2; }
+        position: relative; z-index: 3; }
       .chat-plus-btn:hover { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
       .chat-plus-btn svg { width: 16px; height: 16px;
@@ -1181,11 +1182,11 @@ class HorneroChat extends HoComponent {
       /* Persona icons — cintillo scrolleable (sin línea divisoria) */
       .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
         gap: 3px; background: none; border: none; cursor: pointer;
-        padding: 4px 2px; transition: opacity .2s; position: relative;
+        padding: 5px 6px; transition: opacity .2s; position: relative;
         flex-shrink: 0; }
       .chat-persona-icon:hover { opacity: .85; }
       .chat-persona-icon.active { opacity: 1; }
-      .persona-icon-inner { width: 34px; height: 34px; box-sizing: border-box;
+      .persona-icon-inner { width: 38px; height: 38px; box-sizing: border-box;
         display: flex; align-items: center; justify-content: center;
         border-radius: 50%; border: 2px solid var(--ho-border, rgba(255,255,255,.08));
         overflow: hidden; background: transparent;
@@ -1204,8 +1205,8 @@ class HorneroChat extends HoComponent {
       /* Active persona: full color + light colored background, no green border/glow */
       .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
-      .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
-        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+      .chat-persona-icon .persona-cintillo-label { font-family: .Archivo., sans-serif;
+        font-size: .58rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
         white-space: nowrap; transition: color .2s, filter .3s; }
       /* Inactive label: also grayscale */
       .chat-persona-icon:not(.active) .persona-cintillo-label { filter: grayscale(1); opacity: .6; }
