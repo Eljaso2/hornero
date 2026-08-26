@@ -984,8 +984,8 @@ class HorneroChat extends HoComponent {
       @keyframes dotbounce { 0%,80%,100% { opacity:.3 } 40% { opacity:1 } }
 
       /* === USER message: bubble (green, right-aligned) === */
-      .msg-row { margin-bottom: 14px; animation: msgin .35s ease; }
-      .msg-row.hornero + .msg-row.hornero { margin-top: 10px; }
+      .msg-row { margin-top: 14px; margin-bottom: 14px; animation: msgin .35s ease; }
+      .msg-row.hornero + .msg-row.hornero { margin-top: 0; }
       .msg-row.user { display: flex; flex-direction: column; align-items: flex-end; }
 
       .msg-row.user .msg-bubble {
@@ -1533,7 +1533,7 @@ class HorneroChat extends HoComponent {
     };
     const personaIconsHtml = allPersonas.map((p, idx) => {
       const cfg = this._getPersonaConfig(p);
-      const isActive = p === this.persona;
+      const isActive = p === this.persona || (this.persona === 'archivo' && p === 'historiador');
       const innerClass = `${p === 'periodista' ? 'periodista-full' : ''}${p === 'abogado' ? ' abogado-crop' : ''}${p === 'sociologo' ? ' investigador-crop' : ''}`;
       const inner = (cfg.icon || cfg.img)
         ? `<img src="${cfg.icon || cfg.img}" alt="${cfg.name}" class="${innerClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
