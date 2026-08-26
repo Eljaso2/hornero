@@ -3617,6 +3617,9 @@ ${msgs.map(m => {
         <svg viewBox="0 0 24 24">${recibidosSvg}</svg>
         ${this._recibidosBadge ? '<span class="item-badge gold"></span>' : ''}
       </button>` : ''}
+      <button class="chat-plus-item" id="chatInfoBtn" title="Información de la sección">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </button>
     `;
     wrapper.appendChild(menu);
     this._bindPlusMenuItems();
@@ -3653,6 +3656,13 @@ ${msgs.map(m => {
         this._openRecibidosDrawer();
       });
     }
+    const infoBtn = this.shadowRoot.querySelector('#chatInfoBtn');
+    if (infoBtn && this.sectionInfo) {
+      infoBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this._showInfoPopup();
+      });
+    }
   }
 
   // Plus menu only closes via the +/| button, not on outside click
@@ -3670,16 +3680,16 @@ ${msgs.map(m => {
     popup.className = 'info-popup';
     popup.style.position = 'relative';
     let html = '';
-    if (info.title) html += `'<div class="info-popup-title">${info.title}</div>';
-    if (info.bajada) html += `'<div class="info-popup-bajada">${info.bajada}</div>';
+    if (info.title) html += `<div class="info-popup-title">${info.title}</div>`;
+    if (info.bajada) html += `<div class="info-popup-bajada">${info.bajada}</div>`;
     if (info.explore && info.explore.length) {
-      html += `'<div class="info-popup-explore-label">Explorar</div><div class="info-popup-explore">';
+      html += `<div class="info-popup-explore-label">Explorar</div><div class="info-popup-explore">`;
       info.explore.forEach(opt => {
-        html += `'<button class="info-popup-explore-opt" data-explore-opt="${opt}">${opt}</button>';
+        html += `<button class="info-popup-explore-opt" data-explore-opt="${opt}">${opt}</button>`;
       });
       html += '</div>';
     }
-    html += `'<button class="info-popup-close" title="Cerrar"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>';
+    html += `<button class="info-popup-close" title="Cerrar"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>`;
     popup.innerHTML = html;
     overlay.appendChild(popup);
     this.shadowRoot.appendChild(overlay);
