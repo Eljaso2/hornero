@@ -1099,7 +1099,7 @@ class HorneroChat extends HoComponent {
       .chat-plus-btn.open svg line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); transform-origin: center; }
 
       /* Vertical panel — extends behind and below the + button */
-      .chat-plus-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
+      .chat-plus-menu { position: absolute; top: -8px; right: -8px; z-index: 25;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--ho-border, rgba(255,255,255,.1));
