@@ -1071,7 +1071,11 @@ class HorneroChat extends HoComponent {
       .persona-label-field .persona-label-text { font-family: 'Archivo', sans-serif;
         font-size: .76rem; font-weight: 700; color: var(--ho-green, #4E9978);
         text-transform: uppercase; white-space: nowrap;
-        text-shadow: 0 0 6px var(--ho-bg, #1E2321), 0 0 12px var(--ho-bg, #1E2321); }
+        background: var(--ho-green-pale, #E0F0EB);
+        padding: 3px 10px; border-radius: 10px;
+        border: 1px solid var(--ho-green-light, #80CCA0); }
+      :host(.theme-light) .persona-label-field .persona-label-text { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
       .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 3; position: relative; min-width: 48px; justify-content: flex-end; }
 
       /* Wrapper: + button stays in place, panel is absolutely positioned behind it */
