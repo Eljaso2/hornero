@@ -26,6 +26,7 @@ class HorneroInfomate extends HoComponent {
     this._popupItem = null;
     this._savedScrollTop = null;
     this._visibleCount = 10;
+    this._plusMenuOpen = false; // hamburger menu state
   }
 
   async connectedCallback() {
@@ -134,43 +135,66 @@ class HorneroInfomate extends HoComponent {
       .cintillo-nav-btn:disabled { opacity: .2; cursor: default; }
       .cintillo-nav-btn svg { width: 20px; height: 20px; }
 
-      /* ===== Persona top bar (same pattern as chat screens) ===== */
-      .chat-top-bar { position: relative; width: 100%;
-        display: flex; align-items: center; height: 56px;
-        padding: 0; background: var(--ho-bg, #1E2321);
-        flex-shrink: 0; box-sizing: border-box; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
-      .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; }
-      .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
-        -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 10px; padding: 0 12px;
-        justify-content: flex-start; scroll-behavior: smooth; }
-      .chat-top-bar-center::-webkit-scrollbar { width: 0; }
-      .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
-        gap: 3px; background: none; border: none; cursor: pointer;
-        padding: 4px 2px; transition: opacity .2s; position: relative;
-        flex-shrink: 0; }
-      .chat-persona-icon:hover { opacity: .85; }
-      .persona-icon-inner { width: 34px; height: 34px; box-sizing: border-box;
-        display: flex; align-items: center; justify-content: center;
-        border-radius: 50%; border: 2px solid var(--ho-border, rgba(255,255,255,.08));
-        overflow: hidden; background: transparent;
-        transition: background .25s, border-color .25s, filter .3s; }
-      .chat-persona-icon:hover .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
+      /* ===== Hamburger menu (same as chat screens) ===== */
+      .chat-plus-wrapper { position: relative; }
+      .chat-plus-btn { width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s;
+        position: relative; z-index: 2; }
+      .chat-plus-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .chat-plus-btn svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-plus-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-btn.open { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
-      .chat-persona-icon:not(.active) .persona-icon-inner img,
-      .chat-persona-icon:not(.active) .persona-icon-inner .msg-avatar-emoji { filter: grayscale(1); transition: filter .3s; }
-      .persona-icon-inner img { width: 100%; height: 100%; object-fit: cover; }
-      .persona-icon-inner img.periodista-full { object-fit: contain; }
-      .persona-icon-inner img.abogado-crop { object-position: center 25%; }
-      .persona-icon-inner img.investigador-crop { object-position: center 30%; }
-      .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
-      .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green-light, #80CCA0); }
-      .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
-        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
-        white-space: nowrap; transition: color .2s, filter .3s; }
-      .chat-persona-icon:not(.active) .persona-cintillo-label { filter: grayscale(1); opacity: .6; }
-      .chat-persona-icon:hover .persona-cintillo-label { color: var(--ho-green, #4E9978); filter: none; opacity: 1; }
-      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); font-weight: 700; filter: none; opacity: 1; }
+      .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .chat-plus-btn.open svg line:nth-child(2) { display: none; }
+      .chat-plus-btn.open svg line:first-child { transform: translateY(6px) rotate(45deg); transform-origin: center; }
+      .chat-plus-btn.open svg line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); transform-origin: center; }
+
+      .chat-plus-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
+        background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        border-radius: 14px; padding: 8px;
+        padding-top: 46px;
+        display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+        box-shadow: 0 4px 16px rgba(0,0,0,.3);
+        animation: menuFadeIn .15s ease; }
+      :host(.theme-light) .chat-plus-menu {
+        background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
+        box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+      .chat-plus-item { width: 32px; height: 32px; box-sizing: border-box;
+        border-radius: 50%; background: transparent;
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; position: relative; }
+      .chat-plus-item:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .chat-plus-item svg { width: 16px; height: 16px; stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-plus-item:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+
+      /* Info popup (same as chat screens) */
+      .info-popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 200; background: rgba(0,0,0,.55); display: flex;
+        align-items: center; justify-content: center; animation: popfade .2s ease; }
+      .info-popup { width: 88%; max-width: 310px; max-height: 80vh; position: relative;
+        background: var(--ho-bg, #1E2321); border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        border-radius: 18px; padding: 20px; overflow-y: auto;
+        box-shadow: 0 8px 32px rgba(0,0,0,.4); animation: menuFadeIn .25s ease; }
+      .info-popup-title { font-family: 'Archivo', sans-serif; font-weight: 800;
+        font-size: 1.1rem; color: var(--ho-green, #4E9978); margin-bottom: 8px; }
+      .info-popup-bajada { font-family: 'Public Sans', sans-serif; font-size: .88rem;
+        color: var(--ho-text-mid, #6E6A60); line-height: 1.5; margin-bottom: 14px; }
+      .info-popup-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px;
+        border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.1));
+        background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+      .info-popup-close svg { width: 14px; height: 14px; stroke: var(--ho-text-mid, #6E6A60);
+        stroke-width: 2.5; fill: none; stroke-linecap: round; }
 
       /* Feed card — idéntico a Clipping: full-width, cuadrado */
       .feed-card { border-radius: 0; margin-bottom: 8px; overflow: hidden;
@@ -271,61 +295,37 @@ class HorneroInfomate extends HoComponent {
     const macro = this._mateData.datosMacro || {};
     const secciones = this._mateData.secciones || [];
 
-    // Edition header: ← | INFOMATE mes (center) | → (same pattern as Clipping)
+    // Edition header: ←back | ←prev | INFOMATE mes (center) | →next | ☰ menu
     const hasPrev = this._edicionIdx < this._ediciones.length - 1;
     const hasNext = this._edicionIdx > 0;
 
-    // Persona bar (same pattern as chat screens)
-    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'sociologo'];
-    const personaScreenMap = {
-      'abogado': { screen: 'consulta', persona: 'abogado' },
-      'periodista': { screen: 'contenido', persona: 'periodista' },
-      'companero': { screen: 'gremial', persona: 'companero' },
-      'historiador': { screen: 'formacion', persona: 'historiador' },
-      'sociologo': { screen: 'condicion', persona: 'sociologo' },
-    };
-    const personaConfigMap = {
-      'abogado':      { emoji: '📖', name: 'Abogado/a', icon: 'assets/personajes/iconos/a03.png' },
-      'companero':    { emoji: '✊', name: 'Compañero/a', icon: 'assets/personajes/iconos/a02.png' },
-      'periodista':   { emoji: '🎙️', name: 'Periodista', icon: 'assets/personajes/iconos/a04.png' },
-      'historiador':  { emoji: '📜', name: 'Historiador/a', icon: 'assets/personajes/iconos/a01.png' },
-      'sociologo':    { emoji: '🔬', name: 'Investigador/a', icon: 'assets/personajes/iconos/a05.png' },
-    };
-    const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiador/a', 'sociologo': 'Investigador/a' };
-
-    const personaIconsHtml = allPersonas.map(p => {
-      const cfg = personaConfigMap[p];
-      const innerClass = `${p === 'periodista' ? 'periodista-full' : ''}${p === 'abogado' ? ' abogado-crop' : ''}${p === 'sociologo' ? ' investigador-crop' : ''}`;
-      const inner = cfg.icon
-        ? `<img src="${cfg.icon}" alt="${cfg.name}" class="${innerClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
-        : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
-      const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
-      const label = shortLabels[p] || cfg.name;
-      return `<button class="chat-persona-icon" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
-        <span class="persona-icon-inner">${inner}</span>
-        <span class="persona-cintillo-label">${label}</span>
-      </button>`;
-    }).join('');
-
-    const personaBarHtml = '<div class="chat-top-bar">' +
-      '<div class="chat-top-bar-left">' +
-        '<button class="cintillo-back-btn" id="cintilloBack" title="Volver">' +
-          '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
-        '</button>' +
-      '</div>' +
-      '<div class="chat-top-bar-center">' + personaIconsHtml + '</div>' +
-    '</div>';
-
-    // Cintillo: ←prev | INFOMATE | →next
+    // Cintillo: ←back + ←prev | INFOMATE | →next + ☰ menu
     const chevLeft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const chevRight = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
     const cintilloHtml = '<div class="act-cintillo">' +
+      '<button class="cintillo-back-btn" id="cintilloBack" title="Volver">' +
+        '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+      '</button>' +
       '<button class="cintillo-nav-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + ' title="Anterior">' + chevLeft + '</button>' +
       '<div class="cintillo-center">' +
         '<div class="cintillo-title">INFOMATE <a class="hero-bajada-link" href="https://mateconomia.com.ar/infomate" target="_blank" rel="noopener">↗</a></div>' +
         '<div class="cintillo-date">' + this._formatMes(meta.mes) + '</div>' +
       '</div>' +
       '<button class="cintillo-nav-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + ' title="Siguiente">' + chevRight + '</button>' +
+      '<div class="cintillo-spacer"></div>' +
+      '<div class="chat-plus-wrapper">' +
+        '<button class="chat-plus-btn' + (this._plusMenuOpen ? ' open' : '') + '" id="matePlusBtn" title="' + (this._plusMenuOpen ? 'Cerrar' : 'Más opciones') + '">' +
+          '<svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' +
+        '</button>' +
+        (this._plusMenuOpen ? '<div class="chat-plus-menu" id="matePlusMenu">' +
+          '<button class="chat-plus-item" id="mateInfoBtn" title="Información de la sección">' +
+            '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
+          '</button>' +
+          '<button class="chat-plus-item" id="mateChatBtn" title="Consultar a la Abogada">' +
+            '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>' +
+          '</button>' +
+        '</div>' : '') +
+      '</div>' +
     '</div>';
 
     // Section cards — paginate: show _visibleCount, then "mostrar más"
@@ -357,7 +357,6 @@ class HorneroInfomate extends HoComponent {
     const popupHtml = this._popupItem ? this._renderPopup(this._popupItem) : '';
 
     return html`
-      ${personaBarHtml}
       ${cintilloHtml}
       <div class="scroll" id="mateScroll">
         ${cardsHtml}
@@ -407,7 +406,7 @@ class HorneroInfomate extends HoComponent {
   // ===== After-render =====
 
   _afterRender() {
-    // Persona bar — back button
+    // Cintillo — back button
     const cintilloBack = this.shadowRoot.querySelector('#cintilloBack');
     if (cintilloBack) cintilloBack.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('ho-navigate', {
@@ -416,18 +415,36 @@ class HorneroInfomate extends HoComponent {
       }));
     });
 
-    // Persona bar — persona icon clicks
-    this.shadowRoot.querySelectorAll('.chat-persona-icon').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const screen = btn.dataset.navScreen;
-        if (screen) {
-          this.dispatchEvent(new CustomEvent('ho-navigate', {
-            detail: { screen: screen },
-            bubbles: true, composed: true
-          }));
-        }
+    // Hamburger menu toggle
+    const plusBtn = this.shadowRoot.querySelector('#matePlusBtn');
+    if (plusBtn) {
+      plusBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this._plusMenuOpen = !this._plusMenuOpen;
+        this.render();
       });
-    });
+    }
+
+    // Menu: Info button → show info popup
+    const infoBtn = this.shadowRoot.querySelector('#mateInfoBtn');
+    if (infoBtn) {
+      infoBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this._showInfoPopup();
+      });
+    }
+
+    // Menu: Chat button → navigate to consulta (Abogada)
+    const chatBtn = this.shadowRoot.querySelector('#mateChatBtn');
+    if (chatBtn) {
+      chatBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this.dispatchEvent(new CustomEvent('ho-navigate', {
+          detail: { screen: 'consulta' },
+          bubbles: true, composed: true
+        }));
+      });
+    }
 
     // Edition navigation buttons
     const prevBtn = this.shadowRoot.querySelector('#edPrev');
@@ -489,6 +506,32 @@ class HorneroInfomate extends HoComponent {
         this._savedScrollTop = null;
       });
     }
+  }
+
+  // ===== Section info popup =====
+  _showInfoPopup() {
+    const existing = this.shadowRoot.querySelector('.info-popup-overlay');
+    if (existing) existing.remove();
+    const info = {
+      title: 'InfoMate',
+      bajada: 'InfoMate es un resumen mensual de datos macroeconómicos y tendencias laborales de Argentina: inflación obrera, SMVM, canasta básica, empleo, informalidad y más. Cada sección trae el dato clave con contexto. Producido por Mateconomía en alianza con Hornero.'
+    };
+    const overlay = document.createElement('div');
+    overlay.className = 'info-popup-overlay';
+    const popup = document.createElement('div');
+    popup.className = 'info-popup';
+    popup.style.position = 'relative';
+    let html = '';
+    if (info.title) html += '<div class="info-popup-title">' + info.title + '</div>';
+    if (info.bajada) html += '<div class="info-popup-bajada">' + info.bajada + '</div>';
+    html += '<button class="info-popup-close" title="Cerrar"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>';
+    popup.innerHTML = html;
+    overlay.appendChild(popup);
+    this.shadowRoot.appendChild(overlay);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+    popup.querySelector('.info-popup-close').addEventListener('click', () => overlay.remove());
   }
 }
 
