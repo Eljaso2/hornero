@@ -975,10 +975,10 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 86px; /* bar + label + gap */
+        padding-top: 72px; /* top bar + 2 lines */
         min-height: 0; /* allow shrink so input bar stays visible */
         -webkit-overflow-scrolling: touch; }
-      :host([reduce-top-pad]) .chat-scroll { padding-top: 86px; }
+      :host([reduce-top-pad]) .chat-scroll { padding-top: 72px; }
 
       /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }
@@ -1064,6 +1064,14 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-logo { height: 22px; width: auto; object-fit: contain; }
       :host(.theme-light) .chat-top-bar-logo { filter: brightness(0); }
       :host(.theme-light) .chat-top-bar { background: var(--ho-bg, #F8F6F0); }
+      /* Persona label field: invisible overlay below top-bar, sits on top of chat-scroll */
+      .persona-label-field { position: absolute; top: 72px; left: 0; right: 0; height: 22px;
+        z-index: 15; display: flex; justify-content: center; align-items: center;
+        pointer-events: none; }
+      .persona-label-field .persona-label-text { font-family: 'Archivo', sans-serif;
+        font-size: .76rem; font-weight: 700; color: var(--ho-green, #4E9978);
+        text-transform: uppercase; white-space: nowrap;
+        text-shadow: 0 0 6px var(--ho-bg, #1E2321), 0 0 12px var(--ho-bg, #1E2321); }
       .chat-top-bar-right { display: flex; align-items: center; gap: 4px; padding-right: 8px; flex-shrink: 0; z-index: 3; position: relative; min-width: 48px; justify-content: flex-end; }
 
       /* Wrapper: + button stays in place, panel is absolutely positioned behind it */
@@ -1220,17 +1228,6 @@ class HorneroChat extends HoComponent {
       /* Active persona: full color + light colored background, no green border/glow */
       .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
-      .chat-persona-icon .persona-cintillo-label { font-family: .Archivo., sans-serif; display: none; text-align: center; margin-top: 2px;
-        font-size: .76rem; font-weight: 700; color: var(--ho-green, #4E9978);
-        
-        white-space: nowrap; pointer-events: none;
-        text-shadow: 0 0 6px var(--ho-bg, #1E2321);
-        transition: color .2s, filter .3s; }
-      /* Inactive label: also grayscale */
-      .chat-persona-icon:not(.active) .persona-cintillo-label { filter: grayscale(1); opacity: .6; }
-      .chat-persona-icon:hover .persona-cintillo-label { display: block; color: var(--ho-green, #4E9978); filter: none; opacity: 1; }
-      .chat-persona-icon.active .persona-cintillo-label { display: block; color: var(--ho-green, #4E9978); font-weight: 700; filter: none; opacity: 1; }
-      .chat-persona-icon.tapped .persona-cintillo-label { display: block; color: var(--ho-green, #4E9978); filter: none; opacity: 1; }
 
       /* === Redirect derivation button in message === */
       .msg-redirect-btn { display: inline-flex; align-items: center; gap: 6px;
@@ -1597,7 +1594,7 @@ class HorneroChat extends HoComponent {
       const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiador/a', 'sociologo': 'Investigador/a' };
       const label = shortLabels[p] || cfg.name;
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
-        <span class="persona-icon-inner">${inner}</span><span class="persona-cintillo-label">${label.toUpperCase()}</span>
+        <span class="persona-icon-inner">${inner}</span>
       </button>`;
     }).join('');
 
@@ -1835,6 +1832,8 @@ class HorneroChat extends HoComponent {
       </div>
 
       ${progressFill}
+
+      <div class="persona-label-field" id="personaLabelField"></div>
 
       <div class="chat-scroll">
         ${messagesHtml}
@@ -2749,15 +2748,39 @@ class HorneroChat extends HoComponent {
     });
 
     // === Persona icon buttons → navigate to that persona's screen ===
+    const shortLabels = { 'companero': 'COMPAÑERO/A', 'abogado': 'ABOGADO/A', 'periodista': 'PERIODISTA', 'historiador': 'HISTORIADOR/A', 'sociologo': 'INVESTIGADOR/A' };
+    const updateLabel = (persona) => {
+      const field = this.shadowRoot.querySelector('#personaLabelField');
+      if (!field) return;
+      const label = shortLabels[persona] || (persona || '').toUpperCase();
+      field.innerHTML = `<span class="persona-label-text">${label}</span>`;
+    };
+    const clearLabel = () => {
+      const field = this.shadowRoot.querySelector('#personaLabelField');
+      if (field) field.innerHTML = '';
+    };
+    // Show active persona label on load
+    const activeBtn = this.shadowRoot.querySelector('.chat-persona-icon.active');
+    if (activeBtn) updateLabel(activeBtn.dataset.persona);
+
     this.shadowRoot.querySelectorAll('.chat-persona-icon').forEach(btn => {
       btn.addEventListener('click', () => {
         this.shadowRoot.querySelectorAll('.chat-persona-icon.tapped').forEach(b => b.classList.remove('tapped'));
-        if (!btn.classList.contains('active')) btn.classList.add('tapped');
+        if (!btn.classList.contains('active')) {
+          btn.classList.add('tapped');
+          updateLabel(btn.dataset.persona);
+        }
         const screen = btn.dataset.navScreen;
         const persona = btn.dataset.navPersona;
         if (screen) {
           this.emit('persona-navigate', { persona, screen });
         }
+      });
+      btn.addEventListener('mouseenter', () => updateLabel(btn.dataset.persona));
+      btn.addEventListener('mouseleave', () => {
+        const active = this.shadowRoot.querySelector('.chat-persona-icon.active');
+        const tapped = this.shadowRoot.querySelector('.chat-persona-icon.tapped');
+        updateLabel((tapped || active)?.dataset.persona || '');
       });
       // Scroll active persona into center of bar
       if (btn.classList.contains('active')) {
