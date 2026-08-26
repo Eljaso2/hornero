@@ -975,10 +975,10 @@ class HorneroChat extends HoComponent {
 
       /* Messages scroll */
       .chat-scroll { flex: 1; overflow-y: auto; padding: 16px;
-        padding-top: 88px; /* 64px bar + 4px gap + 20px label */
+        padding-top: 96px; /* 64px bar + 4px gap + 28px label clearance */
         min-height: 0; /* allow shrink so input bar stays visible */
         -webkit-overflow-scrolling: touch; }
-      :host([reduce-top-pad]) .chat-scroll { padding-top: 88px; }
+      :host([reduce-top-pad]) .chat-scroll { padding-top: 96px; }
 
       /* Animations */
       @keyframes msgin { from { opacity: 0; transform: translateY(10px) scale(.97) }
@@ -1371,7 +1371,7 @@ class HorneroChat extends HoComponent {
       .msg-action-btn.disliked svg.thumb-down { fill: var(--ho-gold, #B0863F); }
 
       /* Typing indicator — no bubble, just dots inline */
-      .typing-row { display: flex; align-items: flex-end; gap: 8px; margin: 0 16px 8px;
+      .typing-row { display: flex; align-items: flex-end; gap: 8px; margin: 0 16px 8px; flex-shrink: 0; min-height: 28px;
         padding-top: 4px; flex-shrink: 0; animation: msgin .2s ease; }
       .typing-avatar { width: 32px; height: 32px;
         display: flex; align-items: center; justify-content: center; flex: none; }

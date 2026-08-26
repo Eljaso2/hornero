@@ -578,9 +578,7 @@ class HorneroFormacion extends HoComponent {
     }
 
     // No previous session found — start fresh with greeting
-    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-    this._emitSessionSave();
-    this._showGreeting();
+    this._requestGreeting();
   }
 
   async _loadSession(sessionId) {
@@ -627,15 +625,8 @@ class HorneroFormacion extends HoComponent {
       efeText = '¡Hola! Soy la Historiadora. Conozco la historia del movimiento obrero — huelgas, masacres, lockouts, referentes.\n\nAcá podemos recorrer:\n\n• 📅 Efemérides — Hechos históricos de cada semana\n• 📖 Mitín — Ensayos de historia obrera argentina\n• 📚 Colección La Argentina Peronista — Libros y documentos\n• 🎬 Retazos — Docuficción, audio, ilustraciones, música\n\n¿Qué tema histórico te interesa?';
     }
 
-    // 1. Show typing dots for 1s
-    this._typing = true;
-    this.render();
-
-    setTimeout(() => {
-      // 2. Progressive reveal of greeting
-      this._typing = false;
-      this._revealMessage(efeText, 'historiador', ['historia', 'greeting', 'efemeride-semana'], null);
-    }, 1000);
+    // Show greeting immediately (instant, no delay)
+    this._revealMessage(efeText, 'historiador', ['historia', 'greeting', 'efemeride-semana'], null);
   }
 
   // ===== Progressive reveal: show text char by char via streaming =====
@@ -969,6 +960,9 @@ class HorneroFormacion extends HoComponent {
   // ===== Request greeting from backend (like Historiador) =====
   async _requestGreeting() {
     this._greetingRequested = true;
+    // Generate session ID if not already set
+    if (!this._sessionId) this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
 
     // Show local greeting immediately (instant, no backend wait)
     const local = this._localGreeting();

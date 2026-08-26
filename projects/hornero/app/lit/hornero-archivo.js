@@ -418,8 +418,7 @@ class HorneroArchivo extends HoComponent {
     }
 
     // No previous session found — start fresh with greeting
-    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-    this._showGreeting();
+    this._requestGreeting();
   }
 
   async _loadSession(sessionId) {
@@ -805,6 +804,8 @@ class HorneroArchivo extends HoComponent {
   // ===== Request greeting from backend =====
   async _requestGreeting() {
     this._greetingRequested = true;
+    // Generate session ID if not already set
+    if (!this._sessionId) this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
     // Show local greeting immediately (instant, no backend wait)
     const local = this._localGreeting();
