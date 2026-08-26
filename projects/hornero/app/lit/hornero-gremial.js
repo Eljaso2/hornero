@@ -993,6 +993,10 @@ class HorneroGremial extends HoComponent {
       chatEl.addEventListener('chat-export', (e) => {
         this._handleChatExport(e.detail);
       });
+      // Listen for "Nuevo chat" button from plus menu
+      chatEl.addEventListener('chat-new-session', () => {
+        this._startNewSession();
+      });
       // Listen for persona navigate from top-bar icons
       chatEl.addEventListener('persona-navigate', (e) => {
         this._handlePersonaNavigate(e.detail.persona, e.detail.screen);
@@ -1062,6 +1066,16 @@ class HorneroGremial extends HoComponent {
         if (err.name === 'AbortError') throw new Error('FETCH_TIMEOUT');
         throw err;
       });
+  }
+
+  _startNewSession() {
+    this.messages = [];
+    this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+    this._emitSessionSave();
+    this._historyLoaded = true;
+    this._greetingRequested = false;
+    this._activePersona = this.persona || this._activePersona;
+    this._requestGreeting();
   }
 
   async _loadChatHistory() {

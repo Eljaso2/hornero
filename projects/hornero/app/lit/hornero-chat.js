@@ -1053,7 +1053,7 @@ class HorneroChat extends HoComponent {
       /* === Chat top bar (cintillo) — tira scrolleable de actores + acciones === */
        .chat-top-bar { position: absolute; top: 0; left: 0; right: 0; z-index: 20;
         height: 64px; display: flex; align-items: center;
-        padding-top: 8px; background: var(--ho-bg, #1E2321); }
+        padding-top: 8px; background: var(--ho-bg, #1E2321); overflow: visible; }
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 3; min-width: 48px; justify-content: flex-start; }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         -webkit-overflow-scrolling: touch;
@@ -1597,7 +1597,7 @@ class HorneroChat extends HoComponent {
       const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiador/a', 'sociologo': 'Investigador/a' };
       const label = shortLabels[p] || cfg.name;
       return `<button class="chat-persona-icon${isActive ? ' active' : ''}" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
-        <span class="persona-icon-inner">${inner}</span>
+        <span class="persona-icon-inner">${inner}</span><span class="persona-cintillo-label">${label.toUpperCase()}</span>
       </button>`;
     }).join('');
 
@@ -1639,9 +1639,6 @@ class HorneroChat extends HoComponent {
         <div class="history-drawer${this._historyDrawerStable ? ' stable' : ''}">
           <div class="history-header">
             <div class="history-header-title">${this.historyTitle || 'Historial'}</div>
-            <button class="history-new-btn" title="Nuevo chat">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
             <button class="history-close-btn">
               <svg viewBox="0 0 24 24">${xSvg}</svg>
             </button>
@@ -1808,6 +1805,9 @@ class HorneroChat extends HoComponent {
               </button>
               ${this._plusMenuOpen ? html`
               <div class="chat-plus-menu" id="chatPlusMenu">
+                <button class="chat-plus-item" id="chatNewChatBtn" title="Nuevo chat">
+                  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
                 <button class="chat-plus-item" id="chatInfoBtn" title="Información de la sección">
                   <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                 </button>
@@ -2566,6 +2566,16 @@ class HorneroChat extends HoComponent {
       });
     }
 
+    // === New chat button (dropdown menu item) → start fresh session ===
+    const newChatBtn = this.shadowRoot.querySelector('#chatNewChatBtn');
+    if (newChatBtn) {
+      newChatBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this.emit('chat-new-session', {});
+        this.render();
+      });
+    }
+
     // === History button (dropdown menu item) → open drawer ===
     const historyBtn = this.shadowRoot.querySelector('#chatHistoryBtn');
     if (historyBtn) {
@@ -2740,42 +2750,17 @@ class HorneroChat extends HoComponent {
     });
 
     // === Persona icon buttons → navigate to that persona's screen ===
-    const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiador/a', 'sociologo': 'Investigador/a' };
-    let personaTooltip = null;
-    const showPersonaLabel = (btn) => {
-      hidePersonaLabel();
-      const p = btn.dataset.persona;
-      const label = shortLabels[p] || p;
-      const rect = btn.getBoundingClientRect();
-      const hostRect = this.getBoundingClientRect();
-      personaTooltip = document.createElement('div');
-      personaTooltip.className = 'persona-floating-label';
-      personaTooltip.textContent = label.toUpperCase();
-      personaTooltip.style.cssText = `position:absolute;top:${rect.bottom - hostRect.top + 4}px;left:${rect.left - hostRect.left + rect.width / 2}px;transform:translateX(-50%);font-family:'Archivo',sans-serif;font-size:.76rem;font-weight:700;color:var(--ho-green,#4E9978);white-space:nowrap;pointer-events:none;z-index:30;text-shadow:0 1px 4px var(--ho-bg,#1E2321);`;
-      this.shadowRoot.appendChild(personaTooltip);
-    };
-    const hidePersonaLabel = () => {
-      if (personaTooltip) { personaTooltip.remove(); personaTooltip = null; }
-    };
     this.shadowRoot.querySelectorAll('.chat-persona-icon').forEach(btn => {
       btn.addEventListener('click', () => {
-        // Toggle label on tap (mobile), remove from others
         this.shadowRoot.querySelectorAll('.chat-persona-icon.tapped').forEach(b => b.classList.remove('tapped'));
-        if (!btn.classList.contains('active')) {
-          btn.classList.add('tapped');
-          showPersonaLabel(btn);
-        } else {
-          hidePersonaLabel();
-        }
+        if (!btn.classList.contains('active')) btn.classList.add('tapped');
         const screen = btn.dataset.navScreen;
         const persona = btn.dataset.navPersona;
         if (screen) {
           this.emit('persona-navigate', { persona, screen });
         }
       });
-      btn.addEventListener('mouseenter', () => showPersonaLabel(btn));
-      btn.addEventListener('mouseleave', () => hidePersonaLabel());
-      // Scroll active persona into center of bar + show its label
+      // Scroll active persona into center of bar
       if (btn.classList.contains('active')) {
         requestAnimationFrame(() => {
           const center = btn.closest('.chat-top-bar-center');
@@ -2783,7 +2768,6 @@ class HorneroChat extends HoComponent {
             const btnLeft = btn.offsetLeft + btn.offsetWidth / 2;
             center.scrollTo({ left: btnLeft - center.offsetWidth / 2, behavior: 'smooth' });
           }
-          showPersonaLabel(btn);
         });
       }
     });
@@ -2809,7 +2793,6 @@ class HorneroChat extends HoComponent {
     const historyOverlay = this.shadowRoot.querySelector('.history-overlay');
     const historyDrawerEl = this.shadowRoot.querySelector('.history-drawer');
     const historyCloseBtn = this.shadowRoot.querySelector('.history-close-btn');
-    const historyNewBtn = this.shadowRoot.querySelector('.history-new-btn');
     if (historyOverlay) {
       historyOverlay.addEventListener('click', (e) => {
         if (e.target === historyOverlay) {
@@ -2817,12 +2800,7 @@ class HorneroChat extends HoComponent {
         }
       });
     }
-    if (historyNewBtn) {
-      historyNewBtn.addEventListener('click', () => {
-        this.emit('chat-new-session', {});
-        this._closeHistoryDrawer();
-      });
-    }
+    // (history-new-btn removed — "Nuevo chat" now lives in the plus menu)
     if (historyCloseBtn) {
       historyCloseBtn.addEventListener('click', () => {
         this._closeHistoryDrawer();
@@ -3671,6 +3649,14 @@ ${msgs.map(m => {
   }
 
   _bindPlusMenuItems() {
+    const newChatBtn = this.shadowRoot.querySelector('#chatNewChatBtn');
+    if (newChatBtn) {
+      newChatBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this.emit('chat-new-session', {});
+        this.render();
+      });
+    }
     const historyBtn = this.shadowRoot.querySelector('#chatHistoryBtn');
     if (historyBtn) {
       historyBtn.addEventListener('click', () => {
