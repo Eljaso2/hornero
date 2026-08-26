@@ -621,7 +621,6 @@ class HorneroLogin extends HoComponent {
         if (inp) { inp.value = ''; inp.focus(); }
       }, 50);
     });
-    });
 
     // Cargo selection
     const cargoOptions = this.shadowRoot.querySelector('#cargo-options');
