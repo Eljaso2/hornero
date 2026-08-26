@@ -2367,7 +2367,6 @@ class HorneroChat extends HoComponent {
       `<button class="msg-informes-btn" data-action="open-informes">📄 Ver mis informes</button>` : '';
 
     return `<div class="msg-row hornero">
-      ${avatarRow}
       <div class="msg-content">
         ${downloadHtml}
         ${contentHtml}
