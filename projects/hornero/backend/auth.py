@@ -237,6 +237,23 @@ def _get_user_by_email(email: str) -> dict | None:
         return None
 
 
+def _get_user_by_nombre(nombre: str) -> dict | None:
+    """Find user by full name (case-insensitive)."""
+    try:
+        with _get_conn() as conn:
+            row = conn.execute(
+                "SELECT id, email, username, password_hash, nombre, grade, territory, sector, tenant, category, agremiacion, email_confirmed, active, is_tester, verificacion_pendiente, sindicato_id FROM users WHERE LOWER(nombre) = LOWER(%s)",
+                (nombre,)
+            ).fetchone()
+            if not row:
+                return None
+            cols = ["id", "email", "username", "password_hash", "nombre", "grade", "territory", "sector", "tenant", "category", "agremiacion", "email_confirmed", "active", "is_tester", "verificacion_pendiente", "sindicato_id"]
+            return dict(zip(cols, row))
+    except Exception as e:
+        logger.error(f"DB error getting user by nombre {nombre}: {e}")
+        return None
+
+
 def _get_user_by_confirmation_token(token: str) -> dict | None:
     try:
         with _get_conn() as conn:
@@ -820,10 +837,12 @@ async def login(req: LoginRequest, request: Request):
     if not _check_auth_rate(f"login:{req.username}", 10, 900):
         raise HTTPException(429, "Demasiados intentos. Esperá 15 minutos.")
 
-    # Find user by username or email
+    # Find user by username, email, or nombre completo
     user = _get_user_by_username(req.username)
     if not user:
         user = _get_user_by_email(req.username)
+    if not user:
+        user = _get_user_by_nombre(req.username)
     if not user:
         raise HTTPException(401, "Usuario o contraseña incorrectos")
 
@@ -1006,21 +1025,24 @@ async def admin_list_users(user: dict = Depends(_optional_auth), admin_key: str 
                 FROM users
                 ORDER BY created_at DESC
             """).fetchall()
+            cols = ["username", "email", "nombre", "grade", "sector", "territory",
+                    "category", "email_confirmed", "created_at", "is_tester", "verificacion_pendiente", "sindicato_id"]
             users = []
             for r in rows:
+                d = dict(zip(cols, r))
                 users.append({
-                    "username": r["username"],
-                    "email": r["email"],
-                    "nombre": r["nombre"],
-                    "grade": r["grade"],
-                    "sector": r["sector"],
-                    "territory": r["territory"],
-                    "category": r["category"],
-                    "email_confirmed": r["email_confirmed"],
-                    "created_at": str(r["created_at"]) if r["created_at"] else "",
-                    "is_tester": r["is_tester"] if "is_tester" in r.keys() else False,
-                    "verificacion_pendiente": r["verificacion_pendiente"] if "verificacion_pendiente" in r.keys() else False,
-                    "sindicato_id": r["sindicato_id"] if "sindicato_id" in r.keys() else "",
+                    "username": d["username"],
+                    "email": d["email"],
+                    "nombre": d["nombre"],
+                    "grade": d["grade"],
+                    "sector": d["sector"],
+                    "territory": d["territory"],
+                    "category": d["category"],
+                    "email_confirmed": d["email_confirmed"],
+                    "created_at": str(d["created_at"]) if d["created_at"] else "",
+                    "is_tester": d.get("is_tester", False),
+                    "verificacion_pendiente": d.get("verificacion_pendiente", False),
+                    "sindicato_id": d.get("sindicato_id", ""),
                 })
             return {"total": len(users), "users": users}
     except Exception as e:
