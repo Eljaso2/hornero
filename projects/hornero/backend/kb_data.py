@@ -1006,11 +1006,16 @@ def rebuild_knowledge_base_string() -> str:
 
 # ===== Helper: get chunks for prompt injection =====
 
-def get_chunks_text(chunk_ids: list) -> str:
+def get_chunks_text(chunk_ids: list, max_chars_per_chunk: int = 6000) -> str:
     """Format selected chunks as text for system prompt injection.
 
     Only includes chunks whose IDs are in chunk_ids list.
     Returns formatted text similar to the original KNOWLEDGE_BASE format.
+
+    max_chars_per_chunk: truncate each chunk's text to this limit.
+    Prevents monolithic chunks from saturating the prompt.
+    Default 6000 chars ≈ 1500 tokens — enough for a section + context,
+    small enough that 8 chunks ≈ 12K tokens total (manageable for any LLM).
     """
     if not chunk_ids:
         return ""
@@ -1032,7 +1037,18 @@ def get_chunks_text(chunk_ids: list) -> str:
         cat = chunk.get('category', 'fuentes')
         icon = CATEGORY_ICONS.get(cat, '📄')
         lines.append(f"[{icon} FUENTE: {chunk['title']}] ({cat})")
-        lines.append(chunk["text"].strip())
+
+        # Truncate chunk text to max_chars_per_chunk to prevent prompt bloat
+        text = chunk["text"].strip()
+        if len(text) > max_chars_per_chunk:
+            text = text[:max_chars_per_chunk].rstrip()
+            # Try to end at a sentence boundary (period followed by space)
+            last_period = text.rfind('. ')
+            if last_period > max_chars_per_chunk * 0.7:  # don't truncate too aggressively
+                text = text[:last_period + 1]
+            text += "\n[... fragmento truncado — texto completo disponible en la fuente]"
+        lines.append(text)
+
         for q in chunk.get("quotes", []):
             lines.append(f"Quote: \"{q['text']}\"")
             lines.append(f"— {q['author']}")

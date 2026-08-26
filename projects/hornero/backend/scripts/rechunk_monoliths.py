@@ -259,13 +259,41 @@ def split_by_paragraphs(text: str, fallback_title: str) -> list:
 
 
 def split_oversized_section(section: dict, source_title: str, section_idx: int) -> list:
-    """Split a section that exceeds MAX_CHUNK_CHARS at paragraph boundaries."""
+    """Split a section that exceeds MAX_CHUNK_CHARS at paragraph or sentence boundaries.
+
+    Strategy:
+    1. Try paragraph boundaries (\n\n)
+    2. If paragraphs are too large (PDF extraction often merges them), split at sentence boundaries
+    3. Sentence = text between periods followed by uppercase (rough heuristic for Spanish)
+    """
     text = section['text']
     if len(text) <= MAX_CHUNK_CHARS:
         return [section]
 
-    # Split at paragraph boundaries (double newline)
+    # Strategy 1: Split at paragraph boundaries (\n\n)
     paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+
+    # Check if paragraphs are too large (PDF extraction artifact: no \n\n between paragraphs)
+    if paragraphs and max(len(p) for p in paragraphs) > MAX_CHUNK_CHARS * 0.8:
+        # Strategy 2: Split at sentence boundaries
+        # A sentence ends with . ? or ! followed by space and uppercase
+        # For Spanish academic text: period + space + uppercase or period + newline
+        sentences = re.split(r'(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÑ])', text)
+        if len(sentences) > 1:
+            # Re-group sentences into paragraphs of ~MAX_CHUNK_CHARS
+            paragraphs = []
+            current = []
+            current_len = 0
+            for sent in sentences:
+                if current_len + len(sent) + 1 > MAX_CHUNK_CHARS and current:
+                    paragraphs.append(' '.join(current))
+                    current = []
+                    current_len = 0
+                current.append(sent)
+                current_len += len(sent) + 1
+            if current:
+                paragraphs.append(' '.join(current))
+
     chunks = []
     current_text = []
     current_len = 0
@@ -274,7 +302,7 @@ def split_oversized_section(section: dict, source_title: str, section_idx: int) 
     for para in paragraphs:
         if current_len + len(para) > MAX_CHUNK_CHARS and current_text:
             chunks.append({
-                'title': f"{section['title']} ({sub_idx})",
+                'title': f"{section['title']} ({sub_idx})" if sub_idx > 1 or len(paragraphs) > 1 else section['title'],
                 'text': '\n\n'.join(current_text),
             })
             sub_idx += 1
@@ -284,8 +312,8 @@ def split_oversized_section(section: dict, source_title: str, section_idx: int) 
         current_len += len(para)
 
     if current_text:
-        if sub_idx == 1:
-            # Only one chunk — keep original title
+        if sub_idx == 1 and len(paragraphs) == 1:
+            # Single chunk — keep original title
             chunks.append({
                 'title': section['title'],
                 'text': '\n\n'.join(current_text),
