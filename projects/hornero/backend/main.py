@@ -121,16 +121,11 @@ async def startup_event():
     print(f"KB chunks loaded: {kb_count} total (manual + PDF-extracted)")
 
 
-# CORS — allow app origin + localhost for development
-origins = [ALLOWED_ORIGIN]
-if LOCAL_ORIGIN:
-    # localhost:* pattern for development
-    origins.append("http://localhost")
-    origins.append("http://localhost:8000")
-
+# CORS — allow app origin + localhost (any port) + VSCode webview
+# Using regex so VSCode embedded browser (vscode-cdn.net) and any localhost port work
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[ALLOWED_ORIGIN, "http://localhost", "http://localhost:8000"],
+    allow_origin_regex=r"https://eljaso2\.github\.io|http://localhost(:\d+)?|https://[a-z0-9-]+\.vscode-cdn\.net|vscode-webview://.*",
     allow_credentials=True,
     allow_methods=["POST", "GET", "DELETE", "OPTIONS"],
     allow_headers=["*"],
