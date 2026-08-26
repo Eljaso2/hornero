@@ -1045,9 +1045,12 @@ class HorneroConsulta extends HoComponent {
       // Generate title from first user message or fallback
       const firstUserMsg = this.messages.find(m => m.role === 'user');
       const title = firstUserMsg && firstUserMsg.title ? firstUserMsg.title : 'Consulta';
-      const filename = title + '.txt';
+      const dateStamp = new Date().toISOString().slice(0, 10);
+      const safeTitle = title.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+      const fname = safeTitle + '_' + dateStamp;
+      const filename = fname + '.txt';
       // Generate TXT content and trigger download
-      chatEl._downloadTxt(this.messages, title, title);
+      chatEl._downloadTxt(this.messages, title, fname);
       // Add message with clickable download card
       const txtContent = chatEl._generateTxtContent(this.messages, title);
       this.messages = [...this.messages, {

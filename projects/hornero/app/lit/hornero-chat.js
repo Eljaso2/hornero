@@ -2760,7 +2760,11 @@ class HorneroChat extends HoComponent {
             obtenerChatSessionMessages(sid).then(msgs => {
               if (msgs && msgs.length > 0) {
                 const preview = (msgs[0].text || '').substring(0, 30).replace(/[?!.]+$/, '');
-                this._downloadTxt(msgs, preview || 'chat-hornero', preview || 'chat-hornero');
+                const chatTitle = msgs[0].title || preview || 'chat-hornero';
+                const dateStamp = new Date().toISOString().slice(0, 10);
+                const safeTitle = chatTitle.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+                const fname = safeTitle + '_' + dateStamp;
+                this._downloadTxt(msgs, chatTitle, fname);
               }
             }).catch(err => console.warn('Chat: export session failed', err));
           }
@@ -3618,7 +3622,13 @@ ${msgs.map(m => {
     // Confirm → download TXT directly
     overlay.querySelector('.export-confirm-ok').addEventListener('click', () => {
       overlay.remove();
-      this._downloadTxt(this.messages, this.title, this.title || 'chat-hornero');
+      const chatTitle = this.title || 'chat-hornero';
+      const now = new Date();
+      const dateStamp = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      // Sanitize title for filename: replace spaces/special chars with hyphens
+      const safeTitle = chatTitle.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+      const fname = safeTitle + '_' + dateStamp;
+      this._downloadTxt(this.messages, this.title, fname);
     });
 
     // Click outside dialog → close
