@@ -2736,6 +2736,9 @@ class HorneroChat extends HoComponent {
     // === Persona icon buttons → navigate to that persona's screen ===
     this.shadowRoot.querySelectorAll('.chat-persona-icon').forEach(btn => {
       btn.addEventListener('click', () => {
+        // Toggle label on tap (mobile), remove from others
+        this.shadowRoot.querySelectorAll('.chat-persona-icon.tapped').forEach(b => b.classList.remove('tapped'));
+        if (!btn.classList.contains('active')) btn.classList.add('tapped');
         const screen = btn.dataset.navScreen;
         const persona = btn.dataset.navPersona;
         if (screen) {
