@@ -1199,7 +1199,8 @@ class HorneroChat extends HoComponent {
       .chat-persona-icon:hover { opacity: .85; }
       .chat-persona-icon.active { opacity: 1; }
       .chat-persona-icon.active .persona-icon-inner,
-      .chat-persona-icon.tapped .persona-icon-inner { transform: scale(1.12); transform-origin: center center; }
+      .chat-persona-icon.active .persona-icon-inner,
+      .chat-persona-icon.tapped .persona-icon-inner { transform: scale(1.14); transform-origin: center center; }
       .persona-icon-inner { width: 42px; height: 42px; box-sizing: border-box;
         display: flex; align-items: center; justify-content: center;
         border-radius: 50%; border: 2px solid var(--ho-border, rgba(255,255,255,.08));

@@ -933,7 +933,7 @@ class HorneroLogin extends HoComponent {
                        (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : '');
       if (!baseUrl) {
         this.set('loading', false);
-        this.set('error', 'Error de conexión con el servidor');
+        this.set('error', 'Error de conexión con el servidor (sin URL)');
         return;
       }
 
@@ -942,10 +942,7 @@ class HorneroLogin extends HoComponent {
         this.set('error', 'Despertando el servidor...');
         try {
           await window.HorneroAPI.wakeUpBackend();
-          // Don't abort if wake-up returns false — try register anyway
-        } catch(e) {
-          // Wake-up failed — try register anyway (backend might be partially awake)
-        }
+        } catch(e) {}
         this.set('error', '');
       }
 
@@ -974,7 +971,9 @@ class HorneroLogin extends HoComponent {
         this.set('error', data.detail || 'Error al crear la cuenta');
       }
     } catch(e) {
-      this.set('error', 'No se pudo conectar al servidor. Verificá tu conexión e intentá de nuevo.');
+      console.error('Signup fetch error:', e);
+      const errMsg = e instanceof TypeError ? 'No se pudo conectar al servidor. Verificá tu conexión.' : (e.message || 'Error desconocido');
+      this.set('error', errMsg);
     } finally {
       this.set('loading', false);
     }
