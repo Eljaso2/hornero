@@ -959,7 +959,7 @@ class HorneroApp extends HoComponent {
       const editInfAttr = this._editInformeId ? ' edit-informe="' + this._editInformeId + '"' : '';
       screenContent = '<hornero-gremial grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'companero') + '" session-id="' + (this._initialSessionId || '') + '" warm-resume="' + this._isWarmResume() + '"' + viewInfAttr + editInfAttr + '></hornero-gremial>';
     } else if (this.screen === 'historiador') {
-      screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '"></hornero-historiador>';
+      screenContent = '<hornero-historiador grade="' + this.userGrade + '" sector="' + this.userSector + '" persona="' + (this._initialPersona || 'historiador') + '" session-id="' + (this._initialSessionId || '') + '" warm-resume="' + this._isWarmResume() + '"></hornero-historiador>';
     } else if (this.screen === 'ecosistema') {
       screenContent = '<hornero-ecosistema grade="' + this.userGrade + '" sector="' + this.userSector + '" theme="' + this.theme + '"></hornero-ecosistema>';
     } else if (this.screen === 'formacion') {
