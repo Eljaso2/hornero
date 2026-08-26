@@ -384,6 +384,7 @@ class HorneroCondicion extends HoComponent {
 
     // No previous session found — start fresh with greeting
     this._requestGreeting();
+  }
 
   async _loadSession(sessionId) {
     try {
