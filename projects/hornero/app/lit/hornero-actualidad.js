@@ -411,7 +411,8 @@ class HorneroActualidad extends HoComponent {
         background: var(--ho-card, #2A3230); cursor: pointer;
         transition: border-color .2s; }
       .clip-card:hover { border-color: var(--ho-green, #4E9978); }
-      .clip-card-img { width: 100%; height: 140px; object-fit: cover; display: block; }
+      .clip-card-img { width: 100%; height: 120px; object-fit: contain; display: block;
+        background: var(--ho-dark-surface, #3F4E4A); }
       .clip-card-body { padding: 10px 12px 6px; }
       .clip-card-fecha { font-family: 'JetBrains Mono', monospace; font-size: .56rem;
         color: var(--ho-text-mid, #6E6A60); letter-spacing: .06em; }
