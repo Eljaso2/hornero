@@ -1057,7 +1057,7 @@ class HorneroChat extends HoComponent {
       .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; z-index: 3; min-width: 48px; justify-content: flex-start; }
       .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; gap: 10px; padding: 0;
+        scrollbar-width: none; gap: 10px; padding: 0 8px;
         justify-content: center; scroll-behavior: smooth; }
       .chat-top-bar-center::-webkit-scrollbar { width: 0; }
       .chat-top-bar-center { scroll-padding: 0 48px; }
