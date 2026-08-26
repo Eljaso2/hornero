@@ -2,9 +2,9 @@ services:
   - type: web
     name: hornero-ia
     runtime: python
-    rootDir: projects/hornero
-    buildCommand: apt-get update && apt-get install -y ffmpeg && pip install -r backend/requirements.txt
-    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    rootDir: projects/hornero/backend
+    buildCommand: apt-get update && apt-get install -y ffmpeg && pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: LLM_PROVIDER
         value: deepseek
@@ -41,3 +41,6 @@ services:
         sync: false
       - key: EMAIL_FROM
         value: "Hornero <alejandro.jasinski@gmail.com>"
+      # ===== RAG directory (chunks outside backend/) =====
+      - key: RAG_DIR
+        value: /opt/render/project/src/biblioteca/rag
