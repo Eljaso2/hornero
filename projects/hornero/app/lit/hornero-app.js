@@ -103,7 +103,7 @@ class HorneroApp extends HoComponent {
     this.navDefBase = [
       { id: 'home', label: 'Inicio', img: 'assets/hornero-logo-nobg.png', svg: '<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0v-6a1 1 0 011-1h2a1 1 0 011 1v6"/>' },
       { id: 'clipping', label: 'Clipping', svg: '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002 2h-4"/><path d="M11 7h2m-2 4h2m-2 4h4m-6 0h2"/><circle cx="8" cy="7" r="1.5"/>' },
-      { id: 'chat', label: 'Chat', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
+      { id: 'chat', label: 'Mesa', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
       { id: 'misReportes', label: 'Reporte', svg: '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>' },
       { id: 'condicion', label: 'Panorama', svg: '<rect x="3" y="3" rx="2" ry="2" width="18" height="18"/><line x1="3" y1="9" x2="21"/><line x1="9" y1="21" x2="9"/>' },
       { id: 'perfil', label: 'Perfil', svg: '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
@@ -122,7 +122,7 @@ class HorneroApp extends HoComponent {
       { id: 'clipping', label: 'Clipping' },
       { id: 'infomate', label: 'InfoMate' },
       { id: 'misReportes', label: 'Reporte' },
-      { id: 'chat', label: 'Chat' },
+      { id: 'chat', label: 'Mesa' },
       { id: 'derecho', label: 'Derecho' },
       { id: 'contenido', label: 'Contenido' },
       { id: 'condicion', label: 'Panorama' },
@@ -136,7 +136,7 @@ class HorneroApp extends HoComponent {
 
     this.titles = {
       home: 'Inicio',
-      chat: 'Chat',
+      chat: 'Mesa de trabajo',
       derecho: 'Derecho',
       consulta: 'Chateá con tu interlocutor/a',
       formacion: 'Historia Obrera',

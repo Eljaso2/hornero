@@ -281,7 +281,7 @@ class HorneroHome extends HoComponent {
       .agenda-hoy .agenda-date, .agenda-manana .agenda-date { font-size: .40rem; }
       .agenda-prox .agenda-date { font-size: .36rem; }
 
-      /* ===== ESFERA 2: Chat — 5 personajes, tira scrolleable ===== */
+      /* ===== ESFERA 2: Mesa — 5 personajes, tira scrolleable ===== */
       .esfera-consulta { margin-bottom: 20px; }
       .consulta-scroll-wrap { position: relative; margin: 0 -16px; }
       .consulta-scroll-wrap::before,
@@ -529,9 +529,9 @@ class HorneroHome extends HoComponent {
         </div>
       </div>
 
-      <!-- ESFERA 2: Chat IA — 5 personajes, tira scrolleable -->
+      <!-- ESFERA 2: Mesa de trabajo — 5 personajes, tira scrolleable -->
       <div class="esfera-consulta">
-        <div class="esfera-name">Chat</div>
+        <div class="esfera-name">Mesa</div>
         <div class="consulta-scroll-wrap">
           <div class="consulta-icons">
             <button class="icon-btn${this._hasAccess('consulta') ? '' : ' locked'}" data-screen="gremial" data-persona="companero">

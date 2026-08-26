@@ -38,7 +38,7 @@ class HorneroChat extends HoComponent {
 
   constructor() {
     super();
-    this.title = 'Chat';
+    this.title = 'Mesa';
     this.messages = [];
     this.inputPlaceholder = 'Qué pensás...';
     this.typing = false;
@@ -1132,16 +1132,6 @@ class HorneroChat extends HoComponent {
         font-size: 1.1rem; color: var(--ho-green, #4E9978); margin-bottom: 8px; }
       .info-popup-bajada { font-family: 'Public Sans', sans-serif; font-size: .88rem;
         color: var(--ho-text-mid, #6E6A60); line-height: 1.5; margin-bottom: 14px; }
-      .info-popup-explore-label { font-family: 'Archivo', sans-serif; font-size: .72rem;
-        font-weight: 700; color: var(--ho-text-light, #5A5650); text-transform: uppercase;
-        letter-spacing: .06em; margin-bottom: 8px; }
-      .info-popup-explore { display: flex; flex-wrap: wrap; gap: 6px; }
-      .info-popup-explore-opt { font-family: 'Archivo', sans-serif; font-size: .76rem;
-        font-weight: 600; padding: 5px 12px; border-radius: 14px; cursor: pointer;
-        background: rgba(255,255,255,.06); border: 1px solid var(--ho-border, rgba(255,255,255,.1));
-        color: var(--ho-text-mid, #6E6A60); transition: background .2s, border-color .2s, color .2s; }
-      .info-popup-explore-opt:hover { background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
       .info-popup-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px;
         border-radius: 50%; border: 1px solid var(--ho-border, rgba(255,255,255,.1));
         background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -1152,10 +1142,6 @@ class HorneroChat extends HoComponent {
         border-color: rgba(0,0,0,.1); box-shadow: 0 8px 32px rgba(0,0,0,.15); }
       :host(.theme-light) .info-popup-title { color: var(--ho-green, #2E6B4E); }
       :host(.theme-light) .info-popup-bajada { color: var(--ho-text-light, #7A766C); }
-      :host(.theme-light) .info-popup-explore-opt { background: rgba(0,0,0,.04);
-        border-color: rgba(0,0,0,.08); color: var(--ho-text-light, #7A766C); }
-      :host(.theme-light) .info-popup-explore-opt:hover { background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
 
       /* History/Informes/Recibidos as cintillo items — inside scrollable center (legacy, kept for reference) */
       .chat-cintillo-action { display: flex; flex-direction: column; align-items: center;
@@ -3676,7 +3662,7 @@ ${msgs.map(m => {
     if (existing) existing.remove();
     let info = {};
     try { info = JSON.parse(this.sectionInfo); } catch(e) {}
-    if (!info.title && !info.bajada && (!info.explore || !info.explore.length)) return;
+    if (!info.title && !info.bajada) return;
     const overlay = document.createElement('div');
     overlay.className = 'info-popup-overlay';
     const popup = document.createElement('div');
@@ -3685,13 +3671,6 @@ ${msgs.map(m => {
     let html = '';
     if (info.title) html += `<div class="info-popup-title">${info.title}</div>`;
     if (info.bajada) html += `<div class="info-popup-bajada">${info.bajada}</div>`;
-    if (info.explore && info.explore.length) {
-      html += `<div class="info-popup-explore-label">Explorar</div><div class="info-popup-explore">`;
-      info.explore.forEach(opt => {
-        html += `<button class="info-popup-explore-opt" data-explore-opt="${opt}">${opt}</button>`;
-      });
-      html += '</div>';
-    }
     html += `<button class="info-popup-close" title="Cerrar"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>`;
     popup.innerHTML = html;
     overlay.appendChild(popup);
@@ -3702,14 +3681,6 @@ ${msgs.map(m => {
     });
     // Close on close button
     popup.querySelector('.info-popup-close').addEventListener('click', () => overlay.remove());
-    // Explore options → emit event + close
-    popup.querySelectorAll('.info-popup-explore-opt').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const opt = btn.dataset.exploreOpt;
-        this.emit('explore-select', { option: opt });
-        overlay.remove();
-      });
-    });
   }
 
   // ===== Export confirmation popup =====

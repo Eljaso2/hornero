@@ -25,7 +25,6 @@ class HorneroClipping extends HoComponent {
     this._noticias = [];
     this._meta = {};
     this._popupItem = null;
-    this._exploreOpen = false;
     this._savedScrollTop = null;
     this._ediciones = [];     // clipping-index.ediciones[]
     this._edicionIdx = 0;     // current index in _ediciones (0 = latest)
@@ -219,41 +218,43 @@ class HorneroClipping extends HoComponent {
       .cintillo-nav-btn:disabled { opacity: .2; cursor: default; }
       .cintillo-nav-btn svg { width: 20px; height: 20px; }
 
-      /* ===== Collapsed Actualidad banner ===== */
-      .hero-banner { position: relative; width: 100%;
-        background: var(--ho-bg, #1E2321);
-        padding: 10px 16px 8px; display: flex; flex-direction: column;
-        align-items: flex-start; gap: 6px;
-        flex-shrink: 0; box-sizing: border-box; overflow: hidden; cursor: pointer; }
-      .hero-banner::before { content: ''; position: absolute; top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: url('assets/actualidad-bg.png') top center/100% auto no-repeat;
-        opacity: .12; pointer-events: none; }
-      .hero-banner-title { font-family: 'Archivo', sans-serif; font-weight: 800;
-        font-size: 1.2rem; color: var(--ho-text, #E8E6E0);
-        letter-spacing: .02em; text-transform: uppercase; position: relative; }
-      .hero-explore-link { display: inline-flex; align-items: center; gap: 4px;
-        font-family: 'Archivo', sans-serif; font-size: .64rem;
-        font-weight: 700; letter-spacing: .04em;
-        color: var(--ho-text, #E8E6E0); background: none;
-        border: none; padding: 0; cursor: pointer; position: relative; }
-      :host(.theme-light) .hero-explore-link { color: #000; }
-      :host(.theme-light) .scroll { background: #D5D0C8; }
-      :host(.theme-light) .feed-card { background: #FFFFFF; }
-      .hero-explore-link::after { content: '▾'; font-size: .58rem; margin-left: 2px; }
-      .hero-explore-link.open::after { content: '▴'; }
-      .hero-explore-panel { display: flex; flex-wrap: wrap; gap: 6px;
-        margin-top: 2px; animation: exploreFade .2s ease;
-        position: relative; }
-      @keyframes exploreFade { from { opacity: 0; transform: translateY(-4px); }
-        to { opacity: 1; transform: none; } }
-      .hero-explore-option { font-family: 'Archivo', sans-serif; font-size: .76rem;
-        font-weight: 600; color: var(--ho-text, #E8E6E0);
-        background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
-        border-radius: 8px; padding: 6px 12px; cursor: pointer;
-        transition: background .2s, border-color .2s; }
-      .hero-explore-option:hover { background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
+      /* ===== Persona top bar (same pattern as chat screens) ===== */
+      .chat-top-bar { position: relative; width: 100%;
+        display: flex; align-items: center; height: 56px;
+        padding: 0; background: var(--ho-bg, #1E2321);
+        flex-shrink: 0; box-sizing: border-box; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08)); }
+      .chat-top-bar-left { display: flex; align-items: center; padding-left: 8px; flex-shrink: 0; }
+      .chat-top-bar-center { flex: 1; overflow-x: auto; display: flex; align-items: center;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 10px; padding: 0 12px;
+        justify-content: flex-start; scroll-behavior: smooth; }
+      .chat-top-bar-center::-webkit-scrollbar { width: 0; }
+      .chat-persona-icon { display: flex; flex-direction: column; align-items: center;
+        gap: 3px; background: none; border: none; cursor: pointer;
+        padding: 4px 2px; transition: opacity .2s; position: relative;
+        flex-shrink: 0; }
+      .chat-persona-icon:hover { opacity: .85; }
+      .persona-icon-inner { width: 34px; height: 34px; box-sizing: border-box;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 50%; border: 2px solid var(--ho-border, rgba(255,255,255,.08));
+        overflow: hidden; background: transparent;
+        transition: background .25s, border-color .25s, filter .3s; }
+      .chat-persona-icon:hover .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .chat-persona-icon:not(.active) .persona-icon-inner img,
+      .chat-persona-icon:not(.active) .persona-icon-inner .msg-avatar-emoji { filter: grayscale(1); transition: filter .3s; }
+      .persona-icon-inner img { width: 100%; height: 100%; object-fit: cover; }
+      .persona-icon-inner img.periodista-full { object-fit: contain; }
+      .persona-icon-inner img.abogado-crop { object-position: center 25%; }
+      .persona-icon-inner img.investigador-crop { object-position: center 30%; }
+      .persona-icon-inner .msg-avatar-emoji { font-size: .62rem; line-height: 1; }
+      .chat-persona-icon.active .persona-icon-inner { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); }
+      .chat-persona-icon .persona-cintillo-label { font-family: 'Archivo', sans-serif;
+        font-size: .52rem; font-weight: 600; color: var(--ho-text-mid, #6E6A60);
+        white-space: nowrap; transition: color .2s, filter .3s; }
+      .chat-persona-icon:not(.active) .persona-cintillo-label { filter: grayscale(1); opacity: .6; }
+      .chat-persona-icon:hover .persona-cintillo-label { color: var(--ho-green, #4E9978); filter: none; opacity: 1; }
+      .chat-persona-icon.active .persona-cintillo-label { color: var(--ho-green, #4E9978); font-weight: 700; filter: none; opacity: 1; }
 
       /* ===== Calendar overlay ===== */
       .cal-overlay { position: fixed; inset: 0;
@@ -383,21 +384,57 @@ class HorneroClipping extends HoComponent {
     const hasPrev = this._edicionIdx < this._ediciones.length - 1;
     const hasNext = this._edicionIdx > 0;
 
-    // Cintillo: ←back | ←prev | CLIPPING N°X | →next  (same pattern as Actualidad)
+    // Persona bar (same pattern as chat screens)
+    const allPersonas = ['companero', 'abogado', 'periodista', 'historiador', 'sociologo'];
+    const personaScreenMap = {
+      'abogado': { screen: 'consulta', persona: 'abogado' },
+      'periodista': { screen: 'contenido', persona: 'periodista' },
+      'companero': { screen: 'gremial', persona: 'companero' },
+      'historiador': { screen: 'formacion', persona: 'historiador' },
+      'sociologo': { screen: 'condicion', persona: 'sociologo' },
+    };
+    const personaConfigMap = {
+      'abogado':      { emoji: '📖', name: 'Abogado/a', icon: 'assets/personajes/iconos/a03.png' },
+      'companero':    { emoji: '✊', name: 'Compañero/a', icon: 'assets/personajes/iconos/a02.png' },
+      'periodista':   { emoji: '🎙️', name: 'Periodista', icon: 'assets/personajes/iconos/a04.png' },
+      'historiador':  { emoji: '📜', name: 'Historiador/a', icon: 'assets/personajes/iconos/a01.png' },
+      'sociologo':    { emoji: '🔬', name: 'Investigador/a', icon: 'assets/personajes/iconos/a05.png' },
+    };
+    const shortLabels = { 'companero': 'Compañero/a', 'abogado': 'Abogado/a', 'periodista': 'Periodista', 'historiador': 'Historiador/a', 'sociologo': 'Investigador/a' };
+
+    const personaIconsHtml = allPersonas.map(p => {
+      const cfg = personaConfigMap[p];
+      const innerClass = `${p === 'periodista' ? 'periodista-full' : ''}${p === 'abogado' ? ' abogado-crop' : ''}${p === 'sociologo' ? ' investigador-crop' : ''}`;
+      const inner = cfg.icon
+        ? `<img src="${cfg.icon}" alt="${cfg.name}" class="${innerClass}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="msg-avatar-emoji" style="display:none">${cfg.emoji}</span>`
+        : `<span class="msg-avatar-emoji">${cfg.emoji}</span>`;
+      const navData = personaScreenMap[p] || { screen: 'consulta', persona: p };
+      const label = shortLabels[p] || cfg.name;
+      return `<button class="chat-persona-icon" data-persona="${p}" data-nav-screen="${navData.screen}" data-nav-persona="${navData.persona || p}">
+        <span class="persona-icon-inner">${inner}</span>
+        <span class="persona-cintillo-label">${label}</span>
+      </button>`;
+    }).join('');
+
+    const personaBarHtml = '<div class="chat-top-bar">' +
+      '<div class="chat-top-bar-left">' +
+        '<button class="cintillo-back-btn" id="cintilloBack" title="Volver">' +
+          '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+        '</button>' +
+      '</div>' +
+      '<div class="chat-top-bar-center">' + personaIconsHtml + '</div>' +
+    '</div>';
+
+    // Cintillo: ←prev | CLIPPING N°X | →next
     const chevLeft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const chevRight = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
     const cintilloHtml = '<div class="act-cintillo">' +
-      '<button class="cintillo-back-btn" id="cintilloBack" title="Volver">' +
-        '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
-      '</button>' +
-      '<div class="cintillo-spacer"></div>' +
       '<button class="cintillo-nav-btn" id="edPrev" ' + (hasPrev ? '' : 'disabled') + ' title="Anterior">' + chevLeft + '</button>' +
       '<div class="cintillo-center">' +
         '<div class="cintillo-title">CLIPPING N°' + numero + '</div>' +
         '<div class="cintillo-date" id="edFecha">' + fechaLong + '</div>' +
       '</div>' +
       '<button class="cintillo-nav-btn" id="edNext" ' + (hasNext ? '' : 'disabled') + ' title="Siguiente">' + chevRight + '</button>' +
-      '<div class="cintillo-spacer"></div>' +
     '</div>';
 
     // Calendar popup (if open)
@@ -425,17 +462,7 @@ class HorneroClipping extends HoComponent {
     const popupHtml = this._popupItem ? this._renderPopup(this._popupItem) : '';
 
     return html`
-      <div class="hero-banner" id="actBanner">
-        <div class="hero-banner-title">Actualidad</div>
-        <button class="hero-explore-link${this._exploreOpen ? ' open' : ''}" id="actExplore">Explorar</button>
-        ${this._exploreOpen ? html`
-        <div class="hero-explore-panel">
-          <button class="hero-explore-option" data-explore="clipping">Clipping</button>
-          <button class="hero-explore-option" data-explore="infomate">InfoMate</button>
-          <button class="hero-explore-option" data-explore="sindical">Informe Sindical</button>
-        </div>
-        ` : ''}
-      </div>
+      ${personaBarHtml}
       ${cintilloHtml}
       <div class="scroll" id="clipScroll">
         ${cardsHtml}
@@ -483,39 +510,26 @@ class HorneroClipping extends HoComponent {
   // ===== After-render =====
 
   _afterRender() {
-    // Collapsed Actualidad banner → back to home (actualidad = esfera interna)
-    const actBanner = this.shadowRoot.querySelector('#actBanner');
-    if (actBanner) actBanner.addEventListener('click', () => {
-      this.dispatchEvent(new CustomEvent('ho-navigate', {
-        detail: { screen: 'home' },
-        bubbles: true, composed: true
-      }));
-    });
-    const actExplore = this.shadowRoot.querySelector('#actExplore');
-    if (actExplore) actExplore.addEventListener('click', (e) => {
-      e.stopPropagation();
-      this._exploreOpen = !this._exploreOpen;
-      this.render();
-    });
-    this.shadowRoot.querySelectorAll('.hero-explore-option').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const target = btn.dataset.explore;
-        this._exploreOpen = false;
-        this.dispatchEvent(new CustomEvent('ho-navigate', {
-          detail: { screen: target },
-          bubbles: true, composed: true
-        }));
-      });
-    });
-
-    // Cintillo back button → navigate to home
+    // Persona bar — back button
     const cintilloBack = this.shadowRoot.querySelector('#cintilloBack');
     if (cintilloBack) cintilloBack.addEventListener('click', () => {
       this.dispatchEvent(new CustomEvent('ho-navigate', {
         detail: { screen: 'home' },
         bubbles: true, composed: true
       }));
+    });
+
+    // Persona bar — persona icon clicks
+    this.shadowRoot.querySelectorAll('.chat-persona-icon').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const screen = btn.dataset.navScreen;
+        if (screen) {
+          this.dispatchEvent(new CustomEvent('ho-navigate', {
+            detail: { screen: screen },
+            bubbles: true, composed: true
+          }));
+        }
+      });
     });
 
     // Edition navigation buttons
