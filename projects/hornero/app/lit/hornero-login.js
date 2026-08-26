@@ -941,14 +941,10 @@ class HorneroLogin extends HoComponent {
       if (window.HorneroAPI) {
         this.set('error', 'Despertando el servidor...');
         try {
-          const awake = await window.HorneroAPI.wakeUpBackend();
-          if (!awake) {
-            this.set('error', 'No se pudo conectar al servidor. Intentá de nuevo en unos segundos.');
-            this.set('loading', false);
-            return;
-          }
+          await window.HorneroAPI.wakeUpBackend();
+          // Don't abort if wake-up returns false — try register anyway
         } catch(e) {
-          // Wake-up failed — try the register fetch anyway (might work if partially awake)
+          // Wake-up failed — try register anyway (backend might be partially awake)
         }
         this.set('error', '');
       }
