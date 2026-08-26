@@ -242,6 +242,13 @@ class HorneroLogin extends HoComponent {
         font-size: 1rem; line-height: 1; padding: 0 2px;
       }
       .sind-chip-remove:hover { color: #F2F1EC; }
+      .sind-clear-btn {
+        position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+        background: none; border: none; color: #9C988D; cursor: pointer;
+        font-size: 1.1rem; line-height: 1; padding: 4px;
+        transition: color .2s;
+      }
+      .sind-clear-btn:hover { color: #F2F1EC; }
       .sind-no-results {
         padding: 10px 14px; font-size: .82rem; color: #9C988D;
         font-family: 'Public Sans', sans-serif;
@@ -406,6 +413,7 @@ class HorneroLogin extends HoComponent {
               <label for="signup-sindicato">Sindicato / Gremio</label>
               <div class="sind-search-wrap">
                 <input type="text" id="signup-sindicato" placeholder="Escribí para filtrar o tocá para ver todos..." autocomplete="off" ${this.selectedSindicato ? 'value="' + this.selectedSindicato.nombre + '" readonly' : ''} />
+                ${this.selectedSindicato ? html`<button class="sind-clear-btn" id="clear-sindicato" type="button">✕</button>` : ''}
                 ${sindList}
               </div>
             </div>
@@ -536,6 +544,15 @@ class HorneroLogin extends HoComponent {
     const signupBtn = this.shadowRoot.querySelector('#signup-btn');
     if (signupBtn) signupBtn.addEventListener('click', () => this._handleSignup());
 
+    // Persist email/nombre on blur (so draft is saved as user fills form)
+    ['signup-email', 'signup-nombre'].forEach(id => {
+      const el = this.shadowRoot.querySelector('#' + id);
+      if (el) el.addEventListener('blur', () => this._persistSignupForm());
+    });
+
+    // Restore draft values on first signup render
+    this._restoreSignupDraft();
+
     // Sindicato input: local filter (no API calls, no re-render on typing)
     const sindInput = this.shadowRoot.querySelector('#signup-sindicato');
     if (sindInput) {
@@ -591,12 +608,19 @@ class HorneroLogin extends HoComponent {
       });
     }
 
-    // Remove sindicato selection
-    const removeSind = this.shadowRoot.querySelector('#remove-sindicato');
-    if (removeSind) removeSind.addEventListener('click', () => {
+    // Clear sindicato selection (✕ button) → reopen list
+    const clearSind = this.shadowRoot.querySelector('#clear-sindicato');
+    if (clearSind) clearSind.addEventListener('click', () => {
       this.set('selectedSindicato', null);
       this.sindicatoQuery = '';
-      this.set('sindicatoDropdownOpen', false);
+      this.set('cargo', 'trabajador');
+      this.set('sindicatoDropdownOpen', true);
+      // Focus the input so user can type or see the list
+      setTimeout(() => {
+        const inp = this.shadowRoot.querySelector('#signup-sindicato');
+        if (inp) { inp.value = ''; inp.focus(); }
+      }, 50);
+    });
     });
 
     // Cargo selection
@@ -651,6 +675,57 @@ class HorneroLogin extends HoComponent {
 
     // Restore saved form values after DOM replacement
     this._restoreFormValues();
+    // Persist form to localStorage (debounced)
+    this._persistSignupForm();
+  }
+
+  // Save signup form values to localStorage so user doesn't lose them
+  _persistSignupForm() {
+    if (this.view !== 'signup') return;
+    try {
+      const ids = ['signup-email', 'signup-nombre'];
+      const data = {};
+      for (const id of ids) {
+        const el = this.shadowRoot.querySelector('#' + id);
+        if (el && el.value) data[id] = el.value;
+      }
+      if (this.selectedSindicato) data['sindicato'] = this.selectedSindicato.id;
+      if (this.cargo && this.cargo !== 'trabajador') data['cargo'] = this.cargo;
+      localStorage.setItem('hornero-signup-draft', JSON.stringify(data));
+    } catch(e) {}
+  }
+
+  // Restore signup form from localStorage
+  _restoreSignupDraft() {
+    try {
+      const raw = localStorage.getItem('hornero-signup-draft');
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      for (const [id, value] of Object.entries(data)) {
+        if (id === 'sindicato') {
+          // Find sindicato by id from available list
+          const all = this.sindicatoList.length > 0 ? this.sindicatoList : this._fallbackSindicatos;
+          const sind = all.find(s => s.id === value);
+          if (sind) {
+            this.selectedSindicato = sind;
+            this.sindicatoQuery = sind.nombre;
+            if (sind.tipo === 'federacion') this.cargo = 'comision_federacion';
+          }
+          continue;
+        }
+        if (id === 'cargo') {
+          this.cargo = value;
+          continue;
+        }
+        const el = this.shadowRoot.querySelector('#' + id);
+        if (el && value) el.value = value;
+      }
+    } catch(e) {}
+  }
+
+  // Clear the persisted draft after successful registration
+  _clearSignupDraft() {
+    try { localStorage.removeItem('hornero-signup-draft'); } catch(e) {}
   }
 
   // Load sindicatos from backend once (fallback to hardcoded list if unreachable)
@@ -884,6 +959,7 @@ class HorneroLogin extends HoComponent {
         this._signupEmail = email;
         this.set('view', 'confirm-pending');
         this.set('error', '');
+        this._clearSignupDraft(); // form persisted data no longer needed
       } else {
         this.set('error', data.detail || 'Error al crear la cuenta');
       }
