@@ -29,6 +29,7 @@ SECTOR_TENANT = {
     "aceitero": "aceiteros", "aceiteros": "aceiteros",
     "comercio": "comercio", "mercantil": "comercio",
     "prensa": "prensa", "sipreba": "prensa", "periodista": "prensa",
+    "hornero": "shared",  # Hornero uses shared/general knowledge base
 }
 
 
