@@ -1109,7 +1109,7 @@ def _init_pg_tables():
                 sections TEXT DEFAULT '[]',
                 tags TEXT DEFAULT '[]',
                 time_str TEXT DEFAULT '',
-                timestamp INTEGER NOT NULL,
+                timestamp BIGINT NOT NULL,
                 title TEXT DEFAULT '',
                 redirect_persona TEXT DEFAULT '',
                 image TEXT DEFAULT '',
@@ -1131,7 +1131,7 @@ def _init_pg_tables():
                 username TEXT NOT NULL,
                 empresa TEXT DEFAULT '',
                 fecha TEXT DEFAULT '',
-                timestamp INTEGER NOT NULL DEFAULT 0,
+                timestamp BIGINT NOT NULL DEFAULT 0,
                 contenido TEXT DEFAULT '',
                 sections TEXT DEFAULT '[]',
                 etiquetas TEXT DEFAULT '{}',
@@ -1163,10 +1163,18 @@ def _init_pg_tables():
                 textoNuevo TEXT DEFAULT '',
                 resumen TEXT DEFAULT '',
                 cambios TEXT DEFAULT '',
-                timestamp INTEGER NOT NULL DEFAULT 0,
+                timestamp BIGINT NOT NULL DEFAULT 0,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        # Migrate timestamp columns from INTEGER to BIGINT (Date.now() ms overflow)
+        for tbl in ("chat_messages", "informes", "correcciones"):
+            try:
+                conn.execute(f"ALTER TABLE {tbl} ALTER COLUMN timestamp TYPE BIGINT")
+                logger.info(f"Migrated {tbl}.timestamp INTEGER → BIGINT")
+            except Exception:
+                pass  # already BIGINT or column doesn't exist
+
         conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_informeId ON correcciones(informeId)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_username ON correcciones(correctorUsername)")
         conn.commit()
