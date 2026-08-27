@@ -1372,6 +1372,10 @@ class HorneroChat extends HoComponent {
         border-radius: 0 6px 6px 0; }
       .msg-citation .cite-icon { margin-right: 5px; font-style: normal; }
 
+      /* Chicago inline citation: (Author, Year) — smaller, green-dark */
+      .msg-chicago { font-family: 'Public Sans', sans-serif;
+        font-size: .72em; color: var(--ho-green-dark, #3D6B56); }
+
       /* Tags */
       .msg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
       .msg-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
@@ -2192,6 +2196,9 @@ class HorneroChat extends HoComponent {
     text = text.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
     // Inline code: `text` → <code>text</code>
     text = text.replace(/`(.+?)`/g, '<code class="msg-md-code">$1</code>');
+    // Chicago citation: (Author, Year) → styled inline .msg-chicago
+    // Matches any parenthetical containing a year 19xx or 20xx
+    text = text.replace(/(\([^)]*?(?:19|20)\d{2}[^)]*?\))/g, '<span class="msg-chicago">$1</span>');
     // Citation: <em> starting with 📚/📰/📄 → styled .msg-citation span
     text = text.replace(/<em>(📚|📰|📄)\s*(.*?)<\/em>/g, '<span class="msg-citation"><span class="cite-icon">$1</span>$2</span>');
     // Legacy backward compat: <strong>Fuente: ...</strong> → 📄 citation
