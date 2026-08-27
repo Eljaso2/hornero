@@ -946,7 +946,14 @@ class HorneroConsulta extends HoComponent {
   // ===== Fallback offline =====
   // Add a message with progressive reveal (typing effect)
   _addWithProgressiveReveal(msg) {
-    // Always use progressive reveal for typewriter effect
+    if (!msg.text || msg.text.length <= 50) {
+      // Short text or sections-only (e.g. local greeting) — add directly, no typewriter
+      this.messages = [...this.messages, msg];
+      this._typing = false;
+      this._saveChatHistory();
+      this.render();
+      return;
+    }
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     this._typing = false;
     this._startProgressiveReveal(msg.text, chatEl, msg.persona || this.persona);

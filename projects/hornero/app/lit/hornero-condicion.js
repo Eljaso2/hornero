@@ -448,7 +448,7 @@ class HorneroCondicion extends HoComponent {
     }
 
     // Default greeting (no specific topic)
-    const introText = '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **ℹ️** 👆';
+    const introText = '¡Hola! Investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene.\n\n¿Querés saber de qué se trata esta sección? Revisá el botón **ℹ️** 👆';
 
     // Show greeting immediately (instant, no delay)
     this._revealMessage(introText, 'sociologo', ['panorama', 'greeting'], null);
@@ -689,7 +689,7 @@ class HorneroCondicion extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Sobre qué querés consultar?' },
+        { title: '', body: '¡Hola! Investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. ¿Sobre qué querés consultar?' },
       ],
       tags: ['panorama', 'greeting'],
       persona: 'sociologo',
@@ -956,7 +956,14 @@ class HorneroCondicion extends HoComponent {
 
   // ===== Fallback offline =====
   _addWithProgressiveReveal(msg) {
-    // Always use progressive reveal for typewriter effect
+    if (!msg.text || msg.text.length <= 50) {
+      // Short text or sections-only (e.g. local greeting) — add directly, no typewriter
+      this.messages = [...this.messages, msg];
+      this._typing = false;
+      this._saveChatHistory();
+      this.render();
+      return;
+    }
     const chatEl = this.shadowRoot.querySelector('hornero-chat');
     this._typing = false;
     this._startProgressiveReveal(msg.text, chatEl, msg.persona || this.persona);
@@ -1001,7 +1008,7 @@ class HorneroCondicion extends HoComponent {
     const hasGreeting = this.messages.some(m => m.role === 'hornero' && m.tags &&
       (m.tags.includes('greeting') || m.tags.includes('saludo')));
     if (!hasGreeting && lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
-      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Investigó la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: 'sociologo', time: this._timeNow() };
+      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Investigo la clase obrera: cómo se forma, qué la compone, qué la daña y qué la sostiene. Preguntame sobre el ICE, el SMVM, la felicidad laboral o lo que te interese.' }], tags: ['panorama', 'saludo'], persona: 'sociologo', time: this._timeNow() };
     }
     if (lower.match(/smvm|salario mínimo|salario minimo|canasta|brecha|superexplotación|superexplotacion/)) {
       return { role: 'hornero', sections: [{ title: 'SMVM', body: 'El Salario Mínimo Vital y Móvil es la frontera entre lo que la ley reconoce y lo que el trabajador necesita. La brecha entre el SMVM y la canasta básica revela la superexplotación: el trabajador no gana lo que necesita para vivir. ¿Querés que profundice en la canasta básica, la brecha salarial o el valor de la fuerza de trabajo?' }], tags: ['panorama', 'smvm'], persona: p, time: this._timeNow() };

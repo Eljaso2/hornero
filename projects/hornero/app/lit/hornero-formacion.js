@@ -941,6 +941,37 @@ class HorneroFormacion extends HoComponent {
     this._saveChatHistory();
   }
 
+  _addWithProgressiveReveal(msg) {
+    if (!msg.text || msg.text.length <= 50) {
+      // Short text or sections-only (e.g. local greeting) — add directly, no typewriter
+      this.messages = [...this.messages, msg];
+      this._typing = false;
+      this._saveChatHistory();
+      this.render();
+      return;
+    }
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    this._typing = false;
+    this._startProgressiveReveal(msg.text, chatEl, msg.persona || this.persona);
+    const revealDone = new Promise((resolve) => {
+      const check = setInterval(() => {
+        if (!this._progressiveRevealTimer) { clearInterval(check); resolve(); }
+      }, 50);
+    });
+    const timeout = new Promise((resolve) => setTimeout(resolve, 15000));
+    Promise.race([revealDone, timeout]).then(() => {
+      this._stopProgressiveReveal();
+      const chatEl = this.shadowRoot.querySelector('hornero-chat');
+      if (chatEl) {
+        chatEl.finalizeStreamingMessage(msg);
+      } else {
+        this.messages = [...this.messages, msg];
+        this.render();
+      }
+      this._saveChatHistory();
+    });
+  }
+
   _fetchWithTimeout(url, options, timeoutMs = 30000) {
     if (window.HorneroAPI && window.HorneroAPI.apiFetch) {
       return window.HorneroAPI.apiFetch(url, options, 2, timeoutMs);
