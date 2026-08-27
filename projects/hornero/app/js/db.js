@@ -585,18 +585,25 @@ function obtenerChatSessions(username) {
   }
 
   // 1. Return local data immediately (no network wait)
-  var localPromise = dbGetAll('chatHistory').then(_buildSessions);
-
-  // 2. PULL remote in background — dispatch event when done so UI can refresh
-  if (username) {
-    _fetchAndMergeRemoteSessions(username).then(function() {
-      return dbGetAll('chatHistory').then(_buildSessions);
-    }).then(function(sessions) {
-      if (sessions && sessions.length > 0) {
-        document.dispatchEvent(new CustomEvent('hornero-chat-sessions-updated', { detail: { sessions: sessions } }));
-      }
-    }).catch(function() {}); // silent fail — local data is already shown
-  }
+  var localPromise = dbGetAll('chatHistory').then(function(allMsgs) {
+    var localSessions = _buildSessions(allMsgs);
+    // 2. PULL remote in background — only dispatch event if new data arrived
+    if (username) {
+      var localCount = localSessions.length;
+      var localIds = localSessions.map(function(s) { return s.sessionId; }).join(',');
+      _fetchAndMergeRemoteSessions(username).then(function() {
+        return dbGetAll('chatHistory').then(_buildSessions);
+      }).then(function(remoteSessions) {
+        // Only fire event if sessions actually changed (new sessions or different data)
+        var remoteCount = remoteSessions.length;
+        var remoteIds = remoteSessions.map(function(s) { return s.sessionId; }).join(',');
+        if (remoteCount !== localCount || remoteIds !== localIds) {
+          document.dispatchEvent(new CustomEvent('hornero-chat-sessions-updated', { detail: { sessions: remoteSessions } }));
+        }
+      }).catch(function() {}); // silent fail — local data is already shown
+    }
+    return localSessions;
+  });
 
   return localPromise;
 }

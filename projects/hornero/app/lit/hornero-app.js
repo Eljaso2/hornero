@@ -49,7 +49,10 @@ class HorneroApp extends HoComponent {
     this._onSessionsUpdated = (e) => {
       if (e.detail && e.detail.sessions) {
         this.misConversacionesList = e.detail.sessions;
-        this.render();
+        // Only re-render if user is ON the Mis Conversaciones screen (avoid chat flash/scroll)
+        if (this.screen === 'misConversaciones') {
+          this.render();
+        }
       }
     };
     document.addEventListener('hornero-chat-sessions-updated', this._onSessionsUpdated);
