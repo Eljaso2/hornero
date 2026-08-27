@@ -1109,6 +1109,8 @@ function iniciarFullSync(username) {
       console.log('DB: skipping full push after cleanup — data was just cleared');
     }
   });
+  // 2b. Pull remote chat messages (merge into local IDB) — ensures data survives IDB wipe
+  _fetchAndMergeRemoteSessions(username).catch(function() {});
   // 3. Start syncQueue for reliable delivery
   iniciarSyncQueue();
 }
