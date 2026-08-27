@@ -485,11 +485,7 @@ class HorneroContenido extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical.
-
-Puedo ayudarte con distintos formatos: 🎙️ Podcast, 📱 Reel IG, ✍️ Columna o 📻 Entrevista.
-
-¿Qué formato te interesa o qué tema querés comunicar?' },
+        { title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical.\n\nPuedo ayudarte con distintos formatos: 🎙️ Podcast, 📱 Reel IG, ✍️ Columna o 📻 Entrevista.\n\n¿Qué formato te interesa o qué tema querés comunicar?' },
       ],
       tags: ['contenido', 'greeting'],
       time: this._timeNow(),
