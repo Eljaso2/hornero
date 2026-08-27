@@ -21,8 +21,8 @@ estado_texto: ⚠️ PAYWALL — Solo se obtuvo título, subtítulo y fecha. Con
 ## Datos disponibles
 
 - **Título:** Daniel Yofra, contra la reforma laboral: "No vamos a esperar a que se revierta administrativamente"
-- **Subtítulo:** El líder de Aceiteros fue reelecto al frente del sindicato. Yofra called to strengthen the fight plan against the initiative approved by Congress.
-- **Frase clave:** **"Este gobierno vino a declararnos la guerra en diciembre de 2023"**
+- **Subtítulo:** El líder de Aceiteros fue reelecto al frente del sindicato. Yofra convocó a fortalecer el plan de lucha contra la iniciativa aprobada por el Congreso.
+- **Frase clave:** «Este gobierno vino a declararnos la guerra en diciembre de 2023» (Yofra, Página/12, 2026)
 - **Etiqueta:** CGT
 - **Fecha:** 06/03/2026 — 18:41
 - **Foto:** Daniel Yofra del sindicato de aceiteros (Archivo)

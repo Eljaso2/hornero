@@ -18,24 +18,24 @@ etiquetas: [Yofra, aceiteros, huelga, FreSU, CTA, reforma-laboral, mobilizacion]
 
 ## "Son unos cretinos"
 
-**"Son unos cretinos los que no defienden a los trabajadores"** and equally condemned those seeking to further degrade the working class.
+«Son unos cretinos los que no defienden a los trabajadores» (Yofra, Perfil / Futurock, 2026) y condenó igualmente a quienes buscan degradar aún más a la clase trabajadora.
 
 ## Frente de 50 organizaciones + CTAs
 
-Launched a new space bringing together **50 organizations and both CTAs**. Primary goal: **"impedir que los trabajadores sigan precarizados"** or continue enduring poverty-level wages affecting 90% of registered workers. The initiative was spearheaded by UOM Nacional under Abel Furlán, driven by organizations aware of consequences if the reform passes.
+Lanzó un nuevo espacio que agrupa a **50 organizaciones y ambas CTAs**. Objetivo principal: «impedir que los trabajadores sigan precarizados» (Yofra, Perfil / Futurock, 2026) o que sigan soportando salarios de pobre que afectan al 90% de los trabajadores registrados. La iniciativa fue impulsada por UOM Nacional bajo Abel Furlán, motorizada por organizaciones conscientes de las consecuencias si la reforma se aprueba.
 
 ## La huelga "sigue vigente"
 
-While some union leaders consider strikes outdated, Yofra insisted the tactic **"sigue vigente."**
+Mientras algunos dirigentes sindicales consideran que las huelgas son una herramienta superada, Yofra insistió en que la táctica «sigue vigente.» (Yofra, Perfil / Futurock, 2026)
 
 ## Legisladores: sin esperanza
 
-**"Si depende de la voluntad de los legisladores, yo particularmente no tengo esperanza."** Legislators already voted against workers in 2024, and most have never been employees themselves or serve employers' interests. Must confront the political class and a government filled with businessmen through strikes and mobilizations: **"la huelga sirve."**
+«Si depende de la voluntad de los legisladores, yo particularmente no tengo esperanza.» (Yofra, Perfil / Futurock, 2026) Los legisladores ya votaron contra los trabajadores en 2024, y la mayoría nunca fueron asalariados o responden a intereses empresarios. Hay que confrontar a la clase política y a un gobierno lleno de empresarios mediante huelgas y movilizaciones: «la huelga sirve.» (Yofra, Perfil / Futurock, 2026)
 
 ## Agenda de protestas
 
-- Mobilización en Córdoba: **5 de febrero**
+- Movilización en Córdoba: **5 de febrero**
 - Marcha en Rosario ante la gobernación de Santa Fe: **10 de febrero**
-- Probable strikes and street presence at Congress: **11-12 de febrero**
+- Probables huelgas y presencia callejera en el Congreso: **11-12 de febrero**
 
-The so-called labor modernization law pushes workers to go **"100 años atrás."**
+La llamada ley de modernización laboral empuja a los trabajadores a ir «100 años atrás.» (Yofra, Perfil / Futurock, 2026)
