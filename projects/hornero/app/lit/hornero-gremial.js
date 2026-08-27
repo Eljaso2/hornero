@@ -1083,9 +1083,9 @@ class HorneroGremial extends HoComponent {
     // If a sessionId was passed (from Mis Conversaciones), load that session
     if (this.sessionId && this.sessionId.length > 0) {
       await this._loadSession(this.sessionId);
-      // Clear it so next navigation starts fresh
       this.sessionId = '';
-      return;
+      if (this.messages.length > 0) return; // Session restored
+      // Session not found in IDB (e.g. only greeting, never saved) — fall through to greeting
     }
     // Warm resume: try to restore the most recent session for this section + username
     if (this.warmResume && typeof obtenerChatSessions === 'function' && this._username) {
@@ -1095,7 +1095,8 @@ class HorneroGremial extends HoComponent {
         if (mySessions.length > 0) {
           const latestSession = mySessions[0]; // sorted by timestamp desc
           await this._loadSession(latestSession.sessionId);
-          return; // Session restored, no greeting needed
+          if (this.messages.length > 0) return; // Session restored, no greeting needed
+          // Session found but empty (greeting-only, never persisted) — fall through
         }
       } catch(e) { console.warn('Gremial: session restore failed', e); }
     }

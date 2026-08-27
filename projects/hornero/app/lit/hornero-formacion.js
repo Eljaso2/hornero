@@ -561,7 +561,8 @@ class HorneroFormacion extends HoComponent {
     if (this.sessionId && this.sessionId.length > 0) {
       await this._loadSession(this.sessionId);
       this.sessionId = '';
-      return;
+      if (this.messages.length > 0) return; // Session restored
+      // Session not found in IDB (e.g. only greeting, never saved) — fall through to greeting
     }
 
     // Try to restore the most recent session for this section + username (warm resume only)
@@ -572,7 +573,8 @@ class HorneroFormacion extends HoComponent {
         if (mySessions.length > 0) {
           const latestSession = mySessions[0];
           await this._loadSession(latestSession.sessionId);
-          return;
+          if (this.messages.length > 0) return; // Session restored
+          // Session found but empty (greeting-only, never persisted) — fall through
         }
       } catch(e) { console.warn('Formacion: session restore failed', e); }
     }
