@@ -198,6 +198,44 @@
       "fuente": "Infobae · Ámbito — 24-25/08/2026",
       "foto": "https://www.infobae.com/resizer/v2/26WTXWQ2DNAUNN6HCH2IS3X24U.JPG?auth=2ed377b9af459a2c5238a7dc838b0835eb8c80a4233424574661fff23682518d&smart=true&width=1200&height=630&quality=85",
       "fuente_url": "https://www.infobae.com/economia/2026/08/25/el-dolar-rompio-la-barrera-de-los-1500-por-que-el-gobierno-dejo-de-defender-ese-techo-y-que-espera-el-mercado/"
+    },
+    {
+      "id": "cd-2026-08-25-11",
+      "fecha": "2026-08-14",
+      "tags": [
+        "Ford",
+        "General-Pacheco",
+        "muerte-obrera",
+        "servicio-médico",
+        "SMATA",
+        "riesgo-laboral"
+      ],
+      "emoji": "⚰️",
+      "titulo": "Murió un trabajador en la planta Ford de General Pacheco: el servicio médico le dio una pastilla y lo devolvió a su puesto",
+      "bajada": "Un operario se sintió mal, acudió al servicio médico de la planta, le suministraron una pastilla y lo enviaron de vuelta a su puesto, donde falleció minutos después. Trabajadores reclaman investigación de la actuación médica. El SMATA no se pronunció ni convocó medidas. Ford reduce producción de la Ranger desde octubre.",
+      "desarrollo": "Un trabajador de la planta Ford de General Pacheco, partido de Tigre, falleció dentro de la fábrica en circunstancias que los compañeros denuncian como negligencia médica. Según la versión difundida por trabajadores y publicada por La Izquierda Diario, el operario se sintió mal durante su turno y acudió al servicio médico de la empresa, donde le suministraron una pastilla y lo enviaron de vuelta a su puesto de trabajo. Minutos después, el trabajador murió. Ford no informó públicamente quién determinó que el operario estaba en condiciones de volver a trabajar ni difundió diagnóstico o causa de fallecimiento. No se conocieron precisiones oficiales sobre la identidad del trabajador. Los compañeros exigen una investigación sobre la actuación del servicio médico de la planta y reclaman que se determine si la decisión de reintegrarlo a su puesto fue responsable de la muerte. La conducción del SMATA, el sindicato de la industria automotriz, fue criticada por los trabajadores porque no se había pronunciado públicamente ni convocado a una medida de fuerza tras la muerte. El silencio sindical se inscribe en el patrón de conducciones que priorizan la conciliación frente a la denuncia de condiciones laborales riesgosas. En paralelo, Ford confirmó que desde octubre reducirá la producción diaria de la Ranger para ajustarse a la demanda regional. Aunque no comunicó despidos oficialmente, circulan versiones de entre 200 y más desvinculaciones posibles, sin cifra confirmada. La planta atraviesa un clima de incertidumbre laboral que se suma a la tragedia. El caso plantea interrogantes sobre la responsabilidad empresarial en la seguridad del servicio médico interno, la obligación de derivación a centros de salud y la omisión sindical frente a un fallecimiento en planta.",
+      "fuente": "Zona Norte Diario · Que Pasa Web — 14/08/2026",
+      "foto": "https://www.zonanortediario.com.ar/wp-content/uploads/2026/08/image-74.png",
+      "fuente_url": "https://www.zonanortediario.com.ar/14/08/2026/murio-un-trabajador-dentro-de-la-planta-de-ford-en-general-pacheco/"
+    },
+    {
+      "id": "cd-2026-08-25-12",
+      "fecha": "2026-08-25",
+      "tags": [
+        "Vaca-Muerta",
+        "YPF",
+        "muerte-obrera",
+        "sobrepresión",
+        "Neuquén",
+        "petroleros"
+      ],
+      "emoji": "🛢️",
+      "titulo": "Dos obreros muertos por explosión en planta de YPF en Vaca Muerta: ya son 9 muertes obreras en 2026",
+      "bajada": "Jonathan David Meliqueo y Cristian Latorre murieron en la Planta USP 2 del área Rincón del Mangrullo (YPF) por una sobrepresión en un caño de 12 pulgadas. Peritos descartaron explosión química. La fiscal Titanti investiga protocolos. Con estas dos muertes, son 9 los obreros fallecidos en Vaca Muerta en lo que va del año.",
+      "desarrollo": "Dos trabajadores perdieron la vida en un accidente en la Planta USP 2 del área Rincón del Mangrullo, operada por YPF dentro de la formación Vaca Muerta, en la provincia de Neuquén. Las víctimas fueron identificadas como Jonathan David Meliqueo y Cristian Latorre. Según el informe preliminar de Bomberos, la explosión se produjo probablemente por una sobrepresión sobre un caño de 12 pulgadas de la línea manifold del cardinal Este donde operaban los trabajadores. Se encontraron evidencias de rotura y agrietamiento en el caño, lo que provocó un desplazamiento de elementos por la onda expansiva producida por la liberación súbita de energía. Los peritos descartaron una explosión química, ya que no se localizaron signos de combustión en los elementos circundantes. La causa de muerte fue traumatismos producidos en el contexto de la explosión, según el Cuerpo Médico Forense. La fiscal María Eugenia Titanti, junto al asistente letrado Luciano Vidal, encabeza la investigación y comenzó con el análisis de la documentación y protocolos aplicables en la operación de la planta, ya solicitados a las autoridades pertinentes. Con estas dos muertes, se elevan a nueve las muertes obreras registradas en Vaca Muerta en lo que va de 2026, una cifra que evidencia el deterioro de las condiciones de seguridad en la cuenca neuquina. Los sindicatos petroleros vienen denunciando reiteradamente la falta de condiciones de seguridad adecuadas en los yacimientos. El caso se inscribe en la relación entre la aceleración extractiva y la desprotección laboral: a mayor presión productiva, menores controles y mayores riesgos para los trabajadores.",
+      "fuente": "Río Negro · La Izquierda Diario — 25-27/08/2026",
+      "foto": "https://www.rionegro.com.ar/wp-content/uploads/2026/08/Yacimiento-.jpg?w=1200&h=630&crop=1&resize=1200,630",
+      "fuente_url": "https://www.rionegro.com.ar/sociedad/muerte-de-los-trabajadores-en-vaca-muerta-una-sobrepresion-la-principal-hipotesis-de-la-fiscalia-4699561/"
     }
   ]
 }
