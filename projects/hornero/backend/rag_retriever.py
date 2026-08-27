@@ -91,7 +91,24 @@ STEM_MAP = {
     "ecuatoriano": "ecuador", "ecuatoriana": "ecuador",
     "colombiano": "colombia", "colombiana": "colombia",
     "chileno": "chile", "chilena": "chile",
+    # Negociación colectiva: mapear variantes de "colectivo/a"
+    "colectivos": "colectivo", "colectiva": "colectivo", "colectivas": "colectivo",
+    # Pliego de condiciones: variantes morfológicas
+    "pliegos": "pliego",
 }
+
+
+# ===== Synonym map for conceptual cross-references =====
+# Unlike STEM_MAP (morphological variants), this maps semantically related terms
+# so queries for one concept also match chunks using the other term.
+# Both directions are expanded — see query expansion logic below.
+SYNONYM_GROUPS = [
+    # convenio ↔ pliego ↔ cláusula: in La Forestal context,
+    # "pliego de condiciones" = "convenio"; "cláusulas" = articles of the agreement
+    {"convenio", "pliego", "acuerdo", "clausula"},
+    # negociación colectiva ↔ convenio colectivo: academic vs common term
+    {"negociacion", "paritaria"},
+]
 
 
 def stem_term(term: str) -> str:
@@ -170,10 +187,11 @@ CATEGORY_KEYWORDS = {
                   "andes", "bolivia", "perú", "ecuador", "colombia", "chile", "cordillera",
                   "puna", "altiplano", "quechua", "aymara",
                   "oit", "organización internacional del trabajo", "negociación colectiva",
+                  "convenio colectivo", "convenios colectivos", "colectivo",
                   "derecho laboral", "legislación laboral", "trabajo femenino", "trabajo marítimo",
                   "disciplina laboral", "control social", "criminología", "política criminal",
                   "jubilaciones", "anarquismo", "sindicalismo revolucionario", "socialismo"],
-    "fuentes": ["convenio", "cct", "convenio colectivo", "basico", "categoria",
+    "fuentes": ["convenio", "convenios colectivos", "pliego", "cct", "convenio colectivo", "basico", "categoria",
                "paritaria", "aumento", "negociacion", "oferta", "salarial",
                "smvm", "salario minimo", "piso legal", "minimo vital",
                "sindicato", "organizacion", "asamblea", "delegado", "huelga",
@@ -270,6 +288,13 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros",
     for t in all_terms:
         if t in reverse_stems:
             expanded_terms |= reverse_stems[t]
+
+    # Synonym expansion: when a query term belongs to a synonym group,
+    # add all terms in that group so "convenio" also matches "pliego" etc.
+    for group in SYNONYM_GROUPS:
+        if expanded_terms & group:
+            expanded_terms |= group
+
     all_terms = expanded_terms
 
     if not all_terms:
@@ -289,6 +314,11 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros",
         for t in list(current_terms):
             if t in reverse_stems:
                 current_terms |= reverse_stems[t]
+
+        # Expand with synonyms
+        for group in SYNONYM_GROUPS:
+            if current_terms & group:
+                current_terms |= group
 
     idf = _get_idf()
 
@@ -370,10 +400,51 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros",
             if t in tags_lower:
                 score += 2.0
 
+        # Phrase-match bonus: +10 when 2+ consecutive query terms appear together in title
+        # This dramatically boosts precision — "convenio colectivo" in title beats
+        # scattered "forestal" + "1920" in text that happens to score high on IDF
+        query_term_list = [t for t in clean_query.split() if t in all_terms or stem_term(t) in all_terms]
+        if len(query_term_list) >= 2:
+            # Check all bigrams (pairs of consecutive terms)
+            for i in range(len(query_term_list) - 1):
+                bigram = query_term_list[i] + " " + query_term_list[i + 1]
+                if bigram in title_lower:
+                    score += 10.0
+                    break  # one phrase match is enough
+
         # Category bonus: +3 if chunk category matches detected query category
         chunk_category = chunk.get("category", "").lower()
         if chunk_category in relevant_categories:
             score += 3.0
+
+        # Query-coverage bonus: reward chunks that match MANY different query terms
+        # This prevents a chunk that matches "colectivo" + "acuerdo" + "negociación" + "convenio"
+        # (all expanded synonyms) from beating one that matches "pliego" + "forestal" + "huelga"
+        # (terms from distinct parts of the query = higher specificity).
+        # Use ORIGINAL query terms (before synonym expansion) for a more meaningful count.
+        original_query_terms = set(terms) | set(stemmed_terms)
+        distinct_original = sum(1 for t in original_query_terms
+                                if t in searchable or any(syn in searchable for syn in (reverse_stems.get(t, {t}))))
+        distinct_expanded = sum(1 for t in all_terms if t in searchable)
+        # Bonus based on original query coverage (stronger signal than expanded)
+        if distinct_original >= 3:
+            score += 12.0   # matches 3+ distinct original query concepts → very specific
+        elif distinct_original >= 2:
+            score += 6.0    # matches 2 distinct original query concepts
+
+        # Entity-specificity bonus: when the query names a specific entity (La Forestal, an OIT
+        # convention, a CCT number), chunks mentioning that entity should outrank generic chunks.
+        # E.g., "convenio colectivo La Forestal" → a chunk about La Forestal's pliego beats
+        # Bertolo's generic chapter about collective bargaining in Argentina.
+        entity_keywords = {"forestal", "tanino", "quebracho", "villa guillermina", "villa ana",
+                           "la gallareta", "tartagal", "lafuente", "jasinski",
+                           "oit", "bertolo", "inigo carrera", "krotoschin"}
+        query_entities = original_query_terms & entity_keywords
+        if query_entities:
+            chunk_entities = {t for t in entity_keywords if t in searchable}
+            overlap = query_entities & chunk_entities
+            if overlap:
+                score += 8.0 * len(overlap)  # +8 per matching entity term
 
         # Tenant priority bonus: +5 for own tenant, +1 for shared, 0 for other tenants
         # Regla: prioriza tu gremio, pero no te bloquea el acceso a otros
