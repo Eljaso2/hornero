@@ -49,7 +49,7 @@ import './hornero-admin.js?ver=680';
 
 // Sub-screens
 import './hornero-coyuntura.js?ver=680';  // Clipping semanal (legacy, backup)
-import './hornero-chat.js?ver=681';       // Motor de chat reutilizable
+import './hornero-chat.js?ver=682';       // Motor de chat reutilizable
 import './hornero-ecosistema.js?ver=680'; // Qué es Hornero, Xiong, cadena de valor
 import './hornero-login.js?ver=680';      // Login screen (client-side auth para piloto)
 
