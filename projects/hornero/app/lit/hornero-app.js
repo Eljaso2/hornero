@@ -275,6 +275,13 @@ class HorneroApp extends HoComponent {
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
         sessionStorage.setItem('hornero-last-active', Date.now().toString());
+        // Re-assert theme-color on resume — some browsers reset it when backgrounded
+        const isLight = this.theme === 'light';
+        const bg = isLight ? '#F8F6F0' : '#1E2321';
+        const tcMeta = document.querySelector('meta[name="theme-color"]');
+        if (tcMeta) tcMeta.setAttribute('content', bg);
+        const appleMeta = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+        if (appleMeta) appleMeta.setAttribute('content', isLight ? 'default' : 'black');
       }
     });
     // Stamp on every chat message sent
