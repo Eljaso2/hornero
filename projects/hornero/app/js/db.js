@@ -805,12 +805,18 @@ function _getChatSyncBaseUrl() {
 
 // Push: enviar un mensaje al backend (fire-and-forget, no bloquea)
 function _syncMsgToBackend(msg) {
-  if (!msg || !msg.id || !msg.username) return; // sin username, no sync
+  if (!msg || !msg.id || !msg.username) {
+    console.warn('Chat sync push SKIPPED: no id or username', msg && msg.id, msg && msg.username);
+    return; // sin username, no sync
+  }
   var baseUrl = _getChatSyncBaseUrl();
+  console.log('Chat sync PUSH:', msg.id, 'user:', msg.username, '→', baseUrl + '/api/chat/sync');
   fetch(baseUrl + '/api/chat/sync', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: msg.username, messages: [msg] })
+  }).then(function(r) {
+    console.log('Chat sync PUSH response:', r.status, r.statusText);
   }).catch(function(e) {
     console.warn('Chat sync push failed:', e);
   });
@@ -820,11 +826,17 @@ function _syncMsgToBackend(msg) {
 function _fetchAndMergeRemoteSessions(username) {
   if (!username) return Promise.resolve();
   var baseUrl = _getChatSyncBaseUrl();
+  console.log('Chat sync PULL sessions:', username, '→', baseUrl + '/api/chat/sessions');
   var controller = new AbortController();
   var timeout = setTimeout(function() { controller.abort(); }, 30000); // 5s timeout
   return fetch(baseUrl + '/api/chat/sessions?username=' + encodeURIComponent(username), { signal: controller.signal })
-    .then(function(r) { clearTimeout(timeout); return r.ok ? r.json() : []; })
+    .then(function(r) {
+      clearTimeout(timeout);
+      console.log('Chat sync PULL sessions response:', r.status, r.statusText);
+      return r.ok ? r.json() : [];
+    })
     .then(function(remoteSessions) {
+      console.log('Chat sync PULL sessions data:', remoteSessions ? remoteSessions.length : 0, 'sessions');
       if (!remoteSessions || !Array.isArray(remoteSessions) || remoteSessions.length === 0) return;
       // Para cada sesión remota, fetch mensajes y mergear en IDB
       var promises = remoteSessions.map(function(s) {
