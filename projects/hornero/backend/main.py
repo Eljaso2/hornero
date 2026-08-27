@@ -1238,11 +1238,12 @@ async def chat_sessions(user: dict = Depends(require_auth)):
     username = user["username"]
     with _get_pg_conn() as conn:
         rows = conn.execute("""
-            SELECT session_id, section, persona, timestamp, title, role, text,
+            SELECT session_id, section, persona,
+                   MAX(timestamp) as timestamp, title, role, text,
                    COUNT(*) as message_count
             FROM chat_messages
             WHERE username = %s
-            GROUP BY session_id
+            GROUP BY session_id, section, persona, title, role, text
             ORDER BY MAX(timestamp) DESC
         """, (username,)).fetchall()
         sessions = []
