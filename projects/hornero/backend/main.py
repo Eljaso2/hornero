@@ -1181,20 +1181,20 @@ async def chat_sync(req: ChatSyncRequest, user: dict = Depends(require_auth)):
     username = user["username"]  # From JWT, cannot be spoofed
     if not req.messages:
         return {"synced": 0}
-    with _get_pg_conn() as conn:
-        try:
-            synced = 0
-            for msg in req.messages:
-                if not isinstance(msg, dict) or not msg.get("id"):
-                    continue
-                conn.execute("""
-                    INSERT INTO chat_messages (id, session_id, username, section, role, persona,
-                        text, sections, tags, time_str, timestamp, title, redirect_persona, image, source_url)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT(id) DO UPDATE SET
-                        session_id=excluded.session_id,
-                        username=excluded.username,
-                        section=excluded.section,
+    conn = _get_pg_conn()
+    try:
+        synced = 0
+        for msg in req.messages:
+            if not isinstance(msg, dict) or not msg.get("id"):
+                continue
+            conn.execute("""
+                INSERT INTO chat_messages (id, session_id, username, section, role, persona,
+                    text, sections, tags, time_str, timestamp, title, redirect_persona, image, source_url)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT(id) DO UPDATE SET
+                    session_id=excluded.session_id,
+                    username=excluded.username,
+                    section=excluded.section,
                         role=excluded.role,
                         persona=excluded.persona,
                         text=excluded.text,

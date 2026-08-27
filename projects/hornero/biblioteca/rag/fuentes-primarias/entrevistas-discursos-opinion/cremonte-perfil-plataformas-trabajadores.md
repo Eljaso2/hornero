@@ -17,28 +17,28 @@ etiquetas: [Cremonte, plataformas, CGT, huelga, empleo-no-registrado]
 
 ## CGT: error no llamar a huelga
 
-Cremonte criticized the CGT's decision not to call a general strike against the labor reform: a mistake not to exercise a constitutional right against a law harming workers. A strike **"hubiera sido algo más contundente"** than just a march.
+Cremonte criticó la decisión de la CGT de no convocar una huelga general contra la reforma laboral: un error no ejercer un derecho constitucional frente a una ley que perjudica a los trabajadores. Una huelga «hubiera sido algo más contundente» (Cremonte, Perfil, 2026) que solo una marcha.
 
 ## Legisladores dispuestos a aprobar leyes perjudiciales
 
-Legislators are **"dispuestos a aprobar una ley que va a perjudicar a la mayoría de sus votantes."** Governors traded Senate votes for public works or other concessions: **"a cambio de una obra pública o vaya uno a saber de qué, terminan dando los votos."**
+Los legisladores están «dispuestos a aprobar una ley que va a perjudicar a la mayoría de sus votantes.» (Cremonte, Perfil, 2026) Los gobernantes canjearon votos en el Senado por obras públicas u otras concesiones: «a cambio de una obra pública o vaya uno a saber de qué, terminan dando los votos.» (Cremonte, Perfil, 2026)
 
 ## Premisa falsa
 
-The project claims deregulation is necessary for economic growth and job creation. Cremonte countered: **"Una legislación laboral no es la condición necesaria para que se crean puestos de trabajo"** — it's economic policy that matters, not labor deregulation. **"Una mentira."**
+El proyecto afirma que la desregulación es necesaria para el crecimiento económico y la creación de empleo. Cremonte rebatió: «Una legislación laboral no es la condición necesaria para que se crean puestos de trabajo» (Cremonte, Perfil, 2026) — lo que importa es la política económica, no la desregulación laboral. «Una mentira.» (Cremonte, Perfil, 2026)
 
 ## Comparaciones latinoamericanas
 
-Regressive reforms in Brazil (2017), Colombia, and Chile all led to **"debilitamiento muy fuerte de la acción sindical."** Countries with enterprise-level bargaining saw unionization drop to ~5%, compared to 30-35% in Argentina. Some tried reversing but failed due to power imbalances between capital and labor.
+Las reformas regresivas en Brasil (2017), Colombia y Chile condujeron todas a un «debilitamiento muy fuerte de la acción sindical.» (Cremonte, Perfil, 2026) Los países con negociación a nivel de empresa vieron la sindicalización caer a alrededor del 5 %, frente al 30-35 % en Argentina. Algunos intentaron revertir pero fracasaron debido a las asimetrías de poder entre capital y trabajo.
 
 ## Empleo no registrado
 
-Argentina has roughly **40% unregistered employment**; in parts of Latin America it exceeds 50-60%. Reforms promising to improve registration produced the opposite result.
+Argentina tiene aproximadamente un 40 % de empleo no registrado; en partes de América Latina supera el 50-60 %. Las reformas que prometían mejorar la registración produjeron el resultado opuesto.
 
 ## Plataformas: la exclusión más crítica
 
-The reform proposes platform employees **not be considered workers at all** — "directamente no sean considerados trabajadores." This deepens the divorce between labor rights and platform/precarious work. Meanwhile, the ILO is moving in the opposite direction, preparing to approve a convention protecting platform workers in June 2026.
+La reforma propone que los empleados de plataformas directamente no sean considerados trabajadores. Esto profundiza el divorcio entre los derechos laborales y el trabajo de plataformas y precario. Mientras tanto, la OIT avanza en la dirección opuesta, preparándose para aprobar un convenio que proteja a los trabajadores de plataformas en junio de 2026.
 
 ## Percepción pública
 
-Attributed apparent public tolerance to misinformation and deceptive framing of deregulation as job creation. Workers in precarious conditions may feel rights are already lost, weakening collective responses.
+Atribuyó la aparente tolerancia pública a la desinformación y al encuadre engañoso de la desregulación como creadora de empleo. Los trabajadores en condiciones precarias pueden sentir que los derechos ya están perdidos, debilitando las respuestas colectivas.

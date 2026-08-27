@@ -17,18 +17,18 @@ etiquetas: [Cremonte, reforma-laboral, siglo-XIX, banco-horas, negociacion-empre
 
 ## Flexibilización y vulnerabilidad sindical
 
-**"Hablan de modernizar, pero en realidad se trata de un retroceso histórico."** Un retorno al siglo XIX, cuando no existía legislación laboral.
+«Hablan de modernizar, pero en realidad se trata de un retroceso histórico.» (Cremonte, Degremiales, 2026) Un retorno al siglo XIX, cuando no existía legislación laboral.
 
-Criticized the **"banco de horas"**: fully flexibilizes the workday and removes legal guarantees on hourly limits. Opposed allowing company-level bargaining to replace industry-wide paritarias: **"ataca el corazón del modelo sindical argentino"** by eroding collective agreements that establish minimum rights floors. **"La idea es golpear en el punto de flotación del sistema sindical"** — not modernization but an attempt to leave workers at their weakest.
+Criticó el «banco de horas»: flexibiliza completamente la jornada laboral y elimina las garantías legales sobre los límites horarios. Se opuso a permitir que la negociación por empresa reemplace a las paritarias de actividad: «ataca el corazón del modelo sindical argentino» (Cremonte, Degremiales, 2026) al erosionar los convenios colectivos que establecen pisos mínimos de derechos. «La idea es golpear en el punto de flotación del sistema sindical» (Cremonte, Degremiales, 2026) — no es modernización sino un intento de dejar a los trabajadores en su punto más débil.
 
 ## Retiro del Estado
 
-The reform promotes a **"falso abstencionismo del Estado"** based on the premise that markets can self-regulate. **"Cuando el Estado se retira, lo que queda es una relación desigual donde siempre gana la parte más fuerte: el empleador."**
+La reforma promueve un «falso abstencionismo del Estado» (Cremonte, Degremiales, 2026) basado en la premisa de que los mercados pueden autorregularse. «Cuando el Estado se retira, lo que queda es una relación desigual donde siempre gana la parte más fuerte: el empleador.» (Cremonte, Degremiales, 2026)
 
 ## Empleo por flexibilización: una falacia
 
-Debunked the claim that flexibilization creates jobs: **una falacia**. Employment depends on economic policy, not the rigidity or flexibility of labor laws. During the 1990s deregulation era, unemployment hit **record levels of 25%**, while periods with protective regulations saw notably lower rates. ILO reports show **no regressive labor rights reform ever achieved sustained employment growth.**
+Desmintió la afirmación de que la flexibilización crea empleo: una falacia. El empleo depende de la política económica, no de la rigidez o flexibilidad de las leyes laborales. Durante la era de desregulación de los años 1990, el desempleo alcanzó niveles récord del 25 %, mientras que los períodos con regulaciones protectoras registraron tasas notablemente inferiores. Los informes de la OIT muestran que ninguna reforma regresiva de derechos laborales logró jamás un crecimiento sostenido del empleo.
 
 ## Ataque integral al mundo del trabajo
 
-This offensive is part of a series of government attempts, following the judicial declaration of unconstitutionality of Title IV of DNU 70/23 and changes through the Ley Bases. **"Lo que estamos viendo es un ataque integral al mundo del trabajo: a los sindicatos, a la justicia laboral"** and also to the lawyers defending workers' rights.
+Esta ofensiva forma parte de una serie de intentos del gobierno, tras la declaración judicial de inconstitucionalidad del Título IV del DNU 70/23 y los cambios a través de la Ley Bases. «Lo que estamos viendo es un ataque integral al mundo del trabajo: a los sindicatos, a la justicia laboral» (Cremonte, Degremiales, 2026) y también a los abogados que defienden los derechos de los trabajadores.
