@@ -4,7 +4,7 @@
 // This means: push changes → open app → see changes immediately, no cache clearing
 // Production: revert to stale-while-revalidate and remove { cache: 'no-cache' }
 
-var CACHE_NAME = 'hornero-v720'
+var CACHE_NAME = 'hornero-v722'
 var ASSETS = [
   './css/hornero.css',
   './js/hornero-api.js',
@@ -189,6 +189,11 @@ self.addEventListener('fetch', function(event) {
         return cached || fetchPromise;
       })
     );
+    return;
+  }
+
+  // Cross-origin requests (e.g. backend API at Render): don't intercept, let browser handle
+  if (url.origin !== self.location.origin) {
     return;
   }
 
