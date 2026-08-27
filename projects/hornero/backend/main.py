@@ -1642,6 +1642,18 @@ def _row_to_correccion(r):
 
 # ===== Chat: per-user clear =====
 
+@app.get("/api/chat/count")
+async def chat_count(user: dict = Depends(require_auth)):
+    """Diagnostic: count of chat messages for the authenticated user."""
+    username = user["username"]
+    conn = _get_pg_conn()
+    try:
+        row = conn.execute("SELECT COUNT(*) as cnt FROM chat_messages WHERE username = %s", (username,)).fetchone()
+        return {"username": username, "count": row["cnt"] if row else 0}
+    finally:
+        conn.close()
+
+
 @app.delete("/api/chat/clear-user")
 async def chat_clear_user(user: dict = Depends(require_auth)):
     """Borrar todos los chats de un usuario (no borra los de otros usuarios)."""
