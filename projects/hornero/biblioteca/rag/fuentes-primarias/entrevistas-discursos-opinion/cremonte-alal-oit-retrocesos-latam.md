@@ -18,44 +18,48 @@ etiquetas: [Cremonte, ALAL, OIT, retrocesos, Argentina, Ecuador, Peru, Honduras,
 
 ## Cremonte en la OIT
 
-**"América Latina está viviendo un momento de peligroso retroceso del derecho social."** Urge la OIT a no permanecer indifferente, calling for positions defending **"la libertad sindical, los derechos laborales y las libertades democráticas."**
+«América Latina está viviendo un momento de peligroso retroceso del derecho social.» (Cremonte, ALAL Laboralistas, 2026) Instó a la OIT a no permanecer indiferente, reclamando posiciones que defiendan «la libertad sindical, los derechos laborales y las libertades democráticas.» (Cremonte, ALAL Laboralistas, 2026)
 
-**"La última frontera contra el despojo es la propia organización de la clase trabajadora."**
+«La última frontera contra el despojo es la propia organización de la clase trabajadora.» (Cremonte, ALAL Laboralistas, 2026)
 
 ## AI y plataformas
 
-Emphasizes the need for greater state intervention regarding AI's impact on work: **"el capital impone sus reglas sin respeto alguno por los consensos construidos hace casi un siglo."** Democracies are under siege and international law is disregarded by major powers.
+Enfatizó la necesidad de una mayor intervención estatal respecto del impacto de la IA en el trabajo: «el capital impone sus reglas sin respeto alguno por los consensos construidos hace casi un siglo.» (Cremonte, ALAL Laboralistas, 2026) Las democracias están bajo asedio y el derecho internacional es ignorado por las potencias mayores.
 
 ## Denuncia por país
 
 ### Perú
-**"El Perú resiste en las urnas el retorno del fujimorismo"** — referencing 1990s regressive labor reforms and crimes against humanity.
+
+«El Perú resiste en las urnas el retorno del fujimorismo» (Cremonte, ALAL Laboralistas, 2026) — en referencia a las reformas laborales regresivas de los años 1990 y los crímenes de lesa humanidad.
 
 ### Ecuador
-Ecuador ranks among the 10 countries with worst labor conditions globally. Political instability: power concentration, military repression, persecution of leaders through surveillance, criminalization, bank account blocking. Specific regressions:
-- 8-hour workday extended to 10 hours
-- Collective bargaining frozen
-- Indefinite collective contracts eliminated
-- Mass public sector firings
-- Unionization rates among region's lowest
-- Labor Ministry reduced regulatory/oversight capacity
+
+Ecuador se encuentra entre los 10 países con peores condiciones laborales del mundo. Inestabilidad política: concentración del poder, represión militar, persecución de dirigentes mediante vigilancia, criminalización, bloqueo de cuentas bancarias. Retrocesos específicos:
+- Jornada de 8 horas extendida a 10 horas
+- Negociación colectiva congelada
+- Contratos colectivos por tiempo indeterminado eliminados
+- Despidos masivos en el sector público
+- Tasas de sindicalización entre las más bajas de la región
+- Ministerio de Trabajo con capacidad regulatoria y de fiscalización reducida
 
 ### Honduras
-After Hourly Employment Law was repealed in 2022, economic power pressured to reinstate it in 2026, restoring precarious hiring modalities.
+
+Tras la derogación de la Ley de Empleo por Horas en 2022, el poder económico presionó para restablecerla en 2026, restaurando modalidades de contratación precaria.
 
 ### Argentina — la regresión más profunda
-**"Se destruyó la razón de ser del Derecho del Trabajo"** — eliminating protections and increasing inequality and subjugation.
 
-Called the so-called Labor Modernization Law a true regression to the 19th century benefiting only employers by increasing profitability at workers' expense. **It even broke the floor of ILO Convention No. 1 of 1919, "permitiendo jornadas diarias de 12 horas o más."**
+«Se destruyó la razón de ser del Derecho del Trabajo» (Cremonte, ALAL Laboralistas, 2026) — eliminando protecciones y aumentando la desigualdad y el sometimiento.
 
-**Plataformas:** "se los excluye expresamente de toda tutela, considerándolos emprendedores sin relación laboral alguna."
+Calificó la llamada Ley de Modernización Laboral como una verdadera regresión al siglo XIX que solo beneficia a los empleadores al aumentar la rentabilidad a expensas de los trabajadores. Incluso rompió el piso del Convenio OIT N.° 1 de 1919, «permitiendo jornadas diarias de 12 horas o más.» (Cremonte, ALAL Laboralistas, 2026)
 
-**Libertad sindical:** Most severe attack: promoting company-level bargaining to pierce industry-wide agreement floors, converting them into ceilings; limiting workplace representatives' action; eliminating assembly rights; effectively prohibiting strikes by expanding essential services.
+**Plataformas:** «se los excluye expresamente de toda tutela, considerándolos emprendedores sin relación laboral alguna.» (Cremonte, ALAL Laboralistas, 2026)
 
-**Criminalización de la protesta:** Denounced criminalization of social protest and repression of demonstrations, especially retired workers. Warned the offensive extends beyond legislative reform: **troubling convergence of all three state powers against union action.** Executive pursued persecution — massive sanctions against Unión Tranviarios Automotor and La Fraternidad for legitimate union actions. Judicial: **"desde el Poder Judicial se avanza sobre la democracia sindical"** through decisions overriding workers' will. Highlighted recent intervention of Unión Obrera Metalúrgica as incompatible with union freedom and autonomy.
+**Libertad sindical:** El ataque más severo: promover la negociación por empresa para perforar los pisos de los acuerdos de actividad, convirtiéndolos en techos; limitar la acción de los representantes en los lugares de trabajo; eliminar el derecho de asamblea; prohibir efectivamente las huelgas mediante la ampliación de los servicios esenciales.
 
-**Conclusión:** **"No se trata de hechos aislados. Se observa una acción convergente de los tres Poderes"** serving the dominant class.
+**Criminalización de la protesta:** Denunció la criminalización de la protesta social y la represión de las manifestaciones, especialmente de los trabajadores jubilados. Advirtió que la ofensiva se extiende más allá de la reforma legislativa: una preocupante convergencia de los tres poderes del Estado contra la acción sindical. El Poder Ejecutivo persiguió — sanciones masivas contra la Unión Tranviarios Automotor y La Fraternidad por acciones sindicales legítimas. Poder Judicial: «desde el Poder Judicial se avanza sobre la democracia sindical» (Cremonte, ALAL Laboralistas, 2026) mediante decisiones que invalidan la voluntad de los trabajadores. Destacó la reciente intervención de la Unión Obrera Metalúrgica como incompatible con la libertad y autonomía sindical.
+
+**Conclusión:** «No se trata de hechos aislados. Se observa una acción convergente de los tres Poderes» (Cremonte, ALAL Laboralistas, 2026) al servicio de la clase dominante.
 
 ## América Latina: región más desigual
 
-**"América Latina sigue siendo la región más desigual del mundo"** and each year brings new regressions to denounce.
+«América Latina sigue siendo la región más desigual del mundo» (Cremonte, ALAL Laboralistas, 2026) y cada año trae nuevos retrocesos que denunciar.
