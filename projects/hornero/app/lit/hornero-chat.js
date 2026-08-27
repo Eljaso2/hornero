@@ -416,23 +416,30 @@ class HorneroChat extends HoComponent {
   }
 
   // Public method: parent components call this when the backend greeting replaces
-  // the local greeting — avoids full DOM destroy/rebuild that causes the "double greeting" flash
+  // the local greeting — updates message data in-place without full re-render.
+  // The greeting text change is applied to the DOM directly to avoid the
+  // "double greeting" flash that a full render would cause.
   refreshMessages(messages) {
     this.messages = messages;
-    // Replace only the first hornero message row in the DOM (the greeting)
-    const firstRow = this.shadowRoot.querySelector('.msg-row.hornero');
-    if (firstRow && messages.length > 0) {
-      const newHtml = this._renderMessage(messages[0], 0);
-      const tmp = document.createElement('div');
-      tmp.innerHTML = newHtml;
-      const newRow = tmp.firstElementChild;
-      if (newRow) {
-        firstRow.replaceWith(newRow);
-        this._bindMessageActions();
-        return; // Surgical DOM update done — no full render needed
+    if (messages.length > 0) {
+      const m = messages[0];
+      const firstRow = this.shadowRoot.querySelector('.msg-row.hornero');
+      if (firstRow) {
+        const contentEl = firstRow.querySelector('.msg-content');
+        if (contentEl) {
+          // Build new content HTML for just this message
+          const tmp = document.createElement('div');
+          tmp.innerHTML = this._renderMessage(m, 0);
+          const newContent = tmp.querySelector('.msg-content');
+          if (newContent) {
+            contentEl.innerHTML = newContent.innerHTML;
+            this._bindMessageActions();
+            return;
+          }
+        }
       }
     }
-    // Fallback: if surgical update fails, do full render
+    // Fallback: full re-render if surgical update not possible
     this.render();
   }
 
