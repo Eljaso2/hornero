@@ -1036,7 +1036,14 @@ def get_chunks_text(chunk_ids: list, max_chars_per_chunk: int = 6000) -> str:
     for chunk in chunks:
         cat = chunk.get('category', 'fuentes')
         icon = CATEGORY_ICONS.get(cat, '📄')
-        lines.append(f"[{icon} FUENTE: {chunk['title']}] ({cat})")
+        book = chunk.get('book_ref', '')
+        chapter = chunk.get('chapter', '')
+        # Show book_ref so the AI can distinguish between sources
+        # (e.g., "Revuelta obrera y masacre" 2013 vs "El encanto del tanino" 2023)
+        if book:
+            lines.append(f"[{icon} FUENTE: {chunk['title']}] ({cat}) Libro: {book}")
+        else:
+            lines.append(f"[{icon} FUENTE: {chunk['title']}] ({cat})")
 
         # Truncate chunk text to max_chars_per_chunk to prevent prompt bloat
         text = chunk["text"].strip()
