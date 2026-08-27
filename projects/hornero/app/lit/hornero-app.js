@@ -719,10 +719,24 @@ class HorneroApp extends HoComponent {
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #3D6B56); }
       .history-item-footer { display: flex; align-items: center;
-        justify-content: space-between; margin-top: 2px; }
+        justify-content: space-between; margin-top: 2px; gap: 6px; }
       .history-item-user { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         color: var(--ho-text-light, #7A766C); letter-spacing: .06em;
         background: var(--ho-mid-gray, #ECEAE3); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+      .history-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+      .history-action-btn { width: 30px; height: 30px; border-radius: 8px;
+        background: none; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; }
+      .history-action-btn svg { width: 15px; height: 15px;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .history-action-btn:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .history-action-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      .history-action-btn[data-action="delete"]:hover { background: #FDECEA;
+        border-color: #D32F2F; }
+      .history-action-btn[data-action="delete"]:hover svg { stroke: #D32F2F; }
 
       /* Informes items (Mis Reportes, Recibidos) — same as chat drawer */
       .informes-item { padding: 12px 16px; cursor: pointer;
@@ -1513,7 +1527,9 @@ class HorneroApp extends HoComponent {
     });
     // Bind misConversaciones session items (click to navigate to that chat)
     this.shadowRoot.querySelectorAll('[data-navigate-screen]').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        // If click was on an action button, don't navigate
+        if (e.target.closest('.history-action-btn')) return;
         const screen = item.dataset.navigateScreen;
         const persona = item.dataset.navigatePersona;
         const sessionId = item.dataset.navigateSession;
@@ -1530,6 +1546,48 @@ class HorneroApp extends HoComponent {
             return;
           }
           this._navigateTo(screen);
+        }
+      });
+    });
+    // Bind misConversaciones action buttons (download, reenviar, delete)
+    this.shadowRoot.querySelectorAll('.history-action-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = btn.dataset.action;
+        const sessionId = btn.dataset.sessionId;
+        if (!action || !sessionId) return;
+        if (action === 'delete') {
+          if (typeof borrarChatSession === 'function') {
+            borrarChatSession(sessionId).then(() => {
+              this._misConvLoaded = false;
+              this._loadMisConversaciones().then(() => { this.render(); });
+            });
+          }
+        } else if (action === 'download') {
+          if (typeof obtenerChatSessionMessages === 'function') {
+            obtenerChatSessionMessages(sessionId).then(messages => {
+              if (!messages || messages.length === 0) return;
+              const text = messages.map(m => (m.role === 'user' ? '👤' : '🪶') + ' ' + (m.text || '')).join('\n\n');
+              const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url; a.download = 'chat-' + sessionId + '.txt';
+              document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            }).catch(err => console.warn('App: download chat failed', err));
+          }
+        } else if (action === 'reenviar') {
+          // Forward: navigate to the chat with this session
+          const item = btn.closest('.history-item');
+          if (item) {
+            const screen = item.dataset.navigateScreen;
+            const persona = item.dataset.navigatePersona;
+            if (screen) {
+              this._initialPersona = persona || 'abogado';
+              this._initialSessionId = sessionId;
+              this._navigateTo(screen);
+            }
+          }
         }
       });
     });
@@ -2240,6 +2298,17 @@ class HorneroApp extends HoComponent {
         '</div>' +
         '<div class="history-item-footer">' +
           (s.username ? '<span class="history-item-user">@' + s.username + '</span>' : '<span></span>') +
+          '<div class="history-item-actions">' +
+            '<button class="history-action-btn" data-action="download" data-session-id="' + s.sessionId + '" title="Descargar">' +
+              '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+            '</button>' +
+            '<button class="history-action-btn" data-action="reenviar" data-session-id="' + s.sessionId + '" title="Reenviar">' +
+              '<svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>' +
+            '</button>' +
+            '<button class="history-action-btn" data-action="delete" data-session-id="' + s.sessionId + '" title="Borrar">' +
+              '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>' +
+            '</button>' +
+          '</div>' +
         '</div>' +
       '</div>';
     }).join('');
