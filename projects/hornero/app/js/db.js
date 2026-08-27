@@ -816,7 +816,9 @@ function _syncMsgToBackend(msg) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: msg.username, messages: [msg] })
   }).then(function(r) {
-    console.log('Chat sync PUSH response:', r.status, r.statusText);
+    return r.text().then(function(body) {
+      console.log('Chat sync PUSH response:', r.status, body);
+    });
   }).catch(function(e) {
     console.warn('Chat sync push failed:', e);
   });
