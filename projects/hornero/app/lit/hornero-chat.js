@@ -1442,8 +1442,6 @@ class HorneroChat extends HoComponent {
 
       .chat-attach-btn { background: var(--ho-green-pale, #E0F0EB); }
       .chat-attach-btn svg { stroke: var(--ho-green-dark, #3D6B56); fill: var(--ho-green-dark, #3D6B56); }
-      .chat-new-toolbar-btn { background: var(--ho-green-pale, #E0F0EB); }
-      .chat-new-toolbar-btn svg { stroke: var(--ho-green-dark, #3D6B56); fill: none; }
 
       .chat-mic-btn { background: var(--ho-green-pale, #E0F0EB);
         position: relative; overflow: visible; }
@@ -1854,9 +1852,6 @@ class HorneroChat extends HoComponent {
         <textarea class="chat-input-field" rows="1" placeholder="${this.inputPlaceholder}" autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore></textarea>
         <input class="chat-file-input" type="file" accept="image/*,video/*">
         <div class="chat-toolbar">
-          <button class="chat-toolbar-btn chat-new-toolbar-btn" id="chatNewToolbarBtn" title="Nuevo chat">
-            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </button>
           <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
             <svg viewBox="0 0 24 24">${attachSvg}</svg>
           </button>
@@ -2666,15 +2661,6 @@ class HorneroChat extends HoComponent {
           }
         });
       }
-    }
-
-    // === New chat button (toolbar) ===
-    const newToolbarBtn = this.shadowRoot.querySelector('#chatNewToolbarBtn');
-    if (newToolbarBtn && !newToolbarBtn._bound) {
-      newToolbarBtn._bound = true;
-      newToolbarBtn.addEventListener('click', () => {
-        this.emit('chat-new-session', {});
-      });
     }
 
     // === Attach button — file picker ===
