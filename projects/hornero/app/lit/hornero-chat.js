@@ -1094,13 +1094,13 @@ class HorneroChat extends HoComponent {
       :host(.theme-light) .chat-top-bar { background: var(--ho-bg, #F8F6F0); }
       /* Persona label field: invisible overlay below top-bar, sits on top of chat-scroll */
       .persona-label-field { position: absolute; top: 72px; left: 0; right: 0; height: 22px;
-        z-index: 15; display: flex; justify-content: center; align-items: center;
-        pointer-events: none; }
+        z-index: 15; display: flex; align-items: center;
+        pointer-events: none; transition: padding-left .15s ease; }
       .persona-label-field .persona-label-text { font-family: 'Archivo', sans-serif;
-        font-size: .76rem; font-weight: 700; color: var(--ho-green, #4E9978);
-        text-transform: uppercase; white-space: nowrap;
+        font-size: .6rem; font-weight: 700; color: var(--ho-green, #4E9978);
+        text-transform: uppercase; white-space: nowrap; letter-spacing: .04em;
         background: var(--ho-green-pale, #E0F0EB);
-        padding: 3px 10px; border-radius: 10px;
+        padding: 1px 7px; border-radius: 8px;
         border: 1px solid var(--ho-green-light, #80CCA0); }
       :host(.theme-light) .persona-label-field .persona-label-text { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); color: var(--ho-green-dark, #3D6B56); }
@@ -2743,10 +2743,23 @@ class HorneroChat extends HoComponent {
       if (!field) return;
       const label = shortLabels[persona] || (persona || '').toUpperCase();
       field.innerHTML = `<span class="persona-label-text">${label}</span>`;
+      // Position label aligned with persona button center
+      requestAnimationFrame(() => {
+        const btn = this.shadowRoot.querySelector(`.chat-persona-icon[data-persona="${persona}"]`);
+        if (btn && field.firstElementChild) {
+          const fieldRect = field.getBoundingClientRect();
+          const btnRect = btn.getBoundingClientRect();
+          const btnCenter = btnRect.left + btnRect.width / 2 - fieldRect.left;
+          const labelEl = field.firstElementChild;
+          const labelWidth = labelEl.offsetWidth;
+          const offset = Math.max(0, Math.min(btnCenter - labelWidth / 2, fieldRect.width - labelWidth));
+          field.style.paddingLeft = offset + 'px';
+        }
+      });
     };
     const clearLabel = () => {
       const field = this.shadowRoot.querySelector('#personaLabelField');
-      if (field) field.innerHTML = '';
+      if (field) { field.innerHTML = ''; field.style.paddingLeft = '0'; }
     };
     // Show active persona label on load
     const activeBtn = this.shadowRoot.querySelector('.chat-persona-icon.active');
