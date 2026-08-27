@@ -113,6 +113,7 @@ class HorneroApp extends HoComponent {
     this._recibidosLoaded = false;
     this._recibidosList = [];
     this._misConvLoaded = false;
+    this._misConvPollTimer = null; // 15s poll for live sync between devices
     this._misRepLoaded = false;
 
     // Sections bar — ALL screens (scrollable horizontal tabs below header)
@@ -1446,9 +1447,17 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'recibidos' && !this._recibidosLoaded) {
       this._loadRecibidos().then(() => { this._recibidosLoaded = true; this.render(); });
     }
-    // Load misConversaciones data when screen is active
-    if (this.screen === 'misConversaciones' && !this._misConvLoaded) {
-      this._loadMisConversaciones().then(() => { this._misConvLoaded = true; this.render(); });
+    // Load misConversaciones data when screen is active + start 15s poll for cross-device sync
+    if (this.screen === 'misConversaciones') {
+      if (!this._misConvLoaded) {
+        this._loadMisConversaciones().then(() => { this._misConvLoaded = true; this.render(); });
+      }
+      // Start 15s poll if not already running
+      if (!this._misConvPollTimer) {
+        this._misConvPollTimer = setInterval(() => {
+          this._loadMisConversaciones().then(() => { this.render(); });
+        }, 15000);
+      }
     }
     // Load misReportes data when screen is active
     if (this.screen === 'misReportes' && !this._misRepLoaded) {
@@ -1983,7 +1992,10 @@ class HorneroApp extends HoComponent {
     }
     // Reset caches when navigating away from data screens
     if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
-    if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') this._misConvLoaded = false;
+    if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') {
+      this._misConvLoaded = false;
+      if (this._misConvPollTimer) { clearInterval(this._misConvPollTimer); this._misConvPollTimer = null; }
+    }
     if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
     // If navigating to same screen, force re-render to reset component state (e.g., expanded banner)
     if (this.screen === screen) {
