@@ -325,10 +325,11 @@ class HorneroContenido extends HoComponent {
       });
     }
 
-    // Show format suggestions after greeting
-    if (this.messages.length === 1 && this.messages[0].role === 'hornero' && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
-      if (chatEl) chatEl.setSuggestions(this._formatSuggestions());
-    } else if (this.messages.length > 1) {
+    // Format suggestions commented out — options listed in greeting text instead
+    // if (this.messages.length === 1 && this.messages[0].role === 'hornero' && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
+    //   if (chatEl) chatEl.setSuggestions(this._formatSuggestions());
+    // } else
+    if (this.messages.length > 1) {
       if (chatEl) chatEl.clearSuggestions();
     }
 
@@ -484,7 +485,11 @@ class HorneroContenido extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical. ¿Qué formato te interesa o qué tema querés comunicar?' },
+        { title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical.
+
+Puedo ayudarte con distintos formatos: 🎙️ Podcast, 📱 Reel IG, ✍️ Columna o 📻 Entrevista.
+
+¿Qué formato te interesa o qué tema querés comunicar?' },
       ],
       tags: ['contenido', 'greeting'],
       time: this._timeNow(),
