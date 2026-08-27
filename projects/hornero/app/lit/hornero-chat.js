@@ -733,19 +733,19 @@ class HorneroChat extends HoComponent {
         padding: 2px 8px; border-radius: 8px; font-weight: 600;
         color: var(--ho-green-dark, #3D6B56); }
       .history-item-footer { display: flex; align-items: center;
-        justify-content: space-between; margin-top: 4px; gap: 6px; }
+        justify-content: space-between; margin-top: 2px; }
       .history-item-date { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-        color: var(--ho-text-light, #9C988D); flex: 1; min-width: 0; }
-      .history-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
-      .history-action-btn { width: 30px; height: 30px; border-radius: 8px;
-        background: rgba(255,255,255,.04); border: 1px solid var(--ho-border, rgba(255,255,255,.12));
+        color: var(--ho-text-light, #9C988D); }
+      .history-item-actions { display: flex; gap: 4px; }
+      .history-action-btn { width: 28px; height: 28px; border-radius: 8px;
+        background: none; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
-        transition: background .2s, border-color .2s, transform .15s; }
-      .history-action-btn svg { width: 15px; height: 15px;
-        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2;
+        transition: background .2s, border-color .2s; }
+      .history-action-btn svg { width: 14px; height: 14px;
+        stroke: var(--ho-text-light, #9C988D); stroke-width: 2;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .history-action-btn:hover { background: var(--ho-green-pale, #E0F0EB);
-        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+        border-color: var(--ho-green-light, #80CCA0); }
       .history-action-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .history-action-btn[data-action="delete"]:hover { background: #FDECEA;
         border-color: #D32F2F; }
