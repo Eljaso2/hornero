@@ -10,13 +10,14 @@ import json
 import logging
 import os
 import re
-import sqlite3
 import subprocess
 import tempfile
 import time
 from collections import defaultdict
 from datetime import datetime
 
+import psycopg
+from psycopg.rows import dict_row
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Request, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -33,7 +34,7 @@ from rag_retriever import retrieve_for_query
 from library_service.adapter_hornero import legal_sources_text, resolve_tenant  # puente Biblioteca (feature-flag)
 from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, KB_TIPOS, refresh as kb_refresh
 from push_manager import subscribe as push_subscribe, unsubscribe as push_unsubscribe, notify_all, get_vapid_public_key, get_subscription_count
-from auth import router as auth_router, init_auth, require_auth
+from auth import router as auth_router, init_auth, require_auth, HORNERO_DB_URL
 
 load_dotenv(override=True)
 
@@ -96,19 +97,22 @@ async def startup_event():
     clip_count = refresh()
     kb_count = kb_refresh()
     init_auth()  # Auth DB (creates tables, optional nuke via HORNERO_NUKE_DATA=yes)
+    _init_pg_tables()  # Sync tables (chat_messages, informes, correcciones in Postgres)
 
-    # One-time nuclear cleanup: wipe ALL SQLite data (chats, informes, correcciones)
+    # One-time nuclear cleanup: wipe ALL sync data (chats, informes, correcciones)
     # Triggered by HORNERO_NUKE_DATA=yes env var — set once, then remove after deploy
     if os.environ.get("HORNERO_NUKE_DATA") == "yes":
-        logger.info("NUKE: wiping all SQLite data...")
-        for db_path in [CHAT_DB_PATH, INFORMES_DB_PATH]:
-            if os.path.exists(db_path):
-                try:
-                    os.remove(db_path)
-                    logger.info(f"NUKE: deleted {db_path}")
-                except Exception as e:
-                    logger.error(f"NUKE: failed to delete {db_path}: {e}")
-        # Push subscriptions too
+        logger.info("NUKE: wiping all sync data from Postgres...")
+        try:
+            with _get_pg_conn() as conn:
+                conn.execute("DELETE FROM chat_messages")
+                conn.execute("DELETE FROM correcciones")
+                conn.execute("DELETE FROM informes")
+                conn.commit()
+                logger.info("NUKE: all sync data deleted from Postgres")
+        except Exception as e:
+            logger.error(f"NUKE: failed to delete sync data: {e}")
+        # Push subscriptions too (still SQLite in push_manager)
         try:
             from push_manager import _db_path as push_db_path
             if os.path.exists(push_db_path):
@@ -1075,40 +1079,95 @@ async def push_stats():
 
 # ===== Chat History Sync (SQLite) =====
 
-CHAT_DB_PATH = os.path.join(os.path.dirname(__file__), "chat_history.db")
+# ===== Postgres Connection =====
+
+def _get_pg_conn():
+    """Get a psycopg connection to the Hornero Postgres database (dict_row for dict results)."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "HORNERO_DB_URL not configured")
+    return psycopg.connect(HORNERO_DB_URL, row_factory=dict_row)
 
 
-def _get_chat_db():
-    """Get or create SQLite connection for chat history + table."""
-    conn = sqlite3.connect(CHAT_DB_PATH)
-    conn.row_factory = sqlite3.Row
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS chat_messages (
-            id TEXT PRIMARY KEY,
-            session_id TEXT NOT NULL,
-            username TEXT NOT NULL,
-            section TEXT NOT NULL,
-            role TEXT NOT NULL,
-            persona TEXT DEFAULT '',
-            text TEXT DEFAULT '',
-            sections TEXT DEFAULT '[]',
-            tags TEXT DEFAULT '[]',
-            time_str TEXT DEFAULT '',
-            timestamp INTEGER NOT NULL,
-            title TEXT DEFAULT '',
-            redirect_persona TEXT DEFAULT '',
-            created_at TEXT DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_chat_username ON chat_messages(username)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_chat_session ON chat_messages(session_id, username)")
-    # Add image and source_url columns (additive, safe to re-run)
-    try: conn.execute("ALTER TABLE chat_messages ADD COLUMN image TEXT DEFAULT ''")
-    except: pass
-    try: conn.execute("ALTER TABLE chat_messages ADD COLUMN source_url TEXT DEFAULT ''")
-    except: pass
-    conn.commit()
-    return conn
+def _init_pg_tables():
+    """Create chat_messages, informes, correcciones tables in Postgres. Idempotent."""
+    if not HORNERO_DB_URL:
+        logger.warning("HORNERO_DB_URL not set — sync tables not created")
+        return
+    with _get_pg_conn() as conn:
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS chat_messages (
+                id TEXT PRIMARY KEY,
+                session_id TEXT NOT NULL,
+                username TEXT NOT NULL,
+                section TEXT NOT NULL,
+                role TEXT NOT NULL,
+                persona TEXT DEFAULT '',
+                text TEXT DEFAULT '',
+                sections TEXT DEFAULT '[]',
+                tags TEXT DEFAULT '[]',
+                time_str TEXT DEFAULT '',
+                timestamp INTEGER NOT NULL,
+                title TEXT DEFAULT '',
+                redirect_persona TEXT DEFAULT '',
+                image TEXT DEFAULT '',
+                source_url TEXT DEFAULT '',
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_chat_username ON chat_messages(username)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_chat_session ON chat_messages(session_id, username)")
+
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS informes (
+                id TEXT PRIMARY KEY,
+                grado INTEGER NOT NULL,
+                numero INTEGER DEFAULT 0,
+                semana TEXT DEFAULT '',
+                territorio TEXT DEFAULT '',
+                estado TEXT DEFAULT 'pendiente',
+                username TEXT NOT NULL,
+                empresa TEXT DEFAULT '',
+                fecha TEXT DEFAULT '',
+                timestamp INTEGER NOT NULL DEFAULT 0,
+                contenido TEXT DEFAULT '',
+                sections TEXT DEFAULT '[]',
+                etiquetas TEXT DEFAULT '{}',
+                datosDuros TEXT DEFAULT '[]',
+                relato TEXT DEFAULT '',
+                clasificacion TEXT DEFAULT '',
+                ficha TEXT DEFAULT '',
+                tags TEXT DEFAULT '[]',
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_username ON informes(username)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_grado ON informes(grado)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_estado ON informes(estado)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_territorio ON informes(territorio)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_empresa ON informes(empresa)")
+
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS correcciones (
+                id TEXT PRIMARY KEY,
+                informeId TEXT NOT NULL,
+                correctorGrado INTEGER DEFAULT 2,
+                correctorUsername TEXT DEFAULT '',
+                fecha TEXT DEFAULT '',
+                tipo TEXT DEFAULT '',
+                seccionIndex INTEGER DEFAULT 0,
+                seccionTitle TEXT DEFAULT '',
+                textoOriginal TEXT DEFAULT '',
+                textoNuevo TEXT DEFAULT '',
+                resumen TEXT DEFAULT '',
+                cambios TEXT DEFAULT '',
+                timestamp INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_informeId ON correcciones(informeId)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_username ON correcciones(correctorUsername)")
+        conn.commit()
+        logger.info("Postgres sync tables initialized (chat_messages, informes, correcciones)")
 
 
 class ChatSyncRequest(BaseModel):
@@ -1122,70 +1181,67 @@ async def chat_sync(req: ChatSyncRequest, user: dict = Depends(require_auth)):
     username = user["username"]  # From JWT, cannot be spoofed
     if not req.messages:
         return {"synced": 0}
-    conn = _get_chat_db()
-    try:
-        synced = 0
-        for msg in req.messages:
-            if not isinstance(msg, dict) or not msg.get("id"):
-                continue
-            conn.execute("""
-                INSERT INTO chat_messages (id, session_id, username, section, role, persona,
-                    text, sections, tags, time_str, timestamp, title, redirect_persona, image, source_url)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT(id) DO UPDATE SET
-                    session_id=excluded.session_id,
-                    username=excluded.username,
-                    section=excluded.section,
-                    role=excluded.role,
-                    persona=excluded.persona,
-                    text=excluded.text,
-                    sections=excluded.sections,
-                    tags=excluded.tags,
-                    time_str=excluded.time_str,
-                    timestamp=excluded.timestamp,
-                    title=excluded.title,
-                    redirect_persona=excluded.redirect_persona,
-                    image=excluded.image,
-                    source_url=excluded.source_url
-                WHERE excluded.timestamp > chat_messages.timestamp
-            """, (
-                msg.get("id"),
-                msg.get("sessionId", ""),
-                username,
-                msg.get("section", ""),
-                msg.get("role", "user"),
-                msg.get("persona", ""),
-                msg.get("text", ""),
-                json.dumps(msg.get("sections", []), ensure_ascii=False),
-                json.dumps(msg.get("tags", []), ensure_ascii=False),
-                msg.get("time", ""),
-                msg.get("timestamp", 0),
-                msg.get("title", ""),
-                msg.get("redirect_persona", ""),
-                msg.get("image", ""),
-                msg.get("source_url", ""),
-            ))
-            synced += 1
-        conn.commit()
-        return {"synced": synced}
-    except Exception as e:
-        logger.error(f"Chat sync error: {e}")
-        return {"synced": 0, "error": str(e)}
-    finally:
-        conn.close()
+    with _get_pg_conn() as conn:
+        try:
+            synced = 0
+            for msg in req.messages:
+                if not isinstance(msg, dict) or not msg.get("id"):
+                    continue
+                conn.execute("""
+                    INSERT INTO chat_messages (id, session_id, username, section, role, persona,
+                        text, sections, tags, time_str, timestamp, title, redirect_persona, image, source_url)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT(id) DO UPDATE SET
+                        session_id=excluded.session_id,
+                        username=excluded.username,
+                        section=excluded.section,
+                        role=excluded.role,
+                        persona=excluded.persona,
+                        text=excluded.text,
+                        sections=excluded.sections,
+                        tags=excluded.tags,
+                        time_str=excluded.time_str,
+                        timestamp=excluded.timestamp,
+                        title=excluded.title,
+                        redirect_persona=excluded.redirect_persona,
+                        image=excluded.image,
+                        source_url=excluded.source_url
+                    WHERE excluded.timestamp > chat_messages.timestamp
+                """, (
+                    msg.get("id"),
+                    msg.get("sessionId", ""),
+                    username,
+                    msg.get("section", ""),
+                    msg.get("role", "user"),
+                    msg.get("persona", ""),
+                    msg.get("text", ""),
+                    json.dumps(msg.get("sections", []), ensure_ascii=False),
+                    json.dumps(msg.get("tags", []), ensure_ascii=False),
+                    msg.get("time", ""),
+                    msg.get("timestamp", 0),
+                    msg.get("title", ""),
+                    msg.get("redirect_persona", ""),
+                    msg.get("image", ""),
+                    msg.get("source_url", ""),
+                ))
+                synced += 1
+            conn.commit()
+            return {"synced": synced}
+        except Exception as e:
+            logger.error(f"Chat sync error: {e}")
+            return {"synced": 0, "error": str(e)}
 
 
 @app.get("/api/chat/sessions")
 async def chat_sessions(user: dict = Depends(require_auth)):
     """List chat sessions for a user. Returns session metadata."""
     username = user["username"]
-    conn = _get_chat_db()
-    try:
+    with _get_pg_conn() as conn:
         rows = conn.execute("""
             SELECT session_id, section, persona, timestamp, title, role, text,
                    COUNT(*) as message_count
             FROM chat_messages
-            WHERE username = ?
+            WHERE username = %s
             GROUP BY session_id
             ORDER BY MAX(timestamp) DESC
         """, (username,)).fetchall()
@@ -1204,8 +1260,6 @@ async def chat_sessions(user: dict = Depends(require_auth)):
                 "messageCount": r["message_count"],
             })
         return sessions
-    finally:
-        conn.close()
 
 
 @app.get("/api/chat/messages")
@@ -1214,15 +1268,16 @@ async def chat_messages(sessionId: str = "", user: dict = Depends(require_auth))
     username = user["username"]
     if not sessionId:
         return []
-    conn = _get_chat_db()
-    try:
+    with _get_pg_conn() as conn:
         rows = conn.execute("""
             SELECT * FROM chat_messages
-            WHERE username = ? AND session_id = ?
+            WHERE username = %s AND session_id = %s
             ORDER BY timestamp ASC
         """, (username, sessionId)).fetchall()
         messages = []
         for r in rows:
+            sections_raw = r["sections"]
+            tags_raw = r["tags"]
             messages.append({
                 "id": r["id"],
                 "sessionId": r["session_id"],
@@ -1230,18 +1285,16 @@ async def chat_messages(sessionId: str = "", user: dict = Depends(require_auth))
                 "role": r["role"],
                 "persona": r["persona"],
                 "text": r["text"],
-                "sections": json.loads(r["sections"]) if r["sections"] else [],
-                "tags": json.loads(r["tags"]) if r["tags"] else [],
+                "sections": json.loads(sections_raw) if isinstance(sections_raw, str) else (sections_raw or []),
+                "tags": json.loads(tags_raw) if isinstance(tags_raw, str) else (tags_raw or []),
                 "time": r["time_str"],
                 "timestamp": r["timestamp"],
                 "title": r["title"],
                 "redirect_persona": r["redirect_persona"],
-                "image": r["image"] if "image" in r.keys() else "",
-                "source_url": r["source_url"] if "source_url" in r.keys() else "",
+                "image": r.get("image", ""),
+                "source_url": r.get("source_url", ""),
             })
         return messages
-    finally:
-        conn.close()
 
 
 @app.delete("/api/chat/session")
@@ -1250,104 +1303,25 @@ async def chat_session_delete(sessionId: str = "", user: dict = Depends(require_
     username = user["username"]
     if not sessionId:
         return {"deleted": 0}
-    conn = _get_chat_db()
-    try:
+    with _get_pg_conn() as conn:
         cursor = conn.execute("""
-            DELETE FROM chat_messages WHERE username = ? AND session_id = ?
+            DELETE FROM chat_messages WHERE username = %s AND session_id = %s
         """, (username, sessionId))
         conn.commit()
         return {"deleted": cursor.rowcount}
-    finally:
-        conn.close()
 
 
 @app.delete("/api/chat/clear-all")
 async def chat_clear_all(user: dict = Depends(require_auth)):
     """Clear ALL chat messages for ALL users. Requires auth."""
-    conn = _get_chat_db()
-    try:
+    with _get_pg_conn() as conn:
         cursor = conn.execute("DELETE FROM chat_messages")
         conn.commit()
         logger.info(f"Chat clear-all: deleted {cursor.rowcount} messages")
         return {"deleted": cursor.rowcount}
-    finally:
-        conn.close()
 
 
-# ===== Informes Sync (SQLite) =====
-
-INFORMES_DB_PATH = os.path.join(os.path.dirname(__file__), "informes.db")
-
-
-def _get_informes_db():
-    """Get or create SQLite connection for informes + correcciones tables."""
-    conn = sqlite3.connect(INFORMES_DB_PATH)
-    conn.row_factory = sqlite3.Row
-    # Informes: campos que el frontend envía (contenido, sections, etiquetas, datosDuros, numero)
-    # Legacy: relato, clasificacion, ficha, tags se mantienen por compatibilidad
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS informes (
-            id TEXT PRIMARY KEY,
-            grado INTEGER NOT NULL,
-            numero INTEGER DEFAULT 0,
-            semana TEXT DEFAULT '',
-            territorio TEXT DEFAULT '',
-            estado TEXT DEFAULT 'pendiente',
-            username TEXT NOT NULL,
-            empresa TEXT DEFAULT '',
-            fecha TEXT DEFAULT '',
-            timestamp INTEGER NOT NULL DEFAULT 0,
-            contenido TEXT DEFAULT '',
-            sections TEXT DEFAULT '[]',
-            etiquetas TEXT DEFAULT '{}',
-            datosDuros TEXT DEFAULT '[]',
-            relato TEXT DEFAULT '',
-            clasificacion TEXT DEFAULT '',
-            ficha TEXT DEFAULT '',
-            tags TEXT DEFAULT '[]',
-            created_at TEXT DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-    # Add missing columns if they don't exist (for existing DBs)
-    try: conn.execute("ALTER TABLE informes ADD COLUMN numero INTEGER DEFAULT 0")
-    except: pass
-    try: conn.execute("ALTER TABLE informes ADD COLUMN contenido TEXT DEFAULT ''")
-    except: pass
-    try: conn.execute("ALTER TABLE informes ADD COLUMN sections TEXT DEFAULT '[]'")
-    except: pass
-    try: conn.execute("ALTER TABLE informes ADD COLUMN etiquetas TEXT DEFAULT '{}'")
-    except: pass
-    try: conn.execute("ALTER TABLE informes ADD COLUMN datosDuros TEXT DEFAULT '[]'")
-    except: pass
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_username ON informes(username)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_grado ON informes(grado)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_estado ON informes(estado)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_territorio ON informes(territorio)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_inf_empresa ON informes(empresa)")
-    # Correcciones: trazabilidad aditiva por informe
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS correcciones (
-            id TEXT PRIMARY KEY,
-            informeId TEXT NOT NULL,
-            correctorGrado INTEGER DEFAULT 2,
-            correctorUsername TEXT DEFAULT '',
-            fecha TEXT DEFAULT '',
-            tipo TEXT DEFAULT '',
-            seccionIndex INTEGER DEFAULT 0,
-            seccionTitle TEXT DEFAULT '',
-            textoOriginal TEXT DEFAULT '',
-            textoNuevo TEXT DEFAULT '',
-            resumen TEXT DEFAULT '',
-            cambios TEXT DEFAULT '',
-            timestamp INTEGER NOT NULL DEFAULT 0,
-            created_at TEXT DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_informeId ON correcciones(informeId)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_username ON correcciones(correctorUsername)")
-    conn.commit()
-    return conn
-
+# ===== Informes Sync (Postgres) =====
 
 class InformeSyncRequest(BaseModel):
     username: str
@@ -1360,78 +1334,73 @@ async def informes_sync(req: InformeSyncRequest, user: dict = Depends(require_au
     username = user["username"]  # From JWT, cannot be spoofed
     if not req.informes:
         return {"synced": 0}
-    conn = _get_informes_db()
-    try:
-        synced = 0
-        for inf in req.informes:
-            if not isinstance(inf, dict) or not inf.get("id"):
-                continue
-            conn.execute("""
-                INSERT INTO informes (id, grado, numero, semana, territorio, estado, username,
-                    empresa, fecha, timestamp, contenido, sections, etiquetas, datosDuros,
-                    relato, clasificacion, ficha, tags)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT(id) DO UPDATE SET
-                    grado=excluded.grado,
-                    numero=excluded.numero,
-                    semana=excluded.semana,
-                    territorio=excluded.territorio,
-                    estado=excluded.estado,
-                    username=excluded.username,
-                    empresa=excluded.empresa,
-                    fecha=excluded.fecha,
-                    timestamp=excluded.timestamp,
-                    contenido=excluded.contenido,
-                    sections=excluded.sections,
-                    etiquetas=excluded.etiquetas,
-                    datosDuros=excluded.datosDuros,
-                    relato=excluded.relato,
-                    clasificacion=excluded.clasificacion,
-                    ficha=excluded.ficha,
-                    tags=excluded.tags
-                WHERE excluded.timestamp > informes.timestamp
-            """, (
-                inf.get("id"),
-                inf.get("grado", 1),
-                inf.get("numero", 0),
-                inf.get("semana", ""),
-                inf.get("territorio", ""),
-                inf.get("estado", "pendiente"),
-                username,
-                inf.get("empresa", ""),
-                inf.get("fecha", ""),
-                inf.get("timestamp", 0),
-                inf.get("contenido", ""),
-                json.dumps(inf.get("sections", []), ensure_ascii=False),
-                json.dumps(inf.get("etiquetas", {}), ensure_ascii=False),
-                json.dumps(inf.get("datosDuros", []), ensure_ascii=False),
-                inf.get("relato", ""),
-                inf.get("clasificacion", ""),
-                inf.get("ficha", ""),
-                json.dumps(inf.get("tags", []), ensure_ascii=False),
-            ))
-            synced += 1
-        conn.commit()
-        return {"synced": synced}
-    except Exception as e:
-        logger.error(f"Informes sync error: {e}")
-        return {"synced": 0, "error": str(e)}
-    finally:
-        conn.close()
+    with _get_pg_conn() as conn:
+        try:
+            synced = 0
+            for inf in req.informes:
+                if not isinstance(inf, dict) or not inf.get("id"):
+                    continue
+                conn.execute("""
+                    INSERT INTO informes (id, grado, numero, semana, territorio, estado, username,
+                        empresa, fecha, timestamp, contenido, sections, etiquetas, datosDuros,
+                        relato, clasificacion, ficha, tags)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT(id) DO UPDATE SET
+                        grado=excluded.grado,
+                        numero=excluded.numero,
+                        semana=excluded.semana,
+                        territorio=excluded.territorio,
+                        estado=excluded.estado,
+                        username=excluded.username,
+                        empresa=excluded.empresa,
+                        fecha=excluded.fecha,
+                        timestamp=excluded.timestamp,
+                        contenido=excluded.contenido,
+                        sections=excluded.sections,
+                        etiquetas=excluded.etiquetas,
+                        datosDuros=excluded.datosDuros,
+                        relato=excluded.relato,
+                        clasificacion=excluded.clasificacion,
+                        ficha=excluded.ficha,
+                        tags=excluded.tags
+                    WHERE excluded.timestamp > informes.timestamp
+                """, (
+                    inf.get("id"),
+                    inf.get("grado", 1),
+                    inf.get("numero", 0),
+                    inf.get("semana", ""),
+                    inf.get("territorio", ""),
+                    inf.get("estado", "pendiente"),
+                    username,
+                    inf.get("empresa", ""),
+                    inf.get("fecha", ""),
+                    inf.get("timestamp", 0),
+                    inf.get("contenido", ""),
+                    json.dumps(inf.get("sections", []), ensure_ascii=False),
+                    json.dumps(inf.get("etiquetas", {}), ensure_ascii=False),
+                    json.dumps(inf.get("datosDuros", []), ensure_ascii=False),
+                    inf.get("relato", ""),
+                    inf.get("clasificacion", ""),
+                    inf.get("ficha", ""),
+                    json.dumps(inf.get("tags", []), ensure_ascii=False),
+                ))
+                synced += 1
+            conn.commit()
+            return {"synced": synced}
+        except Exception as e:
+            logger.error(f"Informes sync error: {e}")
+            return {"synced": 0, "error": str(e)}
 
 
 @app.get("/api/informes/all")
 async def informes_all(user: dict = Depends(require_auth)):
     """Obtener todos los informes de un usuario."""
     username = user["username"]
-    conn = _get_informes_db()
-    try:
+    with _get_pg_conn() as conn:
         rows = conn.execute("""
-            SELECT * FROM informes WHERE username = ? ORDER BY timestamp DESC
+            SELECT * FROM informes WHERE username = %s ORDER BY timestamp DESC
         """, (username,)).fetchall()
         return [_row_to_informe(r) for r in rows]
-    finally:
-        conn.close()
 
 
 @app.get("/api/informes/incoming")
@@ -1446,8 +1415,7 @@ async def informes_incoming(user: dict = Depends(require_auth)):
     empresa = ""  # empresa filtering from request body not supported; use JWT territory only
     if not grade:
         return []
-    conn = _get_informes_db()
-    try:
+    with _get_pg_conn() as conn:
         # Normalize territorio for flexible matching
         def norm_t(t):
             return (t or "").lower().replace(" ", "").replace("-", "").replace("_", "") if t else ""
@@ -1459,7 +1427,7 @@ async def informes_incoming(user: dict = Depends(require_auth)):
         if grade == "B.b":
             lower_grado = 1
             rows = conn.execute(
-                "SELECT * FROM informes WHERE grado = ? AND estado IN (?, ?, ?)",
+                "SELECT * FROM informes WHERE grado = %s AND estado IN (%s, %s, %s)",
                 (lower_grado, *unresolved),
             ).fetchall()
             # Filter by territorio + empresa (flexible matching)
@@ -1478,7 +1446,7 @@ async def informes_incoming(user: dict = Depends(require_auth)):
         elif grade == "B.c":
             lower_grado = 2
             rows = conn.execute(
-                "SELECT * FROM informes WHERE grado = ? AND estado IN (?, ?, ?)",
+                "SELECT * FROM informes WHERE grado = %s AND estado IN (%s, %s, %s)",
                 (lower_grado, *unresolved),
             ).fetchall()
             # Filter by territorio only (all empresas)
@@ -1492,22 +1460,24 @@ async def informes_incoming(user: dict = Depends(require_auth)):
         elif grade == "B.d":
             lower_grado = 3
             rows = conn.execute(
-                "SELECT * FROM informes WHERE grado = ? AND estado IN (?, ?, ?)",
+                "SELECT * FROM informes WHERE grado = %s AND estado IN (%s, %s, %s)",
                 (lower_grado, *unresolved),
             ).fetchall()
             return [_row_to_informe(r) for r in rows]
 
         return []
-    finally:
-        conn.close()
 
 
 def _row_to_informe(r):
-    """Convert a SQLite Row to a dict for the API response."""
+    """Convert a Postgres dict row to a dict for the API response."""
+    sections_raw = r.get("sections", "[]")
+    etiquetas_raw = r.get("etiquetas", "{}")
+    datos_raw = r.get("datosDuros", "[]")
+    tags_raw = r.get("tags", "[]")
     return {
         "id": r["id"],
         "grado": r["grado"],
-        "numero": r["numero"] if "numero" in r.keys() else 0,
+        "numero": r.get("numero", 0),
         "semana": r["semana"],
         "territorio": r["territorio"],
         "estado": r["estado"],
@@ -1515,14 +1485,14 @@ def _row_to_informe(r):
         "empresa": r["empresa"],
         "fecha": r["fecha"],
         "timestamp": r["timestamp"],
-        "contenido": r["contenido"] if "contenido" in r.keys() else "",
-        "sections": json.loads(r["sections"]) if "sections" in r.keys() and r["sections"] else [],
-        "etiquetas": json.loads(r["etiquetas"]) if "etiquetas" in r.keys() and r["etiquetas"] else {},
-        "datosDuros": json.loads(r["datosDuros"]) if "datosDuros" in r.keys() and r["datosDuros"] else [],
-        "relato": r["relato"] if "relato" in r.keys() else "",
-        "clasificacion": r["clasificacion"] if "clasificacion" in r.keys() else "",
-        "ficha": r["ficha"] if "ficha" in r.keys() else "",
-        "tags": json.loads(r["tags"]) if "tags" in r.keys() and r["tags"] else [],
+        "contenido": r.get("contenido", ""),
+        "sections": json.loads(sections_raw) if isinstance(sections_raw, str) else (sections_raw or []),
+        "etiquetas": json.loads(etiquetas_raw) if isinstance(etiquetas_raw, str) else (etiquetas_raw or {}),
+        "datosDuros": json.loads(datos_raw) if isinstance(datos_raw, str) else (datos_raw or []),
+        "relato": r.get("relato", ""),
+        "clasificacion": r.get("clasificacion", ""),
+        "ficha": r.get("ficha", ""),
+        "tags": json.loads(tags_raw) if isinstance(tags_raw, str) else (tags_raw or []),
     }
 
 
@@ -1530,28 +1500,22 @@ def _row_to_informe(r):
 async def informes_clear_user(user: dict = Depends(require_auth)):
     """Borrar todos los informes de un usuario."""
     username = user["username"]
-    conn = _get_informes_db()
-    try:
-        cursor = conn.execute("DELETE FROM informes WHERE username = ?", (username,))
+    with _get_pg_conn() as conn:
+        cursor = conn.execute("DELETE FROM informes WHERE username = %s", (username,))
         conn.commit()
         logger.info(f"Informes clear-user {username}: deleted {cursor.rowcount}")
         return {"deleted": cursor.rowcount}
-    finally:
-        conn.close()
 
 
 @app.delete("/api/informes/clear-all")
 async def informes_clear_all(user: dict = Depends(require_auth)):
     """Borrar TODOS los informes y correcciones de TODOS los usuarios. Requires auth."""
-    conn = _get_informes_db()
-    try:
+    with _get_pg_conn() as conn:
         inf_cursor = conn.execute("DELETE FROM informes")
         cor_cursor = conn.execute("DELETE FROM correcciones")
         conn.commit()
         logger.info(f"Informes clear-all: deleted {inf_cursor.rowcount} informes, {cor_cursor.rowcount} correcciones")
         return {"deleted_informes": inf_cursor.rowcount, "deleted_correcciones": cor_cursor.rowcount}
-    finally:
-        conn.close()
 
 
 @app.delete("/api/informes/delete")
@@ -1560,18 +1524,15 @@ async def informe_delete(id: str = "", user: dict = Depends(require_auth)):
     username = user["username"]
     if not id:
         return {"deleted": 0}
-    conn = _get_informes_db()
-    try:
+    with _get_pg_conn() as conn:
         # Delete correcciones for this informe first
-        conn.execute("DELETE FROM correcciones WHERE informeId = ?", (id,))
-        cursor = conn.execute("DELETE FROM informes WHERE username = ? AND id = ?", (username, id))
+        conn.execute("DELETE FROM correcciones WHERE informeId = %s", (id,))
+        cursor = conn.execute("DELETE FROM informes WHERE username = %s AND id = %s", (username, id))
         conn.commit()
         return {"deleted": cursor.rowcount}
-    finally:
-        conn.close()
 
 
-# ===== Correcciones Sync (SQLite) =====
+# ===== Correcciones Sync (Postgres) =====
 
 class CorreccionSyncRequest(BaseModel):
     username: str
@@ -1584,54 +1545,52 @@ async def correcciones_sync(req: CorreccionSyncRequest, user: dict = Depends(req
     username = user["username"]  # From JWT, cannot be spoofed
     if not req.correcciones:
         return {"synced": 0}
-    conn = _get_informes_db()
-    try:
-        synced = 0
-        for cor in req.correcciones:
-            if not isinstance(cor, dict) or not cor.get("id"):
-                continue
-            conn.execute("""
-                INSERT INTO correcciones (id, informeId, correctorGrado, correctorUsername,
-                    fecha, tipo, seccionIndex, seccionTitle, textoOriginal, textoNuevo,
-                    resumen, cambios, timestamp)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT(id) DO UPDATE SET
-                    informeId=excluded.informeId,
-                    correctorGrado=excluded.correctorGrado,
-                    correctorUsername=excluded.correctorUsername,
-                    fecha=excluded.fecha,
-                    tipo=excluded.tipo,
-                    seccionIndex=excluded.seccionIndex,
-                    seccionTitle=excluded.seccionTitle,
-                    textoOriginal=excluded.textoOriginal,
-                    textoNuevo=excluded.textoNuevo,
-                    resumen=excluded.resumen,
-                    cambios=excluded.cambios,
-                    timestamp=excluded.timestamp
-                WHERE excluded.timestamp > correcciones.timestamp
-            """, (
-                cor.get("id"),
-                cor.get("informeId", ""),
-                cor.get("correctorGrado", 2),
-                cor.get("correctorUsername", ""),
-                cor.get("fecha", ""),
-                cor.get("tipo", ""),
-                cor.get("seccionIndex", 0),
-                cor.get("seccionTitle", ""),
-                cor.get("textoOriginal", ""),
-                cor.get("textoNuevo", ""),
-                cor.get("resumen", ""),
-                cor.get("cambios", ""),
-                cor.get("timestamp", 0),
-            ))
-            synced += 1
-        conn.commit()
-        return {"synced": synced}
-    except Exception as e:
-        logger.error(f"Correcciones sync error: {e}")
-        return {"synced": 0, "error": str(e)}
-    finally:
-        conn.close()
+    with _get_pg_conn() as conn:
+        try:
+            synced = 0
+            for cor in req.correcciones:
+                if not isinstance(cor, dict) or not cor.get("id"):
+                    continue
+                conn.execute("""
+                    INSERT INTO correcciones (id, informeId, correctorGrado, correctorUsername,
+                        fecha, tipo, seccionIndex, seccionTitle, textoOriginal, textoNuevo,
+                        resumen, cambios, timestamp)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT(id) DO UPDATE SET
+                        informeId=excluded.informeId,
+                        correctorGrado=excluded.correctorGrado,
+                        correctorUsername=excluded.correctorUsername,
+                        fecha=excluded.fecha,
+                        tipo=excluded.tipo,
+                        seccionIndex=excluded.seccionIndex,
+                        seccionTitle=excluded.seccionTitle,
+                        textoOriginal=excluded.textoOriginal,
+                        textoNuevo=excluded.textoNuevo,
+                        resumen=excluded.resumen,
+                        cambios=excluded.cambios,
+                        timestamp=excluded.timestamp
+                    WHERE excluded.timestamp > correcciones.timestamp
+                """, (
+                    cor.get("id"),
+                    cor.get("informeId", ""),
+                    cor.get("correctorGrado", 2),
+                    cor.get("correctorUsername", ""),
+                    cor.get("fecha", ""),
+                    cor.get("tipo", ""),
+                    cor.get("seccionIndex", 0),
+                    cor.get("seccionTitle", ""),
+                    cor.get("textoOriginal", ""),
+                    cor.get("textoNuevo", ""),
+                    cor.get("resumen", ""),
+                    cor.get("cambios", ""),
+                    cor.get("timestamp", 0),
+                ))
+                synced += 1
+            conn.commit()
+            return {"synced": synced}
+        except Exception as e:
+            logger.error(f"Correcciones sync error: {e}")
+            return {"synced": 0, "error": str(e)}
 
 
 @app.get("/api/correcciones")
@@ -1639,31 +1598,25 @@ async def correcciones_get(informeId: str = "", user: dict = Depends(require_aut
     """Obtener correcciones de un informe."""
     if not informeId:
         return []
-    conn = _get_informes_db()
-    try:
+    with _get_pg_conn() as conn:
         rows = conn.execute("""
-            SELECT * FROM correcciones WHERE informeId = ? ORDER BY timestamp ASC
+            SELECT * FROM correcciones WHERE informeId = %s ORDER BY timestamp ASC
         """, (informeId,)).fetchall()
         return [_row_to_correccion(r) for r in rows]
-    finally:
-        conn.close()
 
 
 @app.delete("/api/correcciones/clear-all")
 async def correcciones_clear_all(user: dict = Depends(require_auth)):
     """Borrar TODAS las correcciones. Requires auth."""
-    conn = _get_informes_db()
-    try:
+    with _get_pg_conn() as conn:
         cursor = conn.execute("DELETE FROM correcciones")
         conn.commit()
         logger.info(f"Correcciones clear-all: deleted {cursor.rowcount}")
         return {"deleted": cursor.rowcount}
-    finally:
-        conn.close()
 
 
 def _row_to_correccion(r):
-    """Convert a SQLite Row to a dict for the API response."""
+    """Convert a Postgres dict row to a dict for the API response."""
     return {
         "id": r["id"],
         "informeId": r["informeId"],
@@ -1672,11 +1625,11 @@ def _row_to_correccion(r):
         "fecha": r["fecha"],
         "tipo": r["tipo"],
         "seccionIndex": r["seccionIndex"],
-        "seccionTitle": r["seccionTitle"] if "seccionTitle" in r.keys() else "",
+        "seccionTitle": r.get("seccionTitle", ""),
         "textoOriginal": r["textoOriginal"],
         "textoNuevo": r["textoNuevo"],
-        "resumen": r["resumen"] if "resumen" in r.keys() else "",
-        "cambios": r["cambios"] if "cambios" in r.keys() else "",
+        "resumen": r.get("resumen", ""),
+        "cambios": r.get("cambios", ""),
         "timestamp": r["timestamp"],
     }
 
@@ -1687,14 +1640,11 @@ def _row_to_correccion(r):
 async def chat_clear_user(user: dict = Depends(require_auth)):
     """Borrar todos los chats de un usuario (no borra los de otros usuarios)."""
     username = user["username"]
-    conn = _get_chat_db()
-    try:
-        cursor = conn.execute("DELETE FROM chat_messages WHERE username = ?", (username,))
+    with _get_pg_conn() as conn:
+        cursor = conn.execute("DELETE FROM chat_messages WHERE username = %s", (username,))
         conn.commit()
         logger.info(f"Chat clear-user {username}: deleted {cursor.rowcount} messages")
         return {"deleted": cursor.rowcount}
-    finally:
-        conn.close()
 
 
 # ===== Response parser =====
