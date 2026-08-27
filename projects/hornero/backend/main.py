@@ -1082,10 +1082,13 @@ async def push_stats():
 # ===== Postgres Connection =====
 
 def _get_pg_conn():
-    """Get a psycopg connection to the Hornero Postgres database (dict_row for dict results)."""
+    """Get a psycopg connection to the Hornero Postgres database (dict_row for dict results).
+    Uses autocommit=True so every write is immediately persisted."""
     if not HORNERO_DB_URL:
         raise HTTPException(500, "HORNERO_DB_URL not configured")
-    return psycopg.connect(HORNERO_DB_URL, row_factory=dict_row)
+    conn = psycopg.connect(HORNERO_DB_URL, row_factory=dict_row)
+    conn.autocommit = True
+    return conn
 
 
 def _init_pg_tables():
@@ -1195,41 +1198,43 @@ async def chat_sync(req: ChatSyncRequest, user: dict = Depends(require_auth)):
                     session_id=excluded.session_id,
                     username=excluded.username,
                     section=excluded.section,
-                        role=excluded.role,
-                        persona=excluded.persona,
-                        text=excluded.text,
-                        sections=excluded.sections,
-                        tags=excluded.tags,
-                        time_str=excluded.time_str,
-                        timestamp=excluded.timestamp,
-                        title=excluded.title,
-                        redirect_persona=excluded.redirect_persona,
-                        image=excluded.image,
-                        source_url=excluded.source_url
-                    WHERE excluded.timestamp > chat_messages.timestamp
-                """, (
-                    msg.get("id"),
-                    msg.get("sessionId", ""),
-                    username,
-                    msg.get("section", ""),
-                    msg.get("role", "user"),
-                    msg.get("persona", ""),
-                    msg.get("text", ""),
-                    json.dumps(msg.get("sections", []), ensure_ascii=False),
-                    json.dumps(msg.get("tags", []), ensure_ascii=False),
-                    msg.get("time", ""),
-                    msg.get("timestamp", 0),
-                    msg.get("title", ""),
-                    msg.get("redirect_persona", ""),
-                    msg.get("image", ""),
-                    msg.get("source_url", ""),
-                ))
-                synced += 1
-            conn.commit()
-            return {"synced": synced}
-        except Exception as e:
-            logger.error(f"Chat sync error: {e}")
-            return {"synced": 0, "error": str(e)}
+                    role=excluded.role,
+                    persona=excluded.persona,
+                    text=excluded.text,
+                    sections=excluded.sections,
+                    tags=excluded.tags,
+                    time_str=excluded.time_str,
+                    timestamp=excluded.timestamp,
+                    title=excluded.title,
+                    redirect_persona=excluded.redirect_persona,
+                    image=excluded.image,
+                    source_url=excluded.source_url
+                WHERE excluded.timestamp > chat_messages.timestamp
+            """, (
+                msg.get("id"),
+                msg.get("sessionId", ""),
+                username,
+                msg.get("section", ""),
+                msg.get("role", "user"),
+                msg.get("persona", ""),
+                msg.get("text", ""),
+                json.dumps(msg.get("sections", []), ensure_ascii=False),
+                json.dumps(msg.get("tags", []), ensure_ascii=False),
+                msg.get("time", ""),
+                msg.get("timestamp", 0),
+                msg.get("title", ""),
+                msg.get("redirect_persona", ""),
+                msg.get("image", ""),
+                msg.get("source_url", ""),
+            ))
+            synced += 1
+        logger.info(f"Chat sync: user={username} synced={synced}")
+        return {"synced": synced}
+    except Exception as e:
+        logger.error(f"Chat sync error: {e}")
+        return {"synced": 0, "error": str(e)}
+    finally:
+        conn.close()
 
 
 @app.get("/api/chat/sessions")
