@@ -1295,6 +1295,7 @@ async def chat_messages(sessionId: str = "", user: dict = Depends(require_auth))
             messages.append({
                 "id": r["id"],
                 "sessionId": r["session_id"],
+                "username": r["username"],
                 "section": r["section"],
                 "role": r["role"],
                 "persona": r["persona"],
