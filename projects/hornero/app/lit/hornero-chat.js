@@ -415,6 +415,27 @@ class HorneroChat extends HoComponent {
     this._bindMessageActions();
   }
 
+  // Public method: parent components call this when the backend greeting replaces
+  // the local greeting — avoids full DOM destroy/rebuild that causes the "double greeting" flash
+  refreshMessages(messages) {
+    this.messages = messages;
+    // Replace only the first hornero message row in the DOM (the greeting)
+    const firstRow = this.shadowRoot.querySelector('.msg-row.hornero');
+    if (firstRow && messages.length > 0) {
+      const newHtml = this._renderMessage(messages[0], 0);
+      const tmp = document.createElement('div');
+      tmp.innerHTML = newHtml;
+      const newRow = tmp.firstElementChild;
+      if (newRow) {
+        firstRow.replaceWith(newRow);
+        this._bindMessageActions();
+        return; // Surgical DOM update done — no full render needed
+      }
+    }
+    // Fallback: if surgical update fails, do full render
+    this.render();
+  }
+
   // Public method: parent components call this when audio processing completes
   // (transcription done, LLM response received) — resets mic to idle state
   resetAudioState() {
