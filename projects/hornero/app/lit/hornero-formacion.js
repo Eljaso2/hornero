@@ -1034,9 +1034,13 @@ class HorneroFormacion extends HoComponent {
         // Replace the first message with the backend version
         if (this.messages.length > 0 && this.messages[0].tags && this.messages[0].tags.includes('greeting')) {
           this.messages[0] = msg;
-          const chatEl = this.shadowRoot.querySelector('hornero-chat');
-          if (chatEl && chatEl.refreshMessages) chatEl.refreshMessages(this.messages);
-          else this.render();
+          // Only re-render if backend greeting has interactive elements (redirect, open_informes)
+          // Otherwise silent data update — next natural render will pick it up
+          if (msg.redirect_persona || msg.open_informes) {
+            const chatEl = this.shadowRoot.querySelector('hornero-chat');
+            if (chatEl && chatEl.refreshMessages) chatEl.refreshMessages(this.messages);
+            else this.render();
+          }
         }
       }
       this._greetingRequested = false;
