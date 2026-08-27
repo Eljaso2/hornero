@@ -45,6 +45,14 @@ class HorneroApp extends HoComponent {
     this._newClipVersion = '';
     this.recibidosList = [];
     this.misConversacionesList = [];
+    // Refresh Mis Conversaciones when background PULL finishes
+    this._onSessionsUpdated = (e) => {
+      if (e.detail && e.detail.sessions) {
+        this.misConversacionesList = e.detail.sessions;
+        this.render();
+      }
+    };
+    document.addEventListener('hornero-chat-sessions-updated', this._onSessionsUpdated);
     this.misReportesList = [];
     this._initialPersona = 'abogado'; // Persona selected from landing page
     this._initialSessionId = ''; // Session ID from Mis Conversaciones — load existing chat

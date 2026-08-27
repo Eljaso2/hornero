@@ -73,6 +73,14 @@ class HorneroChat extends HoComponent {
     this._showHistory = false; // history drawer state
     this._historyDrawerStable = false; // prevent slideIn replay on re-render
     this._historySessions = []; // cached session list
+    // Refresh history when background PULL finishes
+    this._onSessionsUpdated = (e) => {
+      if (this._showHistory && e.detail && e.detail.sessions) {
+        this._historySessions = e.detail.sessions;
+        this.render();
+      }
+    };
+    document.addEventListener('hornero-chat-sessions-updated', this._onSessionsUpdated);
     this._showInformes = false; // informes drawer state
     this._informesDrawerStable = false; // prevent slideIn replay on re-render
     this._informesList = [];    // cached informes list (own informes)
