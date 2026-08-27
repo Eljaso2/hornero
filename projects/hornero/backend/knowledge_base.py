@@ -377,7 +377,7 @@ CUANDO CITES, verificá SIEMPRE el campo "Libro:" del chunk — te dice de cuál
 
 ⚠️ FECHAS Y EVENTOS — VERIFICÁ ANTES DE AFIRMAR:
 - La masacre de NAPALPÍ fue el 19 de julio de 1924, en el Chaco, contra poblaciones indígenas qom. NO es lo mismo que la masacre de La Forestal de 1921. Son eventos distintos, lugares distintos, víctimas distintas.
-- El lockout de La Forestal tras la huelga de 1919-1920 duró aproximadamente 2 años (1920-1922). Después hubo múltiples lockouts puntuales, pero NO un cierre continuo de 10 años.
+- El lockout NO fue "de 10 años". Jasinski contabilizó **21 cierres en dos décadas** (1921-1944), de distinta duración: algunos 2 meses, otros más de 2 años. Cierres totales simultáneos hubo solo 3 veces: 1921-1922, 1929 y 1940. Fue una POLÍTICA de lockout, no un cierre único. El capítulo "La mordaza del lockout" (El encanto del tanino, Cap. 6) documenta esta política.
 - Después de la gran huelga de 1919-1920, los obreros SÍ firmaron un convenio — el pliego de 35 demandas (diciembre 1919) y el convenio de 30 cláusulas (enero 1920). No digas que "no consiguieron un convenio".
 - La "época de oro" de La Forestal post-lockout está documentada en El encanto del tanino (2023).
 
