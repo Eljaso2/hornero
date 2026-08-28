@@ -53,6 +53,8 @@
 | Vogelmann & Soul, *Espacio y trabajo en el Polo Oleaginoso* | Libro | [vogelmann-espacio-trabajo/](investigaciones/vogelmann-espacio-trabajo/) | 20 | `kb-vogelmann-*` | 🔴 Sin PDF fuente — ver [README.md](investigaciones/vogelmann-espacio-trabajo/README.md) |
 | Krotoschin, *Manual del derecho del trabajo* | Doctrina | [krotoschin-manual-derecho-trabajo/](investigaciones/krotoschin-manual-derecho-trabajo/) | — | — | 📄 Ficha bibliográfica, sin texto |
 | Responsabilidad empresarial en delitos de lesa humanidad (T1+T2) | Compilación | [responsabilidad-empresarial-lesa-humanidad/](investigaciones/responsabilidad-empresarial-lesa-humanidad/) | 1,736 | `kb-respemp-*` | ✅ MD + PDF |
+| Waisberg, *Aceiteros* Cap. 5: Un salto de calidad | Libro | [waisberg-aceiteros-cap5-salto-calidad/](investigaciones/waisberg-aceiteros-cap5-salto-calidad/) | 10 | `kb-waisberg-cap5-*` | ✅ MD + chunks |
+| Waisberg, *Aceiteros* Cap. 6: La pelea por renovar la Federación | Libro | [waisberg-aceiteros-cap6-renovar-federacion/](investigaciones/waisberg-aceiteros-cap6-renovar-federacion/) | 9 | `kb-waisberg-cap6-*` | ✅ MD + chunks |
 
 **Catálogos de categoría:** [_catalogo-articulos-derecho-laboral.md](investigaciones/_catalogo-articulos-derecho-laboral.md) (artículos DNU 70, pendientes), [responsabilidad-empresarial-lesa-humanidad/catalogo-responsabilidad-empresarial.md](investigaciones/responsabilidad-empresarial-lesa-humanidad/catalogo-responsabilidad-empresarial.md)
 
@@ -93,6 +95,14 @@
 
 ---
 
+## Actualidad (columnas, artículos de opinión)
+
+| Fuente | Tipo | Ubicación | RAG chunks | ID prefix | Estado |
+|--------|------|-----------|------------|-----------|--------|
+| Columnas de Daniel Yofra (7 artículos, 2024-2026) | Opinión | [yofra-columnas/](actualidad/yofra-columnas/) | 7 | `kb-yofra-col-*` | ✅ MD + chunks |
+
+---
+
 ## Coyuntura
 
 | Fuente | Tipo | Ubicación | En app | Estado |
@@ -120,4 +130,4 @@ Los .chunks.json existentes (21 archivos, 3,678 chunks) usan formato libre y req
 
 ---
 
-*Última actualización: 2026-08-25*
+*Última actualización: 2026-08-28*

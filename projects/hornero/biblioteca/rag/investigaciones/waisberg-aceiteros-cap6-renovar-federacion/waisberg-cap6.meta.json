@@ -1,0 +1,12 @@
+{
+  "pdf_path": "",
+  "pdf_name": "",
+  "bib": "Waisberg, Pablo. Aceiteros. Cap. 6: La pelea por renovar la Federación. Buenos Aires, 2024",
+  "category": "investigaciones",
+  "id_prefix": "kb-waisberg-cap6",
+  "mode": "chapters",
+  "num_chunks": 9,
+  "slug": "waisberg-cap6",
+  "md_path": "biblioteca/rag/investigaciones/waisberg-aceiteros-cap6-renovar-federacion/waisberg-cap6.md",
+  "chunks_dir": "biblioteca/rag/investigaciones/waisberg-aceiteros-cap6-renovar-federacion/waisberg-cap6.chunks"
+}

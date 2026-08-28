@@ -1,0 +1,12 @@
+{
+  "pdf_path": "",
+  "pdf_name": "",
+  "bib": "Waisberg, Pablo. Aceiteros. Cap. 5: Un salto de calidad. Buenos Aires, 2024",
+  "category": "investigaciones",
+  "id_prefix": "kb-waisberg-cap5",
+  "mode": "chapters",
+  "num_chunks": 10,
+  "slug": "waisberg-cap5",
+  "md_path": "biblioteca/rag/investigaciones/waisberg-aceiteros-cap5-salto-calidad/waisberg-cap5.md",
+  "chunks_dir": "biblioteca/rag/investigaciones/waisberg-aceiteros-cap5-salto-calidad/waisberg-cap5.chunks"
+}
