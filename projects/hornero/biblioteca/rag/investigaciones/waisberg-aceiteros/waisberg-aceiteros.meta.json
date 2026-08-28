@@ -1,0 +1,13 @@
+{
+  "bib": "Waisberg, Pablo. Aceiteros. Buenos Aires, 2024",
+  "category": "investigaciones",
+  "id_prefix": "kb-waisberg-aceiteros",
+  "mode": "chapters",
+  "num_chunks": 19,
+  "slug": "waisberg-aceiteros",
+  "chapters": [
+    "Cap. 5: Un salto de calidad",
+    "Cap. 6: La pelea por renovar la Federación"
+  ],
+  "md_path": "biblioteca/rag/investigaciones/waisberg-aceiteros/"
+}
