@@ -95,6 +95,12 @@ STEM_MAP = {
     "colectivos": "colectivo", "colectiva": "colectivo", "colectivas": "colectivo",
     # Pliego de condiciones: variantes morfológicas
     "pliegos": "pliego",
+    # Opinión / columnas: plural y variantes (con/sin tilde para reverse stem)
+    "opiniones": "opinion", "opinión": "opinion",
+    "columnas": "columna", "columnistas": "columnista",
+    "diarios": "diario",
+    # Verbos de opinión → canonical "opinion" para que "opina Yofra" también boostee
+    "opina": "opinion", "opinan": "opinion",
 }
 
 
@@ -208,9 +214,13 @@ CATEGORY_KEYWORDS = {
                "podcast", "video", "documental", "docuficcion", "ilustracion",
                "audio", "radio", "spotifi", "youtube", "multimedia"],
     "actualidad": ["noticia", "recorte", "medio", "informacion", "actualidad",
-                 "sonido gremial", "infogremiales", "cronica", "diario", "pagina 12",
+                 "sonido gremial", "infogremiales", "cronica", "diario", "diarios", "pagina 12",
                  "clipping", "agencia", "teleshow", "prensa comercial", "la nacion",
-                 "clarin", "ambito financiero", "cronista", "telam"],
+                 "clarin", "ambito financiero", "cronista", "telam",
+                 # Columnas de opinión y medios donde Yofra publica
+                 "yofra", "opinión", "opinion", "opina", "opinan",
+                 "columna", "columnista",
+                 "tiempo argentino", "perfil", "eldiarioar", "el diario"],
 }
 
 # ===== Tenant-specific keywords =====
