@@ -684,19 +684,20 @@ class HorneroFormacion extends HoComponent {
     this._saveChatHistory();
     this.render();
 
-    // Try streaming first, fallback to non-streaming
+    // Try streaming first, fallback to non-streaming, then retry after cold-start buffer
     this._callBackendStream(text).catch((err) => {
-      console.warn('Stream failed, falling back to non-streaming:', err);
+      console.warn('Formacion: stream failed, trying non-streaming:', err);
       this._callBackend(text).catch((err2) => {
-        this.messages = [...this.messages, {
-          role: 'hornero',
-          text: 'No puedo conectarme ahora. Intentá de nuevo en un momento.',
-          tags: ['historia', 'error'],
-          persona: 'historiador',
-          time: this._timeNow(),
-        }];
-        this._typing = false;
-        this.render();
+        console.warn('Formacion: non-streaming failed, retrying after cold-start buffer:', err2);
+        setTimeout(() => {
+          this._callBackendStream(text).catch((err3) => {
+            console.warn('Formacion: retry failed, using offline fallback:', err3);
+            this._addWithProgressiveReveal(this._localResponse(text));
+            this.iaStep++;
+            this._typing = false; this._greetingRequested = false;
+            this.render();
+          });
+        }, 5000);
       });
     });
   }
@@ -1054,6 +1055,17 @@ class HorneroFormacion extends HoComponent {
 
   _localGreeting() {
     return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Historiadora — conozco la historia del movimiento obrero: huelgas, masacres, lockouts, referentes que nadie recuerda. ¿Qué tema histórico te interesa?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
+  }
+
+  // ===== Offline fallback response when all backend calls fail =====
+  _localResponse(text) {
+    return {
+      role: 'hornero',
+      text: '⚠️ Sin conexión al servidor — probá de nuevo en un minuto.',
+      tags: ['historia', 'offline'],
+      persona: 'historiador',
+      time: this._timeNow(),
+    };
   }
 
   // ===== Handle audio message =====
