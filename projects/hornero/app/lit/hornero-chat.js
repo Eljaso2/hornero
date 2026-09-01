@@ -1376,9 +1376,12 @@ class HorneroChat extends HoComponent {
         border-radius: 0 10px 10px 0; padding: 10px 14px;
         font-family: 'Public Sans', sans-serif; font-size: 1.12rem;
         color: #E8E6E0; line-height: 1.55;
-        margin: 8px 0; font-style: italic; }
+        margin: 8px 0; }
       .msg-quote-icon { font-size: .72rem; color: var(--ho-green, #4E9978);
-        margin-bottom: 4px; display: block; }
+        margin-bottom: 2px; display: block; line-height: 1; }
+      .msg-quote-close { font-size: .72rem; color: var(--ho-green, #4E9978);
+        margin-left: 2px; display: inline; line-height: 1; }
+      .msg-quote p { margin: 0; }
       .msg-quote-author { font-family: 'Archivo', sans-serif; font-weight: 700;
         font-size: .78rem; color: var(--ho-green-dark, #3D6B56);
         margin-bottom: 5px; font-style: normal; }
@@ -2245,7 +2248,7 @@ class HorneroChat extends HoComponent {
 
   _closeQuote(lines) {
     const content = lines.map(l => this._formatInline(l)).join('<br>');
-    return `<div class="msg-quote"><span class="msg-quote-icon">❝</span><p>${content}</p></div>`;
+    return `<div class="msg-quote"><span class="msg-quote-icon">❝</span><p>${content}<span class="msg-quote-close">❞</span></p></div>`;
   }
 
   // ===== Persona config: avatar icon, name, colors per persona =====
@@ -2424,7 +2427,7 @@ class HorneroChat extends HoComponent {
           content += `<div class="msg-quote">`;
           content += `<span class="msg-quote-icon">❝</span>`;
           if (s.quoteAuthor) content += `<div class="msg-quote-author">${s.quoteAuthor}</div>`;
-          content += `<p>${s.quote}</p>`;
+          content += `<p>${s.quote}<span class="msg-quote-close">❞</span></p>`;
           if (s.quoteSource) content += `<div class="msg-quote-source">${s.quoteSource}</div>`;
           content += '</div>';
         }
@@ -3501,7 +3504,10 @@ h1 { font-family: 'Archivo', sans-serif; font-weight: 800; color: #3D6B56; borde
 .msg-content { margin: 6px 0; font-size: 1.19rem; }
 .msg-section-title { font-family: 'Archivo', sans-serif; font-weight: 700; color: #3D6B56; margin-top: 10px; }
 .msg-section-body { margin: 4px 0; }
-.msg-quote { border-left: 3px solid #4E9978; background: #E0F0EB; padding: 10px 14px; margin: 8px 0; font-style: italic; border-radius: 0 8px 8px 0; }
+.msg-quote { border-left: 3px solid #4E9978; background: #E0F0EB; padding: 10px 14px; margin: 8px 0; border-radius: 0 8px 8px 0; }
+.msg-quote-icon { font-size: .72rem; color: #4E9978; display: block; line-height: 1; margin-bottom: 2px; }
+.msg-quote-close { font-size: .72rem; color: #4E9978; display: inline; line-height: 1; margin-left: 2px; }
+.msg-quote p { margin: 0; }
 .msg-quote-author { font-weight: 700; font-style: normal; color: #3D6B56; }
 .msg-quote-source { font-family: monospace; font-size: .7rem; color: #6E6A60; font-style: normal; }
 .msg-citation { display: block; font-style: italic; font-size: .78em; color: #6E6A60; margin-top: 8px; padding: 6px 10px; background: rgba(78,153,120,.08); border-left: 3px solid #4E9978; border-radius: 0 6px 6px 0; }

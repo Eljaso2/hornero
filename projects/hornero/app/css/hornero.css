@@ -106,7 +106,7 @@ body{background:var(--ho-bg,#1E2321);background-attachment:fixed;font-family:'Pu
 .chat-msg-section-title{font-family:'Archivo',sans-serif;font-weight:700;font-size:.88rem;color:var(--ho-text);margin-bottom:5px}
 .chat-msg-section-body{font-size:.82rem;color:var(--ho-text-mid);line-height:1.5}
 .chat-msg-section-body p{margin-bottom:4px}
-.chat-msg-quote{background:var(--ho-green-pale);border-left:3px solid var(--ho-green);border-radius:0 8px 8px 0;padding:8px 12px;font-size:.82rem;color:var(--ho-text);line-height:1.5;margin:8px 0;font-style:italic}
+.chat-msg-quote{background:var(--ho-green-pale);border-left:3px solid var(--ho-green);border-radius:0 8px 8px 0;padding:8px 12px;font-size:.82rem;color:var(--ho-text);line-height:1.5;margin:8px 0}
 .chat-msg-quote-author{font-family:'Archivo',sans-serif;font-weight:700;font-size:.74rem;color:var(--ho-green-dark);margin-bottom:4px;font-style:normal}
 .chat-msg-quote-source{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--ho-text-mid);margin-top:4px;font-style:normal}
 .chat-msg-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
