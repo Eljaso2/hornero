@@ -162,6 +162,7 @@ async def call_llm_with_retry(system_prompt: str, user_message: str, history: li
         'contenido': 0.5,  # More creative
         'reporte': 0.2,    # More precise
         'historia': 0.2,   # More factual
+        'panorama': 0.3,   # Balanced (investigador)
     }
     temperature = temperature_map.get(formato, 0.3)
 
@@ -172,6 +173,7 @@ async def call_llm_with_retry(system_prompt: str, user_message: str, history: li
         'contenido': 3000,  # Content needs more space
         'reporte': 3000,    # Reports need more space
         'historia': 2000,
+        'panorama': 2000,   # Investigador
     }
     max_tokens = max_tokens_map.get(formato, 2000)
 
