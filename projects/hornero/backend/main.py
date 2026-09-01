@@ -28,7 +28,7 @@ import httpx
 
 from knowledge_base import get_system_prompt, get_system_prompt_rag, get_legal_prompt_focused, get_format_hint, get_greeting_hint, PERSONA_MAP, PERSONA_NAME_MAP
 from llm_providers.deepseek import call_deepseek, call_deepseek_stream
-from llm_providers.claude import call_claude
+from llm_providers.claude import call_claude, call_claude_stream
 from clipping_cache import get_clipping, refresh
 from rag_retriever import retrieve_for_query
 from library_service.adapter_hornero import legal_sources_text, resolve_tenant  # puente Biblioteca (feature-flag)
@@ -597,20 +597,23 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                         elif chunk["type"] == "done":
                             await queue.put(("done", chunk["full_text"]))
                 else:
-                    # Claude/other: non-streaming fallback wrapped in SSE
+                    # Claude: now with real streaming (tokens arrive incrementally)
                     if LLM_PROVIDER == "claude":
-                        raw_response = await call_claude(
+                        async for chunk in call_claude_stream(
                             api_key=ANTHROPIC_API_KEY,
                             system_prompt=system_prompt,
                             user_message=full_message,
                             history=req.history,
                             model=ANTHROPIC_MODEL,
                             base_url=ANTHROPIC_BASE_URL,
-                        )
+                        ):
+                            if chunk["type"] == "token":
+                                await queue.put(("token", chunk["content"]))
+                            elif chunk["type"] == "done":
+                                await queue.put(("done", chunk["full_text"]))
                     else:
                         await queue.put(("error", f"Unknown LLM provider: {LLM_PROVIDER}"))
                         return
-                    await queue.put(("non_stream", raw_response))
             except httpx.HTTPStatusError as e:
                 await queue.put(("error", f"LLM HTTP error {e.response.status_code}"))
             except Exception as e:
@@ -653,31 +656,6 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                         "source_url": parsed.get("source_url", ""),
                     }
                     yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
-
-                elif msg_type == "non_stream":
-                    # Claude/other: entire response as single token event
-                    raw_response = msg_data
-                    if raw_response:
-                        parsed = parse_llm_response(raw_response)
-                        now = datetime.now()
-                        time_str = now.strftime("%H:%M")
-                        llm_persona = parsed.get("persona", "")
-                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                        text_content = parsed.get("text", "")
-                        if text_content:
-                            content = text_content.replace("\n", "\\n")
-                            yield f"event: token\ndata: {content}\n\n"
-                        result = {
-                            "text": parsed.get("text", ""),
-                            "sections": parsed.get("sections", []),
-                            "tags": parsed.get("tags", [req.formato]),
-                            "time": time_str,
-                            "persona": final_persona,
-                            "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                            "image": parsed.get("image", ""),
-                            "source_url": parsed.get("source_url", ""),
-                        }
-                        yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
 
                 elif msg_type == "error":
                     yield f"event: error\ndata: {json.dumps({'message': msg_data})}\n\n"
@@ -960,6 +938,7 @@ async def health():
     return {
         "status": "ok",
         "provider": LLM_PROVIDER,
+        "heartbeat": True,  # Streaming endpoint sends SSE keepalive every 15s
         "clipping_items": len(get_clipping()),
         "kb_chunks": len(ALL_CHUNKS),
         "rag": "keyword",
