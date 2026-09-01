@@ -26,7 +26,8 @@
     "articulo": "",
     "book_ref": "",
     "date": "2026-02-08",
-    "url": "https://www.tiempoar.com.ar/ta_article/huelga-para-defender-nuestros-derechos/"
+    "url": "https://www.tiempoar.com.ar/ta_article/huelga-para-defender-nuestros-derechos/",
+    "author": "Daniel Yofra"
   },
   {
     "id": "kb-yofra-col-1",
@@ -58,7 +59,8 @@
     "articulo": "",
     "book_ref": "",
     "date": "2026-03-22",
-    "url": "https://www.tiempoar.com.ar/ta_article/marzo-huelga-salario/"
+    "url": "https://www.tiempoar.com.ar/ta_article/marzo-huelga-salario/",
+    "author": "Daniel Yofra"
   },
   {
     "id": "kb-yofra-col-2",
@@ -88,7 +90,8 @@
     "articulo": "",
     "book_ref": "",
     "date": "2025-03",
-    "url": "https://www.perfil.com/noticias/opinion/en-1976-y-en-2025-el-salario-digno-fortalece-la-democracia.phtml"
+    "url": "https://www.perfil.com/noticias/opinion/en-1976-y-en-2025-el-salario-digno-fortalece-la-democracia.phtml",
+    "author": "Daniel Yofra"
   },
   {
     "id": "kb-yofra-col-3",
@@ -118,7 +121,8 @@
     "articulo": "",
     "book_ref": "",
     "date": "2024-10-29",
-    "url": "https://www.perfil.com/noticias/opinion/aciteros-y-algodoneros-tienen-en-argentina-las-jornadas-laborales-mas-extensas-del-mundo.phtml"
+    "url": "https://www.perfil.com/noticias/opinion/aciteros-y-algodoneros-tienen-en-argentina-las-jornadas-laborales-mas-extensas-del-mundo.phtml",
+    "author": "Daniel Yofra"
   },
   {
     "id": "kb-yofra-col-4",
@@ -148,7 +152,8 @@
     "articulo": "",
     "book_ref": "",
     "date": "2026-03-03",
-    "url": "https://www.eldiarioar.com/politica/nadie-regalo-viene-destruir-reforma-laboral_129_13034126.html"
+    "url": "https://www.eldiarioar.com/politica/nadie-regalo-viene-destruir-reforma-laboral_129_13034126.html",
+    "author": "Daniel Yofra"
   },
   {
     "id": "kb-yofra-col-5",
@@ -178,7 +183,8 @@
     "articulo": "",
     "book_ref": "",
     "date": "2025-04-09",
-    "url": "https://www.tiempoar.com.ar/ta_article/plan-lucha-gobierno/"
+    "url": "https://www.tiempoar.com.ar/ta_article/plan-lucha-gobierno/",
+    "author": "Daniel Yofra"
   },
   {
     "id": "kb-yofra-col-6",
@@ -206,6 +212,7 @@
     "articulo": "",
     "book_ref": "",
     "date": "2024-09-12",
-    "url": "https://www.eldiarioar.com/opinion/herramienta-construir-proyectos_129_11668223.html"
+    "url": "https://www.eldiarioar.com/opinion/herramienta-construir-proyectos_129_11668223.html",
+    "author": "Daniel Yofra"
   }
 ]

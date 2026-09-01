@@ -148,7 +148,8 @@ def _compute_idf(chunks: list) -> dict:
         searchable = (
             chunk["title"] + " " +
             chunk["text"] + " " +
-            " ".join(chunk["tags"])
+            " ".join(chunk["tags"]) + " " +
+            chunk.get("author", "")
         ).lower()
         terms = set(searchable.split())
         # Also add stemmed versions
@@ -409,6 +410,16 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros",
         for t in all_terms:
             if t in tags_lower:
                 score += 2.0
+
+        # Author bonus: +4 when query matches chunk author (e.g., "Yofra" matches author="Daniel Yofra")
+        # Stronger than tag bonus because authorship is an explicit, high-signal attribution.
+        # Distinguishes authored content (columns, books) from content ABOUT someone (interviews, reports).
+        author_lower = chunk.get("author", "").lower()
+        if author_lower:
+            for t in all_terms:
+                if t in author_lower:
+                    score += 4.0
+                    break  # one match is enough
 
         # Phrase-match bonus: +10 when 2+ consecutive query terms appear together in title
         # This dramatically boosts precision — "convenio colectivo" in title beats
