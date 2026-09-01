@@ -1538,21 +1538,18 @@ class HorneroGremial extends HoComponent {
 
     // Try streaming first, fallback to non-streaming
     this._callBackendStream(text).catch((err) => {
-      console.warn('Stream failed, falling back to non-streaming:', err);
+      console.warn('Gremial: stream failed, trying non-streaming:', err);
       this._callBackend(text).catch((err2) => {
-        if (err2.message === 'FETCH_TIMEOUT') {
-          this.messages = [...this.messages, {
-            role: 'hornero',
-            text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.',
-            tags: ['reporte', 'timeout'],
-            persona: 'companero',
-            time: this._timeNow(),
-          }];
-        } else {
-          this._addWithProgressiveReveal(this._localResponse(text));
-        }
-        this._typing = false;
-        this.render();
+        console.warn('Gremial: non-streaming failed, retrying after cold-start buffer:', err2);
+        setTimeout(() => {
+          this._callBackendStream(text).catch((err3) => {
+            console.warn('Gremial: retry failed, using offline fallback:', err3);
+            this._addWithProgressiveReveal(this._localResponse(text));
+            this.iaStep++;
+            this._typing = false; this._greetingRequested = false;
+            this.render();
+          });
+        }, 5000);
       });
     });
   }
@@ -2729,8 +2726,9 @@ class HorneroGremial extends HoComponent {
       sections: [
         { title: 'Lo que entendí', body: userText },
         { title: 'Preguntas para profundizar', body: '¿Cuándo ocurrió? ¿Quiénes están involucrados? ¿Hubo testigos? ¿Ya lo reportaste a alguien — delegado, supervisor, ART?' },
+        { title: 'Sin conexión al servidor', body: 'No pude conectar con el servidor. Probá de nuevo en un minuto — si el servidor estaba dormido, ya le mandé la señal para que despierte.' },
       ],
-      tags: ['reporte', 'investigacion'],
+      tags: ['reporte', 'investigacion', 'offline'],
       persona: this._activePersona,
       time: this._timeNow(),
     };
