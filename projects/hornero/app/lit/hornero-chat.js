@@ -971,6 +971,14 @@ class HorneroChat extends HoComponent {
       :host(.theme-light) .reporte-card-historial-resumen { color: var(--ho-text-light, #7A766C); }
       :host(.theme-light) .reporte-card.estado-aceptado { border-color: rgba(0,0,0,.08); }
 
+      /* Light mode: quote + citation readability */
+      :host(.theme-light) .msg-quote { background: var(--ho-green-pale, #E0F0EB); color: var(--ho-text, #1E2321); }
+      :host(.theme-light) .msg-quote-icon { color: var(--ho-green, #2E6B4E); }
+      :host(.theme-light) .msg-quote-author { color: var(--ho-green-dark, #3D6B56); }
+      :host(.theme-light) .msg-quote-source { color: var(--ho-text-mid, #5A5650); }
+      :host(.theme-light) .msg-citation { color: var(--ho-text-mid, #5A5650); background: rgba(78,153,120,.06); }
+      :host(.theme-light) .msg-chicago { color: var(--ho-green-dark, #3D6B56); }
+
       /* Correccion badges — grade-colored indicators */
       .correccion-badge { display: inline-block; font-family: 'JetBrains Mono', monospace;
         font-size: .58rem; padding: 1px 6px; border-radius: 4px; font-weight: 600;
