@@ -557,6 +557,11 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
     # Build the user message with format context
     full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
 
+    # Log streaming request for debugging
+    logger.info(f"STREAM session={req.session_id[:8] if req.session_id else 'new'}... "
+                f"formato={req.formato} persona={req.requested_persona} "
+                f"chunks={len(chunk_ids)} provider={LLM_PROVIDER}")
+
     async def event_generator():
         """SSE event generator with heartbeat to keep Render proxy alive.
 
@@ -597,20 +602,33 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                         elif chunk["type"] == "done":
                             await queue.put(("done", chunk["full_text"]))
                 else:
-                    # Claude: now with real streaming (tokens arrive incrementally)
+                    # Claude: try streaming first, fallback to non-streaming if it fails
                     if LLM_PROVIDER == "claude":
-                        async for chunk in call_claude_stream(
-                            api_key=ANTHROPIC_API_KEY,
-                            system_prompt=system_prompt,
-                            user_message=full_message,
-                            history=req.history,
-                            model=ANTHROPIC_MODEL,
-                            base_url=ANTHROPIC_BASE_URL,
-                        ):
-                            if chunk["type"] == "token":
-                                await queue.put(("token", chunk["content"]))
-                            elif chunk["type"] == "done":
-                                await queue.put(("done", chunk["full_text"]))
+                        try:
+                            async for chunk in call_claude_stream(
+                                api_key=ANTHROPIC_API_KEY,
+                                system_prompt=system_prompt,
+                                user_message=full_message,
+                                history=req.history,
+                                model=ANTHROPIC_MODEL,
+                                base_url=ANTHROPIC_BASE_URL,
+                            ):
+                                if chunk["type"] == "token":
+                                    await queue.put(("token", chunk["content"]))
+                                elif chunk["type"] == "done":
+                                    await queue.put(("done", chunk["full_text"]))
+                        except Exception as stream_err:
+                            # Streaming failed — fallback to non-streaming (keeps connection alive via heartbeat)
+                            logger.warning(f"Claude streaming failed, falling back to non-streaming: {stream_err}")
+                            raw_response = await call_claude(
+                                api_key=ANTHROPIC_API_KEY,
+                                system_prompt=system_prompt,
+                                user_message=full_message,
+                                history=req.history,
+                                model=ANTHROPIC_MODEL,
+                                base_url=ANTHROPIC_BASE_URL,
+                            )
+                            await queue.put(("done", raw_response))
                     else:
                         await queue.put(("error", f"Unknown LLM provider: {LLM_PROVIDER}"))
                         return
