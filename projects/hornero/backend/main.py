@@ -557,41 +557,12 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
     # Build the user message with format context
     full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
 
-    # Log streaming request for debugging
-    logger.info(f"STREAM session={req.session_id[:8] if req.session_id else 'new'}... "
-                f"formato={req.formato} persona={req.requested_persona} "
-                f"chunks={len(chunk_ids)} provider={LLM_PROVIDER}")
-
     async def event_generator():
-        """SSE event generator with heartbeat to keep Render proxy alive.
-
-        Render.com kills idle connections after ~30s. We yield ': connected'
-        immediately (sends CORS headers), then ': keepalive' every 15s
-        while waiting for the LLM. SSE comments (lines with ':') are
-        ignored by all conforming SSE parsers per spec.
-        """
-        import asyncio as _asyn
-
-        # 1. Yield immediately — forces FastAPI to send response headers + CORS.
-        #    If the LLM crashes, the SSE connection is already established,
-        #    so the client gets an error event instead of a NetworkError.
+        # Yield immediately so FastAPI sends response headers + CORS.
+        # If the LLM crashes later, the client gets an error event (not NetworkError).
         yield ": connected\n\n"
 
-        # 2. Start a heartbeat task that puts keepalive events on the queue
-        HEARTBEAT_INTERVAL = 15
-        heartbeat_active = True
-        hb_queue = _asyn.Queue()
-
-        async def heartbeat():
-            while heartbeat_active:
-                await _asyn.sleep(HEARTBEAT_INTERVAL)
-                if heartbeat_active:
-                    await hb_queue.put(True)
-
-        hb_task = _asyn.create_task(heartbeat())
-
         try:
-            # 3. Run LLM call — yield tokens as they arrive, or heartbeats while waiting
             if LLM_PROVIDER == "deepseek":
                 async for chunk in call_deepseek_stream(
                     api_key=DEEPSEEK_API_KEY,
@@ -602,14 +573,9 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                     base_url=DEEPSEEK_BASE_URL,
                 ):
                     if chunk["type"] == "token":
-                        # Drain any queued heartbeats first
-                        while not hb_queue.empty():
-                            yield ": keepalive\n\n"
                         content = chunk["content"].replace("\n", "\\n")
                         yield f"event: token\ndata: {content}\n\n"
                     elif chunk["type"] == "done":
-                        while not hb_queue.empty():
-                            yield ": keepalive\n\n"
                         full_text = chunk["full_text"]
                         parsed = parse_llm_response(full_text)
                         now = datetime.now()
@@ -627,46 +593,9 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                             "source_url": parsed.get("source_url", ""),
                         }
                         yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
-
-            elif LLM_PROVIDER == "claude":
-                # Try streaming first, fallback to non-streaming
-                try:
-                    async for chunk in call_claude_stream(
-                        api_key=ANTHROPIC_API_KEY,
-                        system_prompt=system_prompt,
-                        user_message=full_message,
-                        history=req.history,
-                        model=ANTHROPIC_MODEL,
-                        base_url=ANTHROPIC_BASE_URL,
-                    ):
-                        if chunk["type"] == "token":
-                            while not hb_queue.empty():
-                                yield ": keepalive\n\n"
-                            content = chunk["content"].replace("\n", "\\n")
-                            yield f"event: token\ndata: {content}\n\n"
-                        elif chunk["type"] == "done":
-                            while not hb_queue.empty():
-                                yield ": keepalive\n\n"
-                            full_text = chunk["full_text"]
-                            parsed = parse_llm_response(full_text)
-                            now = datetime.now()
-                            time_str = now.strftime("%H:%M")
-                            llm_persona = parsed.get("persona", "")
-                            final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                            result = {
-                                "text": parsed.get("text", ""),
-                                "sections": parsed.get("sections", []),
-                                "tags": parsed.get("tags", [req.formato]),
-                                "time": time_str,
-                                "persona": final_persona,
-                                "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                                "image": parsed.get("image", ""),
-                                "source_url": parsed.get("source_url", ""),
-                            }
-                            yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
-                except Exception as stream_err:
-                    # Streaming failed — fallback to non-streaming (heartbeat keeps connection alive)
-                    logger.warning(f"Claude streaming failed, falling back: {stream_err}")
+            else:
+                # Claude/other provider: non-streaming fallback wrapped in SSE
+                if LLM_PROVIDER == "claude":
                     raw_response = await call_claude(
                         api_key=ANTHROPIC_API_KEY,
                         system_prompt=system_prompt,
@@ -675,31 +604,31 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                         model=ANTHROPIC_MODEL,
                         base_url=ANTHROPIC_BASE_URL,
                     )
-                    # Drain heartbeats
-                    while not hb_queue.empty():
-                        yield ": keepalive\n\n"
-                    parsed = parse_llm_response(raw_response)
-                    now = datetime.now()
-                    time_str = now.strftime("%H:%M")
-                    llm_persona = parsed.get("persona", "")
-                    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                    text_content = parsed.get("text", "")
-                    if text_content:
-                        content = text_content.replace("\n", "\\n")
-                        yield f"event: token\ndata: {content}\n\n"
-                    result = {
-                        "text": parsed.get("text", ""),
-                        "sections": parsed.get("sections", []),
-                        "tags": parsed.get("tags", [req.formato]),
-                        "time": time_str,
-                        "persona": final_persona,
-                        "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                        "image": parsed.get("image", ""),
-                        "source_url": parsed.get("source_url", ""),
-                    }
-                    yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
-            else:
-                yield f"event: error\ndata: {json.dumps({'message': f'Unknown LLM provider: {LLM_PROVIDER}'})}\n\n"
+                else:
+                    raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
+
+                parsed = parse_llm_response(raw_response)
+                now = datetime.now()
+                time_str = now.strftime("%H:%M")
+                llm_persona = parsed.get("persona", "")
+                final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+
+                text_content = parsed.get("text", "")
+                if text_content:
+                    content = text_content.replace("\n", "\\n")
+                    yield f"event: token\ndata: {content}\n\n"
+
+                result = {
+                    "text": parsed.get("text", ""),
+                    "sections": parsed.get("sections", []),
+                    "tags": parsed.get("tags", [req.formato]),
+                    "time": time_str,
+                    "persona": final_persona,
+                    "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                    "image": parsed.get("image", ""),
+                    "source_url": parsed.get("source_url", ""),
+                }
+                yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
 
         except httpx.HTTPStatusError as e:
             error_msg = f"LLM HTTP error {e.response.status_code}"
@@ -707,9 +636,6 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
         except Exception as e:
             error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
             yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
-        finally:
-            heartbeat_active = False
-            hb_task.cancel()
 
     return StreamingResponse(
         event_generator(),
@@ -1001,26 +927,20 @@ async def health():
 
 @app.get("/api/debug/stream")
 async def debug_stream():
-    """Debug endpoint: test SSE streaming through Cloudflare/Render proxy.
+    """Debug endpoint: test SSE streaming through Cloudflare/Render proxy."""
+    from starlette.responses import StreamingResponse as _SR
 
-    Sends events immediately (no delays). No auth required.
-    """
-    import json as _json
+    def generate():
+        """Sync generator — simplest possible SSE test."""
+        yield "event: token\ndata: Test 1\n\n"
+        yield "event: token\ndata: Test 2\n\n"
+        yield "event: done\ndata: {\"ok\":true}\n\n"
 
-    async def generate():
-        # Send 3 test events immediately
-        for i in range(1, 4):
-            yield f"event: token\ndata: Test token {i}\n\n"
-
-        result = _json.dumps({"text": "Debug stream OK", "tokens": 3})
-        yield f"event: done\ndata: {result}\n\n"
-
-    return StreamingResponse(
+    return _SR(
         generate(),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
-            "Connection": "keep-alive",
             "X-Accel-Buffering": "no",
         },
     )
