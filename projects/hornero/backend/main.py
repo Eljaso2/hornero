@@ -577,6 +577,11 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
         queue = _asyn.Queue()
         heartbeat_active = True
 
+        # Yield immediately so FastAPI sends response headers + CORS before any LLM call.
+        # If the LLM crashes, the SSE connection is already established — error event
+        # reaches the client instead of a connection-drop NetworkError.
+        yield ": connected\n\n"
+
         async def heartbeat_sender():
             """Periodically enqueue heartbeat events to keep the connection alive."""
             while heartbeat_active:
@@ -976,24 +981,19 @@ async def health():
 async def debug_stream():
     """Debug endpoint: test SSE streaming through Cloudflare/Render proxy.
 
-    Sends 3 events with 2-second gaps + heartbeats, then closes.
-    No auth required — for debugging only.
+    Sends 3 events with 2-second gaps, then closes. No auth required.
     """
     import asyncio as _asyn
+    import json as _json
 
     async def generate():
-        # Heartbeat every 5s
-        async def heartbeat():
-            while True:
-                await _asyn.sleep(5)
-                yield ": keepalive\n\n"
-
         # Send 3 test events with delays
         for i in range(1, 4):
             await _asyn.sleep(2)
             yield f"event: token\ndata: Test token {i}\n\n"
 
-        yield f"event: done\ndata: {{\"text\": \"Debug stream OK\", \"tokens\": 3}}\n\n"
+        result = _json.dumps({"text": "Debug stream OK", "tokens": 3})
+        yield f"event: done\ndata: {result}\n\n"
 
     return StreamingResponse(
         generate(),
@@ -1002,6 +1002,8 @@ async def debug_stream():
             "Cache-Control": "no-cache",
             "Connection": "keep-alive",
             "X-Accel-Buffering": "no",
+        },
+    )
         },
     )@app.get("/api/kb")
 async def get_knowledge_base(category: str = None, tipo: str = None):

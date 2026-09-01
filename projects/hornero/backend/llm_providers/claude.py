@@ -5,7 +5,10 @@ Streaming yields tokens as they arrive, keeping the SSE connection alive on Rend
 """
 
 import json
+import logging
 import httpx
+
+logger = logging.getLogger("hornero.claude")
 
 
 def _build_messages(system_prompt: str, user_message: str, history: list) -> tuple:
@@ -152,11 +155,10 @@ async def call_claude_stream(
                     break
                 elif event_type == "error":
                     error_data = chunk.get("error", {})
-                    raise httpx.HTTPStatusError(
-                        f"Claude API error: {error_data.get('message', 'unknown')}",
-                        request=None,
-                        response=None,
-                    )
+                    error_msg = error_data.get('message', 'unknown')
+                    logger.warning(f"Claude streaming error: {error_msg}")
+                    # Don't raise — just stop streaming and let the full_text be returned
+                    break
 
     # Yield the complete response for final parsing
     yield {"type": "done", "full_text": full_text}
