@@ -21,37 +21,12 @@ class HorneroContenido extends HoComponent {
   }
 
   // ===== Backend URLs =====
-  static get API_URL() {
-    const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/chat';
-    }
-    return 'https://hornero-ia.onrender.com/api/chat';
-  }
-
-  static get GREETING_URL() {
-    const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/greeting';
-    }
-    return 'https://hornero-ia.onrender.com/api/greeting';
-  }
-
-  static get AUDIO_URL() {
-    const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/audio';
-    }
-    return 'https://hornero-ia.onrender.com/api/audio';
-  }
-
-  static get STREAM_URL() {
-    const h = window.location.hostname;
-    if (h === 'localhost' || h === '127.0.0.1' || h.startsWith('192.168.') || h.startsWith('10.') || h.startsWith('172.')) {
-      return 'http://' + h + ':8000/api/chat/stream';
-    }
-    return 'https://hornero-ia.onrender.com/api/chat/stream';
-  }
+  // Use centralized HorneroAPI module (same as consulta, gremial, etc.)
+  _getChatUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/chat'; }
+  _getStreamUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/chat/stream'; }
+  _getGreetingUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/greeting'; }
+  _getAudioUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/audio'; }
+  _getFeedbackUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/feedback'; }
 
   constructor() {
     super();
@@ -436,7 +411,7 @@ class HorneroContenido extends HoComponent {
     this._addWithProgressiveReveal(local);
 
     try {
-      const response = await fetch(HorneroContenido.GREETING_URL, {
+      const response = await fetch(this._getGreetingUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -613,7 +588,7 @@ class HorneroContenido extends HoComponent {
     // AbortController to cancel the stream if user navigates away
     this._streamAbortController = new AbortController();
 
-    const response = await fetch(HorneroContenido.STREAM_URL, {
+    const response = await fetch(this._getStreamUrl(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -623,6 +598,7 @@ class HorneroContenido extends HoComponent {
         grade: this.grade,
         sector: this.sector,
         requested_persona: this._activePersona,
+        session_id: this._sessionId,
       }),
       signal: this._streamAbortController.signal,
     });
@@ -755,7 +731,7 @@ class HorneroContenido extends HoComponent {
       sections: m.sections || [],
     }));
 
-    const response = await fetch(HorneroContenido.API_URL, {
+    const response = await fetch(this._getChatUrl(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -765,6 +741,7 @@ class HorneroContenido extends HoComponent {
         grade: this.grade,
         sector: this.sector,
         requested_persona: this._activePersona,
+        session_id: this._sessionId,
       }),
     });
 
@@ -834,7 +811,7 @@ class HorneroContenido extends HoComponent {
     formData.append('requested_persona', this._activePersona);
     formData.append('history', JSON.stringify(history));
 
-    const response = await fetch(HorneroContenido.AUDIO_URL, {
+    const response = await fetch(this._getAudioUrl(), {
       method: 'POST',
       body: formData, // Browser sets multipart Content-Type automatically
     });
