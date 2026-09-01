@@ -591,12 +591,15 @@ class HorneroConsulta extends HoComponent {
     // Try streaming first, fallback to non-streaming, then retry after cold-start buffer
     this._callBackendStream(text).catch((err) => {
       console.warn('Consulta: stream failed, trying non-streaming:', err);
+      // DIAGNOSTIC: run SSE connectivity test on first failure
+      if (!this._sseDiagRun) { this._sseDiagRun = true; this._runSseDiag(); }
       this._callBackend(text).catch((err2) => {
         console.warn('Consulta: non-streaming failed, retrying after cold-start buffer:', err2);
         setTimeout(() => {
           this._callBackendStream(text).catch((err3) => {
             console.warn('Consulta: retry failed, using offline fallback:', err3);
-            this._addWithProgressiveReveal(this._localResponse(text));
+            const errMsg = [err, err2, err3].map(e => e?.message || e || '?').join(' | ');
+            this._addWithProgressiveReveal(this._localResponse(text, errMsg));
             this.iaStep++;
             this._typing = false; this._greetingRequested = false;
             this.render();
@@ -1009,7 +1012,7 @@ class HorneroConsulta extends HoComponent {
     return { role: 'hornero', sections: [section], tags: ['consulta', 'explore'], persona: p, time: this._timeNow() };
   }
 
-  _localResponse(userText) {
+  _localResponse(userText, errDetail) {
     const lower = userText.toLowerCase();
     const p = this._activePersona;
     // Only match pure greetings — NOT "hola, me podes decir..."
@@ -1025,7 +1028,36 @@ class HorneroConsulta extends HoComponent {
     if (lower.includes('cremonte')) {
       return { role: 'hornero', text: 'Cremonte es un investigador labour — analiza distribución del ingreso, salario mínimo y reforma laboral. Dice que "el salario mínimo no es un número abstracto — es el piso de lo que una persona necesita para reproducir su fuerza de trabajo" ("Valor y precio de la fuerza de trabajo", 2023).\n\n¿Querés que profundice en algo legal?', tags: ['cremonte', 'consulta'], persona: p, time: this._timeNow() };
     }
-    return { role: 'hornero', sections: [{ title: 'Sin conexión al servidor', body: '⚠️ Sin conexión al servidor. No puedo acceder a la base de datos ahora — reintentá en unos segundos. Si el problema persiste, el servidor puede estar reiniciándose (cold start). Mientras tanto, puedo ayudarte con: paritaria aceitera, condiciones laborales, SMVM, reforma laboral, convenio CCT 420/05, organización sindical.' }], tags: ['consulta', 'offline'], persona: p, time: this._timeNow() };
+    const diag = errDetail ? `\n\n🔧 Error: ${errDetail}` : '';
+    return { role: 'hornero', sections: [{ title: 'Sin conexión al servidor', body: '⚠️ Sin conexión al servidor. No puedo acceder a la información histórica en este momento. Probá de nuevo en un minuto — si el servidor estaba en reposo, tarda unos segundos en arrancar.' + diag }], tags: ['consulta', 'offline'], persona: p, time: this._timeNow() };
+  }
+
+  async _runSseDiag() {
+    /** Run SSE connectivity test against /api/test/stream — logs results to console. */
+    const baseUrl = window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com';
+    const testUrl = baseUrl + '/api/test/stream';
+    console.log(`[SSE-DIAG] Testing SSE from ${testUrl}...`);
+    try {
+      const t0 = performance.now();
+      const res = await fetch(testUrl, { method: 'GET' });
+      const dt = Math.round(performance.now() - t0);
+      console.log(`[SSE-DIAG] Response: ${res.status} ${res.statusText} in ${dt}ms — type: ${res.headers.get('content-type')}`);
+      console.log(`[SSE-DIAG] CORS allow-origin: ${res.headers.get('access-control-allow-origin')}`);
+      const body = await res.text();
+      console.log(`[SSE-DIAG] Body (${body.length} chars):`, body.substring(0, 200));
+      console.log('[SSE-DIAG] ✅ SSE works! The server and proxy are OK — problem must be in auth or request format.');
+    } catch (err) {
+      console.error(`[SSE-DIAG] ❌ SSE fetch failed:`, err);
+      console.error('[SSE-DIAG] This means the browser CANNOT reach the SSE endpoint — likely CORS or network issue.');
+      // Try a simple GET to health as comparison
+      try {
+        const hRes = await fetch(baseUrl + '/api/health');
+        console.log(`[SSE-DIAG] Health check works: ${hRes.status} — but SSE doesn't. Different endpoint behavior.`);
+      } catch (hErr) {
+        console.error(`[SSE-DIAG] Health check ALSO fails:`, hErr);
+        console.error('[SSE-DIAG] The browser cannot reach Render at all — DNS or network issue.');
+      }
+    }
   }
 
   _timeNow() {
