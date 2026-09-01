@@ -354,20 +354,55 @@ class HorneroApp extends HoComponent {
             this.set('userSector', session.sector || 'aceitero');
             this.set('userName', session.nombre || session.username);
           } else if (res.status === 401 || res.status === 403) {
-            // Backend says not authenticated / email not confirmed — clear session, show login
-            localStorage.removeItem('hornero-session');
-            if (typeof dbDelete === 'function') {
-              try { await dbDelete('uiState', 'session'); } catch(e) {}
+            // Backend says not authenticated — try refresh token before giving up
+            let refreshed = false;
+            if (res.status === 401 && typeof horneroAuth !== 'undefined' && horneroAuth.tryRefreshToken) {
+              try {
+                refreshed = await horneroAuth.tryRefreshToken();
+              } catch(e) { console.warn('App: refresh token attempt failed:', e); }
             }
-            if (typeof horneroAuth !== 'undefined' && horneroAuth.clearTokens) {
-              horneroAuth.clearTokens();
+            if (refreshed) {
+              // Refresh succeeded — retry /api/auth/me with new access token
+              try {
+                const retryRes = await fetch(baseUrl + '/api/auth/me');
+                if (retryRes.ok) {
+                  const userData = await retryRes.json();
+                  if (userData) {
+                    session.grade = userData.grade || session.grade;
+                    session.territory = userData.territory || session.territory;
+                    session.sector = userData.sector || session.sector || 'aceitero';
+                    session.nombre = userData.nombre || session.nombre || session.username;
+                    try {
+                      localStorage.setItem('hornero-session', JSON.stringify(session));
+                      if (typeof dbPut === 'function') {
+                        dbPut('uiState', { key: 'session', ...session }).catch(function(){});
+                      }
+                    } catch(e) {}
+                  }
+                  this.set('loggedIn', true);
+                  this.set('userGrade', session.grade);
+                  this.set('userTerritory', session.territory);
+                  this.set('userSector', session.sector || 'aceitero');
+                  this.set('userName', session.nombre || session.username);
+                  // Session restored — continue to sync
+                } else {
+                  // Even after refresh, /me still fails (e.g. email not confirmed)
+                  this._clearSession(session);
+                  return;
+                }
+              } catch(e) {
+                // Network error on retry — keep session optimistically
+                this.set('loggedIn', true);
+                this.set('userGrade', session.grade);
+                this.set('userTerritory', session.territory);
+                this.set('userSector', session.sector || 'aceitero');
+                this.set('userName', session.nombre || session.username);
+              }
+            } else {
+              // Refresh failed — clear session, show login
+              this._clearSession(session);
+              return;
             }
-            this.set('loggedIn', false);
-            this.set('userGrade', 'A');
-            this.set('userTerritory', '');
-            this.set('userSector', 'aceitero');
-            this.set('userName', '');
-            return; // Don't run sync
           }
           // Network error / other status — keep session optimistically (Render cold start)
           this.set('loggedIn', true);
@@ -391,6 +426,22 @@ class HorneroApp extends HoComponent {
         iniciarFullSync(session.username);
       }
     }
+  }
+
+  _clearSession(session) {
+    // Clear all auth state and show login popup
+    localStorage.removeItem('hornero-session');
+    if (typeof dbDelete === 'function') {
+      try { dbDelete('uiState', 'session'); } catch(e) {}
+    }
+    if (typeof horneroAuth !== 'undefined' && horneroAuth.clearTokens) {
+      horneroAuth.clearTokens();
+    }
+    this.set('loggedIn', false);
+    this.set('userGrade', 'A');
+    this.set('userTerritory', '');
+    this.set('userSector', 'aceitero');
+    this.set('userName', '');
   }
 
   _styles() {

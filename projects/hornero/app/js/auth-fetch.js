@@ -99,6 +99,7 @@
   // ===== Fetch interceptor =====
   var originalFetch = window.fetch;
   var _isRefreshing = false;
+  var _refreshPromise = null;  // Shared refresh promise for concurrent requests
 
   window.fetch = function(url, options) {
     options = options || {};
@@ -119,11 +120,16 @@
         triggerReauth('email_not_confirmed');
         return response;
       }
-      // On 401, try refresh once
-      if (response.status === 401 && isHorneroApi && !_isRefreshing) {
-        _isRefreshing = true;
-        return tryRefreshToken().then(function(refreshed) {
-          _isRefreshing = false;
+      // On 401, try refresh once (coalesced for concurrent requests)
+      if (response.status === 401 && isHorneroApi) {
+        // Coalesce: if a refresh is already in progress, wait for it
+        if (!_refreshPromise) {
+          _refreshPromise = tryRefreshToken().then(function(refreshed) {
+            _refreshPromise = null;  // Clear after completion
+            return refreshed;
+          });
+        }
+        return _refreshPromise.then(function(refreshed) {
           if (refreshed) {
             // Retry with new token
             options.headers = options.headers || {};
