@@ -504,6 +504,9 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
 
     Falls back to non-streaming if the LLM provider doesn't support streaming.
     """
+    # DIAGNOSTIC: log incoming request details
+    origin = request.headers.get("origin", "no-origin") if request else "no-request"
+    logger.info(f"SSE /api/chat/stream: user={user.get('username','?')} grade={user.get('grade','?')} formato={req.formato} origin={origin}")
     # Override grade/sector/tenant from JWT (prevent spoofing)
     req.grade = user.get("grade", req.grade)
     req.sector = user.get("sector", req.sector)
@@ -950,6 +953,23 @@ async def health():
         },
         "timestamp": datetime.now().isoformat(),
     }
+
+
+@app.get("/api/test/stream")
+async def test_stream():
+    """Diagnostic SSE stream — no auth required. Tests SSE through Cloudflare/Render proxy."""
+    import asyncio as _asyncio
+    async def gen():
+        yield ": connected\n\n"
+        for i in range(1, 6):
+            await _asyncio.sleep(1)
+            yield f"event: token\ndata: Chunk {i}\n\n"
+        yield f'event: done\ndata: {{"ok":true}}\n\n'
+    return StreamingResponse(
+        gen(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
 
 
 
