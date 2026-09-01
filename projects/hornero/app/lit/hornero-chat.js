@@ -358,6 +358,12 @@ class HorneroChat extends HoComponent {
         const msgContent = streamingRow.querySelector('.msg-content') || streamingText.parentElement;
         let finalHtml = '';
 
+        // Offline banner — warns user the AI server is unreachable
+        const isOffline = (msg.tags || []).includes('offline');
+        if (isOffline) {
+          finalHtml += `<div class="msg-offline-banner"><span class="msg-offline-icon">📡</span> Sin conexión al servidor IA — respuesta local</div>`;
+        }
+
         // Text with full markdown
         if (msg.text) {
           finalHtml += `<div class="msg-text">${this._formatMarkdown(msg.text)}</div>`;
@@ -373,7 +379,7 @@ class HorneroChat extends HoComponent {
         }
 
         // Tags
-        const visibleTags = (msg.tags || []).filter(t => t !== 'respuesta-libre');
+        const visibleTags = (msg.tags || []).filter(t => t !== 'respuesta-libre' && t !== 'offline');
         if (visibleTags.length > 0) {
           finalHtml += `<div class="msg-tags">${visibleTags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>`;
         }
@@ -1389,6 +1395,16 @@ class HorneroChat extends HoComponent {
       .msg-tag { font-family: 'JetBrains Mono', monospace; font-size: .62rem;
         background: var(--ho-green-pale, #E0F0EB); color: var(--ho-green-dark, #3D6B56);
         padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+
+      /* Offline banner — warns when AI server is unreachable */
+      .msg-offline-banner { display: flex; align-items: center; gap: 6px;
+        background: rgba(255, 180, 60, 0.12); border: 1px solid rgba(255, 180, 60, 0.25);
+        border-radius: 8px; padding: 8px 12px; margin-bottom: 10px;
+        font-family: 'Public Sans', sans-serif; font-size: .76rem;
+        color: var(--ho-text-mid, #C89840); font-weight: 600; }
+      :host(.theme-light) .msg-offline-banner { background: rgba(180, 120, 0, 0.08);
+        border-color: rgba(180, 120, 0, 0.2); color: #9A6B10; }
+      .msg-offline-icon { font-size: .9rem; flex-shrink: 0; }
 
       .msg-time.hornero-time { font-family: 'JetBrains Mono', monospace; font-size: .58rem;
         color: var(--ho-text-light, #9C988D); opacity: .7; margin-top: 6px; }
@@ -2418,14 +2434,19 @@ class HorneroChat extends HoComponent {
       }).join('');
     }
     // Tags rendered for both text and sections modes (hide internal/system tags in live chat)
+    const isOffline = (m.tags || []).includes('offline');
     const visibleTags = (m.tags || []).filter(t =>
       !['respuesta-libre', 'consulta', 'contenido', 'reporte', 'greeting', 'saludo',
         'explore', 'timeout', 'stream-partial', 'exportado', 'correccion-pendiente',
-        'historia', 'debate', 'archivo', 'formacion', 'condicion', 'ecosistema'].includes(t)
+        'historia', 'debate', 'archivo', 'formacion', 'condicion', 'ecosistema',
+        'offline'].includes(t)
     );
     const tagsHtml = visibleTags.length > 0 ?
       `<div class="msg-tags">${visibleTags.map(t => `<span class="msg-tag">${t}</span>`).join('')}</div>` : '';
-    contentHtml += tagsHtml;
+    // Offline banner — warns user the AI server is unreachable
+    const offlineBanner = isOffline ?
+      `<div class="msg-offline-banner"><span class="msg-offline-icon">📡</span> Sin conexión al servidor IA — respuesta local</div>` : '';
+    contentHtml = offlineBanner + contentHtml + tagsHtml;
 
     // Download card — clickable file attachment for exported chats
     const downloadHtml = m.download ?
@@ -3447,7 +3468,7 @@ class HorneroChat extends HoComponent {
       // Tags (exclude system tags)
       const visibleTags = (m.tags || []).filter(t =>
         !['reporte', 'reporte-generado', 'reporte-aprobado', 'informe-guardado',
-          'consulta', 'greeting', 'saludo', 'correccion-pendiente'].includes(t)
+          'consulta', 'greeting', 'saludo', 'correccion-pendiente', 'offline'].includes(t)
       );
       if (visibleTags.length > 0) content += `\n[${visibleTags.join(', ')}]`;
 
@@ -3609,7 +3630,7 @@ ${msgs.map(m => {
         else content = sectionLines.join('\n---\n');
       }
       const visibleTags = (m.tags || []).filter(t =>
-        !['reporte','reporte-generado','reporte-aprobado','informe-guardado','consulta','greeting','saludo','correccion-pendiente'].includes(t)
+        !['reporte','reporte-generado','reporte-aprobado','informe-guardado','consulta','greeting','saludo','correccion-pendiente','offline'].includes(t)
       );
       if (visibleTags.length > 0) content += `\n[${visibleTags.join(', ')}]`;
       return `${role}${time}\n${content}`;

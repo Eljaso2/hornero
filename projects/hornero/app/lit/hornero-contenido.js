@@ -514,14 +514,21 @@ class HorneroContenido extends HoComponent {
     this._saveChatHistory();
     this.render();
 
-    // Try streaming first, fallback to non-streaming
+    // Try streaming → non-streaming → retry after cold-start buffer → offline fallback
     this._callBackendStream(text).catch((err) => {
-      console.warn('Stream failed, falling back to non-streaming:', err);
-      this._callBackend(text).catch(() => {
-        this._addWithProgressiveReveal(this._localResponse(text));
-        this.iaStep++;
-        this._typing = false; this._greetingRequested = false;
-        this.render();
+      console.warn('Contenido: stream failed, trying non-streaming:', err);
+      this._callBackend(text).catch((err2) => {
+        console.warn('Contenido: non-streaming failed, retrying after cold-start buffer:', err2);
+        // Wait 5s for Render cold start, then retry streaming once more
+        setTimeout(() => {
+          this._callBackendStream(text).catch((err3) => {
+            console.warn('Contenido: retry failed, using offline fallback:', err3);
+            this._addWithProgressiveReveal(this._localResponse(text));
+            this.iaStep++;
+            this._typing = false; this._greetingRequested = false;
+            this.render();
+          });
+        }, 5000);
       });
     });
   }
@@ -902,9 +909,22 @@ class HorneroContenido extends HoComponent {
       return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical. ¿Qué formato te interesa o qué tema querés comunicar?' }], tags: ['contenido', 'saludo'], persona: 'periodista', time: this._timeNow() };
     }
     if (lower.match(/podcast/)) {
-      return { role: 'hornero', sections: [{ title: 'Podcast sindical', body: 'Audio narrado, 5-15 minutos. Se escucha en el colectivo, en la planta, en la asamblea. Contame tu tema y te propongo estructura, script y fuentes.' }, { title: '', body: '', quote: 'La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Asamblea paritaria aceitera, junio 2026' }], tags: ['podcast', 'contenido'], time: this._timeNow() };
+      return { role: 'hornero', sections: [{ title: 'Podcast sindical', body: 'Audio narrado, 5-15 minutos. Se escucha en el colectivo, en la planta, en la asamblea. Contame tu tema y te propongo estructura, script y fuentes.' }, { title: '', body: '', quote: 'La propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa.', quoteAuthor: 'Daniel Yofra', quoteSource: 'Asamblea paritaria aceitera, junio 2026' }], tags: ['podcast', 'contenido'], persona: 'periodista', time: this._timeNow() };
     }
-    return { role: 'hornero', sections: [{ title: 'Periodista', body: 'Contame tu tema o formato. Puedo ayudarte con podcast, reel, columna, entrevista — o cualquier consulta sindical.' }], tags: ['contenido'], time: this._timeNow() };
+    if (lower.match(/reel|instagram|redes|video/)) {
+      return { role: 'hornero', sections: [{ title: 'Reel / Video sindical', body: 'Contenido visual corto para redes: idea, guion visual, texto en pantalla, duración, hashtags. ¿Qué tema querés cubrir y para qué plataforma?' }], tags: ['reel', 'contenido'], persona: 'periodista', time: this._timeNow() };
+    }
+    if (lower.match(/columna|opinión|opinion|artículo|articulo|nota/)) {
+      return { role: 'hornero', sections: [{ title: 'Columna sindical', body: 'Texto de opinión o análisis: tema, argumento central, estructura (entrada-desarrollo-cierre), tono. ¿Sobre qué querés escribir y para qué medio?' }], tags: ['columna', 'contenido'], persona: 'periodista', time: this._timeNow() };
+    }
+    if (lower.match(/entrevista|reportaje|preguntas/)) {
+      return { role: 'hornero', sections: [{ title: 'Entrevista sindical', body: 'Preparación de entrevista: perfil del entrevistado, preguntas clave, formato (escrita/audio/video), duración. ¿A quién querés entrevistar y sobre qué?' }], tags: ['entrevista', 'contenido'], persona: 'periodista', time: this._timeNow() };
+    }
+    if (lower.match(/yofra|paritaria|gremio|sindicato|aceitero|asamblea/)) {
+      return { role: 'hornero', sections: [{ title: '⚠️ Sin conexión al servidor', body: 'No puedo acceder a la información en este momento. Probá de nuevo en un minuto — si el servidor estaba en reposo, tarda unos segundos en arrancar.\n\nMientras tanto, si tenés la noticia o declaración a mano, puedo ayudarte a darle formato: columna, reel, podcast o comunicado. Pegá el texto y elegimos el mejor angle.' }], tags: ['contenido', 'offline'], persona: 'periodista', time: this._timeNow() };
+    }
+    // Generic offline fallback — tell user clearly that server is unreachable
+    return { role: 'hornero', sections: [{ title: '⚠️ Sin conexión al servidor', body: 'No puedo procesar tu consulta ahora — el servidor no responde. Probá de nuevo en un minuto.\n\nSi el tema es urgente, podés redactar tu mensaje y lo retomo cuando vuelva la conexión. También podés probar con otro formato: podcast, reel, columna o entrevista.' }], tags: ['contenido', 'offline'], persona: 'periodista', time: this._timeNow() };
   }
 
   _timeNow() {
