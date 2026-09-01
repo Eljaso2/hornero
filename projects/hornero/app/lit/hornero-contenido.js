@@ -28,6 +28,22 @@ class HorneroContenido extends HoComponent {
   _getAudioUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/audio'; }
   _getFeedbackUrl() { return (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com') + '/api/feedback'; }
 
+  // ===== Fetch with timeout — uses shared HorneroAPI if available =====
+  _fetchWithTimeout(url, options, timeoutMs = 30000) {
+    if (window.HorneroAPI && window.HorneroAPI.apiFetch) {
+      return window.HorneroAPI.apiFetch(url, options, 2, timeoutMs);
+    }
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal })
+      .then(response => { clearTimeout(timeoutId); return response; })
+      .catch(err => {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') throw new Error('FETCH_TIMEOUT');
+        throw err;
+      });
+  }
+
   constructor() {
     super();
     this.grade = 'A';
@@ -411,7 +427,7 @@ class HorneroContenido extends HoComponent {
     this._addWithProgressiveReveal(local);
 
     try {
-      const response = await fetch(this._getGreetingUrl(), {
+      const response = await this._fetchWithTimeout(this._getGreetingUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -731,7 +747,7 @@ class HorneroContenido extends HoComponent {
       sections: m.sections || [],
     }));
 
-    const response = await fetch(this._getChatUrl(), {
+    const response = await this._fetchWithTimeout(this._getChatUrl(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -743,7 +759,7 @@ class HorneroContenido extends HoComponent {
         requested_persona: this._activePersona,
         session_id: this._sessionId,
       }),
-    });
+    }, 60000);
 
     if (!response.ok) throw new Error('Backend error: ' + response.status);
 
@@ -811,10 +827,10 @@ class HorneroContenido extends HoComponent {
     formData.append('requested_persona', this._activePersona);
     formData.append('history', JSON.stringify(history));
 
-    const response = await fetch(this._getAudioUrl(), {
+    const response = await this._fetchWithTimeout(this._getAudioUrl(), {
       method: 'POST',
       body: formData, // Browser sets multipart Content-Type automatically
-    });
+    }, 60000);
 
     if (!response.ok) throw new Error('Audio backend error: ' + response.status);
 
