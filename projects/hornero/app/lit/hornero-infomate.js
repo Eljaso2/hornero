@@ -176,12 +176,14 @@ class HorneroInfomate extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .chat-plus-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      /* Show hamburger by default, hide X; swap when .open */
+      .chat-plus-btn .svg-close { display: none; }
+      .chat-plus-btn .svg-hamburger { display: block; }
+      .chat-plus-btn.open .svg-close { display: block; }
+      .chat-plus-btn.open .svg-hamburger { display: none; }
       .chat-plus-btn.open { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .chat-plus-btn.open svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .chat-plus-btn.open svg line:nth-child(2) { display: none; }
-      .chat-plus-btn.open svg line:first-child { transform: translateY(6px) rotate(45deg); transform-origin: center; }
-      .chat-plus-btn.open svg line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); transform-origin: center; }
 
       .chat-plus-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
@@ -345,7 +347,8 @@ class HorneroInfomate extends HoComponent {
       
       '<div class="chat-plus-wrapper">' +
         '<button class="chat-plus-btn' + (this._plusMenuOpen ? ' open' : '') + '" id="matePlusBtn" title="' + (this._plusMenuOpen ? 'Cerrar' : 'Más opciones') + '">' +
-          '<svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' +
+          '<svg class="svg-hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>' +
+          '<svg class="svg-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>' +
         '</button>' +
         (this._plusMenuOpen ? '<div class="chat-plus-menu" id="matePlusMenu">' +
           '<button class="chat-plus-item" id="mateInfoBtn" title="Información de la sección">' +

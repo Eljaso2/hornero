@@ -713,14 +713,14 @@ class HorneroApp extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .list-screen-plus:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
+      /* Show hamburger by default, hide X; swap when .open */
+      .list-screen-plus .svg-close { display: none; }
+      .list-screen-plus .svg-hamburger { display: block; }
+      .list-screen-plus.open .svg-close { display: block; }
+      .list-screen-plus.open .svg-hamburger { display: none; }
       .list-screen-plus.open { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
       .list-screen-plus.open svg { stroke: var(--ho-green-dark, #3D6B56); }
-      /* Hamburger → X animation: middle line fades, top/bottom rotate */
-      .list-screen-plus.open svg line:nth-child(2) { opacity: 0; }
-      .list-screen-plus.open svg line:first-child { transform: translateY(5px) rotate(45deg); }
-      .list-screen-plus.open svg line:last-child { transform: translateY(-5px) rotate(-45deg); }
-      .list-screen-plus svg line { transition: transform .2s, opacity .2s; transform-origin: center; }
       .list-screen-menu { position: absolute; top: -8px; right: -8px; z-index: 1;
         background: color-mix(in srgb, var(--ho-dark-surface, #2A3230) 92%, transparent);
         backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -2215,8 +2215,9 @@ class HorneroApp extends HoComponent {
 
   // ===== Shared plus menu builder for list screens (Mis Conversaciones, Mis Reportes, Recibidos) =====
   _buildListPlusMenu(activeScreen) {
-    const plusSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
-    const plusBtn = '<button class="list-screen-plus" id="listPlusBtn">' + plusSvg + '</button>';
+    const hamburgerSvg = '<svg class="svg-hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
+    const closeSvg = '<svg class="svg-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+    const plusBtn = '<button class="list-screen-plus" id="listPlusBtn">' + hamburgerSvg + closeSvg + '</button>';
     const chatSvg = '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>';
     const reportSvg = '<path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>';
     const inboxSvg = '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0018.56 4H5.44a2 2 0 00-1.99 1.11z"/>';
