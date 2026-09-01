@@ -780,8 +780,30 @@ async def register(req: RegisterRequest, request: Request):
 
     verificacion_pendiente = not verification_passed and req.cargo != "trabajador"
 
-    # Check if email already taken
+    # Check if email already taken (normalize Gmail dots — Gmail ignores dots in local part)
+    def _normalize_gmail(email: str) -> str:
+        """Normalize Gmail addresses: remove dots from local part.
+        jasinski.alejandro@gmail.com → jasinskialejandro@gmail.com
+        This prevents duplicate accounts from the same Gmail address."""
+        local, _, domain = email.partition("@")
+        if domain.lower() in ("gmail.com", "googlemail.com"):
+            local = local.replace(".", "")
+        return f"{local}@{domain}".lower()
+
+    normalized = _normalize_gmail(email)
     existing = _get_user_by_email(email)
+    if not existing:
+        # Also check normalized form — same Gmail with different dot placement
+        try:
+            with _get_conn() as conn:
+                row = conn.execute(
+                    "SELECT id, email, username FROM users WHERE LOWER(email) = %s",
+                    (normalized,)
+                ).fetchone()
+                if row:
+                    existing = dict(zip(["id", "email", "username"], row))
+        except Exception:
+            pass
     if existing:
         # Don't reveal if email exists — return same message
         return {"message": "Si el email no está registrado, recibirás un email de confirmación.", "email": email}
@@ -907,6 +929,25 @@ async def login(req: LoginRequest, request: Request):
     user = _get_user_by_username(req.username)
     if not user:
         user = _get_user_by_email(req.username)
+    if not user:
+        # Try normalized Gmail (dots ignored) — e.g. jasinski.alejandro@gmail.com
+        def _norm_gmail(email: str) -> str:
+            local, _, domain = email.partition("@")
+            if domain.lower() in ("gmail.com", "googlemail.com"):
+                local = local.replace(".", "")
+            return f"{local}@{domain}".lower()
+        try:
+            normalized = _norm_gmail(req.username)
+            with _get_conn() as conn:
+                row = conn.execute(
+                    "SELECT id, email, username, password_hash, nombre, grade, territory, sector, tenant, category, agremiacion, email_confirmed, active, is_tester, verificacion_pendiente, sindicato_id FROM users WHERE LOWER(email) = %s",
+                    (normalized,)
+                ).fetchone()
+                if row:
+                    cols = ["id", "email", "username", "password_hash", "nombre", "grade", "territory", "sector", "tenant", "category", "agremiacion", "email_confirmed", "active", "is_tester", "verificacion_pendiente", "sindicato_id"]
+                    user = dict(zip(cols, row))
+        except Exception:
+            pass
     if not user:
         user = _get_user_by_nombre(req.username)
     if not user:
