@@ -303,6 +303,28 @@ async def get_config():
     return {"backendUrl": APP_BACKEND_URL, "provider": LLM_PROVIDER}
 
 
+@app.get("/api/config/llm")
+async def get_llm_config():
+    """Diagnostic: return LLM config without exposing full API keys."""
+    def mask_key(k):
+        if not k:
+            return "(empty)"
+        k = k.strip()
+        if len(k) <= 8:
+            return "(too short)"
+        return k[:6] + "..." + k[-4:]
+    return {
+        "LLM_PROVIDER": LLM_PROVIDER,
+        "ANTHROPIC_API_KEY": mask_key(ANTHROPIC_API_KEY),
+        "ANTHROPIC_BASE_URL": ANTHROPIC_BASE_URL,
+        "ANTHROPIC_MODEL": ANTHROPIC_MODEL,
+        "DEEPSEEK_API_KEY": mask_key(DEEPSEEK_API_KEY),
+        "DEEPSEEK_BASE_URL": DEEPSEEK_BASE_URL,
+        "DEEPSEEK_MODEL": DEEPSEEK_MODEL,
+        "APP_BACKEND_URL": APP_BACKEND_URL,
+    }
+
+
 @app.post("/api/greeting")
 async def greeting_endpoint(req: GreetingRequest, user: dict = Depends(require_auth)) -> GreetingResponse:
     """Generate the IA's opening message when user enters a chat section.
