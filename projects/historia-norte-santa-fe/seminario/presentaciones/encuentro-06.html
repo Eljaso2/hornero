@@ -47,32 +47,18 @@
       }
     }
     :root[data-theme="dark"] {
-      --ground: #16120F;
-      --surface: #221D19;
-      --surface-2: #2D2722;
-      --text: #DDD5C8;
-      --text-dim: #A89B8A;
-      --muted: #6E6256;
-      --accent: #A8412B;
-      --accent-glow: rgba(168, 65, 43, 0.15);
-      --amber: #C48A3A;
-      --amber-dim: rgba(196, 138, 58, 0.12);
-      --rule: #3A332D;
-      --rule-light: rgba(58, 51, 45, 0.5);
+      --ground: #16120F; --surface: #221D19; --surface-2: #2D2722;
+      --text: #DDD5C8; --text-dim: #A89B8A; --muted: #6E6256;
+      --accent: #A8412B; --accent-glow: rgba(168, 65, 43, 0.15);
+      --amber: #C48A3A; --amber-dim: rgba(196, 138, 58, 0.12);
+      --rule: #3A332D; --rule-light: rgba(58, 51, 45, 0.5);
     }
     :root[data-theme="light"] {
-      --ground: #F5F0E8;
-      --surface: #EDE6DB;
-      --surface-2: #E3DACE;
-      --text: #2A221A;
-      --text-dim: #6B5E4F;
-      --muted: #9E9080;
-      --accent: #8F3220;
-      --accent-glow: rgba(143, 50, 32, 0.08);
-      --amber: #A06E20;
-      --amber-dim: rgba(160, 110, 32, 0.08);
-      --rule: #D4CABB;
-      --rule-light: rgba(212, 202, 187, 0.6);
+      --ground: #F5F0E8; --surface: #EDE6DB; --surface-2: #E3DACE;
+      --text: #2A221A; --text-dim: #6B5E4F; --muted: #9E9080;
+      --accent: #8F3220; --accent-glow: rgba(143, 50, 32, 0.08);
+      --amber: #A06E20; --amber-dim: rgba(160, 110, 32, 0.08);
+      --rule: #D4CABB; --rule-light: rgba(212, 202, 187, 0.6);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -174,12 +160,67 @@
 
     .tag { display: inline-block; font-family: var(--sans); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.55rem; border-radius: 3px; background: var(--accent-glow); color: var(--accent); border: 1px solid rgba(168,65,43,0.2); }
     .tag.amber { background: var(--amber-dim); color: var(--amber); border-color: rgba(196,138,58,0.2); }
+
+    /* Tab system */
+    .tab-bar { display: flex; gap: 0; margin-bottom: 2rem; border-bottom: 2px solid var(--rule); }
+    .tab-btn { font-family: var(--sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.6rem 1.2rem; background: none; border: none; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color 0.2s, border-color 0.2s; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Policy timeline */
+    .pol-ctrl { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-bottom: 1rem; }
+    .pol-btn { font-family: var(--sans); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.25rem 0.6rem; border-radius: 3px; border: 1px solid var(--rule); background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.2s; }
+    .pol-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .pol-btn.active { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+    .pol-btn.active[data-type="ley"] { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+    .pol-btn.active[data-type="decreto"] { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+    .pol-btn.active[data-type="resolucion"] { background: rgba(78,154,112,0.12); border-color: #4E9A70; color: #4E9A70; }
+    .pol-btn.active[data-type="medida"] { background: rgba(90,130,180,0.12); border-color: #5A82B4; color: #5A82B4; }
+    .pol-btn.active[data-type="protesta"] { background: rgba(200,120,50,0.12); border-color: #C87832; color: #C87832; }
+    .pol-btn.active[data-type="propuesta"] { background: rgba(100,160,100,0.12); border-color: #64A064; color: #64A064; }
+    .pol-btn.active[data-type="nota"] { background: rgba(140,130,120,0.12); border-color: #8C8278; color: #8C8278; }
+    /* Eje C active colors */
+    .pol-btn.active[data-type="plan"] { background: rgba(90,130,180,0.12); border-color: #5A82B4; color: #5A82B4; }
+    .pol-btn.active[data-type="expropiacion"] { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+    .pol-btn.active[data-type="diagnostico"] { background: rgba(200,120,50,0.12); border-color: #C87832; color: #C87832; }
+    .pol-btn.active[data-type="reconversion"] { background: rgba(100,160,100,0.12); border-color: #64A064; color: #64A064; }
+    .pol-btn.active[data-type="prensa"] { background: rgba(78,154,112,0.12); border-color: #4E9A70; color: #4E9A70; }
+    .pol-btn.active[data-type="negociacion"] { background: rgba(123,107,165,0.12); border-color: #7B6BA5; color: #7B6BA5; }
+    .pol-search { font-family: var(--sans); font-size: 0.82rem; padding: 0.3rem 0.8rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface); color: var(--text); margin-left: auto; min-width: 160px; }
+    .pol-search:focus { outline: none; border-color: var(--accent); }
+    .pol-count { font-family: var(--sans); font-size: 0.7rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .pol-entry { padding: 0.8rem 0; border-bottom: 1px solid var(--rule-light); }
+    .pol-entry:last-child { border-bottom: none; }
+    .pol-entry-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; }
+    .pol-year { font-family: var(--sans); font-size: 0.72rem; font-weight: 700; color: var(--accent); }
+    .pol-entry-body { font-size: 0.9rem; line-height: 1.6; }
+    .pol-entry-body strong { color: var(--text); }
+    .pol-entry-body p { margin-top: 0.3rem; margin-bottom: 0; color: var(--text-dim); font-size: 0.85rem; max-width: 62ch; }
+    .pol-entry-body .pol-source { font-family: var(--sans); font-size: 0.68rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* Tag type colors */
+    .type-ley { background: var(--amber-dim); color: var(--amber); border-color: rgba(196,138,58,0.2); }
+    .type-decreto { background: var(--accent-glow); color: var(--accent); border-color: rgba(168,65,43,0.2); }
+    .type-resolucion { background: rgba(78,154,112,0.12); color: #4E9A70; border-color: rgba(78,154,112,0.2); }
+    .type-medida { background: rgba(90,130,180,0.12); color: #5A82B4; border-color: rgba(90,130,180,0.2); }
+    .type-protesta { background: rgba(200,120,50,0.12); color: #C87832; border-color: rgba(200,120,50,0.2); }
+    .type-propuesta { background: rgba(100,160,100,0.12); color: #64A064; border-color: rgba(100,160,100,0.2); }
+    .type-nota { background: rgba(140,130,120,0.12); color: #8C8278; border-color: rgba(140,130,120,0.2); }
+    .type-plan { background: rgba(90,130,180,0.12); color: #5A82B4; border-color: rgba(90,130,180,0.2); }
+    .type-expropiacion { background: var(--accent-glow); color: var(--accent); border-color: rgba(168,65,43,0.2); }
+    .type-diagnostico { background: rgba(200,120,50,0.12); color: #C87832; border-color: rgba(200,120,50,0.2); }
+    .type-reconversion { background: rgba(100,160,100,0.12); color: #64A064; border-color: rgba(100,160,100,0.2); }
+    .type-prensa { background: rgba(78,154,112,0.12); color: #4E9A70; border-color: rgba(78,154,112,0.2); }
+    .type-negociacion { background: rgba(123,107,165,0.12); color: #7B6BA5; border-color: rgba(123,107,165,0.2); }
+
     .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
     @media (prefers-reduced-motion: reduce) { .fade-in { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
     a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
-    @media (max-width: 600px) { .hero { padding: 4rem 1.2rem 3rem; } .section { padding: 3rem 1.2rem; } .hero-meta { flex-direction: column; gap: 1rem; } .nav-links { display: none; } }
+    @media (max-width: 600px) { .hero { padding: 4rem 1.2rem 3rem; } .section { padding: 3rem 1.2rem; } .hero-meta { flex-direction: column; gap: 1rem; } .nav-links { display: none; } .tab-btn { font-size: 0.65rem; padding: 0.5rem 0.7rem; } }
   </style>
 </head>
 
@@ -192,84 +233,86 @@
   <div class="nav-inner">
     <a href="#hero" class="nav-brand"><span>NsF</span> Seminario Norte de Santa Fe</a>
     <div class="nav-links">
-      <a href="#recup">Recuperación</a>
-      <a href="#sA">A · Política forestal</a>
-      <a href="#sB">B · Capital imperialista</a>
-      <a href="#sC">C · Reconversión</a>
-      <a href="#apertura">Apertura</a>
+      <a href="#recup">Recuperacion</a>
+      <a href="#sA">A - Politica forestal</a>
+      <a href="#sB">B - Capital imperialista</a>
+      <a href="#sC">C - Reconversion</a>
+      <a href="#sD">D - Exodos</a>
+      <a href="#apertura">E - Apertura</a>
     </div>
-    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Cambiar tema">☀</button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Cambiar tema">&#9728;</button>
   </div>
 </nav>
 
 <!-- FLOATING TOC -->
 <div class="toc-float" id="tocFloat">
-  <a href="#recup"><span class="dot"></span><span class="tl">Recuperación</span></a>
-  <a href="#sA"><span class="dot"></span><span class="tl">A · Forestal</span></a>
-  <a href="#sB"><span class="dot"></span><span class="tl">B · Imperialista</span></a>
-  <a href="#sC"><span class="dot"></span><span class="tl">C · Reconv.</span></a>
-  <a href="#apertura"><span class="dot"></span><span class="tl">Apertura</span></a>
+  <a href="#recup"><span class="dot"></span><span class="tl">Recuperacion</span></a>
+  <a href="#sA"><span class="dot"></span><span class="tl">A - Forestal</span></a>
+  <a href="#sB"><span class="dot"></span><span class="tl">B - Imperialista</span></a>
+  <a href="#sC"><span class="dot"></span><span class="tl">C - Reconv.</span></a>
+  <a href="#sD"><span class="dot"></span><span class="tl">D - Exodos</span></a>
+  <a href="#apertura"><span class="dot"></span><span class="tl">E - Apertura</span></a>
 </div>
 
 <!-- ============ HERO ============ -->
 <header class="hero" id="hero">
   <div class="hero-eyebrow">
-    Seminario Permanente de Historia del Norte de Santa Fe &nbsp;·&nbsp; <span>Encuentro 6</span> &nbsp;·&nbsp; Unidad V
+    Seminario Permanente de Historia del Norte de Santa Fe &nbsp;&#183;&nbsp; <span>Encuentro 6</span> &nbsp;&#183;&nbsp; Unidad V
   </div>
   <h1 class="hero-title">El Fin de una Era</h1>
   <p class="hero-sub">
-    Política forestal, estrategia imperialista y disputas por la reconversión productiva en el territorio que La Forestal abandonó.
+    Politica forestal, estrategia imperialista y disputas por la reconversion productiva en el territorio que La Forestal abandono.
   </p>
   <div class="hero-meta">
-    <div><strong>Período</strong>1955 – 1970</div>
-    <div><strong>Ejes</strong>A) Política forestal · B) Capital imperialista · C) Reconversión</div>
-    <div><strong>Coordinación</strong>Jasinski · L. Sánchez · Di Croce · G. Sánchez · Ríos Solís</div>
+    <div><strong>Periodo</strong>1955 &#8211; 1970</div>
+    <div><strong>Ejes</strong> A) Politica forestal &#183; B) Capital imperialista &#183; C) Reconversion &#183; D) Exodos &#183; E) Apertura</div>
+    <div><strong>Coordinacion</strong>Jasinski &#183; L. Sanchez &#183; Di Croce &#183; G. Sanchez &#183; Rios Solis</div>
   </div>
   <blockquote class="hero-epigraph">
-    La Forestal se ha divorciado del quebracho y se ha ido con la mimosa, pero con el agravante que continúa haciéndole maliciosamente la corte al quebracho. Para desarrollar este juego tiene que apelar a toda clase de recursos a fin de que mientras quiere entrañablemente a otra, no desprenderse de su primer amor.
+    La Forestal se ha divorciado del quebracho y se ha ido con la mimosa, pero con el agravante que continua hacienole maliciosamente la corte al quebracho. Para desarrollar este juego tiene que apelar a toda clase de recursos a fin de que mientras quiere entraablemente a otra, no desprenderse de su primer amor.
     <cite>Ricardo Marzorati, La industria del extracto de quebracho en la Argentina, 1960</cite>
   </blockquote>
 </header>
 
-<!-- ============ RECUPERACIÓN DE LA CLASE PASADA ============ -->
+<!-- ============ RECUPERACION DE LA CLASE PASADA ============ -->
 <section class="section fade-in" id="recup">
-  <div class="section-label">Recuperación</div>
+  <div class="section-label">Recuperacion</div>
   <h2 class="section-num">Lo que vimos en el Encuentro 5</h2>
 
   <div class="split">
     <div class="split-main">
-      <h3>La crisis de la industria taninera y la decisión de La Forestal</h3>
+      <h3>La crisis de la industria taninera y la decision de La Forestal</h3>
       <p>
-        En el Encuentro 5 cerramos con un diagnóstico: la industria del tanino estaba en crisis y La Forestal había tomado la decisión de liquidar la industria del quebracho en el país. Esta decisión no era nueva: se gesta a partir de 1939, cuando The Forestal Land, Timber and Railways Company —la casa matriz londinense— comienza a desarrollar aceleradamente la industria de la mimosa en África. Las plantaciones de <em>Acacia mearnsii</em> se determinaron en 1938; a los diez años ya eran explotables.
+        En el Encuentro 5 cerramos con un diagnostico: la industria del tanino estaba en crisis y La Forestal habia tomado la decision de liquidar la industria del quebracho en el pais. Esta decision no era nueva: se gesta a partir de 1939, cuando The Forestal Land, Timber and Railways Company &mdash;la casa matriz londinense&mdash; comienza a desarrollar aceleradamente la industria de la mimosa en Africa. Las plantaciones de <em>Acacia mearnsii</em> se determinaron en 1938; a los diez anos ya eran explotables.
       </p>
       <p>
-        Vimos también cómo la emergencia del peronismo le sirvió a La Forestal de excusa para justificar la salida. Las leyes laborales (Estatuto del Peón Rural, decreto 33.302 de salario vital y SAC, convenios colectivos), la estructuración y fortalecimiento de la sindicalización (FATITA, las comisiones paritarias), las políticas impositivas y de comercialización del peronismo (el IAPI, el impuesto al tanino) —todo esto fue presentado como la causa del cierre. Pero la "solución espacial" fue diseñada antes del peronismo, en función de las luchas sociales y de la rentabilidad comparativa entre el quebracho y la mimosa.
+        Vimos tambien como la emergencia del peronismo le sirvio a La Forestal de excusa para justificar la salida. Las leyes laborales (Estatuto del Pehon Rural, decreto 33.302 de salario vital y SAC, convenios colectivos), la estructuracion y fortalecimiento de la sindicalizacion (FATITA, las comisiones paritarias), las politicas impositivas y de comercializacion del peronismo (el IAPI, el impuesto al tanino) &mdash;todo esto fue presentado como la causa del cierre. Pero la "solucion espacial" fue disenada antes del peronismo, en funcion de las luchas sociales y de la rentabilidad comparativa entre el quebracho y la mimosa.
       </p>
 
-      <h3>Villa Guillermina y el Plan de Racionalización</h3>
+      <h3>Villa Guillermina y el Plan de Racionalizacion</h3>
       <p>
-        Nos detuvimos específicamente en lo que estaba ocurriendo en Villa Guillermina, la primera gran fábrica cerrada por La Forestal (noviembre de 1949). Un pueblo de 20.000 habitantes que quedaba sin su razón de ser. Vimos las complicaciones vinculadas a las propuestas de reconversión que se hacen desde el sindicato (SOIQ), la Comisión de Fomento y otros actores económicos y comerciales de alcance nacional: la propuesta de transformar la fábrica en ingenio azucarero, la Cooperativa Sericícola (1953), la adjudicación de tierras en la Colonia 17 de Octubre.
+        Nos detuvimos especificamente en lo que estaba ocurriendo en Villa Guillermina, la primera gran fabrica cerrada por La Forestal (noviembre de 1949). Un pueblo de 20.000 habitantes que quedaba sin su razon de ser. Vimos las complicaciones vinculadas a las propuestas de reconversion que se hacen desde el sindicato (SOIQ), la Comision de Fomento y otros actores economicos y comerciales de alcance nacional: la propuesta de transformar la fabrica en ingenio azucarero, la Cooperativa Sericicola (1953), la adjudicacion de tierras en la Colonia 17 de Octubre.
       </p>
       <p>
-        Y vimos cómo La Forestal instrumentó el Plan de Racionalización (agosto de 1950) como un caballo de Troya: la empresa que había causado la crisis se presentaba como parte de la solución, ofreciéndose "voluntariamente" a contribuir al saneamiento mediante la eliminación de fábricas sin materia prima. El "retiro voluntario" de 1953 y la tierra arrasada —la dispersión de maquinaria para impedir la reactivación— completaron el cuadro.
+        Y vimos como La Forestal instrumento el Plan de Racionalizacion (agosto de 1950) como un caballo de Troya: la empresa que habia causado la crisis se presentaba como parte de la solucion, ofreciendose "voluntariamente" a contribuir al saneamiento mediante la eliminacion de fabricas sin materia prima. El "retiro voluntario" de 1953 y la tierra arrasada &mdash;la dispersion de maquinaria para impedir la reactivacion&mdash; completaron el cuadro.
       </p>
     </div>
 
     <div class="sidebar">
       <div class="sidebar-card">
         <div class="sidebar-card-label">Idea-fuerza del Encuentro 5</div>
-        <p>La emergencia del peronismo no constituye el "inicio del fin" de La Forestal, sino que <strong>acelera una estrategia preconcebida</strong>. La "solución espacial" fue diseñada antes, en función de las luchas sociales. Gana terreno entre 1939 y 1943.</p>
+        <p>La emergencia del peronismo no constituye el "inicio del fin" de La Forestal, sino que <strong>acelera una estrategia preconcebida</strong>. La "solucion espacial" fue disenada antes, en funcion de las luchas sociales. Gana terreno entre 1939 y 1943.</p>
       </div>
       <div class="sidebar-card">
         <div class="sidebar-card-label">Excusas vs. causas</div>
-        <p><strong>Excusa:</strong> leyes laborales, sindicalización, IAPI, impuestos</p>
-        <p style="margin-top:0.4rem;"><strong>Causa:</strong> la mimosa era más rentable; la decisión de salir ya estaba tomada en Londres</p>
+        <p><strong>Excusa:</strong> leyes laborales, sindicalizacion, IAPI, impuestos</p>
+        <p style="margin-top:0.4rem;"><strong>Causa:</strong> la mimosa era mas rentable; la decision de salir ya estaba tomada en Londres</p>
       </div>
       <div class="sidebar-card">
         <div class="sidebar-card-label">Secuencia Villa Guillermina</div>
-        <p><strong>Feb 1948:</strong> IAPI sube precio → 21 meses sin ventas</p>
+        <p><strong>Feb 1948:</strong> IAPI sube precio &#8594; 21 meses sin ventas</p>
         <p style="margin-top:0.3rem;"><strong>Nov 1949:</strong> Cierre definitivo</p>
-        <p style="margin-top:0.3rem;"><strong>Ago 1950:</strong> Plan de Racionalización</p>
+        <p style="margin-top:0.3rem;"><strong>Ago 1950:</strong> Plan de Racionalizacion</p>
         <p style="margin-top:0.3rem;"><strong>Abr 1953:</strong> "Retiro voluntario" + tierra arrasada</p>
       </div>
     </div>
@@ -280,153 +323,390 @@
 <div class="break">
   <div class="break-inner">
     <div class="timeline-year">Lo que viene</div>
-    <div class="timeline-event">Tres ejes para esta clase: (A) la política forestal como factor determinante de la salida; (B) la estrategia internacional de La Forestal como capital imperialista; (C) las disputas por la reconversión productiva del territorio.</div>
+    <div class="timeline-event">Tres ejes para esta clase: (A) la politica forestal como factor determinante de la salida; (B) la estrategia internacional de La Forestal como capital imperialista; (C) las disputas por la reconversion productiva del territorio.</div>
     <div class="timeline-source">Y una apertura: el cambio de eje de la industria a la tierra</div>
   </div>
 </div>
 
-<!-- ============ A — POLÍTICA FORESTAL ============ -->
+<!-- ============ A &#8212; POLITICA FORESTAL ============ -->
 <section class="section fade-in" id="sA">
   <div class="section-label">Eje A</div>
-  <h2 class="section-num">Política forestal y agotamiento del bosque</h2>
+  <h2 class="section-num">A. Politica forestal y agotamiento del bosque</h2>
+
+  <p>Uno de los factores menos visibilizados pero mas determinantes de la decision de La Forestal de salir del pais fue la politica forestal &mdash;o mas bien, la ausencia de una politica forestal eficaz durante decadas, seguida de una legislacion tardia que la empresa ya no necesitaba cumplir porque estaba en proceso de retirada. La pregunta que guia este eje es: &#191;como interactuaron las politicas estatales sobre el bosque con la estrategia empresarial de La Forestal?</p>
 
   <div class="split">
     <div class="split-main">
-      <h3>La política forestal como factor determinante</h3>
-      <p>
-        Uno de los factores menos visibilizados pero más determinantes de la decisión de La Forestal de salir del país fue la política forestal —o más bien, la ausencia de una política forestal eficaz durante décadas, seguida de una legislación tardía que la empresa ya no necesitaba cumplir porque estaba en proceso de retirada. La pregunta que guía este eje es: ¿cómo interactuaron las políticas estatales sobre el bosque con la estrategia empresarial de La Forestal? ¿La legislación forestal fue una herramienta para frenar la depredación o un factor que la empresa usó como argumento para justificar su salida?
-      </p>
 
-      <h3>Ross: ecología y poder en la era del imperio</h3>
-      <p>
-        Corey Ross, en <em>Ecology and Power in the Age of Empire</em> (2017), analiza cómo el imperialismo europeo transformó los ecosistemas tropicales a través de la extracción de recursos, la plantación de monocultivos y la construcción de infraestructura. Ross muestra que la transformación ecológica no fue un subproducto del imperio sino una condición de su posibilidad: el poder imperial dependía de la capacidad de reconfigurar paisajes para la acumulación de capital. La Forestal es un caso paradigmático de esta lógica: la empresa reconfiguró el paisaje del Chaco santafesino —de bosque de quebracho a monte depletionado— para extraer valor, y cuando el paisaje se agotó, simplemente se trasladó a otro paisaje —las plantaciones de mimosa en África— repitiendo el patrón.
-      </p>
-      <p>
-        Ross argumenta que la idea de "conservación" colonial era en realidad una forma de gestión del agotamiento: no se trataba de preservar el ecosistema sino de administrar la tasa de extracción para maximizar la renta a largo plazo. Pero cuando la empresa tenía una alternativa lista (la mimosa), la conservación dejaba de ser racional desde el punto de vista del capital. La Forestal no necesitaba conservar el quebracho porque ya tenía la mimosa.
-      </p>
+      <!-- TAB BAR -->
+      <div class="tab-bar" id="sATabs">
+        <button class="tab-btn active" data-tab="a-marco">Marco conceptual</button>
+        <button class="tab-btn" data-tab="a-zarrilli">Tesis de Zarrilli</button>
+        <button class="tab-btn" data-tab="a-crono">Cronologia</button>
+      </div>
 
-      <h3>Zarrilli: el bosque perdido</h3>
-      <p>
-        Adrián Zarrilli, en <em>El bosque perdido. Una historia ambiental del Norte santafesino (1890–2010)</em> (2018), reconstruye la historia de la destrucción del bosque de quebracho como un proceso de larga duración. Zarrilli muestra que el agotamiento no fue una consecuencia imprevista sino el resultado de un modelo de extracción diseñado para maximizar la renta sin reinversión en el recurso. El quebracho colorado necesita 80 a 120 años para alcanzar diámetro comercial; la empresa talaba bosques enteros en décadas. La Forestal nunca reforestó significativamente: las plantaciones experimentales de Valentini (1960) y las leyes de reposición obligatoria de especies llegaron cuando los bosques ya estaban diezmados.
-      </p>
-      <p>
-        Zarrilli plantea una tesis clave: la transición de la "explotación" al "aprovechamiento" del bosque —que la legislación refleja formalmente— no cambió la lógica extractiva. La Administración Provincial de Bosques (ley 4514, adhiriendo a la ley nacional 13.273) cambió el concepto en el papel pero no en la práctica. Perfumo denunció en 1963 "la gran lección que brinda el agotamiento de los quebrachales", pero la lección no se tradujo en políticas efectivas de reforestación ni en restricciones reales a la extracción.
-      </p>
+      <!-- TAB 1: Marco conceptual -->
+      <div class="tab-panel active" id="a-marco">
+        <h3>Ross: ecologia y poder en la era del imperio</h3>
+        <p>
+          Corey Ross, en <em>Ecology and Power in the Age of Empire</em> (2017), analiza como el imperialismo europeo transformo los ecosistemas tropicales a traves de la extraccion de recursos, la plantacion de monocultivos y la construccion de infraestructura. Ross muestra que la transformacion ecologica no fue un subproducto del imperio sino una condicion de su posibilidad: el poder imperial dependia de la capacidad de reconfigurar paisajes para la acumulacion de capital. La Forestal es un caso paradigmatico de esta logica: la empresa reconfiguro el paisaje del Chaco santafesino &mdash;de bosque de quebracho a monte depletionado&mdash; para extraer valor, y cuando el paisaje se agoto, simplemente se traslado a otro paisaje &mdash;las plantaciones de mimosa en Africa&mdash; repitiendo el patron.
+        </p>
+        <p>
+          Ross argumenta que la idea de "conservacion" colonial era en realidad una forma de gestion del agotamiento: no se trataba de preservar el ecosistema sino de administrar la tasa de extraccion para maximizar la renta a largo plazo. Pero cuando la empresa tenia una alternativa lista (la mimosa), la conservacion dejaba de ser racional desde el punto de vista del capital. La Forestal no necesitaba conservar el quebracho porque ya tenia la mimosa.
+        </p>
 
-      <blockquote class="pull">
-        <p>El "bosque perdido" no fue consecuencia de la ignorancia sino del cálculo: la empresa sabía que la mimosa africana, cultivada en plantaciones, era el reemplazo planificado. No necesitaba conservar lo que iba a abandonar.</p>
-        <cite>Tesis a partir de Ross (2017) y Zarrilli (2018)</cite>
-      </blockquote>
+        <h3>Zarrilli: el bosque perdido</h3>
+        <p>
+          Adrian Zarrilli, en <em>El bosque perdido. Una historia ambiental del Norte santafesino (1890&#8211;2010)</em> (2018), reconstruye la historia de la destruccion del bosque de quebracho como un proceso de larga duracion. Zarrilli muestra que el agotamiento no fue una consecuencia imprevista sino el resultado de un modelo de extraccion disenado para maximizar la renta sin reinversion en el recurso. El quebracho colorado necesita 80 a 120 anos para alcanzar diametro comercial; la empresa talaba bosques enteros en decadas. La Forestal nunca reforesto significativamente: las plantaciones experimentales de Valentini (1960) y las leyes de reposicion obligatoria de especies llegaron cuando los bosques ya estaban diezmados.
+        </p>
+        <p>
+          Zarrilli plantea una tesis clave: la transicion de la "explotacion" al "aprovechamiento" del bosque &mdash;que la legislacion refleja formalmente&mdash; no cambio la logica extractiva. La Administracion Provincial de Bosques (ley 4514, adhiriendo a la ley nacional 13.273) cambio el concepto en el papel pero no en la practica. Perfumo denuncio en 1963 "la gran leccion que brinda el agotamiento de los quebrachales", pero la leccion no se tradujo en politicas efectivas de reforestacion ni en restricciones reales a la extraccion.
+        </p>
+
+        <blockquote class="pull">
+          <p>El "bosque perdido" no fue consecuencia de la ignorancia sino del calculo: la empresa sabia que la mimosa africana, cultivada en plantaciones, era el reemplazo planificado. No necesitaba conservar lo que iba a abandonar.</p>
+          <cite>Tesis a partir de Ross (2017) y Zarrilli (2018)</cite>
+        </blockquote>
+      </div>
+
+      <!-- TAB 2: Tesis de Zarrilli -->
+      <div class="tab-panel" id="a-zarrilli">
+        <h3>Las siete tesis de Zarrilli sobre el bosque perdido</h3>
+        <p>A partir de <em>El bosque perdido</em> (2018), se pueden sistematizar siete proposiciones centrales:</p>
+
+        <p><span class="tag type-ley">1</span> <strong>El agotamiento fue resultado de un modelo disenado para maximizar la renta sin reinversion en el recurso.</strong> La Forestal extrajo quebracho como si fuera inagotable. El ciclo de 80&#8211;120 anos del quebracho colorado era incompatible con una logica de ganancia inmediata. La empresa nunca internalizo el costo de reposicion del recurso.</p>
+
+        <p style="margin-top:1rem;"><span class="tag type-decreto">2</span> <strong>La Forestal nunca reforesto significativamente.</strong> Las plantaciones experimentales de Valentini (1960) y las leyes de reposicion obligatoria de especies llegaron cuando los bosques ya estaban diezmados. La empresa habia decidido abandonar el quebracho antes de que la reforestacion fuera obligatoria.</p>
+
+        <p style="margin-top:1rem;"><span class="tag type-resolucion">3</span> <strong>La transicion de "explotacion" a "aprovechamiento" no cambio la logica extractiva.</strong> La ley 13.273 cambio el concepto en el papel: de "explotar" a "aprovechar". Pero en la practica, la Administracion Provincial de Bosques carecia de recursos, personal y voluntad politica para fiscalizar. El cambio semantico fue una ficcion regulatoria.</p>
+
+        <p style="margin-top:1rem;"><span class="tag type-medida">4</span> <strong>La legislacion tardia fue instrumentalizada por La Forestal como argumento para justificar la salida.</strong> Cuando las leyes forestales se endurecieron (ley 13.273, su modificacion en 1950, la ley provincial de 1954), La Forestal las uso como excusa: "las leyes nos obligan a conservar un recurso que ya no es rentable". La empresa convirtio la regulacion en un argumento a favor del cierre.</p>
+
+        <p style="margin-top:1rem;"><span class="tag type-protesta">5</span> <strong>El "bosque perdido" fue resultado del calculo, no de la ignorancia.</strong> La empresa sabia que la mimosa africana era el reemplazo planificado. No necesitaba conservar lo que iba a abandonar. Ross muestra que la "conservacion" colonial era gestion del agotamiento: cuando la alternativa estaba lista, la conservacion dejo de ser racional.</p>
+
+        <p style="margin-top:1rem;"><span class="tag type-propuesta">6</span> <strong>Perfumo denuncio "la gran leccion" pero la leccion no se tradujo en politicas efectivas.</strong> En 1963, Perfumo senalo que el agotamiento de los quebrachales deberia haber generado un cambio de paradigma. Pero la denuncia no se tradujo en reforestacion masiva, ni en restricciones reales a la extraccion, ni en sanciones a la empresa.</p>
+
+        <p style="margin-top:1rem;"><span class="tag type-nota">7</span> <strong>La politica forestal argentina fue una politica del "demasiado tarde".</strong> Cada medida llego cuando el dano ya era irreversible: la ley 13.273 (1941) llego cuando la deforestacion superaba el 60%; la reforestacion obligatoria (1950) llego cuando La Forestal ya habia cerrado Villa Guillermina; la ley provincial contra el retiro de instalaciones (1954) nunca se publico en el boletin oficial.</p>
+      </div>
+
+      <!-- TAB 3: Cronologia -->
+      <div class="tab-panel" id="a-crono">
+        <div id="polTimeline">
+          <div class="pol-ctrl">
+            <button class="pol-btn active" data-type="all">Todas</button>
+            <button class="pol-btn" data-type="ley">Ley</button>
+            <button class="pol-btn" data-type="decreto">Decreto</button>
+            <button class="pol-btn" data-type="resolucion">Resolucion</button>
+            <button class="pol-btn" data-type="medida">Medida</button>
+            <button class="pol-btn" data-type="protesta">Protesta</button>
+            <button class="pol-btn" data-type="propuesta">Propuesta</button>
+            <button class="pol-btn" data-type="nota">Nota</button>
+            <input class="pol-search" type="text" placeholder="Buscar...">
+          </div>
+          <div class="pol-count"></div>
+
+          <div class="pol-entry" data-type="ley" data-search="ley 4167 defensa riqueza forestal explotacion 1908">
+            <div class="pol-entry-header"><span class="tag type-ley">Ley</span><span class="pol-year">1908</span></div>
+            <div class="pol-entry-body"><strong>Ley 4167 &#8212; Ley de Defensa de la Riqueza Forestal</strong><p>Primera legislacion especifica sobre bosques en Argentina. Establece la obligacion de los propietarios de conservar arboles y autoriza al Estado a fijar zonas de reserva. Aplicacion limitada en el Chaco santafesino.</p></div>
+          </div>
+
+          <div class="pol-entry" data-type="nota" data-search="nota foreign office the forestal relocalizacion africa 1914 cowen">
+            <div class="pol-entry-header"><span class="tag type-nota">Nota</span><span class="pol-year">1914</span></div>
+            <div class="pol-entry-body"><strong>Foreign Office y la relocalizacion</strong><p>El gobierno britanico respalda la estrategia de The Forestal. Cowen documenta como el Foreign Office facilito la transferencia de operaciones de Argentina a Africa desde 1914.</p><div class="pol-source">Cowen, 1990</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="medida" data-search="medida niklison resistencia patronal control obrero capataz reloj 1915">
+            <div class="pol-entry-header"><span class="tag type-medida">Medida</span><span class="pol-year">1915</span></div>
+            <div class="pol-entry-body"><strong>Niklison: resistencia patronal pese a legislacion laboral</strong><p>Los capataces eludian el control horario con un reloj escondido. Los obreros debian callar o ser "alcagueleados".</p><div class="pol-source">Niklison, cit. por Isabelino</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="resolucion" data-search="resolucion pool exportacion tanino 1919 convenio caballeros">
+            <div class="pol-entry-header"><span class="tag type-resolucion">Resolucion</span><span class="pol-year">1919</span></div>
+            <div class="pol-entry-body"><strong>Primer pool de exportacion de tanino</strong><p>The Forestal organiza un pool de exportacion para controlar precios. Convenio de Caballeros de 1926 formaliza el cartel.</p><div class="pol-source">Marzorati, 1960</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="resolucion" data-search="resolucion convenio caballeros pool tanino 1926 cartel">
+            <div class="pol-entry-header"><span class="tag type-resolucion">Resolucion</span><span class="pol-year">1926</span></div>
+            <div class="pol-entry-body"><strong>Convenio de Caballeros</strong><p>Acuerdo caballeresco entre productores de quebracho y mimosa para repartirse el mercado. Primer caballo de Troya: la mimosa entra en el mercado del quebracho por la puerta trasera.</p><div class="pol-source">Marzorati, 1960</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="nota" data-search="nota hicks evasion fiscal transferencia ganancias londres 1930">
+            <div class="pol-entry-header"><span class="tag type-nota">Nota</span><span class="pol-year">1930</span></div>
+            <div class="pol-entry-body"><strong>Hicks denuncia evasion fiscal</strong><p>Hicks documenta la transferencia de ganancias de La Forestal Argentina a The Forestal en Londres en 1930, evadiendo impuestos argentinos.</p><div class="pol-source">Hicks, cit. por Cowen</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="resolucion" data-search="resolucion pool 1935 cartel tanino">
+            <div class="pol-entry-header"><span class="tag type-resolucion">Resolucion</span><span class="pol-year">1935</span></div>
+            <div class="pol-entry-body"><strong>Pool de 1935</strong><p>Segundo gran pool de exportacion. The Forestal consolida control sobre precios y cuotas. Los productores independientes quedan subordinados.</p><div class="pol-source">Marzorati, 1960</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="medida" data-search="medida the forestal mimosa africa expandir plantaciones 1937 1938 marzorati">
+            <div class="pol-entry-header"><span class="tag type-medida">Medida</span><span class="pol-year">1937&#8211;38</span></div>
+            <div class="pol-entry-body"><strong>The Forestal decide expandir mimosa en Africa</strong><p>En 1938 tenia una inversion de 900.000 libras en mimosa, que se elevaria a 9,2 millones en 1958. Marzorati: "enfrentada con la extincion de las reservas propias de materia prima (...) debia decidir entre trasladarlas o clausurarlas".</p><div class="pol-source">Marzorati, p. 60</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="ley" data-search="ley 13273 defensa forestal aprovechamiento explotacion 1941">
+            <div class="pol-entry-header"><span class="tag type-ley">Ley</span><span class="pol-year">1941</span></div>
+            <div class="pol-entry-body"><strong>Ley 13.273 &#8212; Ley de Defensas Forestales</strong><p>Transicion de "explotacion" a "aprovechamiento". Primera ley nacional integral sobre bosques. Zarrilli: cambio el concepto en el papel pero no en la practica.</p><div class="pol-source">Zarrilli, 2018</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="decreto" data-search="decreto 112840 cupos exportacion fabricantes 1942 pool">
+            <div class="pol-entry-header"><span class="tag type-decreto">Decreto</span><span class="pol-year">1942</span></div>
+            <div class="pol-entry-body"><strong>Decreto 112.840 &#8212; Cuotas de exportacion</strong><p>Somete la exportacion de tanino a un regimen permisivo con cuotas por fabrica. El pool funciona desde 1942 hasta 1960.</p><div class="pol-source">Zarrilli</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="decreto" data-search="decreto 14106 comision capacidades productivas 1944">
+            <div class="pol-entry-header"><span class="tag type-decreto">Decreto</span><span class="pol-year">1944</span></div>
+            <div class="pol-entry-body"><strong>Decreto 14.106 &#8212; Comision de capacidades productivas</strong><p>Designa comision del Ministerio de Comercio e Industria. Capacidad total: 530 mil ton/anio (realista: 350 mil). 21 fabricas. La Forestal + Quebrachales Fusionados: casi 60% del cupo.</p><div class="pol-source">Marzorati</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="medida" data-search="medida congreso productores forestales 1945">
+            <div class="pol-entry-header"><span class="tag type-medida">Medida</span><span class="pol-year">1945</span></div>
+            <div class="pol-entry-body"><strong>I Congreso Argentino de Productores Forestales</strong><p>Se realiza en Capital Federal. Hito en la organizacion del sector forestal.</p><div class="pol-source">El Litoral</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="decreto" data-search="decreto 23451 cupos fabrica 1948 comision mixta">
+            <div class="pol-entry-header"><span class="tag type-decreto">Decreto</span><span class="pol-year">1948</span></div>
+            <div class="pol-entry-body"><strong>Decreto 23.451 &#8212; Cupos por fabrica</strong><p>Resultado del estudio de la comision de 1944. Fija cupos de produccion por fabrica inspeccionada. La cuota es indivisible por fabrica. Exportaciones: 175 mil toneladas, consumo interno: 25 mil.</p><div class="pol-source">Marzorati</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="resolucion" data-search="resolucion iapi precio tanino 1948 160 260 dolares desastre">
+            <div class="pol-entry-header"><span class="tag type-resolucion">Resolucion</span><span class="pol-year">1948</span></div>
+            <div class="pol-entry-body"><strong>IAPI sube precio del tanino</strong><p>De 160 a 260 dolares FOB. Consecuencia: paralizacion casi completa de ventas, desvio de compradores hacia mimosa y castano. 21 meses de "danos irreparables". El quebracho pasa del 61,7% al 42,2% del mercado mundial.</p><div class="pol-source">Marzorati, p. 52</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="protesta" data-search="protesta cierre villa guillermina 1949 fabrica obreros">
+            <div class="pol-entry-header"><span class="tag type-protesta">Protesta</span><span class="pol-year">Nov 1949</span></div>
+            <div class="pol-entry-body"><strong>Cierre de Villa Guillermina</strong><p>"El establecimiento mayor del mundo" se clausura definitivamente. De 21 plantas, solo 11 seguiran funcionando. Se liquidan haciendas y rematan campos.</p><div class="pol-source">El Litoral, 3/9/1949</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="propuesta" data-search="propuesta expropiacion bienes la forestal 1949 editorial litoral">
+            <div class="pol-entry-header"><span class="tag type-propuesta">Propuesta</span><span class="pol-year">1949</span></div>
+            <div class="pol-entry-body"><strong>El Litoral propone expropiacion de bienes de La Forestal</strong><p>"El problema del norte es el del latifundio y del monopolio forestal. Es la existencia de sistemas de trabajo anacrónicos (...), la suerte de miles de familias y la propia existencia de poblaciones enteras."</p><div class="pol-source">El Litoral, 8/3/1949</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="decreto" data-search="decreto expropiacion 5659 hectareas villa guillermina colonia 17 octubre 1950">
+            <div class="pol-entry-header"><span class="tag type-decreto">Decreto</span><span class="pol-year">1950</span></div>
+            <div class="pol-entry-body"><strong>Expropiacion de 5.659 ha en Villa Guillermina</strong><p>Decreto de utilidad publica. Subdivision en parcelas de maximo 150 ha. Se crea la Colonia Agricola 17 de Octubre (77 familias).</p><div class="pol-source">El Orden, 21/7/1950</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="ley" data-search="ley modificacion articulo 29 ley 13272 reforestacion obligatoria 1950">
+            <div class="pol-entry-header"><span class="tag type-ley">Ley</span><span class="pol-year">1950</span></div>
+            <div class="pol-entry-body"><strong>Modificacion art. 29 de la ley 13.272</strong><p>El PE puede declarar obligatoria la plantacion y conservacion de arboles. Si los propietarios no cumplen, se ejecuta a sus costas. "No solo se asegurara la estabilidad de una fuente de riqueza (...) sino que se propende a incrementar la formacion y conservacion de masas forestales."</p><div class="pol-source">El Orden, 29/10/1950</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="medida" data-search="medida plan racionalizacion 1950 la forestal 500 mil 320 mil">
+            <div class="pol-entry-header"><span class="tag type-medida">Medida</span><span class="pol-year">1950</span></div>
+            <div class="pol-entry-body"><strong>Plan de Racionalizacion</strong><p>La Forestal notifica plan para reducir capacidad de 500 mil a 320 mil toneladas. 8 de 21 fabricas "marginales". Contratos firmados el 4 de agosto. Frenado por guerra de Corea y stockpile estadounidense (135 mil toneladas).</p><div class="pol-source">Marzorati, pp. 97&#8211;101</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="nota" data-search="nota marzorati descubre plan mimosa londres 1953 asamblea directores quebracho minded">
+            <div class="pol-entry-header"><span class="tag type-nota">Nota</span><span class="pol-year">1953</span></div>
+            <div class="pol-entry-body"><strong>Marzorati descubre el plan mimosa</strong><p>En asamblea de Londres, directores dan por sentado que "la era del quebracho habia terminado". Un director murmura: "This fellow is entirely quebracho minded." Marzorati es separado de la empresa.</p><div class="pol-source">Marzorati, pp. 14&#8211;16</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="ley" data-search="ley provincial prohibe retiro traslado instalaciones la forestal 1954">
+            <div class="pol-entry-header"><span class="tag type-ley">Ley</span><span class="pol-year">1954</span></div>
+            <div class="pol-entry-body"><strong>Ley provincial contra el exodo industrial</strong><p>Prohibe a La Forestal el retiro o traslado de instalaciones sin autorizacion del PE. Aprobada por unanimidad. Nunca publicada en boletin oficial. Dip. Barreiro: "&#191;vamos a permitir que una empresa que burlo las leyes (...) atienda solamente a sus desmedidas ganancias?"</p><div class="pol-source">El Litoral, 27/8 y 10/9/1954</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="resolucion" data-search="resolucion acuerdo paris 1955 conferencia quebracho mimosa castano 130 mil toneladas">
+            <div class="pol-entry-header"><span class="tag type-resolucion">Resolucion</span><span class="pol-year">1955</span></div>
+            <div class="pol-entry-body"><strong>Conferencia de Paris (Convenio Quebracho-Mimosa-Castano)</strong><p>La Forestal reingresa a la Camara. Cupo mundial para Argentina: 130 mil toneladas. 4 delegados del quebracho, 12 de mimosa, 12 de castano.</p><div class="pol-source">Marzorati, pp. 92&#8211;117</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="resolucion" data-search="resolucion 1570 1571 1572 cuotas fabrica comite tanino 1957 chaleco fuerza">
+            <div class="pol-entry-header"><span class="tag type-resolucion">Resolucion</span><span class="pol-year">1957</span></div>
+            <div class="pol-entry-body"><strong>Resoluciones 1570/1571/1572</strong><p>Restablece cuotas por fabrica. Crea Comite del Tanino. La Forestal resistio tenazmente: "chaleco de fuerza". Marzorati advierte que 1570 rompia en parte con el esiritu del decreto de 1948.</p><div class="pol-source">Marzorati, pp. 121&#8211;124</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="propuesta" data-search="propuesta weidmann expropiacion 1958 cooperativas frondizi seward">
+            <div class="pol-entry-header"><span class="tag type-propuesta">Propuesta</span><span class="pol-year">1958</span></div>
+            <div class="pol-entry-body"><strong>Proyecto Weidmann de expropiacion</strong><p>Senador Rodolfo Weidmann presenta proyecto para expropiar bienes de La Forestal. El 1 de mayo Frondizi dice que no habra expropiaciones. El 9 de junio, Seward es recibido por Frondizi y se le asegura que no habra expropiacion.</p><div class="pol-source">Marzorati, pp. 131&#8211;134</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="decreto" data-search="decreto 4536 3546 cuotas empresa frondizi 1959 villa ana tres isletas cortina humo">
+            <div class="pol-entry-header"><span class="tag type-decreto">Decreto</span><span class="pol-year">1959</span></div>
+            <div class="pol-entry-body"><strong>Decreto 4.536 &#8212; Cuotas por empresa (no por fabrica)</strong><p>Solo beneficia a La Forestal (unica con multiples fabricas). Permite centralizar produccion, mantener fabricas paralizadas. Art. 4 permite "cesiones o transferencias". Resolucion 357 autoriza traslado de Villa Ana. Marzorati: "el mito de la fabrica de Tres Isletas cada vez va tomando mas el caracter de una simple cortina de humo".</p><div class="pol-source">Marzorati, pp. 68, 138, 150</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="decreto" data-search="decreto 2156 frondizi 1960 retencion cambio impuesto ventas libre empresa">
+            <div class="pol-entry-header"><span class="tag type-decreto">Decreto</span><span class="pol-year">1960</span></div>
+            <div class="pol-entry-body"><strong>Decreto 2.156 &#8212; Eliminacion de retenciones e impuestos</strong><p>Libera a la industria del 20% de retencion de cambio y del 8% del impuesto a las ventas. Marzorati lo celebra: "devolviendo a nuestra industria (...) todas las armas que necesita la Libre Empresa".</p><div class="pol-source">Marzorati, p. 226</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="propuesta" data-search="propuesta marzorati plan recuperacion 1960 laboratorio propaganda agentes viajeros">
+            <div class="pol-entry-header"><span class="tag type-propuesta">Propuesta</span><span class="pol-year">1960</span></div>
+            <div class="pol-entry-body"><strong>Plan Marzorati de recuperacion</strong><p>Propone: autonomizar organizacion de ventas, adecuar precios CIF, crear laboratorio tecnologico, propaganda sobre superioridad del quebracho, agentes viajeros, fondo aportado por todos los productores. "No nos quedan mas que dos caminos: el de dejar que nuestra industria sucumba cobardemente; o salir heroica y valientemente a recuperar aquello que nos ha pertenecido tradicionalmente."</p><div class="pol-source">Marzorati, informe completo</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="nota" data-search="nota cierre la gallareta 1963 ultima fabrica illia">
+            <div class="pol-entry-header"><span class="tag type-nota">Nota</span><span class="pol-year">1963</span></div>
+            <div class="pol-entry-body"><strong>Cierre definitivo de La Gallareta</strong><p>Se cierra la ultima fabrica del norte santafesino, dos dias antes de que asumiera Illia. "No por previsto deja de tener significado y trascendencia."</p><div class="pol-source">El Litoral, octubre 1963</div></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="sidebar">
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Ciclo biológico</div>
-        <div class="stat">80–120</div>
-        <div class="stat-label">Años para que el quebracho colorado alcance diámetro comercial</div>
+        <div class="sidebar-card-label">Ciclo biologico</div>
+        <div class="stat">80&#8211;120</div>
+        <div class="stat-label">Anos para que el quebracho colorado alcance diametro comercial</div>
       </div>
       <div class="sidebar-card">
         <div class="sidebar-card-label">Textos eje</div>
-        <p><strong>Ross, C.</strong> (2017). <em>Ecology and Power in the Age of Empire: Europe and the Transformation of the Tropical World</em>. Oxford University Press.</p>
-        <p style="margin-top:0.4rem;"><strong>Zarrilli, A.</strong> (2018). El bosque perdido. Una historia ambiental del Norte santafesino (1890–2010). En Brac (Comp.), <em>El norte forestal</em>. CFI.</p>
+        <p><strong>Ross, C.</strong> (2017). <em>Ecology and Power in the Age of Empire</em>. Oxford University Press.</p>
+        <p style="margin-top:0.4rem;"><strong>Zarrilli, A.</strong> (2018). El bosque perdido. En Brac (Comp.), <em>El norte forestal</em>. CFI.</p>
       </div>
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Legislación forestal</div>
-        <p><strong>Ley 13.273</strong> (nacional): De "explotación" a "aprovechamiento"</p>
-        <p style="margin-top:0.3rem;"><strong>Ley 4514</strong> (provincial): Adhesión, Administración Provincial de Bosques</p>
-        <p style="margin-top:0.3rem;"><strong>Valentini (1960)</strong>: Reforestación con quebracho colorado</p>
+        <div class="sidebar-card-label">Legislacion forestal</div>
+        <p><strong>Ley 13.273</strong> (nacional): De "explotacion" a "aprovechamiento"</p>
+        <p style="margin-top:0.3rem;"><strong>Ley 4514</strong> (provincial): Adhesion, APB</p>
+        <p style="margin-top:0.3rem;"><strong>Valentini (1960)</strong>: Reforestacion con quebracho</p>
         <p style="margin-top:0.3rem;"><strong>Perfumo (1963)</strong>: Denuncia del agotamiento</p>
       </div>
       <div class="sidebar-card">
         <div class="sidebar-card-label">Pregunta</div>
-        <p>¿La legislación forestal fue una herramienta para frenar la depredación o un argumento que La Forestal usó para justificar su salida?</p>
+        <p>&#191;La legislacion forestal fue una herramienta para frenar la depredacion o un argumento que La Forestal uso para justificar su salida?</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ B — ESTRATEGIA INTERNACIONAL / CAPITAL IMPERIALISTA ============ -->
-<section class="section fade-in" id="sB">
+<!-- ============ B &#8212; ESTRATEGIA INTERNACIONAL / CAPITAL IMPERIALISTA ============ -->
+<section class="section" id="sB">
   <div class="section-label">Eje B</div>
-  <h2 class="section-num">Capital imperialista y la salida sin problemas</h2>
+  <h2 class="section-num">B. Capital imperialista y la salida sin problemas</h2>
 
   <div class="split">
     <div class="split-main">
-      <h3>¿Cómo pudo La Forestal salir sin ninguna consecuencia?</h3>
+      <h3>1. Politica imperial desde Londres</h3>
       <p>
-        La pregunta central de este eje es: ¿qué tipo de estrategia internacional construyó La Forestal como capital imperialista que le permitió salir del país sin ningún tipo de problema? La Forestal no huyó: se retiró planificadamente, con sus inversiones ya relocalizadas, sus mercados asegurados y su estructura corporativa intacta. Cuando cerró la última fábrica en La Gallareta en 1963, la empresa no estaba en quiebra: estaba en África.
+        The Forestal Land, Timber and Railways Co. Ltd., constituida en Londres en 1906 con capital britanico, era la casa matriz que controlaba La Forestal Argentina. El Segundo Conde de Selborne presidio la estrategia de relocalizacion. El directorio &mdash;con figuras como Stanley, Kieff, Rueff y Erlanger&mdash; operaba desde la City londinense, tomando decisiones que afectaban a decenas de miles de obreros a 10.000 kilometros de distancia. Hicks documento la evasion fiscal: en 1930, la empresa transfirio ganancias de Argentina a Londres para evitar impuestos, vaciando la subsidiaria argentina.
       </p>
       <p>
-        Esto implica pensar cuál era el desarrollo que venía teniendo en África, cómo se articulaba la producción de mimosa con la de quebracho, y qué tipo de estructura de poder económico y político permitió que una empresa con sede en Londres pudiera desmantelar la economía de una región entera de Argentina sin que el Estado nacional pudiera —o quisiera— impedirlo.
-      </p>
-
-      <h3>Silver: donde va el capital, va el conflicto</h3>
-      <p>
-        Beverly Silver, en <em>Fuerzas de trabajo. Los movimientos obreros y la globalización desde 1870</em> (2003), plantea una tesis que ilumina el caso de La Forestal: cuando el capital huye de regiones con movimientos obreros fuertes, crea las condiciones para nuevas formas de militancia laboral en los sitios de relocalización. Silver distingue entre "descontento tipo Polanyi" (reactivo, defensivo, contra la mercantilización del trabajo) y "descontento tipo Marx" (proactivo, que surge de la formación de nuevas clases trabajadoras en los sitios de expansión del capital).
-      </p>
-      <p>
-        Aplicado al caso: La Forestal huyó del norte santafesino en parte por la fuerza del sindicalismo (comunista primero, peronista después). Pero en África, las plantaciones de mimosa y las fábricas de tanino crearon nuevas clases trabajadoras —trabajadores rurales africanos en condiciones de near-coerción— que eventualmente también generarían conflicto. La "solución espacial" no resuelve la contradicción capital-trabajo: la desplaza. La pregunta es: ¿quién pagó el costo de ese desplazamiento? En el norte santafesino, los obreros tanineros y sus familias. En África, los trabajadores de las plantaciones.
+        El Foreign Office respaldo la estrategia desde 1914. Cowen muestra que la relocalizacion no fue una decision empresarial aislada sino una politica imperial: el gobierno britanico facilito la transferencia de operaciones de Argentina a Africa porque respondia a los intereses estrategicos del Commonwealth. The Forestal controlaba el 57% del quebracho argentino y simultaneamente la mayor parte de la mimosa africana: era un monopolio dentro de un duopolio, con los dos pies en mercados complementarios.
       </p>
 
-      <h3>Nash: imperialismo laboral y extracción</h3>
+      <h3>2. Evolucion del mercado global del tanino</h3>
       <p>
-        June Nash, en <em>We Eat the Mines and the Mines Eat Us</em> (1979), estudió cómo el imperialismo económico estructura las condiciones de vida y trabajo en los sitios de extracción. Su trabajo sobre los mineros del estaño en Bolivia —aunque en un contexto diferente— ofrece un marco para pensar el caso de La Forestal: la empresa operaba como un enclave imperialista que extraía valor del territorio sin reinvertir en él, y cuando el recurso se agotaba o la rentabilidad caía, simplemente abandonaba el territorio y a sus habitantes. Nash muestra cómo la dependencia estructural del territorio respecto de la empresa genera una relación de "canibalismo recíproco": el territorio alimenta a la empresa, y la empresa consume al territorio.
+        El mercado mundial de taninos vegetales movia unas 400.000 toneladas anuales, divididas en tres grandes grupos: quebracho (<em>Schinopsis balansae</em>), mimosa (<em>Acacia mearnsii</em>) y castano (<em>Castanea sativa</em>). Hacia 1936&#8211;38, el quebracho dominaba con el 61,7% del mercado; la mimosa apenas representaba el 10,4%. Para 1958, el quebracho habia caido al 42,2% y la mimosa habia subido al 36,3%. La Forestal controlaba simultaneamente el 55,2% del quebracho argentino y la mayoria de la mimosa africana.
       </p>
-
-      <h3>Sierra Álvarez: capital y selva en África</h3>
       <p>
-        José Sierra Álvarez, en sus trabajos sobre la colonización forestal en África, analiza cómo el capital colonial europeo organizó la extracción de madera y recursos forestales en el continente africano. Su perspectiva permite comprender el "otro lado" de la "solución espacial" de La Forestal: la misma lógica extractiva que había diezmado los quebrachales del Chaco santafesino se aplicaba ahora a los bosques africanos, con la diferencia de que en África las plantaciones de mimosa permitían un ciclo productivo más corto y más controlable. Sierra Álvarez muestra que la "solución espacial" no era solo un traslado geográfico sino una transformación del modelo de acumulación: de la extracción de bosques naturales a la plantación de monocultivos, pasando de un régimen de depredación a uno de producción controlada.
-      </p>
-
-      <!-- Market share data -->
-      <h3>La infraestructura del retiro</h3>
-      <p>
-        Los datos del mercado global confirman la magnitud de la relocalización: la inversión en mimosa pasó de £900.000 (1938) a £9,2 millones (1958), mientras la inversión en Argentina caía de £6,5 millones a £5 millones. La participación del quebracho en el mercado mundial de taninos cayó del 61,7% (1936–38) al 42,2% (1958); la mimosa subió del 10,4% al 36,3%. The Forestal controlaba simultáneamente el 55,2% del quebracho argentino y la mayor parte de la mimosa africana. Los competidores de la mimosa controlaban el 78,7% de la industria quebrachera argentina: usaban el quebracho como trampolín para introducir la mimosa.
+        La inversion desplazada fue masiva: de 900.000 libras esterlinas en mimosa en 1938 a 9,2 millones en 1958, mientras la inversion en Argentina caia de 6,5 millones a 5 millones. Los competidores de la mimosa controlaban el 78,7% de la industria quebrachera argentina: usaban el quebracho como trampolin para introducir la mimosa.
       </p>
 
       <div class="data-table-wrap">
         <table class="data-table">
-          <caption>Participación en el mercado mundial de taninos vegetales</caption>
-          <thead><tr><th>Grupo</th><th>Especie</th><th>1936–38</th><th>1958</th><th>Variación</th></tr></thead>
+          <caption>Participacion en el mercado mundial de taninos vegetales</caption>
+          <thead><tr><th>Grupo</th><th>Especie</th><th>1936&#8211;38</th><th>1958</th><th>Variacion</th></tr></thead>
           <tbody>
-            <tr><td>Quebracho</td><td><em>Schinopsis balansae</em></td><td class="accent">61,7%</td><td>42,2%</td><td>−19,5 pp</td></tr>
+            <tr><td>Quebracho</td><td><em>Schinopsis balansae</em></td><td class="accent">61,7%</td><td>42,2%</td><td>&#8722;19,5 pp</td></tr>
             <tr><td>Mimosa</td><td><em>Acacia mearnsii</em></td><td>10,4%</td><td class="amber">36,3%</td><td>+25,9 pp</td></tr>
-            <tr><td>Castaño</td><td><em>Castanea sativa</em></td><td>~28%</td><td>~21,5%</td><td>−6,5 pp</td></tr>
+            <tr><td>Castano</td><td><em>Castanea sativa</em></td><td>~28%</td><td>~21,5%</td><td>&#8722;6,5 pp</td></tr>
           </tbody>
         </table>
       </div>
       <p style="font-family:var(--sans); font-size:0.7rem; color:var(--muted); margin-top:-0.8rem;">Fuente: Marzorati, 1960</p>
+
+      <h3>3. Politica de comercializacion del tanino</h3>
+      <p>
+        La Forestal instrumento su dominio del mercado a traves de pools y cartels: el pool de 1919, el Convenio de Caballeros de 1926 y el pool de 1935 fueron "caballos de Troya" que permitieron a la mimosa entrar en el mercado del quebracho. La Forestal organizaba los pools como productor de quebracho pero su interes real era abrir espacio para la mimosa. Marzorati lo describe como un "juego": la empresa hacia la corte al quebracho mientras amaba a la mimosa.
+      </p>
+      <p>
+        La propaganda fue sistematica. El centro de investigacion de Harpenden (The Forestal's research laboratory) producia informes "cientificos" sobre la superioridad de la mimosa, difundidos a traves de publicaciones especializadas como <em>Leder Tidningen</em>. Humphreys, jefe de los laboratorios, declaro en 1952: "La era del quebracho ha terminado y la era de la mimosa ha comenzado." La operacion de propaganda tenia un objetivo claro: convencer a los curtidores de que el extracto de mimosa era tecnologicamente superior al de quebracho.
+      </p>
+      <p>
+        El desastre del IAPI (1948) fue funcional a esta estrategia: al subir el precio del tanino argentino de 160 a 260 dolares FOB, el IAPI paralizo las ventas y desvio a los compradores hacia la mimosa. The Forestal lo aprovecho: cada cliente perdido por el quebracho era un cliente ganado por la mimosa.
+      </p>
+
+      <h3>4. Deslocalizacion a Africa: los tres fixes</h3>
+      <p>
+        Beverly Silver, en <em>Fuerzas de trabajo</em> (2003), identifica tres "fixes" del capital para resolver las crisis de rentabilidad: el <strong>fix espacial</strong> (relocalizacion geografica), el <strong>fix productivo</strong> (cambio de producto) y el <strong>fix tecnologico</strong> (innovacion que reduce costos). Los tres se aplicaron simultaneamente en el caso de La Forestal:
+      </p>
+      <p>
+        <strong>Fix espacial:</strong> relocalizacion de Argentina a Africa. La Forestal huyo del norte santafesino en parte por la fuerza del sindicalismo (comunista primero, peronista despues), pero tambien porque Africa ofrecia mano de obra mas barata y menos regulada.<br>
+        <strong>Fix productivo:</strong> del quebracho (extracto de bosque natural) a la mimosa (extracto de plantacion). El cambio de producto permitia controlar todo el ciclo productivo, desde la plantacion hasta la extraccion.<br>
+        <strong>Fix tecnologico:</strong> de la explotacion de bosques naturales a la plantacion de monocultivos. La plantacion de <em>Acacia mearnsii</em> permitia un ciclo de 10&#8211;12 anos (vs. 80&#8211;120 del quebracho), con rendimiento predecible y controlable.
+      </p>
+      <p>
+        Cowen muestra que las ganancias de la operacion argentina financiaron la expansion africana: los beneficios del quebracho pagaron las plantaciones de mimosa. Marzorati lo expreso con su metafora del divorcio: "La Forestal se ha divorciado del quebracho y se ha ido con la mimosa, pero con el agravante que continua hacienole maliciosamente la corte al quebracho."
+      </p>
+
+      <blockquote class="pull">
+        <p>Cuando el capital huye de regiones con movimientos obreros fuertes, crea las condiciones para nuevas formas de militancia laboral en los sitios de relocalizacion. La "solucion espacial" no resuelve la contradiccion capital-trabajo: la desplaza.</p>
+        <cite>Beverly Silver, Fuerzas de trabajo, 2003</cite>
+      </blockquote>
+
+      <h3>5. Historia de la mimosa en Africa</h3>
+      <p>
+        La expansion de la mimosa en Africa fue una empresa sistematica. La South African Tanning Extract Corporation (SATEC) se constituyo en 1919 como la primera subsidiaria africana de The Forestal. Le siguieron la Natal Tanning Extract Corporation (NTEC), Nairobi Wattle Company y East African Tanning Extract Company. Las plantaciones se concentraron en Zululand, Melmoth y Piet Retief, en la costa sudeste de Africa.
+      </p>
+      <p>
+        En 1932, las plantaciones de mimosa lograron el autofinanciamiento: ya no necesitaban capital de la operacion argentina. En 1935 se completo el ciclo productivo integral: plantacion, cosecha, extraccion y comercializacion, todo bajo control de The Forestal. Para 1938, la produccion alcanzo 70.000 toneladas anuales sobre 200.000 hectareas.
+      </p>
+      <p>
+        La declaracion de Londres de 1949 consolido el compromiso: los directores de The Forestal declararon formalmente que la era del quebracho habia terminado. En 1952, la mimosa se convirtio en el principal generador de ganancias del grupo The Forestal. Marzorati, el ultimo gerente leal al quebracho, cerro su informe con una pregunta que sigue resonando: si La Forestal ya tenia la mimosa, &#191;por que seguia controlando el quebracho? La respuesta es que necesitaba debilitar al quebracho para que la mimosa pudiera dominar el mercado sin competencia.
+      </p>
+
+      <blockquote class="pull">
+        <p>June Nash estudio como el imperialismo economico estructura las condiciones de vida en los sitios de extraccion. La empresa operaba como un enclave que extraia valor sin reinvertir, y cuando el recurso se agotaba, abandonaba el territorio y a sus habitantes. Dependencia estructural: "el territorio alimenta a la empresa, y la empresa consume al territorio."</p>
+        <cite>Nash, We Eat the Mines and the Mines Eat Us, 1979</cite>
+      </blockquote>
     </div>
 
     <div class="sidebar">
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Inversión desplazada</div>
+        <div class="sidebar-card-label">Inversion desplazada</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:0.5rem;">
           <div>
-            <div style="font-family:var(--sans); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Mimosa (África)</div>
-            <div class="stat" style="font-size:1.4rem;">£9,2M</div>
-            <div class="stat-label">1958 (desde £900K en 1938)</div>
+            <div style="font-family:var(--sans); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Mimosa (Africa)</div>
+            <div class="stat" style="font-size:1.4rem;">&#163;9,2M</div>
+            <div class="stat-label">1958 (desde &#163;900K en 1938)</div>
           </div>
           <div>
             <div style="font-family:var(--sans); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Quebracho (Arg.)</div>
-            <div class="stat" style="font-size:1.4rem; color:var(--amber);">£5M</div>
-            <div class="stat-label">1958 (desde £6,5M en 1938)</div>
+            <div class="stat" style="font-size:1.4rem; color:var(--amber);">&#163;5M</div>
+            <div class="stat-label">1958 (desde &#163;6,5M en 1938)</div>
           </div>
         </div>
       </div>
 
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Textos eje</div>
-        <p><strong>Silver, B. J.</strong> (2003/2005). <em>Fuerzas de trabajo. Los movimientos obreros y la globalización desde 1870</em>. Akal.</p>
-        <p style="margin-top:0.4rem;"><strong>Nash, J.</strong> (1979). <em>We Eat the Mines and the Mines Eat Us: Dependency and Exploitation in Bolivian Tin Mines</em>. Columbia University Press.</p>
-        <p style="margin-top:0.4rem;"><strong>Sierra Álvarez, J.</strong> Capital y colonización forestal en África.</p>
+        <div class="sidebar-card-label">Estructura corporativa</div>
+        <p><strong>The Forestal Land, Timber &amp; Railways Co. Ltd.</strong> (Londres, 1906)</p>
+        <p style="margin-top:0.3rem;"><strong>Presidente:</strong> 2do Conde de Selborne</p>
+        <p style="margin-top:0.2rem;"><strong>Directores:</strong> Stanley, Kieff, Rueff, Erlanger</p>
+        <p style="margin-top:0.3rem;"><strong>Subsidiarias africanas:</strong> SATEC, NTEC, Nairobi Wattle, East African Tanning</p>
+        <p style="margin-top:0.3rem;"><strong>Control:</strong> 57% del quebracho arg. + mayoria de la mimosa africana</p>
       </div>
 
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Conflicto de interés</div>
-        <p>The Forestal controlaba simultáneamente:</p>
-        <p style="margin-top:0.3rem;"><strong class="accent">55,2%</strong> del quebracho argentino</p>
-        <p style="margin-top:0.2rem;"><strong class="amber">+60%</strong> de la mimosa africana</p>
+        <div class="sidebar-card-label">Cronologia Africa</div>
+        <p><strong>1919:</strong> SATEC (primera subsidiaria)</p>
+        <p style="margin-top:0.2rem;"><strong>1932:</strong> Autofinanciamiento</p>
+        <p style="margin-top:0.2rem;"><strong>1935:</strong> Ciclo productivo completo</p>
+        <p style="margin-top:0.2rem;"><strong>1938:</strong> 70K ton/anio, 200K ha</p>
+        <p style="margin-top:0.2rem;"><strong>1949:</strong> Declaracion de Londres</p>
+        <p style="margin-top:0.2rem;"><strong>1952:</strong> Principal generador de ganancias</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Pools y cartels</div>
+        <p><strong>1919:</strong> Primer pool de exportacion</p>
+        <p style="margin-top:0.2rem;"><strong>1926:</strong> Convenio de Caballeros</p>
+        <p style="margin-top:0.2rem;"><strong>1935:</strong> Segundo pool</p>
+        <p style="margin-top:0.2rem;"><strong>1942&#8211;60:</strong> Cuotas oficiales (decreto 112.840)</p>
+        <p style="margin-top:0.2rem;"><strong>1955:</strong> Acuerdo de Paris</p>
+        <p style="margin-top:0.3rem;"><em>Caballo de Troya: cada pool abria espacio para la mimosa</em></p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Conflicto de interes</div>
+        <p>The Forestal controlaba simultaneamente:</p>
+        <p style="margin-top:0.3rem;"><strong style="color:var(--accent);">55,2%</strong> del quebracho argentino</p>
+        <p style="margin-top:0.2rem;"><strong style="color:var(--amber);">+60%</strong> de la mimosa africana</p>
         <p style="margin-top:0.4rem;">Los competidores de la mimosa controlaban el <strong>78,7%</strong> de la industria quebrachera argentina.</p>
       </div>
 
@@ -434,6 +714,7 @@
         <div class="sidebar-card-label">Propaganda</div>
         <p>G. H. Humphreys, jefe de los laboratorios de The Forestal: <em>"La era del quebracho ha terminado y la era de la mimosa ha comenzado."</em></p>
         <p style="margin-top:0.3rem; font-family:var(--sans); font-size:0.7rem; color:var(--muted);">Leder Tidningen, Suecia, noviembre 1952</p>
+        <p style="margin-top:0.4rem;">Centro de Harpenden: informes "cientificos" sobre superioridad de la mimosa</p>
       </div>
     </div>
   </div>
@@ -443,7 +724,7 @@
 <div class="break">
   <div class="break-inner">
     <div class="timeline-year" style="font-size:clamp(2rem,5vw,3.5rem);">La secuencia del retiro</div>
-    <div class="timeline-event" style="max-width:70ch;">La Forestal no huyó: se retiró planificadamente, fábrica por fábrica, dejando a su paso pueblos sin economía, sin infraestructura y sin futuro. Cada cierre seguía el mismo patrón: notificación, despido, desalojo, desmantelamiento.</div>
+    <div class="timeline-event" style="max-width:70ch;">La Forestal no huyo: se retiro planificadamente, fabrica por fabrica, dejando a su paso pueblos sin economia, sin infraestructura y sin futuro. Cada cierre seguia el mismo patron: notificacion, despido, desalojo, desmantelamiento.</div>
   </div>
 </div>
 
@@ -452,46 +733,42 @@
   <div class="timeline-strip">
     <div class="timeline-item closed">
       <div class="ty">Nov 1949</div>
-      <div class="td">Cierre de Villa Guillermina · 20.000 hab.</div>
+      <div class="td">Cierre Villa Guillermina &#183; 20.000 hab.</div>
     </div>
     <div class="timeline-item closed">
-      <div class="ty">~1949–51</div>
-      <div class="td">Cierre de Tartagal</div>
+      <div class="ty">~1949&#8211;51</div>
+      <div class="td">Cierre Tartagal</div>
     </div>
     <div class="timeline-item closed">
-      <div class="ty">~1950–51</div>
-      <div class="td">Cierre de Col. Baranda (Chaco)</div>
+      <div class="ty">~1950&#8211;51</div>
+      <div class="td">Cierre Col. Baranda (Chaco)</div>
+    </div>
+    <div class="timeline-item closed">
+      <div class="ty">Abr 1953</div>
+      <div class="td">Retiro voluntario aceptado por ministro</div>
     </div>
     <div class="timeline-item closed">
       <div class="ty">1954</div>
-      <div class="td">Ley provincial contra éxodo industrial — nunca publicada en boletín oficial</div>
-    </div>
-    <div class="timeline-item">
-      <div class="ty">1955</div>
-      <div class="td">Cierre de Villa Ana</div>
+      <div class="td">Ley provincial contra exodo industrial &#8212; nunca publicada en boletin oficial</div>
     </div>
     <div class="timeline-item">
       <div class="ty">1959</div>
-      <div class="td">Decreto 3.546 (Frondizi): cuota por empresa, no por fábrica — habilita el cierre</div>
+      <div class="td">Traslado Villa Ana autorizado (Res. 357)</div>
     </div>
     <div class="timeline-item">
       <div class="ty">1963</div>
-      <div class="td">Cierre de La Gallareta · Última fábrica del norte santafesino</div>
-    </div>
-    <div class="timeline-item">
-      <div class="ty">1969</div>
-      <div class="td">Ocampazo · Primera pueblada del país</div>
+      <div class="td">Cierre La Gallareta &#183; Ultima fabrica del norte santafesino</div>
     </div>
   </div>
 
   <div class="data-table-wrap" style="margin-top:2rem;">
     <table class="data-table">
-      <caption>Fábricas de La Forestal — Cierres en el norte santafesino</caption>
-      <thead><tr><th>Fábrica</th><th>Cap. (ton/día, 1948)</th><th>Participación</th><th>Cierre</th></tr></thead>
+      <caption>Fabricas de La Forestal &#8212; Cierres en el norte santafesino</caption>
+      <thead><tr><th>Fabrica</th><th>Cap. (ton/dia, 1948)</th><th>Participacion</th><th>Cierre</th></tr></thead>
       <tbody>
         <tr><td>Villa Guillermina</td><td>191,7</td><td>12,9%</td><td class="accent">Nov 1949</td></tr>
-        <tr><td>Tartagal</td><td>137,5</td><td>9,2%</td><td class="accent">~1949–51</td></tr>
-        <tr><td>Col. Baranda (Chaco)</td><td>48,4</td><td>3,2%</td><td class="accent">~1950–51</td></tr>
+        <tr><td>Tartagal</td><td>137,5</td><td>9,2%</td><td class="accent">~1949&#8211;51</td></tr>
+        <tr><td>Col. Baranda (Chaco)</td><td>48,4</td><td>3,2%</td><td class="accent">~1950&#8211;51</td></tr>
         <tr><td>Villa Ana</td><td>137,7</td><td>9,2%</td><td class="accent">1955</td></tr>
         <tr><td>La Gallareta</td><td>176,4</td><td>11,9%</td><td class="accent">1963</td></tr>
         <tr><td>Fontana (Chaco)</td><td>66,1</td><td>4,4%</td><td>Post-1955</td></tr>
@@ -500,56 +777,255 @@
   </div>
 </section>
 
-<!-- ============ C — RECONVERSIÓN PRODUCTIVA / ESPEJO TUCUMÁN ============ -->
+<!-- ============ C &#8212; RECONVERSION PRODUCTIVA ============ -->
 <section class="section fade-in" id="sC">
   <div class="section-label">Eje C</div>
-  <h2 class="section-num">Nuevos actores y disputas por la reconversión</h2>
+  <h2 class="section-num">C. Luchas por la reconversion productiva</h2>
 
   <div class="split">
     <div class="split-main">
-      <h3>La consolidación de nuevos actores</h3>
-      <p>
-        En el marco de la consolidación y aparición de nuevos actores —las comunas locales, los sindicatos fortalecidos (FATITA), un Estado planificador y dirigista—, la pregunta central de este eje es: ¿cuáles fueron las alternativas y discusiones en torno a la reconversión productiva de un territorio como el norte santafesino? La salida de La Forestal no solo destruyó la economía regional: abrió un espacio político para que otros actores propusieran modelos alternativos de desarrollo.
-      </p>
-      <p>
-        Pero la reconfiguración era traumática. El gobernador Caesar había diagnosticado en 1949 el modelo de La Forestal como "explotación científica": la empresa suministraba la casa, la comida y el médico con el objetivo de aniquilar cualquier espíritu de iniciativa en el personal. Decadas de paternalismo habían atrofiado la capacidad de autogobierno. Cuando la empresa se fue, los pueblos debieron construir su propio futuro sin recursos, sin infraestructura y sin experiencia de autonomía.
-      </p>
 
-      <h3>Las propuestas de reconversión</h3>
-      <p>
-        Las alternativas de reconversión fueron múltiples y contradictorias. Desde el sindicato (SOIQ, FATITA) y la Comisión de Fomento se propuso la reapertura de las fábricas, la reconversión a ingenio azucarero y la adjudicación de tierras a los pobladores. La Cooperativa Sericícola (1953) intentó la cría de gusanos de seda como alternativa productiva. La Colonia 17 de Octubre (1950) expropió 5.659 hectáreas a La Forestal para colonización. En General Obligado se duplicaron las hectáreas sembradas de algodón para 1952, buscando un "nuevo oro blanco".
-      </p>
-      <p>
-        Pero las propuestas chocaban con la realidad: la tierra arrasada había dispersado la maquinaria, la ley de 1954 contra el éxodo industrial nunca se publicó en el boletín oficial, y el Estado —provincial y nacional— no tenía la capacidad ni la voluntad de confrontar a una empresa con sede en Londres. La expropiación se aplicó a la tierra, no a las fábricas: la Constitución de 1949 había incorporado la función social de la propiedad (art. 38), pero el principio no se tradujo en nacionalización industrial.
-      </p>
+      <!-- TAB BAR -->
+      <div class="tab-bar" id="sCTabs">
+        <button class="tab-btn active" data-tab="c-marco">Marco</button>
+        <button class="tab-btn" data-tab="c-crono">Cronologia</button>
+      </div>
 
-      <blockquote class="pull">
-        <p>Siempre cuando se trata de La Forestal, hay una voluntad extraña que trabaja sigilosamente, y entre las sombras, no estuvo estado público, ni se publicó en el boletín oficial, logrando evadirla con autorizaciones comunales.</p>
-        <cite>Anacarsis Acevedo, Investigación a La Forestal, 1983</cite>
-      </blockquote>
+      <!-- TAB 1: Marco -->
+      <div class="tab-panel active" id="c-marco">
+        <h3>La consolidacion de nuevos actores</h3>
+        <p>
+          En el marco de la consolidacion y aparicion de nuevos actores &mdash;las comunas locales, los sindicatos fortalecidos (FATITA), un Estado planificador y dirigista&mdash;, la pregunta central de este eje es: &#191;cuales fueron las alternativas y discusiones en torno a la reconversion productiva de un territorio como el norte santafesino? La salida de La Forestal no solo destruyo la economia regional: abrio un espacio politico para que otros actores propusieran modelos alternativos de desarrollo.
+        </p>
+        <p>
+          Pero la reconfiguracion era traumatica. El gobernador Caesar habia diagnosticado en 1949 el modelo de La Forestal como "explotacion cientifica": la empresa suministraba la casa, la comida y el medico con el objetivo de aniquilar cualquier esiritu de iniciativa en el personal. Decadas de paternalismo habian atrofiado la capacidad de autogobierno. Cuando la empresa se fue, los pueblos debieron construir su propio futuro sin recursos, sin infraestructura y sin experiencia de autonomia.
+        </p>
 
-      <h3>El éxodo social</h3>
-      <p>
-        Los cierres de fábrica no produjeron desocupación: produjeron despoblamiento. El departamento 9 de Julio perdió más del 72% de sus obreros industriales en apenas ocho años. El departamento General Obligado perdió casi la mitad de su fuerza laboral. La economía del tanino no era un sector más de la economía regional: <em>era</em> la economía regional. Su colapso arrastró todo: obrajes, aserraderos, comercios, ferroviarios, servicios.
-      </p>
-      <p>
-        Walsh lo describió en "Las ciudades fantasmas": donde ayer hubo pueblos activos, hoy hay silencio; donde ayer hubo chimeneas humeantes, hoy hay estructuras oxidadas. Pero los pueblos no murieron: se transformaron. Las mujeres tejedoras de Fortín Olmos (Rinaldi, 2021) son un caso emblemático: entre 1963 y 1975, un colectivo de mujeres transformó la devastación en una práctica de supervivencia, resistencia y memoria.
-      </p>
+        <h3>Las propuestas de reconversion</h3>
+        <p>
+          Las alternativas fueron multiples y contradictorias. Desde el sindicato (SOIQ, FATITA) y la Comision de Fomento se propuso la reapertura de las fabricas, la reconversion a ingenio azucarero y la adjudicacion de tierras. La Cooperativa Sericicola (1953) intento la cria de gusanos de seda. La Colonia 17 de Octubre (1950) expropio 5.659 hectareas. En General Obligado se duplicaron las hectareas sembradas de algodon para 1952.
+        </p>
+        <p>
+          Pero las propuestas chocaban con la realidad: la tierra arrasada habia dispersado la maquinaria, la ley de 1954 contra el exodo industrial nunca se publico en el boletin oficial, y el Estado no tenia la capacidad ni la voluntad de confrontar a una empresa con sede en Londres. La expropiacion se aplico a la tierra, no a las fabricas: la Constitucion de 1949 habia incorporado la funcion social de la propiedad (art. 38), pero el principio no se tradujo en nacionalizacion industrial.
+        </p>
 
-      <h3>El espejo de Tucumán</h3>
-      <p>
-        Pocos años después, la historia se repetiría en Tucumán. Entre 1966 y 1968, la dictadura de Onganía cerró 11 de los 27 ingenios azucareros de la provincia, provocando el colapso de la industria azucarera y un éxodo social de proporciones similares. La analogía es potente: en ambos casos, una industria extractiva colapsó bajo la presión de la reestructuración global y la violencia estatal; en ambos casos, el cierre produjo despoblamiento y no solo desocupación; en ambos casos, la empresa (o las empresas) se retiró sin consecuencias.
-      </p>
-      <p>
-        Pero hay diferencias clave: en Tucumán, el cierre fue ordenado por decreto del Estado (la "Operación Tucumán" de Onganía); en el norte santafesino, fue una decisión empresarial que el Estado no pudo —o no quiso— impedir. En Tucumán, el Estado fue el agente del cierre; en Santa Fe, fue el agente fallido de la prevención. La pregunta comparativa: ¿qué es peor, un Estado que cierra las fábricas o un Estado que no puede impedir que la empresa las cierre?
-      </p>
+        <blockquote class="pull">
+          <p>Siempre cuando se trata de La Forestal, hay una voluntad extrana que trabaja sigilosamente, y entre las sombras, no estuvo estado publico, ni se publico en el boletin oficial, logrando evadirla con autorizaciones comunales.</p>
+          <cite>Anacarsis Acevedo, Investigacion a La Forestal, 1983</cite>
+        </blockquote>
+
+        <h3>El Estado que habilito la salida</h3>
+        <p>
+          El Estado no fue un mero espectador: habilito la salida de La Forestal a traves de la omision, la complicidad y la debilidad institucional. El Plan de Racionalizacion de 1950 fue firmado compulsivamente por los productores independientes. El decreto 4.536 de 1959 (Frondizi) cambio las cuotas de "por fabrica" a "por empresa", beneficiando exclusivamente a La Forestal. La ley provincial de 1954 contra el retiro de instalaciones nunca se reglamento.
+        </p>
+
+        <h4>El mito de la fabrica de Tres Isletas y las misiones de Taylor</h4>
+        <p>
+          Desde 1957, las autoridades de The Forestal prometian instalar una importante fabrica moderna de tanino en Tres Isletas (Chaco), con capacidad de produccion equivalente a Villa Ana, La Gallareta y Fontana juntas: 90.000 toneladas. El 28 de octubre de 1957, George P. Taylor &mdash;vicepresidente ejecutivo de The Forestal&mdash; aseguraba a <em>La Razon</em> que la fabrica se iniciaria pronto. En noviembre de 1956, el mismo Taylor habia hablado con el ministro de Comercio e Industria, explicando un programa de "progreso": la empresa se mantendria dentro del tanino de quebracho si era de "reciproco interes". Por el dinero obtenido por la venta de instalaciones y terrenos, se reinvertirian 50 millones de pesos en el Chaco, mientras que un importante saldo quedaria para "una provechosa aplicacion", probablemente en la industria quimica.
+        </p>
+        <p>
+          El 4 de octubre de 1957, directivos de la empresa se reunieron con el vicepresidente Rojas. Estaba presente Marzorati representando a Jujuy en la Comision Honoraria del Tanino. Pero las resoluciones ministeriales 1570, 1571 y 1572 &mdash;que restablecian las cuotas por fabrica y creaban el Comite del Tanino&mdash; fueron resistidas por La Forestal, que las considero un "chaleco de fuerza" y amenazo con oponerse judicialmente por inconstitucionales.
+        </p>
+        <p>
+          El 11 de diciembre de 1958, Taylor acompanado por el presidente del Directorio en Buenos Aires, Seward, entrevistaron a Frondizi. Le explicaron las "dificultades encontradas para la expansion prometida": requeririan 250 millones de pesos, entre otras cosas para importacion de maquinaria, en el plazo de cinco anos. Presentaron un &laquo;Proyecto de decreto&raquo; bautizado como &laquo;Ordenamiento de la Industria&raquo;, que conto con el apoyo de "casi" todos los industriales de la rama, con excepcion de La Chaquena. La Forestal cedia un 2% de su cuota de exportacion y presentaron el proyecto en la Camara. Marzorati presento notas al secretario de Comercio y de Industrias, ademas de entrevistas con los ministros, oponiendose.
+        </p>
+        <p>
+          El 10 de marzo de 1959, un director de The Forestal &mdash;Lord Glenconner&mdash;, acompanado por el embajador britanico, se entrevisto nuevamente con Frondizi. <em>La Prensa</em> del dia 11 aseguraba que ratificaban lo prometido en diciembre. Pero el 13 de marzo, <em>La Prensa</em> reprodujo un telegrama recibido de Londres que desmentia la promesa: lo declarado a Frondizi era que &laquo;el plan de expansion ya tiene dos anos y medio y que en realidad solo implica la transferencia de las fabricas de La Forestal de la provincia de Santa Fe a la del Chaco&raquo;, que el dinero necesario &mdash;mas de un millon de libras&mdash; ya se habia obtenido por reinversion de beneficios, y que faltaban cinco anos para la transferencia total. El director en Buenos Aires intento explicar que la informacion londinense era "erronea" y que &laquo;la posicion de la empresa es perfectamente clara ante las autoridades argentinas&raquo;.
+        </p>
+        <p>
+          Marzorati lo vio con claridad: &laquo;Para quienes conocemos las cosas bien a fondo, advertimos claramente que el mito de la fabrica de Tres Isletas cada vez va tomando mas y mas el caracter de una simple "cortina de humo" tras la cual se ocultan otras intenciones. Nuestras autoridades deben despertar del letargo y convencerse de que La Forestal se ha divorciado de manera irreconciliable de la industria del extracto de quebracho y prepara sus maletas &mdash;utilizando el socorrido papel de victima para cubrir su retirada&mdash; para cruzar el Atlantico e instalarse definitivamente en las costas sudafricanas&raquo;.
+        </p>
+        <p>
+          No obstante, el 20 de abril de 1959 se sanciono el decreto 4.536/59, que establecio las cuotas por empresa y no por fabrica. Solo favorecia a La Forestal, por ser la unica que poseia mas de una fabrica: le permitia centralizar la produccion de sus diversas plantas en una sola, manteniendo las demas paralizadas, y producir a menor costo. El articulo 4 contemplaba la posibilidad de &laquo;cesiones o transferencias de porcentajes de participacion&raquo;, algo que habia sido suprimido desde 1942 por ser altamente perjudicial para el pais: el fabricante mas poderoso adquiria la cuota del mas debil, que cerraba su fabrica y despeda a todo su personal. La Resolucion 357 del 22 de abril aprobo el programa de La Forestal. Las memorias de The Forestal al 30 de junio se referian al exito del plan de desmantelamiento: &laquo;la primera etapa de la transferencia se halla en curso de ejecucion y calculamos sera completa alrededor de septiembre del ano proximo&raquo;.
+        </p>
+        <p>
+          La pregunta comparativa con Tucuman es iluminadora: en Tucuman, el Estado fue el agente del cierre (Ongania cerro 11 de 27 ingenios por decreto); en Santa Fe, fue el agente fallido de la prevencion. &#191;Que es peor: un Estado que cierra las fabricas o un Estado que no puede impedir que la empresa las cierre?
+        </p>
+      </div>
+
+      <!-- TAB 2: Cronologia -->
+      <div class="tab-panel" id="c-crono">
+        <div id="sCPolTimeline">
+          <div class="pol-ctrl">
+            <button class="pol-btn active" data-type="all">Todas</button>
+            <button class="pol-btn" data-type="plan">Plan</button>
+            <button class="pol-btn" data-type="expropiacion">Expropiacion</button>
+            <button class="pol-btn" data-type="diagnostico">Diagnostico</button>
+            <button class="pol-btn" data-type="reconversion">Reconversion</button>
+            <button class="pol-btn" data-type="prensa">Prensa</button>
+            <button class="pol-btn" data-type="negociacion">Negociacion</button>
+            <input class="pol-search" type="text" placeholder="Buscar...">
+          </div>
+          <div class="pol-count"></div>
+
+          <div class="pol-entry" data-type="diagnostico" data-search="diagnostico the forestal mimosa africa 1937 1938 marzorati inversion extincion reservas">
+            <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1937&#8211;38</span></div>
+            <div class="pol-entry-body"><strong>The Forestal decide expandir mimosa en Africa</strong><p>Inversion de 900 mil libras esterlinas en mimosa, que se elevaria a 9,2 millones en 1958. "Enfrentada ya con la extincion de las reservas propias de materia prima (...) debia decidir entre trasladarlas o clausurarlas."</p><div class="pol-source">Marzorati, p. 60</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="plan" data-search="plan decreto 112840 cuotas exportacion fabricantes 1942 pool racionalizacion">
+            <div class="pol-entry-header"><span class="tag type-plan">Plan</span><span class="pol-year">1942</span></div>
+            <div class="pol-entry-body"><strong>Decreto 112.840 &#8212; Cuotas de exportacion</strong><p>Regimen permisivo con cuotas distribuidas entre fabricantes segun capacidad. El pool funciona desde 1942 hasta 1960. Ya no se establecieron nuevas fabricas despues de 1942.</p><div class="pol-source">Zarrilli</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="diagnostico" data-search="diagnostico comision capacidades productivas 530 mil 350 mil 21 fabricas 1944">
+            <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1944</span></div>
+            <div class="pol-entry-body"><strong>Comision de capacidades productivas</strong><p>Capacidad total: 530 mil ton/anio (realista: 350 mil). 21 fabricas. La Forestal + Quebrachales Fusionados: casi 60% del cupo.</p><div class="pol-source">Marzorati</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="prensa" data-search="prensa industria tipo factoria empresas sin caracter permanente loteo tierras 1946">
+            <div class="pol-entry-header"><span class="tag type-prensa">Prensa</span><span class="pol-year">1946</span></div>
+            <div class="pol-entry-body"><strong>El Litoral: la industria taninera es de tipo factoria</strong><p>"Los pueblos no pueden ser de propiedad particular y las tierras de sus alrededores, aptas para la agricultura deberian ser loteadas a fin de crear otras actividades economicas."</p><div class="pol-source">El Litoral, 11/1/1946</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="plan" data-search="plan decreto 23451 cupos fabrica indivisible 1948 175 mil 25 mil">
+            <div class="pol-entry-header"><span class="tag type-plan">Plan</span><span class="pol-year">1948</span></div>
+            <div class="pol-entry-body"><strong>Decreto 23.451 &#8212; Cupos por fabrica</strong><p>Cuota indivisible por fabrica. Exportaciones: 175 mil toneladas, consumo interno: 25 mil. 21 fabricas.</p><div class="pol-source">Marzorati</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="diagnostico" data-search="diagnostico iapi precio tanino 160 260 dolares paralizacion ventas mimosa 1948">
+            <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1948</span></div>
+            <div class="pol-entry-body"><strong>IAPI sube precio: desastre para la colocacion</strong><p>De 160 a 260 dolares FOB. Paralizacion casi completa de ventas. 21 meses de "danos irreparables". Quebracho pasa del 61,7% al 42,2%; mimosa sube del 10,4% al 36,3%.</p><div class="pol-source">Marzorati, p. 52</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="prensa" data-search="prensa iapi trueque tanino carbon petroleo crisis fabricas cierre 1948">
+            <div class="pol-entry-header"><span class="tag type-prensa">Prensa</span><span class="pol-year">1948</span></div>
+            <div class="pol-entry-body"><strong>Crisis de cierre y propuestas</strong><p>Ante la amenaza de cierre para el 1/1/1949, se proponen: IAPI compre produccion, trueque de tanino por carbon y petroleo, liberacion de gravamenes, transformacion de plantas y colonizacion de tierras.</p><div class="pol-source">El Litoral, 13&#8211;24/12/1948</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="expropiacion" data-search="expropiacion editorial litoral latifundio monopolio forestal 1949">
+            <div class="pol-entry-header"><span class="tag type-expropiacion">Expropiacion</span><span class="pol-year">1949</span></div>
+            <div class="pol-entry-body"><strong>El Litoral propone expropiacion de bienes de La Forestal</strong><p>"El problema del norte es el del latifundio y del monopolio forestal. Es la existencia de sistemas de trabajo anacrónicos (...), la suerte de miles de familias."</p><div class="pol-source">El Litoral, 8/3/1949</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="negociacion" data-search="negociacion consejo economico nacional cgt representantes patronales acuerdo obrero 1949 reincorporacion">
+            <div class="pol-entry-header"><span class="tag type-negociacion">Negociacion</span><span class="pol-year">1949</span></div>
+            <div class="pol-entry-body"><strong>Consejo Economico Nacional: acuerdo obrero-patronal</strong><p>Solucion en dos etapas: inmediata (reincorporacion de despedidos) y mediata (politica de largo alcance). Industriales aceptan suspender despidos. Estado adquiere produccion por tres meses.</p><div class="pol-source">El Litoral, 22 y 25/3/1949</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="diagnostico" data-search="diagnostico cierre 10 de 21 plantas villa guillermina tartagal baranda liquidacion 1949">
+            <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1949</span></div>
+            <div class="pol-entry-body"><strong>La Forestal anuncia cierre de 10 de 21 plantas</strong><p>Solo 11 seguiran funcionando, dos en Santa Fe (Villa Ana y La Gallareta). Villa Guillermina se clausura definitivamente. Se liquidan haciendas y rematan campos.</p><div class="pol-source">El Litoral, 3/9/1949</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="prensa" data-search="prensa economia vida propia diversificar especies forestales curtiembre cooperativa 1949">
+            <div class="pol-entry-header"><span class="tag type-prensa">Prensa</span><span class="pol-year">1949</span></div>
+            <div class="pol-entry-body"><strong>El Litoral: crear economia con vida propia</strong><p>"Ya ha llegado el momento de estructurar economicamente esa zona por cuanto la paralizacion del actual movimiento amenaza directamente la existencia hasta su aniquilamiento de un progreso ficticio."</p><div class="pol-source">El Litoral, 3/7 y 14/8/1949</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="reconversion" data-search="reconversion colonia piloto plan reiter celulosa papel 1949 caesar ingeniero vergara">
+            <div class="pol-entry-header"><span class="tag type-reconversion">Reconversion</span><span class="pol-year">1949</span></div>
+            <div class="pol-entry-body"><strong>Colonia Piloto y Plan Reiter</strong><p>Comision de tecnicos para adquirir 15.000 ha. Colonia piloto (150 ha/familia). Plan Reiter: celulosa y papel en las fabricas de tanino (60% maquinaria aprovechable). Caesar: "La Forestal destruyo todo espiritu de iniciativa."</p><div class="pol-source">El Litoral, 17 y 19/12/1949</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="expropiacion" data-search="expropiacion decreto 5659 hectareas villa guillermina colonia 17 octubre 1950">
+            <div class="pol-entry-header"><span class="tag type-expropiacion">Expropiacion</span><span class="pol-year">1950</span></div>
+            <div class="pol-entry-body"><strong>Decreto: expropiacion de 5.659 ha</strong><p>"Potreros 3 y 4" al sur de Villa Guillermina. $372.000. Subdivision en parcelas de maximo 150 ha. Colonia Agricola 17 de Octubre (77 familias).</p><div class="pol-source">El Orden, 21/7/1950</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="plan" data-search="plan racionalizacion 1950 500 mil 320 mil fabricas marginales contratos agosto stockpile corea">
+            <div class="pol-entry-header"><span class="tag type-plan">Plan</span><span class="pol-year">1950</span></div>
+            <div class="pol-entry-body"><strong>Plan de Racionalizacion (La Forestal / Gobierno)</strong><p>Reducir capacidad de 500 mil a 320 mil toneladas. 8 fabricas "marginales". Contratos 4/8/1950. Frenado por guerra de Corea (stockpile: 135 mil toneladas).</p><div class="pol-source">Marzorati, pp. 97&#8211;101</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="reconversion" data-search="reconversion memorial obrero peron ingenio azucarero villa guillermina 1952 cooperativa cgt">
+            <div class="pol-entry-header"><span class="tag type-reconversion">Reconversion</span><span class="pol-year">1952</span></div>
+            <div class="pol-entry-body"><strong>Memorial obrero a Peron: ingenio azucarero</strong><p>Comision de Fomento, SOIQ, Centro de Empleados, Partido Peronista. Proponen cooperativa sobre base de la CGT. Transformar fabrica en ingenio (1.200 ton de cana/dia). Inversion estatal de 15 millones.</p><div class="pol-source">El Litoral, 20 y 22/1/1952</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="diagnostico" data-search="diagnostico marzorati plan mimosa londres 1953 quebracho minded era mimosa separado">
+            <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1953</span></div>
+            <div class="pol-entry-body"><strong>Marzorati descubre el plan de expansion del mimosa</strong><p>En asamblea de Londres: "la era del quebracho habia terminado". Director murmura: "This fellow is entirely quebracho minded." Marzorati es separado de la empresa.</p><div class="pol-source">Marzorati, pp. 14&#8211;16</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="reconversion" data-search="reconversion cooperativas ingenios azucareros 40 millones sericicola 1953">
+            <div class="pol-entry-header"><span class="tag type-reconversion">Reconversion</span><span class="pol-year">1953</span></div>
+            <div class="pol-entry-body"><strong>Ingenios de cooperativas y Cooperativa Sericicola</strong><p>Asociacion de Cooperativas Argentinas: inversion de 40 millones para dos ingenios. Gobierno estudia cooperativa sericicola (gusanos de seda/moreras).</p><div class="pol-source">El Litoral, 29/3 y 11/8/1953</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="expropiacion" data-search="expropiacion ley provincial prohibe retiro traslado instalaciones 1954 barreiro ghioldi">
+            <div class="pol-entry-header"><span class="tag type-expropiacion">Expropiacion</span><span class="pol-year">1954</span></div>
+            <div class="pol-entry-body"><strong>Ley provincial: prohibe retiro de instalaciones</strong><p>Prohibe a La Forestal el retiro o traslado sin autorizacion del PE. Aprobada por unanimidad. Nunca publicada en boletin oficial.</p><div class="pol-source">El Litoral, 27/8 y 10/9/1954</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="negociacion" data-search="negociacion conferencia paris quebracho mimosa castano 1955 cupo 130 mil toneladas">
+            <div class="pol-entry-header"><span class="tag type-negociacion">Negociacion</span><span class="pol-year">1955</span></div>
+            <div class="pol-entry-body"><strong>Conferencia de Paris</strong><p>La Forestal reingresa a la Camara. Cupo mundial para Argentina: 130 mil toneladas. 4 delegados del quebracho, 12 de mimosa, 12 de castano.</p><div class="pol-source">Marzorati, pp. 92&#8211;117</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="prensa" data-search="prensa explotacion irracional incontrolada despoblacion abandono tierras 1956">
+            <div class="pol-entry-header"><span class="tag type-prensa">Prensa</span><span class="pol-year">1956</span></div>
+            <div class="pol-entry-body"><strong>El Litoral denuncia explotacion irracional</strong><p>"Los lugares explotados al maximo son abandonados luego, y nadie subdivide ni entrega a la explotacion agricola o ganadera las tierras desmontadas."</p><div class="pol-source">El Litoral, 7/8/1956</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="negociacion" data-search="negociacion comision especial estudio industria tanino 1956 desplazamiento deliberado mimosa">
+            <div class="pol-entry-header"><span class="tag type-negociacion">Negociacion</span><span class="pol-year">1956</span></div>
+            <div class="pol-entry-body"><strong>Comision Especial para el Estudio de la Industria del Tanino</strong><p>Diagnostico: quebracho desplazado por mimosa como "secuela de una deliberada politica". Recomendaciones: derogar Convenio de Racionalizacion, Instituto Tecnologico, Fondo de Fomento.</p><div class="pol-source">Marzorati, pp. 113&#8211;115</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="plan" data-search="plan resoluciones 1570 1571 1572 cuotas fabrica comite tanino 1957 chaleco fuerza rojas">
+            <div class="pol-entry-header"><span class="tag type-plan">Plan</span><span class="pol-year">1957</span></div>
+            <div class="pol-entry-body"><strong>Resoluciones 1570/1571/1572</strong><p>Restablece cuotas por fabrica. Crea Comite del Tanino. La Forestal resistio: "chaleco de fuerza".</p><div class="pol-source">Marzorati, pp. 121&#8211;124</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="diagnostico" data-search="diagnostico fao onu glensinger dadamo plan desarrollo economia forestal 1958">
+            <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1958</span></div>
+            <div class="pol-entry-body"><strong>FAO-ONU: Plan de Desarrollo de la Economia Forestal Argentina</strong><p>125,8 millones de toneladas de madera (150 anos de produccion). Quebracho bajo de 60% a 46% del mercado. Recomienda: investigacion, organizacion de ventas, politica flexible de precios.</p><div class="pol-source">Marzorati, pp. 178&#8211;181</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="expropiacion" data-search="expropiacion weidmann expropiacion frondizi seward no habra 1958">
+            <div class="pol-entry-header"><span class="tag type-expropiacion">Expropiacion</span><span class="pol-year">1958</span></div>
+            <div class="pol-entry-body"><strong>Proyecto Weidmann de expropiacion</strong><p>Cooperativas de productores forestales para explotar fabricas. Frondizi: "no habra expropiaciones". Seward recibido por Frondizi el 9/6.</p><div class="pol-source">Marzorati, pp. 131&#8211;134</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="negociacion" data-search="negociacion frondizi taylor seward proyecto decreto ordenamiento industria 1958 1959 glenconner">
+            <div class="pol-entry-header"><span class="tag type-negociacion">Negociacion</span><span class="pol-year">1958&#8211;59</span></div>
+            <div class="pol-entry-body"><strong>The Forestal entrevista a Frondizi</strong><p>Taylor y Seward presentan "Proyecto de decreto: Ordenamiento de la Industria". Marzorati se opone. La Prensa desmiente desde Londres: "solo implica la transferencia de las fabricas de Santa Fe al Chaco".</p><div class="pol-source">Marzorati, pp. 67&#8211;68</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="plan" data-search="plan decreto 4536 3546 cuotas empresa frondizi 1959 villa ana tres isletas cortina humo">
+            <div class="pol-entry-header"><span class="tag type-plan">Plan</span><span class="pol-year">1959</span></div>
+            <div class="pol-entry-body"><strong>Decreto 4.536 &#8212; Cuotas por empresa (no por fabrica)</strong><p>Solo beneficia a La Forestal. Permite centralizar produccion. Resolucion 357 autoriza traslado de Villa Ana. "El mito de la fabrica de Tres Isletas: una simple cortina de humo."</p><div class="pol-source">Marzorati, pp. 68, 138, 150</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="plan" data-search="plan decreto 2156 1960 eliminacion retenciones impuestos libre empresa">
+            <div class="pol-entry-header"><span class="tag type-plan">Plan</span><span class="pol-year">1960</span></div>
+            <div class="pol-entry-body"><strong>Decreto 2.156 &#8212; Eliminacion de retenciones e impuestos</strong><p>Libera del 20% de retencion de cambio y del 8% del impuesto a las ventas. Marzorati: "todas las armas que necesita la Libre Empresa".</p><div class="pol-source">Marzorati, p. 226</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="reconversion" data-search="reconversion la gallareta taller vagones cooperativa 1962 seward colonizacion">
+            <div class="pol-entry-header"><span class="tag type-reconversion">Reconversion</span><span class="pol-year">1962</span></div>
+            <div class="pol-entry-body"><strong>La Gallareta: taller de vagones y cooperativa</strong><p>La Forestal propone: 1) Convertir planta para reparacion de vagones (150 obreros); 2) Cooperativa agricola-ganadera: 617 hectareas a bajo precio.</p><div class="pol-source">El Litoral, 23/10 y 1/11/1962</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="diagnostico" data-search="diagnostico cierre la gallareta 1963 illia ultima fabrica">
+            <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1963</span></div>
+            <div class="pol-entry-body"><strong>Cierre definitivo de La Gallareta</strong><p>Ultima fabrica del norte santafesino. Dos dias antes de que asumiera Illia. "No por previsto deja de tener significado y trascendencia."</p><div class="pol-source">El Litoral, octubre 1963</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="prensa" data-search="prensa rivas cortina humo criadero gusanos seda tierra vias telefonos 1963">
+            <div class="pol-entry-header"><span class="tag type-prensa">Prensa</span><span class="pol-year">1963</span></div>
+            <div class="pol-entry-body"><strong>Rivas: "cortina de humo"</strong><p>Critica propuestas anteriores (taller de vagones, criadero de gusanos de seda) como cortina de humo. "La industria forestal que paso por los bosques nortehenos no sera otra cosa que un triste recuerdo."</p><div class="pol-source">El Litoral, 24/3/1963</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="reconversion" data-search="reconversion taller vagones la gallareta 1964 70 millones 150 obreros belgrano">
+            <div class="pol-entry-header"><span class="tag type-reconversion">Reconversion</span><span class="pol-year">1964</span></div>
+            <div class="pol-entry-body"><strong>Apertura del taller de vagones de La Gallareta</strong><p>Inversion de 70 millones de pesos. Contrato con Ferrocarril General Belgrano (250 millones). 150 obreros. 30 vagones mensuales. "El objetivo primordial no es economico sino social."</p><div class="pol-source">El Litoral, 12/3/1964</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="expropiacion" data-search="expropiacion estado provincial la gallareta saica 1973 sylvestre begnis">
+            <div class="pol-entry-header"><span class="tag type-expropiacion">Expropiacion</span><span class="pol-year">1973</span></div>
+            <div class="pol-entry-body"><strong>Estado provincial adquiere La Gallareta SAICA</strong><p>Decreto 1885/73. "Dificil situacion social y economica." Funcion del Estado: "participar activamente en la formulacion de nuevas bases" para rehabilitacion y consolidacion.</p><div class="pol-source">El Litoral, 22/11/1973</div></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="sidebar">
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Población desplazada</div>
+        <div class="sidebar-card-label">Poblacion desplazada</div>
         <div class="stat">72%</div>
-        <div class="stat-label">Obreros industriales perdidos en depto. 9 de Julio en 8 años</div>
+        <div class="stat-label">Obreros industriales perdidos en depto. 9 de Julio en 8 anos</div>
         <div style="margin-top:1rem;">
           <div class="stat" style="font-size:1.6rem; color:var(--amber);">~50%</div>
           <div class="stat-label">Fuerza laboral perdida en depto. Gral. Obligado</div>
@@ -557,25 +1033,126 @@
       </div>
 
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Actores en la reconversión</div>
-        <p><strong>Comunas locales</strong> — Primeros gobiernos autónomos tras décadas de paternalismo</p>
-        <p style="margin-top:0.3rem;"><strong>FATITA</strong> — Federación obrera taninera, hereda conquistas del comunismo</p>
-        <p style="margin-top:0.3rem;"><strong>Estado planificador</strong> — Comisiones Paritarias, CNTR, Plan de Racionalización</p>
-        <p style="margin-top:0.3rem;"><strong>P. Rafael Yacuzzi</strong> — Curas tercermundistas, cooperativismo</p>
-        <p style="margin-top:0.3rem;"><strong>Cooperativas</strong> — Sericícola (1953), Colonia 17 de Octubre (1950)</p>
+        <div class="sidebar-card-label">Actores en la reconversion</div>
+        <p><strong>Comunas locales</strong> &#8212; Primeros gobiernos autonomos</p>
+        <p style="margin-top:0.3rem;"><strong>FATITA</strong> &#8212; Federacion obrera taninera</p>
+        <p style="margin-top:0.3rem;"><strong>Estado planificador</strong> &#8212; Comisiones Paritarias, CNTR</p>
+        <p style="margin-top:0.3rem;"><strong>P. Rafael Yacuzzi</strong> &#8212; Curas tercermundistas</p>
+        <p style="margin-top:0.3rem;"><strong>Cooperativas</strong> &#8212; Sericicola, Colonia 17 de Octubre</p>
       </div>
 
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Espejo Tucumán</div>
-        <p><strong>1966–68:</strong> Onganía cierra 11 de 27 ingenios por decreto</p>
-        <p style="margin-top:0.3rem;"><strong>Diferencia:</strong> En Tucumán, el Estado fue agente del cierre. En Santa Fe, fue agente fallido de la prevención.</p>
-        <p style="margin-top:0.4rem; font-style:italic;">¿Qué es peor: un Estado que cierra las fábricas o un Estado que no puede impedir que la empresa las cierre?</p>
+        <div class="sidebar-card-label">Espejo Tucuman</div>
+        <p><strong>1966&#8211;68:</strong> Ongania cierra 11 de 27 ingenios por decreto</p>
+        <p style="margin-top:0.3rem;"><strong>Diferencia:</strong> En Tucuman, el Estado fue agente del cierre. En Santa Fe, agente fallido de la prevencion.</p>
       </div>
 
       <div class="sidebar-card">
         <div class="sidebar-card-label">Lecturas</div>
-        <p>Sánchez, L. & Sánchez, G. (2019). Cierre de fábricas de tanino y éxodo. En Brac (Comp.), <em>Pueblos forestales del norte santafesino</em>. CFI.</p>
-        <p style="margin-top:0.3rem;">Gori, G. (1991). <em>La Forestal, la tragedia del quebracho colorado</em> (ed. orig. 1965).</p>
+        <p>Sanchez, L. &amp; Sanchez, G. (2019). Cierre de fabricas y exodo. En Brac, <em>Pueblos forestales</em>. CFI.</p>
+        <p style="margin-top:0.3rem;">Gori, G. (1991). <em>La Forestal, la tragedia del quebracho colorado</em>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D — ÉXODOS SOCIALES ============ -->
+<section class="section fade-in" id="sD">
+  <div class="section-label">Eje D</div>
+  <h2 class="section-num">D. Exodos sociales: no desocupacion, despoblamiento</h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>El éxodo como categoría</h3>
+      <p>
+        Los cierres de fábrica de La Forestal no produjeron desocupación: produjeron despoblamiento. Esta distinción no es semántica sino estructural. La desocupación es una condición del mercado laboral: hay menos puestos que trabajadores. El despoblamiento es una condición del territorio: se va la empresa y se va el pueblo. En el norte santafesino, la economía del tanino no era un sector más de la economía regional: <em>era</em> la economía regional. Su colapso arrastró todo: obrajes, aserraderos, comercios, ferroviarios, servicios, escuelas. Cuando La Forestal cerraba una fábrica, no despedía obreros: desalojaba familias de sus casas, clausuraba la proveeduría, retiraba el médico, suspendía el tren de carga. El pueblo dejaba de funcionar como unidad habitable.
+      </p>
+      <p>
+        Gori lo describió como «la tragedia del quebracho colorado»: una empresa que había construido pueblos enteros —calles, plazas, escuelas, hospitales— los desmantelaba pieza por pieza al irse. Walsh lo vio en 1968 y lo llamó «las ciudades fantasmas»: donde ayer hubo pueblos activos, hoy hay silencio; donde ayer hubo chimeneas humeantes, hoy hay estructuras oxidadas. Pero los pueblos no murieron: se transformaron.
+      </p>
+
+      <h3>Las cifras del despoblamiento</h3>
+      <p>
+        El departamento 9 de Julio perdió más del 72% de sus obreros industriales en apenas ocho años. El departamento General Obligado perdió casi la mitad de su fuerza laboral. La población de Villa Guillermina —20.000 habitantes en su apogeo— se redujo a una fracción. Villa Ana, La Gallareta, Tartagal: cada cierre repetía el patrón. La población que no migraba a Reconquista, Santa Fe o Rosario se quedaba en pueblos sin economía, sin servicios y sin futuro aparente.
+      </p>
+
+      <h3>Abandono y soledad</h3>
+      <p>
+        La prensa de 1969 retrató Guillermina como «aislada y envuelta en la soledad, recordando tiempos de afanoso movimiento». En otras épocas tuvo hasta 20.000 habitantes; ahora apenas 5.000. <em>El Litoral</em> publicó un retrato que merece citarse extenso: «La Forestal ciertamente había establecido un vasto feudo, donde las leyes laborales argentinas encontraban obstáculos en su aplicación y en el que la explotación desmedida se efectuó sin pensar en el futuro, de tal manera que al cabo de 50 años, la tierra talada de árboles y sin reponerlos quedó convertida en un desierto sobre cuya superficie sólo se notaban como restos, raigones y troncos mutilados». La fábrica se había levantado en 1949; veinte años después, ya no quedaba nada.
+      </p>
+      <p>
+        No es extraño que haya quienes añoren los tiempos de La Forestal. Sólo quedaban como medio de ganarse un jornal los talleres de reparación de vagones del Ferrocarril Belgrano, en una línea que venía de Tartagal y que apenas de tanto en tanto comunicaba a la población. El camino era fundamental: Guillermina estaba a 100 km de Reconquista, y la ruta era de tierra con desmejoras por lluvia. «El viaje da una visión de la odisea», escribió <em>El Litoral</em>. Muchas veces la población quedó incomunicada en épocas lluviosas. Faltaban pavimentar apenas 22 km para conectarla con la ruta 168.
+      </p>
+      <p>
+        El hospital funcionaba con pocas camas y un solo médico, pobre en instrumentales y sin sala de maternidad. Los enfermos de gravedad tenían que ser llevados a la cabecera departamental o a Villa Ocampo. En ocasiones, los enfermos fueron trasladados en tractores. A pocos pasos de la ruta 168 aparecían estos poblados aislados: sin energía, sin dispensarios, sin comunicaciones. Lo mismo que la ruta 11. «Los llamaríamos un drama de soledad y miseria en la segunda provincia argentina» (<em>El Litoral</em>, 28 de febrero de 1969).
+      </p>
+
+      <h3>El Ocampazo (1969): la primera pueblada</h3>
+      <p>
+        En abril de 1969, la amenaza de cierre de los talleres de vagones de La Gallareta y Villa Guillermina detonó la primera pueblada del norte santafesino. El 5 de abril, la prensa informó que los talleres no se cerrarían: la decisión estaba en manos de Onganía y se conocería el lunes 7. «Los talleres de reparación de vagones de La Gallareta y Villa Guillermina no serán desmantelados y continuarán sus actividades hasta tanto se resuelva la necesaria transformación industrial de los mismos», dijo una fuente de Presidencia. La fecha límite puesta por los Ferrocarriles Belgrano era el 30 de abril.
+      </p>
+      <p>
+        El sábado 19 de abril, los trabajadores ocuparon el establecimiento. El presidente de la Comisión Pro Mantenimiento de la Fuente de Trabajo de Villa Guillermina, Edgardo Mujica, confirmó a la prensa que la ocupación fue provocada por la gestión de la comisión de la EFA en dicha población, tendiente al retiro de materiales por parte del ferrocarril. Al frente de la EFA estaba el teniente coronel retirado Antonio Barroso, que hizo comparecer en la comisaría a todos los dirigentes sindicales, levantándose un acta en que dejó constancia de que la gestión fue impedida por los trabajadores. Se instalaron ollas populares, con carteles que pedían que se preservara la fuente de trabajo y que no hubiera incidentes (<em>El Litoral</em>, 20 de abril de 1969).
+      </p>
+      <p>
+        Al día siguiente, los obreros decidieron por la noche desalojar por propia voluntad los talleres. La planta y otros accesos quedaron a cargo de efectivos de la policía y de la guardia rural. Se produjo en la población un impasse. Se aguardaban las gestiones del gobernador, contraalmirante Eladio M. Vázquez (<em>El Litoral</em>, 21 de abril). Quedaban 8 días para el cierre definitivo: los Ferrocarriles no renovarían el convenio de coste y costa. La empresa hacía inventarios y retiraba parte de los materiales.
+      </p>
+      <p>
+        A las 19:30 se reunieron el gobernador y Onganía. Las tratativas llevaban más de un año. El gobernador esgrimió los considerandos de la ley de expropiación del ingenio Arno de Villa Ocampo: «el gobierno nacional no puede permanecer indiferente ante las hondas repercusiones sociales que traería aparejada tal situación». Onganía había manifestado en un discurso su preocupación por los sectores subdesarrollados, entre ellos el norte santafesino.
+      </p>
+      <p>
+        El Movimiento Familiar Cristiano repudió el posible cierre: «No creemos —expresa— atendiendo a los valores en juego, que sea válido lo que pueda ser aconsejable desde el punto de vista técnico y financiero. No creemos que pueda ser válido cerrar una fábrica antieconómica si tras ella cerramos la posibilidad y el derecho de trabajo y de subsistencia a cientos de familias. (…) No podrá haber paz social mientras haya familias desesperadas por subsistir, y su clamor y reacción no podrán seguramente ser ahogados por ningún tipo de represión» (<em>El Litoral</em>, 22 de abril de 1969). La Iglesia, que había sido pieza del paternalismo forestal, se posicionó ahora del lado de los pobladores.
+      </p>
+      <p>
+        Páginas adentro, el diario informaba que las autoridades del Ferrocarril Belgrano anunciaron el cierre del ramal Intiyaco–Villa Guillermina. Esa línea de 90 km servía a las fábricas y ya no la necesitarían. El cierre del ramal se haría el 16 de mayo por deficitario (<em>El Litoral</em>, 23 de abril). Pero el 25 de abril, el interventor Vázquez anunció la solución: los talleres continuarían con sus actividades «por todo el tiempo que sea necesario para dar un corte definitivo a la cuestión». FFCC Argentinos se pondría en contacto con los empresarios para proponer nuevos contratos. Además, una firma de Granadero Baigorria propuso instalar unas 80 máquinas para confección de ropa de trabajo con venta en el mercado local (<em>El Litoral</em>, 25 de abril de 1969).
+      </p>
+
+      <h3>Las mujeres tejedoras de Fortín Olmos</h3>
+      <p>
+        En Fortín Olmos, donde La Forestal cerró la fábrica en 1963, un grupo de mujeres organizó un taller de tejido que funcionó entre 1963 y 1975. El Padre Rafael Yacuzzi, cura tercermundista, impulsó la experiencia cooperativa como alternativa de supervivencia. Las tejedoras no solo produjeron ropa: construyeron una red de solidaridad que permitió al pueblo sobrevivir cuando la empresa se llevó todo. Rinaldi (2021) reconstruyó esta historia: las mujeres que La Forestal había mantenido en roles subordinados se convirtieron, con el cierre, en las sostenedoras de la economía doméstica y comunitaria.
+      </p>
+
+      <blockquote class="pull">
+        <p>Siempre cuando se trata de La Forestal, hay una voluntad extraña que trabaja sigilosamente, y entre las sombras, no estuvo estado público, ni se publicó en el boletín oficial, logrando evadirla con autorizaciones comunales.</p>
+        <cite>Anacarsis Acevedo, Investigación a La Forestal, 1983</cite>
+      </blockquote>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Despoblamiento</div>
+        <div class="stat">72%</div>
+        <div class="stat-label">De los obreros industriales perdidos en depto. 9 de Julio</div>
+        <p style="margin-top:0.5rem;">Villa Guillermina: de 20.000 a una fracción</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Secuencia del exodo</div>
+        <p><strong>1949:</strong> Villa Guillermina cierra</p>
+        <p style="margin-top:0.25rem;"><strong>1950-51:</strong> Tartagal y Col. Baranda</p>
+        <p style="margin-top:0.25rem;"><strong>1955:</strong> Villa Ana</p>
+        <p style="margin-top:0.25rem;"><strong>1963:</strong> La Gallareta (ultima)</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Ocampazo: abril 1969</div>
+        <p><strong>5/4:</strong> Presidencia: "no se desmantelaran"</p>
+        <p style="margin-top:0.25rem;"><strong>19/4:</strong> Obreros ocupan talleres. Ollas populares</p>
+        <p style="margin-top:0.25rem;"><strong>20/4:</strong> Desalojo voluntario. Policia y guardia rural</p>
+        <p style="margin-top:0.25rem;"><strong>22/4:</strong> MFC repudia cierre</p>
+        <p style="margin-top:0.25rem;"><strong>23/4:</strong> Cierre ramal Intiyaco-Guillermina (90 km)</p>
+        <p style="margin-top:0.25rem;"><strong>25/4:</strong> Solucion: nuevos contratos FFCC</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Resistencia</div>
+        <p><strong>Ocampazo (1969)</strong> — Primera pueblada del norte santafesino</p>
+        <p style="margin-top:0.3rem;"><strong>Mujeres tejedoras</strong> — Taller cooperativo de Fortín Olmos (1963-1975)</p>
+        <p style="margin-top:0.3rem;"><strong>Padre Yacuzzi</strong> — Curas tercermundistas, cooperativismo</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Lecturas</div>
+        <p>Gori, G. (1991). <em>La Forestal, la tragedia del quebracho colorado</em> (ed. orig. 1965).</p>
+        <p style="margin-top:0.3rem;">Walsh, R. (2007). Las ciudades fantasmas. En <em>El violento oficio de escribir</em>.</p>
+        <p style="margin-top:0.3rem;">Rinaldi, V. (2021). <em>Tejiendo historias. El colectivo de mujeres tejedoras de Fortín Olmos (1963–1975)</em>.</p>
+        <p style="margin-top:0.3rem;">Sánchez, L. (2025). <em>Rafael Yacuzzi. Un sacerdote por la liberación</em>. Añamembuí.</p>
       </div>
     </div>
   </div>
@@ -583,77 +1160,86 @@
 
 <!-- ============ APERTURA ============ -->
 <section class="section fade-in" id="apertura">
-  <div class="section-label">Apertura</div>
-  <h2 class="section-num">El cambio de eje: de la industria a la tierra</h2>
+  <div class="section-label">Eje E</div>
+  <h2 class="section-num">E. El cambio de eje: de la industria a la tierra</h2>
 
   <div class="split">
     <div class="split-main">
-      <h3>La reconfiguración del territorio</h3>
+      <h3>La reconfiguracion del territorio</h3>
       <p>
-        La reconstrucción del escenario que hemos hecho —la política forestal como factor de la decisión empresarial, la estrategia imperialista que permitió la salida sin consecuencias, las disputas por la reconversión productiva— nos abre las puertas a otra discusión, que implica un cambio de eje importante. El territorio que La Forestal abandona ya no es el territorio industrial de los obrajes y las fábricas de tanino. Es un territorio despoblado, con bosques diezmados y pueblos fantasmales, donde la actividad económica que emerge está mucho más relacionada con la tierra y la producción agropecuaria que con la industria.
+        La reconstruccion del escenario que hemos hecho &mdash;la politica forestal como factor de la decision empresarial, la estrategia imperialista que permitio la salida sin consecuencias, las disputas por la reconversion productiva&mdash; nos abre las puertas a otra discusion. El territorio que La Forestal abandona ya no es el territorio industrial de los obrajes y las fabricas de tanino. Es un territorio despoblado, con bosques diezmados y pueblos fantasmales, donde la actividad economica que emerge esta mucho mas relacionada con la tierra y la produccion agropecuaria que con la industria.
       </p>
       <p>
-        Este cambio de eje implica la emergencia de nuevos sujetos: ya no son los obreros tanineros y los hacheros los protagonistas centrales de la historia del territorio, sino los colonos, los productores rurales, los campesinos. Y con ellos, aparecen nuevas formas de conflicto: la disputa por la tierra, las Ligas Agrarias, la represión a los movimientos rurales. La transición no es lineal ni completa: los obreros tanineros no desaparecen, pero dejan de ser el sujeto hegemónico de la historia del territorio.
+        Este cambio de eje implica la emergencia de nuevos sujetos: ya no son los obreros tanineros y los hacheros los protagonistas centrales, sino los colonos, los productores rurales, los campesinos. Y con ellos, aparecen nuevas formas de conflicto: la disputa por la tierra, las Ligas Agrarias, la represion a los movimientos rurales.
       </p>
       <p>
-        Este es el territorio que encontrará la dictadura de Onganía: un norte santafesino que ya no es el imperio del quebracho sino un espacio en reconfiguración, donde la crisis de la industria forestal ha abierto una brecha que los nuevos actores —las Ligas Agrarias, los curas tercermundistas, las cooperativas— intentan llenar con proyectos alternativos. Y donde la represión encontrará un territorio socialmente debilitado pero políticamente recombinado.
+        Este es el territorio que encontrara la dictadura de Ongania: un norte santafesino que ya no es el imperio del quebracho sino un espacio en reconfiguracion, donde la crisis de la industria forestal ha abierto una brecha que los nuevos actores &mdash;las Ligas Agrarias, los curas tercermundistas, las cooperativas&mdash; intentan llenar con proyectos alternativos. Y donde la represion encontrara un territorio socialmente debilitado pero politicamente recombinado.
       </p>
 
       <blockquote class="pull">
-        <p>Los hacheros del quebracho no esperaban que les devolvieran el monte. Esperaban que les devolvieran la dignidad que La Forestal les había quitado.</p>
-        <cite>Cristianismo y Revolución, julio de 1968</cite>
+        <p>Los hacheros del quebracho no esperaban que les devolvieran el monte. Esperaban que les devolvieran la dignidad que La Forestal les habia quitado.</p>
+        <cite>Cristianismo y Revolucion, julio de 1968</cite>
       </blockquote>
     </div>
 
     <div class="sidebar">
       <div class="sidebar-card">
         <div class="sidebar-card-label">Cambio de eje</div>
-        <p><strong>De:</strong> industria taninera · obreros · fábricas · sindicatos</p>
-        <p style="margin-top:0.4rem;"><strong>A:</strong> tierra · producción agropecuaria · colonos · Ligas Agrarias</p>
+        <p><strong>De:</strong> industria taninera &#183; obreros &#183; fabricas &#183; sindicatos</p>
+        <p style="margin-top:0.4rem;"><strong>A:</strong> tierra &#183; produccion agropecuaria &#183; colonos &#183; Ligas Agrarias</p>
       </div>
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Próximo encuentro</div>
-        <p><strong>Encuentro 7:</strong> Las Ligas Agrarias del Norte Santafesino y la represión dictatorial (1970–1983)</p>
+        <div class="sidebar-card-label">Proximo encuentro</div>
+        <p><strong>Encuentro 7:</strong> Las Ligas Agrarias del Norte Santafesino y la represion dictatorial (1970&#8211;1983)</p>
         <p style="margin-top:0.3rem;">De las luchas obreras a las luchas anti-latifundistas, de los obrajes a los campos.</p>
       </div>
       <div class="sidebar-card">
-        <div class="sidebar-card-label">Lecturas para el próximo</div>
-        <p>Adobato, A. (2011). <em>Historias que ligaron. Aproximación histórica a las Ligas Agrarias del Norte Santafesino</em>. Fondo Editorial Municipalidad de Reconquista.</p>
-        <p style="margin-top:0.3rem;">Archetti, E. (1988). <em>Ideología y organización de las Ligas Agrarias del Norte de Santa Fe. 1971-1976</em>. CEDES.</p>
-        <p style="margin-top:0.3rem;">Borsatti, R. (2017). <em>El control. Espionaje político y resistencia popular en el norte santafesino</em>.</p>
+        <div class="sidebar-card-label">Lecturas para el proximo</div>
+        <p>Adobato, A. (2011). <em>Historias que ligaron</em>. Fondo Editorial Municipalidad de Reconquista.</p>
+        <p style="margin-top:0.3rem;">Archetti, E. (1988). <em>Ideologia y organizacion de las Ligas Agrarias</em>. CEDES.</p>
+        <p style="margin-top:0.3rem;">Borsatti, R. (2017). <em>El control. Espionaje politico y resistencia popular en el norte santafesino</em>.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ BIBLIOGRAFÍA ============ -->
+<!-- ============ BIBLIOGRAFIA ============ -->
 <section class="section fade-in" id="biblio">
-  <div class="section-label">Bibliografía</div>
-  <h2 class="section-num" style="margin-bottom:2rem;">Lecturas y fuentes<em></em></h2>
+  <div class="section-label">Bibliografia</div>
+  <h2 class="section-num" style="margin-bottom:2rem;">Lecturas y fuentes</h2>
 
   <div class="split">
     <div class="split-main">
-      <h3>Eje A — Política forestal</h3>
+      <h3>Eje A &#8212; Politica forestal</h3>
       <ul class="biblio">
-        <li>Ross, C. (2017). <em>Ecology and Power in the Age of Empire: Europe and the Transformation of the Tropical World</em>. Oxford University Press.</li>
-        <li>Zarrilli, A. (2018). El bosque perdido. Una historia ambiental del Norte santafesino (1890–2010). En Brac (Comp.), <em>El norte forestal</em>. CFI.</li>
-        <li>Valentini, J. A. (1960). La reforestación con quebracho colorado. <em>Bonplandia</em>, 1(1), 51-69.</li>
+        <li>Ross, C. (2017). <em>Ecology and Power in the Age of Empire</em>. Oxford University Press.</li>
+        <li>Zarrilli, A. (2018). El bosque perdido. Una historia ambiental del Norte santafesino (1890&#8211;2010). En Brac (Comp.), <em>El norte forestal</em>. CFI.</li>
+        <li>Valentini, J. A. (1960). La reforestacion con quebracho colorado. <em>Bonplandia</em>, 1(1), 51-69.</li>
       </ul>
 
-      <h3 style="margin-top:2rem;">Eje B — Capital imperialista</h3>
+      <h3 style="margin-top:2rem;">Eje B &#8212; Capital imperialista</h3>
       <ul class="biblio">
-        <li>Silver, B. J. (2003/2005). <em>Fuerzas de trabajo. Los movimientos obreros y la globalización desde 1870</em>. Akal.</li>
-        <li>Nash, J. (1979). <em>We Eat the Mines and the Mines Eat Us: Dependency and Exploitation in Bolivian Tin Mines</em>. Columbia University Press.</li>
-        <li>Sierra Álvarez, J. Capital y colonización forestal en África.</li>
-        <li>Cowen, M. (1990). Capital, nation and commodities: the case of Forestal Land, Timber and Railway Company in Argentina and Africa, 1900–1945. En <em>Capitalism in a mature economy</em>. Edward Elgar.</li>
+        <li>Silver, B. J. (2003/2005). <em>Fuerzas de trabajo. Los movimientos obreros y la globalizacion desde 1870</em>. Akal.</li>
+        <li>Nash, J. (1979). <em>We Eat the Mines and the Mines Eat Us</em>. Columbia University Press.</li>
+        <li>Sierra Alvarez, J. Capital y colonizacion forestal en Africa.</li>
+        <li>Cowen, M. (1990). Capital, nation and commodities: the case of Forestal Land, Timber and Railway Company in Argentina and Africa, 1900&#8211;1945. En <em>Capitalism in a mature economy</em>. Edward Elgar.</li>
       </ul>
 
-      <h3 style="margin-top:2rem;">Eje C — Reconversión productiva</h3>
+      <h3 style="margin-top:2rem;">Eje C &#8212; Luchas por la reconversion</h3>
       <ul class="biblio">
         <li>Gori, G. (1991). <em>La Forestal, la tragedia del quebracho colorado</em> (ed. orig. 1965). Distribuidora Litar.</li>
-        <li>Sánchez, L. & Sánchez, G. (2019). Cierre de fábricas de tanino y éxodo. En Brac (Comp.), <em>Pueblos forestales del norte santafesino</em>. CFI, pp. 132-144.</li>
-        <li>Acevedo, A. (1983). <em>Investigación a La Forestal</em>. Centro Editor de América Latina.</li>
-        <li>Marzorati, R. (1960). <em>La industria del extracto de quebracho en la Argentina</em>. Impacto Gráfico (selección).</li>
+        <li>Sanchez, L. &amp; Sanchez, G. (2019). Cierre de fabricas de tanino y exodo. En Brac (Comp.), <em>Pueblos forestales del norte santafesino</em>. CFI, pp. 132-144.</li>
+        <li>Acevedo, A. (1983). <em>Investigacion a La Forestal</em>. Centro Editor de America Latina.</li>
+        <li>Marzorati, R. (1960). <em>La industria del extracto de quebracho en la Argentina</em>. Impacto Grafico (seleccion).</li>
+        <li>Jasinski, I. (en prensa). <em>La Forestal y el peronismo</em>, Tercer tomo, Quinta Parte: "El mito de la fabrica y las misiones de George P. Taylor".</li>
+      </ul>
+
+      <h3 style="margin-top:2rem;">Eje D &#8212; Exodos sociales</h3>
+      <ul class="biblio">
+        <li>Rinaldi, V. (2021). <em>Tejiendo historias. El colectivo de mujeres tejedoras de Fortin Olmos (1963&#8211;1975)</em>. Tesis UBA.</li>
+        <li>Sanchez, L. (2025). <em>Rafael Yacuzzi. Un sacerdote por la liberacion</em>. Anamembui.</li>
+        <li>Jasinski, I. (en prensa). <em>La Forestal y el peronismo</em>, Tercer tomo, Cap. 18: "Abandono y soledad"; "La ocupacion de la fabrica".</li>
+        <li><em>El Litoral</em>, ediciones febrero&#8211;abril 1969 (Guillermina, Ocampazo, Movimiento Familiar Cristiano).</li>
       </ul>
     </div>
 
@@ -663,15 +1249,15 @@
         <p>La Forestal S.A. (1967). <em>La Forestal, al servicio de la grandeza argentina</em>.</p>
         <p style="margin-top:0.3rem;">Vargas, J. B. (1977). <em>Sudor y sangre de quebracho</em>.</p>
         <p style="margin-top:0.3rem;">Walsh, R. (2007). Las ciudades fantasmas. En <em>El violento oficio de escribir</em>. Ediciones de La Flor.</p>
-        <p style="margin-top:0.3rem;">Soriano, O. (1974). Los esclavos del quebracho. <em>La Opinión</em>, 19 de mayo.</p>
-        <p style="margin-top:0.3rem;"><em>Cristianismo y Revolución</em>, julio de 1968: "Los hacheros".</p>
+        <p style="margin-top:0.3rem;">Soriano, O. (1974). Los esclavos del quebracho. <em>La Opinion</em>, 19 de mayo.</p>
+        <p style="margin-top:0.3rem;"><em>Cristianismo y Revolucion</em>, julio de 1968: "Los hacheros".</p>
       </div>
       <div class="sidebar-card">
         <div class="sidebar-card-label">Complementaria</div>
-        <p>Romero, L. A. (1976). El ciclo del tanino en Argentina. <em>Revista Paraguaya de Sociología</em>.</p>
-        <p style="margin-top:0.3rem;">Gómez Lende, S. (2020). Extractivismo y acumulación por despojo. <em>Geografia em Questão</em>, 13(1).</p>
-        <p style="margin-top:0.3rem;">Rinaldi, V. (2021). <em>Tejiendo historias. El colectivo de mujeres tejedoras de Fortín Olmos (1963–1975)</em>. Tesis UBA.</p>
-        <p style="margin-top:0.3rem;">Sánchez, L. (2025). <em>Rafael Yacuzzi. Un sacerdote por la liberación</em>. Añamembuí.</p>
+        <p>Romero, L. A. (1976). El ciclo del tanino en Argentina. <em>Revista Paraguaya de Sociologia</em>.</p>
+        <p style="margin-top:0.3rem;">Gomez Lende, S. (2020). Extractivismo y acumulacion por despojo. <em>Geografia em Questao</em>, 13(1).</p>
+        <p style="margin-top:0.3rem;">Rinaldi, V. (2021). <em>Tejiendo historias</em>. Tesis UBA.</p>
+        <p style="margin-top:0.3rem;">Sanchez, L. (2025). <em>Rafael Yacuzzi. Un sacerdote por la liberacion</em>. Anamembui.</p>
       </div>
     </div>
   </div>
@@ -681,16 +1267,17 @@
 <footer class="footer">
   <div>
     <strong style="color:var(--text-dim); font-size:0.8rem;">Seminario Permanente de Historia del Norte de Santa Fe (1870-1983)</strong><br>
-    Investigación, Conceptos, Archivos y Memorias<br>
-    1ra edición · 2026
+    Investigacion, Conceptos, Archivos y Memorias<br>
+    1ra edicion &#183; 2026
   </div>
   <div style="text-align:right;">
-    Coordinación: A. Jasinski · L. Sánchez · C. Di Croce · G. Sánchez · J. Ríos Solís<br>
-    <a href="#hero">Volver al inicio ↑</a>
+    Coordinacion: A. Jasinski &#183; L. Sanchez &#183; C. Di Croce &#183; G. Sanchez &#183; J. Rios Solis<br>
+    <a href="#hero">Volver al inicio &#8593;</a>
   </div>
 </footer>
 
 <script>
+  // Progress bar
   const progress = document.getElementById('progress');
   function updateProgress() {
     const h = document.documentElement;
@@ -699,6 +1286,7 @@
   }
   window.addEventListener('scroll', updateProgress, { passive: true });
 
+  // Active nav tracking
   const sections = document.querySelectorAll('.section[id]');
   const tocLinks = document.querySelectorAll('.toc-float a');
   const navLinks = document.querySelectorAll('.nav-links a');
@@ -714,24 +1302,83 @@
   }
   window.addEventListener('scroll', updateActive, { passive: true });
 
+  // Fade-in observer
   const fadeEls = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.1 });
   fadeEls.forEach(el => observer.observe(el));
 
+  // Theme toggle
   function toggleTheme() {
     const root = document.documentElement;
     const current = root.getAttribute('data-theme');
     const btn = document.getElementById('themeBtn');
-    if (current === 'dark') { root.removeAttribute('data-theme'); btn.textContent = '☀'; }
-    else if (current === 'light') { root.setAttribute('data-theme', 'dark'); btn.textContent = '☾'; }
+    if (current === 'dark') { root.removeAttribute('data-theme'); btn.innerHTML = '&#9728;'; }
+    else if (current === 'light') { root.setAttribute('data-theme', 'dark'); btn.innerHTML = '&#9790;'; }
     else {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) { root.setAttribute('data-theme', 'light'); btn.textContent = '☀'; }
-      else { root.setAttribute('data-theme', 'dark'); btn.textContent = '☾'; }
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) { root.setAttribute('data-theme', 'light'); btn.innerHTML = '&#9728;'; }
+      else { root.setAttribute('data-theme', 'dark'); btn.innerHTML = '&#9790;'; }
     }
   }
-  if (window.matchMedia('(prefers-color-scheme: light)').matches) { document.getElementById('themeBtn').textContent = '☾'; }
+  if (window.matchMedia('(prefers-color-scheme: light)').matches) { document.getElementById('themeBtn').innerHTML = '&#9790;'; }
+
+  // Tab system
+  function setupTabs(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const btns = container.querySelectorAll('.tab-btn');
+    const parent = container.parentElement;
+    const panels = parent.querySelectorAll('.tab-panel');
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = document.getElementById(btn.dataset.tab);
+        if (target) target.classList.add('active');
+      });
+    });
+  }
+  setupTabs('sATabs');
+  setupTabs('sCTabs');
+
+  // Policy timeline filter/search
+  function setupPolFilter(timelineId) {
+    const container = document.getElementById(timelineId);
+    if (!container) return;
+    const entries = container.querySelectorAll('.pol-entry');
+    const btns = container.querySelectorAll('.pol-btn');
+    const search = container.querySelector('.pol-search');
+    const count = container.querySelector('.pol-count');
+    let activeType = 'all';
+
+    function update() {
+      let visible = 0;
+      const q = search ? search.value.toLowerCase().trim() : '';
+      entries.forEach(entry => {
+        const matchType = activeType === 'all' || entry.dataset.type === activeType;
+        const matchSearch = !q || (entry.dataset.search && entry.dataset.search.toLowerCase().includes(q));
+        entry.style.display = matchType && matchSearch ? '' : 'none';
+        if (matchType && matchSearch) visible++;
+      });
+      if (count) count.textContent = visible + ' / ' + entries.length;
+    }
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeType = btn.dataset.type;
+        update();
+      });
+    });
+
+    if (search) search.addEventListener('input', update);
+    update();
+  }
+  setupPolFilter('polTimeline');
+  setupPolFilter('sCPolTimeline');
 </script>
 
 </body>
