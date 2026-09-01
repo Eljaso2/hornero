@@ -565,109 +565,128 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
     async def event_generator():
         """SSE event generator with heartbeat to keep Render proxy alive.
 
-        Render.com kills idle connections after ~30s. The LLM can take 30-60s
-        to produce the first token (especially Historiadora with 20 RAG chunks).
-        We send SSE keepalive comments every 15s to prevent the proxy kill.
-
-        Uses asyncio.Queue to merge heartbeat + LLM stream into one generator.
-        SSE comment lines (starting with ':') are ignored by all clients per spec.
+        Render.com kills idle connections after ~30s. We yield ': connected'
+        immediately (sends CORS headers), then ': keepalive' every 15s
+        while waiting for the LLM. SSE comments (lines with ':') are
+        ignored by all conforming SSE parsers per spec.
         """
         import asyncio as _asyn
-        HEARTBEAT_INTERVAL = 15  # seconds — well under Render's ~30s kill window
-        queue = _asyn.Queue()
-        heartbeat_active = True
 
-        # Yield immediately so FastAPI sends response headers + CORS before any LLM call.
-        # If the LLM crashes, the SSE connection is already established — error event
-        # reaches the client instead of a connection-drop NetworkError.
+        # 1. Yield immediately — forces FastAPI to send response headers + CORS.
+        #    If the LLM crashes, the SSE connection is already established,
+        #    so the client gets an error event instead of a NetworkError.
         yield ": connected\n\n"
 
-        async def heartbeat_sender():
-            """Periodically enqueue heartbeat events to keep the connection alive."""
+        # 2. Start a heartbeat task that puts keepalive events on the queue
+        HEARTBEAT_INTERVAL = 15
+        heartbeat_active = True
+        hb_queue = _asyn.Queue()
+
+        async def heartbeat():
             while heartbeat_active:
                 await _asyn.sleep(HEARTBEAT_INTERVAL)
                 if heartbeat_active:
-                    await queue.put(("heartbeat", None))
+                    await hb_queue.put(True)
 
-        async def llm_sender():
-            """Run the LLM call and enqueue token/done/error events."""
-            nonlocal heartbeat_active
-            try:
-                if LLM_PROVIDER == "deepseek":
-                    async for chunk in call_deepseek_stream(
-                        api_key=DEEPSEEK_API_KEY,
+        hb_task = _asyn.create_task(heartbeat())
+
+        try:
+            # 3. Run LLM call — yield tokens as they arrive, or heartbeats while waiting
+            if LLM_PROVIDER == "deepseek":
+                async for chunk in call_deepseek_stream(
+                    api_key=DEEPSEEK_API_KEY,
+                    system_prompt=system_prompt,
+                    user_message=full_message,
+                    history=req.history,
+                    model=DEEPSEEK_MODEL,
+                    base_url=DEEPSEEK_BASE_URL,
+                ):
+                    if chunk["type"] == "token":
+                        # Drain any queued heartbeats first
+                        while not hb_queue.empty():
+                            yield ": keepalive\n\n"
+                        content = chunk["content"].replace("\n", "\\n")
+                        yield f"event: token\ndata: {content}\n\n"
+                    elif chunk["type"] == "done":
+                        while not hb_queue.empty():
+                            yield ": keepalive\n\n"
+                        full_text = chunk["full_text"]
+                        parsed = parse_llm_response(full_text)
+                        now = datetime.now()
+                        time_str = now.strftime("%H:%M")
+                        llm_persona = parsed.get("persona", "")
+                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                        result = {
+                            "text": parsed.get("text", ""),
+                            "sections": parsed.get("sections", []),
+                            "tags": parsed.get("tags", [req.formato]),
+                            "time": time_str,
+                            "persona": final_persona,
+                            "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                            "image": parsed.get("image", ""),
+                            "source_url": parsed.get("source_url", ""),
+                        }
+                        yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+
+            elif LLM_PROVIDER == "claude":
+                # Try streaming first, fallback to non-streaming
+                try:
+                    async for chunk in call_claude_stream(
+                        api_key=ANTHROPIC_API_KEY,
                         system_prompt=system_prompt,
                         user_message=full_message,
                         history=req.history,
-                        model=DEEPSEEK_MODEL,
-                        base_url=DEEPSEEK_BASE_URL,
+                        model=ANTHROPIC_MODEL,
+                        base_url=ANTHROPIC_BASE_URL,
                     ):
                         if chunk["type"] == "token":
-                            await queue.put(("token", chunk["content"]))
+                            while not hb_queue.empty():
+                                yield ": keepalive\n\n"
+                            content = chunk["content"].replace("\n", "\\n")
+                            yield f"event: token\ndata: {content}\n\n"
                         elif chunk["type"] == "done":
-                            await queue.put(("done", chunk["full_text"]))
-                else:
-                    # Claude: try streaming first, fallback to non-streaming if it fails
-                    if LLM_PROVIDER == "claude":
-                        try:
-                            async for chunk in call_claude_stream(
-                                api_key=ANTHROPIC_API_KEY,
-                                system_prompt=system_prompt,
-                                user_message=full_message,
-                                history=req.history,
-                                model=ANTHROPIC_MODEL,
-                                base_url=ANTHROPIC_BASE_URL,
-                            ):
-                                if chunk["type"] == "token":
-                                    await queue.put(("token", chunk["content"]))
-                                elif chunk["type"] == "done":
-                                    await queue.put(("done", chunk["full_text"]))
-                        except Exception as stream_err:
-                            # Streaming failed — fallback to non-streaming (keeps connection alive via heartbeat)
-                            logger.warning(f"Claude streaming failed, falling back to non-streaming: {stream_err}")
-                            raw_response = await call_claude(
-                                api_key=ANTHROPIC_API_KEY,
-                                system_prompt=system_prompt,
-                                user_message=full_message,
-                                history=req.history,
-                                model=ANTHROPIC_MODEL,
-                                base_url=ANTHROPIC_BASE_URL,
-                            )
-                            await queue.put(("done", raw_response))
-                    else:
-                        await queue.put(("error", f"Unknown LLM provider: {LLM_PROVIDER}"))
-                        return
-            except httpx.HTTPStatusError as e:
-                await queue.put(("error", f"LLM HTTP error {e.response.status_code}"))
-            except Exception as e:
-                await queue.put(("error", f"LLM call failed: {type(e).__name__}: {str(e)}"))
-            finally:
-                heartbeat_active = False
-                await queue.put(("end", None))
-
-        # Start both concurrent tasks
-        hb_task = _asyn.create_task(heartbeat_sender())
-        llm_task = _asyn.create_task(llm_sender())
-
-        try:
-            while True:
-                msg_type, msg_data = await queue.get()
-
-                if msg_type == "heartbeat":
-                    # SSE comment — ignored by all conforming SSE parsers
-                    yield ": keepalive\n\n"
-
-                elif msg_type == "token":
-                    content = msg_data.replace("\n", "\\n")
-                    yield f"event: token\ndata: {content}\n\n"
-
-                elif msg_type == "done":
-                    full_text = msg_data
-                    parsed = parse_llm_response(full_text)
+                            while not hb_queue.empty():
+                                yield ": keepalive\n\n"
+                            full_text = chunk["full_text"]
+                            parsed = parse_llm_response(full_text)
+                            now = datetime.now()
+                            time_str = now.strftime("%H:%M")
+                            llm_persona = parsed.get("persona", "")
+                            final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                            result = {
+                                "text": parsed.get("text", ""),
+                                "sections": parsed.get("sections", []),
+                                "tags": parsed.get("tags", [req.formato]),
+                                "time": time_str,
+                                "persona": final_persona,
+                                "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                                "image": parsed.get("image", ""),
+                                "source_url": parsed.get("source_url", ""),
+                            }
+                            yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+                except Exception as stream_err:
+                    # Streaming failed — fallback to non-streaming (heartbeat keeps connection alive)
+                    logger.warning(f"Claude streaming failed, falling back: {stream_err}")
+                    raw_response = await call_claude(
+                        api_key=ANTHROPIC_API_KEY,
+                        system_prompt=system_prompt,
+                        user_message=full_message,
+                        history=req.history,
+                        model=ANTHROPIC_MODEL,
+                        base_url=ANTHROPIC_BASE_URL,
+                    )
+                    # Drain heartbeats
+                    while not hb_queue.empty():
+                        yield ": keepalive\n\n"
+                    parsed = parse_llm_response(raw_response)
                     now = datetime.now()
                     time_str = now.strftime("%H:%M")
                     llm_persona = parsed.get("persona", "")
                     final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                    text_content = parsed.get("text", "")
+                    if text_content:
+                        content = text_content.replace("\n", "\\n")
+                        yield f"event: token\ndata: {content}\n\n"
                     result = {
                         "text": parsed.get("text", ""),
                         "sections": parsed.get("sections", []),
@@ -679,15 +698,18 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                         "source_url": parsed.get("source_url", ""),
                     }
                     yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+            else:
+                yield f"event: error\ndata: {json.dumps({'message': f'Unknown LLM provider: {LLM_PROVIDER}'})}\n\n"
 
-                elif msg_type == "error":
-                    yield f"event: error\ndata: {json.dumps({'message': msg_data})}\n\n"
-
-                elif msg_type == "end":
-                    break
+        except httpx.HTTPStatusError as e:
+            error_msg = f"LLM HTTP error {e.response.status_code}"
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+        except Exception as e:
+            error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
         finally:
+            heartbeat_active = False
             hb_task.cancel()
-            llm_task.cancel()
 
     return StreamingResponse(
         event_generator(),
