@@ -98,7 +98,6 @@
 
   // ===== Fetch interceptor =====
   var originalFetch = window.fetch;
-  var _isRefreshing = false;
   var _refreshPromise = null;  // Shared refresh promise for concurrent requests
 
   window.fetch = function(url, options) {
@@ -114,7 +113,9 @@
       }
     }
 
-    return originalFetch.call(this, url, options).then(function(response) {
+    // FIX: Always call originalFetch with window context — in strict mode, 'this' can be
+    // undefined in Promise handlers, causing "Illegal invocation" / NetworkError in Firefox
+    return originalFetch.call(window, url, options).then(function(response) {
       // On 403 (email not confirmed), force re-auth
       if (response.status === 403 && isHorneroApi) {
         triggerReauth('email_not_confirmed');
@@ -134,12 +135,12 @@
             // Retry with new token
             options.headers = options.headers || {};
             options.headers['Authorization'] = 'Bearer ' + getAccessToken();
-            return originalFetch.call(this, url, options);
+            return originalFetch.call(window, url, options);
           }
           // Refresh failed — trigger re-auth
           triggerReauth('session_expired');
           return response;  // Return original 401 response
-        }.bind(this));
+        });
       }
       return response;
     });

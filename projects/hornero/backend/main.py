@@ -972,6 +972,24 @@ async def test_stream():
     )
 
 
+@app.post("/api/test/stream-post")
+async def test_stream_post():
+    """Diagnostic POST SSE stream — no auth. Tests POST+SSE+CORS (same as /api/chat/stream but no auth)."""
+    import asyncio as _asyncio
+    async def gen():
+        yield ": connected\n\n"
+        yield f"event: token\ndata: POST OK\n\n"
+        for i in range(1, 4):
+            await _asyncio.sleep(1)
+            yield f"event: token\ndata: Chunk {i}\n\n"
+        yield f'event: done\ndata: {{"ok":true,"method":"POST"}}\n\n'
+    return StreamingResponse(
+        gen(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
 
 
 @app.get("/api/kb")
