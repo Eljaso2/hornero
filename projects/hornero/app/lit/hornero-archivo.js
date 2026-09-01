@@ -571,15 +571,16 @@ class HorneroArchivo extends HoComponent {
     this._callBackendStream(text).catch((err) => {
       console.warn('Stream failed, falling back to non-streaming:', err);
       this._callBackend(text).catch((err2) => {
-        this._addWithProgressiveReveal({
-          role: 'hornero',
-          text: 'No puedo conectarme ahora. Intentá de nuevo en un momento.',
-          tags: ['archivo', 'error'],
-          persona: 'historiador',
-          time: this._timeNow(),
-        });
-        this._typing = false;
-        this.render();
+        console.warn('ARCHIVO: backend failed, retrying after cold-start buffer:', err2);
+        setTimeout(() => {
+          this._callBackend(text).catch((err3) => {
+            console.warn('ARCHIVO: retry failed, using offline fallback:', err3);
+            this._addWithProgressiveReveal(this._localResponse(text));
+            this.iaStep++;
+            this._typing = false; this._greetingRequested = false;
+            this.render();
+          });
+        }, 5000);
       });
     });
   }
@@ -996,6 +997,11 @@ class HorneroArchivo extends HoComponent {
         }
       }
     } catch(e) { console.warn('Archivo: chat history save failed', e); }
+  }
+
+  // Brief local response when backend is unreachable
+  _localResponse(userText) {
+    return { role: 'hornero', sections: [{ title: 'Historiadora', body: '⚠️ Sin conexión al servidor — probá de nuevo en un minuto.\n\nMientras tanto puedo ayudarte a buscar en el archivo: convenios, referentes, fuentes sindicales, documentos académicos. ¿Qué buscás?' }], tags: ['archivo', 'offline'], persona: 'historiador', time: this._timeNow() };
   }
 
   // Brief local response when user clicks an explore button

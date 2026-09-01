@@ -343,6 +343,11 @@ class HorneroHistoriador extends HoComponent {
     return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy la Historiadora — conozco la historia del movimiento obrero: huelgas, masacres, lockouts, referentes que nadie recuerda. ¿Qué tema histórico te interesa?' }], tags: ['historia', 'greeting'], persona: 'historiador', time: this._timeNow() };
   }
 
+  // Brief local response when backend is unreachable
+  _localResponse(userText) {
+    return { role: 'hornero', sections: [{ title: 'Historiadora', body: '⚠️ Sin conexión al servidor — probá de nuevo en un minuto.\n\nMientras tanto puedo ayudarte con: huelgas, masacres, lockouts, referentes del movimiento obrero. ¿Qué tema histórico te interesa?' }], tags: ['historia', 'offline'], persona: 'historiador', time: this._timeNow() };
+  }
+
   _handleUserMessage(text) {
     this._stopProgressiveReveal();
     this.messages = [...this.messages, { role: 'user', text, tags: ['historia'], time: this._timeNow() }];
@@ -371,25 +376,16 @@ class HorneroHistoriador extends HoComponent {
         console.warn('Stream failed, falling back:', err);
       }
       this._callBackend(text).catch((err2) => {
-        if (err2.message === 'FETCH_TIMEOUT') {
-          this._addWithProgressiveReveal({
-            role: 'hornero',
-            text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.',
-            tags: ['historia', 'timeout'],
-            persona: 'historiador',
-            time: this._timeNow(),
+        console.warn('HISTORIADOR: backend failed, retrying after cold-start buffer:', err2);
+        setTimeout(() => {
+          this._callBackend(text).catch((err3) => {
+            console.warn('HISTORIADOR: retry failed, using offline fallback:', err3);
+            this._addWithProgressiveReveal(this._localResponse(text));
+            this.iaStep++;
+            this._typing = false; this._greetingRequested = false;
+            this.render();
           });
-        } else {
-          this._addWithProgressiveReveal({
-            role: 'hornero',
-            text: 'No puedo conectarme ahora. Intentá de nuevo en un momento.',
-            tags: ['historia', 'error'],
-            persona: 'historiador',
-            time: this._timeNow(),
-          });
-        }
-        this._typing = false;
-        this.render();
+        }, 5000);
       });
     });
   }

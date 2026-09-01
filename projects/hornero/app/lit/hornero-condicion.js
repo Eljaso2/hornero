@@ -579,19 +579,16 @@ class HorneroCondicion extends HoComponent {
         console.warn('Stream failed:', err);
       }
       this._callBackend(text).catch((err2) => {
-        if (err2.message === 'FETCH_TIMEOUT') {
-          this._addWithProgressiveReveal({
-            role: 'hornero',
-            text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento.',
-            tags: ['panorama', 'timeout'],
-            persona: 'sociologo',
-            time: this._timeNow(),
+        console.warn('CONDICION: backend failed, retrying after cold-start buffer:', err2);
+        setTimeout(() => {
+          this._callBackend(text).catch((err3) => {
+            console.warn('CONDICION: retry failed, using offline fallback:', err3);
+            this._addWithProgressiveReveal(this._localResponse(text));
+            this.iaStep++;
+            this._typing = false; this._greetingRequested = false;
+            this.render();
           });
-        } else {
-          this._addWithProgressiveReveal(this._localResponse(text));
-        }
-        this._typing = false; this._greetingRequested = false;
-        this.render();
+        }, 5000);
       });
     });
   }
@@ -1028,7 +1025,7 @@ class HorneroCondicion extends HoComponent {
     if (lower.match(/cómo somos|como somos|clase trabajadora|datos|composición/)) {
       return { role: 'hornero', sections: [{ title: 'Cómo Somos', body: 'Datos duros de la clase trabajadora argentina: composición sectorial, empleo, informalidad, desigualdad. ¿Qué aspecto te interesa?' }], tags: ['panorama', 'como-somos'], persona: p, time: this._timeNow() };
     }
-    return { role: 'hornero', sections: [{ title: 'Investigador/a', body: 'No tengo datos específicos sobre eso, pero puedo ayudarte con: condición obrera, índice ICE, comportamiento empresarial, SMVM, felicidad laboral, datos de la clase trabajadora. ¿Qué te interesa?' }], tags: ['panorama'], persona: p, time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: 'Investigador/a', body: '⚠️ Sin conexión al servidor — probá de nuevo en un minuto.\n\nMientras tanto puedo ayudarte con: condición obrera, índice ICE, comportamiento empresarial, SMVM, felicidad laboral, datos de la clase trabajadora. ¿Qué te interesa?' }], tags: ['panorama', 'offline'], persona: p, time: this._timeNow() };
   }
 
   _timeNow() {
