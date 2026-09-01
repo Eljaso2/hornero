@@ -28,7 +28,7 @@ import httpx
 
 from knowledge_base import get_system_prompt, get_system_prompt_rag, get_legal_prompt_focused, get_format_hint, get_greeting_hint, PERSONA_MAP, PERSONA_NAME_MAP
 from llm_providers.deepseek import call_deepseek, call_deepseek_stream
-from llm_providers.claude import call_claude, call_claude_stream
+from llm_providers.claude import call_claude
 from clipping_cache import get_clipping, refresh
 from rag_retriever import retrieve_for_query
 from library_service.adapter_hornero import legal_sources_text, resolve_tenant  # puente Biblioteca (feature-flag)
@@ -162,7 +162,6 @@ async def call_llm_with_retry(system_prompt: str, user_message: str, history: li
         'contenido': 0.5,  # More creative
         'reporte': 0.2,    # More precise
         'historia': 0.2,   # More factual
-        'panorama': 0.3,   # Balanced (investigador)
     }
     temperature = temperature_map.get(formato, 0.3)
 
@@ -173,7 +172,6 @@ async def call_llm_with_retry(system_prompt: str, user_message: str, history: li
         'contenido': 3000,  # Content needs more space
         'reporte': 3000,    # Reports need more space
         'historia': 2000,
-        'panorama': 2000,   # Investigador
     }
     max_tokens = max_tokens_map.get(formato, 2000)
 
@@ -558,10 +556,6 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
     full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
 
     async def event_generator():
-        # Yield immediately so FastAPI sends response headers + CORS.
-        # If the LLM crashes later, the client gets an error event (not NetworkError).
-        yield ": connected\n\n"
-
         try:
             if LLM_PROVIDER == "deepseek":
                 async for chunk in call_deepseek_stream(
@@ -573,15 +567,19 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                     base_url=DEEPSEEK_BASE_URL,
                 ):
                     if chunk["type"] == "token":
+                        # Escape newlines for SSE data field
                         content = chunk["content"].replace("\n", "\\n")
                         yield f"event: token\ndata: {content}\n\n"
                     elif chunk["type"] == "done":
+                        # Parse the full response
                         full_text = chunk["full_text"]
                         parsed = parse_llm_response(full_text)
                         now = datetime.now()
                         time_str = now.strftime("%H:%M")
+
                         llm_persona = parsed.get("persona", "")
                         final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+
                         result = {
                             "text": parsed.get("text", ""),
                             "sections": parsed.get("sections", []),
@@ -594,7 +592,8 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                         }
                         yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
             else:
-                # Claude/other provider: non-streaming fallback wrapped in SSE
+                # Claude/other provider: no streaming support yet — fall back to non-streaming
+                # wrapped in SSE format for consistent frontend handling
                 if LLM_PROVIDER == "claude":
                     raw_response = await call_claude(
                         api_key=ANTHROPIC_API_KEY,
@@ -610,9 +609,11 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                 parsed = parse_llm_response(raw_response)
                 now = datetime.now()
                 time_str = now.strftime("%H:%M")
+
                 llm_persona = parsed.get("persona", "")
                 final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
 
+                # Send entire text as single token event for non-streaming fallback
                 text_content = parsed.get("text", "")
                 if text_content:
                     content = text_content.replace("\n", "\\n")
@@ -909,7 +910,6 @@ async def health():
     return {
         "status": "ok",
         "provider": LLM_PROVIDER,
-        "heartbeat": True,  # Streaming endpoint sends SSE keepalive every 15s
         "clipping_items": len(get_clipping()),
         "kb_chunks": len(ALL_CHUNKS),
         "rag": "keyword",
@@ -925,27 +925,9 @@ async def health():
     }
 
 
-@app.get("/api/debug/stream")
-async def debug_stream():
-    """Debug endpoint: test SSE streaming through Cloudflare/Render proxy."""
-    from starlette.responses import StreamingResponse as _SR
 
-    def generate():
-        """Sync generator — simplest possible SSE test."""
-        yield "event: token\ndata: Test 1\n\n"
-        yield "event: token\ndata: Test 2\n\n"
-        yield "event: done\ndata: {\"ok\":true}\n\n"
 
-    return _SR(
-        generate(),
-        media_type="text/event-stream",
-        headers={
-            "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",
-        },
-    )
-        },
-    )@app.get("/api/kb")
+@app.get("/api/kb")
 async def get_knowledge_base(category: str = None, tipo: str = None):
     """Return knowledge base chunks for Archivo UI. Filterable by category and tipo.
 
