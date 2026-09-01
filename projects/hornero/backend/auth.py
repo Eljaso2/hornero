@@ -1447,29 +1447,73 @@ def _nuke_all_data():
         logger.error(f"NUKE: failed to delete users: {e}")
 
 
-def _seed_pilot_users():
-    """Ensure pilot users exist in DB. Called on every startup — idempotent (upsert).
-    Only creates users that don't already exist (by username)."""
+def _cleanup_test_users():
+    """One-time cleanup: delete leftover test/pilot accounts from the DB.
+    Keeps only real user accounts (registered via /api/auth/register)."""
     if not HORNERO_DB_URL:
         return
+    # Only run once — check flag in DB
+    try:
+        with _get_conn() as conn:
+            flag = conn.execute(
+                "SELECT value FROM _meta WHERE key = 'cleanup_test_users_done'"
+            ).fetchone()
+            if flag:
+                return  # Already cleaned up
+    except Exception:
+        # _meta table may not exist yet — create it
+        try:
+            with _get_conn() as conn:
+                conn.execute("""
+                    CREATE TABLE IF NOT EXISTS _meta (key TEXT PRIMARY KEY, value TEXT)
+                """)
+                conn.commit()
+        except Exception:
+            return
 
-    # Pilot users — same as frontend PILOT_USERS in hornero-login.js
-    PILOT_USERS = [
-        {"username": "eljaso",          "password": "hornero2026",  "grade": "B.d", "sector": "hornero",  "nombre": "Alejandro Jasinski",  "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test4",           "password": "fed2026",     "grade": "B.d", "sector": "aceitero", "nombre": "Sec. Gral. Federación","email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test3",           "password": "sec2026",     "grade": "B.c", "sector": "aceitero", "nombre": "Sec. Gral. Sindicato","email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test_guaycuru",   "password": "delguay2026", "grade": "B.b", "sector": "aceitero", "nombre": "Delegado Guaycurú",    "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test2",           "password": "del2026",     "grade": "B.b", "sector": "aceitero", "nombre": "Delegada",             "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test1a",          "password": "base2026",    "grade": "B.a", "sector": "aceitero", "nombre": "Trabajador de Base",   "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test1b",          "password": "adm2026",     "grade": "B.a", "sector": "aceitero", "nombre": "Trabajador Base Adm",  "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test1c",          "password": "obrero2026",  "grade": "B.a", "sector": "aceitero", "nombre": "Obrero Guaycurú",      "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test_prensa4",    "password": "prensa2026",  "grade": "B.d", "sector": "prensa",   "nombre": "Sec. Gral. SIPREBA",   "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test_prensa3",    "password": "secprensa2026","grade": "B.c", "sector": "prensa",   "nombre": "Secretario Seccional", "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test_prensa2",    "password": "delprensa2026","grade": "B.b", "sector": "prensa",   "nombre": "Delegado Prensa",      "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "test_prensa1",    "password": "baseprensa2026","grade":"B.a", "sector": "prensa",   "nombre": "Periodista Base",      "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
-        {"username": "emiliano",        "password": "emiliano2026","grade": "B.d", "sector": "hornero",  "nombre": "Emiliano",             "email": "emiliano@thetricontinental.org", "category": "tester", "is_tester": True},
-        {"username": "federico",        "password": "federico2026","grade": "B.d", "sector": "hornero",  "nombre": "Federico",             "email": "federico@thetricontinental.org", "category": "tester", "is_tester": True},
-    ]
+    # Real accounts to KEEP (registered by actual users)
+    KEEP_USERNAMES = {
+        "alejandro_jasinski",    # alejandro.jasinski@gmail.com
+        "jasinski_alejandro",    # jasinski.alejandro@gmail.com
+        "fedeavalos78",          # fedeavalos78@gmail.com (Federico Ávalos)
+    }
+
+    try:
+        with _get_conn() as conn:
+            # Get all usernames
+            rows = conn.execute("SELECT username FROM users").fetchall()
+            all_usernames = {r[0] for r in rows}
+            to_delete = all_usernames - KEEP_USERNAMES
+            if to_delete:
+                placeholders = ",".join(["%s"] * len(to_delete))
+                conn.execute(
+                    f"DELETE FROM users WHERE username IN ({placeholders})",
+                    list(to_delete)
+                )
+                conn.commit()
+                logger.info(f"[CLEANUP] Deleted {len(to_delete)} test users: {', '.join(sorted(to_delete))}")
+            else:
+                logger.info("[CLEANUP] No test users to delete")
+            # Mark cleanup done
+            conn.execute(
+                "INSERT INTO _meta (key, value) VALUES (%s, %s) ON CONFLICT (key) DO UPDATE SET value = %s",
+                ("cleanup_test_users_done", "1", "1")
+            )
+            conn.commit()
+    except Exception as e:
+        logger.error(f"[CLEANUP] Failed to clean up test users: {e}")
+
+
+def _seed_pilot_users():
+    """Ensure pilot users exist in DB. Called on every startup — idempotent (upsert).
+    Only creates users that don't already exist (by username).
+    DISABLED: pilot test users removed. Only real registered users remain."""
+    if not HORNERO_DB_URL:
+        return
+    # No more pilot user seeding — all accounts created via /api/auth/register
+    # Clean up: delete leftover test accounts (seeded pilot users + test registrations)
+    _cleanup_test_users()
+    logger.info("[SEED] No pilot users to seed — accounts created via register flow")
 
     try:
         with _get_conn() as conn:
