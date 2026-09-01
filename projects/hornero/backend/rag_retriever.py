@@ -528,7 +528,7 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
     # Step 2: Keyword search with improved scoring (tenant-filtered)
     # Historia persona needs more context — search wider pool for research-heavy queries
     # Pass current_query so keyword_search can weight current terms 2x vs context
-    search_limit = 20 if formato == 'historia' else 8
+    search_limit = 12 if formato == 'historia' else 8
     candidates = keyword_search(enhanced_query, max_chunks=search_limit, tenant=tenant,
                                  current_query=query)
 
@@ -574,6 +574,6 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
                 filtered = [c for c in filtered
                            if not c.get('id', '').startswith(prefix)]
 
-    # Return top N after filtering (historiador gets 8 for richer research context)
-    result_limit = 8 if formato == 'historia' else 5
+    # Return top N after filtering (historiador gets 6 for richer research context, reduced from 8 to cut prompt size)
+    result_limit = 6 if formato == 'historia' else 5
     return filtered[:result_limit]
