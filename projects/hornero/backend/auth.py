@@ -1448,28 +1448,10 @@ def _nuke_all_data():
 
 
 def _cleanup_test_users():
-    """One-time cleanup: delete leftover test/pilot accounts from the DB.
-    Keeps only real user accounts (registered via /api/auth/register)."""
+    """Delete leftover test/pilot accounts from the DB.
+    Keeps only real user accounts. Idempotent — safe to run on every startup."""
     if not HORNERO_DB_URL:
         return
-    # Only run once — check flag in DB
-    try:
-        with _get_conn() as conn:
-            flag = conn.execute(
-                "SELECT value FROM _meta WHERE key = 'cleanup_test_users_done'"
-            ).fetchone()
-            if flag:
-                return  # Already cleaned up
-    except Exception:
-        # _meta table may not exist yet — create it
-        try:
-            with _get_conn() as conn:
-                conn.execute("""
-                    CREATE TABLE IF NOT EXISTS _meta (key TEXT PRIMARY KEY, value TEXT)
-                """)
-                conn.commit()
-        except Exception:
-            return
 
     # Real accounts to KEEP (registered by actual users)
     KEEP_USERNAMES = {
@@ -1480,7 +1462,6 @@ def _cleanup_test_users():
 
     try:
         with _get_conn() as conn:
-            # Get all usernames
             rows = conn.execute("SELECT username FROM users").fetchall()
             all_usernames = {r[0] for r in rows}
             to_delete = all_usernames - KEEP_USERNAMES
@@ -1493,13 +1474,7 @@ def _cleanup_test_users():
                 conn.commit()
                 logger.info(f"[CLEANUP] Deleted {len(to_delete)} test users: {', '.join(sorted(to_delete))}")
             else:
-                logger.info("[CLEANUP] No test users to delete")
-            # Mark cleanup done
-            conn.execute(
-                "INSERT INTO _meta (key, value) VALUES (%s, %s) ON CONFLICT (key) DO UPDATE SET value = %s",
-                ("cleanup_test_users_done", "1", "1")
-            )
-            conn.commit()
+                logger.info("[CLEANUP] No test users to delete — only real accounts remain")
     except Exception as e:
         logger.error(f"[CLEANUP] Failed to clean up test users: {e}")
 
