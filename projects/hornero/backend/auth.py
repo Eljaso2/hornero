@@ -1447,8 +1447,62 @@ def _nuke_all_data():
         logger.error(f"NUKE: failed to delete users: {e}")
 
 
+def _seed_pilot_users():
+    """Ensure pilot users exist in DB. Called on every startup — idempotent (upsert).
+    Only creates users that don't already exist (by username)."""
+    if not HORNERO_DB_URL:
+        return
+
+    # Pilot users — same as frontend PILOT_USERS in hornero-login.js
+    PILOT_USERS = [
+        {"username": "eljaso",          "password": "hornero2026",  "grade": "B.d", "sector": "hornero",  "nombre": "Alejandro Jasinski",  "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test4",           "password": "fed2026",     "grade": "B.d", "sector": "aceitero", "nombre": "Sec. Gral. Federación","email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test3",           "password": "sec2026",     "grade": "B.c", "sector": "aceitero", "nombre": "Sec. Gral. Sindicato","email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test_guaycuru",   "password": "delguay2026", "grade": "B.b", "sector": "aceitero", "nombre": "Delegado Guaycurú",    "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test2",           "password": "del2026",     "grade": "B.b", "sector": "aceitero", "nombre": "Delegada",             "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test1a",          "password": "base2026",    "grade": "B.a", "sector": "aceitero", "nombre": "Trabajador de Base",   "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test1b",          "password": "adm2026",     "grade": "B.a", "sector": "aceitero", "nombre": "Trabajador Base Adm",  "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test1c",          "password": "obrero2026",  "grade": "B.a", "sector": "aceitero", "nombre": "Obrero Guaycurú",      "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test_prensa4",    "password": "prensa2026",  "grade": "B.d", "sector": "prensa",   "nombre": "Sec. Gral. SIPREBA",   "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test_prensa3",    "password": "secprensa2026","grade": "B.c", "sector": "prensa",   "nombre": "Secretario Seccional", "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test_prensa2",    "password": "delprensa2026","grade": "B.b", "sector": "prensa",   "nombre": "Delegado Prensa",      "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "test_prensa1",    "password": "baseprensa2026","grade":"B.a", "sector": "prensa",   "nombre": "Periodista Base",      "email": "alejandro.jasinski@gmail.com",   "category": "tester", "is_tester": True},
+        {"username": "emiliano",        "password": "emiliano2026","grade": "B.d", "sector": "hornero",  "nombre": "Emiliano",             "email": "emiliano@thetricontinental.org", "category": "tester", "is_tester": True},
+        {"username": "federico",        "password": "federico2026","grade": "B.d", "sector": "hornero",  "nombre": "Federico",             "email": "federico@thetricontinental.org", "category": "tester", "is_tester": True},
+    ]
+
+    try:
+        with _get_conn() as conn:
+            created = 0
+            for u in PILOT_USERS:
+                # Check if user exists
+                existing = conn.execute(
+                    "SELECT id FROM users WHERE username = %s", (u["username"],)
+                ).fetchone()
+                if existing:
+                    continue  # User already exists — skip
+
+                user_id = f"pilot-{u['username']}"
+                password_hash = _hash_password(u["password"])
+                conn.execute("""
+                    INSERT INTO users (id, email, username, password_hash, nombre, grade, sector, category, is_tester, email_confirmed, active)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, TRUE, TRUE)
+                """, (user_id, u["email"], u["username"], password_hash, u["nombre"],
+                      u["grade"], u["sector"], u["category"], u["is_tester"]))
+                created += 1
+
+            if created > 0:
+                conn.commit()
+                logger.info(f"[SEED] Created {created} pilot users")
+            else:
+                logger.info("[SEED] All pilot users already exist")
+    except Exception as e:
+        logger.error(f"[SEED] Failed to seed pilot users: {e}")
+
+
 def init_auth():
     """Initialize auth: create tables. Called from main.py startup."""
     logger.info(f"[STARTUP] GMAIL_REFRESH_TOKEN={'set' if GMAIL_REFRESH_TOKEN else 'NOT SET'}, EMAIL_FROM={EMAIL_FROM!r}")
     _init_db()
     _nuke_all_data()
+    _seed_pilot_users()
