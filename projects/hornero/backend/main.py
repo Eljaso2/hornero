@@ -555,7 +555,8 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
     # Build the user message with format context
     full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
 
-    async def event_generator():
+    async def _raw_events():
+        """Produce SSE events from the LLM (streaming or non-streaming)."""
         try:
             if LLM_PROVIDER == "deepseek":
                 async for chunk in call_deepseek_stream(
@@ -567,19 +568,15 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                     base_url=DEEPSEEK_BASE_URL,
                 ):
                     if chunk["type"] == "token":
-                        # Escape newlines for SSE data field
                         content = chunk["content"].replace("\n", "\\n")
                         yield f"event: token\ndata: {content}\n\n"
                     elif chunk["type"] == "done":
-                        # Parse the full response
                         full_text = chunk["full_text"]
                         parsed = parse_llm_response(full_text)
                         now = datetime.now()
                         time_str = now.strftime("%H:%M")
-
                         llm_persona = parsed.get("persona", "")
                         final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-
                         result = {
                             "text": parsed.get("text", ""),
                             "sections": parsed.get("sections", []),
@@ -592,7 +589,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                         }
                         yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
             else:
-                # Claude/other provider: no streaming support yet — fall back to non-streaming
+                # Claude/other provider: no streaming support — fall back to non-streaming
                 # wrapped in SSE format for consistent frontend handling
                 if LLM_PROVIDER == "claude":
                     raw_response = await call_claude(
@@ -609,16 +606,12 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                 parsed = parse_llm_response(raw_response)
                 now = datetime.now()
                 time_str = now.strftime("%H:%M")
-
                 llm_persona = parsed.get("persona", "")
                 final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-
-                # Send entire text as single token event for non-streaming fallback
                 text_content = parsed.get("text", "")
                 if text_content:
                     content = text_content.replace("\n", "\\n")
                     yield f"event: token\ndata: {content}\n\n"
-
                 result = {
                     "text": parsed.get("text", ""),
                     "sections": parsed.get("sections", []),
@@ -637,6 +630,40 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
         except Exception as e:
             error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
             yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+
+    async def event_generator():
+        # Yield SSE comment immediately so FastAPI sends response headers + CORS.
+        # Without this, the browser gets NO response until the LLM starts producing tokens,
+        # which can take 5-30s → Cloudflare/Render proxy timeout → NetworkError.
+        yield ": connected\n\n"
+
+        # Produce LLM events on a queue so we can send keepalives while waiting
+        queue = asyncio.Queue()
+        sentinel = object()
+
+        async def producer():
+            try:
+                async for event in _raw_events():
+                    await queue.put(event)
+            finally:
+                await queue.put(sentinel)
+
+        producer_task = asyncio.create_task(producer())
+
+        try:
+            while True:
+                try:
+                    item = await asyncio.wait_for(queue.get(), timeout=12)
+                except asyncio.TimeoutError:
+                    # No event for 12s — send keepalive to prevent proxy timeout
+                    yield ": heartbeat\n\n"
+                    continue
+                if item is sentinel:
+                    break
+                yield item
+        finally:
+            if not producer_task.done():
+                producer_task.cancel()
 
     return StreamingResponse(
         event_generator(),
