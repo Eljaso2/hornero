@@ -515,15 +515,19 @@ class HorneroContenido extends HoComponent {
     this.render();
 
     // Try streaming → non-streaming → retry after cold-start buffer → offline fallback
+    let lastError = '';
     this._callBackendStream(text).catch((err) => {
+      lastError = err?.message || err || 'stream error';
       console.warn('Contenido: stream failed, trying non-streaming:', err);
       this._callBackend(text).catch((err2) => {
+        lastError += ' | ' + (err2?.message || err2 || 'non-stream error');
         console.warn('Contenido: non-streaming failed, retrying after cold-start buffer:', err2);
         // Wait 5s for Render cold start, then retry streaming once more
         setTimeout(() => {
           this._callBackendStream(text).catch((err3) => {
+            lastError += ' | ' + (err3?.message || err3 || 'retry error');
             console.warn('Contenido: retry failed, using offline fallback:', err3);
-            this._addWithProgressiveReveal(this._localResponse(text));
+            this._addWithProgressiveReveal(this._localResponse(text, lastError));
             this.iaStep++;
             this._typing = false; this._greetingRequested = false;
             this.render();
@@ -899,7 +903,7 @@ class HorneroContenido extends HoComponent {
     return { role: 'hornero', sections: [section], tags: ['contenido', 'explore'], time: this._timeNow() };
   }
 
-  _localResponse(userText) {
+  _localResponse(userText, errorMsg) {
     const lower = userText.toLowerCase();
     // Only match pure greetings — NOT "hola, me podes decir..."
     // But skip duplicate greeting if one already exists in this session
@@ -921,10 +925,12 @@ class HorneroContenido extends HoComponent {
       return { role: 'hornero', sections: [{ title: 'Entrevista sindical', body: 'Preparación de entrevista: perfil del entrevistado, preguntas clave, formato (escrita/audio/video), duración. ¿A quién querés entrevistar y sobre qué?' }], tags: ['entrevista', 'contenido'], persona: 'periodista', time: this._timeNow() };
     }
     if (lower.match(/yofra|paritaria|gremio|sindicato|aceitero|asamblea/)) {
-      return { role: 'hornero', sections: [{ title: '⚠️ Sin conexión al servidor', body: 'No puedo acceder a la información en este momento. Probá de nuevo en un minuto — si el servidor estaba en reposo, tarda unos segundos en arrancar.\n\nMientras tanto, si tenés la noticia o declaración a mano, puedo ayudarte a darle formato: columna, reel, podcast o comunicado. Pegá el texto y elegimos el mejor angle.' }], tags: ['contenido', 'offline'], persona: 'periodista', time: this._timeNow() };
+      const errDetail = errorMsg ? `\n\n🔧 Error: ${errorMsg}` : '';
+      return { role: 'hornero', sections: [{ title: '⚠️ Sin conexión al servidor', body: 'No puedo acceder a la información en este momento. Probá de nuevo en un minuto — si el servidor estaba en reposo, tarda unos segundos en arrancar.\n\nMientras tanto, si tenés la noticia o declaración a mano, puedo ayudarte a darle formato: columna, reel, podcast o comunicado. Pegá el texto y elegimos el mejor angle.' + errDetail }], tags: ['contenido', 'offline'], persona: 'periodista', time: this._timeNow() };
     }
     // Generic offline fallback — tell user clearly that server is unreachable
-    return { role: 'hornero', sections: [{ title: '⚠️ Sin conexión al servidor', body: 'No puedo procesar tu consulta ahora — el servidor no responde. Probá de nuevo en un minuto.\n\nSi el tema es urgente, podés redactar tu mensaje y lo retomo cuando vuelva la conexión. También podés probar con otro formato: podcast, reel, columna o entrevista.' }], tags: ['contenido', 'offline'], persona: 'periodista', time: this._timeNow() };
+    const errDetail = errorMsg ? `\n\n🔧 Error: ${errorMsg}` : '';
+    return { role: 'hornero', sections: [{ title: '⚠️ Sin conexión al servidor', body: 'No puedo procesar tu consulta ahora — el servidor no responde. Probá de nuevo en un minuto.\n\nSi el tema es urgente, podés redactar tu mensaje y lo retomo cuando vuelva la conexión. También podés probar con otro formato: podcast, reel, columna o entrevista.' + errDetail }], tags: ['contenido', 'offline'], persona: 'periodista', time: this._timeNow() };
   }
 
   _timeNow() {

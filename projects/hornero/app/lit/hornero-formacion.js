@@ -685,14 +685,18 @@ class HorneroFormacion extends HoComponent {
     this.render();
 
     // Try streaming first, fallback to non-streaming, then retry after cold-start buffer
+    let lastError = '';
     this._callBackendStream(text).catch((err) => {
+      lastError = err?.message || err || 'stream error';
       console.warn('Formacion: stream failed, trying non-streaming:', err);
       this._callBackend(text).catch((err2) => {
+        lastError += ' | ' + (err2?.message || err2 || 'non-stream error');
         console.warn('Formacion: non-streaming failed, retrying after cold-start buffer:', err2);
         setTimeout(() => {
           this._callBackendStream(text).catch((err3) => {
+            lastError += ' | ' + (err3?.message || err3 || 'retry error');
             console.warn('Formacion: retry failed, using offline fallback:', err3);
-            this._addWithProgressiveReveal(this._localResponse(text));
+            this._addWithProgressiveReveal(this._localResponse(text, lastError));
             this.iaStep++;
             this._typing = false; this._greetingRequested = false;
             this.render();
@@ -1058,10 +1062,11 @@ class HorneroFormacion extends HoComponent {
   }
 
   // ===== Offline fallback response when all backend calls fail =====
-  _localResponse(text) {
+  _localResponse(text, errorMsg) {
+    const errDetail = errorMsg ? `\n\n🔧 Error: ${errorMsg}` : '';
     return {
       role: 'hornero',
-      text: '⚠️ Sin conexión al servidor — probá de nuevo en un minuto.',
+      sections: [{ title: '⚠️ Sin conexión al servidor', body: 'No puedo acceder a la información histórica en este momento. Probá de nuevo en un minuto — si el servidor estaba en reposo, tarda unos segundos en arrancar.' + errDetail }],
       tags: ['historia', 'offline'],
       persona: 'historiador',
       time: this._timeNow(),
