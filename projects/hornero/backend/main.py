@@ -1030,6 +1030,14 @@ async def get_knowledge_base(category: str = None, tipo: str = None):
     }
 
 
+@app.get("/api/kb/search")
+async def search_knowledge_base(q: str):
+    """Keyword search across KB chunks. Phase 1: keyword matching."""
+    from rag_retriever import keyword_search
+    results = keyword_search(q, max_chunks=10)
+    return {"results": results, "query": q, "total": len(results)}
+
+
 @app.get("/api/kb/{chunk_id}")
 async def get_knowledge_base_chunk(chunk_id: str):
     """Return a single KB chunk with full text."""
@@ -1037,14 +1045,6 @@ async def get_knowledge_base_chunk(chunk_id: str):
     if not chunk:
         raise HTTPException(404, f"Chunk not found: {chunk_id}")
     return chunk
-
-
-@app.get("/api/kb/search")
-async def search_knowledge_base(q: str):
-    """Keyword search across KB chunks. Phase 1: keyword matching."""
-    from rag_retriever import keyword_search
-    results = keyword_search(q, max_chunks=10)
-    return {"results": results, "query": q, "total": len(results)}
 
 
 @app.post("/api/refresh-clipping")
