@@ -972,9 +972,38 @@ async def health():
     }
 
 
+@app.get("/api/debug/stream")
+async def debug_stream():
+    """Debug endpoint: test SSE streaming through Cloudflare/Render proxy.
 
+    Sends 3 events with 2-second gaps + heartbeats, then closes.
+    No auth required — for debugging only.
+    """
+    import asyncio as _asyn
 
-@app.get("/api/kb")
+    async def generate():
+        # Heartbeat every 5s
+        async def heartbeat():
+            while True:
+                await _asyn.sleep(5)
+                yield ": keepalive\n\n"
+
+        # Send 3 test events with delays
+        for i in range(1, 4):
+            await _asyn.sleep(2)
+            yield f"event: token\ndata: Test token {i}\n\n"
+
+        yield f"event: done\ndata: {{\"text\": \"Debug stream OK\", \"tokens\": 3}}\n\n"
+
+    return StreamingResponse(
+        generate(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )@app.get("/api/kb")
 async def get_knowledge_base(category: str = None, tipo: str = None):
     """Return knowledge base chunks for Archivo UI. Filterable by category and tipo.
 
