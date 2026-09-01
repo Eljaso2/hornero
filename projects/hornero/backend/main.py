@@ -981,15 +981,13 @@ async def health():
 async def debug_stream():
     """Debug endpoint: test SSE streaming through Cloudflare/Render proxy.
 
-    Sends 3 events with 2-second gaps, then closes. No auth required.
+    Sends events immediately (no delays). No auth required.
     """
-    import asyncio as _asyn
     import json as _json
 
     async def generate():
-        # Send 3 test events with delays
+        # Send 3 test events immediately
         for i in range(1, 4):
-            await _asyn.sleep(2)
             yield f"event: token\ndata: Test token {i}\n\n"
 
         result = _json.dumps({"text": "Debug stream OK", "tokens": 3})
