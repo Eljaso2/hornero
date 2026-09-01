@@ -588,24 +588,20 @@ class HorneroConsulta extends HoComponent {
     this._saveChatHistory();
     this.render();
 
-    // Try streaming first, fallback to non-streaming
+    // Try streaming first, fallback to non-streaming, then retry after cold-start buffer
     this._callBackendStream(text).catch((err) => {
-      console.warn('Stream failed, falling back to non-streaming:', err);
+      console.warn('Consulta: stream failed, trying non-streaming:', err);
       this._callBackend(text).catch((err2) => {
-        if (err2.message === 'FETCH_TIMEOUT') {
-          this._addWithProgressiveReveal({
-            role: 'hornero',
-            text: 'El servidor está respondiendo lento. Intentá de nuevo en un momento, o probá tu consulta más tarde.',
-            tags: ['consulta', 'timeout'],
-            persona: 'abogado',
-            time: this._timeNow(),
+        console.warn('Consulta: non-streaming failed, retrying after cold-start buffer:', err2);
+        setTimeout(() => {
+          this._callBackendStream(text).catch((err3) => {
+            console.warn('Consulta: retry failed, using offline fallback:', err3);
+            this._addWithProgressiveReveal(this._localResponse(text));
+            this.iaStep++;
+            this._typing = false; this._greetingRequested = false;
+            this.render();
           });
-        } else {
-          this._addWithProgressiveReveal(this._localResponse(text));
-        }
-        this.iaStep++;
-        this._typing = false; this._greetingRequested = false;
-        this.render();
+        }, 5000);
       });
     });
   }
@@ -1014,7 +1010,7 @@ class HorneroConsulta extends HoComponent {
     if (lower.includes('cremonte')) {
       return { role: 'hornero', sections: [{ title: 'Cremonte', body: 'Investigador labour. Analista de distribución del ingreso, salario mínimo y reforma laboral. Autor de "Valor y precio de la fuerza de trabajo" (2023).' }, { title: '', body: '', quote: 'El salario mínimo no es un número abstracto — es el piso de lo que una persona necesita para reproducir su fuerza de trabajo.', quoteAuthor: 'Cremonte', quoteSource: '"Valor y precio de la fuerza de trabajo", 2023' }], tags: ['cremonte', 'consulta'], persona: p, time: this._timeNow() };
     }
-    return { role: 'hornero', sections: [{ title: 'Abogado/a', body: 'No tengo datos específicos sobre eso, pero puedo ayudarte con: paritaria aceitera, condiciones laborales, SMVM, reforma laboral, convenio CCT 420/05, organización sindical. ¿Qué te interesa?' }], tags: ['consulta'], persona: p, time: this._timeNow() };
+    return { role: 'hornero', sections: [{ title: 'Sin conexión al servidor', body: '⚠️ Sin conexión al servidor. No puedo acceder a la base de datos ahora — reintentá en unos segundos. Si el problema persiste, el servidor puede estar reiniciándose (cold start). Mientras tanto, puedo ayudarte con: paritaria aceitera, condiciones laborales, SMVM, reforma laboral, convenio CCT 420/05, organización sindical.' }], tags: ['consulta', 'offline'], persona: p, time: this._timeNow() };
   }
 
   _timeNow() {
