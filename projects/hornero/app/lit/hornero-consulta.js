@@ -1033,30 +1033,79 @@ class HorneroConsulta extends HoComponent {
   }
 
   async _runSseDiag() {
-    /** Run SSE connectivity test against /api/test/stream — logs results to console. */
+    /** Comprehensive connectivity test: GET, POST, POST+auth, POST+auth+SSE */
     const baseUrl = window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : 'https://hornero-ia.onrender.com';
-    const testUrl = baseUrl + '/api/test/stream';
-    console.log(`[SSE-DIAG] Testing SSE from ${testUrl}...`);
+    const token = window.horneroAuth ? window.horneroAuth.getAccessToken() : null;
+    const results = {};
+
+    // Test 1: GET /api/health (no auth, simple GET)
     try {
-      const t0 = performance.now();
-      const res = await fetch(testUrl, { method: 'GET' });
-      const dt = Math.round(performance.now() - t0);
-      console.log(`[SSE-DIAG] Response: ${res.status} ${res.statusText} in ${dt}ms — type: ${res.headers.get('content-type')}`);
-      console.log(`[SSE-DIAG] CORS allow-origin: ${res.headers.get('access-control-allow-origin')}`);
-      const body = await res.text();
-      console.log(`[SSE-DIAG] Body (${body.length} chars):`, body.substring(0, 200));
-      console.log('[SSE-DIAG] ✅ SSE works! The server and proxy are OK — problem must be in auth or request format.');
-    } catch (err) {
-      console.error(`[SSE-DIAG] ❌ SSE fetch failed:`, err);
-      console.error('[SSE-DIAG] This means the browser CANNOT reach the SSE endpoint — likely CORS or network issue.');
-      // Try a simple GET to health as comparison
-      try {
-        const hRes = await fetch(baseUrl + '/api/health');
-        console.log(`[SSE-DIAG] Health check works: ${hRes.status} — but SSE doesn't. Different endpoint behavior.`);
-      } catch (hErr) {
-        console.error(`[SSE-DIAG] Health check ALSO fails:`, hErr);
-        console.error('[SSE-DIAG] The browser cannot reach Render at all — DNS or network issue.');
+      const r = await fetch(baseUrl + '/api/health');
+      results.health = { ok: r.ok, status: r.status, cors: r.headers.get('access-control-allow-origin') };
+      console.log(`[DIAG-1] GET /api/health → ${r.status} CORS: ${results.health.cors}`);
+    } catch(e) { results.health = { error: e.message }; console.error('[DIAG-1] GET /api/health FAILED:', e.message); }
+
+    // Test 2: GET /api/test/stream (no auth, SSE)
+    try {
+      const r = await fetch(baseUrl + '/api/test/stream');
+      const body = await r.text();
+      results.sseGet = { ok: r.ok, status: r.status, chunks: body.includes('Chunk'), cors: r.headers.get('access-control-allow-origin') };
+      console.log(`[DIAG-2] GET /api/test/stream → ${r.status} CORS: ${results.sseGet.cors} chunks: ${results.sseGet.chunks}`);
+    } catch(e) { results.sseGet = { error: e.message }; console.error('[DIAG-2] GET SSE FAILED:', e.message); }
+
+    // Test 3: POST /api/test/stream-post (no auth, POST+SSE)
+    try {
+      const r = await fetch(baseUrl + '/api/test/stream-post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}',
+      });
+      const body = await r.text();
+      results.ssePost = { ok: r.ok, status: r.status, chunks: body.includes('Chunk'), cors: r.headers.get('access-control-allow-origin') };
+      console.log(`[DIAG-3] POST /api/test/stream-post → ${r.status} CORS: ${results.ssePost.cors} chunks: ${results.ssePost.chunks}`);
+    } catch(e) { results.ssePost = { error: e.message }; console.error('[DIAG-3] POST SSE FAILED:', e.message); }
+
+    // Test 4: POST /api/chat/stream (WITH auth — same as real chat)
+    try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      console.log(`[DIAG-4] POST /api/chat/stream with token=${token ? token.substring(0,20)+'...' : 'NONE'}`);
+      const r = await fetch(baseUrl + '/api/chat/stream', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ message: 'test', formato: 'consulta', history: [], grade: 'G1', sector: 'aceiteros', session_id: 'diag-test' }),
+      });
+      results.chatStream = { ok: r.ok, status: r.status, type: r.headers.get('content-type'), cors: r.headers.get('access-control-allow-origin') };
+      console.log(`[DIAG-4] POST /api/chat/stream → ${r.status} type: ${results.chatStream.type} CORS: ${results.chatStream.cors}`);
+      if (!r.ok) {
+        const errBody = await r.text();
+        results.chatStream.body = errBody;
+        console.log(`[DIAG-4] Error body: ${errBody}`);
       }
+    } catch(e) {
+      results.chatStream = { error: e.name, message: e.message };
+      console.error('[DIAG-4] POST /api/chat/stream FAILED:', e.name, e.message);
+    }
+
+    // Summary
+    console.log('[DIAG-SUMMARY]', JSON.stringify(results, null, 2));
+
+    // Show result in app
+    const chatEl = this.shadowRoot.querySelector('hornero-chat');
+    if (chatEl) {
+      const summary = Object.entries(results).map(([k,v]) => {
+        if (v.error) return `❌ ${k}: ${v.error} — ${v.message}`;
+        return `✅ ${k}: ${v.status} ${v.cors ? 'CORS✓' : 'CORS✗'}`;
+      }).join('\n');
+      const diagMsg = {
+        role: 'hornero',
+        sections: [{ title: '🔧 Diagnóstico de conexión', body: summary }],
+        tags: ['diag'],
+        persona: 'abogado',
+        time: this._timeNow(),
+      };
+      this.messages = [...this.messages, diagMsg];
+      this.render();
     }
   }
 
