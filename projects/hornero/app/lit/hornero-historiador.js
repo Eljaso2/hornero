@@ -430,25 +430,44 @@ class HorneroHistoriador extends HoComponent {
   }
 
   async _callBackendStream(text, onFirstToken) {
+    // Wake up backend before streaming (handles Render free tier cold starts)
+    if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
+
     const history = this.messages.map(m => ({
       role: m.role,
       text: m.text || '',
       sections: m.sections || [],
     }));
 
-    const response = await fetch(this._getStreamUrl(), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: text,
-        formato: 'historia',
-        history: history,
-        grade: this.grade,
-        sector: this.sector,
-        requested_persona: this._activePersona,
-        session_id: this._sessionId,
-      }),
-    });
+    // AbortController with connection timeout (60s for Render cold start)
+    // Once response headers arrive, timeout is cleared — backend heartbeat keeps connection alive
+    this._streamAbortController = new AbortController();
+    let _connectionTimeoutId = setTimeout(() => {
+      this._streamAbortController?.abort();
+    }, 60000);
+
+    let response;
+    try {
+      response = await fetch(this._getStreamUrl(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          formato: 'historia',
+          history: history,
+          grade: this.grade,
+          sector: this.sector,
+          requested_persona: this._activePersona,
+          session_id: this._sessionId,
+        }),
+        signal: this._streamAbortController.signal,
+      });
+      clearTimeout(_connectionTimeoutId);
+    } catch(e) {
+      clearTimeout(_connectionTimeoutId);
+      if (e.name === 'AbortError') throw new Error('FETCH_TIMEOUT');
+      throw e;
+    }
 
     if (!response.ok) throw new Error('Stream error: ' + response.status);
 
