@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Fin de una Era</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ground: #16120F;
+      --surface: #221D19;
+      --surface-2: #2D2722;
+      --text: #DDD5C8;
+      --text-dim: #A89B8A;
+      --muted: #6E6256;
+      --accent: #A8412B;
+      --accent-glow: rgba(168, 65, 43, 0.15);
+      --amber: #C48A3A;
+      --amber-dim: rgba(196, 138, 58, 0.12);
+      --rule: #3A332D;
+      --rule-light: rgba(58, 51, 45, 0.5);
+      --serif: 'DM Serif Display', Georgia, serif;
+      --body: 'Source Serif 4', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --max-w: 1100px;
+      --pad-x: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --ground: #F5F0E8;
+        --surface: #EDE6DB;
+        --surface-2: #E3DACE;
+        --text: #2A221A;
+        --text-dim: #6B5E4F;
+        --muted: #9E9080;
+        --accent: #8F3220;
+        --accent-glow: rgba(143, 50, 32, 0.08);
+        --amber: #A06E20;
+        --amber-dim: rgba(160, 110, 32, 0.08);
+        --rule: #D4CABB;
+        --rule-light: rgba(212, 202, 187, 0.6);
+      }
+    }
+    :root[data-theme="dark"] {
+      --ground: #16120F;
+      --surface: #221D19;
+      --surface-2: #2D2722;
+      --text: #DDD5C8;
+      --text-dim: #A89B8A;
+      --muted: #6E6256;
+      --accent: #A8412B;
+      --accent-glow: rgba(168, 65, 43, 0.15);
+      --amber: #C48A3A;
+      --amber-dim: rgba(196, 138, 58, 0.12);
+      --rule: #3A332D;
+      --rule-light: rgba(58, 51, 45, 0.5);
+    }
+    :root[data-theme="light"] {
+      --ground: #F5F0E8;
+      --surface: #EDE6DB;
+      --surface-2: #E3DACE;
+      --text: #2A221A;
+      --text-dim: #6B5E4F;
+      --muted: #9E9080;
+      --accent: #8F3220;
+      --accent-glow: rgba(143, 50, 32, 0.08);
+      --amber: #A06E20;
+      --amber-dim: rgba(160, 110, 32, 0.08);
+      --rule: #D4CABB;
+      --rule-light: rgba(212, 202, 187, 0.6);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body); font-size: 1.05rem; line-height: 1.75;
+      color: var(--text); background: var(--ground);
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    ::selection { background: var(--accent); color: #fff; }
+
+    .progress { position: fixed; top: 0; left: 0; height: 3px; z-index: 100; background: var(--accent); width: 0%; transition: width 0.1s linear; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 90; background: rgba(22,18,15,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule-light); transition: transform 0.3s ease; }
+    @media (prefers-color-scheme: light) { .nav { background: rgba(245,240,232,0.92); } }
+    :root[data-theme="light"] .nav { background: rgba(245,240,232,0.92); }
+
+    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0.6rem var(--pad-x); display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand { font-family: var(--serif); font-size: 0.95rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+    .nav-brand span { color: var(--accent); font-size: 1.1rem; }
+    .nav-links { display: flex; gap: 0.2rem; }
+    .nav-links a { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); text-decoration: none; padding: 0.4rem 0.65rem; border-radius: 4px; transition: color 0.2s, background 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); background: var(--accent-glow); }
+    .theme-toggle { background: none; border: 1px solid var(--rule); border-radius: 6px; color: var(--text-dim); cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.85rem; line-height: 1; font-family: var(--sans); }
+    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 6rem var(--pad-x) 4rem; position: relative; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% 30%, var(--accent-glow), transparent); pointer-events: none; }
+    .hero-eyebrow { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 1.5rem; }
+    .hero-eyebrow span { color: var(--text-dim); }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.8rem, 7vw, 5.5rem); line-height: 1.05; color: var(--text); max-width: 800px; text-wrap: balance; }
+    .hero-sub { font-family: var(--body); font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-dim); max-width: 600px; margin-top: 1.5rem; line-height: 1.6; }
+    .hero-meta { margin-top: 3rem; display: flex; gap: 2rem; flex-wrap: wrap; font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
+    .hero-meta div { display: flex; flex-direction: column; gap: 0.15rem; }
+    .hero-meta strong { color: var(--text-dim); font-size: 0.82rem; }
+    .hero-epigraph { margin-top: 2.5rem; max-width: 520px; border-left: 3px solid var(--accent); padding-left: 1.2rem; font-style: italic; color: var(--text-dim); font-size: 0.98rem; line-height: 1.7; }
+    .hero-epigraph cite { display: block; margin-top: 0.5rem; font-style: normal; font-family: var(--sans); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .section { padding: 5rem var(--pad-x); max-width: var(--max-w); margin: 0 auto; }
+    .section-label { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--amber); margin-bottom: 0.5rem; }
+    .section-num { font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--text); margin-bottom: 1.5rem; }
+    .section h3 { font-family: var(--serif); font-size: clamp(1.3rem, 2.5vw, 1.7rem); color: var(--text); margin-bottom: 1rem; line-height: 1.3; }
+    .section p { max-width: 68ch; margin-bottom: 1.2rem; }
+
+    .split { display: grid; gap: 3rem; grid-template-columns: 1fr 340px; align-items: start; }
+    @media (max-width: 768px) { .split { grid-template-columns: 1fr; } }
+    .split-main p { max-width: 62ch; }
+
+    .sidebar-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1.4rem; margin-bottom: 1.5rem; }
+    .sidebar-card-label { font-family: var(--sans); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--amber); margin-bottom: 0.6rem; }
+    .sidebar-card p { font-size: 0.92rem; line-height: 1.65; color: var(--text-dim); }
+    .sidebar-card .stat { font-family: var(--serif); font-size: 2rem; color: var(--accent); line-height: 1; }
+    .sidebar-card .stat-label { font-family: var(--sans); font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+
+    .pull { border-left: 3px solid var(--accent); padding-left: 1.4rem; margin: 2.5rem 0; max-width: 540px; }
+    .pull p { font-family: var(--serif); font-size: 1.15rem; line-height: 1.55; color: var(--text); font-style: italic; }
+    .pull cite { display: block; margin-top: 0.6rem; font-family: var(--sans); font-size: 0.72rem; color: var(--muted); font-style: normal; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .data-table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+    .data-table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 0.82rem; }
+    .data-table th { text-align: left; padding: 0.6rem 0.8rem; background: var(--surface-2); color: var(--text-dim); font-weight: 500; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 2px solid var(--rule); }
+    .data-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--rule-light); color: var(--text-dim); }
+    .data-table tr:hover td { color: var(--text); background: var(--surface); }
+    .data-table .accent { color: var(--accent); font-weight: 600; }
+    .data-table .amber { color: var(--amber); font-weight: 600; }
+    .data-table caption { text-align: left; padding: 0 0.8rem 0.5rem; font-family: var(--sans); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .break { width: 100vw; margin-left: calc(-50vw + 50%); padding: 4rem var(--pad-x); background: var(--surface); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .break-inner { max-width: var(--max-w); margin: 0 auto; }
+    .break .timeline-year { font-family: var(--serif); font-size: clamp(3rem, 8vw, 6rem); color: var(--accent); opacity: 0.2; line-height: 1; }
+    .break .timeline-event { font-family: var(--body); font-size: 1.1rem; color: var(--text); max-width: 50ch; margin-top: 0.8rem; }
+    .break .timeline-source { font-family: var(--sans); font-size: 0.7rem; color: var(--muted); margin-top: 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .timeline-strip { display: flex; gap: 0; overflow-x: auto; padding: 1rem 0; margin: 1.5rem 0; scrollbar-width: thin; }
+    .timeline-item { flex: 0 0 auto; min-width: 160px; padding: 0.8rem 1.2rem; border-left: 2px solid var(--rule); position: relative; }
+    .timeline-item::before { content: ''; position: absolute; left: -5px; top: 1.1rem; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .timeline-item.closed::before { background: var(--muted); }
+    .timeline-item .ty { font-family: var(--sans); font-size: 0.68rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    .timeline-item.closed .ty { color: var(--muted); }
+    .timeline-item .td { font-family: var(--sans); font-size: 0.78rem; color: var(--text-dim); margin-top: 0.25rem; line-height: 1.4; }
+
+    .biblio { font-family: var(--sans); font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; }
+    .biblio li { margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative; list-style: none; }
+    .biblio li::before { content: ''; position: absolute; left: 0; top: 0.55rem; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+
+    .toc-float { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 0.4rem; }
+    .toc-float a { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--muted); transition: color 0.2s; }
+    .toc-float a:hover { color: var(--accent); }
+    .toc-float .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); transition: background 0.3s, transform 0.3s; }
+    .toc-float a.active .dot { background: var(--accent); transform: scale(1.5); }
+    .toc-float .tl { font-family: var(--sans); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0; transform: translateX(4px); transition: opacity 0.2s, transform 0.2s; }
+    .toc-float a:hover .tl, .toc-float a.active .tl { opacity: 1; transform: translateX(0); }
+    @media (max-width: 1100px) { .toc-float { display: none; } }
+
+    .footer { border-top: 1px solid var(--rule); padding: 3rem var(--pad-x); max-width: var(--max-w); margin: 0 auto; font-family: var(--sans); font-size: 0.75rem; color: var(--muted); display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer a { color: var(--text-dim); text-decoration: none; }
+    .footer a:hover { color: var(--accent); }
+
+    .tag { display: inline-block; font-family: var(--sans); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.55rem; border-radius: 3px; background: var(--accent-glow); color: var(--accent); border: 1px solid rgba(168,65,43,0.2); }
+    .tag.amber { background: var(--amber-dim); color: var(--amber); border-color: rgba(196,138,58,0.2); }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) { .fade-in { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+    @media (max-width: 600px) { .hero { padding: 4rem 1.2rem 3rem; } .section { padding: 3rem 1.2rem; } .hero-meta { flex-direction: column; gap: 1rem; } .nav-links { display: none; } }
+
+    /* === PESTAÑAS sA === */
+    .tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-top: 2rem; }
+    .tab-btn { font-family: var(--sans); font-size: 0.72rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 0.6rem 1.2rem; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color 0.2s, border-color 0.2s; }
+    .tab-btn:hover { color: var(--text-dim); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    @media (max-width: 600px) { .tab-btn { font-size: 0.62rem; padding: 0.5rem 0.7rem; } }
+  </style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand"><span>NsF</span> Seminario Norte de Santa Fe</a>
+    <div class="nav-links">
+      <a href="#recup">Peronismo</a>
+      <a href="#sA">A · Política forestal</a>
+      <a href="#sB">B · Capital imperialista</a>
+      <a href="#sC">C · Reconversión</a>
+      <a href="#sD">D · Éxodos</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Cambiar tema">☀</button>
+  </div>
+</nav>
+
+<!-- FLOATING TOC -->
+<div class="toc-float" id="tocFloat">
+  <a href="#recup"><span class="dot"></span><span class="tl">Peronismo</span></a>
+  <a href="#sA"><span class="dot"></span><span class="tl">A · Forestal</span></a>
+  <a href="#sB"><span class="dot"></span><span class="tl">B · Imperialista</span></a>
+  <a href="#sC"><span class="dot"></span><span class="tl">C · Reconv.</span></a>
+  <a href="#sD"><span class="dot"></span><span class="tl">D · Éxodos</span></a>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="hero">
+  <div class="hero-eyebrow">
+    Seminario Permanente de Historia del Norte de Santa Fe &nbsp;·&nbsp; <span>Encuentro 6</span> &nbsp;·&nbsp; Unidad V
+  </div>
+  <h1 class="hero-title">El Fin de una Era</h1>
+  <p class="hero-sub">
+    Política forestal, estrategia imperialista y disputas por la reconversión productiva en el territorio que La Forestal abandonó.
+  </p>
+  <div class="hero-meta">
+    <div><strong>Período</strong>1955 – 1970</div>
+    <div><strong>Ejes</strong>A) Política forestal · B) Capital imperialista · C) Reconversión · D) Éxodos</div>
+    <div><strong>Coordinación</strong>Jasinski · L. Sánchez · Di Croce · G. Sánchez · Ríos Solís</div>
+  </div>
+  <blockquote class="hero-epigraph">
+    La Forestal se ha divorciado del quebracho y se ha ido con la mimosa, pero con el agravante que continúa haciéndole maliciosamente la corte al quebracho. Para desarrollar este juego tiene que apelar a toda clase de recursos a fin de que mientras quiere entrañablemente a otra, no desprenderse de su primer amor.
+    <cite>Ricardo Marzorati, La industria del extracto de quebracho en la Argentina, 1960</cite>
+  </blockquote>
+</header>
+
+<!-- ============ RECUPERACIÓN DE LA CLASE PASADA ============ -->
+<section class="section fade-in" id="recup">
+  <div class="section-label">Peronismo</div>
+  <h2 class="section-num">El impacto del peronismo en el territorio forestal</h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>La crisis de la industria taninera y la decisión de La Forestal</h3>
+      <p>
+        En el Encuentro 5 cerramos con un diagnóstico: la industria del tanino estaba en crisis y La Forestal había tomado la decisión de liquidar la industria del quebracho en el país. Esta decisión no era nueva: se gesta a partir de 1939, cuando The Forestal Land, Timber and Railways Company —la casa matriz londinense— comienza a desarrollar aceleradamente la industria de la mimosa en África. Las plantaciones de <em>Acacia mearnsii</em> se determinaron en 1938; a los diez años ya eran explotables.
+      </p>
+      <p>
+        Vimos también cómo la emergencia del peronismo le sirvió a La Forestal de excusa para justificar la salida. Las leyes laborales (Estatuto del Peón Rural, decreto 33.302 de salario vital y SAC, convenios colectivos), la estructuración y fortalecimiento de la sindicalización (FATITA, las comisiones paritarias), las políticas impositivas y de comercialización del peronismo (el IAPI, el impuesto al tanino) —todo esto fue presentado como la causa del cierre. Pero la "solución espacial" fue diseñada antes del peronismo, en función de las luchas sociales y de la rentabilidad comparativa entre el quebracho y la mimosa.
+      </p>
+
+      <figure style="margin:2rem 0;">
+        <img src="img/peronismo-impacto-leyes.png" alt="Convenio colectivo de trabajo de la industria del extracto de quebracho, 1944" style="width:100%; max-width:580px; border-radius:6px; border:1px solid var(--rule);">
+        <figcaption style="font-family:var(--sans); font-size:0.72rem; color:var(--muted); margin-top:0.5rem; line-height:1.5;">Convenio colectivo de trabajo de la industria del extracto de quebracho, 1944. Primer convenio para la industria taninera, rubricado cuando los "fundadores" del sindicalismo comunista aún estaban al frente. Fuente: <em>Revista del trabajo y la salud pública</em>, marzo-abril 1947.</figcaption>
+      </figure>
+
+      <h3>Villa Guillermina y el Plan de Racionalización</h3>
+      <p>
+        Nos detuvimos específicamente en lo que estaba ocurriendo en Villa Guillermina, la primera gran fábrica cerrada por La Forestal (noviembre de 1949). Un pueblo de 20.000 habitantes que quedaba sin su razón de ser. Vimos las complicaciones vinculadas a las propuestas de reconversión que se hacen desde el sindicato (SOIQ), la Comisión de Fomento y otros actores económicos y comerciales de alcance nacional: la propuesta de transformar la fábrica en ingenio azucarero, la Cooperativa Sericícola (1953), la adjudicación de tierras en la Colonia 17 de Octubre.
+      </p>
+      <p>
+        Y vimos cómo La Forestal instrumentó el Plan de Racionalización (agosto de 1950) como un caballo de Troya: la empresa que había causado la crisis se presentaba como parte de la solución, ofreciéndose "voluntariamente" a contribuir al saneamiento mediante la eliminación de fábricas sin materia prima. El "retiro voluntario" de 1953 y la tierra arrasada —la dispersión de maquinaria para impedir la reactivación— completaron el cuadro.
+      </p>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Idea-fuerza del Encuentro 5</div>
+        <p>La emergencia del peronismo no constituye el "inicio del fin" de La Forestal, sino que <strong>acelera una estrategia preconcebida</strong>. La "solución espacial" fue diseñada antes, en función de las luchas sociales. Gana terreno entre 1939 y 1943.</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Excusas vs. causas</div>
+        <p><strong>Excusa:</strong> leyes laborales, sindicalización, IAPI, impuestos</p>
+        <p style="margin-top:0.4rem;"><strong>Causa:</strong> la mimosa era más rentable; la decisión de salir ya estaba tomada en Londres</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Secuencia Villa Guillermina</div>
+        <p><strong>Feb 1948:</strong> IAPI sube precio → 21 meses sin ventas</p>
+        <p style="margin-top:0.3rem;"><strong>Nov 1949:</strong> Cierre definitivo</p>
+        <p style="margin-top:0.3rem;"><strong>Ago 1950:</strong> Plan de Racionalización</p>
+        <p style="margin-top:0.3rem;"><strong>Abr 1953:</strong> "Retiro voluntario" + tierra arrasada</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- BREAK ---- -->
+<div class="break">
+  <div class="break-inner">
+    <div class="timeline-year">Lo que viene</div>
+    <div class="timeline-event">Cuatro ejes para esta clase: (A) la política forestal como factor determinante de la salida; (B) la estrategia internacional de La Forestal como capital imperialista; (C) las disputas por la reconversión productiva del territorio; (D) los éxodos sociales y la vida en los pueblos que la empresa abandonó.</div>
+    <div class="timeline-source">Y una apertura: el cambio de eje de la industria a la tierra</div>
+  </div>
+</div>
+
+<!-- ============ A — POLÍTICA FORESTAL ============ -->
+<section class="section" id="sA">
+  <div class="section-label">Eje A</div>
+  <h2 class="section-num">Política forestal y agotamiento del bosque</h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>La política forestal como factor determinante</h3>
+
+      <div class="tab-bar" id="sATabs">
+        <button class="tab-btn active" data-tab="sA-concepto">Marco conceptual</button>
+        <button class="tab-btn" data-tab="sA-zarrilli">Tesis de Zarrilli</button>
+      </div>
+
+      <!-- PANEL 1: MARCO CONCEPTUAL -->
+      <div class="tab-panel active" id="sA-concepto">
+
+        <h3>Ross: ecología y poder en la era del imperio</h3>
+        <p>
+          Corey Ross, en <em>Ecology and Power in the Age of Empire</em> (2017), analiza cómo el imperialismo europeo transformó los ecosistemas tropicales a través de la extracción de recursos, la plantación de monocultivos y la construcción de infraestructura. Ross muestra que la transformación ecológica no fue un subproducto del imperio sino una condición de su posibilidad: el poder imperial dependía de la capacidad de reconfigurar paisajes para la acumulación de capital. La Forestal es un caso paradigmático de esta lógica: la empresa reconfiguró el paisaje del Chaco santafesino —de bosque de quebracho a monte depletionado— para extraer valor, y cuando el paisaje se agotó, simplemente se trasladó a otro paisaje —las plantaciones de mimosa en África— repitiendo el patrón.
+        </p>
+        <p>
+          Ross argumenta que la idea de "conservación" colonial era en realidad una forma de gestión del agotamiento: no se trataba de preservar el ecosistema sino de administrar la tasa de extracción para maximizar la renta a largo plazo. Pero cuando la empresa tenía una alternativa lista (la mimosa), la conservación dejaba de ser racional desde el punto de vista del capital. La Forestal no necesitaba conservar el quebracho porque ya tenía la mimosa.
+        </p>
+
+        <h3>Zarrilli: el bosque perdido</h3>
+        <p>
+          Adrián Zarrilli, en <em>El bosque perdido. Una historia ambiental del Norte santafesino (1890–2010)</em> (2018), reconstruye la historia de la destrucción del bosque de quebracho como un proceso de larga duración. Zarrilli muestra que el agotamiento no fue una consecuencia imprevista sino el resultado de un modelo de extracción diseñado para maximizar la renta sin reinversión en el recurso. El quebracho colorado necesita 80 a 120 años para alcanzar diámetro comercial; la empresa talaba bosques enteros en décadas. La Forestal nunca reforestó significativamente: las plantaciones experimentales de Valentini (1960) y las leyes de reposición obligatoria de especies llegaron cuando los bosques ya estaban diezmados.
+        </p>
+
+        <blockquote class="pull">
+          <p>El "bosque perdido" no fue consecuencia de la ignorancia sino del cálculo: la empresa sabía que la mimosa africana, cultivada en plantaciones, era el reemplazo planificado. No necesitaba conservar lo que iba a abandonar.</p>
+          <cite>Tesis a partir de Ross (2017) y Zarrilli (2018)</cite>
+        </blockquote>
+
+      </div><!-- /sA-concepto -->
+
+      <!-- PANEL 2: TESIS DE ZARRILLI -->
+      <div class="tab-panel" id="sA-zarrilli">
+
+        <h3>1. Timber mining: el bosque como mina</h3>
+        <p>
+          Zarrilli conceptualiza la explotación forestal del Chaco como <em>timber mining</em> —extracción de madera al estilo de la minería—, es decir, un modelo que extrae un recurso natural no renovable (en tiempos comerciales) sin reinversión en el mismo. El quebracho colorado necesita 80 a 120 años para alcanzar diámetro comercial; La Forestal taló bosques enteros en décadas. Este modelo genera una <strong>organización económico-espacial transitoria</strong>: donde la madera se agota, las instalaciones desaparecen y los pueblos son abandonados.
+        </p>
+
+        <h3>2. La maximización de beneficios lleva a la sobreutilización</h3>
+        <p>
+          Zarrilli sostiene que «la maximización de beneficios individuales llevó a que los agentes cosecharan tan rápido y tanto como pudieron», generando que los beneficios desaparezcan y el recurso se sobreutilice. No es ignorancia: es la lógica del rentismo extractivo.
+        </p>
+
+        <h3>3. La «nueva forma productiva» es paliativa, no preventiva</h3>
+        <p>
+          Hacia 1950, Zarrilli identifica una «nueva forma productiva» que se manifiesta en la planificación del uso del recurso, el surgimiento de organismos nacionales y provinciales, y la forestación comercial. Pero la tesis clave es: esta acción planificadora tiene más de <strong>paliativa</strong> que de previsora. Surge cuando el ciclo extractivo ya cambió, cuando los bosques están diezmados. El Estado planifica cuando ya es tarde.
+        </p>
+
+        <h3>4. La despoblación como consecuencia estructural</h3>
+        <p>
+          Zarrilli vincula la explotación forestal con la despoblación progresiva: «La explotación forestal influye solamente en una puesta en valor del espacio temporal, momentáneo». Donde la madera se agota, las instalaciones desaparecen. La región del tanino pierde masa demográfica: Tartagal pierde un 82%, Villa Guillermina un 50%, y otros pueblos desaparecen por completo.
+        </p>
+
+        <blockquote class="pull">
+          <p>La «nueva forma productiva» que Zarrilli identifica hacia 1950 tiene más de paliativa que de previsora. Surge cuando el ciclo extractivo ya cambió. El Estado planifica cuando ya es tarde.</p>
+          <cite>Síntesis a partir de Zarrilli (2018)</cite>
+        </blockquote>
+
+      </div><!-- /sA-zarrilli -->
+
+    </div><!-- /split-main -->
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Ciclo biológico</div>
+        <div class="stat">80–120</div>
+        <div class="stat-label">Años para que el quebracho colorado alcance diámetro comercial</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Textos eje</div>
+        <p><strong>Ross, C.</strong> (2017). <em>Ecology and Power in the Age of Empire</em>. Oxford University Press.</p>
+        <p style="margin-top:0.4rem;"><strong>Zarrilli, A.</strong> (2018). El bosque perdido. Una historia ambiental del Norte santafesino (1890–2010). En Brac (Comp.), <em>El norte forestal</em>. CFI.</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Pregunta</div>
+        <p>¿La legislación forestal fue una herramienta para frenar la depredación o un argumento que La Forestal usó para justificar su salida?</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============ B — ESTRATEGIA INTERNACIONAL / CAPITAL IMPERIALISTA ============ -->
+<section class="section fade-in" id="sB">
+  <div class="section-label">Eje B</div>
+  <h2 class="section-num">Capital imperialista y la salida sin problemas</h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>¿Cómo pudo La Forestal salir sin ninguna consecuencia?</h3>
+      <p>
+        La pregunta central de este eje es: ¿qué tipo de estrategia internacional construyó La Forestal como capital imperialista que le permitió salir del país sin ningún tipo de problema? La Forestal no huyó: se retiró planificadamente, con sus inversiones ya relocalizadas, sus mercados asegurados y su estructura corporativa intacta. Cuando cerró la última fábrica en La Gallareta en 1963, la empresa no estaba en quiebra: estaba en África.
+      </p>
+
+      <h3>Cowen: La Forestal como empresa transnacional</h3>
+      <p>
+        Michael Cowen, en su estudio seminal "Capital, Nation and Commodities" (1990), reconstruyó la historia de The Forestal Land, Timber and Railways Company como una empresa transnacional que operaba simultáneamente en Argentina y África bajo el respaldo del Foreign Office y el Colonial Office británicos. Cowen demostró que la deslocalización fue una reacción contra las "acciones nacionales de liberación y libertad" tanto como contra las condiciones técnicas y de precios. Las ganancias acumuladas en Argentina entre 1906 y 1921 financiaron la expansión a Sudáfrica.
+      </p>
+
+      <h3>Silver: donde va el capital, va el conflicto</h3>
+      <p>
+        Beverly Silver, en <em>Fuerzas de trabajo</em> (2003), plantea una tesis que ilumina el caso: cuando el capital huye de regiones con movimientos obreros fuertes, crea las condiciones para nuevas formas de militancia laboral en los sitios de relocalización. Aplicado al caso: La Forestal huyó del norte santafesino en parte por la fuerza del sindicalismo. Pero en África, las plantaciones de mimosa crearon nuevas clases trabajadoras que eventualmente también generarían conflicto. La "solución espacial" no resuelve la contradicción capital-trabajo: la desplaza.
+      </p>
+
+      <h3>1. Política imperial desde Londres</h3>
+      <p>
+        La Forestal no era una empresa argentina que se iba: era una empresa imperial británica que relocalizaba sus operaciones dentro del imperio. The Forestal Land, Timber and Railways Co. Ltd., con sede en la City de Londres, controlaba todas las subsidiarias bajo la presidencia del Segundo Conde de Selborne. Las decisiones se tomaban en Londres, no en Buenos Aires.
+      </p>
+      <p>
+        La estructura corporativa era la clave de la impunidad. Hicks, historiadora oficial de la empresa, reveló que la transferencia de activos argentinos de la casa matriz londinense a La Forestal Argentina S.A. en 1930 permitió evadir impuestos <em>también en Gran Bretaña</em>. En Argentina, la operación defraudó la ley de sellos: se pagaron 2.000 pesos moneda nacional en lugar de los 99.000 pesos oro sellado correspondientes.
+      </p>
+
+      <h3>2. Evolución del mercado global del tanino</h3>
+      <p>
+        El mercado mundial de taninos vegetales era inelástico: aproximadamente 400.000 toneladas anuales. Tres grupos competían: el quebracho, la mimosa y el castaño. La Forestal controlaba simultáneamente el 55,2% del quebracho argentino y la mayor parte de la producción de mimosa en África. La inversión en mimosa pasó de £900.000 (1938) a £9,2 millones (1958), mientras la inversión en Argentina caía de £6,5 millones a £5 millones.
+      </p>
+
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <caption>Participación en el mercado mundial de taninos vegetales</caption>
+          <thead><tr><th>Grupo</th><th>Especie</th><th>1936–38</th><th>1958</th><th>Variación</th></tr></thead>
+          <tbody>
+            <tr><td>Quebracho</td><td><em>Schinopsis balansae</em></td><td class="accent">61,7%</td><td>42,2%</td><td>−19,5 pp</td></tr>
+            <tr><td>Mimosa</td><td><em>Acacia mearnsii</em></td><td>10,4%</td><td class="amber">36,3%</td><td>+25,9 pp</td></tr>
+            <tr><td>Castaño</td><td><em>Castanea sativa</em></td><td>~28%</td><td>~21,5%</td><td>−6,5 pp</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-family:var(--sans); font-size:0.7rem; color:var(--muted); margin-top:-0.8rem;">Fuente: Marzorati, 1960</p>
+
+      <h3>3. Deslocalización a África: los tres fixes del capital</h3>
+      <p>
+        En términos de Beverly Silver, La Forestal combinó simultáneamente tres «fixes» del capital: un <strong>fix espacial</strong> (relocalización a Sudáfrica, Kenia y Rodesia), un <strong>fix productivo</strong> (la mimosa sustituye al quebracho) y un <strong>fix tecnológico</strong> (la mimosa cultivable elimina la dependencia de bosques naturales y de hacheros). Cowen demostró que la capacidad financiera para pisar en Sudáfrica provino directamente de las ganancias acumuladas en Argentina entre 1906 y 1921: «Accumulated profits and not new share capital provided for Forestal's entry into wattle production.»
+      </p>
+
+      <blockquote class="pull">
+        <p>No es cierto que el quebracho no pueda competir con la mimosa; lo que no puede es competir con La Forestal.</p>
+        <cite>Ricardo Marzorati, La industria del extracto de quebracho en la Argentina, 1960</cite>
+      </blockquote>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Inversión desplazada</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:0.5rem;">
+          <div>
+            <div style="font-family:var(--sans); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Mimosa (África)</div>
+            <div class="stat" style="font-size:1.4rem;">£9,2M</div>
+            <div class="stat-label">1958 (desde £900K en 1938)</div>
+          </div>
+          <div>
+            <div style="font-family:var(--sans); font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Quebracho (Arg.)</div>
+            <div class="stat" style="font-size:1.4rem; color:var(--amber);">£5M</div>
+            <div class="stat-label">1958 (desde £6,5M en 1938)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Estructura corporativa</div>
+        <p><strong>The Forestal Land, Timber and Railways Co. Ltd.</strong> — sede en Londres, presidencia del 2° Conde de Selborne</p>
+        <p style="margin-top:0.25rem;"><strong>Foreign Office</strong> — garante ante gobiernos argentinos</p>
+        <p style="margin-top:0.25rem;"><strong>Colonial Office</strong> — facilitó expansión en Kenia y África Oriental</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Conflicto de interés</div>
+        <p>The Forestal controlaba simultáneamente:</p>
+        <p style="margin-top:0.3rem;"><strong class="accent">55,2%</strong> del quebracho argentino</p>
+        <p style="margin-top:0.2rem;"><strong class="amber">+60%</strong> de la mimosa africana</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Propaganda</div>
+        <p>G. H. Humphreys, jefe de los laboratorios de The Forestal: <em>"La era del quebracho ha terminado y la era de la mimosa ha comenzado."</em></p>
+        <p style="margin-top:0.3rem; font-family:var(--sans); font-size:0.7rem; color:var(--muted);">Leder Tidningen, Suecia, noviembre 1952</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---- BREAK: Secuencia de cierres ---- -->
+<div class="break">
+  <div class="break-inner">
+    <div class="timeline-year" style="font-size:clamp(2rem,5vw,3.5rem);">La secuencia del retiro</div>
+    <div class="timeline-event" style="max-width:70ch;">La Forestal no huyó: se retiró planificadamente, fábrica por fábrica, dejando a su paso pueblos sin economía, sin infraestructura y sin futuro. Cada cierre seguía el mismo patrón: notificación, despido, desalojo, desmantelamiento.</div>
+  </div>
+</div>
+
+<!-- Timeline strip -->
+<section class="section" style="padding-top:0;">
+  <div class="timeline-strip">
+    <div class="timeline-item closed">
+      <div class="ty">Nov 1949</div>
+      <div class="td">Cierre de Villa Guillermina · 20.000 hab.</div>
+    </div>
+    <div class="timeline-item closed">
+      <div class="ty">~1949–51</div>
+      <div class="td">Cierre de Tartagal</div>
+    </div>
+    <div class="timeline-item closed">
+      <div class="ty">~1950–51</div>
+      <div class="td">Cierre de Col. Baranda (Chaco)</div>
+    </div>
+    <div class="timeline-item">
+      <div class="ty">1954</div>
+      <div class="td">Ley provincial contra éxodo industrial — nunca publicada en boletín oficial</div>
+    </div>
+    <div class="timeline-item">
+      <div class="ty">1955</div>
+      <div class="td">Cierre de Villa Ana</div>
+    </div>
+    <div class="timeline-item">
+      <div class="ty">1959</div>
+      <div class="td">Decreto 3.546 (Frondizi): cuota por empresa, no por fábrica — habilita el cierre</div>
+    </div>
+    <div class="timeline-item">
+      <div class="ty">1963</div>
+      <div class="td">Cierre de La Gallareta · Última fábrica del norte santafesino</div>
+    </div>
+    <div class="timeline-item">
+      <div class="ty">1969</div>
+      <div class="td">Ocampazo · Primera pueblada del país</div>
+    </div>
+  </div>
+
+  <div class="data-table-wrap" style="margin-top:2rem;">
+    <table class="data-table">
+      <caption>Fábricas de La Forestal — Cierres en el norte santafesino</caption>
+      <thead><tr><th>Fábrica</th><th>Cap. (ton/día, 1948)</th><th>Participación</th><th>Cierre</th></tr></thead>
+      <tbody>
+        <tr><td>Villa Guillermina</td><td>191,7</td><td>12,9%</td><td class="accent">Nov 1949</td></tr>
+        <tr><td>Tartagal</td><td>137,5</td><td>9,2%</td><td class="accent">~1949–51</td></tr>
+        <tr><td>Col. Baranda (Chaco)</td><td>48,4</td><td>3,2%</td><td class="accent">~1950–51</td></tr>
+        <tr><td>Villa Ana</td><td>137,7</td><td>9,2%</td><td class="accent">1955</td></tr>
+        <tr><td>La Gallareta</td><td>176,4</td><td>11,9%</td><td class="accent">1963</td></tr>
+        <tr><td>Fontana (Chaco)</td><td>66,1</td><td>4,4%</td><td>Post-1955</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ C — RECONVERSIÓN PRODUCTIVA ============ -->
+<section class="section fade-in" id="sC">
+  <div class="section-label">Eje C</div>
+  <h2 class="section-num">Nuevos actores y disputas por la reconversión</h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>La consolidación de nuevos actores</h3>
+      <p>
+        En el marco de la consolidación y aparición de nuevos actores —las comunas locales, los sindicatos fortalecidos (FATITA), un Estado planificador y dirigista—, la pregunta central de este eje es: ¿cuáles fueron las alternativas y discusiones en torno a la reconversión productiva de un territorio como el norte santafesino? La salida de La Forestal no solo destruyó la economía regional: abrió un espacio político para que otros actores propusieran modelos alternativos de desarrollo.
+      </p>
+      <p>
+        Pero la reconfiguración era traumática. El gobernador Caesar había diagnosticado en 1949 el modelo de La Forestal como "explotación científica": la empresa suministraba la casa, la comida y el médico con el objetivo de aniquilar cualquier espíritu de iniciativa en el personal. Décadas de paternalismo habían atrofiado la capacidad de autogobierno. Cuando la empresa se fue, los pueblos debieron construir su propio futuro sin recursos, sin infraestructura y sin experiencia de autonomía.
+      </p>
+
+      <h3>Las propuestas de reconversión</h3>
+      <p>
+        Las alternativas de reconversión fueron múltiples y contradictorias. Desde el sindicato (SOIQ, FATITA) y la Comisión de Fomento se propuso la reapertura de las fábricas, la reconversión a ingenio azucarero y la adjudicación de tierras a los pobladores. La Cooperativa Sericícola (1953) intentó la cría de gusanos de seda como alternativa productiva. La Colonia 17 de Octubre (1950) expropió 5.659 hectáreas a La Forestal para colonización. En General Obligado se duplicaron las hectáreas sembradas de algodón para 1952, buscando un "nuevo oro blanco".
+      </p>
+      <p>
+        Pero las propuestas chocaban con la realidad: la tierra arrasada había dispersado la maquinaria, la ley de 1954 contra el éxodo industrial nunca se publicó en el boletín oficial, y el Estado —provincial y nacional— no tenía la capacidad ni la voluntad de confrontar a una empresa con sede en Londres. La expropiación se aplicó a la tierra, no a las fábricas: la Constitución de 1949 había incorporado la función social de la propiedad (art. 38), pero el principio no se tradujo en nacionalización industrial.
+      </p>
+      <p>
+        Y había un problema estructural: el marco regulatorio favorecía a La Forestal. El decreto 23.451/48 establecía cuotas de exportación por <em>fábrica</em>, no por empresa. Si La Forestal cerraba Villa Guillermina, perdía su cuota (12,9%) y se redistribuía entre los competidores. Este sistema frenaba los cierres. Pero el decreto 3.546 de Frondizi (1959) cambió la regla: estableció la cuota por <em>empresa</em>, no por fábrica. El Estado no solo no impidió la salida: le allanó el camino.
+      </p>
+
+      <blockquote class="pull">
+        <p>Siempre cuando se trata de La Forestal, hay una voluntad extraña que trabaja sigilosamente, y entre las sombras, no estuvo estado público, ni se publicó en el boletín oficial, logrando evadirla con autorizaciones comunales.</p>
+        <cite>Anacarsis Acevedo, Investigación a La Forestal, 1983</cite>
+      </blockquote>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Actores en la reconversión</div>
+        <p><strong>Comunas locales</strong> — Primeros gobiernos autónomos tras décadas de paternalismo</p>
+        <p style="margin-top:0.3rem;"><strong>FATITA</strong> — Federación obrera taninera, hereda conquistas del comunismo</p>
+        <p style="margin-top:0.3rem;"><strong>Estado planificador</strong> — Comisiones Paritarias, CNTR, Plan de Racionalización</p>
+        <p style="margin-top:0.3rem;"><strong>P. Rafael Yacuzzi</strong> — Curas tercermundistas, cooperativismo</p>
+        <p style="margin-top:0.3rem;"><strong>Cooperativas</strong> — Sericícola (1953), Colonia 17 de Octubre (1950)</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Decretos de cuotas</div>
+        <p><strong>23.451/48:</strong> Cuota por fábrica → frenaba el cierre</p>
+        <p style="margin-top:0.3rem;"><strong>3.546/59:</strong> Cuota por empresa → habilitó el cierre</p>
+        <p style="margin-top:0.4rem; font-style:italic;">"Solo favorece a La Forestal, por ser la única que posee más de una fábrica." — Marzorati</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Lecturas</div>
+        <p>Sánchez, L. & Sánchez, G. (2019). Cierre de fábricas de tanino y éxodo. En Brac (Comp.), <em>Pueblos forestales del norte santafesino</em>. CFI.</p>
+        <p style="margin-top:0.3rem;">Gori, G. (1991). <em>La Forestal, la tragedia del quebracho colorado</em> (ed. orig. 1965).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D — ÉXODOS SOCIALES ============ -->
+<section class="section fade-in" id="sD">
+  <div class="section-label">Eje D</div>
+  <h2 class="section-num">Éxodos sociales: no desocupación, despoblamiento</h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>El éxodo como categoría</h3>
+      <p>
+        Los cierres de fábrica de La Forestal no produjeron desocupación: produjeron despoblamiento. Esta distinción no es semántica sino estructural. La desocupación es una condición del mercado laboral: hay menos puestos que trabajadores. El despoblamiento es una condición del territorio: se va la empresa y se va el pueblo. En el norte santafesino, la economía del tanino no era un sector más de la economía regional: <em>era</em> la economía regional. Su colapso arrastró todo: obrajes, aserraderos, comercios, ferroviarios, servicios, escuelas. Cuando La Forestal cerraba una fábrica, no despedía obreros: desalojaba familias de sus casas, clausuraba la proveeduría, retiraba el médico, suspendía el tren de carga. El pueblo dejaba de funcionar como unidad habitable.
+      </p>
+
+      <h3>"Cadáveres de pueblos": la despoblación anterior</h3>
+      <p>
+        El despoblamiento no empezó con los cierres de la era peronista. Desde los años veinte, La Forestal ya había abandonado pueblos enteros. Pehuajó, Calchaquí y Santa Felicia fueron los primeros. Cuando cerró Santa Felicia, "la población se vio obligada a emigrar y dispersarse quedando casi en ruinas los edificios" —registró la prensa en 1949, recordando el precedente. En 1926, el cierre de La Gallareta provocó "la ruina y el éxodo de trabajadores de aquel pueblo", ya que "allí no existen otros medios de vida que los proporcionados por La Forestal". En 1927, cerró Tartagal; se hablaba de "cientos de hombres que han tenido que emigrar hacia otros puntos del norte, en procura de trabajo y con ellos sus familias". Cuando La Gallareta reabrió, "la paralización se trasladó a Villa Ana y Villa Guillermina, detectándose inmediatamente migraciones de obreros hacia el norte".
+      </p>
+      <p>
+        El trabajo en los obrajes era "de tipo minero, extractivo, y, por lo tanto, transitorio, que provocaba permanentes desplazamientos de población y éxodos" —describe Jasinski en <em>El encanto del tanino</em>. Los cronistas llamaban a estos lugares "cadáveres de pueblos": Garabato, Intiyaco, Guaycurú, Golondrina, Colmena, Cañada Ombú, Mocoví, Arroyo del Rey, Guasuncho, Toba. Poblaciones que antes albergaban entre siete y ocho mil personas quedaban vacías. "Ese mismo proceso de descomposición y despoblación está ocurriendo hoy día a la vista de los gobiernos, sin que nadie se preocupe por adoptar medidas", denunciaba <em>El Litoral</em> en mayo de 1941.
+      </p>
+      <p>
+        Pagano, observador contemporáneo, ya había advertido en los años veinte la lógica del despoblamiento: la empresa vendía terrenos a los obreros para que construyeran sus quintas, pero la "tierra prometida" resultaba repletos de anegadizos y nidos indestructibles de hormigas. Cuando el quebracho se agotara y las fábricas se levantaran, los quinteros perderían todo: "la compañía ha previsto el futuro en la venta de terrenos; su rescate a cualquier precio o ninguno cuando el término del quebracho en día no lejano, resuelva el levantamiento de las fábricas y determine el éxodo forzoso de los que viven de su explotación."
+      </p>
+
+      <blockquote class="pull">
+        <p>Pueblos creados al amparo de una industria única, sin otros medios propios de vida, rodeados de latifundios, sin comunicaciones y lejos de los grandes centros urbanos, sus perspectivas no podrían ser más sombrías.</p>
+        <cite>El Litoral, 27 de octubre de 1949 — Tercer tomo</cite>
+      </blockquote>
+
+      <h3>Las cifras del despoblamiento</h3>
+      <p>
+        El departamento 9 de Julio perdió más del 72% de sus obreros industriales en apenas ocho años. El departamento General Obligado perdió casi la mitad de su fuerza laboral. Zarrilli documenta que "la región del tanino pierde progresivamente masa demográfica, especialmente en los pueblos de fábrica: Tartagal, un 82%; Villa Guillermina, 50%, y otros pueblos desaparecen por completo". Durante 1954-1959 se cerraron siete fábricas argentinas con 142 mil toneladas de capacidad; cuatro eran de La Forestal, con 124 mil toneladas —el 87% del total cerrado—. "Así se despoblaron numerosos pueblos", registra el Tercer tomo.
+      </p>
+
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <caption>Población en pueblos forestales — estimación del impacto del éxodo</caption>
+          <thead><tr><th>Pueblo</th><th>Población aprox. apogeo</th><th>Cierre fábrica</th><th>Pérdida poblacional estimada</th></tr></thead>
+          <tbody>
+            <tr><td>Villa Guillermina</td><td>~20.000</td><td class="accent">Nov 1949</td><td class="accent">> 70%</td></tr>
+            <tr><td>Villa Ana</td><td>~8.000</td><td class="accent">1955</td><td class="accent">> 60%</td></tr>
+            <tr><td>La Gallareta</td><td>~6.000</td><td class="accent">1963</td><td class="accent">> 50%</td></tr>
+            <tr><td>Tartagal</td><td>~4.000</td><td class="accent">~1949–51</td><td class="accent">82%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-family:var(--sans); font-size:0.7rem; color:var(--muted); margin-top:-0.8rem;">Fuentes: Zarrilli (2018), Sánchez & Sánchez (2019), Tercer tomo. Las cifras son estimativas; los censos nacionales no registran las localidades pequeñas con precisión.</p>
+
+      <h3>"La migración vs las obras públicas"</h3>
+      <p>
+        El debate de 1949 reveló la magnitud del éxodo. <em>El Litoral</em> del 8 de marzo diagnosticaba: "El problema de la desocupación no es el más difícil de resolver. Ya lo está siendo, en parte, por sí mismo, pues suman centenares las familias que comienzan a abandonar esas regiones, donde han dejado muchos años de sacrificios y aún de penurias." Y <em>El Orden</em> del 2 de marzo describía escenas desgarradoras: "Los trabajadores, ante la perspectiva angustiosa que se les presenta, ante la completa falta de trabajo, levantan sus herramientas de trabajo, sus bienes, y se dirigen a otros puntos, sobre todo al Sur, en busca de jornal. Casos se han presentado en que trabajadores del tanino han viajado en trenes de carga para dirigirse a otros lugares con la esperanza de mejorar la suerte."
+      </p>
+      <p>
+        La comisión interministerial informó que había unos 4.000 obreros desocupados. Ferreras elevó un memorial a Perón: "ante la amenaza del cierre definitivo de las fábricas de tanino de La Forestal Argentina, un personal de seis mil obreros quedará sumido en la desocupación y el hambre." La empresa había despedido ya 4.500 obreros y 500 empleados administrativos. La Asociación de Productores Forestales propuso organizar el traslado de trabajadores hacia la cosecha de algodón y la zafra de caña, pero reconocía que se trataba de soluciones transitorias. "Lo que se requiere son medidas de fondo", insistía la prensa.
+      </p>
+
+      <h3>La ley contra el "éxodo industrial" (1954)</h3>
+      <p>
+        En 1954, la Legislatura de Santa Fe sancionó una ley que prohibía a La Forestal el retiro o traslado de instalaciones sin autorización del PE. Aprobada por unanimidad en ambas cámaras. Pero nunca se publicó en el boletín oficial. El diputado Barreiro, informante del proyecto, leyó una nota del diario titulada "El éxodo industrial" y preguntó: "¿Vamos a presenciar un nuevo éxodo de familias obreras? ¿Vamos a cruzarnos de brazos hasta que el mal no tenga remedio? ¿Vamos a permitir que una empresa que burló las leyes, que explotó al trabajador, que tuvo hasta su propia moneda, que taló los bosques sin reforestarlos, atienda solamente a sus desmedidas ganancias?" Ghioldi (radical) pidió intervención. Puertas (General Obligado) recordó la secuencia: "intenta la empresa hacer lo mismo que con fábricas anteriores, olvidándose que no están los gobiernos que les permitían esos desmanes." El instrumento legal debía servir al gobierno para evitar el éxodo industrial. Fracasó.
+      </p>
+
+      <h3>Tierra arrasada: hasta los teléfonos se lleva</h3>
+      <p>
+        El patrón seguía siempre la misma secuencia: notificación, despido, desalojo, desmantelamiento. Marzorati documentó que las maquinarias de las tres fábricas cerradas "con evidente táctica de 'tierra arrasada', han sido dispersadas de manera que ya es imposible reagruparlas para su reinstalación, aunque se quiera". Acevedo denunció la "tarea de devastación de todo cuanto pudiera asegurar aún algún medio de vida": levantamiento de vías férreas, corte de guinches, destrucción de sistemas de agua potable. En enero de 1956, La Forestal comenzó a llevarse incluso las líneas telefónicas que unían Villa Guillermina con Puerto Piracuacito. La asamblea de representantes envió un despacho a Aramburu: "La supresión de este importante medio de comunicación provoca serios trastornos y graves inconvenientes aislando total y definitivamente este pueblo y su zona adyacente."
+      </p>
+      <p>
+        La consecuencia era inevitable: "La paralización de las actividades en algunas plantas industrializadoras de tanino, trajo aparejado la desocupación y el desarraigo de núcleos obreros, quienes al trasladarse a otras zonas, se desambientan y deben reiniciar su existencia venciendo múltiples inconvenientes." A los miles de trabajadores "no les quedará otro recurso que emigrar" (<em>El Litoral</em>, 6 de octubre de 1949). La empresa los expulsaba y el territorio los expulsaba.
+      </p>
+
+      <h3>Los que se quedan: la vida después de La Forestal</h3>
+      <p>
+        Pero el éxodo no fue total. Quienes se quedaban debían reinventar la vida en un territorio sin economía. La respuesta fue la supervivencia como práctica colectiva: huertas familiares, trueque, changas, trabajos estacionales en los algodonales del Chaco. El paternalismo había atrofiado la capacidad de autogobierno: durante décadas la empresa había suministrado la casa, la comida y el médico con el objetivo —como diagnosticó Caesar en 1949— de "aniquilar cualquier espíritu de iniciativa en el personal". Cuando la empresa se fue, los pueblos debieron aprender a vivir sin ella.
+      </p>
+
+      <blockquote class="pull">
+        <p>La Forestal se fue pero dejó algo que no se puede llevar: la voluntad de quedarse. El monte ya no era el del quebracho, pero era el nuestro.</p>
+        <cite>Testimonio anónimo, Villa Ana, años 70 — cit. en Acevedo (1983)</cite>
+      </blockquote>
+
+      <h3>Las mujeres tejedoras de Fortín Olmos</h3>
+      <p>
+        El caso más emblemático de reconversión desde abajo es el colectivo de mujeres tejedoras e hilanderas de Fortín Olmos, estudiado por Rinaldi (2021). Entre 1963 y 1975, un grupo de mujeres transformó la devastación en una práctica de supervivencia, resistencia y memoria. La tejeduría no era solo una actividad económica: era una forma de tejer lazos sociales en un territorio donde La Forestal había destruido todos los lazos que no pasaban por ella. El colectivo demuestra que el éxodo no fue la única respuesta posible: la permanencia también fue una forma de resistencia.
+      </p>
+
+      <h3>El Ocampazo: la pueblada que inauguró una década</h3>
+      <p>
+        En junio de 1969, Villa Ocampo estalló. La crisis económica —la sequía, el cierre de los obrajes, el despoblamiento— desembocó en el "Ocampazo": la primera pueblada del país, anterior al Cordobazo y al Rosariazo. Fue la explosión de una acumulación de frustraciones, pobreza y abandono que venía creciendo desde los cierres de fábrica. El Ocampazo demostró que los pueblos forestales no estaban muertos: estaban heridos, despoblados, empobrecidos, pero capaces de movilizarse cuando la indignación superaba el miedo. Fue también la antesala de las Ligas Agrarias: la protesta social dejó de ser obrera-industrial para devenir rural-agraria. La transición del Ocampazo a las Ligas Agrarias es la transición del éxodo industrial a la lucha por la tierra.
+      </p>
+
+      <h3>Espejo: el éxodo tucumano</h3>
+      <p>
+        El éxodo del norte santafesino encontró su espejo pocos años después en Tucumán. Tras el cierre de los 11 ingenios por la "Operación Tucumán" de Onganía (1966-1968), la provincia perdió decenas de miles de habitantes. La diferencia central es que en Tucumán el éxodo fue ordenado por el Estado; en Santa Fe, fue el resultado de una decisión empresarial que el Estado no pudo impedir. Pero el resultado social fue análogo: territorio vaciado, pueblos fantasmales, migración masiva hacia los centros urbanos, y una memoria colectiva marcada por la pérdida.
+      </p>
+
+      <h3>El territorio que la empresa dejó</h3>
+      <p>
+        La reconstrucción del escenario que hemos hecho —la política forestal como factor de la decisión empresarial, la estrategia imperialista que permitió la salida sin consecuencias, las disputas por la reconversión productiva, los éxodos sociales y el despoblamiento— nos abre las puertas a otra discusión, que implica un cambio de eje importante. El territorio que La Forestal abandona ya no es el territorio industrial de los obrajes y las fábricas de tanino. Es un territorio despoblado, con bosques diezmados y pueblos fantasmales, donde la actividad económica que emerge está mucho más relacionada con la tierra y la producción agropecuaria que con la industria.
+      </p>
+      <p>
+        Este cambio de eje implica la emergencia de nuevos sujetos: ya no son los obreros tanineros y los hacheros los protagonistas centrales de la historia del territorio, sino los colonos, los productores rurales, los campesinos. Y con ellos, aparecen nuevas formas de conflicto: la disputa por la tierra, las Ligas Agrarias, la represión a los movimientos rurales. Este es el territorio que encontrará la dictadura de Onganía: un norte santafesino donde la crisis de la industria forestal ha abierto una brecha que los nuevos actores intentan llenar con proyectos alternativos. Y donde la represión encontrará un territorio socialmente debilitado pero políticamente recombinado.
+      </p>
+
+      <blockquote class="pull">
+        <p>Los hacheros del quebracho no esperaban que les devolvieran el monte. Esperaban que les devolvieran la dignidad que La Forestal les había quitado.</p>
+        <cite>Cristianismo y Revolución, julio de 1968</cite>
+      </blockquote>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Despoblamiento</div>
+        <div class="stat">72%</div>
+        <div class="stat-label">Obreros industriales perdidos en depto. 9 de Julio en 8 años</div>
+        <div style="margin-top:1rem;">
+          <div class="stat" style="font-size:1.6rem; color:var(--amber);">82%</div>
+          <div class="stat-label">Pérdida poblacional en Tartagal (Zarrilli)</div>
+        </div>
+        <div style="margin-top:0.8rem;">
+          <div class="stat" style="font-size:1.6rem; color:var(--amber);">~50%</div>
+          <div class="stat-label">Fuerza laboral perdida en depto. Gral. Obligado</div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Éxodo vs. migración</div>
+        <p><strong>Migración:</strong> decisión individual, mercado laboral, retorno posible</p>
+        <p style="margin-top:0.4rem;"><strong>Éxodo:</strong> partida colectiva, colapso territorial, sin retorno. El pueblo deja de ser habitable.</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Cronología del éxodo</div>
+        <p><strong>1917:</strong> Cierre Villa Ana → primeros desplazamientos</p>
+        <p style="margin-top:0.2rem;"><strong>1921–22:</strong> Lockout → éxodo masivo, purga de territorios</p>
+        <p style="margin-top:0.2rem;"><strong>1926:</strong> Cierre La Gallareta → "ruina y éxodo"</p>
+        <p style="margin-top:0.2rem;"><strong>1927:</strong> Cierre Tartagal → "cientos que emigran"</p>
+        <p style="margin-top:0.2rem;"><strong>1949:</strong> Cierre Villa Guillermina → éxodo masivo</p>
+        <p style="margin-top:0.2rem;"><strong>1955:</strong> Cierre Villa Ana → nueva oleada</p>
+        <p style="margin-top:0.2rem;"><strong>1963:</strong> Cierre La Gallareta → último éxodo forestal</p>
+        <p style="margin-top:0.2rem;"><strong>1969:</strong> Ocampazo → la pueblada que inaugura una década</p>
+        <p style="margin-top:0.2rem;"><strong>1966–68:</strong> Cierre ingenios Tucumán → éxodo espejo</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">"Cadáveres de pueblos"</div>
+        <p>Garabato, Intiyaco, Guaycurú, Golondrina, Colmena, Cañada Ombú, Mocoví, Arroyo del Rey, Guasuncho, Toba, Puerto Ocampo, Piracuacito —poblaciones de 7–8 mil personas, vacías.</p>
+        <p style="margin-top:0.3rem; font-family:var(--sans); font-size:0.7rem; color:var(--muted);">El Litoral, 25/5/1941 — Tercer tomo</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Ley contra el éxodo industrial (1954)</div>
+        <p>Prohibía a La Forestal retirar instalaciones sin autorización del PE. Aprobada por unanimidad. <strong>Nunca publicada en boletín oficial.</strong></p>
+        <p style="margin-top:0.3rem;"><em>"¿Vamos a presenciar un nuevo éxodo de familias obreras?"</em> — Barreiro, Diputados</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Los que se quedan</div>
+        <p><strong>Mujeres tejedoras</strong> de Fortín Olmos (1963-1975): supervivencia como resistencia (Rinaldi, 2021)</p>
+        <p style="margin-top:0.3rem;"><strong>Huertas familiares, trueque, changas</strong>: economía de subsistencia</p>
+        <p style="margin-top:0.3rem;"><strong>P. Rafael Yacuzzi</strong>: curas tercermundistas y cooperativismo (Sánchez, 2025)</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Cambio de eje</div>
+        <p><strong>De:</strong> industria taninera · obreros · fábricas · sindicatos</p>
+        <p style="margin-top:0.4rem;"><strong>A:</strong> tierra · producción agropecuaria · colonos · Ligas Agrarias</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Próximo encuentro</div>
+        <p><strong>Encuentro 7:</strong> Las Ligas Agrarias del Norte Santafesino y la represión dictatorial (1970–1983)</p>
+        <p style="margin-top:0.3rem;">De las luchas obreras a las luchas anti-latifundistas, de los obrajes a los campos.</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Textos eje</div>
+        <p>Sánchez, L. & Sánchez, G. (2019). Cierre de fábricas de tanino y éxodo. En Brac (Comp.), <em>Pueblos forestales</em>. CFI.</p>
+        <p style="margin-top:0.3rem;">Jasinski, A. (2023). <em>El encanto del tanino</em>. Prometeo.</p>
+        <p style="margin-top:0.3rem;">Walsh, R. (2007). Las ciudades fantasmas. En <em>El violento oficio de escribir</em>.</p>
+        <p style="margin-top:0.3rem;">Rinaldi, V. (2021). <em>Tejiendo historias</em>. Tesis UBA.</p>
+        <p style="margin-top:0.3rem;">Gori, G. (1965/1991). <em>La Forestal, la tragedia del quebracho colorado</em>.</p>
+        <p style="margin-top:0.3rem;">Scarpin, G. (2019). <em>Ocampazo '69. Crónicas y testimonios</em>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BIBLIOGRAFÍA ============ -->
+<section class="section fade-in" id="biblio">
+  <div class="section-label">Bibliografía</div>
+  <h2 class="section-num" style="margin-bottom:2rem;">Lecturas y fuentes</h2>
+
+  <div class="split">
+    <div class="split-main">
+      <h3>Eje A — Política forestal</h3>
+      <ul class="biblio">
+        <li>Ross, C. (2017). <em>Ecology and Power in the Age of Empire: Europe and the Transformation of the Tropical World</em>. Oxford University Press.</li>
+        <li>Zarrilli, A. (2018). El bosque perdido. Una historia ambiental del Norte santafesino (1890–2010). En Brac (Comp.), <em>El norte forestal</em>. CFI.</li>
+        <li>Valentini, J. A. (1960). La reforestación con quebracho colorado. <em>Bonplandia</em>, 1(1), 51-69.</li>
+      </ul>
+
+      <h3 style="margin-top:2rem;">Eje B — Capital imperialista</h3>
+      <ul class="biblio">
+        <li>Silver, B. J. (2003/2005). <em>Fuerzas de trabajo. Los movimientos obreros y la globalización desde 1870</em>. Akal.</li>
+        <li>Nash, J. (1979). <em>We Eat the Mines and the Mines Eat Us</em>. Columbia University Press.</li>
+        <li>Sierra Álvarez, J. Capital y colonización forestal en África.</li>
+        <li>Cowen, M. (1990). Capital, nation and commodities. En <em>Capitalism in a mature economy</em>. Edward Elgar.</li>
+      </ul>
+
+      <h3 style="margin-top:2rem;">Eje C — Reconversión productiva</h3>
+      <ul class="biblio">
+        <li>Gori, G. (1991). <em>La Forestal, la tragedia del quebracho colorado</em> (ed. orig. 1965). Distribuidora Litar.</li>
+        <li>Sánchez, L. & Sánchez, G. (2019). Cierre de fábricas de tanino y éxodo. En Brac (Comp.), <em>Pueblos forestales del norte santafesino</em>. CFI, pp. 132-144.</li>
+        <li>Acevedo, A. (1983). <em>Investigación a La Forestal</em>. Centro Editor de América Latina.</li>
+        <li>Marzorati, R. (1960). <em>La industria del extracto de quebracho en la Argentina</em>. Impacto Gráfico (selección).</li>
+      </ul>
+
+      <h3 style="margin-top:2rem;">Eje D — Éxodos sociales</h3>
+      <ul class="biblio">
+        <li>Jasinski, A. (2023). <em>El encanto del tanino. La Forestal, la violencia empresarial y las luchas sociales en la Argentina del siglo XX</em>. Prometeo.</li>
+        <li>Rinaldi, V. (2021). <em>Tejiendo historias. El colectivo de mujeres tejedoras de Fortín Olmos (1963–1975)</em>. Tesis UBA.</li>
+        <li>Scarpin, G. (2019). <em>Ocampazo '69. Crónicas y testimonios</em>.</li>
+        <li>Walsh, R. (2007). Las ciudades fantasmas. En <em>El violento oficio de escribir</em>. Ediciones de La Flor.</li>
+        <li>Soriano, O. (1974). Los esclavos del quebracho. <em>La Opinión</em>, 19 de mayo.</li>
+        <li>Tercer tomo (manuscrito en preparación). La Forestal y el peronismo.</li>
+      </ul>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Fuentes primarias</div>
+        <p>La Forestal S.A. (1967). <em>La Forestal, al servicio de la grandeza argentina</em>.</p>
+        <p style="margin-top:0.3rem;">Vargas, J. B. (1977). <em>Sudor y sangre de quebracho</em>.</p>
+        <p style="margin-top:0.3rem;"><em>Cristianismo y Revolución</em>, julio de 1968: "Los hacheros".</p>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Complementaria</div>
+        <p>Romero, L. A. (1976). El ciclo del tanino en Argentina. <em>Revista Paraguaya de Sociología</em>.</p>
+        <p style="margin-top:0.3rem;">Gómez Lende, S. (2020). Extractivismo y acumulación por despojo. <em>Geografia em Questão</em>, 13(1).</p>
+        <p style="margin-top:0.3rem;">Sánchez, L. (2025). <em>Rafael Yacuzzi. Un sacerdote por la liberación</em>. Añamembuí.</p>
+        <p style="margin-top:0.3rem;">Adobato, A. (2011). <em>Historias que ligaron</em>. Fondo Editorial Municipalidad de Reconquista.</p>
+        <p style="margin-top:0.3rem;">Archetti, E. (1988). <em>Ideología y organización de las Ligas Agrarias del Norte de Santa Fe. 1971-1976</em>. CEDES.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div>
+    <strong style="color:var(--text-dim); font-size:0.8rem;">Seminario Permanente de Historia del Norte de Santa Fe (1870-1983)</strong><br>
+    Investigación, Conceptos, Archivos y Memorias<br>
+    1ra edición · 2026
+  </div>
+  <div style="text-align:right;">
+    Coordinación: A. Jasinski · L. Sánchez · C. Di Croce · G. Sánchez · J. Ríos Solís<br>
+    <a href="#hero">Volver al inicio ↑</a>
+  </div>
+</footer>
+
+<script>
+  const progress = document.getElementById('progress');
+  function updateProgress() {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progress.style.width = Math.min(pct, 100) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  const sections = document.querySelectorAll('.section[id]');
+  const tocLinks = document.querySelectorAll('.toc-float a');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => {
+      const top = s.getBoundingClientRect().top;
+      if (top < window.innerHeight * 0.4) current = s.id;
+    });
+    tocLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+    navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  function toggleTheme() {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    const btn = document.getElementById('themeBtn');
+    if (current === 'dark') { root.removeAttribute('data-theme'); btn.textContent = '☀'; }
+    else if (current === 'light') { root.setAttribute('data-theme', 'dark'); btn.textContent = '☾'; }
+    else {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) { root.setAttribute('data-theme', 'light'); btn.textContent = '☀'; }
+      else { root.setAttribute('data-theme', 'dark'); btn.textContent = '☾'; }
+    }
+  }
+  if (window.matchMedia('(prefers-color-scheme: light)').matches) { document.getElementById('themeBtn').textContent = '☾'; }
+
+  // === PESTAÑAS sA ===
+  document.querySelectorAll('#sATabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#sATabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.dataset.tab;
+      document.querySelectorAll('#sA .tab-panel').forEach(p => p.classList.toggle('active', p.id === target));
+    });
+  });
+</script>
+
+</body>
+</html>

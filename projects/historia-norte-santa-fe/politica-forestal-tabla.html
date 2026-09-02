@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política Forestal Argentina 1880–1963</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F0E6;
+  --bg-deep: #EDE7D9;
+  --fg: #2A241E;
+  --fg-muted: #6B6052;
+  --accent: #8B3A1D;
+  --accent-light: #B8613F;
+  --rule: #C9BFA8;
+  --card-bg: #FAF7F0;
+  --tag-ley: #2D5F3E;
+  --tag-decreto: #1A4A6E;
+  --tag-resolucion: #4A3B8F;
+  --tag-medida: #8B6914;
+  --tag-protesta: #8B1A1A;
+  --tag-propuesta: #1A6B6B;
+  --tag-nota: #6B4A2A;
+  --tag-bg-ley: #E8F2EB;
+  --tag-bg-decreto: #E0EDF5;
+  --tag-bg-resolucion: #EDE9F7;
+  --tag-bg-medida: #F5EED4;
+  --tag-bg-protesta: #F5E0E0;
+  --tag-bg-propuesta: #E0F2F2;
+  --tag-bg-nota: #F2EAE0;
+  --shadow: 0 1px 3px rgba(42,36,30,0.08);
+  --radius: 4px;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+  --font-mono: 'Source Code Pro', 'Courier New', monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C1915;
+    --bg-deep: #242019;
+    --fg: #E8E0D0;
+    --fg-muted: #9E9585;
+    --accent: #C97B56;
+    --accent-light: #D99A7A;
+    --rule: #3E382E;
+    --card-bg: #252118;
+    --tag-ley: #6BBF82;
+    --tag-decreto: #6AAFE0;
+    --tag-resolucion: #9E8FD0;
+    --tag-medida: #D4B85A;
+    --tag-protesta: #D07070;
+    --tag-propuesta: #6BD0D0;
+    --tag-nota: #D0A870;
+    --tag-bg-ley: #1E2E22;
+    --tag-bg-decreto: #1A2A3A;
+    --tag-bg-resolucion: #25203A;
+    --tag-bg-medida: #302A18;
+    --tag-bg-protesta: #351A1A;
+    --tag-bg-propuesta: #1A3030;
+    --tag-bg-nota: #302818;
+    --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1C1915;
+  --bg-deep: #242019;
+  --fg: #E8E0D0;
+  --fg-muted: #9E9585;
+  --accent: #C97B56;
+  --accent-light: #D99A7A;
+  --rule: #3E382E;
+  --card-bg: #252118;
+  --tag-ley: #6BBF82;
+  --tag-decreto: #6AAFE0;
+  --tag-resolucion: #9E8FD0;
+  --tag-medida: #D4B85A;
+  --tag-protesta: #D07070;
+  --tag-propuesta: #6BD0D0;
+  --tag-nota: #D0A870;
+  --tag-bg-ley: #1E2E22;
+  --tag-bg-decreto: #1A2A3A;
+  --tag-bg-resolucion: #25203A;
+  --tag-bg-medida: #302A18;
+  --tag-bg-protesta: #351A1A;
+  --tag-bg-propuesta: #1A3030;
+  --tag-bg-nota: #302818;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page-header {
+  background: var(--bg-deep);
+  border-bottom: 1px solid var(--rule);
+  padding: 2rem 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.page-header-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+
+.page-header .subtitle {
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  margin-top: 0.25rem;
+  font-weight: 300;
+}
+
+.controls {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.controls label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 0.25rem;
+}
+
+.filter-btn {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+  background: var(--card-bg);
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.filter-btn[data-filter="ley"].active { background: var(--tag-ley); border-color: var(--tag-ley); }
+.filter-btn[data-filter="decreto"].active { background: var(--tag-decreto); border-color: var(--tag-decreto); }
+.filter-btn[data-filter="resolucion"].active { background: var(--tag-resolucion); border-color: var(--tag-resolucion); }
+.filter-btn[data-filter="medida"].active { background: var(--tag-medida); border-color: var(--tag-medida); }
+.filter-btn[data-filter="protesta"].active { background: var(--tag-protesta); border-color: var(--tag-protesta); }
+.filter-btn[data-filter="propuesta"].active { background: var(--tag-propuesta); border-color: var(--tag-propuesta); }
+.filter-btn[data-filter="nota"].active { background: var(--tag-nota); border-color: var(--tag-nota); }
+
+.search-box {
+  margin-left: auto;
+  position: relative;
+}
+
+.search-box input {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem 0.35rem 2rem;
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+  background: var(--card-bg);
+  color: var(--fg);
+  width: 200px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.search-box input:focus { border-color: var(--accent); }
+
+.search-box::before {
+  content: '⌕';
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.count-bar {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.count-item { display: flex; align-items: center; gap: 0.35rem; }
+.count-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.timeline {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem 3rem;
+}
+
+.era-divider {
+  margin: 1.75rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent);
+}
+
+.era-divider h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--accent);
+}
+
+.era-divider .era-range {
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  font-weight: 300;
+  margin-left: 0.5rem;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 100px 80px 1fr;
+  gap: 0 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+  transition: background 0.1s;
+}
+
+.entry:hover { background: var(--bg-deep); }
+
+.entry.hidden { display: none; }
+
+.entry-date {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--fg);
+  padding-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  display: inline-block;
+  line-height: 1.3;
+}
+
+.tag-ley { background: var(--tag-bg-ley); color: var(--tag-ley); }
+.tag-decreto { background: var(--tag-bg-decreto); color: var(--tag-decreto); }
+.tag-resolucion { background: var(--tag-bg-resolucion); color: var(--tag-resolucion); }
+.tag-medida { background: var(--tag-bg-medida); color: var(--tag-medida); }
+.tag-protesta { background: var(--tag-bg-protesta); color: var(--tag-protesta); }
+.tag-propuesta { background: var(--tag-bg-propuesta); color: var(--tag-propuesta); }
+.tag-nota { background: var(--tag-bg-nota); color: var(--tag-nota); }
+
+.entry-body h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  margin-bottom: 0.2rem;
+  color: var(--fg);
+}
+
+.entry-body p {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
+.entry-body .source {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--fg-muted);
+  opacity: 0.75;
+}
+
+.entry-body .norma-ref {
+  display: inline;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(139,58,29,0.07);
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  margin-right: 0.25rem;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 700px) {
+  .entry {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+  .entry-date { font-size: 0.72rem; }
+  .controls { gap: 0.4rem; }
+  .search-box { margin-left: 0; width: 100%; }
+  .search-box input { width: 100%; }
+  .page-header h1 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <h1>Política Forestal Argentina</h1>
+    <p class="subtitle">Leyes, decretos, resoluciones, medidas, protestas y propuestas — 1880–1963 · Fuentes: Tercer tomo (La Forestal y el peronismo) + artículo Claves N°23</p>
+  </div>
+</header>
+
+<div class="controls" id="controls">
+  <label>Filtrar</label>
+  <button class="filter-btn active" data-filter="all">Todas</button>
+  <button class="filter-btn" data-filter="ley">Ley</button>
+  <button class="filter-btn" data-filter="decreto">Decreto</button>
+  <button class="filter-btn" data-filter="resolucion">Resolución</button>
+  <button class="filter-btn" data-filter="medida">Medida</button>
+  <button class="filter-btn" data-filter="protesta">Protesta</button>
+  <button class="filter-btn" data-filter="propuesta">Propuesta</button>
+  <button class="filter-btn" data-filter="nota">Nota periodística</button>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Buscar texto...">
+  </div>
+</div>
+
+<div class="count-bar" id="countBar"></div>
+
+<main class="timeline" id="timeline">
+
+<!-- ERA: 1880-1909 -->
+<div class="era-divider">
+  <h2>Primeras regulaciones <span class="era-range">1880–1909</span></h2>
+</div>
+
+<div class="entry" data-type="ley" data-search="1880 primera ley prohibición corte permiso limitación invierno fiscalización conservación replantío">
+  <span class="entry-date">1880</span>
+  <span class="entry-tag tag-ley">Ley</span>
+  <div class="entry-body">
+    <h3>Primera ley que prohíbe el corte sin permiso</h3>
+    <p>Se sanciona una primera ley que prohibía el corte sin permiso y limitaba la actividad al invierno. Pocos años después, se atribuyeron las primeras funciones a los fiscales y se exigió estudios técnicos para proceder con políticas de conservación y replantíos, para evitar el agotamiento.</p>
+    <span class="source">Peri et al. 134; Zarrilli · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="1887 abril explotación clandestina bosques chaque sanciones embargos fiscalización La Nación">
+  <span class="entry-date">Abr 1887</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Explotaciones clandestinas en el Chaco</h3>
+    <p>La prensa informa sobre explotaciones clandestinas en el Chaco y respectivas sanciones, como embargos. Necesitados de recursos, buscaban extender la fiscalización.</p>
+    <span class="source">La Nación, 21, 27 y 29 de abril de 1887 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="1896 primera investigación parlamentaria nacional bosques forestal">
+  <span class="entry-date">1896</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Primera investigación parlamentaria nacional</h3>
+    <p>Se abre una primera investigación parlamentaria de alcance nacional sobre la explotación forestal.</p>
+    <span class="source">Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="1903 bialet massé informe destrucción bosque reemplazo ganadería agricultura extensiva roca ley orgánica tierras reserva forestal permisos">
+  <span class="entry-date">c. 1903</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Informe Bialet Massé: la destrucción del bosque</h3>
+    <p>El delegado del gobierno nacional recorre el norte y visita pueblos tanineros. Se refiere a «la destrucción del bosque», lamentando que los hombres de negocio y de gobierno, en lugar de considerar una explotación racional y sustentable, se plantearan reemplazar los territorios del quebracho colorado con ganadería y agricultura extensiva. El gobierno de Roca sanciona la primera ley orgánica de tierras, reclamando una ley específica de bosques y permisos especiales para la explotación industrial, bajo el concepto de «reserva forestal».</p>
+    <span class="source">Bialet Massé 113–32 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="decreto" data-search="1906 decreto presidencial conservación montes medidas protección oficial destrucción">
+  <span class="entry-date">1906</span>
+  <span class="entry-tag tag-decreto">Decreto</span>
+  <div class="entry-body">
+    <h3>Decreto presidencial: protección de los montes</h3>
+    <p>Plantea que era «indispensable para la conservación y el cuidado de los montes, dictar medidas que impidan su destrucción y aseguren la protección oficial».</p>
+    <span class="source">Peri et al. 134 · Claves</span>
+  </div>
+</div>
+
+<!-- ERA: 1910-1929 -->
+<div class="era-divider">
+  <h2>Advertencias y primeros cálculos <span class="era-range">1910–1929</span></h2>
+</div>
+
+<div class="entry" data-type="medida" data-search="1910s disposiciones transporte embarque maderas evasión impositiva">
+  <span class="entry-date">c. 1910</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Disposiciones sobre transporte y embarque de maderas</h3>
+    <p>Las disposiciones se extienden al transporte y al embarque de maderas, buscando evitar la evasión impositiva.</p>
+    <span class="source">Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="1917 congreso derechos exportación rollizos fabricantes quebrachos destinados desaparecer niklison basaldúa treinta años plantación">
+  <span class="entry-date">1917</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Congreso: derechos de exportación de rollizos</h3>
+    <p>Se discuten en el Congreso los derechos de exportación de rollizos. Los propios fabricantes admiten que los quebrachos «se hallan destinados a desaparecer en un periodo de tiempo relativamente corto». El inspector del Trabajo Niklison, recordando la advertencia del ingeniero Basaldúa, reclama un «sistema racional» y una política de plantación de quebrachos: sólo habría quebrachales para treinta años más, porque las fábricas hacían voltear «lastimosamente a los árboles pequeños».</p>
+    <span class="source">Archivo Congreso 567-P-1917; Niklison 145 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="1924 reestructuración dirección general tierras colonias estudios técnicos forestales silvicultura repoblación adaptación especies">
+  <span class="entry-date">1924</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Reestructuración de la Dirección General de Tierras y Colonias</h3>
+    <p>Permite por primera vez la realización de estudios técnicos forestales con orientación silvícola y relación con la capacidad económica-industrial del bosque, su repoblación y adaptación de especies forestales.</p>
+    <span class="source">Peri et al. 135 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="1928 santa fe norte santafesino comarca muerta método humano selva reserva riqueza natural">
+  <span class="entry-date">1928</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>«El norte santafesino está destinado a ser una comarca muerta»</h3>
+    <p>Un cronista del diario Santa Fe: «con otro método más humano, la selva sería siempre selva y la nación la tendría como una de sus más poderosas reservas de riqueza natural».</p>
+    <span class="source">Santa Fe, 16 de octubre de 1928 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="fines 1920 federalización selvas productores tanino diputados radicales hidrocarburos tierras árboles por los siglos ramírez ministro agricultura">
+  <span class="entry-date">Fines 1920</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Federalización de las selvas</h3>
+    <p>Productores locales de tanino y diputados radicales reclaman la federalización de las selvas, en consonancia con lo que sucedía con los hidrocarburos, exigiendo que aquellas tierras fueran «por siempre tierras de árboles, como pueden serlo por los siglos de los siglos».</p>
+    <span class="source">Ramírez y otros, 6 de noviembre de 1928 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="1923 forestal donación 200 hectáreas monte abra vivero público diputados solar quebracho gigante cote-lai">
+  <span class="entry-date">1923</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>La Forestal dona 200 hectáreas para vivero público</h3>
+    <p>Como respuesta al reclamo de federalización, La Forestal dona un lote de 200 hectáreas en Monte Abra para la implantación de un gran vivero público. Los diputados Solar posan junto a un quebracho gigante de Cote-Lai de más de 1100 años.</p>
+    <span class="source">Martínez 72 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="1917 1929 1949 forestal amenaza lockout deslocalización frenar derechos exportación revertir derechos laborales 21 suspensiones">
+  <span class="entry-date">1917–1949</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>La Forestal amenaza con lockout o deslocalización</h3>
+    <p>En 1917, 1929 y 1949, la empresa amenazó o impulsó el lockout o la deslocalización para frenar la imposición de derechos de exportación o para revertir derechos laborales. Entre 1921 y 1944, apeló a las suspensiones de producción de forma parcial o total, alternante o simultánea, en veintiún oportunidades, sin contar disminuciones ni el cierre definitivo de Tartagal en 1927.</p>
+    <span class="source">Claves</span>
+  </div>
+</div>
+
+<!-- ERA: 1930-1941 -->
+<div class="era-divider">
+  <h2>Ley santafesina y resistencia armada <span class="era-range">1930–1941</span></h2>
+</div>
+
+<div class="entry" data-type="protesta" data-search="1931 1933 1936 evasión fiscal forestal sociedad anónima 99 mil pesos oro 2 mil pesos moneda nacional defraudación escrituras diario santa fe">
+  <span class="entry-date">1931–1936</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Evasión fiscal masiva al transformarse en sociedad anónima</h3>
+    <p>Al transformarse en sociedad anónima en 1931, La Forestal debía pagar 99 mil pesos oro sellado. La denuncia se efectivizó en 1933 y se hizo pública en 1936: en lugar de 99 mil pesos oro sellado, la empresa había pagado apenas 2 mil pesos moneda nacional. Un antiguo funcionario provincial hizo trascender las escrituras.</p>
+    <span class="source">El Orden, 13 y 19 de mayo de 1936 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="1936 forestal resistencia armada sindicalización reemergencia gendarmería el orden">
+  <span class="entry-date">Feb 1936</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>La Forestal preparada para «ofrecer resistencia armada»</h3>
+    <p>Cuando resurgió con fuerza la organización obrera en 1936, la prensa advirtió que la empresa estaba preparada para «ofrecer una resistencia armada».</p>
+    <span class="source">El Orden, 19 de febrero de 1936 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="ley" data-search="1937 ley 2532 santa fe utilidad pública reservas forestales tala prohibida reimplante plantaciones beneficios">
+  <span class="entry-date">1937</span>
+  <span class="entry-tag tag-ley">Ley</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Ley 2.532</span> (Santa Fe): zonas de utilidad pública y reservas forestales</h3>
+    <p>La legislatura santafesina crea zonas de «utilidad pública» y «reservas forestales», regula y prohíbe la tala en algunas zonas y fomenta las plantaciones. Art. 6: «la industrialización de los montes se sujetará a la reglamentación que sobre protección del árbol dictará el PE, quedando prohibido el talado de los árboles». Art. 7: promueve el reimplante, ofreciendo distintos beneficios.</p>
+    <span class="source">Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="ley" data-search="1943 doldán utilidad pública zona forestal conservación quebracho mantenimiento industria tanino 23 millones hectáreas 6 mil millones toneladas devastadas sequía erosión clima">
+  <span class="entry-date">1943</span>
+  <span class="entry-tag tag-ley">Ley</span>
+  <div class="entry-body">
+    <h3>Proyecto Doldán: zona forestal de utilidad pública</h3>
+    <p>Los hermanos Doldán presentan un proyecto que declara de utilidad pública la zona forestal para garantizar «la conservación del quebracho y el mantenimiento de la industria del tanino». Aprobado en 1943. La prensa comenta: «En menos de un cuarto de siglo se han talado alrededor de 23.000.000 de hectáreas y se estima en 6.000 millones de toneladas la cantidad devastada», generando sequías, erosión del suelo y cambios de clima.</p>
+    <span class="source">El Litoral, 20 de noviembre de 1943 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="1940 asamblea SOIQ villa guillermina pueblo obligado terminar días consumir madera irracionalmente gobierno provincial norte">
+  <span class="entry-date">Jun 1940</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Asamblea obrera: «el pueblo está obligado a terminar sus días»</h3>
+    <p>Los trabajadores sindicalizados del SOIQ en Villa Guillermina plantean en asamblea que «el pueblo está obligado a terminar sus días si se sigue consumiendo la madera de forma irracional» y llaman al gobierno provincial a interesarse por el norte.</p>
+    <span class="source">Acta N° 39, Asamblea Ordinaria SOIQ, junio 1940 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="1940s comisión nacional extracto quebracho vigilancia bosques nacionales prohibir degüello árboles jóvenes 30 centímetros diámetro morechi obrajes">
+  <span class="entry-date">c. 1940</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Proyecto contra el «degüello» de árboles jóvenes</h3>
+    <p>Conformada la Comisión Nacional del Extracto de Quebracho, el gobierno presenta un proyecto para aumentar la vigilancia en los bosques nacionales. Busca prohibir la práctica más extendida en los obrajes de La Forestal: el «degüello» de árboles jóvenes (quebrachos de diámetro menor a 30 cm a la vara), que consistía en hacerles un corte circular que cortara su alimentación, para ir por ellos en una segunda batida general. El slogan recordado por Moreschi: «es preferible que caiga uno de 40 kilos a que quede parado uno de 50».</p>
+    <span class="source">Entrevista a Moreschi, 1999 · Claves</span>
+  </div>
+</div>
+
+<!-- ERA: 1942-1945 -->
+<div class="era-divider">
+  <h2>Guerra y cuotas <span class="era-range">1942–1945</span></h2>
+</div>
+
+<div class="entry" data-type="decreto" data-search="decreto 112.840 exportación tanino quebracho urunday cuotas fábrica permisos">
+  <span class="entry-date">Feb 1942</span>
+  <span class="entry-tag tag-decreto">Decreto</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Dec. 112.840</span> Régimen de cuotas de exportación de tanino</h3>
+    <p>Somete la exportación de tanino de quebracho y urunday a un régimen permisivo. Art. 2: distribuye cuota proporcional a la capacidad de producción entre fábricas existentes. Art. 3: toma como base las capacidades reconocidas por los fabricantes afiliados al Centro de Exportadores de Extracto de Quebracho; un mes para nuevas fábricas que acrediten capacidad ante la Comisión Nacional.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="resolucion" data-search="resolución 27.762 cupos exportación cuotas fábricas comisión">
+  <span class="entry-date">Mar 1942</span>
+  <span class="entry-tag tag-resolucion">Resolución</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Res. 27.762</span> Cupos de exportación oficiales</h3>
+    <p>Establece los cupos de exportación en base a las actas de capacidad reconocida e incorpora de oficio las cuotas para las nuevas fábricas.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="pool cuotas exportación oficializadas 1942 1960 centro exportadores">
+  <span class="entry-date">1942–1960</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Sistema de cuotas oficiales de exportación</h3>
+    <p>La Forestal logra un pool que desde 1942 hasta 1960 se rige por sistema de cupos de exportación oficializados. Funciona con beneplácito para los exportadores: mantienen la ocupación durante la contienda y exportan 1,2 millones de toneladas entre 1940 y 1945.</p>
+    <span class="source">Zarrilli</span>
+  </div>
+</div>
+
+<div class="entry" data-type="decreto" data-search="decreto 14.106 comisión ministerio comercio industria capacidades productivas protestas cuotas bajas">
+  <span class="entry-date">1944</span>
+  <span class="entry-tag tag-decreto">Decreto</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Dec. 14.106/44</span> Comisión de capacidades productivas</h3>
+    <p>Resuelve las protestas por cuotas bajas. Designa una comisión bajo la órbita del Ministerio de Comercio e Industria para hacer seguimiento de las capacidades productivas. Se expidió con informe en 1948 (decreto 23.451).</p>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="falta plan forestal destrucción criminal árboles autóctonos fiscalización reforestación combustible papel">
+  <span class="entry-date">Dic 1944</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Falta de un plan forestal</h3>
+    <p>Denuncia la "destrucción criminal de los árboles autóctonos". Reclama colaboración entre gobiernos locales, provinciales y nacionales para "rápida fiscalización de las explotaciones forestales" y un "plan racional" que acreciente la riqueza forestal. Culpable: "el afán de lucro y la mayor irresponsabilidad social". Señala la erosión del suelo como consecuencia y la oportunidad de la industria del papel.</p>
+    <span class="source">El Litoral, 9 de diciembre de 1944</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="congreso productores forestales I congreso capital federal plan quinquenal">
+  <span class="entry-date">1945</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>I Congreso Argentino de Productores Forestales</h3>
+    <p>Se realiza en Capital Federal. Como medio de presión para la sanción del proyecto de ley forestal. La prensa lo vincula con el Plan Quinquenal: "la obra revolucionaria se había impuesto satisfacer una necesidad intensamente sentida, desde que se venía presenciando el avance incontrolado del hacha".</p>
+  </div>
+</div>
+
+<!-- ERA: 1946-1949 -->
+<div class="era-divider">
+  <h2>Peronismo y reglamentación <span class="era-range">1946–1949</span></h2>
+</div>
+
+<div class="entry" data-type="medida" data-search="asamblea accionistas 1946 salarios niveles industria soportar cambios laborales legislación">
+  <span class="entry-date">1946</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Asamblea de accionistas: salarios insoportables</h3>
+    <p>En la asamblea general de accionistas de 1946 se menciona que los salarios habían alcanzado niveles que la industria no podía soportar. Bittloch y Sormani señalan las causas de la ida de La Forestal: cambio en condiciones laborales, legislación, intervención estatal, tratamiento cambiario de 1947, creación de reservas y leyes de reposición obligatoria.</p>
+  </div>
+</div>
+
+
+<div class="entry" data-type="decreto" data-search="decreto 23.451 comisión capacidades productivas 21 fábricas cupos inspección villa guillermina gallareta villa ana">
+  <span class="entry-date">Ago 1948</span>
+  <span class="entry-tag tag-decreto">Decreto</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Dec. 23.451</span> Resultados de la comisión de capacidades</h3>
+    <p>Informe final: 21 fábricas, capacidad total 530 mil toneladas anuales (realista: ~350 mil descontando marcha forzada y 300 días/año). Fija cupos de exportación por fábrica. Villa Guillermina: 191,7 t/día (12,9%). La Gallareta: 176,4 (11,89%). Villa Ana: 137,7 (9,2%). Con Quebrachales Fusionados, La Forestal concentra casi el 60% del cupo.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="IAPI aumento precio 100 dólares tonelada 160 260 paralización fábricas mimosa reemplazo">
+  <span class="entry-date">Feb 1948</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>IAPI: aumento de US$ 100/tonelada</h3>
+    <p>El presidente del Consejo Económico resuelve aumentar el precio de US$ 160 a US$ 260 FOB. Consecuencia: paralización casi total de ventas, compradores derivados a mimosa y castaño. El quebracho valía 65 libras cuando la mimosa se entregaba a 40. La casi totalidad de fábricas paralizaron. En feb. 1949 baja a US$ 215; sep. a 185; oct. vuelve a 160. "Política nefasta mantenida durante 21 meses, ocasionó daños irreparables."</p>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="bolsa comercio impuesto tanino ley 3129 aumento 2 a 23 pesos tonelada migración fábricas desocupación">
+  <span class="entry-date">Jun 1948</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Bolsa de Comercio contra el aumento del impuesto al tanino</h3>
+    <p>Proyecto del diputado Ferreras (Obligado) modifica art. 2 de la <span class="norma-ref">ley 3.129</span>, elevando el gravamen de $2 a $23 por tonelada. La Bolsa de Comercio lo rechaza: Santa Fe ya paga impuesto mientras Santiago del Estero y Chaco están desgravados. Advierte migración de fábricas, desocupación y que los industriales ya aportan espontáneamente a asistencia social en el norte. Casi el 75% del presupuesto provincial es burocracia.</p>
+    <span class="source">El Litoral, 10 de junio de 1948</span>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="auge industria forestal reapertura gallareta ganadería explotación maderera carbón destilación madera">
+  <span class="entry-date">Sep 1948</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Auge de la industria forestal y reapertura de La Gallareta</h3>
+    <p>"La principal riqueza del departamento lo constituyen la ganadería y las explotaciones forestales, industrias que se encuentran en pleno auge." La reapertura de la fábrica de La Gallareta "ha vuelto a dar vida a una población". Se menciona establecimiento de destilación de madera para alcoholes y creosota, "aprovechamiento casi total de la madera, evitando la destrucción inútil".</p>
+    <span class="source">El Litoral, 10 de septiembre de 1948</span>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="congreso productores forestales II congreso santiago del estero proyecto ley media sanción plan quinquenal devastación bosques">
+  <span class="entry-date">Oct 1948</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>II Congreso de Productores Forestales y proyecto de ley</h3>
+    <p>Proyecto de ley con media sanción. Busca "llenar el vacío" de la producción forestal "dilapidada por la falta de una explotación científica". Contempla: instalación de plantas industriales, régimen de transportes, nuevos centros de actividad, representación ante organismos oficiales, profundización técnica, regulación comercial. Gran parte de la devastación se produjo por la demanda de combustible de la guerra. En el norte "marchase rápidamente hacia la devastación boscosa"; las selvas "inagotables" ya no lo son.</p>
+    <span class="source">El Orden, 4 de octubre de 1948</span>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="1948 congreso proyecto neutralizar remediar exterminio plantas quebracho colorado no cultivadas uno por diez mil control bosques fábricas">
+  <span class="entry-date">Ago 1948</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Proyecto de ley para «neutralizar y remediar» el exterminio</h3>
+    <p>Se discute en el Congreso un proyecto de ley para «neutralizar y remediar a tiempo» el exterminio del quebracho, asegurando que las plantas de quebracho colorado no eran cultivadas ni en un porcentaje de uno por diez mil.</p>
+    <span class="source">Archivo del Congreso, 1542-D-1948 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="boletín dirección general investigaciones estadísticas censos valor económico riqueza forestal quebracho">
+  <span class="entry-date">Abr 1949</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Boletín estadístico sobre riqueza forestal</h3>
+    <p>La Dirección General de Investigaciones, Estadísticas y Censos de Santa Fe publica "Valor económico y función social de nuestra riqueza forestal". El quebracho representa casi la mitad de las extracciones (19,9% en 1947); la industria taninera emplea materias primas nacionales en un 89,8%. Santa Fe y Chaco elaboran más del 85% del tanino del país.</p>
+    <span class="source">El Orden, 8 de abril de 1949</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="comisión mixta extracto quebracho cierre fábricas plan elaboración francia argentina cotán colonia baranda">
+  <span class="entry-date">Sep 1949</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Comisión Mixta decide sobre fábricas</h3>
+    <p>La Forestal mantiene como norma 2, 3 o raramente 4 de sus 6 fábricas activas. El cierre reciente de Colonia Baranda, Francia Argentina y Cotán se realizan "en base al plan de elaboración que sobre el particular ha trazado la Comisión Mixta del Extracto de Quebracho", previas conversaciones con industriales y obreros.</p>
+    <span class="source">El Litoral, 13 de septiembre de 1949</span>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="mezey 1949 extinción quebracho instituto cerebros equipo política forestal racional recuperar especialista químico curtido">
+  <span class="entry-date">1949</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Mezey: crear un instituto forestal de excelencia</h3>
+    <p>El especialista químico Ernesto Mezey publica su informe sobre el quebracho, prediciendo «su extinción en un futuro no muy lejano». Cree posible crear una política forestal racional para recuperar el quebracho y propone «un instituto dotado de los mejores cerebros y del mejor equipo de la especialidad».</p>
+    <span class="source">Mezey · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="1949 gobernador caésar método explotación científica mayor rendimiento personal destruyendo espíritu iniciativa hierro viejo villa guillermina">
+  <span class="entry-date">Dic 1949</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Gobernador Caésar: «método de explotación científica»</h3>
+    <p>En visita al norte, durante el debate por el cierre de Villa Guillermina, el gobernador peronista dice que las instalaciones eran «hierro viejo», pero destaca con asombro el «método de explotación científica» de la compañía que buscaba el mayor rendimiento de su personal, «destruyendo todo espíritu de iniciativa».</p>
+    <span class="source">El Litoral, 17 de diciembre de 1949 · Claves</span>
+  </div>
+</div>
+
+<!-- ERA: 1949-1952 -->
+<div class="era-divider">
+  <h2>Ley de Defensa Forestal y Plan de Racionalización <span class="era-range">1949–1952</span></h2>
+</div>
+
+<div class="entry" data-type="ley" data-search="ley 13.273 defensa riqueza forestal forestación reforestación perpetuidad bosque aprovechamiento integral explotación irracional empresas extranjeras">
+  <span class="entry-date">1949</span>
+  <span class="entry-tag tag-ley">Ley</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Ley 13.273</span> Defensa de la Riqueza Forestal</h3>
+    <p>Prevé forestación y reforestación, acción coordinada Nación-provincias. Objetivos: asegurar la "perpetuidad del bosque", aprovechamiento integral, uso racional de la materia prima. Protección y aumento del patrimonio forestal, recuperación de bosques "objeto de una explotación despiadada". Dirigida contra la depredación de empresas extranjeras: "se permitió la explotación irracional otorgándose concesiones a empresas extranjeras que alentaban abiertamente contra los intereses nacionales". Santa Fe adhiere transformando la Dirección de Agricultura en Administración Provincial de Bosques.</p>
+    <span class="source">El Litoral, 2 de enero de 1955</span>
+  </div>
+</div>
+
+<div class="entry" data-type="decreto" data-search="decreto perón modifica artículo 29 ley 13272 defensa forestal plantación obligatoria árboles propiedad particular fiscal">
+  <span class="entry-date">Oct 1950</span>
+  <span class="entry-tag tag-decreto">Decreto</span>
+  <div class="entry-body">
+    <h3>Modificación del art. 29 de la <span class="norma-ref">Ley 13.272</span></h3>
+    <p>Perón firma el decreto que permite al PE declarar obligatoria la plantación y conservación de árboles en tierras de propiedad particular o fiscal. Si los propietarios no cumplen, se ejecutarán las obras a su costa. "No solo se asegurará la estabilidad de una fuente de riqueza, sino que se propende a incrementar y fomentar la formación y conservación de masas forestales."</p>
+    <span class="source">El Orden, 29 de octubre de 1950</span>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="nueva ley bosques reforestar cambio climático régimen lluvias equilibrio natural conciencia forestal">
+  <span class="entry-date">Ene 1950</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Nueva ley forestal: reparar los errores</h3>
+    <p>"La nueva ley de bosques tiende a reparar los errores cometidos, estableciendo una mayor protección de la riqueza forestal, organizando su explotación sobre bases racionales, fomentando la plantación de árboles y creando una mayor conciencia sobre la importancia del problema." Lo más costoso será reforestar: las enormes masas taladas son millones de hectáreas.</p>
+    <span class="source">El Litoral, 31 de enero de 1950</span>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="depredación vigilancia calchaquí gallareta policía forestal infracciones obrajeros leyes provinciales educación forestal">
+  <span class="entry-date">Oct 1950</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Depredación en reservas a pesar de la ley 13.273</h3>
+    <p>Denuncian "verdadera alarma" por la explotación en reservas boscosas como Calchaquí y La Gallareta, a pesar de la ley nacional 13.273 y las leyes provinciales. Un funcionario de la Policía Forestal denuncia infracciones de la mayoría de los obrajeros: "depredaciones de las especies naturales, sin respetar las disposiciones". Llama a fomentar la educación forestal y tomar "medidas drásticas" contra quienes se convierten en "exterminadores de una riqueza incalculable".</p>
+    <span class="source">El Orden, 26 de octubre de 1950</span>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="apatía reforestación desamor al árbol reforma artículo 29 ley 13272 indispensable">
+  <span class="entry-date">Nov 1950</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Apatía frente a la reforestación</h3>
+    <p>"No obstante poseer hoy el país una buena ley forestal, es mucho lo que tiene que hacerse." La deuda integral de los acervos boscosos y la reforestación general son los dos grandes objetivos. "Ante la apatía demostrada, la apuntada reforma aparece indispensable, sobre todo cuando el desamor al árbol preséntase entre nosotros como un fenómeno creciente."</p>
+    <span class="source">El Orden, 8 de noviembre de 1950</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="plan racionalización agosto 1950 capacidad 500 a 320 mil 8 fábricas marginales indemnización convenio desmantelamiento">
+  <span class="entry-date">Ago 1950</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Plan de Racionalización: 8 fábricas "marginales"</h3>
+    <p>Se notifica a la empresa el plan para llevar la capacidad productiva de 500 mil a 320 mil toneladas. 8 de 21 fábricas son consideradas marginales. Al cesar, recibirían indemnización a establecer por comisiones técnica y liquidadora; pagaría el gobierno nacional y serían amortizadas por fabricantes "subsistentes". Se firmaron los contratos el 4 de agosto de 1950.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="ofensiva ventas mimosa stock-pile corea estados unidos 135 mil toneladas 1951 1953">
+  <span class="entry-date">1950–1953</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Freno al plan: guerra de Corea y stock-pile</h3>
+    <p>La decisión de EE.UU. de formar un stock de emergencia agotó reservas y superó la capacidad de producción. Se rechazaron pedidos de compradores habituales (que la mimosa aprovechó). Ventas de unas 135 mil toneladas al stock-pile entre 1951 y 1953.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="ingeniero saphir vivero delta parná desierto paso destructivo hombre irracional">
+  <span class="entry-date">Dic 1953</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Ingeniero Saphir: el avance del desierto</h3>
+    <p>Relacionado con el ingeniero Martino (autor de "Contribución preliminar para la creación de viveros forestales"), Saphir estuvo 7 años en el vivero experimental del Delta y 2 años en el norte de Santa Fe: "se observa el avance vertiginoso del desierto, como consecuencia del paso destructivo de la herramienta manejada por el hombre irracionalmente en un dejo de egoísmo sin igual".</p>
+    <span class="source">El Litoral, 1 de diciembre de 1953</span>
+  </div>
+</div>
+
+<!-- ERA: 1953-1955 -->
+<div class="era-divider">
+  <h2>Retirada estratégica y Conferencias <span class="era-range">1953–1955</span></h2>
+</div>
+
+<div class="entry" data-type="medida" data-search="la forestal retiro voluntario fábricas carta ministro abril 1953 villa guillermina tartagal colonia baranda marginales convenio racionalización">
+  <span class="entry-date">Abr 1953</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>La Forestal solicita retiro voluntario de fábricas</h3>
+    <p>Carta al ministro de Comercio del 6 de abril: de las cuatro fábricas "marginales" (Villa Guillermina, Tartagal, Colonia Baranda, Fontana), el Directorio "está convencido de que nunca más podrán volver a operar razonablemente económicas". Solicita eliminarlas de la lista oficial y cancelar cuotas. Se acoge al art. 23 del Convenio de Racionalización, renunciando a indemnizaciones por ajuste.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="ministro acepta propuesta forestal cierre desmantelamiento tierra arrasada gallareta harteneck las palmas FATITA obreros">
+  <span class="entry-date">Ago 1953</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Ministro acepta: fábricas desmanteladas</h3>
+    <p>El 26 de agosto el ministro responde y acepta la propuesta. Se cerraron y desmantelaron también Las Palmas y Harteneck. Las maquinarias de las tres fábricas de La Forestal "con evidente táctica de 'tierra arrasada', han sido dispersadas de manera que ya es imposible reagruparlas". Los obreros y el FATITA hicieron gestiones para adquirir la fábrica de Colonia Baranda; se decía que ni siquiera era anti-económica.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="plan expansión mimosa marzorati sullivan laboratorio harpenden propaganda agentes colocadores USA 20 mil toneladas">
+  <span class="entry-date">1953</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Plan de expansión de mimosa: 60 mil → 115 mil toneladas</h3>
+    <p>En 1953, Marzorati descubre el plan al ser enviado a EE.UU. por Sullivan para "moderar" las gestiones del gerente de ventas de The Forestal. Encuentra una campaña de propaganda y asesoramiento técnico para incrementar el uso de mimosa en 20.000 toneladas/año en EE.UU. El plan contemplaba pasar de 60 mil a 115 mil toneladas en diez años, "conducido con el mayor misterio y hermetismo". Comprende que La Forestal inspiró el Plan de Racionalización y no reaccionó ante el aumento del IAPI.</p>
+    <span class="source">Marzorati</span>
+  </div>
+</div>
+
+<div class="entry" data-type="ley" data-search="ley prohibición forestal retiro traslado instalaciones vías plantas industriales autorización poder ejecutivo 10 septiembre 1954 villa ana villa guillermina">
+  <span class="entry-date">Sep 1954</span>
+  <span class="entry-tag tag-ley">Ley</span>
+  <div class="entry-body">
+    <h3>Ley que prohíbe a La Forestal desmantelar sin autorización</h3>
+    <p>Ley del 10 de septiembre de 1954, por la violación de La Forestal al levantar las plantas de Villa Ana y Villa Guillermina sin indemnización. Prohíbe el retiro o traslado de instalaciones, vías o plantas industriales sin previa autorización del PE y sin explicar minuciosamente los motivos. Acevedo denuncia que "siempre que se trata de La Forestal, hay una voluntad extraña que trabaja sigilosamente": la ley fue aprobada y promulgada pero no se publicó en el Boletín Oficial, logrando evadirla.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="forestal renuncia CAPPEQ cámara argentino paraguaya 20 junio 1954 representante marzorati">
+  <span class="entry-date">Jun 1954</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>La Forestal renuncia a la CAPPEQ</h3>
+    <p>El 20 de junio de 1954, por desavenencias e incumplimientos en las condiciones de venta a EE.UU., La Forestal renuncia a la Cámara Argentino-Paraguaya de Productores de Extracto de Quebracho. Desaparece la posibilidad de seguir utilizándola como instrumento de su política; la Cámara adquiere "personalidad y la necesaria libertad de acción".</p>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="CAPPEQ memorándum reducir precio venta 20 25 dólares tonelada mercados representante comercio julio 1955">
+  <span class="entry-date">Jul 1955</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>CAPPEQ: reducir precio del quebracho US$ 20–25/tonelada</h3>
+    <p>Nota al representante de Comercio del 15 de julio de 1955. Memorándum sugiriendo reducir el precio de venta del quebracho unos 20 a 25 dólares la tonelada para mantener la colocación del producto y conseguir nuevos mercados.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="conferencia parís convivencia tres tanantes vegetales convenio cupo mundial argentina 130 mil forestal reingresa cámara">
+  <span class="entry-date">Oct 1955</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Conferencia de París: cupo de 130 mil toneladas</h3>
+    <p>25 a 28 de octubre de 1955. Acuerdo de convivencia de los tres tanantes vegetales (quebracho, mimosa, castaño). Cupo mundial para Argentina: 130 mil toneladas (sin Paraguay). Con el "funesto" acuerdo, La Forestal reingresa a la Cámara. La industria de mimosa tenía 12 delegados, castaño 12, quebracho solo 4.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="plan acción forestal ingeniero caminos discurso radio APB ley 4514 aprovechamiento bosque capital biológico minifundio">
+  <span class="entry-date">1955</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Plan de Acción Forestal (ingeniero Caminos)</h3>
+    <p>Discurso difundido por radio. Creación de la APB por <span class="norma-ref">ley 4.514</span> ajustándose a la ley nacional. Cambia el concepto de "explotación" por "aprovechamiento" del bosque: "considerar al bosque como un capital biológico en dinámica capaz de producir una renta a perpetuidad". Se busca restringir lo irracional y al mismo tiempo fomentar y estimular, sin caer en el minifundio.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="nota" data-search="dirección nacional bosques viveros municipales reestructuración administración provincial bosques santa felicia frutales forestales">
+  <span class="entry-date">Ene 1955</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Conciencia forestal: viveros y reestructuración</h3>
+    <p>Se busca abastecer producción de papel y suplantar importaciones de madera. Hincapié en el financiamiento por la Dirección Nacional de Bosques y la necesidad de fomentar viveros municipales. Reestructuración de la Administración Provincial de Bosques, especialmente el vivero de Santa Felicia para "propósitos patrióticos". Política forestal debe recibir aporte privado mediante comisiones vecinales y comunales.</p>
+    <span class="source">El Litoral, 2 de enero de 1955; El Orden, 3 de enero y 27 de febrero de 1955</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="II reunión nacional coordinación política forestal mendoza marzo 1955 economía agraria industrial materia prima conservación suelo">
+  <span class="entry-date">Mar 1955</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>II Reunión Nacional de Coordinación de la Política Forestal</h3>
+    <p>En Mendoza, del 14 al 26 de marzo de 1955. "La acción forestal argentina asegura a la economía agraria e industrial en todas las zonas del país una valiosa fuente de materia prima y una mayor garantía para la conservación del suelo."</p>
+    <span class="source">El Orden, 9 de marzo de 1955</span>
+  </div>
+</div>
+
+<!-- ERA: 1956-1957 -->
+<div class="era-divider">
+  <h2>Libertadora y Comisiones de Estudio <span class="era-range">1956–1957</span></h2>
+</div>
+
+<div class="entry" data-type="protesta" data-search="explotación irracional incontrolada bosques norte tala sin control obrajeros incumplen leyes zonas secas áridas despoblación emigración">
+  <span class="entry-date">Ago 1956</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Explotación irracional e incontrolada en el norte</h3>
+    <p>Denuncia de pobladores: "La forma irracional e incontrolada cómo se explotan los bosques es causa de seria inquietud." Tala sin métodos, los obrajeros incumplen las leyes. Quedan enormes claros que se transforman en zonas secas y áridas. "Los lugares explotados al máximo son abandonados luego." Afección al sistema climático y al régimen de lluvias. Despoblación y emigración por falta de radicación industrial estable.</p>
+    <span class="source">El Litoral, 7 de agosto de 1956</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="comisión especial estudio industria tanino septiembre 1956 informe diciembre proyectos decreto ministro trabajo delegaciones provinciales">
+  <span class="entry-date">Sep–Dic 1956</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Comisión Especial para el Estudio de la Industria del Tanino</h3>
+    <p>Creada en septiembre de 1956. Informe y dos proyectos de decreto el 3 de diciembre. Conclusiones: el quebracho es desplazado por la mimosa "como secuela de una deliberada política"; la principal firma elaboradora de quebracho es "la dominante del mercado mundial" que produce mimosa en Sudáfrica. Recomienda: derogar el Convenio de Racionalización, instalar establecimientos "trasladables", racional regeneración de bosques, crear Instituto Tecnológico del Tanino, laboratorio de propaganda, incluir al quebracho en acuerdos comerciales.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="III reunión forestal nacional salta octubre 1956 política nacional coordinada servicio técnico especial provincia voto unánime">
+  <span class="entry-date">Oct 1956</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>III Reunión Forestal Nacional (Salta)</h3>
+    <p>Voto unánime de las provincias: declarar que las condiciones del mercado internacional reclamaban para la industria del quebracho "la formación de una política nacional coordinada" y solicitaba la organización de un Servicio Técnico Especial.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="conferencia buenos aires diciembre 1956 quebracho mimosa castaño precios aforo libertadora 18 pesos 10 vicepresidente rojas renegotiar">
+  <span class="entry-date">Dic 1956</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Conferencia de Buenos Aires: negociación fallida</h3>
+    <p>Del 10 al 15 de diciembre. Quebracho propone bajar US$ 15 si mimosa y castaño suben. La Libertadora mejoró el tipo de cambio (18 pesos vs. 10 antes); el gobierno prometió reducir aforo si se bajaba precio. Mimosa y castaño rebajan también US$ 15 en todos los mercados. Rotas las negociaciones; se mantiene el acuerdo de París.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="resolucion" data-search="resolución 951 comisión honoraria asesora tanino junio 1957 delegados hacienda trabajo comercio gobernaciones CAPPEQ productores julio cueto rua">
+  <span class="entry-date">Jun 1957</span>
+  <span class="entry-tag tag-resolucion">Resolución</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Res. 951</span> Comisión Honoraria Asesora del Tanino</h3>
+    <p>Ministro de Comercio crea la Comisión el 4 de junio. Integrada por delegados de Hacienda, Trabajo, Comercio, gobernaciones de Chaco, Formosa, Jujuy, Santiago del Estero y Santa Fe, la CAPPEQ y todos los productores vigentes (12 empresas). Misión: estudiar medidas para reactivar, mejorar, racionalizar la producción y promover exportaciones. Firmada por Julio Cueto Rúa.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="resolucion" data-search="resoluciones 1570 1571 1572 octubre 1957 cuotas exportación comité tanino chaleco de fuerza fábrica empresa vicepresidente rojas">
+  <span class="entry-date">Oct 1957</span>
+  <span class="entry-tag tag-resolucion">Resolución</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Res. 1570, 1571, 1572</span> Cuotas, reglamentación y Comité del Tanino</h3>
+    <p>Dictadas por el vicepresidente Rojas sobre base de la CAHT. <strong>1570</strong>: restablece sistema de cuotas de exportación (suprimido por Res. 245 de dic. 1955) para combatir "estado de inseguridad industrial". <strong>1571</strong>: reglamenta otorgamiento de cuotas. <strong>1572</strong>: crea el Comité del Tanino porque "el Estado no puede permanecer indiferente". La Forestal las resistió tenazmente: constituían un "chaleco de fuerza" que impedía desmantelar fábricas.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="resolucion" data-search="resolución 93 enero 1958 cuotas paralización traslado fábrica clausura preservar capacidad">
+  <span class="entry-date">Ene 1958</span>
+  <span class="entry-tag tag-resolucion">Resolución</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Res. 93</span> Reglamentación de cuotas ante paralizaciones</h3>
+    <p>Del 29 de enero de 1958. Apartado 11: las cuotas asignadas a una fábrica que se clausura podrán preservarse si comprueba traslado a otra zona productora o instalación de nueva fábrica con igual capacidad. Complementa las resoluciones 1570-1572.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="guerra solicitadas BCRA aforo rebaja 25 dólares febrero 1957 CAPPEQ forestal chaiqueña cotán taninera Z jujeña weisburd dubosc prensa nación">
+  <span class="entry-date">Feb–Jun 1957</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Guerra de solicitadas: la rebaja del quebracho</h3>
+    <p>En feb. 1957, industriales bajan US$ 25/tonelada bajo promesa de ajuste del aforo. La mimosa hace igual rebaja; el BCRA no cumple la promesa; la industria debe adquirir dólares en mercado libre. CAPPEQ publica solicitada; al día siguiente La Forestal otra; dos días después los pequeños productores (Cotán, Tanino Z, La Jujeña, Weisburd, Dubosc) publican la suya desvinculándose. La intransigencia del BCRA sólo fue quebrada por gestiones del VP Rojas; el 5 de octubre se modifican los aforos (tras 8 meses de paralización).</p>
+    <span class="source">La Prensa y La Nación, 15-19 de junio de 1957</span>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="instituto extracto quebracho propaganda relaciones públicas CAPPEQ noetinger laboratorio tecnológico abril 1957 nación">
+  <span class="entry-date">Abr 1957</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Instituto del Extracto de Quebracho</h3>
+    <p>Conferencia de prensa de la CAPPEQ: plan de propaganda y relaciones públicas mundial para promover la venta del quebracho. Creación de un Instituto con funciones científico-tecnológicas. Presidente: Enrique Noetinger. "Pasó el tiempo y nada se supo."</p>
+    <span class="source">La Nación, 7 de abril de 1957</span>
+  </div>
+</div>
+
+<!-- ERA: 1958-1960 -->
+<div class="era-divider">
+  <h2>Frondizi y el desmantelamiento final <span class="era-range">1958–1960</span></h2>
+</div>
+
+<div class="entry" data-type="nota" data-search="necesidad diversificación industrial maderera tanino ganadería producción cerealista economía popular febrero 1958">
+  <span class="entry-date">Feb 1958</span>
+  <span class="entry-tag tag-nota">Nota</span>
+  <div class="entry-body">
+    <h3>Necesidad de diversificación económica</h3>
+    <p>"Apenas fueron conocidas otras actividades paralelas coadyuvantes a la consolidación económica. La ganadería y alguna pequeña producción cerealista no alcanzan a constituirse en órdenes económicos importantes en lo que hace a las necesidades populares."</p>
+    <span class="source">El Litoral, 25 de febrero de 1958</span>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="senador weidmann expropiar bienes forestal villa ana gallareta tartagal cooperativas obreros ingenio caña azúcar alcohol papel mayo 1958">
+  <span class="entry-date">May 1958</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Proyecto de expropiación (senador Weidmann)</h3>
+    <p>Art. 4: el PE promoverá entidades cooperativas de productores forestales integradas por obreros, técnicos y empleados para explotar las fábricas de Villa Ana, La Gallareta y Tartagal. Art. 5: en Villa Guillermina se instalará un ingenio de caña de azúcar, alcohol y papel de bagazo. El 1 de mayo Frondizi dice que no habrá nuevas expropiaciones. El 9 de junio, Seward es recibido por Frondizi, quien asegura que no habrá expropiación.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="cámara diputados proyecto investigativo forestal despidos masa obreros empleados 30 noviembre 1958">
+  <span class="entry-date">May 1958</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Cámara de Diputados: investigación sobre despidos</h3>
+    <p>Proyecto investigativo a La Forestal, referido a "causales de despidos en masa de obreros y empleados de la empresa", que debía efectuarse antes del 30 de noviembre.</p>
+    <span class="source">La Prensa, 25 de mayo de 1958</span>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="juicio International Products Corporation The Forestal antimonopolio conspiración CAPPEQ 21 abril 1958 millón dólares demanda">
+  <span class="entry-date">Abr 1958</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Juicio antimonopolio: International Products Corp. vs. The Forestal</h3>
+    <p>Demanda en EE.UU. acusando a The Forestal y todos los productores de conspiración: limitar distribuidores en EE.UU., monopolizar manufactura y venta, impedir ventas del demandante. Desde 1955 presionaban a la fábrica paraguaya para bajar precios. Demanda por US$ 1 millón. Arreglo: The Forestal paga US$ 200 mil y se compromete a colocar toda la disponibilidad de la empresa demandante.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="FAO ONU secretaría agricultura plan desarrollo economía forestal argentina d'adamo glensinger diez años capacidad 150 años 240 mil toneladas noviembre 1958">
+  <span class="entry-date">Nov 1958</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Informe FAO-ONU: Plan de Desarrollo Forestal</h3>
+    <p>Reunión en la Secretaría de Agricultura con el director de Bosques de la FAO y el economista forestal Orlando d'Adamo. Informe "Plan de Desarrollo de la Economía Forestal Argentina" (marzo 1959): Argentina cabeza forestal de América Latina. Existencias: 125,8 millones de toneladas de madera, 150 años de producción a 240 mil toneladas de extracto/año. Llama a crear Instituto Tecnológico, Fondo de Fomento, facilitar traslados, revisar tarifas ferroviarias/fluviales/portuarias, políticas de precios, incluir quebracho en convenios bilaterales.</p>
+    <span class="source">La Prensa, 30 de noviembre de 1958</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="taylor seward frondizi diciembre 1958 proyecto decreto ordenamiento industria fábrica tres isletas 250 millones pesos cinco años">
+  <span class="entry-date">Dic 1958</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Taylor y Seward entrevistan a Frondizi</h3>
+    <p>El 11 de diciembre, presentan "Proyecto de decreto" bautizado "Ordenamiento de la Industria". Apoyo de casi todos los industriales salvo La Chaqueña. La Forestal cede 2% de su cuota. Necesitarían 250 millones de pesos en 5 años para importar maquinaria y construir fábrica en Tres Isletas (Chaco).</p>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="trabajadores memorial interventor provincia junta nacional investigar maniobras monopolios internacionales cooperativa algodonera ayuda financiera doping guillotina">
+  <span class="entry-date">1957–1958</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Trabajadores: "maniobra internacional para suplantarnos"</h3>
+    <p>Memorial al interventor provincial: "no es exacto que ha disminuido el interés por el extracto de quebracho, sino que existe una maniobra internacional encaminada a suplantarlo por el extracto del árbol denominado mimosa." Solicitan convocatoria a una Junta Nacional que investigue las maniobras. Denuncian que la "ayuda financiera" a obreros es "doping de pan para hoy y hambre para mañana" bajo la "guillotina de los inhumanos monopolios internacionales".</p>
+    <span class="source">La Prensa, 20 de diciembre de 1957</span>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="diputado bertone UCRI nuevas disposiciones contrarrestar merma ventas tanino enero 1959 evitar paralización plantas">
+  <span class="entry-date">Ene 1959</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Diputado Bertone: contrarrestar la merma de ventas</h3>
+    <p>Proyecto de declaración pidiendo nuevas disposiciones para contrarrestar la merma de ventas de tanino. Adhiere la bancada minorista representada por León.</p>
+    <span class="source">La Nación, 13 de enero de 1959; La Prensa, 22 de enero de 1959</span>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="lord glenconner embajador británico frondizi marzo 1959 londres evening standard transferencia fábricas santa fe chaco">
+  <span class="entry-date">Mar 1959</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Lord Glenconner y embajador británico ante Frondizi</h3>
+    <p>El 10 de marzo, ratifican lo prometido en diciembre. Pero el 13 de marzo, La Prensa reproduce un telegrama de Londres: el plan "sólo implica la transferencia de las fábricas de Santa Fe al Chaco". El dinero se obtuvo por reinversión de beneficios; faltan 5 años para la transferencia total. Clarín (12/12/1958) ya advertía que La Forestal no invertiría si no se modificaba la resolución de cuotas por fábrica.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="decreto" data-search="decreto 4536 3546 abril 1959 frondizi cuotas empresa no fábrica traslado villa ana desmantelamiento Despido masa 8000 habitantes cesiones transferencias">
+  <span class="entry-date">Abr 1959</span>
+  <span class="entry-tag tag-decreto">Decreto</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Dec. 4.536/59</span> Cuotas por empresa, no por fábrica</h3>
+    <p>Del 20 de abril. Cambio decisivo: la cuota se establece por empresa y no por fábrica. Solo favorece a La Forestal (única con más de una fábrica). Permite centralizar producción en una sola planta manteniendo las demás paralizadas, producir a menor costo, y agotar más aceleradamente la zona boscosa. Art. 4: permite "cesiones o transferencias de porcentajes de participación" (suprimido desde 1942 por perjudicial). Autoriza el traslado/desmantelamiento de Villa Ana, sumiendo al pueblo de 8.000 habitantes en la miseria.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="resolucion" data-search="resolución 357 22 abril 1959 aprueba programa forestal transferencia primera etapa septiembre 1960">
+  <span class="entry-date">Abr 1959</span>
+  <span class="entry-tag tag-resolucion">Resolución</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Res. 357</span> Aprobación del programa de La Forestal</h3>
+    <p>Del 22 de abril. Aprueba el programa de La Forestal: "la primera etapa de la transferencia se halla en curso de ejecución y calculamos será completa alrededor de septiembre del año próximo." Las memorias de The Forestal se referían al éxito del plan de desmantelamiento.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="protesta" data-search="diputado zeriello UCRP alsogaray FAO ANB d'adamo dabas peronismo campaña desprestigio dólares industriales estatistas agosto 1959">
+  <span class="entry-date">Ago 1959</span>
+  <span class="entry-tag tag-protesta">Protesta</span>
+  <div class="entry-body">
+    <h3>Diputado Zeriello ataca a la ANB y a la FAO</h3>
+    <p>Intempestivamente pregunta al ministro Alsogaray sobre la actuación de funcionarios de la Administración Nacional de Bosques vinculados al peronismo. Marzorati lo considera una "campaña de desprestigio", ocurrida "justamente cuando se intentaba por algunos industriales que modificara sus conclusiones por considerarlas 'demasiado estatistas'".</p>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="junta reactivación fomento departamento vera julio 1959 fraccionamiento 20 mil hectáreas gallareta ganadería agricultura ogilvie intiyaco">
+  <span class="entry-date">Jul 1959</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Junta de Vera: fraccionar 20.000 hectáreas</h3>
+    <p>La Junta de Reactivación y Fomento del Departamento de Vera gestiona ante La Forestal el fraccionamiento de 20 mil hectáreas alrededor de La Gallareta, aptas para ganadería y agricultura. "Significaría el arraigo definitivo de población y el encauzamiento de actividades hacia la producción agropecuaria." Se pide lo mismo para campos entre Ogilvie e Intiyaco.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="marzorati informe febrero 1960 industria extracto quebracho argentina secretarías estado industria minería comercio expediente 20003 libre empresa">
+  <span class="entry-date">Feb 1960</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Informe Marzorati: "La industria del extracto de quebracho"</h3>
+    <p>Finalizado en febrero de 1960. Tres apartados: antecedentes históricos, situación del mimosa afrobritánico, vicisitudes por insensibilidad empresarial y vacilaciones gubernamentales. Comienza con presentación al secretario de Industria y Minería (Expediente 20003, 2 de enero de 1959): "el desconocimiento organizado de los verdaderos problemas comerciales es quizá la más importante de las causas del infortunio." Llama a formar un "frente unido" de productores auténticos.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="medida" data-search="productores memorándum enero 1960 rebajas cargas impositivas cámara comercio británica intercesión presidente excepto forestal quebrachales">
+  <span class="entry-date">Ene 1960</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Memorándum de productores independientes</h3>
+    <p>Enero de 1960. Suscrito por todos menos La Forestal y Quebrachales Fusionados. Piden rebajas de las cargas impositivas. La Cámara de Comercio Británica y la empresa interceden ante las altas autoridades, "nada menos que el Presidente". Pero no hubo caso: "estaban advertidos."</p>
+  </div>
+</div>
+
+<div class="entry" data-type="decreto" data-search="decreto 2156 febrero 1960 liberar industria retención cambio 20% impuesto ventas 8% frondizi equipo económico">
+  <span class="entry-date">Feb 1960</span>
+  <span class="entry-tag tag-decreto">Decreto</span>
+  <div class="entry-body">
+    <h3><span class="norma-ref">Dec. 2.156</span> Liberación de retenciones e impuestos</h3>
+    <p>El 25 de febrero, Frondizi firma el decreto: libera a la industria del extracto del 20% de retención de cambio y del 8% del impuesto a las ventas. "Devuelve a la industria del extracto de quebracho todas las armas que necesita la Libre Empresa." Marzorati llama a formar un "frente unido" y demostrar que el apoyo gubernamental despertó "virilmente nuestra industria".</p>
+  </div>
+</div>
+
+<div class="entry" data-type="ley" data-search="ley 14.440 cae enero 1960 pierde vigencia decreto 4536 no regulación exportación">
+  <span class="entry-date">Ene 1960</span>
+  <span class="entry-tag tag-ley">Ley</span>
+  <div class="entry-body">
+    <h3>Cae la <span class="norma-ref">ley 14.440</span>: sin regulación de exportación</h3>
+    <p>En enero de 1960 cae la ley 14.440 que prorrogaba la ley 12.830 del 30 de junio de 1959. Pierde vigencia el decreto 4.536/59. En consecuencia: no existe regulación para la exportación de tanino.</p>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="severgnini memorándum ley 12.906 represión monopolios trusts forestal desvincular justicia antimonopolio CADE dirección monopolios noviembre 1957">
+  <span class="entry-date">Nov 1957</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Severgnini: aplicar la ley antimonopolio a La Forestal</h3>
+    <p>Extensísimo memorándum en la Dirección de Monopolios. Propone aplicar la <span class="norma-ref">ley 12.906</span> de represión de monopolios y trusts: "Tenemos el caso híbrido de una sociedad extranjera que controla la producción y comercialización del quebracho y a la vez las dos terceras partes del producto más competitivo —el mimosa— y juega el uno contra el otro." Remedio: La Forestal de Londres debe desvincularse del control de una u otra industria, como hicieron las autoridades de EE.UU. Cita el precedente de la CADE.</p>
+  </div>
+</div>
+
+<!-- ERA: 1963 -->
+<div class="era-divider">
+  <h2>Tierra arrasada y comisiones investigadoras <span class="era-range">1963</span></h2>
+</div>
+
+<div class="entry" data-type="medida" data-search="1963 acevedo comisión investigadora bicameral sexta 1915 1921 1931 1948 1958 última fábrica cerrada indemnizaciones vías férreas guinches agua potable casillas proveedurías emigrar piqueta tierra arrasada capital colonialista">
+  <span class="entry-date">Oct 1963</span>
+  <span class="entry-tag tag-medida">Medida</span>
+  <div class="entry-body">
+    <h3>Acevedo: 6.ª comisión investigadora bicameral</h3>
+    <p>El diputado provincial Anacarsis Acevedo impulsa la creación de la sexta comisión investigadora a La Forestal en la historia del país (1915, 1921, 1931, 1948 y 1958). La empresa acaba de cerrar su última fábrica, limitando indemnizaciones y vendiendo 12 mil hectáreas de monte semi-explotado. Acevedo denuncia: la empresa concluye una «tarea de devastación de todo cuanto pudiera asegurar aún algún medio de vida», levantando vías férreas, cortando guinches, destruyendo sistemas de agua potable, levantando casillas y cerrando proveedurías. «No queda más alternativa que emigrar.» Sentencia: «Un capital colonialista pretende dar término a su explotación extractiva», dejando poblaciones que «cayeron demolidas por la piqueta de una despiadada política de tierra arrasada».</p>
+    <span class="source">Acevedo 15 · Claves</span>
+  </div>
+</div>
+
+<div class="entry" data-type="propuesta" data-search="acevedo reinvertir promoción económica agrícola ganadera forestal capital humanizado racionalizado argentinizado oposición criminales designios todos culpables">
+  <span class="entry-date">Oct 1963</span>
+  <span class="entry-tag tag-propuesta">Propuesta</span>
+  <div class="entry-body">
+    <h3>Acevedo: reinvertir el capital, argentinizar la empresa</h3>
+    <p>Exige a La Forestal reinvertir el dinero que aún tiene en el país en proyectos de promoción económica, agrícola, ganadera, forestal, de relevancia y alto nivel técnico. Pide «un capital humanizado, racionalizado y argentinizado en profundidad y en forma definitiva». Apoyo unánime de las fuerzas políticas provinciales. Admite que la «riqueza perecedera» tenía un «fin trágico» y se auto-recrimina: «todos somos culpables» por no haber logrado crear una oposición a «tan criminales designios». Un año después, Gori publica «La tragedia del quebracho colorado».</p>
+    <span class="source">Claves</span>
+  </div>
+</div>
+
+
+</main>
+
+<script>
+const entries = document.querySelectorAll('.entry');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const searchInput = document.getElementById('searchInput');
+const countBar = document.getElementById('countBar');
+
+const typeLabels = {
+  ley: 'Ley', decreto: 'Decreto', resolucion: 'Resolución',
+  medida: 'Medida', protesta: 'Protesta', propuesta: 'Propuesta', nota: 'Nota'
+};
+
+const typeColors = {
+  ley: 'var(--tag-ley)', decreto: 'var(--tag-decreto)', resolucion: 'var(--tag-resolucion)',
+  medida: 'var(--tag-medida)', protesta: 'var(--tag-protesta)', propuesta: 'var(--tag-propuesta)', nota: 'var(--tag-nota)'
+};
+
+function updateCounts() {
+  const counts = {};
+  entries.forEach(e => {
+    if (!e.classList.contains('hidden')) {
+      const t = e.dataset.type;
+      counts[t] = (counts[t] || 0) + 1;
+    }
+  });
+  countBar.innerHTML = Object.entries(typeLabels).map(([k, label]) =>
+    `<span class="count-item"><span class="count-dot" style="background:${typeColors[k]}"></span>${label}: ${counts[k] || 0}</span>`
+  ).join('') + `<span class="count-item" style="margin-left:auto;font-weight:600">Total: ${Object.values(counts).reduce((a,b)=>a+b,0)}</span>`;
+}
+
+function applyFilters() {
+  const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+  const searchTerm = searchInput.value.toLowerCase().trim();
+
+  entries.forEach(e => {
+    const matchType = activeFilter === 'all' || e.dataset.type === activeFilter;
+    const matchSearch = !searchTerm || e.dataset.search.toLowerCase().includes(searchTerm) ||
+                        e.textContent.toLowerCase().includes(searchTerm);
+    e.classList.toggle('hidden', !(matchType && matchSearch));
+  });
+
+  // Check if no results
+  const visible = document.querySelectorAll('.entry:not(.hidden)');
+  const existingNoResults = document.querySelector('.no-results');
+  if (existingNoResults) existingNoResults.remove();
+
+  if (visible.length === 0) {
+    const noResults = document.createElement('div');
+    noResults.className = 'no-results';
+    noResults.textContent = 'No se encontraron entradas con los filtros seleccionados.';
+    document.getElementById('timeline').appendChild(noResults);
+  }
+
+  updateCounts();
+}
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  });
+});
+
+searchInput.addEventListener('input', applyFilters);
+
+updateCounts();
+</script>
+
+</body>
+</html>
