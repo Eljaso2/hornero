@@ -197,7 +197,13 @@ CATEGORY_KEYWORDS = {
                   "convenio colectivo", "convenios colectivos", "colectivo",
                   "derecho laboral", "legislación laboral", "trabajo femenino", "trabajo marítimo",
                   "disciplina laboral", "control social", "criminología", "política criminal",
-                  "jubilaciones", "anarquismo", "sindicalismo revolucionario", "socialismo"],
+                  "jubilaciones", "anarquismo", "sindicalismo revolucionario", "socialismo",
+                  # Centrales obreras / nucleamientos sindicales (Contreras 2017)
+                  "cgt", "centrales obreras", "nucleamientos sindicales", "coasi", "usa", "cggma",
+                  "fora", "faca", "mpids", "cpcn", "atlas", "ctal", "fsm", "orit", "ciosl",
+                  # Federaciones provinciales (Jasinski 2023)
+                  "fst", "federación santafesina", "federación provincial", "uol", "unión obrera local",
+                  "santa fe"],
     "fuentes": ["convenio", "convenios colectivos", "pliego", "cct", "convenio colectivo", "basico", "categoria",
                "paritaria", "aumento", "negociacion", "oferta", "salarial",
                "smvm", "salario minimo", "piso legal", "minimo vital",
