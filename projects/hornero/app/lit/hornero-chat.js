@@ -3090,11 +3090,17 @@ class HorneroChat extends HoComponent {
         }
       });
 
-      // Enter key sends
+      // Enter key = new line (Shift+Enter also new line). Send only via send button (arrow)
       inputField.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if (e.key === 'Enter') {
           e.preventDefault();
-          sendBtn.click();
+          // Insert newline at cursor position
+          const start = inputField.selectionStart;
+          const end = inputField.selectionEnd;
+          inputField.value = inputField.value.substring(0, start) + '\n' + inputField.value.substring(end);
+          inputField.selectionStart = inputField.selectionEnd = start + 1;
+          // Trigger auto-resize
+          inputField.dispatchEvent(new Event('input'));
         }
       });
 
