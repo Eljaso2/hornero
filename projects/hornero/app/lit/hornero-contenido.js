@@ -241,7 +241,7 @@ class HorneroContenido extends HoComponent {
         this._savedDrawerState = null;
       }
       chatEl.addEventListener('chat-send', (e) => {
-        this._handleUserMessage(e.detail.text);
+        this._handleUserMessage(e.detail.text, e.detail.urls, e.detail.pdfData, e.detail.pdfName);
       });
       // Listen for session selection from history drawer
       chatEl.addEventListener('chat-session-select', (e) => {
@@ -494,12 +494,13 @@ class HorneroContenido extends HoComponent {
     ];
   }
 
-  _handleUserMessage(text) {
+  _handleUserMessage(text, urls, pdfData, pdfName) {
     this._finalizeCurrentReveal();
     if (this._bannerVisible) {
       this._bannerVisible = false;
     }
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
+    if (urls && urls.length > 0) userMsg.urls = urls;
     this.messages = [...this.messages, userMsg];
     this._typing = true;
     this._saveChatHistory();
@@ -507,15 +508,15 @@ class HorneroContenido extends HoComponent {
 
     // Try streaming → non-streaming → retry after cold-start buffer → offline fallback
     let lastError = '';
-    this._callBackendStream(text).catch((err) => {
+    this._callBackendStream(text, urls, pdfData, pdfName).catch((err) => {
       lastError = err?.message || err || 'stream error';
       console.warn('Contenido: stream failed, trying non-streaming:', err);
-      this._callBackend(text).catch((err2) => {
+      this._callBackend(text, urls, pdfData, pdfName).catch((err2) => {
         lastError += ' | ' + (err2?.message || err2 || 'non-stream error');
         console.warn('Contenido: non-streaming failed, retrying after cold-start buffer:', err2);
         // Wait 5s for Render cold start, then retry streaming once more
         setTimeout(() => {
-          this._callBackendStream(text).catch((err3) => {
+          this._callBackendStream(text, urls, pdfData, pdfName).catch((err3) => {
             lastError += ' | ' + (err3?.message || err3 || 'retry error');
             console.warn('Contenido: retry failed, using offline fallback:', err3);
             this._addWithProgressiveReveal(this._localResponse(text, lastError));
@@ -594,7 +595,7 @@ class HorneroContenido extends HoComponent {
     this._stopProgressiveReveal();
   }
 
-  async _callBackendStream(text) {
+  async _callBackendStream(text, urls, pdfData, pdfName) {
     // Wake up backend before streaming (handles Render free tier cold starts)
     if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
 
@@ -624,6 +625,9 @@ class HorneroContenido extends HoComponent {
           sector: this.sector,
           requested_persona: this._activePersona,
           session_id: this._sessionId,
+          urls: urls || [],
+          pdf_data: pdfData || '',
+          pdf_name: pdfName || '',
         }),
         signal: this._streamAbortController.signal,
       });
@@ -755,7 +759,7 @@ class HorneroContenido extends HoComponent {
     }
   }
 
-  async _callBackend(text) {
+  async _callBackend(text, urls, pdfData, pdfName) {
     const history = this.messages.slice(-10).map(m => ({
       role: m.role,
       text: m.text || '',
@@ -773,6 +777,9 @@ class HorneroContenido extends HoComponent {
         sector: this.sector,
         requested_persona: this._activePersona,
         session_id: this._sessionId,
+        urls: urls || [],
+        pdf_data: pdfData || '',
+        pdf_name: pdfName || '',
       }),
     }, 60000);
 

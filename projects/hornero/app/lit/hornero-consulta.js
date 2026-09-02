@@ -232,7 +232,7 @@ class HorneroConsulta extends HoComponent {
         this._savedDrawerState = null;
       }
       chatEl.addEventListener('chat-send', (e) => {
-        this._handleUserMessage(e.detail.text);
+        this._handleUserMessage(e.detail.text, e.detail.urls, e.detail.pdfData, e.detail.pdfName);
       });
       // Listen for session selection from history drawer
       chatEl.addEventListener('chat-session-select', (e) => {
@@ -561,7 +561,7 @@ class HorneroConsulta extends HoComponent {
     return clean.length > 10 ? clean + '…' : 'Consulta';
   }
 
-  _handleUserMessage(text) {
+  _handleUserMessage(text, urls, pdfData, pdfName) {
     // If AI is still typing/revealing, finalize immediately — don't lose the response
     this._finalizeCurrentReveal();
     // Hide banner when user starts chatting
@@ -582,6 +582,7 @@ class HorneroConsulta extends HoComponent {
     const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
     const title = isFirstUserMsg ? this._generateTitle(text, 'consulta') : undefined;
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
+    if (urls && urls.length > 0) userMsg.urls = urls;
     if (title) userMsg.title = title;
     this.messages = [...this.messages, userMsg];
     this._typing = true;
@@ -589,14 +590,14 @@ class HorneroConsulta extends HoComponent {
     this.render();
 
     // Try streaming first, fallback to non-streaming, then retry after cold-start buffer
-    this._callBackendStream(text).catch((err) => {
+    this._callBackendStream(text, urls, pdfData, pdfName).catch((err) => {
       console.warn('Consulta: stream failed, trying non-streaming:', err);
       // DIAGNOSTIC: run SSE connectivity test on first failure
       if (!this._sseDiagRun) { this._sseDiagRun = true; this._runSseDiag(); }
-      this._callBackend(text).catch((err2) => {
+      this._callBackend(text, urls, pdfData, pdfName).catch((err2) => {
         console.warn('Consulta: non-streaming failed, retrying after cold-start buffer:', err2);
         setTimeout(() => {
-          this._callBackendStream(text).catch((err3) => {
+          this._callBackendStream(text, urls, pdfData, pdfName).catch((err3) => {
             console.warn('Consulta: retry failed, using offline fallback:', err3);
             const errMsg = [err, err2, err3].map(e => e?.message || e || '?').join(' | ');
             this._addWithProgressiveReveal(this._localResponse(text, errMsg));
@@ -675,7 +676,7 @@ class HorneroConsulta extends HoComponent {
     this._stopProgressiveReveal();
   }
 
-  async _callBackendStream(text) {
+  async _callBackendStream(text, urls, pdfData, pdfName) {
     // Wake up backend before streaming (handles Render free tier cold starts)
     if (window.HorneroAPI) await window.HorneroAPI.wakeUpBackend();
 
@@ -702,6 +703,9 @@ class HorneroConsulta extends HoComponent {
       sector: this.sector,
       requested_persona: this._activePersona,
       session_id: this._sessionId,
+      urls: urls || [],
+      pdf_data: pdfData || '',
+      pdf_name: pdfName || '',
     });
     console.log('[STREAM] fetch START', streamUrl, 'aborted:', this._streamAbortController.signal.aborted);
 
@@ -862,7 +866,7 @@ class HorneroConsulta extends HoComponent {
     }
   }
 
-  async _callBackend(text) {
+  async _callBackend(text, urls, pdfData, pdfName) {
     const history = this.messages.map(m => ({
       role: m.role,
       text: m.text || '',
@@ -880,6 +884,9 @@ class HorneroConsulta extends HoComponent {
         sector: this.sector,
         requested_persona: this._activePersona,
         session_id: this._sessionId,
+        urls: urls || [],
+        pdf_data: pdfData || '',
+        pdf_name: pdfName || '',
       }),
     });
 
