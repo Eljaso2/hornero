@@ -689,28 +689,35 @@ class HorneroConsulta extends HoComponent {
     // Once response headers arrive, timeout is cleared — backend heartbeat keeps connection alive
     this._streamAbortController = new AbortController();
     let _connectionTimeoutId = setTimeout(() => {
+      console.warn('[STREAM] 60s timeout — aborting');
       this._streamAbortController?.abort();
     }, 60000);
 
+    const streamUrl = this._getStreamUrl();
+    const streamBody = JSON.stringify({
+      message: text,
+      formato: 'consulta',
+      history: history,
+      grade: this.grade,
+      sector: this.sector,
+      requested_persona: this._activePersona,
+      session_id: this._sessionId,
+    });
+    console.log('[STREAM] fetch START', streamUrl, 'aborted:', this._streamAbortController.signal.aborted);
+
     let response;
     try {
-      response = await fetch(this._getStreamUrl(), {
+      response = await fetch(streamUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          formato: 'consulta',
-          history: history,
-          grade: this.grade,
-          sector: this.sector,
-          requested_persona: this._activePersona,
-          session_id: this._sessionId,
-        }),
+        body: streamBody,
         signal: this._streamAbortController.signal,
       });
       clearTimeout(_connectionTimeoutId);
+      console.log('[STREAM] fetch OK — status:', response.status, 'type:', response.headers.get('content-type'));
     } catch(e) {
       clearTimeout(_connectionTimeoutId);
+      console.error('[STREAM] fetch FAILED:', e.name, e.message);
       if (e.name === 'AbortError') throw new Error('FETCH_TIMEOUT');
       throw e;
     }
