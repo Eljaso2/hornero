@@ -50,6 +50,9 @@ STEM_MAP = {
     "violencias": "violencia", "violentos": "violencia",
     "forestales": "forestal",
     "aceiteros": "aceitero", "aceiteras": "aceitero",
+    "accidentes": "accidente",
+    "siniestros": "siniestro",
+    "muertes": "muerte",
     "patronales": "patronal",
     "legislaciones": "legislacion", "legislación": "legislacion",
     "jurisprudencias": "jurisprudencia",
@@ -114,6 +117,11 @@ SYNONYM_GROUPS = [
     {"convenio", "pliego", "acuerdo", "clausula"},
     # negociación colectiva ↔ convenio colectivo: academic vs common term
     {"negociacion", "paritaria"},
+    # accidentes ↔ muerte obrera ↔ riesgo laboral: safety cluster
+    # queries for one should also match chunks about the others
+    {"accidente", "muerte-obrera", "riesgo-laboral", "siniestro",
+     "seguridad-laboral", "higiene-seguridad", "salud-laboral",
+     "control-obrero", "comites-mixtos"},
 ]
 
 
@@ -212,6 +220,11 @@ CATEGORY_KEYWORDS = {
                "clase obrera", "clase trabajadora", "ejercito", "reserva",
                "ice", "ift", "panorama", "condicion", "como somos",
                "cremonte", "canasta",
+               # Accidentes laborales / seguridad laboral / control obrero
+               "muerte", "muerte-obrera", "riesgo-laboral", "seguridad-laboral",
+               "higiene", "siniestro", "comites-mixtos", "control-obrero",
+               "modelo-obrero-italiano", "non-delega", "manual-salud",
+               "art 42", "enfermeria",
                # Prensa sindical (fuentes/prensa)
                "periodico", "comunicado", "volante", "editorial", "discurso", "opinion",
                "trabajador aceitero", "el trabajador aceitero", "desmotador", "posicion",
@@ -224,6 +237,10 @@ CATEGORY_KEYWORDS = {
                  "sonido gremial", "infogremiales", "cronica", "diario", "diarios", "pagina 12",
                  "clipping", "agencia", "teleshow", "prensa comercial", "la nacion",
                  "clarin", "ambito financiero", "cronista", "telam",
+                 # Accidentes laborales / muertes obreras
+                 "accidente", "muerte", "muerte-obrera", "riesgo-laboral",
+                 "ford", "vaca muerte", "ypf", "petroleros", "explosión",
+                 "siniestro",
                  # Columnas de opinión y medios donde Yofra publica
                  "yofra", "opinión", "opinion", "opina", "opinan",
                  "columna", "columnista",
@@ -490,6 +507,8 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros",
             "tosco", "rucci", "ongaro", "yofra", "cremonte",
             # Conceptos / lugares
             "rosario", "reconquista", "chaco",
+            # Accidentes laborales / muertes obreras
+            "ford", "vaca muerte", "ypf", "smata", "censi",
         }
         query_entities = original_query_terms & entity_keywords
         if query_entities:
@@ -609,3 +628,89 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
     # Return top N after filtering (historiador gets 6 for richer research context, reduced from 8 to cut prompt size)
     result_limit = 6 if formato == 'historia' else 5
     return filtered[:result_limit]
+
+
+def clipping_search(query: str, clipping_items: list, max_results: int = 5) -> list:
+    """Search clipping items by tag/title/bajada matching against query terms.
+
+    Implements Phase 2 clipping filtering — the infrastructure was already wired
+    (query param in get_system_prompt_rag) but the logic was never implemented.
+
+    Scoring:
+    - Tag match: +3 per matching query term (curated tags are high signal)
+    - Title match: +2 per matching query term
+    - Bajada match: +1 per matching query term
+
+    Returns top N clipping items with relevance score, sorted descending.
+    """
+    if not query or not query.strip() or not clipping_items:
+        return []
+
+    import re as _re
+    clean_query = _re.sub(r'[?!.,;:¿¡()"\'\[\]{}]', ' ', query.lower())
+    raw_terms = clean_query.split()
+    stop_words = {"que", "el", "la", "los", "las", "un", "una", "de", "del",
+                  "en", "es", "se", "no", "si", "yo", "me", "mi", "tu",
+                  "te", "nos", "les", "y", "o", "a", "al", "por", "para",
+                  "con", "sin", "como", "más", "mas", "muy", "hay", "pero",
+                  "esta", "este", "esto", "eso", "esa", "ese", "ser", "son",
+                  "fue", "era", "ha", "han", "he", "bien", "sobre", "entre",
+                  "puede", "puedo", "quiero", "saber", "hacer", "estoy",
+                  "tambien", "también"}
+    terms = [t for t in raw_terms if len(t) > 2 and t not in stop_words]
+    # Also add stemmed versions
+    stemmed_terms = [stem_term(t) for t in terms]
+    all_terms = set(terms) | set(stemmed_terms)
+
+    # Expand with synonym groups (same as keyword_search)
+    for group in SYNONYM_GROUPS:
+        if all_terms & group:
+            all_terms |= group
+
+    # Reverse stem expansion
+    reverse_stems = {}
+    for variant, canonical in STEM_MAP.items():
+        if canonical not in reverse_stems:
+            reverse_stems[canonical] = set()
+        reverse_stems[canonical].add(variant)
+        reverse_stems[canonical].add(canonical)
+
+    expanded_terms = set(all_terms)
+    for t in all_terms:
+        if t in reverse_stems:
+            expanded_terms |= reverse_stems[t]
+    all_terms = expanded_terms
+
+    if not all_terms:
+        return []
+
+    scored = []
+    for item in clipping_items:
+        if not isinstance(item, dict):
+            continue
+        score = 0.0
+
+        # Tag matching (high signal — +3 per term)
+        item_tags = [t.lower().replace("-", " ").replace("_", " ") for t in item.get("tags", [])]
+        item_tags_text = " ".join(item_tags)
+        for t in all_terms:
+            if t in item_tags_text:
+                score += 3.0
+
+        # Title matching (+2 per term)
+        title = item.get("titulo", "").lower()
+        for t in all_terms:
+            if t in title:
+                score += 2.0
+
+        # Bajada matching (+1 per term)
+        bajada = item.get("bajada", "").lower()
+        for t in all_terms:
+            if t in bajada:
+                score += 1.0
+
+        if score > 0:
+            scored.append({**item, "relevance_score": round(score, 2)})
+
+    scored.sort(key=lambda x: x["relevance_score"], reverse=True)
+    return scored[:max_results]
