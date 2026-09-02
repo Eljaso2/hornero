@@ -315,7 +315,6 @@ class HorneroChat extends HoComponent {
       overlay.innerHTML = `
         <button class="rec-overlay-cancel" title="Cancelar grabación">
           <svg viewBox="0 0 24 24" width="20" height="20"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-          <span class="rec-cancel-label">Cancelar</span>
         </button>
         <div class="rec-overlay-center">
           <span class="rec-overlay-timer">0:00</span>
@@ -1739,7 +1738,6 @@ class HorneroChat extends HoComponent {
       }
       .rec-overlay-cancel { color: #E85D3A; }
       .rec-overlay-cancel:hover { background: rgba(232,93,58,.15); }
-      .rec-cancel-label { font-family: 'Public Sans', sans-serif; font-size: .78rem; font-weight: 600; margin-left: 2px; }
       .rec-overlay-send { color: var(--ho-green, #4E9978); }
       .rec-overlay-send:hover { background: rgba(78,153,120,.15); }
       .rec-overlay-cancel svg, .rec-overlay-send svg {
