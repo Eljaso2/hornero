@@ -241,7 +241,8 @@ class HorneroContenido extends HoComponent {
         this._savedDrawerState = null;
       }
       chatEl.addEventListener('chat-send', (e) => {
-        this._handleUserMessage(e.detail.text, e.detail.urls, e.detail.pdfData, e.detail.pdfName);
+        const urls = e.detail.urls || e.detail.scrapeUrls;
+        this._handleUserMessage(e.detail.text, urls, e.detail.pdfData, e.detail.pdfName, !e.detail.urls);
       });
       // Listen for session selection from history drawer
       chatEl.addEventListener('chat-session-select', (e) => {
@@ -502,13 +503,13 @@ class HorneroContenido extends HoComponent {
     ];
   }
 
-  _handleUserMessage(text, urls, pdfData, pdfName) {
+  _handleUserMessage(text, urls, pdfData, pdfName, skipStoreUrls = false) {
     this._finalizeCurrentReveal();
     if (this._bannerVisible) {
       this._bannerVisible = false;
     }
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
-    if (urls && urls.length > 0) userMsg.urls = urls;
+    if (urls && urls.length > 0 && !skipStoreUrls) userMsg.urls = urls;
     this.messages = [...this.messages, userMsg];
     this._typing = true;
     this._saveChatHistory();

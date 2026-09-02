@@ -98,7 +98,6 @@ class HorneroChat extends HoComponent {
     this._savedInputSelectionStart = 0; // Cursor position preserved across re-renders
     this._savedInputSelectionEnd = 0;
     this._savedInputHeight = "";
-    this._skipScrollRestore = false; // When true, _afterRender skips scroll restore and auto-scrolls instead
   }
 
   _detectAudioMimeType() {
@@ -1181,7 +1180,15 @@ class HorneroChat extends HoComponent {
         font-family: 'Public Sans', sans-serif; font-size: 1.12rem;
         font-weight: 600;
         line-height: 1.35; position: relative;
-        display: inline-block; }
+        display: inline-block;
+        overflow-wrap: break-word; word-break: break-word; }
+
+      /* Clickable links inside message text */
+      .msg-link {
+        color: inherit; text-decoration: underline;
+        text-decoration-color: rgba(0,0,0,.35);
+        text-underline-offset: 2px;
+        word-break: break-all; overflow-wrap: anywhere; }
 
       .msg-row.user .msg-time {
         font-family: 'JetBrains Mono', monospace; font-size: .58rem;
@@ -2870,23 +2877,22 @@ class HorneroChat extends HoComponent {
   }
 
   _afterRender() {
-    // === Restore scroll position after re-render (safety net) ===
-    if (this._savedScrollTop != null && !this._skipScrollRestore) {
-      const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+    // === Scroll behavior after re-render ===
+    const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+    if (this._savedScrollTop != null && this._userScrolledUp) {
+      // User was scrolled up reading old messages — restore their position
       if (scrollEl) {
         requestAnimationFrame(() => {
           scrollEl.scrollTop = this._savedScrollTop;
           this._savedScrollTop = null;
-          // Recalcular _userScrolledUp según posición restaurada (evita falsos "user scrolled up")
-          this._userScrolledUp = !this._isNearBottom();
         });
       }
-    } else if (this._skipScrollRestore) {
-      // Skip scroll restore — auto-scroll to bottom instead (e.g. after sending message)
+    } else {
+      // User is at (or near) bottom — don't restore old position, auto-scroll to new content
       this._savedScrollTop = null;
-      this._skipScrollRestore = false;
-      this._userScrolledUp = false;
-      requestAnimationFrame(() => { this._autoScroll(); });
+      if (scrollEl) {
+        requestAnimationFrame(() => { this._autoScroll(); });
+      }
     }
 
     // === Track scroll position — disable auto-scroll when user scrolls up ===
@@ -3063,21 +3069,26 @@ class HorneroChat extends HoComponent {
           this._pendingAttachment = null;
         }
         // Auto-detect URLs from message text and send to backend for scraping
+        // Use scrapeUrls (not urls) so parent components don't render duplicate URL cards
         const detectedUrls = this._extractUrls(text);
         if (detectedUrls.length > 0) {
-          detail.urls = detectedUrls;
+          detail.scrapeUrls = detectedUrls;
         }
-        if (text || detail.image || detail.video || detail.urls || detail.pdfData) {
+        if (text || detail.image || detail.video || detail.scrapeUrls || detail.pdfData) {
           this._userScrolledUp = false; // User sent a message — re-enable auto-scroll
-          this._skipScrollRestore = true; // Don't restore old scroll — scroll to bottom instead
           this.emit('chat-send', detail);
+          // Direct DOM cleanup (avoids full re-render that fights scroll position)
           inputField.value = '';
-          this._savedInputValue = null; // Don't restore cleared input on next render
+          this._savedInputValue = ''; // Preserve empty value across parent's render
+          this._savedInputHeight = '34px';
           inputField.style.height = '34px';
           inputField.style.padding = '0 14px';
           inputField.style.lineHeight = '34px';
           this.suggestions = [];
-          this.render();
+          // Don't call this.render() — parent will render when adding the message.
+          // Instead, clear suggestions display directly and schedule auto-scroll:
+          const sugEl = this.shadowRoot.querySelector('.chat-suggestions');
+          if (sugEl) sugEl.remove();
         }
       });
 

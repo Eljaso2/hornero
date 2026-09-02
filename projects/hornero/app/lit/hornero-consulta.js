@@ -232,7 +232,9 @@ class HorneroConsulta extends HoComponent {
         this._savedDrawerState = null;
       }
       chatEl.addEventListener('chat-send', (e) => {
-        this._handleUserMessage(e.detail.text, e.detail.urls, e.detail.pdfData, e.detail.pdfName);
+        // scrapeUrls: auto-detected URLs for backend scraping (NOT stored in message)
+        const urls = e.detail.urls || e.detail.scrapeUrls;
+        this._handleUserMessage(e.detail.text, urls, e.detail.pdfData, e.detail.pdfName, !e.detail.urls);
       });
       // Listen for session selection from history drawer
       chatEl.addEventListener('chat-session-select', (e) => {
@@ -561,7 +563,7 @@ class HorneroConsulta extends HoComponent {
     return clean.length > 10 ? clean + '…' : 'Consulta';
   }
 
-  _handleUserMessage(text, urls, pdfData, pdfName) {
+  _handleUserMessage(text, urls, pdfData, pdfName, skipStoreUrls = false) {
     // If AI is still typing/revealing, finalize immediately — don't lose the response
     this._finalizeCurrentReveal();
     // Hide banner when user starts chatting
@@ -582,7 +584,7 @@ class HorneroConsulta extends HoComponent {
     const isFirstUserMsg = !this.messages.some(m => m.role === 'user');
     const title = isFirstUserMsg ? this._generateTitle(text, 'consulta') : undefined;
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
-    if (urls && urls.length > 0) userMsg.urls = urls;
+    if (urls && urls.length > 0 && !skipStoreUrls) userMsg.urls = urls;
     if (title) userMsg.title = title;
     this.messages = [...this.messages, userMsg];
     this._typing = true;
