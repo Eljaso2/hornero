@@ -28,6 +28,8 @@ def get_clipping() -> list:
     return _cache
 
 
+MAX_EDITIONS = 4  # Load last 4 daily editions for better recall of recent news
+
 def refresh() -> int:
     """Fetch clipping from GitHub Pages and update cache. Returns item count."""
     global _cache, _cache_timestamp
@@ -35,16 +37,16 @@ def refresh() -> int:
     items = []
 
     try:
-        # Fetch daily clipping (latest edition from index)
+        # Fetch daily clipping (latest editions from index)
         with httpx.Client(timeout=30.0) as client:
-            # 1. Get index to find latest edition
+            # 1. Get index to find latest editions
             index_resp = client.get(CLIPPING_INDEX_URL)
             if index_resp.status_code == 200:
                 index_data = index_resp.json()
                 ediciones = index_data.get("ediciones", [])
-                if ediciones:
-                    latest = ediciones[0]  # First = most recent
-                    edition_url = f"{APP_BASE_URL}/{latest['archivo']}"
+                # Load last N editions (not just the latest) for better recall
+                for ed in ediciones[:MAX_EDITIONS]:
+                    edition_url = f"{APP_BASE_URL}/{ed['archivo']}"
                     edition_resp = client.get(edition_url)
                     if edition_resp.status_code == 200:
                         edition_data = edition_resp.json()
@@ -63,10 +65,17 @@ def refresh() -> int:
         # Keep existing cache if fetch fails (don't wipe it)
 
     if items:
-        # Sort by fecha (most recent first), keep ALL available items
-        # Token cost is negligible (~$0.001/request for 40 items)
-        items.sort(key=lambda x: x.get("fecha", ""), reverse=True)
-        _cache = items
+        # Deduplicate by titulo (editions may overlap)
+        seen_titles = set()
+        unique_items = []
+        for item in items:
+            title = item.get("titulo", "").strip()
+            if title and title not in seen_titles:
+                seen_titles.add(title)
+                unique_items.append(item)
+        # Sort by fecha (most recent first)
+        unique_items.sort(key=lambda x: x.get("fecha", ""), reverse=True)
+        _cache = unique_items
         _cache_timestamp = time.time()
 
     return len(_cache)
