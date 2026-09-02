@@ -250,6 +250,17 @@ class HorneroClipping extends HoComponent {
         display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
         animation: menuFadeIn .15s ease; }
+      .chat-plus-menu-close { position: absolute; top: 8px; right: 8px;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; z-index: 5; }
+      .chat-plus-menu-close:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .chat-plus-menu-close svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-plus-menu-close:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       :host(.theme-light) .chat-plus-menu {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
@@ -430,6 +441,7 @@ class HorneroClipping extends HoComponent {
           '<svg class="svg-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>' +
         '</button>' +
         (this._plusMenuOpen ? '<div class="chat-plus-menu" id="clipPlusMenu">' +
+          '<button class="chat-plus-menu-close" id="clipMenuCloseBtn" title="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>' +
           '<button class="chat-plus-item" id="clipInfoBtn" title="Información de la sección">' +
             '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
           '</button>' +
@@ -527,6 +539,15 @@ class HorneroClipping extends HoComponent {
       plusBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this._plusMenuOpen = !this._plusMenuOpen;
+        this.render();
+      });
+    }
+
+    // Menu: Close (✕) button inside the menu panel
+    const clipMenuCloseBtn = this.shadowRoot.querySelector('#clipMenuCloseBtn');
+    if (clipMenuCloseBtn) {
+      clipMenuCloseBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
         this.render();
       });
     }

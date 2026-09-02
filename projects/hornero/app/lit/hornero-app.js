@@ -730,6 +730,17 @@ class HorneroApp extends HoComponent {
         display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
         animation: listMenuFadeIn .15s ease; }
+      .list-screen-menu-close { position: absolute; top: 8px; right: 8px;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; z-index: 5; }
+      .list-screen-menu-close:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .list-screen-menu-close svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .list-screen-menu-close:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       .theme-light .list-screen-menu {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
@@ -1742,7 +1753,16 @@ class HorneroApp extends HoComponent {
           if (target) this._navigateTo(target);
         });
       });
-      // Menu only closes via the +/| button, not on outside click
+      // Bind close (✕) button inside the menu panel
+      const listMenuCloseBtn = this.shadowRoot.querySelector('#listMenuCloseBtn');
+      if (listMenuCloseBtn) {
+        listMenuCloseBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          listPlusMenu.style.display = 'none';
+          listPlusBtn.classList.remove('open');
+        });
+      }
+      // Menu only closes via the ✕ button or the +/☰ button, not on outside click
     }
     // Bind update banner
     const updateBanner = this.shadowRoot.querySelector('#updateBanner');
@@ -2235,7 +2255,8 @@ class HorneroApp extends HoComponent {
       const activeClass = isActive ? ' list-screen-menu-item-active' : '';
       return '<button class="list-screen-menu-item' + activeClass + '" data-screen="' + it.screen + '" title="' + it.label + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' + it.svg + '</svg></button>';
     }).join('');
-    const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' + menuItems + '</div>';
+    const menuCloseBtn = '<button class="list-screen-menu-close" id="listMenuCloseBtn" title="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>';
+    const menuHtml = '<div class="list-screen-menu" id="listPlusMenu" style="display:none">' + menuCloseBtn + menuItems + '</div>';
     return '<div style="position:relative">' + plusBtn + menuHtml + '</div>';
   }
 

@@ -1160,6 +1160,17 @@ class HorneroChat extends HoComponent {
         display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
         box-shadow: 0 4px 16px rgba(0,0,0,.3);
         animation: menuFadeIn .15s ease; }
+      .chat-plus-menu-close { position: absolute; top: 8px; right: 8px;
+        width: 32px; height: 32px; border-radius: 50%;
+        background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background .2s, border-color .2s, transform .15s; z-index: 5; }
+      .chat-plus-menu-close:hover { background: var(--ho-green-pale, #E0F0EB);
+        border-color: var(--ho-green-light, #80CCA0); transform: scale(1.08); }
+      .chat-plus-menu-close svg { width: 16px; height: 16px;
+        stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
+        fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .chat-plus-menu-close:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
       :host(.theme-light) .chat-plus-menu {
         background: color-mix(in srgb, var(--ho-bg, #F8F6F0) 92%, transparent);
         box-shadow: 0 4px 16px rgba(0,0,0,.12); }
@@ -1876,6 +1887,9 @@ class HorneroChat extends HoComponent {
               </button>
               ${this._plusMenuOpen ? html`
               <div class="chat-plus-menu" id="chatPlusMenu">
+                <button class="chat-plus-menu-close" id="chatMenuCloseBtn" title="Cerrar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+                </button>
                 <button class="chat-plus-item" id="chatNewChatBtn" title="Nuevo chat">
                   <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 </button>
@@ -3761,6 +3775,14 @@ ${msgs.map(m => {
       infoBtn.addEventListener('click', () => {
         this._plusMenuOpen = false;
         this._showInfoPopup();
+      });
+    }
+    // Bind close (✕) button inside the menu panel
+    const menuCloseBtn = this.shadowRoot.querySelector('#chatMenuCloseBtn');
+    if (menuCloseBtn) {
+      menuCloseBtn.addEventListener('click', () => {
+        this._plusMenuOpen = false;
+        this.render();
       });
     }
   }
