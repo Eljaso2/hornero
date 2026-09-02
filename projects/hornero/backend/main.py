@@ -459,8 +459,12 @@ async def _scrape_url_content(url: str) -> dict:
         article = soup.find("article") or soup.find("main") or soup.find("div", class_=re.compile(r"article|content|post|entry|noticia", re.I))
         body = article if article else soup.body if soup.body else soup
         text = body.get_text(separator="\n", strip=True) if body else ""
-        # If extracted text is very short, site likely uses JS rendering — try Jina Reader
-        if len(text) < 200:
+        # If extracted text looks like JS-rendered (short or mostly nav links), try Jina Reader
+        # Heuristic: too short overall, OR avg line < 30 chars (nav links, not article paragraphs)
+        lines = [l for l in text.split("\n") if l.strip()]
+        avg_line_len = sum(len(l) for l in lines) / max(len(lines), 1)
+        looks_like_nav = len(text) < 1000 or (len(lines) > 5 and avg_line_len < 30)
+        if looks_like_nav:
             jina_result = await _scrape_with_jina(url)
             if jina_result:
                 return jina_result
