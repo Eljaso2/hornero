@@ -1638,7 +1638,9 @@ class HorneroChat extends HoComponent {
         </div>
       </div>` : '';
 
-    const messagesHtml = (this.messages || []).map((m, i) => this._renderMessage(m, i)).join('');
+    // Normalize messages array — protect against corrupt data from IndexedDB/server
+    const safeMessages = Array.isArray(this.messages) ? this.messages : [];
+    const messagesHtml = safeMessages.map((m, i) => this._renderMessage(m, i)).join('');
 
     // Suggestions row
     const suggestionsHtml = (this.suggestions && this.suggestions.length > 0) ?
@@ -2285,8 +2287,10 @@ class HorneroChat extends HoComponent {
 
   _renderMessage(m, msgIndex) {
     // Normalize potentially corrupted data from IndexedDB
+    if (!m || typeof m !== 'object') m = { role: 'hornero', text: String(m || '') };
     if (m.sections && !Array.isArray(m.sections)) m.sections = [];
     if (m.tags && !Array.isArray(m.tags)) m.tags = [];
+    if (m.incoming_reports && !Array.isArray(m.incoming_reports)) m.incoming_reports = [];
     const role = m.role || 'hornero';
 
     // === USER message: bubble + delete ===
