@@ -998,7 +998,7 @@ def rebuild_knowledge_base_string() -> str:
             lines.append(f"Quote: \"{q['text']}\"")
             lines.append(f"— {q['author']}")
             lines.append(f"Fuente: {q['source']}")
-        lines.append(f"Fuente: {', '.join(chunk['sources'])}")
+        lines.append(f"Fuente: {', '.join(chunk.get('sources', []))}")
         lines.append("")
 
     return "\n".join(lines)
@@ -1060,7 +1060,7 @@ def get_chunks_text(chunk_ids: list, max_chars_per_chunk: int = 6000) -> str:
             lines.append(f"Quote: \"{q['text']}\"")
             lines.append(f"— {q['author']}")
             lines.append(f"Referencia: {q['source']}")
-        lines.append(f"Referencia: {', '.join(chunk['sources'])}")
+        lines.append(f"Referencia: {', '.join(chunk.get('sources', []))}")
         # Include image and source URL if available
         if chunk.get("image"):
             lines.append(f"Imagen: {chunk['image']}")
