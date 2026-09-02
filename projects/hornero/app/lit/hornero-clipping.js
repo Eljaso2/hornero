@@ -190,13 +190,13 @@ class HorneroClipping extends HoComponent {
       .scroll::-webkit-scrollbar { width: 0; }
 
       /* ===== Cintillo — navegación (mismo patrón que Actualidad) ===== */
-      .act-cintillo { display: flex; align-items: center;
+      .act-cintillo { display: flex; align-items: center; justify-content: center;
         padding: 8px 16px; border-bottom: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        flex-shrink: 0; background: var(--ho-bg, #1E2321); }
-      .cintillo-back-btn { width: 28px; height: 28px; border-radius: 50%;
+        flex-shrink: 0; background: var(--ho-bg, #1E2321); position: relative; }
+      .cintillo-back-btn { position: absolute; left: 16px; width: 28px; height: 28px; border-radius: 50%;
         border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         background: none; cursor: pointer; display: flex; align-items: center;
-        justify-content: center; flex-shrink: 0;
+        justify-content: center;
         transition: background .2s, border-color .2s; }
       .cintillo-back-btn:hover { background: var(--ho-green-pale, #E0F0EB);
         border-color: var(--ho-green-light, #80CCA0); }
@@ -204,7 +204,7 @@ class HorneroClipping extends HoComponent {
         stroke: var(--ho-text-mid, #6E6A60); stroke-width: 2.5;
         fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .cintillo-back-btn:hover svg { stroke: var(--ho-green-dark, #3D6B56); }
-      .cintillo-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .cintillo-center { display: flex; flex-direction: column; align-items: center; justify-content: center; }
       .cintillo-spacer { flex: 1; }
       .cintillo-title { font-family: 'Archivo', sans-serif; font-weight: 800;
         font-size: 1.06rem; color: var(--ho-green-dark, #3D6B56);
@@ -220,7 +220,7 @@ class HorneroClipping extends HoComponent {
       .cintillo-nav-btn svg { width: 20px; height: 20px; }
 
       /* ===== Hamburger menu (same as chat screens) ===== */
-      .chat-plus-wrapper { position: relative; }
+      .chat-plus-wrapper { position: absolute; right: 16px; }
       .chat-plus-btn { width: 32px; height: 32px; border-radius: 50%;
         background: transparent; border: 1px solid var(--ho-border, rgba(255,255,255,.08));
         cursor: pointer; display: flex; align-items: center; justify-content: center;
