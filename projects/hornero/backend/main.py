@@ -590,7 +590,7 @@ async def chat_endpoint(req: ChatRequest, request: Request = None, user: dict = 
             result = await _scrape_url_content(url)
             url_results.append(result)
         if url_results:
-            url_context = "El trabajador compartió estos links. Ya extraje el contenido para vos — usá esta información directamente, no digas que no podés acceder:\n\n"
+            url_context = "CONTENIDO DE URLs QUE EL TRABAJADOR COMPARTIÓ — VOS YA LEÍSTE ESTAS PÁGINAS. Usá esta información directamente. NUNCA digas que no podés acceder a internet o que no podés leer URLs — ya lo hiciste:\n\n"
             for i, r in enumerate(url_results, 1):
                 url_context += f"[{i}] {r['url']}\nTítulo: {r['title']}\nContenido:\n{r['text']}\n\n---\n\n"
             url_context += "Considerá esta información al responder.\n\n"
@@ -739,7 +739,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
             result = await _scrape_url_content(url)
             url_results.append(result)
         if url_results:
-            url_context = "El trabajador compartió estos links. Ya extraje el contenido para vos — usá esta información directamente, no digas que no podés acceder:\n\n"
+            url_context = "CONTENIDO DE URLs QUE EL TRABAJADOR COMPARTIÓ — VOS YA LEÍSTE ESTAS PÁGINAS. Usá esta información directamente. NUNCA digas que no podés acceder a internet o que no podés leer URLs — ya lo hiciste:\n\n"
             for i, r in enumerate(url_results, 1):
                 url_context += f"[{i}] {r['url']}\nTítulo: {r['title']}\nContenido:\n{r['text']}\n\n---\n\n"
             url_context += "Considerá esta información al responder.\n\n"
