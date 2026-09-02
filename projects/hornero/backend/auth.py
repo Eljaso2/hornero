@@ -903,12 +903,10 @@ async def login(req: LoginRequest, request: Request):
     if not _check_auth_rate(f"login:{req.username}", 10, 900):
         raise HTTPException(429, "Demasiados intentos. Esperá 15 minutos.")
 
-    # Find user by username, email, or nombre completo
+    # Find user by username or email only (NOT by nombre — ambiguous, security risk)
     user = _get_user_by_username(req.username)
     if not user:
         user = _get_user_by_email(req.username)
-    if not user:
-        user = _get_user_by_nombre(req.username)
     if not user:
         raise HTTPException(401, "Usuario o contraseña incorrectos")
 
@@ -1050,6 +1048,66 @@ async def get_me(user: dict = Depends(require_auth)):
                 logger.info(f"/me: auto-upgraded {user['username']} to B.d")
         except Exception as e:
             logger.warning(f"/me: failed to upgrade admin grade: {e}")
+
+    agremiacion = user.get("agremiacion", {})
+    if isinstance(agremiacion, str):
+        try:
+            agremiacion = json.loads(agremiacion)
+        except:
+            agremiacion = {}
+
+    return {
+        "username": user["username"],
+        "email": user["email"],
+        "nombre": user.get("nombre", ""),
+        "grade": user.get("grade", "B.a"),
+        "territory": user.get("territory", ""),
+        "sector": user.get("sector", "aceitero"),
+        "tenant": user.get("tenant", ""),
+        "category": user.get("category", ""),
+        "agremiacion": agremiacion,
+        "email_confirmed": user.get("email_confirmed", False),
+        "is_tester": user.get("is_tester", False),
+        "verificacion_pendiente": user.get("verificacion_pendiente", False),
+        "sindicato_id": user.get("sindicato_id", ""),
+    }
+
+
+class UpdateProfileRequest(BaseModel):
+    nombre: str = ""   # Update display name
+
+@router.put("/me")
+async def update_me(req: UpdateProfileRequest, user: dict = Depends(require_auth)):
+    """Update current user profile (nombre). Backend is source of truth."""
+    if not HORNERO_DB_URL:
+        raise HTTPException(500, "Auth not configured")
+
+    updates = []
+    values = []
+
+    if req.nombre and req.nombre.strip():
+        nombre_clean = req.nombre.strip()[:100]  # limit length
+        updates.append("nombre = %s")
+        values.append(nombre_clean)
+        user["nombre"] = nombre_clean
+
+    if not updates:
+        raise HTTPException(400, "Nada para actualizar")
+
+    updates.append("updated_at = CURRENT_TIMESTAMP")
+    values.append(user["id"])
+
+    try:
+        with _get_conn() as conn:
+            conn.execute(
+                f"UPDATE users SET {', '.join(updates)} WHERE id = %s",
+                values
+            )
+            conn.commit()
+            logger.info(f"Profile updated for {user['username']}: nombre={user.get('nombre')}")
+    except Exception as e:
+        logger.error(f"Profile update error for {user['username']}: {e}")
+        raise HTTPException(500, "Error al actualizar perfil")
 
     agremiacion = user.get("agremiacion", {})
     if isinstance(agremiacion, str):

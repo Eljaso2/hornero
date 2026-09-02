@@ -1931,12 +1931,9 @@ class HorneroApp extends HoComponent {
       this.set('userTerritory', session.territory);
       this.set('userSector', session.sector || 'aceitero');
       this.set('userName', session.nombre || session.username);
-      // Close login popup if open
-      if (this._loginOpen) {
-        this._loginOpen = false;
-        const overlay = this.shadowRoot.querySelector('#loginOverlay');
-        if (overlay) overlay.remove();
-      }
+      // Always close login popup after successful login (even if _loginOpen was already false)
+      this._closeLoginPopup();
+      this.requestUpdate();
       // Navigate to pending screen if one was stored
       if (this._pendingScreen) {
         const pending = this._pendingScreen;

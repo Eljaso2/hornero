@@ -8,6 +8,7 @@ class HorneroLogin extends HoComponent {
   static get properties() {
     return {
       error: String,
+      info: String,      // non-error status (e.g. "Despertando el servidor...") — green
       loading: Boolean,
       showPassword: Boolean,
       mode: String,   // 'popup' = compact | default = full screen
@@ -27,6 +28,7 @@ class HorneroLogin extends HoComponent {
   constructor() {
     super();
     this.error = '';
+    this.info = '';
     this.loading = false;
     this.showPassword = false;
     this.mode = '';
@@ -174,6 +176,14 @@ class HorneroLogin extends HoComponent {
       }
 
       .success-msg {
+        background: #2D4A3D; color: #80CCA0;
+        padding: 10px 14px; border-radius: 8px;
+        font-family: 'Public Sans', sans-serif; font-size: .82rem;
+        font-weight: 500; margin-top: 16px;
+        animation: apfade .3s ease;
+      }
+
+      .info-msg {
         background: #2D4A3D; color: #80CCA0;
         padding: 10px 14px; border-radius: 8px;
         font-family: 'Public Sans', sans-serif; font-size: .82rem;
@@ -350,6 +360,7 @@ class HorneroLogin extends HoComponent {
               <a id="back-to-login">Ya confirmé — Ingresar</a>
             </div>
             ${this.error ? '<div class="error-msg">' + this.error + '</div>' : ''}
+            ${this.info ? '<div class="info-msg">' + this.info + '</div>' : ''}
           </div>
           <div class="version-tag">Piloto aceitero · v2026-07</div>
         </div>
@@ -451,6 +462,7 @@ class HorneroLogin extends HoComponent {
             </button>
 
             ${this.error ? '<div class="error-msg">' + this.error + '</div>' : ''}
+            ${this.info ? '<div class="info-msg">' + this.info + '</div>' : ''}
             ${this.verificationWarning ? '<div class="warning-msg">' + this.verificationWarning + '</div>' : ''}
 
             <div class="toggle-view">
@@ -499,6 +511,7 @@ class HorneroLogin extends HoComponent {
           </button>
 
           ${this.error ? '<div class="error-msg">' + this.error + '</div>' : ''}
+          ${this.info ? '<div class="info-msg">' + this.info + '</div>' : ''}
 
           <div class="toggle-view">
             No tenés cuenta? <a id="goto-signup">Registrarse</a>
@@ -795,9 +808,9 @@ class HorneroLogin extends HoComponent {
       if (baseUrl) {
         // Wake up Render if hibernating (shows "Despertando..." message)
         if (window.HorneroAPI) {
-          this.set('error', 'Despertando el servidor...');
+          this.set('info', 'Despertando el servidor...');
           await window.HorneroAPI.wakeUpBackend();
-          this.set('error', '');
+          this.set('info', '');
         }
 
         const res = await fetch(baseUrl + '/api/auth/login', {
@@ -830,16 +843,8 @@ class HorneroLogin extends HoComponent {
             timestamp: Date.now(),
           };
 
-          // Merge saved profile data
-          try {
-            if (typeof dbGet === 'function') {
-              const savedSession = await dbGet('uiState', 'session');
-              if (savedSession && savedSession.username === user.username) {
-                if (savedSession.nombre && savedSession.nombre !== user.nombre) session.nombre = savedSession.nombre;
-                if (savedSession.email) session.email = savedSession.email;
-              }
-            }
-          } catch(e) {}
+          // NOTE: nombre from backend is authoritative — do NOT override with local saved data
+          // (local-only nombre changes cause identity divergence between devices)
 
           // Save to IndexedDB + localStorage
           if (typeof dbPut === 'function') {
@@ -850,6 +855,10 @@ class HorneroLogin extends HoComponent {
           }
 
           this.emit('login-success', session);
+          // Reset loading after emitting (component may be in popup that gets removed)
+          this.set('loading', false);
+          this.set('error', '');
+          this.set('info', '');
           return;
         }
 
@@ -939,11 +948,11 @@ class HorneroLogin extends HoComponent {
 
       // Wake up Render if hibernating
       if (window.HorneroAPI) {
-        this.set('error', 'Despertando el servidor...');
+        this.set('info', 'Despertando el servidor...');
         try {
           await window.HorneroAPI.wakeUpBackend();
         } catch(e) {}
-        this.set('error', '');
+        this.set('info', '');
       }
 
       const res = await fetch(baseUrl + '/api/auth/register', {

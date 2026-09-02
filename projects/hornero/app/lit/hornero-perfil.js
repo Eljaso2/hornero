@@ -54,7 +54,7 @@ class HorneroPerfil extends HoComponent {
           // Merge: prefer localStorage for most fields, but IndexedDB for email
           if (!session) session = dbSession;
           else if (dbSession.email && !session.email) session.email = dbSession.email;
-          else if (dbSession.nombre && dbSession.nombre !== session.nombre) session.nombre = dbSession.nombre;
+          // NOTE: do NOT override nombre from local — backend is source of truth
         }
       } catch(e) {}
     }
@@ -470,20 +470,48 @@ class HorneroPerfil extends HoComponent {
       return;
     }
 
-    // Update session data
-    this._sessionData.nombre = newName;
-    this._sessionData.email = newEmail;
-    this.userName = newName;
+    // Sync nombre to backend FIRST (backend is source of truth)
+    try {
+      const baseUrl = (typeof _getChatSyncBaseUrl === 'function') ? _getChatSyncBaseUrl() :
+                       (window.HorneroAPI ? window.HorneroAPI.getBackendUrl() : '');
+      if (baseUrl) {
+        const res = await fetch(baseUrl + '/api/auth/me', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre: newName })
+        });
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          console.warn('Perfil: backend update failed', errData);
+          this.savedMsg = '⚠️ Error al guardar en el servidor';
+          this.render();
+          return;
+        }
+        // Backend confirmed — update local data with server response
+        const updatedUser = await res.json();
+        if (updatedUser.nombre) {
+          this._sessionData.nombre = updatedUser.nombre;
+          this.userName = updatedUser.nombre;
+        }
+      }
+    } catch(e) {
+      console.warn('Perfil: backend sync failed, saving locally as fallback', e);
+      // Fallback: save locally even if backend is unreachable
+      this._sessionData.nombre = newName;
+      this.userName = newName;
+    }
+
+    if (newEmail) this._sessionData.email = newEmail;
     this.editing = false;
 
     // Save updated session to IndexedDB + localStorage
     try {
       if (typeof dbPut === 'function') {
-        await dbPut('uiState', { key: 'session', ...this._sessionData, nombre: newName, email: newEmail });
+        await dbPut('uiState', { key: 'session', ...this._sessionData });
       }
-      localStorage.setItem('hornero-session', JSON.stringify({ ...this._sessionData, nombre: newName, email: newEmail }));
+      localStorage.setItem('hornero-session', JSON.stringify(this._sessionData));
     } catch(e) {
-      console.warn('Perfil: save failed', e);
+      console.warn('Perfil: local save failed', e);
     }
 
     // Update the usuarios store in IndexedDB too
@@ -504,7 +532,7 @@ class HorneroPerfil extends HoComponent {
     this.render();
 
     // Emit event so hornero-app updates its userName display
-    this.emit('profile-updated', { nombre: newName, email: newEmail });
+    this.emit('profile-updated', { nombre: this._sessionData.nombre, email: this._sessionData.email });
   }
 
   async _togglePush() {
