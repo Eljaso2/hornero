@@ -151,6 +151,23 @@
 
   /* classification mapping card */
   .mapcard .fam{font-size:12px;color:var(--text-mid);margin-bottom:4px}
+
+  /* AI explain panel (step 5) */
+  .ai-explain{display:none;margin-top:20px;opacity:0;transform:translateY(12px);transition:opacity .55s ease,transform .55s ease}
+  .ai-explain.on{display:block;opacity:1;transform:none}
+  .ai-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ai-card{position:relative;overflow:visible}
+  .ai-card .ai-icon{font-size:22px;margin-bottom:6px}
+  .ai-card h4{font-family:var(--disp);font-weight:800;font-size:15px;margin-bottom:4px}
+  .ai-card .ai-status{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green-lt);margin-bottom:8px}
+  .ai-card p{font-size:12.5px;line-height:1.45;color:var(--text-mid)}
+  .ai-card p b{color:var(--text)}
+  .ai-detail{font-size:11px;font-style:italic;color:var(--text-dim);margin-top:8px;padding:8px 10px;background:var(--bg2);border-radius:8px;border:1px solid var(--line-soft);line-height:1.4}
+  .ai-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+  .ai-bottom{margin-top:14px;background:var(--green-pale);border:1px solid #2c5540;border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.5;color:var(--text-mid)}
+  .ai-bottom b{color:var(--green-lt)}
+
+  @media(max-width:1080px){ .ai-cols{grid-template-columns:1fr} }
   .mapcard .fam b{color:var(--green-lt);font-family:var(--disp);font-weight:700}
   .maprow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:9px 0;border-top:1px dashed var(--line-soft);opacity:0;transform:translateY(6px);transition:.45s}
   .maprow.on{opacity:1;transform:none}
@@ -432,7 +449,31 @@
         </div>
       </div>
 
-      <!-- escalation (step 6) -->
+      <!-- how Hornero thinks: system prompt vs training (step 5) -->
+      <div class="ai-explain" id="aiExplain">
+        <div class="kick" style="margin-bottom:14px">Link 3 · How Hornero thinks</div>
+        <div class="ai-cols">
+          <div class="card ai-card">
+            <div class="ai-icon">📝</div>
+            <h4>System Prompt + RAG</h4>
+            <div class="ai-status">✓ Today</div>
+            <p><b>Real-time instructions</b> that tell the AI which position to argue from and which sources to use. The union writes them, changes them, controls them.</p>
+            <div class="ai-detail">E.g.: "You are a labor lawyer. Cite Law 12.908." + corpus of collective agreements and Yofra's op-eds.</div>
+            <div class="ai-tags"><span class="ctag on">immediate</span><span class="ctag on">reversible</span><span class="ctag on">$0</span></div>
+          </div>
+          <div class="card ai-card">
+            <div class="ai-icon">🧠</div>
+            <h4>Training (Fine-tuning)</h4>
+            <div class="ai-status">→ Roadmap</div>
+            <p><b>Modifies the model's internal weights</b> so it speaks like the union without needing instructions. Deeper, but costly and not easily reversible.</p>
+            <div class="ai-detail">E.g.: training on 10 years of the union's communiqués, flyers and statements.</div>
+            <div class="ai-tags"><span class="ctag on" style="background:var(--surface2);color:var(--text-mid);border-color:var(--line)">deep</span><span class="ctag on" style="background:var(--surface2);color:var(--text-mid);border-color:var(--line)">durable</span><span class="ctag on" style="background:rgba(192,106,78,.14);color:var(--clay);border-color:#6b3a2c">costly</span></div>
+          </div>
+        </div>
+        <div class="ai-bottom">The base model (Claude) already knows how to read and write. <b>The voice and content are ours.</b> System prompt = the role; RAG = the sources; Fine-tuning = the own style. All three are sovereignty links.</div>
+      </div>
+
+      <!-- escalation (step 7) -->
       <div class="escala" id="escala">
         <div class="chain">
           <div class="grade" data-grade="1"><div class="circ">G1</div><b>Operator</b><span>Reports</span><div class="arrow">→</div></div>
@@ -451,7 +492,7 @@
       <button class="btn" id="btnPrev" onclick="prev()">‹ Back</button>
     </div>
     <div class="progress"><i id="bar"></i></div>
-    <div class="step-label" id="stepLabel"><b>Step 1</b> / 6 — The question</div>
+    <div class="step-label" id="stepLabel"><b>Step 1</b> / 7 — The question</div>
     <div class="btns">
       <button class="btn" id="btnPlay" onclick="togglePlay()">▶ Auto</button>
       <button class="btn primary" id="btnNext" onclick="next()">Next ›</button>
@@ -480,11 +521,15 @@ const STEPS = [
     node:[1,2,3], label:'Links 1-3', reveal:3, done:[], extract:true,
     cap:'<b>How it\'s achieved: by controlling the AI\'s value chain.</b> The first links — the data (the workers\' corpus), the architecture and the fine-tuning (the class perspective).'
   },
-  { // 5
+  { // 5 — NEW: system prompt vs training clarification
+    node:[3], label:'How Hornero thinks', reveal:3, done:[1,2], extract:true, aiExplain:true,
+    cap:'<b>Link 3, clarified:</b> "The class perspective" is NOT achieved by training the model. It\'s achieved through two levers the union controls: the <b>system prompt</b> (role instructions) and <b>RAG</b> (union sources). The base model is Claude\'s — the voice and content are ours.'
+  },
+  { // 6
     node:[4,5,6], label:'Links 4-6', reveal:3, done:[1,2,3], extract:true,
     cap:'<b>And the ones that define power:</b> where it runs (infrastructure), how it\'s used (interface) and who decides (governance). The union intervenes in each one.'
   },
-  { // 6
+  { // 7
     node:[], label:'What is Hornero', reveal:5, done:[1,2,3,4,5,6], extract:true, typing:true,
     cap:'<b>That\'s Hornero:</b> a sovereign AI from the workers\' field, that takes sides and passes down the experience of organizing from one generation to the next. Like the bird that builds its nest.'
   }
@@ -527,6 +572,11 @@ function applyStep(i, animate){
   $('#escala').classList.toggle('on', !!s.escala);
   if(s.escala){ $$('.grade').forEach((g,idx)=> setTimeout(()=>g.classList.add('on'), animate? 250+idx*350 : 0)); }
   else { $$('.grade').forEach(g=>g.classList.remove('on')); }
+  // AI explain panel (step 5)
+  const aiEl = $('#aiExplain');
+  if(s.aiExplain && animate){ aiEl.style.display='block'; setTimeout(()=>aiEl.classList.add('on'), animate?200:0); }
+  else if(s.aiExplain){ aiEl.style.display='block'; aiEl.classList.add('on'); }
+  else { aiEl.classList.remove('on'); setTimeout(()=>{ if(!aiEl.classList.contains('on')) aiEl.style.display='none'; }, 300); }
   // delegate G2 report overlay
   $('#delegate').classList.toggle('on', !!s.delegate);
   // swap motor headline copy on escalation

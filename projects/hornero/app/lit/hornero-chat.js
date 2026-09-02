@@ -69,6 +69,8 @@ class HorneroChat extends HoComponent {
     this._recordingTimer = null; // setInterval for recording duration display
     this._recordingSeconds = 0;  // seconds elapsed while recording
     this._audioProcessing = false; // "Transcribiendo..." state
+    this._pendingUrls = [];     // URLs attached by user for AI to read
+    this._linkOverlayOpen = false; // link input overlay state
     this._detectAudioMimeType(); // detect browser-supported audio format
     this._showHistory = false; // history drawer state
     this._historyDrawerStable = false; // prevent slideIn replay on re-render
@@ -146,9 +148,9 @@ class HorneroChat extends HoComponent {
       this._mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (err) {
       console.warn('Mic permission denied:', err);
-      // Show brief error state then revert
+      // Show brief error state then revert (DOM-direct, no this.render() to avoid scroll jump)
       this._isRecording = false;
-      this.render();
+      this._updateMicVisual('error');
       return;
     }
 
@@ -300,6 +302,10 @@ class HorneroChat extends HoComponent {
 
   _showRecordingOverlay() {
     // Hide the input bar, show the recording overlay
+    // Save scroll position before layout change to prevent jump
+    const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+    const savedScroll = scrollEl ? scrollEl.scrollTop : 0;
+
     const inputBar = this.shadowRoot.querySelector('.chat-input');
     if (inputBar) inputBar.style.display = 'none';
 
@@ -335,6 +341,11 @@ class HorneroChat extends HoComponent {
     }
     overlay.style.display = 'flex';
 
+    // Restore scroll position after layout change
+    requestAnimationFrame(() => {
+      if (scrollEl) scrollEl.scrollTop = savedScroll;
+    });
+
     // Bind cancel button
     const cancelBtn = overlay.querySelector('.rec-overlay-cancel');
     if (cancelBtn && !cancelBtn._bound) {
@@ -353,6 +364,10 @@ class HorneroChat extends HoComponent {
   }
 
   _hideRecordingOverlay() {
+    // Save scroll position before layout change
+    const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+    const savedScroll = scrollEl ? scrollEl.scrollTop : 0;
+
     const overlay = this.shadowRoot.querySelector('.recording-overlay');
     if (overlay) overlay.style.display = 'none';
     // Show the input bar again
@@ -360,6 +375,11 @@ class HorneroChat extends HoComponent {
     if (inputBar) inputBar.style.display = '';
     // Stop audio analyzer
     this._stopAudioAnalyzer();
+
+    // Restore scroll position after layout change
+    requestAnimationFrame(() => {
+      if (scrollEl) scrollEl.scrollTop = savedScroll;
+    });
   }
 
   _startAudioAnalyzer() {
@@ -1663,6 +1683,81 @@ class HorneroChat extends HoComponent {
         transform: translateX(-50%); white-space: nowrap;
         font-family: 'Public Sans', sans-serif; }
 
+      /* ===== Link input overlay (WhatsApp-style) ===== */
+      .link-overlay {
+        display: none; /* shown via JS */
+        align-items: center; gap: 8px; flex: none;
+        padding: 8px 12px;
+        background: var(--ho-dark, #1E2321);
+        border-top: 1px solid var(--ho-border, rgba(255,255,255,.06));
+        animation: linkSlideIn .2s ease;
+      }
+      .link-overlay.open { display: flex; }
+      @keyframes linkSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+      .link-overlay-field {
+        flex: 1; background: var(--ho-card, #2A3230);
+        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
+        border-radius: 18px; padding: 6px 14px; font-size: .9rem;
+        color: var(--ho-text, #E8E6E0); font-family: 'Public Sans', sans-serif;
+        outline: none; transition: border-color .2s;
+      }
+      .link-overlay-field:focus { border-color: var(--ho-green, #4E9978); }
+      .link-overlay-field::placeholder { color: var(--ho-text-mid, #6E6A60); }
+      .link-overlay-add {
+        background: var(--ho-green, #4E9978); color: #fff; border: none;
+        border-radius: 50%; width: 34px; height: 34px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        flex: none; transition: background .15s;
+      }
+      .link-overlay-add:hover { background: var(--ho-green-dark, #3D6B56); }
+      .link-overlay-add svg { stroke: #fff; fill: none; stroke-width: 2.5; width: 18px; height: 18px; }
+      .link-overlay-cancel {
+        background: none; border: none; color: var(--ho-text-mid, #6E6A60);
+        cursor: pointer; padding: 6px; font-size: .85rem; font-family: 'Public Sans', sans-serif;
+      }
+      .link-overlay-cancel:hover { color: var(--ho-text, #E8E6E0); }
+
+      /* URL chips — shown above input bar when URLs are pending */
+      .url-chips-bar {
+        display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 12px;
+        background: var(--ho-bg, #1E2321); flex: none;
+      }
+      .url-chip {
+        display: inline-flex; align-items: center; gap: 4px;
+        background: var(--ho-green-pale, #E0F0EB);
+        color: var(--ho-green-dark, #3D6B56); border-radius: 14px;
+        padding: 3px 8px 3px 10px; font-size: .72rem; font-weight: 600;
+        font-family: 'JetBrains Mono', monospace;
+        max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .url-chip-icon { font-size: .7rem; }
+      .url-chip-text { overflow: hidden; text-overflow: ellipsis; }
+      .url-chip-remove {
+        background: none; border: none; color: var(--ho-green-dark, #3D6B56);
+        cursor: pointer; padding: 0 2px; font-size: .85rem; line-height: 1;
+        opacity: .6; transition: opacity .15s;
+      }
+      .url-chip-remove:hover { opacity: 1; }
+
+      /* URL cards in user message bubbles */
+      .msg-urls { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+      .msg-url-card {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: rgba(78,153,120,.12); border-radius: 10px;
+        padding: 4px 10px; text-decoration: none;
+        color: var(--ho-green-dark, #3D6B56); font-size: .72rem;
+        font-family: 'JetBrains Mono', monospace; font-weight: 600;
+        max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        transition: background .15s;
+      }
+      .msg-url-card:hover { background: rgba(78,153,120,.2); }
+      .msg-url-icon { font-size: .8rem; }
+      :host(.theme-light) .msg-url-card { background: rgba(78,153,120,.15); }
+
+      /* Link button in toolbar */
+      .chat-link-btn { background: var(--ho-green-pale, #E0F0EB); }
+      .chat-link-btn svg { stroke: var(--ho-green-dark, #3D6B56); fill: none; }
+
       /* ===== Recording overlay (WhatsApp-style) ===== */
       .recording-overlay {
         display: none; /* shown via JS */
@@ -1846,6 +1941,7 @@ class HorneroChat extends HoComponent {
 
     // SVG icons
     const attachSvg = '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>';
+    const linkSvg = '<path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>';
     const micSvg = '<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>';
     const stopSvg = '<rect x="6" y="6" width="12" height="12" rx="1"/>'; // stop square icon for recording
     const sendSvg = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9" fill="currentColor" stroke="none"/>';
@@ -1864,6 +1960,18 @@ class HorneroChat extends HoComponent {
         </div>
         <button class="chat-attach-remove" title="Quitar adjunto">✕</button>
       </div>` : '';
+
+    // URL chips (pending URLs to be sent with next message)
+    const urlChipsHtml = this._pendingUrls.length > 0 ?
+      `<div class="url-chips-bar">${this._pendingUrls.map((url, i) => {
+        let display = url;
+        try { const u = new URL(url); display = u.hostname + u.pathname; if (display.length > 35) display = display.substring(0, 32) + '…'; } catch {}
+        return `<div class="url-chip" data-url-index="${i}">
+          <span class="url-chip-icon">🔗</span>
+          <span class="url-chip-text">${display}</span>
+          <button class="url-chip-remove" data-url-remove="${i}" title="Quitar">✕</button>
+        </div>`;
+      }).join('')}</div>` : '';
 
     // History drawer — section icons mapping (matches _getPersonaConfig)
     const sectionConfig = {
@@ -2093,6 +2201,16 @@ class HorneroChat extends HoComponent {
 
       ${suggestionsHtml}
 
+      ${urlChipsHtml}
+
+      <div class="link-overlay" id="linkOverlay">
+        <input class="link-overlay-field" type="url" placeholder="Pegá un link acá..." autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="link-overlay-add" title="Agregar link">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <button class="link-overlay-cancel" title="Cancelar">Cancelar</button>
+      </div>
+
       <div class="chat-input">
         ${attachPreview}
         <textarea class="chat-input-field" rows="1" placeholder="${this.inputPlaceholder}" autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore></textarea>
@@ -2100,6 +2218,9 @@ class HorneroChat extends HoComponent {
         <div class="chat-toolbar">
           <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
             <svg viewBox="0 0 24 24">${attachSvg}</svg>
+          </button>
+          <button class="chat-toolbar-btn chat-link-btn" id="chatLinkBtn" title="Agregar link">
+            <svg viewBox="0 0 24 24">${linkSvg}</svg>
           </button>
           <button class="chat-toolbar-btn chat-mic-btn${this._isRecording ? ' recording' : ''}${this._audioProcessing ? ' processing' : ''}" title="${micTitle}">
             <svg viewBox="0 0 24 24">${micIcon}</svg>
@@ -2299,6 +2420,33 @@ class HorneroChat extends HoComponent {
     }).join('') + '</div>';
   }
 
+  // Linkify user text: escape HTML then convert URLs to clickable links
+  // Simpler than full markdown — just URL detection + basic escaping
+  _linkifyText(text) {
+    if (!text) return '';
+    // Escape HTML to prevent XSS in user messages
+    let safe = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+    // Replace newlines with <br>
+    safe = safe.replace(/\n/g, '<br>');
+    // Detect URLs and make them clickable — skip if already inside an <a> tag
+    safe = safe.replace(/(?<!href=["'])((https?:\/\/)[^\s<)&quot;'"]+)/g, (match, url) => {
+      // Show shortened display text if URL is very long
+      let display = url;
+      try {
+        const u = new URL(url);
+        const path = u.pathname === '/' ? '' : u.pathname;
+        display = u.hostname + path;
+        if (display.length > 50) display = display.substring(0, 47) + '…';
+      } catch { /* keep full URL */ }
+      return `<a href="${url}" target="_blank" rel="noopener" class="msg-link">${display}</a>`;
+    });
+    return safe;
+  }
+
   _formatMarkdown(text) {
     if (!text) return '';
     const lines = text.split('\n');
@@ -2462,7 +2610,7 @@ class HorneroChat extends HoComponent {
         `<div class="msg-media"><img src="${m.image}" alt="imagen"></div>` :
         m.video ?
         `<div class="msg-media"><video src="${m.video}" controls></video></div>` : '';
-      const textHtml = m.text ? m.text : '';
+      const textHtml = m.text ? this._linkifyText(m.text) : '';
       const deleteSvg = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/>';
       return `<div class="msg-row user">
         <div class="msg-bubble">${mediaHtml}${textHtml}</div>
@@ -2737,6 +2885,8 @@ class HorneroChat extends HoComponent {
         requestAnimationFrame(() => {
           scrollEl.scrollTop = this._savedScrollTop;
           this._savedScrollTop = null;
+          // Recalcular _userScrolledUp según posición restaurada (evita falsos "user scrolled up")
+          this._userScrolledUp = !this._isNearBottom();
         });
       }
     }
@@ -2804,6 +2954,10 @@ class HorneroChat extends HoComponent {
       this._visualViewportSetup = true;
       if (window.visualViewport) {
         const onViewportResize = () => {
+          // Save scroll position before height change to prevent jump
+          const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+          const savedScroll = scrollEl ? scrollEl.scrollTop : 0;
+
           const kbHeight = window.innerHeight - window.visualViewport.height;
           if (kbHeight > 50) {
             // Keyboard is open — shrink chat to fit above keyboard
@@ -2813,6 +2967,11 @@ class HorneroChat extends HoComponent {
             // Keyboard closed — restore full height
             this.style.height = '';
           }
+
+          // Restore scroll position after height change
+          requestAnimationFrame(() => {
+            if (scrollEl) scrollEl.scrollTop = savedScroll;
+          });
         };
         window.visualViewport.addEventListener('resize', onViewportResize);
       }
