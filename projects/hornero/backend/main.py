@@ -55,7 +55,9 @@ GROQ_STT_URL = os.getenv("GROQ_STT_URL", "https://api.groq.com/openai/v1/audio/t
 GROQ_STT_MODEL = os.getenv("GROQ_STT_MODEL", "whisper-large-v3")
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "https://eljaso2.github.io")
 LOCAL_ORIGIN = os.getenv("LOCAL_ORIGIN", "http://localhost:*")
-APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", "http://localhost:8000")
+# Auto-detect: if running on Render, use the public URL; otherwise localhost
+_DEFAULT_BACKEND_URL = "https://hornero-ia.onrender.com" if os.getenv("RENDER") else "http://localhost:8000"
+APP_BACKEND_URL = os.getenv("APP_BACKEND_URL", _DEFAULT_BACKEND_URL)
 
 # ===== Logging =====
 logger = logging.getLogger("hornero")
