@@ -666,7 +666,58 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
         # which can take 5-30s → Cloudflare/Render proxy timeout → NetworkError.
         yield ": connected\n\n"
 
-        # Produce LLM events on a queue so we can send keepalives while waiting
+        # For Claude (non-streaming LLM), call the LLM directly without the queue/producer
+        # pattern — it was causing events to get stuck in Cloudflare's buffer.
+        if LLM_PROVIDER != "deepseek":
+            # Direct path: call LLM, emit response as single SSE event sequence
+            try:
+                if LLM_PROVIDER == "claude":
+                    logger.info(f"SSE direct: calling call_claude() (model={ANTHROPIC_MODEL})...")
+                    raw_response = await call_claude(
+                        api_key=ANTHROPIC_API_KEY,
+                        system_prompt=system_prompt,
+                        user_message=full_message,
+                        history=req.history,
+                        model=ANTHROPIC_MODEL,
+                        base_url=ANTHROPIC_BASE_URL,
+                    )
+                    logger.info(f"SSE direct: call_claude() returned {len(raw_response)} chars")
+                else:
+                    raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
+
+                parsed = parse_llm_response(raw_response)
+                logger.info(f"SSE direct: parsed tags={parsed.get('tags', [])}, persona={parsed.get('persona', '')}")
+                now = datetime.now()
+                time_str = now.strftime("%H:%M")
+                llm_persona = parsed.get("persona", "")
+                final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                text_content = parsed.get("text", "")
+                if text_content:
+                    content = text_content.replace("\n", "\\n")
+                    yield f"event: token\ndata: {content}\n\n"
+                result = {
+                    "text": parsed.get("text", ""),
+                    "sections": parsed.get("sections", []),
+                    "tags": parsed.get("tags", [req.formato]),
+                    "time": time_str,
+                    "persona": final_persona,
+                    "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                    "image": parsed.get("image", ""),
+                    "source_url": parsed.get("source_url", ""),
+                }
+                yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+
+            except httpx.HTTPStatusError as e:
+                error_msg = f"LLM HTTP error {e.response.status_code}"
+                logger.error(f"SSE direct: {error_msg}")
+                yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+            except Exception as e:
+                error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
+                logger.error(f"SSE direct: {error_msg}")
+                yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+            return
+
+        # DeepSeek: use queue/producer pattern for true streaming with keepalives
         queue = asyncio.Queue()
         sentinel = object()
 
