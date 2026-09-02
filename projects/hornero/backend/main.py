@@ -552,288 +552,252 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
 
     Falls back to non-streaming if the LLM provider doesn't support streaming.
     """
-    # ── DIAGNOSTIC: wrap ENTIRE body in try/catch to log crash root cause ──
-    try:
-        origin = request.headers.get("origin", "no-origin") if request else "no-request"
-        logger.info(f"SSE /api/chat/stream: user={user.get('username','?')} grade={user.get('grade','?')} formato={req.formato} origin={origin} history_len={len(req.history)}")
+    origin = request.headers.get("origin", "no-origin") if request else "no-request"
+    logger.info(f"SSE /api/chat/stream: user={user.get('username','?')} grade={user.get('grade','?')} formato={req.formato} origin={origin} history_len={len(req.history)}")
 
-        # SANITIZE history: fix corrupt data (sections/tags as string/null → empty list)
-        for i, msg in enumerate(req.history):
-            if not isinstance(msg, dict):
-                logger.warning(f"SSE: history[{i}] is not dict (type={type(msg).__name__}), replacing with empty")
-                req.history[i] = {"role": "user", "text": ""}
-                continue
-            sections = msg.get("sections")
-            if sections is not None and not isinstance(sections, list):
-                logger.warning(f"SSE: history[{i}].sections is {type(sections).__name__}='{str(sections)[:50]}', replacing with []")
-                msg["sections"] = []
-            tags = msg.get("tags")
-            if tags is not None and not isinstance(tags, list):
-                logger.warning(f"SSE: history[{i}].tags is {type(tags).__name__}='{str(tags)[:50]}', replacing with []")
-                msg["tags"] = []
-            # Also fix nested sections entries
-            if isinstance(sections, list):
-                for j, sec in enumerate(sections):
-                    if not isinstance(sec, dict):
-                        logger.warning(f"SSE: history[{i}].sections[{j}] is {type(sec).__name__}, removing")
-                        msg["sections"][j] = {"title": "", "body": str(sec)[:200]}
-        # Override grade/sector/tenant from JWT (prevent spoofing)
-        req.grade = user.get("grade", req.grade)
-        req.sector = user.get("sector", req.sector)
-        req.tenant = user.get("tenant", req.tenant) or req.tenant
+    # SANITIZE history: fix corrupt data (sections/tags as string/null → empty list)
+    for i, msg in enumerate(req.history):
+        if not isinstance(msg, dict):
+            logger.warning(f"SSE: history[{i}] is not dict (type={type(msg).__name__}), replacing with empty")
+            req.history[i] = {"role": "user", "text": ""}
+            continue
+        sections = msg.get("sections")
+        if sections is not None and not isinstance(sections, list):
+            logger.warning(f"SSE: history[{i}].sections is {type(sections).__name__}='{str(sections)[:50]}', replacing with []")
+            msg["sections"] = []
+        tags = msg.get("tags")
+        if tags is not None and not isinstance(tags, list):
+            logger.warning(f"SSE: history[{i}].tags is {type(tags).__name__}='{str(tags)[:50]}', replacing with []")
+            msg["tags"] = []
+        # Also fix nested sections entries
+        if isinstance(sections, list):
+            for j, sec in enumerate(sections):
+                if not isinstance(sec, dict):
+                    logger.warning(f"SSE: history[{i}].sections[{j}] is {type(sec).__name__}, removing")
+                    msg["sections"][j] = {"title": "", "body": str(sec)[:200]}
+    # Override grade/sector/tenant from JWT (prevent spoofing)
+    req.grade = user.get("grade", req.grade)
+    req.sector = user.get("sector", req.sector)
+    req.tenant = user.get("tenant", req.tenant) or req.tenant
 
-        # Rate limiting
-        client_ip = request.client.host if request else "unknown"
-        if not _check_rate_limit(client_ip):
-            raise HTTPException(429, "Demasiadas solicitudes. Esperá un momento e intentá de nuevo.")
+    # Rate limiting
+    client_ip = request.client.host if request else "unknown"
+    if not _check_rate_limit(client_ip):
+        raise HTTPException(429, "Demasiadas solicitudes. Esperá un momento e intentá de nuevo.")
 
-        # RAG retrieval: find relevant KB chunks based on user query
-        tenant = resolve_tenant(req.tenant, req.sector)
-        relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade,
-                                              conversation_history=req.history, tenant=tenant)
-        chunk_ids = [c["id"] for c in relevant_chunks]
+    # RAG retrieval: find relevant KB chunks based on user query
+    tenant = resolve_tenant(req.tenant, req.sector)
+    relevant_chunks = retrieve_for_query(req.message, req.formato, req.grade,
+                                          conversation_history=req.history, tenant=tenant)
+    chunk_ids = [c["id"] for c in relevant_chunks]
 
-        # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
-        extra_sources = legal_sources_text(req.message, formato=req.formato,
-                                           requested_persona=req.requested_persona,
-                                           grade=req.grade, tenant=req.tenant, sector=req.sector,
-                                           conversation_history=req.history)
+    # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
+    extra_sources = legal_sources_text(req.message, formato=req.formato,
+                                       requested_persona=req.requested_persona,
+                                       grade=req.grade, tenant=req.tenant, sector=req.sector,
+                                       conversation_history=req.history)
 
-        # Build system prompt with ONLY relevant KB chunks
-        system_prompt = get_system_prompt_rag(
-            formato=req.formato,
-            chunk_ids=chunk_ids,
-            clipping_items=get_clipping(),
-            query=req.message,
-            requested_persona=req.requested_persona,
-            grade=req.grade,
-            incoming_reports=req.incoming_reports,
-            recipient_chain=req.recipient_chain,
-            extra_sources_text=extra_sources,
-            tenant=tenant,
-        )
-        # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
-        if extra_sources:
-            system_prompt = get_legal_prompt_focused(extra_sources, grade=req.grade,
-                                                     recipient_chain=req.recipient_chain,
-                                                     tenant=tenant)
-        effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
-        if req.requested_persona:
-            if req.requested_persona in PERSONA_NAME_MAP:
-                effective_persona = req.requested_persona
-            elif req.requested_persona in PERSONA_MAP:
-                effective_persona = req.requested_persona
-        format_hint = get_format_hint(req.formato, req.grade)
+    # Build system prompt with ONLY relevant KB chunks
+    system_prompt = get_system_prompt_rag(
+        formato=req.formato,
+        chunk_ids=chunk_ids,
+        clipping_items=get_clipping(),
+        query=req.message,
+        requested_persona=req.requested_persona,
+        grade=req.grade,
+        incoming_reports=req.incoming_reports,
+        recipient_chain=req.recipient_chain,
+        extra_sources_text=extra_sources,
+        tenant=tenant,
+    )
+    # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
+    if extra_sources:
+        system_prompt = get_legal_prompt_focused(extra_sources, grade=req.grade,
+                                                 recipient_chain=req.recipient_chain,
+                                                 tenant=tenant)
+    effective_persona = PERSONA_MAP.get(req.formato, 'abogado')
+    if req.requested_persona:
+        if req.requested_persona in PERSONA_NAME_MAP:
+            effective_persona = req.requested_persona
+        elif req.requested_persona in PERSONA_MAP:
+            effective_persona = req.requested_persona
+    format_hint = get_format_hint(req.formato, req.grade)
 
-        # Build the user message with format context
-        full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
+    # Build the user message with format context
+    full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
 
-        async def _raw_events():
-            """Produce SSE events from the LLM (streaming or non-streaming)."""
-            try:
-                logger.info(f"SSE _raw_events: LLM_PROVIDER={LLM_PROVIDER}, starting LLM call...")
-                if LLM_PROVIDER == "deepseek":
-                    async for chunk in call_deepseek_stream(
-                        api_key=DEEPSEEK_API_KEY,
-                        system_prompt=system_prompt,
-                        user_message=full_message,
-                        history=req.history,
-                        model=DEEPSEEK_MODEL,
-                        base_url=DEEPSEEK_BASE_URL,
-                    ):
-                        if chunk["type"] == "token":
-                            content = chunk["content"].replace("\n", "\\n")
-                            yield f"event: token\ndata: {content}\n\n"
-                        elif chunk["type"] == "done":
-                            full_text = chunk["full_text"]
-                            parsed = parse_llm_response(full_text)
-                            now = datetime.now()
-                            time_str = now.strftime("%H:%M")
-                            llm_persona = parsed.get("persona", "")
-                            final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                            result = {
-                                "text": parsed.get("text", ""),
-                                "sections": parsed.get("sections", []),
-                                "tags": parsed.get("tags", [req.formato]),
-                                "time": time_str,
-                                "persona": final_persona,
-                                "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                                "image": parsed.get("image", ""),
-                                "source_url": parsed.get("source_url", ""),
-                            }
-                            yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
-                else:
-                    # Claude/other provider: no streaming support — fall back to non-streaming
-                    # wrapped in SSE format for consistent frontend handling
-                    if LLM_PROVIDER == "claude":
-                        logger.info(f"SSE _raw_events: calling call_claude() (model={ANTHROPIC_MODEL})...")
-                        raw_response = await call_claude(
-                            api_key=ANTHROPIC_API_KEY,
-                            system_prompt=system_prompt,
-                            user_message=full_message,
-                            history=req.history,
-                            model=ANTHROPIC_MODEL,
-                            base_url=ANTHROPIC_BASE_URL,
-                        )
-                        logger.info(f"SSE _raw_events: call_claude() returned {len(raw_response)} chars")
-                    else:
-                        raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
-
-                    parsed = parse_llm_response(raw_response)
-                    logger.info(f"SSE _raw_events: parsed tags={parsed.get('tags', [])}, persona={parsed.get('persona', '')}")
-                    now = datetime.now()
-                    time_str = now.strftime("%H:%M")
-                    llm_persona = parsed.get("persona", "")
-                    final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                    text_content = parsed.get("text", "")
-                    if text_content:
-                        content = text_content.replace("\n", "\\n")
+    async def _raw_events():
+        """Produce SSE events from the LLM (streaming or non-streaming)."""
+        try:
+            logger.info(f"SSE _raw_events: LLM_PROVIDER={LLM_PROVIDER}, starting LLM call...")
+            if LLM_PROVIDER == "deepseek":
+                async for chunk in call_deepseek_stream(
+                    api_key=DEEPSEEK_API_KEY,
+                    system_prompt=system_prompt,
+                    user_message=full_message,
+                    history=req.history,
+                    model=DEEPSEEK_MODEL,
+                    base_url=DEEPSEEK_BASE_URL,
+                ):
+                    if chunk["type"] == "token":
+                        content = chunk["content"].replace("\n", "\\n")
                         yield f"event: token\ndata: {content}\n\n"
-                    result = {
-                        "text": parsed.get("text", ""),
-                        "sections": parsed.get("sections", []),
-                        "tags": parsed.get("tags", [req.formato]),
-                        "time": time_str,
-                        "persona": final_persona,
-                        "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                        "image": parsed.get("image", ""),
-                        "source_url": parsed.get("source_url", ""),
-                    }
-                    yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
-
-            except httpx.HTTPStatusError as e:
-                error_msg = f"LLM HTTP error {e.response.status_code}"
-                yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
-            except Exception as e:
-                error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
-                yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
-
-        async def event_generator():
-            # Yield SSE comment immediately so FastAPI sends response headers + CORS.
-            # Without this, the browser gets NO response until the LLM starts producing tokens,
-            # which can take 5-30s → Cloudflare/Render proxy timeout → NetworkError.
-            yield ": connected\n\n"
-
-            # Direct streaming path — yield SSE events inline from the LLM.
-            # NOTE: The queue/producer pattern was causing events to never reach the client
-            # on Render (Cloudflare buffering). Direct yield works reliably.
-            try:
+                    elif chunk["type"] == "done":
+                        full_text = chunk["full_text"]
+                        parsed = parse_llm_response(full_text)
+                        now = datetime.now()
+                        time_str = now.strftime("%H:%M")
+                        llm_persona = parsed.get("persona", "")
+                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                        result = {
+                            "text": parsed.get("text", ""),
+                            "sections": parsed.get("sections", []),
+                            "tags": parsed.get("tags", [req.formato]),
+                            "time": time_str,
+                            "persona": final_persona,
+                            "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                            "image": parsed.get("image", ""),
+                            "source_url": parsed.get("source_url", ""),
+                        }
+                        yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+            else:
+                # Claude/other provider: no streaming support — fall back to non-streaming
+                # wrapped in SSE format for consistent frontend handling
                 if LLM_PROVIDER == "claude":
-                    async for chunk in call_claude_stream(
+                    logger.info(f"SSE _raw_events: calling call_claude() (model={ANTHROPIC_MODEL})...")
+                    raw_response = await call_claude(
                         api_key=ANTHROPIC_API_KEY,
                         system_prompt=system_prompt,
                         user_message=full_message,
                         history=req.history,
                         model=ANTHROPIC_MODEL,
                         base_url=ANTHROPIC_BASE_URL,
-                    ):
-                        if chunk["type"] == "token":
-                            content = chunk["content"].replace("\n", "\\n")
-                            yield f"event: token\ndata: {content}\n\n"
-                        elif chunk["type"] == "done":
-                            full_text = chunk["full_text"]
-                            parsed = parse_llm_response(full_text)
-                            now = datetime.now()
-                            time_str = now.strftime("%H:%M")
-                            llm_persona = parsed.get("persona", "")
-                            final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                            result = {
-                                "text": parsed.get("text", ""),
-                                "sections": parsed.get("sections", []),
-                                "tags": parsed.get("tags", [req.formato]),
-                                "time": time_str,
-                                "persona": final_persona,
-                                "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                                "image": parsed.get("image", ""),
-                                "source_url": parsed.get("source_url", ""),
-                            }
-                            yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
-                elif LLM_PROVIDER == "deepseek":
-                    async for chunk in call_deepseek_stream(
-                        api_key=DEEPSEEK_API_KEY,
-                        system_prompt=system_prompt,
-                        user_message=full_message,
-                        history=req.history,
-                        model=DEEPSEEK_MODEL,
-                        base_url=DEEPSEEK_BASE_URL,
-                    ):
-                        if chunk["type"] == "token":
-                            content = chunk["content"].replace("\n", "\\n")
-                            yield f"event: token\ndata: {content}\n\n"
-                        elif chunk["type"] == "done":
-                            full_text = chunk["full_text"]
-                            parsed = parse_llm_response(full_text)
-                            now = datetime.now()
-                            time_str = now.strftime("%H:%M")
-                            llm_persona = parsed.get("persona", "")
-                            final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                            result = {
-                                "text": parsed.get("text", ""),
-                                "sections": parsed.get("sections", []),
-                                "tags": parsed.get("tags", [req.formato]),
-                                "time": time_str,
-                                "persona": final_persona,
-                                "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                                "image": parsed.get("image", ""),
-                                "source_url": parsed.get("source_url", ""),
-                            }
-                            yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+                    )
+                    logger.info(f"SSE _raw_events: call_claude() returned {len(raw_response)} chars")
                 else:
-                    yield f"event: error\ndata: {json.dumps({'message': f'Unknown LLM provider: {LLM_PROVIDER}'})}\n\n"
+                    raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
 
-            except httpx.HTTPStatusError as e:
-                error_msg = f"LLM HTTP error {e.response.status_code}"
-                logger.error(f"SSE: {error_msg}")
-                yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
-            except Exception as e:
-                error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
-                logger.error(f"SSE: {error_msg}")
-                yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+                parsed = parse_llm_response(raw_response)
+                logger.info(f"SSE _raw_events: parsed tags={parsed.get('tags', [])}, persona={parsed.get('persona', '')}")
+                now = datetime.now()
+                time_str = now.strftime("%H:%M")
+                llm_persona = parsed.get("persona", "")
+                final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                text_content = parsed.get("text", "")
+                if text_content:
+                    content = text_content.replace("\n", "\\n")
+                    yield f"event: token\ndata: {content}\n\n"
+                result = {
+                    "text": parsed.get("text", ""),
+                    "sections": parsed.get("sections", []),
+                    "tags": parsed.get("tags", [req.formato]),
+                    "time": time_str,
+                    "persona": final_persona,
+                    "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                    "image": parsed.get("image", ""),
+                    "source_url": parsed.get("source_url", ""),
+                }
+                yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
 
-        return StreamingResponse(
-            event_generator(),
-            media_type="text/event-stream",
-            headers={
-                "Cache-Control": "no-cache",
-                "Connection": "keep-alive",
-                "X-Accel-Buffering": "no",  # Disable nginx buffering
-            },
-        )
+        except httpx.HTTPStatusError as e:
+            error_msg = f"LLM HTTP error {e.response.status_code}"
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+        except Exception as e:
+            error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
 
-    except Exception as err:
-        # ── DIAGNOSTIC: log full payload + stack trace on ANY crash ──
-        import traceback
-        payload = {}
+    async def event_generator():
+        # Yield SSE comment immediately so FastAPI sends response headers + CORS.
+        # Without this, the browser gets NO response until the LLM starts producing tokens,
+        # which can take 5-30s → Cloudflare/Render proxy timeout → NetworkError.
+        yield ": connected\n\n"
+
+        # Direct streaming path — yield SSE events inline from the LLM.
+        # NOTE: The queue/producer pattern was causing events to never reach the client
+        # on Render (Cloudflare buffering). Direct yield works reliably.
         try:
-            payload = {
-                "message": req.message[:200] if req.message else "",
-                "formato": req.formato,
-                "grade": req.grade,
-                "sector": req.sector,
-                "tenant": req.tenant,
-                "requested_persona": req.requested_persona,
-                "session_id": req.session_id,
-                "history_count": len(req.history),
-                "history_preview": [
-                    {
-                        "role": h.get("role", "?") if isinstance(h, dict) else type(h).__name__,
-                        "text_len": len(h.get("text", "")) if isinstance(h, dict) else "N/A",
-                        "sections_type": type(h.get("sections")).__name__ if isinstance(h, dict) else "N/A",
-                        "sections_repr": str(h.get("sections", ""))[:100] if isinstance(h, dict) else str(h)[:100],
-                        "tags_type": type(h.get("tags")).__name__ if isinstance(h, dict) else "N/A",
-                    }
-                    for h in req.history[:10]  # first 10 messages
-                ] if req.history else [],
-            }
-        except Exception as dump_err:
-            payload = {"dump_error": str(dump_err)}
+            if LLM_PROVIDER == "claude":
+                async for chunk in call_claude_stream(
+                    api_key=ANTHROPIC_API_KEY,
+                    system_prompt=system_prompt,
+                    user_message=full_message,
+                    history=req.history,
+                    model=ANTHROPIC_MODEL,
+                    base_url=ANTHROPIC_BASE_URL,
+                ):
+                    if chunk["type"] == "token":
+                        content = chunk["content"].replace("\n", "\\n")
+                        yield f"event: token\ndata: {content}\n\n"
+                    elif chunk["type"] == "done":
+                        full_text = chunk["full_text"]
+                        parsed = parse_llm_response(full_text)
+                        now = datetime.now()
+                        time_str = now.strftime("%H:%M")
+                        llm_persona = parsed.get("persona", "")
+                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                        result = {
+                            "text": parsed.get("text", ""),
+                            "sections": parsed.get("sections", []),
+                            "tags": parsed.get("tags", [req.formato]),
+                            "time": time_str,
+                            "persona": final_persona,
+                            "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                            "image": parsed.get("image", ""),
+                            "source_url": parsed.get("source_url", ""),
+                        }
+                        yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+            elif LLM_PROVIDER == "deepseek":
+                async for chunk in call_deepseek_stream(
+                    api_key=DEEPSEEK_API_KEY,
+                    system_prompt=system_prompt,
+                    user_message=full_message,
+                    history=req.history,
+                    model=DEEPSEEK_MODEL,
+                    base_url=DEEPSEEK_BASE_URL,
+                ):
+                    if chunk["type"] == "token":
+                        content = chunk["content"].replace("\n", "\\n")
+                        yield f"event: token\ndata: {content}\n\n"
+                    elif chunk["type"] == "done":
+                        full_text = chunk["full_text"]
+                        parsed = parse_llm_response(full_text)
+                        now = datetime.now()
+                        time_str = now.strftime("%H:%M")
+                        llm_persona = parsed.get("persona", "")
+                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                        result = {
+                            "text": parsed.get("text", ""),
+                            "sections": parsed.get("sections", []),
+                            "tags": parsed.get("tags", [req.formato]),
+                            "time": time_str,
+                            "persona": final_persona,
+                            "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                            "image": parsed.get("image", ""),
+                            "source_url": parsed.get("source_url", ""),
+                        }
+                        yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+            else:
+                yield f"event: error\ndata: {json.dumps({'message': f'Unknown LLM provider: {LLM_PROVIDER}'})}\n\n"
 
-        logger.error(
-            f"CRASH /api/chat/stream: {type(err).__name__}: {err}\n"
-            f"PAYLOAD: {json.dumps(payload, ensure_ascii=False, default=str)}\n"
-            f"TRACEBACK:\n{traceback.format_exc()}"
-        )
-        raise HTTPException(500, f"Stream crash: {type(err).__name__}: {str(err)[:200]}")
+        except httpx.HTTPStatusError as e:
+            error_msg = f"LLM HTTP error {e.response.status_code}"
+            logger.error(f"SSE: {error_msg}")
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+        except Exception as e:
+            error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
+            logger.error(f"SSE: {error_msg}")
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",  # Disable nginx buffering
+        },
+    )
+
 
 
 @app.post("/api/audio")
@@ -1544,7 +1508,6 @@ async def chat_sessions(user: dict = Depends(require_auth)):
 @app.get("/api/chat/messages")
 async def chat_messages(sessionId: str = "", user: dict = Depends(require_auth)):
     """Get all messages for a specific chat session."""
-    # ── DIAGNOSTIC: wrap in try/catch to log corrupt data ──
     try:
         username = user["username"]
         if not sessionId:
@@ -1559,23 +1522,14 @@ async def chat_messages(sessionId: str = "", user: dict = Depends(require_auth))
             for r in rows:
                 sections_raw = r["sections"]
                 tags_raw = r["tags"]
-                # ── DIAGNOSTIC: log raw sections before parsing ──
                 sections_parsed = json.loads(sections_raw) if isinstance(sections_raw, str) else (sections_raw or [])
                 tags_parsed = json.loads(tags_raw) if isinstance(tags_raw, str) else (tags_raw or [])
                 if not isinstance(sections_parsed, list):
-                    logger.error(f"CRASH-TRACE /api/chat/messages: sections is NOT list! "
-                                 f"session={sessionId} msg_id={r['id']} "
-                                 f"sections_raw_type={type(sections_raw).__name__} "
-                                 f"sections_raw_repr={str(sections_raw)[:200]} "
-                                 f"sections_parsed_type={type(sections_parsed).__name__} "
-                                 f"sections_parsed_repr={str(sections_parsed)[:200]}")
+                    logger.error(f"chat/messages: sections NOT list — session={sessionId} msg_id={r['id']} "
+                                 f"type={type(sections_parsed).__name__} val={str(sections_parsed)[:100]}")
                 if not isinstance(tags_parsed, list):
-                    logger.error(f"CRASH-TRACE /api/chat/messages: tags is NOT list! "
-                                 f"session={sessionId} msg_id={r['id']} "
-                                 f"tags_raw_type={type(tags_raw).__name__} "
-                                 f"tags_raw_repr={str(tags_raw)[:200]} "
-                                 f"tags_parsed_type={type(tags_parsed).__name__} "
-                                 f"tags_parsed_repr={str(tags_parsed)[:200]}")
+                    logger.error(f"chat/messages: tags NOT list — session={sessionId} msg_id={r['id']} "
+                                 f"type={type(tags_parsed).__name__} val={str(tags_parsed)[:100]}")
                 messages.append({
                     "id": r["id"],
                     "sessionId": r["session_id"],
@@ -1596,11 +1550,7 @@ async def chat_messages(sessionId: str = "", user: dict = Depends(require_auth))
             return messages
     except Exception as err:
         import traceback
-        logger.error(
-            f"CRASH /api/chat/messages: {type(err).__name__}: {err}\n"
-            f"sessionId={sessionId} username={user.get('username','?')}\n"
-            f"TRACEBACK:\n{traceback.format_exc()}"
-        )
+        logger.error(f"chat/messages crash: {type(err).__name__}: {err}\n{traceback.format_exc()}")
         raise HTTPException(500, f"Messages crash: {type(err).__name__}: {str(err)[:200]}")
 
 
