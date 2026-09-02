@@ -528,9 +528,16 @@ def process_pdf(pdf_path: str, bib_ref: str, tipo: str, category: str,
 def extract_auto_tags(text: str) -> list:
     """Extract relevant keywords from text for auto-tagging.
 
-    Looks for names, places, key terms that would help keyword search.
+    Uses three layers:
+    1. Simple keyword matching (legacy tag_candidates)
+    2. NER_ENTITY_LIST — regex patterns for organizations, institutions, concepts
+    3. NER_PERSON_LIST — full names of historical figures
+
+    Tags are added when the entity appears in the chunk text, preventing
+    the retrieval gap where content exists but isn't findable (e.g., FST, CGT,
+    Bentos were in the text but had no tags → retrieval missed them).
     """
-    # Common sindical/historical terms to check
+    # ===== Layer 1: Simple keyword matching (preserved from legacy) =====
     tag_candidates = [
         "La Forestal", "lockout", "huelga", "sindicato", "masacre", "tanino",
         "quebracho", "Villa Ana", "Villa Guillermina", "La Gallareta",
@@ -539,25 +546,152 @@ def extract_auto_tags(text: str) -> list:
         "fábrica", "empresa", "capital", "patronal", "represión", "policía",
         "guardia blanca", "expulsión", "depuración", "migración", "enclave",
         "monopolio", "trust", "imperialismo", "británico", "Forestal",
-        # Key names from La Forestal history
-        "Lafuente", "Vargas", "Lamazón", "Yofra",
-        # General terms
         "derecho", "trabajo", "salario", "jornal", "condiciones",
-        # Historical/anthropological research terms
         "masacre", "genocidio", "etnocidio", "pueblo originario",
         "comunidad", "territorio", "despojo", "concesión",
         "archaeologica", "patrimonio", "memoria", "verdad", "justicia",
         "reparación", "impunidad", "juicio", "testimonio",
-        # Periódico/comunicado terms
         "comunicado", "volante", "editorial", "asamblea",
         "Federación Aceitera", "F.T.C.I.O.D", "FOEIAP",
         "El Trabajador Aceitero", "aceitero", "desmotador",
         "CIARA", "CIAVEC", "CARBIO",
     ]
-
     text_lower = text.lower()
     found = [tag for tag in tag_candidates if tag.lower() in text_lower]
-    return found
+
+    # ===== Layer 2: NER — organizations, institutions, concepts =====
+    # Format: (regex_pattern, tag_to_add)
+    # When pattern matches text, tag is added to chunk.
+    NER_ENTITY_LIST = [
+        # Centrales obreras
+        (r'\bCGT\b', 'CGT'),
+        (r'\bFORA\b', 'FORA'),
+        (r'\bFACA\b', 'FACA'),
+        (r'\bCOASI\b', 'COASI'),
+        (r'\bCGGMA\b', 'CGGMA'),
+        (r'\bCPCN\b', 'CPCN'),
+        (r'\bUPCN\b', 'UPCN'),
+        (r'\bMPIDS\b', 'MPIDS'),
+        (r'\bATLAS\b', 'ATLAS'),
+        (r'\bCTAL\b', 'CTAL'),
+        (r'\bFSM\b', 'FSM'),
+        (r'\bORIT\b', 'ORIT'),
+        (r'\bCIOSL\b', 'CIOSL'),
+        (r'\bFOIT\b', 'FOIT'),
+        (r'\bAFL-?CIO\b', 'AFL-CIO'),
+        (r'\bFST\b', 'FST'),
+        (r'\bFOTIA\b', 'FOTIA'),
+        (r'\bCGTA\b', 'CGTA'),
+        (r'Federación Santafesina', 'Federación-Santafesina-del-Trabajo'),
+        (r'federación provincial', 'federación-provincial'),
+        # Sindicatos específicos
+        (r'Unión Ferroviaria|Union Ferroviaria', 'Unión-Ferroviaria'),
+        (r'La Fraternidad', 'La-Fraternidad'),
+        (r'\bUOM\b', 'UOM'),
+        (r'Federación.{0,15}Carne|Federacion.{0,15}Carne', 'Federación-de-la-Carne'),
+        (r'FOGRA|Federación Gráfica', 'FOGRA'),
+        (r'\bSOMISA\b', 'SOMISA'),
+        (r'Unión Obrera Local|\bUOL\b', 'UOL'),
+        # Organismos estatales
+        (r'Departamento Nacional del Trabajo|\bDNT\b', 'DNT'),
+        (r'Secretar[aí]a de Trabajo', 'Secretaría-de-Trabajo'),
+        (r'Ministerio de Trabajo', 'Ministerio-de-Trabajo'),
+        (r'Ley de Asociaciones Profesionales', 'Ley-Asociaciones-Profesionales'),
+        # Conceptos sindicales
+        (r'cuerpo[s]? de delegados', 'cuerpo-de-delegados'),
+        (r'comisi[oó]n interna', 'comisión-interna'),
+        (r'comisi[oó]n de huelga', 'comisión-de-huelga'),
+        (r'personer[aí]a gremial', 'personería-gremial'),
+        (r'sindicato[s]? aut[oó]nomos?', 'sindicato-autónomo'),
+        # Huelgas específicas
+        (r'huelga ferroviaria', 'huelga-ferroviaria'),
+        (r'huelga mar[ií]tima', 'huelga-marítima'),
+        (r'huelga metal[uú]rgica', 'huelga-metalúrgica'),
+        (r'Marcha de la Paz', 'Marcha-de-la-Paz'),
+        # Lugares
+        (r'\bRosario\b', 'Rosario'),
+    ]
+
+    # ===== Layer 3: NER — historical figures =====
+    # Format: (regex_pattern, tag_to_add)
+    NER_PERSON_LIST = [
+        # La Forestal / Norte Santa Fe (Jasinski)
+        (r'Luis Bentos', 'Luis-Bentos'),
+        (r'Rogelio Lamaz[oó]n', 'Rogelio-Lamazón'),
+        (r'Samuel Abecasis', 'Samuel-Abecasis'),
+        (r'Jos[eé] Bernab[eé] Vargas', 'José-Bernabé-Vargas'),
+        (r'Ram[oó]n Ruber', 'Ramón-Ruber'),
+        (r'Guillermo Romero', 'Guillermo-Romero'),
+        (r'Te[oó]filo Lafuente', 'Teófilo-Lafuente'),
+        (r'Manuel Almir[oó]n', 'Manuel-Almirón'),
+        (r'Domingo Colomina', 'Domingo-Colomina'),
+        (r'Andr[eé]s Selkis', 'Andrés-Selkis'),
+        (r'Fabio Silvestre', 'Fabio-Silvestre'),
+        (r'Antonio Aguilar', 'Antonio-Aguilar'),
+        (r'Rogelio Gauto', 'Rogelio-Gauto'),
+        # Dirigentes obreros (Contreras 2017)
+        (r'Jos[eé] Espejo', 'José-Espejo'),
+        (r'Dante Viel', 'Dante-Viel'),
+        (r'Rubens [IÍ]scaro', 'Rubens-Íscaro'),
+        (r'Carlos [IÍ]mizcoz', 'Carlos-Ímizcoz'),
+        (r'Vicente Marischi', 'Vicente-Marischi'),
+        (r'Eduardo Barainca', 'Eduardo-Barainca'),
+        (r'Jes[uú]s Mira', 'Jesús-Mira'),
+        (r'Jos[eé] Peter', 'José-Peter'),
+        (r'Irma Othar', 'Irma-Othar'),
+        (r'Jos[eé] Grunfeld', 'José-Grunfeld'),
+        (r'Luis Danussi', 'Luis-Danussi'),
+        (r'Jacinto Cimazo', 'Jacinto-Cimazo'),
+        (r'Jes[uú]s Fern[aá]ndez', 'Jesús-Fernández'),
+        (r'Alfredo Fidanza', 'Alfredo-Fidanza'),
+        (r'C[aá]ndido Gregorio', 'Cándido-Gregorio'),
+        (r'Ernesto Morier', 'Ernesto-Morier'),
+        (r'Alfredo Ferreira', 'Alfredo-Ferreira'),
+        (r'Luis Gay', 'Luis-Gay'),
+        (r'Cipriano Reyes', 'Cipriano-Reyes'),
+        (r'Juan F\. Castro', 'Juan-Castro'),
+        # Internacionales
+        (r'Vicente Lombardo Toledano', 'Lombardo-Toledano'),
+        (r'Serafino Romualdi', 'Serafino-Romualdi'),
+        (r'Rodolfo Puiggr[oó]s', 'Rodolfo-Puiggrós'),
+        # Peronismo
+        (r'Juan Per[oó]n', 'Juan-Perón'),
+        (r'Eva Per[oó]n', 'Eva-Perón'),
+        # Historiadores
+        (r'Gino Germani', 'Gino-Germani'),
+        (r'Louise Doyon', 'Louise-Doyon'),
+        (r'Juan Carlos Torre', 'Juan-Carlos-Torre'),
+        (r'Hugo del Campo', 'Hugo-del-Campo'),
+        (r'Omar Acha', 'Omar-Acha'),
+        (r'Hern[aá]n Camarero', 'Hernán-Camarero'),
+        (r'Diego Ceruso', 'Diego-Ceruso'),
+        (r'Agust[ií]n Nieto', 'Agustín-Nieto'),
+        (r'Marcos Schiavi', 'Marcos-Schiavi'),
+        (r'Gustavo Contreras', 'Gustavo-Contreras'),
+        (r'Alejandro Jasinski', 'Alejandro-Jasinski'),
+        # Movimiento obrero post-peronismo
+        (r'Agust[ií]n Tosco', 'Agustín-Tosco'),
+        (r'Jos[eé] Ignacio Rucci', 'José-Ignacio-Rucci'),
+        (r'Raymundo Ongaro', 'Raymundo-Ongaro'),
+        (r'Daniel Yofra', 'Daniel-Yofra'),
+        # Última dictadura
+        (r'Emilio Massera', 'Emilio-Massera'),
+        # Single-word surnames (unique enough for our domain)
+        (r'\bLafuente\b', 'Lafuente'),
+        (r'\bBentos\b', 'Bentos'),
+        (r'\bGauto\b', 'Gauto'),
+        (r'\bCotta\b', 'Cotta'),
+        (r'\bLamaz[oó]n\b', 'Lamazón'),
+    ]
+
+    # ===== Apply NER layers =====
+    found_set = set(found)  # deduplicate
+
+    for pattern, tag in NER_ENTITY_LIST + NER_PERSON_LIST:
+        if re.search(pattern, text, re.IGNORECASE):
+            found_set.add(tag)
+
+    return list(found_set)
 
 
 def save_chunks_json(chunks: list, output_path: str, append: bool = False, id_prefix: str = ""):
