@@ -105,7 +105,7 @@ def _init_db():
                     nombre              TEXT NOT NULL DEFAULT '',
                     grade               TEXT NOT NULL DEFAULT 'B.a',
                     territory           TEXT NOT NULL DEFAULT '',
-                    sector              TEXT NOT NULL DEFAULT 'aceitero',
+                    sector              TEXT NOT NULL DEFAULT 'hornero',
                     tenant              TEXT NOT NULL DEFAULT '',
                     category            TEXT NOT NULL DEFAULT '',
                     agremiacion         JSONB DEFAULT '{}',
@@ -314,7 +314,7 @@ def _create_token(user: dict, token_type: str = "access") -> str:
         "sub": user["username"],
         "grade": user.get("grade", "B.a"),
         "territory": user.get("territory", ""),
-        "sector": user.get("sector", "aceitero"),
+        "sector": user.get("sector", "hornero"),
         "tenant": user.get("tenant", ""),
         "category": user.get("category", ""),
         "type": token_type,
@@ -565,7 +565,7 @@ class RegisterRequest(BaseModel):
     email: str
     password: str
     nombre: str
-    sector: str = "aceitero"          # backward compat, derivado de sindicato_id si existe
+    sector: str = "hornero"          # backward compat, derivado de sindicato_id si existe
     sindicato_id: str = ""            # nuevo: ID de la tabla sindicatos
     cargo: str = "trabajador"         # nuevo: trabajador | delegado | comision_directiva | comision_federacion
 
@@ -955,7 +955,7 @@ async def login(req: LoginRequest, request: Request):
             "nombre": user.get("nombre", ""),
             "grade": user.get("grade", "B.a"),
             "territory": user.get("territory", ""),
-            "sector": user.get("sector", "aceitero"),
+            "sector": user.get("sector", "hornero"),
             "tenant": user.get("tenant", ""),
             "category": user.get("category", ""),
             "agremiacion": agremiacion,
@@ -1062,7 +1062,7 @@ async def get_me(user: dict = Depends(require_auth)):
         "nombre": user.get("nombre", ""),
         "grade": user.get("grade", "B.a"),
         "territory": user.get("territory", ""),
-        "sector": user.get("sector", "aceitero"),
+        "sector": user.get("sector", "hornero"),
         "tenant": user.get("tenant", ""),
         "category": user.get("category", ""),
         "agremiacion": agremiacion,
@@ -1122,7 +1122,7 @@ async def update_me(req: UpdateProfileRequest, user: dict = Depends(require_auth
         "nombre": user.get("nombre", ""),
         "grade": user.get("grade", "B.a"),
         "territory": user.get("territory", ""),
-        "sector": user.get("sector", "aceitero"),
+        "sector": user.get("sector", "hornero"),
         "tenant": user.get("tenant", ""),
         "category": user.get("category", ""),
         "agremiacion": agremiacion,
