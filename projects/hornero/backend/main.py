@@ -668,103 +668,81 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
         # which can take 5-30s → Cloudflare/Render proxy timeout → NetworkError.
         yield ": connected\n\n"
 
-        # Produce LLM events on a queue so we can send keepalives while waiting
-        queue = asyncio.Queue()
-        sentinel = object()
-
-        async def producer():
-            try:
-                # Claude: use real streaming (call_claude_stream) — tokens arrive incrementally
-                # DeepSeek: use call_deepseek_stream — same pattern
-                if LLM_PROVIDER == "claude":
-                    async for chunk in call_claude_stream(
-                        api_key=ANTHROPIC_API_KEY,
-                        system_prompt=system_prompt,
-                        user_message=full_message,
-                        history=req.history,
-                        model=ANTHROPIC_MODEL,
-                        base_url=ANTHROPIC_BASE_URL,
-                    ):
-                        if chunk["type"] == "token":
-                            content = chunk["content"].replace("\n", "\\n")
-                            await queue.put(f"event: token\ndata: {content}\n\n")
-                        elif chunk["type"] == "done":
-                            full_text = chunk["full_text"]
-                            parsed = parse_llm_response(full_text)
-                            now = datetime.now()
-                            time_str = now.strftime("%H:%M")
-                            llm_persona = parsed.get("persona", "")
-                            final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                            result = {
-                                "text": parsed.get("text", ""),
-                                "sections": parsed.get("sections", []),
-                                "tags": parsed.get("tags", [req.formato]),
-                                "time": time_str,
-                                "persona": final_persona,
-                                "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                                "image": parsed.get("image", ""),
-                                "source_url": parsed.get("source_url", ""),
-                            }
-                            await queue.put(f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n")
-                elif LLM_PROVIDER == "deepseek":
-                    async for chunk in call_deepseek_stream(
-                        api_key=DEEPSEEK_API_KEY,
-                        system_prompt=system_prompt,
-                        user_message=full_message,
-                        history=req.history,
-                        model=DEEPSEEK_MODEL,
-                        base_url=DEEPSEEK_BASE_URL,
-                    ):
-                        if chunk["type"] == "token":
-                            content = chunk["content"].replace("\n", "\\n")
-                            await queue.put(f"event: token\ndata: {content}\n\n")
-                        elif chunk["type"] == "done":
-                            full_text = chunk["full_text"]
-                            parsed = parse_llm_response(full_text)
-                            now = datetime.now()
-                            time_str = now.strftime("%H:%M")
-                            llm_persona = parsed.get("persona", "")
-                            final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
-                            result = {
-                                "text": parsed.get("text", ""),
-                                "sections": parsed.get("sections", []),
-                                "tags": parsed.get("tags", [req.formato]),
-                                "time": time_str,
-                                "persona": final_persona,
-                                "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
-                                "image": parsed.get("image", ""),
-                                "source_url": parsed.get("source_url", ""),
-                            }
-                            await queue.put(f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n")
-                else:
-                    await queue.put(f"event: error\ndata: {json.dumps({'message': f'Unknown LLM provider: {LLM_PROVIDER}'})}\n\n")
-            except httpx.HTTPStatusError as e:
-                error_msg = f"LLM HTTP error {e.response.status_code}"
-                logger.error(f"SSE producer: {error_msg}")
-                await queue.put(f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n")
-            except Exception as e:
-                error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
-                logger.error(f"SSE producer: {error_msg}")
-                await queue.put(f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n")
-            finally:
-                await queue.put(sentinel)
-
-        producer_task = asyncio.create_task(producer())
-
+        # Direct streaming path — yield SSE events inline from the LLM.
+        # NOTE: The queue/producer pattern was causing events to never reach the client
+        # on Render (Cloudflare buffering). Direct yield works reliably.
         try:
-            while True:
-                try:
-                    item = await asyncio.wait_for(queue.get(), timeout=12)
-                except asyncio.TimeoutError:
-                    # No event for 12s — send keepalive to prevent proxy timeout
-                    yield ": heartbeat\n\n"
-                    continue
-                if item is sentinel:
-                    break
-                yield item
-        finally:
-            if not producer_task.done():
-                producer_task.cancel()
+            if LLM_PROVIDER == "claude":
+                async for chunk in call_claude_stream(
+                    api_key=ANTHROPIC_API_KEY,
+                    system_prompt=system_prompt,
+                    user_message=full_message,
+                    history=req.history,
+                    model=ANTHROPIC_MODEL,
+                    base_url=ANTHROPIC_BASE_URL,
+                ):
+                    if chunk["type"] == "token":
+                        content = chunk["content"].replace("\n", "\\n")
+                        yield f"event: token\ndata: {content}\n\n"
+                    elif chunk["type"] == "done":
+                        full_text = chunk["full_text"]
+                        parsed = parse_llm_response(full_text)
+                        now = datetime.now()
+                        time_str = now.strftime("%H:%M")
+                        llm_persona = parsed.get("persona", "")
+                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                        result = {
+                            "text": parsed.get("text", ""),
+                            "sections": parsed.get("sections", []),
+                            "tags": parsed.get("tags", [req.formato]),
+                            "time": time_str,
+                            "persona": final_persona,
+                            "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                            "image": parsed.get("image", ""),
+                            "source_url": parsed.get("source_url", ""),
+                        }
+                        yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+            elif LLM_PROVIDER == "deepseek":
+                async for chunk in call_deepseek_stream(
+                    api_key=DEEPSEEK_API_KEY,
+                    system_prompt=system_prompt,
+                    user_message=full_message,
+                    history=req.history,
+                    model=DEEPSEEK_MODEL,
+                    base_url=DEEPSEEK_BASE_URL,
+                ):
+                    if chunk["type"] == "token":
+                        content = chunk["content"].replace("\n", "\\n")
+                        yield f"event: token\ndata: {content}\n\n"
+                    elif chunk["type"] == "done":
+                        full_text = chunk["full_text"]
+                        parsed = parse_llm_response(full_text)
+                        now = datetime.now()
+                        time_str = now.strftime("%H:%M")
+                        llm_persona = parsed.get("persona", "")
+                        final_persona = llm_persona if llm_persona in ["companero", "abogado", "periodista", "historiador", "sociologo"] else effective_persona
+                        result = {
+                            "text": parsed.get("text", ""),
+                            "sections": parsed.get("sections", []),
+                            "tags": parsed.get("tags", [req.formato]),
+                            "time": time_str,
+                            "persona": final_persona,
+                            "redirect_persona": validated_redirect(parsed.get("redirect_persona", "")),
+                            "image": parsed.get("image", ""),
+                            "source_url": parsed.get("source_url", ""),
+                        }
+                        yield f"event: done\ndata: {json.dumps(result, ensure_ascii=False)}\n\n"
+            else:
+                yield f"event: error\ndata: {json.dumps({'message': f'Unknown LLM provider: {LLM_PROVIDER}'})}\n\n"
+
+        except httpx.HTTPStatusError as e:
+            error_msg = f"LLM HTTP error {e.response.status_code}"
+            logger.error(f"SSE: {error_msg}")
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
+        except Exception as e:
+            error_msg = f"LLM call failed: {type(e).__name__}: {str(e)}"
+            logger.error(f"SSE: {error_msg}")
+            yield f"event: error\ndata: {json.dumps({'message': error_msg})}\n\n"
 
     return StreamingResponse(
         event_generator(),
