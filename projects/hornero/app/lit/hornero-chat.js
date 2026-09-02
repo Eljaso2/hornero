@@ -69,8 +69,6 @@ class HorneroChat extends HoComponent {
     this._recordingTimer = null; // setInterval for recording duration display
     this._recordingSeconds = 0;  // seconds elapsed while recording
     this._audioProcessing = false; // "Transcribiendo..." state
-    this._pendingUrls = [];     // URLs attached by user for AI to read
-    this._linkOverlayOpen = false; // link input overlay state
     this._detectAudioMimeType(); // detect browser-supported audio format
     this._showHistory = false; // history drawer state
     this._historyDrawerStable = false; // prevent slideIn replay on re-render
@@ -100,6 +98,7 @@ class HorneroChat extends HoComponent {
     this._savedInputSelectionStart = 0; // Cursor position preserved across re-renders
     this._savedInputSelectionEnd = 0;
     this._savedInputHeight = "";
+    this._skipScrollRestore = false; // When true, _afterRender skips scroll restore and auto-scrolls instead
   }
 
   _detectAudioMimeType() {
@@ -1684,61 +1683,6 @@ class HorneroChat extends HoComponent {
         transform: translateX(-50%); white-space: nowrap;
         font-family: 'Public Sans', sans-serif; }
 
-      /* ===== Link input overlay (WhatsApp-style) ===== */
-      .link-overlay {
-        display: none; /* shown via JS */
-        align-items: center; gap: 8px; flex: none;
-        padding: 8px 12px;
-        background: var(--ho-dark, #1E2321);
-        border-top: 1px solid var(--ho-border, rgba(255,255,255,.06));
-        animation: linkSlideIn .2s ease;
-      }
-      .link-overlay.open { display: flex; }
-      @keyframes linkSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-      .link-overlay-field {
-        flex: 1; background: var(--ho-card, #2A3230);
-        border: 1px solid var(--ho-border, rgba(255,255,255,.08));
-        border-radius: 18px; padding: 6px 14px; font-size: .9rem;
-        color: var(--ho-text, #E8E6E0); font-family: 'Public Sans', sans-serif;
-        outline: none; transition: border-color .2s;
-      }
-      .link-overlay-field:focus { border-color: var(--ho-green, #4E9978); }
-      .link-overlay-field::placeholder { color: var(--ho-text-mid, #6E6A60); }
-      .link-overlay-add {
-        background: var(--ho-green, #4E9978); color: #fff; border: none;
-        border-radius: 50%; width: 34px; height: 34px; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        flex: none; transition: background .15s;
-      }
-      .link-overlay-add:hover { background: var(--ho-green-dark, #3D6B56); }
-      .link-overlay-add svg { stroke: #fff; fill: none; stroke-width: 2.5; width: 18px; height: 18px; }
-      .link-overlay-cancel {
-        background: none; border: none; color: var(--ho-text-mid, #6E6A60);
-        cursor: pointer; padding: 6px; font-size: .85rem; font-family: 'Public Sans', sans-serif;
-      }
-      .link-overlay-cancel:hover { color: var(--ho-text, #E8E6E0); }
-
-      /* URL chips — shown above input bar when URLs are pending */
-      .url-chips-bar {
-        display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 12px;
-        background: var(--ho-bg, #1E2321); flex: none;
-      }
-      .url-chip {
-        display: inline-flex; align-items: center; gap: 4px;
-        background: var(--ho-green-pale, #E0F0EB);
-        color: var(--ho-green-dark, #3D6B56); border-radius: 14px;
-        padding: 3px 8px 3px 10px; font-size: .72rem; font-weight: 600;
-        font-family: 'JetBrains Mono', monospace;
-        max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      }
-      .url-chip-icon { font-size: .7rem; }
-      .url-chip-text { overflow: hidden; text-overflow: ellipsis; }
-      .url-chip-remove {
-        background: none; border: none; color: var(--ho-green-dark, #3D6B56);
-        cursor: pointer; padding: 0 2px; font-size: .85rem; line-height: 1;
-        opacity: .6; transition: opacity .15s;
-      }
-      .url-chip-remove:hover { opacity: 1; }
 
       /* URL cards in user message bubbles */
       .msg-urls { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
@@ -1957,7 +1901,6 @@ class HorneroChat extends HoComponent {
 
     // SVG icons
     const attachSvg = '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>';
-    const linkSvg = '<path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>';
     const micSvg = '<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>';
     const stopSvg = '<rect x="6" y="6" width="12" height="12" rx="1"/>'; // stop square icon for recording
     const sendSvg = '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9" fill="currentColor" stroke="none"/>';
@@ -1978,18 +1921,6 @@ class HorneroChat extends HoComponent {
         </div>
         <button class="chat-attach-remove" title="Quitar adjunto">✕</button>
       </div>` : '';
-
-    // URL chips (pending URLs to be sent with next message)
-    const urlChipsHtml = this._pendingUrls.length > 0 ?
-      `<div class="url-chips-bar">${this._pendingUrls.map((url, i) => {
-        let display = url;
-        try { const u = new URL(url); display = u.hostname + u.pathname; if (display.length > 35) display = display.substring(0, 32) + '…'; } catch {}
-        return `<div class="url-chip" data-url-index="${i}">
-          <span class="url-chip-icon">🔗</span>
-          <span class="url-chip-text">${display}</span>
-          <button class="url-chip-remove" data-url-remove="${i}" title="Quitar">✕</button>
-        </div>`;
-      }).join('')}</div>` : '';
 
     // History drawer — section icons mapping (matches _getPersonaConfig)
     const sectionConfig = {
@@ -2219,16 +2150,6 @@ class HorneroChat extends HoComponent {
 
       ${suggestionsHtml}
 
-      ${urlChipsHtml}
-
-      <div class="link-overlay" id="linkOverlay">
-        <input class="link-overlay-field" type="url" placeholder="Pegá un link acá..." autocomplete="off" autocorrect="off" spellcheck="false">
-        <button class="link-overlay-add" title="Agregar link">
-          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-        </button>
-        <button class="link-overlay-cancel" title="Cancelar">Cancelar</button>
-      </div>
-
       <div class="chat-input">
         ${attachPreview}
         <textarea class="chat-input-field" rows="1" placeholder="${this.inputPlaceholder}" autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore></textarea>
@@ -2236,9 +2157,6 @@ class HorneroChat extends HoComponent {
         <div class="chat-toolbar">
           <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
             <svg viewBox="0 0 24 24">${attachSvg}</svg>
-          </button>
-          <button class="chat-toolbar-btn chat-link-btn" id="chatLinkBtn" title="Agregar link">
-            <svg viewBox="0 0 24 24">${linkSvg}</svg>
           </button>
           <button class="chat-toolbar-btn chat-mic-btn${this._isRecording ? ' recording' : ''}${this._audioProcessing ? ' processing' : ''}" title="${micTitle}">
             <svg viewBox="0 0 24 24">${micIcon}</svg>
@@ -2457,36 +2375,51 @@ class HorneroChat extends HoComponent {
     return urls;
   }
 
-  // Linkify user text: escape HTML then convert URLs to clickable links
-  // Simpler than full markdown — just URL detection + basic escaping
-  _linkifyText(text) {
-    if (!text) return '';
-    // Escape HTML to prevent XSS in user messages
-    let safe = text
+  // Escape HTML special chars to prevent XSS
+  _esc(text) {
+    return text
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
-    // Replace newlines with <br>
-    safe = safe.replace(/\n/g, '<br>');
-    // Detect URLs (https:// or www.) and make them clickable — skip if already inside an <a> tag
-    safe = safe.replace(/(?<!href=["'])((https?:\/\/|www\.)[^\s<>&quot;'"]+)/gi, (match, url) => {
+  }
+
+  // Linkify user text: detect URLs first (before HTML escape), then escape each part
+  _linkifyText(text) {
+    if (!text) return '';
+    // Match URLs in original text (before HTML escaping avoids &quot; breaking the regex)
+    const urlRegex = /(?<!["'])((https?:\/\/|www\.)[^\s<>'"]+)/gi;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+    while ((match = urlRegex.exec(text)) !== null) {
+      // Add text before URL (HTML escaped, newlines → <br>)
+      if (match.index > lastIndex) {
+        parts.push(this._esc(text.substring(lastIndex, match.index)).replace(/\n/g, '<br>'));
+      }
+      // Process URL
+      let url = match[1];
       // Trim trailing punctuation unlikely to be part of URL
-      let cleanUrl = url.replace(/[.,;:!?)]+$/, '');
-      // Normalize bare www. → https://www. for href
-      let href = cleanUrl;
+      url = url.replace(/[.,;:!?)]+$/, '');
+      // Normalize bare www. → https://www.
+      let href = url;
       if (/^www\./i.test(href)) href = 'https://' + href;
-      // Show shortened display text if URL is very long
-      let display = cleanUrl;
+      // Display text: hostname + path, shortened if very long
+      let display = url;
       try {
         const u = new URL(href);
         const path = u.pathname === '/' ? '' : u.pathname;
         display = u.hostname + path;
         if (display.length > 50) display = display.substring(0, 47) + '…';
       } catch { /* keep full URL */ }
-      return `<a href="${href}" target="_blank" rel="noopener" class="msg-link">${display}</a>`;
-    });
-    return safe;
+      parts.push(`<a href="${this._esc(href)}" target="_blank" rel="noopener" class="msg-link">${this._esc(display)}</a>`);
+      lastIndex = match.index + match[0].length;
+    }
+    // Add remaining text after last URL (escaped)
+    if (lastIndex < text.length) {
+      parts.push(this._esc(text.substring(lastIndex)).replace(/\n/g, '<br>'));
+    }
+    return parts.join('') || this._esc(text).replace(/\n/g, '<br>');
   }
 
   _formatMarkdown(text) {
@@ -2585,9 +2518,9 @@ class HorneroChat extends HoComponent {
     // Links: [text](url) → <a href="url" target="_blank">text</a>
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="msg-link">$1</a>');
     // Plain URLs: https://... or www.... → clickable links (skip if already inside <a> tag)
-    text = text.replace(/(?<!href=["'])((https?:\/\/|www\.)[^\s<)\]"']+)(?![^<]*<\/a>)/gi, (match, url) => {
+    text = text.replace(/(?<!href=["'])((https?:\/\/|www\.)[^\s<>'"]+)(?![^<]*<\/a>)/gi, (match, url) => {
       // Trim trailing punctuation unlikely to be part of URL
-      let cleanUrl = url.replace(/[.,;:!?)]+$/, '');
+      let cleanUrl = url.replace(/[.,;:!?]+$/, '');
       // Normalize bare www. → https://www.
       let href = cleanUrl;
       if (/^www\./i.test(href)) href = 'https://' + href;
@@ -2938,7 +2871,7 @@ class HorneroChat extends HoComponent {
 
   _afterRender() {
     // === Restore scroll position after re-render (safety net) ===
-    if (this._savedScrollTop != null) {
+    if (this._savedScrollTop != null && !this._skipScrollRestore) {
       const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
       if (scrollEl) {
         requestAnimationFrame(() => {
@@ -2948,6 +2881,12 @@ class HorneroChat extends HoComponent {
           this._userScrolledUp = !this._isNearBottom();
         });
       }
+    } else if (this._skipScrollRestore) {
+      // Skip scroll restore — auto-scroll to bottom instead (e.g. after sending message)
+      this._savedScrollTop = null;
+      this._skipScrollRestore = false;
+      this._userScrolledUp = false;
+      requestAnimationFrame(() => { this._autoScroll(); });
     }
 
     // === Track scroll position — disable auto-scroll when user scrolls up ===
@@ -3080,69 +3019,10 @@ class HorneroChat extends HoComponent {
       });
     }
 
-    // === Link button (toolbar) → toggle link input overlay ===
-    const linkBtn = this.shadowRoot.querySelector('#chatLinkBtn');
-    const linkOverlay = this.shadowRoot.querySelector('#linkOverlay');
-    if (linkBtn && linkOverlay) {
-      linkBtn.addEventListener('click', () => {
-        this._linkOverlayOpen = !this._linkOverlayOpen;
-        linkOverlay.classList.toggle('open', this._linkOverlayOpen);
-        if (this._linkOverlayOpen) {
-          const field = linkOverlay.querySelector('.link-overlay-field');
-          if (field) setTimeout(() => field.focus(), 100);
-        }
-      });
-    }
-    // Link overlay: add URL
-    if (linkOverlay) {
-      const addBtn = linkOverlay.querySelector('.link-overlay-add');
-      const cancelBtn = linkOverlay.querySelector('.link-overlay-cancel');
-      const field = linkOverlay.querySelector('.link-overlay-field');
-
-      const addUrl = () => {
-        const url = field.value.trim();
-        if (!url) return;
-        // Basic URL validation
-        let validUrl = url;
-        if (!/^https?:\/\//i.test(validUrl)) validUrl = 'https://' + validUrl;
-        try { new URL(validUrl); } catch { return; } // invalid URL, skip
-        if (!this._pendingUrls.includes(validUrl)) {
-          this._pendingUrls.push(validUrl);
-          this.render(); // re-render to show chips
-        }
-        field.value = '';
-        this._linkOverlayOpen = false;
-        linkOverlay.classList.remove('open');
-      };
-
-      if (addBtn) addBtn.addEventListener('click', addUrl);
-      if (field) {
-        field.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') { e.preventDefault(); addUrl(); }
-          if (e.key === 'Escape') { this._linkOverlayOpen = false; linkOverlay.classList.remove('open'); }
-        });
-      }
-      if (cancelBtn) cancelBtn.addEventListener('click', () => {
-        this._linkOverlayOpen = false;
-        linkOverlay.classList.remove('open');
-      });
-    }
-
-    // URL chips: remove button
-    this.shadowRoot.querySelectorAll('.url-chip-remove').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const idx = parseInt(e.currentTarget.dataset.urlRemove, 10);
-        if (!isNaN(idx) && idx >= 0 && idx < this._pendingUrls.length) {
-          this._pendingUrls.splice(idx, 1);
-          this.render();
-        }
-      });
-    });
-
     // === Toggle mic/send visibility based on input content ===
     if (inputField && micBtn && sendBtn) {
       const updateToolbar = () => {
-        const hasText = inputField.value.trim().length > 0 || this._pendingAttachment || this._pendingUrls.length > 0;
+        const hasText = inputField.value.trim().length > 0 || this._pendingAttachment;
         // When recording or processing audio, keep mic visible (not hidden by send)
         const micBusy = this._isRecording || this._audioProcessing;
         if (hasText && !micBusy) {
@@ -3182,19 +3062,14 @@ class HorneroChat extends HoComponent {
           detail.fileName = this._pendingAttachment.fileName;
           this._pendingAttachment = null;
         }
-        // Merge explicit pending URLs + auto-detected URLs from message text
-        const explicitUrls = [...this._pendingUrls];
-        this._pendingUrls = [];
+        // Auto-detect URLs from message text and send to backend for scraping
         const detectedUrls = this._extractUrls(text);
-        const allUrls = [...explicitUrls];
-        for (const u of detectedUrls) {
-          if (!allUrls.includes(u)) allUrls.push(u);
-        }
-        if (allUrls.length > 0) {
-          detail.urls = allUrls;
+        if (detectedUrls.length > 0) {
+          detail.urls = detectedUrls;
         }
         if (text || detail.image || detail.video || detail.urls || detail.pdfData) {
           this._userScrolledUp = false; // User sent a message — re-enable auto-scroll
+          this._skipScrollRestore = true; // Don't restore old scroll — scroll to bottom instead
           this.emit('chat-send', detail);
           inputField.value = '';
           this._savedInputValue = null; // Don't restore cleared input on next render

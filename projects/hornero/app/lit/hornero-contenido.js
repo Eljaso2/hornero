@@ -256,6 +256,14 @@ class HorneroContenido extends HoComponent {
           this.render();
         }
       });
+      // Listen for new session from + menu
+      chatEl.addEventListener('chat-new-session', () => {
+        this.messages = [];
+        this._sessionId = typeof generarUUID === 'function' ? generarUUID() : 'ses-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+        this._emitSessionSave();
+        this._greetingRequested = false;
+        this._requestGreeting();
+      });
       // Listen for explore-select from info popup
       chatEl.addEventListener('explore-select', (e) => {
         const topic = e.detail.option;
