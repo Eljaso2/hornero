@@ -1109,26 +1109,13 @@ class HorneroConsulta extends HoComponent {
       console.error('[DIAG-4] POST /api/chat/stream FAILED:', e.name, e.message);
     }
 
-    // Summary
-    console.log('[DIAG-SUMMARY]', JSON.stringify(results, null, 2));
-
-    // Show result in app
-    const chatEl = this.shadowRoot.querySelector('hornero-chat');
-    if (chatEl) {
-      const summary = Object.entries(results).map(([k,v]) => {
-        if (v.error) return `❌ ${k}: ${v.error} — ${v.message}`;
-        return `✅ ${k}: ${v.status} ${v.cors ? 'CORS✓' : 'CORS✗'}`;
-      }).join('\n');
-      const diagMsg = {
-        role: 'hornero',
-        sections: [{ title: '🔧 Diagnóstico de conexión', body: summary }],
-        tags: ['diag'],
-        persona: 'abogado',
-        time: this._timeNow(),
-      };
-      this.messages = [...this.messages, diagMsg];
-      this.render();
-    }
+    // Summary — console only, never shown in chat UI
+    const summary = Object.entries(results).map(([k,v]) => {
+      if (v.error) return `❌ ${k}: ${v.error} — ${v.message}`;
+      return `✅ ${k}: ${v.status} ${v.cors ? 'CORS✓' : 'CORS✗'}`;
+    }).join('\n');
+    console.log('[DIAG-SUMMARY]\n' + summary);
+    console.log('[DIAG-RAW]', JSON.stringify(results, null, 2));
   }
 
   _timeNow() {
