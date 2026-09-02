@@ -2878,7 +2878,7 @@ class HorneroChat extends HoComponent {
 
   _afterRender() {
     // === Scroll behavior after re-render ===
-    const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+    let scrollEl = this.shadowRoot.querySelector('.chat-scroll');
     if (this._savedScrollTop != null && this._userScrolledUp) {
       // User was scrolled up reading old messages — restore their position
       if (scrollEl) {
