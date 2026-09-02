@@ -9,3 +9,6 @@ bcrypt
 psycopg[binary]
 email-validator
 aiosmtplib
+beautifulsoup4
+lxml
+PyMuPDF

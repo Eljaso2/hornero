@@ -280,6 +280,9 @@ class ChatRequest(BaseModel):
     session_id: str = ""  # Frontend session ID for correlation
     incoming_reports: list = []  # Reports from lower grades (for G2+ users)
     recipient_chain: str = ""  # Chain of recipients for the Ficha section (e.g. "Delegada → Secretaria → Federación")
+    urls: list = []  # URLs attached by user for AI to read (scraped server-side)
+    pdf_data: str = ""  # Base64-encoded PDF file (max ~3 pages, extracted server-side)
+    pdf_name: str = ""  # Original filename of the PDF
 
 
 class ChatResponse(BaseModel):
@@ -423,6 +426,91 @@ async def greeting_endpoint(req: GreetingRequest, user: dict = Depends(require_a
     )
 
 
+# === URL scraping for chat link reading ===
+class ScrapeRequest(BaseModel):
+    url: str
+
+MAX_SCrape_CHARS = 5000
+
+async def _scrape_url_content(url: str) -> dict:
+    """Fetch a URL and extract readable text content. Returns {title, text, url}."""
+    try:
+        async with httpx.AsyncClient(timeout=10.0, follow_redirects=True) as client:
+            resp = await client.get(url, headers={
+                "User-Agent": "Mozilla/5.0 (compatible; HorneroBot/1.0)",
+                "Accept": "text/html,application/xhtml+xml",
+            })
+            resp.raise_for_status()
+            content_type = resp.headers.get("content-type", "")
+            if "text/html" not in content_type and "application/xhtml" not in content_type:
+                # For non-HTML (plain text, PDF redirect, etc.), just return raw text
+                text = resp.text[:MAX_SCrape_CHARS]
+                return {"title": url.split("/")[-1] or url, "text": text, "url": url}
+            html = resp.text
+    except Exception as e:
+        logger.warning(f"Scrape failed for {url}: {e}")
+        return {"title": url, "text": f"[No se pudo acceder al link: {e}]", "url": url}
+
+    try:
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(html, "lxml")
+        # Remove script, style, nav, footer, header — keep article content
+        for tag in soup(["script", "style", "nav", "footer", "header", "aside", "form", "iframe"]):
+            tag.decompose()
+        title = soup.title.get_text(strip=True) if soup.title else ""
+        # Try to find article or main content
+        article = soup.find("article") or soup.find("main") or soup.find("div", class_=re.compile(r"article|content|post|entry|noticia", re.I))
+        body = article if article else soup.body if soup.body else soup
+        text = body.get_text(separator="\n", strip=True) if body else ""
+        # Limit length
+        if len(text) > MAX_SCrape_CHARS:
+            text = text[:MAX_SCrape_CHARS] + "\n[...contenido truncado]"
+        return {"title": title or url.split("/")[-1] or url, "text": text, "url": url}
+    except ImportError:
+        # beautifulsoup4 not installed — return raw text stripped of tags
+        text = re.sub(r"<[^>]+>", "", html)
+        text = re.sub(r"\s+", " ", text).strip()
+        if len(text) > MAX_SCrape_CHARS:
+            text = text[:MAX_SCrape_CHARS] + " [...contenido truncado]"
+        return {"title": url.split("/")[-1] or url, "text": text, "url": url}
+    except Exception as e:
+        logger.warning(f"Parse failed for {url}: {e}")
+        return {"title": url, "text": f"[Error al procesar el link: {e}]", "url": url}
+
+
+async def _extract_pdf_text(pdf_b64: str, pdf_name: str = "") -> dict:
+    """Extract text from a base64-encoded PDF. Returns {title, text, pages}."""
+    try:
+        import base64
+        import fitz  # PyMuPDF
+        pdf_bytes = base64.b64decode(pdf_b64.split(",")[-1])  # strip data:application/pdf;base64,
+        doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+        page_count = len(doc)
+        if page_count > 3:
+            doc.close()
+            return {"title": pdf_name or "PDF", "text": f"[PDF de {page_count} páginas — demasiado largo, máximo 3 páginas]", "pages": page_count}
+        text = ""
+        for page in doc:
+            text += page.get_text() + "\n"
+        doc.close()
+        if len(text) > MAX_SCrape_CHARS:
+            text = text[:MAX_SCrape_CHARS] + "\n[...contenido truncado]"
+        return {"title": pdf_name or "PDF", "text": text, "pages": page_count}
+    except ImportError:
+        logger.warning("PyMuPDF (fitz) not installed — cannot extract PDF text")
+        return {"title": pdf_name or "PDF", "text": "[No se pudo procesar el PDF — PyMuPDF no instalado]", "pages": 0}
+    except Exception as e:
+        logger.warning(f"PDF extraction failed: {e}")
+        return {"title": pdf_name or "PDF", "text": f"[Error al procesar el PDF: {e}]", "pages": 0}
+
+
+@app.post("/api/scrape")
+async def scrape_endpoint(req: ScrapeRequest, user: dict = Depends(require_auth)):
+    """Scrape a URL and return its text content for chat context."""
+    result = await _scrape_url_content(req.url)
+    return result
+
+
 @app.post("/api/chat")
 async def chat_endpoint(req: ChatRequest, request: Request = None, user: dict = Depends(require_auth)) -> ChatResponse:
     """Main chat endpoint — receives user message, returns structured IA response.
@@ -494,8 +582,28 @@ async def chat_endpoint(req: ChatRequest, request: Request = None, user: dict = 
             effective_persona = req.requested_persona
     format_hint = get_format_hint(req.formato, req.grade)
 
-    # Build the user message with format context
-    full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
+    # Scrape URLs if the user attached any links
+    url_context = ""
+    if req.urls:
+        url_results = []
+        for url in req.urls[:3]:  # max 3 URLs per message
+            result = await _scrape_url_content(url)
+            url_results.append(result)
+        if url_results:
+            url_context = "El trabajador compartió estos links para tu referencia:\n\n"
+            for i, r in enumerate(url_results, 1):
+                url_context += f"[{i}] {r['url']}\nTítulo: {r['title']}\nContenido:\n{r['text']}\n\n---\n\n"
+            url_context += "Considerá esta información al responder.\n\n"
+
+    # Extract PDF text if the user attached a PDF
+    pdf_context = ""
+    if req.pdf_data:
+        pdf_result = await _extract_pdf_text(req.pdf_data, req.pdf_name)
+        if pdf_result["text"]:
+            pdf_context = f"El trabajador adjuntó un documento PDF ({pdf_result['title']}, {pdf_result.get('pages', '?')} páginas):\n\n{pdf_result['text']}\n\n---\n\nConsiderá esta información al responder.\n\n"
+
+    # Build the user message with format context + URL + PDF content
+    full_message = f"{format_hint}\n\n{url_context}{pdf_context}Pregunta del trabajador: {req.message}"
 
     # Call LLM with retry on invalid response
     try:
@@ -623,8 +731,28 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
             effective_persona = req.requested_persona
     format_hint = get_format_hint(req.formato, req.grade)
 
-    # Build the user message with format context
-    full_message = f"{format_hint}\n\nPregunta del trabajador: {req.message}"
+    # Scrape URLs if the user attached any links
+    url_context = ""
+    if req.urls:
+        url_results = []
+        for url in req.urls[:3]:  # max 3 URLs per message
+            result = await _scrape_url_content(url)
+            url_results.append(result)
+        if url_results:
+            url_context = "El trabajador compartió estos links para tu referencia:\n\n"
+            for i, r in enumerate(url_results, 1):
+                url_context += f"[{i}] {r['url']}\nTítulo: {r['title']}\nContenido:\n{r['text']}\n\n---\n\n"
+            url_context += "Considerá esta información al responder.\n\n"
+
+    # Extract PDF text if the user attached a PDF
+    pdf_context = ""
+    if req.pdf_data:
+        pdf_result = await _extract_pdf_text(req.pdf_data, req.pdf_name)
+        if pdf_result["text"]:
+            pdf_context = f"El trabajador adjuntó un documento PDF ({pdf_result['title']}, {pdf_result.get('pages', '?')} páginas):\n\n{pdf_result['text']}\n\n---\n\nConsiderá esta información al responder.\n\n"
+
+    # Build the user message with format context + URL + PDF content
+    full_message = f"{format_hint}\n\n{url_context}{pdf_context}Pregunta del trabajador: {req.message}"
 
     async def _raw_events():
         """Produce SSE events from the LLM (streaming or non-streaming)."""
