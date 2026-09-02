@@ -583,6 +583,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
     async def _raw_events():
         """Produce SSE events from the LLM (streaming or non-streaming)."""
         try:
+            logger.info(f"SSE _raw_events: LLM_PROVIDER={LLM_PROVIDER}, starting LLM call...")
             if LLM_PROVIDER == "deepseek":
                 async for chunk in call_deepseek_stream(
                     api_key=DEEPSEEK_API_KEY,
@@ -617,6 +618,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                 # Claude/other provider: no streaming support — fall back to non-streaming
                 # wrapped in SSE format for consistent frontend handling
                 if LLM_PROVIDER == "claude":
+                    logger.info(f"SSE _raw_events: calling call_claude() (model={ANTHROPIC_MODEL})...")
                     raw_response = await call_claude(
                         api_key=ANTHROPIC_API_KEY,
                         system_prompt=system_prompt,
@@ -625,10 +627,12 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                         model=ANTHROPIC_MODEL,
                         base_url=ANTHROPIC_BASE_URL,
                     )
+                    logger.info(f"SSE _raw_events: call_claude() returned {len(raw_response)} chars")
                 else:
                     raise HTTPException(400, f"Unknown LLM provider: {LLM_PROVIDER}")
 
                 parsed = parse_llm_response(raw_response)
+                logger.info(f"SSE _raw_events: parsed tags={parsed.get('tags', [])}, persona={parsed.get('persona', '')}")
                 now = datetime.now()
                 time_str = now.strftime("%H:%M")
                 llm_persona = parsed.get("persona", "")
