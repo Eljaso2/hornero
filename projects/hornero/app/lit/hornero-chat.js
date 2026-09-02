@@ -2896,7 +2896,7 @@ class HorneroChat extends HoComponent {
     }
 
     // === Track scroll position — disable auto-scroll when user scrolls up ===
-    const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+    scrollEl = this.shadowRoot.querySelector('.chat-scroll');
     if (scrollEl && !scrollEl._scrollTrackerBound) {
       scrollEl._scrollTrackerBound = true;
       scrollEl.addEventListener('scroll', () => {
