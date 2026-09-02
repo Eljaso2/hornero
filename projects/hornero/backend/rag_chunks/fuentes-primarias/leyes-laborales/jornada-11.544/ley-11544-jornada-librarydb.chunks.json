@@ -160,7 +160,9 @@
     "title": "Son autoridades de\naplicación de la presente ley en la Capital Federal y Territorios\nNacio",
     "text": "Son autoridades de\naplicación de la presente ley en la Capital Federal y Territorios\nNacionales, el Departamento Nacional del Trabajo, y en las provincias\nlas que determinen los respectivos gobiernos",
     "category": "fuentes",
-    "tags": [],
+    "tags": [
+      "DNT"
+    ],
     "sources": [
       "InfoLeg",
       "Ley 11.544 (Jornada)"

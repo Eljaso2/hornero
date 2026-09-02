@@ -14,7 +14,8 @@
       "Tiempo Argentino",
       "diarios",
       "columna",
-      "opinión"
+      "opinión",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -51,7 +52,8 @@
       "columna",
       "opinión",
       "juicio",
-      "crímenes de lesa humanidad"
+      "crímenes de lesa humanidad",
+      "cuerpo-de-delegados"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -86,7 +88,9 @@
       "diarios",
       "columna",
       "opinión",
-      "democracia"
+      "democracia",
+      "CGT",
+      "Ley-Asociaciones-Profesionales"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",

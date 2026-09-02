@@ -16,7 +16,9 @@
       "La Forestal",
       "lockout agropecuario",
       "huelga",
-      "Censi"
+      "Censi",
+      "Ministerio-de-Trabajo",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -78,7 +80,8 @@
       "Ministerio de Trabajo",
       "Zamboni",
       "Censi",
-      "pase a planta"
+      "pase a planta",
+      "Ministerio-de-Trabajo"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -110,7 +113,8 @@
       "La Falda",
       "gripe A",
       "salario mínimo vital y móvil",
-      "obras sociales"
+      "obras sociales",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -175,7 +179,10 @@
       "Cremonte",
       "Rial",
       "encuadramiento",
-      "convenio aceitero"
+      "convenio aceitero",
+      "UOM",
+      "Ministerio-de-Trabajo",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -208,7 +215,9 @@
       "huelga",
       "delegados",
       "tercerización",
-      "plus salarial"
+      "plus salarial",
+      "CGT",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -240,7 +249,8 @@
       "Cargill",
       "Dreyfus",
       "SOEA San Lorenzo",
-      "turno rotativo"
+      "turno rotativo",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -274,7 +284,9 @@
       "salario mínimo",
       "UIA",
       "lista Verde y Blanca",
-      "Córdoba"
+      "Córdoba",
+      "Ministerio-de-Trabajo",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -311,7 +323,11 @@
       "Ferreyra",
       "Domínguez",
       "SOEAR",
-      "Indymedia"
+      "Indymedia",
+      "SOMISA",
+      "Ministerio-de-Trabajo",
+      "cuerpo-de-delegados",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -339,7 +355,9 @@
       "lockout",
       "SOEAR",
       "Arroyo Seco",
-      "Yofra"
+      "Yofra",
+      "Ministerio-de-Trabajo",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -423,7 +441,8 @@
       "doble afiliación",
       "salario aceitero",
       "URGARA",
-      "Empleados de Comercio"
+      "Empleados de Comercio",
+      "Ministerio-de-Trabajo"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -457,7 +476,10 @@
       "Roldán",
       "Guachín Ramírez",
       "congresales",
-      "impugnación"
+      "impugnación",
+      "Ministerio-de-Trabajo",
+      "cuerpo-de-delegados",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
@@ -516,7 +538,12 @@
       "CGT San Lorenzo",
       "COPA",
       "CIARA-CEC",
-      "Arelovich"
+      "Arelovich",
+      "CGT",
+      "La-Fraternidad",
+      "UOM",
+      "Ministerio-de-Trabajo",
+      "Rosario"
     ],
     "tenant": "aceiteros",
     "capa": "fuentes",
