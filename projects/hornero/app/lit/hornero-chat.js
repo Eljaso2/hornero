@@ -183,8 +183,8 @@ class HorneroChat extends HoComponent {
       this._audioChunks = [];
       this._recordingSeconds = 0;
       // _isRecording and _audioProcessing already set in _stopRecording()
-      // Just render to update micBtn state
-      this.render();
+      this._hideRecordingOverlay();
+      this._updateMicVisual('processing'); // DOM-direct, no this.render()
     };
 
     this._mediaRecorder.onerror = () => {
@@ -194,12 +194,14 @@ class HorneroChat extends HoComponent {
         this._mediaStream.getTracks().forEach(t => t.stop());
         this._mediaStream = null;
       }
-      this.render(); // Re-render micBtn back to idle
+      this._hideRecordingOverlay();
+      this._updateMicVisual('error'); // DOM-direct, no this.render()
     };
 
     this._mediaRecorder.start(1000); // collect data every 1 second
     this._isRecording = true;
-    this.render(); // Re-render micBtn with recording state + timer span
+    this._updateMicVisual('recording'); // DOM-direct, no this.render()
+    this._showRecordingOverlay(); // Show WhatsApp-style recording UI
 
     // Timer: show elapsed seconds + auto-stop at 60s
     this._recordingTimer = setInterval(() => {
@@ -219,7 +221,8 @@ class HorneroChat extends HoComponent {
     this._audioProcessing = true;
     clearInterval(this._recordingTimer);
     this._recordingTimer = null;
-    this.render(); // Re-render micBtn to processing state immediately
+    this._hideRecordingOverlay();
+    this._updateMicVisual('processing'); // DOM-direct, no this.render()
     if (this._mediaRecorder.state === 'recording') {
       this._mediaRecorder.stop();
     }
@@ -240,7 +243,8 @@ class HorneroChat extends HoComponent {
       this._audioChunks = [];
       this._isRecording = false;
       this._recordingSeconds = 0;
-      this.render(); // Re-render micBtn back to idle
+      this._hideRecordingOverlay();
+      this._updateMicVisual('idle'); // DOM-direct, no this.render()
     };
 
     if (this._mediaRecorder.state === 'recording') {
@@ -282,11 +286,120 @@ class HorneroChat extends HoComponent {
   }
 
   _updateRecordingTimerDisplay() {
-    const timerSpan = this.shadowRoot.querySelector('.recording-timer');
-    if (timerSpan) {
+    const overlayTimer = this.shadowRoot.querySelector('.rec-overlay-timer');
+    if (overlayTimer) {
       const mins = Math.floor(this._recordingSeconds / 60);
       const secs = this._recordingSeconds % 60;
-      timerSpan.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+      overlayTimer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+  }
+
+  // ===== Recording overlay (WhatsApp-style) =====
+  // Shows: seconds, audio waveform, cancel button, send button
+  // Manipulates DOM directly — NO this.render() to avoid scroll jump
+
+  _showRecordingOverlay() {
+    // Hide the input bar, show the recording overlay
+    const inputBar = this.shadowRoot.querySelector('.chat-input');
+    if (inputBar) inputBar.style.display = 'none';
+
+    // Create overlay if it doesn't exist yet
+    let overlay = this.shadowRoot.querySelector('.recording-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'recording-overlay';
+      overlay.innerHTML = `
+        <button class="rec-overlay-cancel" title="Cancelar grabación">
+          <svg viewBox="0 0 24 24" width="22" height="22"><polyline points="23 10 23 4 17 4"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        </button>
+        <div class="rec-overlay-center">
+          <span class="rec-overlay-timer">0:00</span>
+          <div class="rec-overlay-waveform">
+            <div class="rec-wave-bar"></div><div class="rec-wave-bar"></div><div class="rec-wave-bar"></div>
+            <div class="rec-wave-bar"></div><div class="rec-wave-bar"></div><div class="rec-wave-bar"></div>
+            <div class="rec-wave-bar"></div><div class="rec-wave-bar"></div><div class="rec-wave-bar"></div>
+            <div class="rec-wave-bar"></div><div class="rec-wave-bar"></div><div class="rec-wave-bar"></div>
+            <div class="rec-wave-bar"></div><div class="rec-wave-bar"></div><div class="rec-wave-bar"></div>
+            <div class="rec-wave-bar"></div><div class="rec-wave-bar"></div><div class="rec-wave-bar"></div>
+            <div class="rec-wave-bar"></div><div class="rec-wave-bar"></div>
+          </div>
+        </div>
+        <button class="rec-overlay-send" title="Enviar grabación">
+          <svg viewBox="0 0 24 24" width="22" height="22"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      `;
+      // Insert after the input bar
+      const chatScroll = this.shadowRoot.querySelector('.chat-scroll');
+      const parent = chatScroll ? chatScroll.parentNode : this.shadowRoot;
+      parent.insertBefore(overlay, chatScroll ? chatScroll.nextSibling : null);
+    }
+    overlay.style.display = 'flex';
+
+    // Bind cancel button
+    const cancelBtn = overlay.querySelector('.rec-overlay-cancel');
+    if (cancelBtn && !cancelBtn._bound) {
+      cancelBtn._bound = true;
+      cancelBtn.addEventListener('click', () => this._cancelRecording());
+    }
+    // Bind send button
+    const sendBtn = overlay.querySelector('.rec-overlay-send');
+    if (sendBtn && !sendBtn._bound) {
+      sendBtn._bound = true;
+      sendBtn.addEventListener('click', () => this._stopRecording());
+    }
+
+    // Start audio analyzer for waveform
+    this._startAudioAnalyzer();
+  }
+
+  _hideRecordingOverlay() {
+    const overlay = this.shadowRoot.querySelector('.recording-overlay');
+    if (overlay) overlay.style.display = 'none';
+    // Show the input bar again
+    const inputBar = this.shadowRoot.querySelector('.chat-input');
+    if (inputBar) inputBar.style.display = '';
+    // Stop audio analyzer
+    this._stopAudioAnalyzer();
+  }
+
+  _startAudioAnalyzer() {
+    if (!this._mediaStream) return;
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioCtx.createMediaStreamSource(this._mediaStream);
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 64;
+      source.connect(analyser);
+      this._audioAnalyser = analyser;
+      this._audioCtx = audioCtx;
+
+      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+      const bars = () => {
+        if (!this._isRecording || !this._audioAnalyser) return;
+        this._audioAnalyser.getByteFrequencyData(dataArray);
+        const barEls = this.shadowRoot.querySelectorAll('.rec-wave-bar');
+        const count = barEls.length;
+        for (let i = 0; i < count; i++) {
+          const idx = Math.floor(i * dataArray.length / count);
+          const val = dataArray[idx] / 255;
+          const h = Math.max(3, val * 28);
+          barEls[i].style.height = h + 'px';
+        }
+        requestAnimationFrame(bars);
+      };
+      requestAnimationFrame(bars);
+    } catch(e) {
+      console.warn('Audio analyzer failed:', e);
+    }
+  }
+
+  _stopAudioAnalyzer() {
+    if (this._audioAnalyser) {
+      this._audioAnalyser = null;
+    }
+    if (this._audioCtx) {
+      try { this._audioCtx.close(); } catch(e) {}
+      this._audioCtx = null;
     }
   }
 
@@ -462,7 +575,8 @@ class HorneroChat extends HoComponent {
   resetAudioState() {
     this._audioProcessing = false;
     this._isRecording = false;
-    this.render(); // Re-render micBtn back to idle
+    this._updateMicVisual('idle');
+    this._hideRecordingOverlay();
   }
 
   _styles() {
@@ -1543,11 +1657,57 @@ class HorneroChat extends HoComponent {
       .chat-mic-btn.mic-error { background: #D32F2F; }
       .chat-mic-btn.mic-error svg { stroke: #fff; }
 
-      /* Recording timer label */
+      /* Recording timer label (legacy — kept for compat) */
       .recording-timer { font-size: .65rem; font-weight: 700;
         color: #fff; position: absolute; bottom: -14px; left: 50%;
         transform: translateX(-50%); white-space: nowrap;
         font-family: 'Public Sans', sans-serif; }
+
+      /* ===== Recording overlay (WhatsApp-style) ===== */
+      .recording-overlay {
+        display: none; /* shown via JS */
+        align-items: center; justify-content: space-between;
+        padding: 8px 12px; gap: 10px; flex: none;
+        background: var(--ho-dark, #1E2321);
+        border-top: 1px solid var(--ho-border, rgba(255,255,255,.06));
+        animation: recSlideIn .2s ease;
+      }
+      @keyframes recSlideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+      .rec-overlay-cancel, .rec-overlay-send {
+        background: none; border: none; cursor: pointer;
+        padding: 8px; border-radius: 50%; display: flex;
+        align-items: center; justify-content: center;
+        transition: background .15s;
+      }
+      .rec-overlay-cancel { color: #E85D3A; }
+      .rec-overlay-cancel:hover { background: rgba(232,93,58,.15); }
+      .rec-overlay-send { color: var(--ho-green, #4E9978); }
+      .rec-overlay-send:hover { background: rgba(78,153,120,.15); }
+      .rec-overlay-cancel svg, .rec-overlay-send svg {
+        stroke: currentColor; fill: none; stroke-width: 2;
+        stroke-linecap: round; stroke-linejoin: round;
+      }
+
+      .rec-overlay-center {
+        flex: 1; display: flex; align-items: center; gap: 12px;
+        min-width: 0;
+      }
+      .rec-overlay-timer {
+        font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;
+        font-weight: 700; color: #E85D3A; white-space: nowrap;
+        min-width: 42px;
+      }
+      .rec-overlay-waveform {
+        flex: 1; display: flex; align-items: center; gap: 2px;
+        height: 32px; min-width: 0;
+      }
+      .rec-wave-bar {
+        flex: 1; min-width: 2px; max-width: 6px;
+        background: #E85D3A; border-radius: 2px;
+        height: 3px; /* base height, animated by JS */
+        transition: height 60ms linear;
+      }
 
 
       .chat-send-btn { background: var(--ho-green, #4E9978); }
@@ -2233,7 +2393,9 @@ class HorneroChat extends HoComponent {
     // Images: ![alt](url) → <img> inline (must be BEFORE links regex)
     text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img class="msg-md-img" src="$2" alt="$1" loading="lazy">');
     // Links: [text](url) → <a href="url" target="_blank">text</a>
-    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--ho-green,#4E9978);font-weight:600;text-decoration:none">$1</a>');
+    text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="msg-link">$1</a>');
+    // Plain URLs: https://... or http://... → clickable links (skip if already inside <a> tag)
+    text = text.replace(/(?<!href=["'])((https?:\/\/)[^\s<)\]"']+)(?![^<]*<\/a>)/g, '<a href="$1" target="_blank" rel="noopener" class="msg-link">$1</a>');
     // Rewrite /fuentes/... and /pdfs/... links to point to the backend server
     const h = window.location.hostname;
     let pdfBase = 'https://hornero-ia.onrender.com';
@@ -2559,10 +2721,26 @@ class HorneroChat extends HoComponent {
       // No input field yet (first render) — nothing to save
       this._savedInputValue = '';
     }
+    // Save scroll position before innerHTML wipe (prevents scroll jump)
+    const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+    if (scrollEl) {
+      this._savedScrollTop = scrollEl.scrollTop;
+    }
     super.render();
   }
 
   _afterRender() {
+    // === Restore scroll position after re-render (safety net) ===
+    if (this._savedScrollTop != null) {
+      const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
+      if (scrollEl) {
+        requestAnimationFrame(() => {
+          scrollEl.scrollTop = this._savedScrollTop;
+          this._savedScrollTop = null;
+        });
+      }
+    }
+
     // === Track scroll position — disable auto-scroll when user scrolls up ===
     const scrollEl = this.shadowRoot.querySelector('.chat-scroll');
     if (scrollEl && !scrollEl._scrollTrackerBound) {

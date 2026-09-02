@@ -478,7 +478,7 @@ class HorneroContenido extends HoComponent {
     return {
       role: 'hornero',
       sections: [
-        { title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical.\n\nPuedo ayudarte con distintos formatos: 🎙️ Podcast, 📱 Reel IG, ✍️ Columna o 📻 Entrevista.\n\n¿Qué formato te interesa o qué tema querés comunicar?' },
+        { title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a los trabajadores con comunicación sindical.\n\n¿Qué querés comunicar? ¿Hay algún tema o formato que te interese?' },
       ],
       tags: ['contenido', 'greeting'],
       time: this._timeNow(),
@@ -918,7 +918,7 @@ class HorneroContenido extends HoComponent {
     const hasGreeting = this.messages.some(m => m.role === 'hornero' && m.tags &&
       (m.tags.includes('greeting') || m.tags.includes('saludo')));
     if (!hasGreeting && lower.match(/^(hola|buen|hey|qué tal|como|good|hi|saludos)\s*[!.?]*\s*$/)) {
-      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a sus trabajadores con comunicación sindical. ¿Qué formato te interesa o qué tema querés comunicar?' }], tags: ['contenido', 'saludo'], persona: 'periodista', time: this._timeNow() };
+      return { role: 'hornero', sections: [{ title: '', body: '¡Hola! Soy el Periodista — ayudo al gremio y a los trabajadores con comunicación sindical. ¿Qué querés comunicar? ¿Hay algún tema o formato que te interese?' }], tags: ['contenido', 'saludo'], persona: 'periodista', time: this._timeNow() };
     }
     if (lower.match(/podcast/)) {
       return { role: 'hornero', text: 'Podcast sindical — audio narrado de 5-15 minutos, se escucha en el colectivo, en la planta, en la asamblea. Contame tu tema y te propongo estructura, script y fuentes.\n\nYofra dijo que "la propuesta patronal fue cero. Empezaron desde cero. Nosotros no vamos a aceptar que el concurso sea excusa" (Asamblea paritaria aceitera, junio 2026) — ese quote funciona perfecto como entrada para un podcast de paritaria.\n\n¿Qué tema querés cubrir?', tags: ['podcast', 'contenido'], persona: 'periodista', time: this._timeNow() };
