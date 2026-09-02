@@ -1,0 +1,210 @@
+{
+  "meta": {
+    "version": "2026-09-02-v1",
+    "tipo": "clipping-diario",
+    "fecha": "2026-09-02",
+    "frecuencia": "semanal",
+    "numero": 11,
+    "fuentes": [
+      "InfoGremiales",
+      "Sonido Gremial",
+      "Página/12",
+      "Ámbito Financiero",
+      "ODSA-UCA"
+    ]
+  },
+  "noticias": [
+    {
+      "id": "cd-2026-09-02-1",
+      "fecha": "2026-09-02",
+      "tags": [
+        "industria",
+        "destrucción-empleo",
+        "UIA",
+        "CEPA",
+        "Día-de-la-Industria",
+        "97-mil-puestos"
+      ],
+      "emoji": "📉",
+      "titulo": "Día de la Industria: 97.312 puestos perdidos y 4.020 fábricas cerradas, el peor momento en décadas",
+      "bajada": "Datos oficiales procesados por CEPA confirman que 2026 es el año de mayor destrucción industrial desde 2002: 97.312 puestos registrados perdidos, 4.020 fábricas desaparecidas, capacidad instalada al 59,1%. La metalmecánica cayó 30,9% y los electrodomésticos nacionales 56,1%. Mientras, importaciones de consumo rompen récord histórico.",
+      "desarrollo": "En el acto por el Día de la Industria, la UIA reclamó al Gobierno con dureza: el presidente de la entidad fabril pidió medir la economía \"no solamente por la evolución de la inflación\" y su vice apuntó a Caputo llamándolo \"un endeudador, un trader que no sabe lo que es un torno\". Milei envió funcionarios de segunda línea. Los datos procesados por CEPA a partir de la Superintendencia de Riesgos del Trabajo son contundentes: 97.312 puestos de trabajo registrados perdidos respecto a noviembre de 2023, una caída del 8% en empleo manufacturero; 4.020 industrias manufactureras desaparecidas. La producción industrial del primer semestre quedó 10,2% por debajo del promedio 2022-2023, y la capacidad instalada utilizada en junio fue apenas 59,1% — cuatro de cada diez máquinas ociosas. Los sectores más castigados: metalmecánica (-30,9%), productos minerales no metálicos (-30,4%), electrodomésticos e informática de producción nacional (-56,1%). Solo refinación de petróleo y alimentos mostraron incrementos marginales. El empleo privado formal acumula 12 meses consecutivos de caída, la secuencia más extrema desde 2009. La construcción perdió 62.700 empleos (-14,2%). Mientras se destruye producción local, las importaciones de bienes de consumo alcanzaron USD 5.362 millones en el primer semestre — récord histórico, 34,7% más que en 2023 — y se duplicaron las empresas importadoras (33.108 nuevas firmas). El RIGI anunció USD 81.000 millones pero ejecutó apenas USD 700 millones. Se derogó la Ley de Compre Nacional, se eliminó el PRODEPRO y se bajaron aranceles a importaciones que compiten con producción nacional. El INTI perdió 854 trabajadores y su ejecución presupuestaria cayó 77,3%. La industria representa el 18% del PIB y genera 2,5 millones de empleos directos.",
+      "fuente": "InfoGremiales — 02/09/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/dia-industria-97-mil-puestos.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/dia-de-la-industria-segun-datos-oficiales-el-2026-es-el-peor-momento-en-decadas-para-el-sector-manufacturero-con-mas-de-97-mil-puestos-de-trabajo-perdidos/"
+    },
+    {
+      "id": "cd-2026-09-02-2",
+      "fecha": "2026-09-01",
+      "tags": [
+        "Granja-Tres-Arroyos",
+        "FTIA",
+        "cierre-planta",
+        "despidos-masivos",
+        "alimentos",
+        "Capitán-Sarmiento"
+      ],
+      "emoji": "🐔",
+      "titulo": "Granja Tres Arroyos: 6.700 trabajadores afectados por despidos, suspensiones y cierre de planta",
+      "bajada": "La empresa cerró la planta de Capitán Sarmiento \"hasta nuevo aviso\" y sumó cientos de despidos en Entre Ríos. La FTIA denunció que la empresa incumple la conciliación obligatoria y está \"vaciando sus empresas de capital productivo\". Los trabajadores atraviesan inseguridad legal con ingresos prácticamente nulos.",
+      "desarrollo": "Granja Tres Arroyos, una de las principales empresas avícolas del país, profundizó su ofensiva contra los trabajadores: cerró la planta de Capitán Sarmiento (provincia de Buenos Aires) comunicando la suspensión de actividades productivas \"hasta nuevo aviso\" sin mayores explicaciones, y sumó cientos de nuevos despidos en plantas de Entre Ríos. La Federación de Trabajadores de la Industria de la Alimentación (FTIA) calcula que 6.700 trabajadores y sus familias están afectados por el conflicto. La empresa esgrimió tres razones: falta de suministro energético, escasez de insumos y caída de la demanda. La FTIA cuestionó estos argumentos, señalando que se vinculan con \"la actividad y el poder de dirección de la propia compañía\". El sindicato expresó \"repudio y rechazo\" a las medidas unilaterales, acusó a la empresa de mantenerse \"al margen de la ley\" por no acatar la conciliación obligatoria vigente y desconocer instancias de negociación, y sostuvo que la empresa está \"vaciando sus empresas de capital productivo\". Advirtió que el conflicto podría derivar en una situación \"social y laboral insostenible\". Los 6.700 afectados atraviesan una situación de \"inseguridad legal\", con ingresos prácticamente nulos y sin certezas sobre su continuidad laboral.",
+      "fuente": "Sonido Gremial — 01/09/2026",
+      "foto": "https://sonidogremial.com.ar/wp-content/uploads/2026/09/granja-tres-arroyos-6700-trabajadores.jpg",
+      "fuente_url": "https://sonidogremial.com.ar/6-700-trabajadores-y-sus-familias-afectadas-en-granja-tres-arroyos-la-ftia-denuncio-despidos-suspensiones-y-el-cierre-temporal-de-una-planta/"
+    },
+    {
+      "id": "cd-2026-09-02-3",
+      "fecha": "2026-09-02",
+      "tags": [
+        "SMVM",
+        "salario-mínimo",
+        "Milei",
+        "indigencia",
+        "CGT",
+        "CTA",
+        "deterioro-salarial"
+      ],
+      "emoji": "💸",
+      "titulo": "Milei fijó por decreto un Salario Mínimo por debajo de la oferta empresaria y de la línea de indigencia",
+      "bajada": "El Gobierno fijó el SMVM en $383.800 desde septiembre, con aumentos escalonados hasta $437.000 en abril 2027 — $31.000 menos que lo que ofrecían los empresarios. La caída real acumula 40,5% desde noviembre 2023. El valor real se ubica por debajo del nivel de 2001. CGT y CTA reclamaban $993.000 para diciembre.",
+      "desarrollo": "El Gobierno fijó por decreto el Salario Mínimo Vital y Móvil en $383.800 a partir del 1° de septiembre, con aumentos escalonados que llegarán a $437.000 recién en abril de 2027. Lo inédito: el monto fijado está por debajo de lo que los propios empresarios ofrecían en el Consejo del Salario ($468.000 para abril 2027). La CGT y las CTA reclamaban elevar el SMVM a $993.000 para diciembre de 2026 — casi triplicar el monto vigente — y calificaron la oferta como \"irrisoria\", abandonando la sesión e impidiendo el quórum del plenario. Según el IIEP-UBA, la caída real acumulada del SMVM es del 40,5% entre noviembre de 2023 y julio de 2026. El valor real de julio se ubica por debajo del nivel de 2001, pre-colapso de la convertibilidad, y representa apenas un tercio del pico histórico de septiembre de 2011. El monto de $376.600 vigente en agosto ya estaba un 20% por debajo de los niveles de la década del 90. La CTA Autónoma exigió la \"urgente convocatoria\" al Consejo del Salario, señalando que el mínimo está \"muy por debajo de la indigencia\". El SMVM funciona como parámetro de referencia también para los trabajadores informales, por lo que su deterioro impacta a los sectores más vulnerables. A diferencia de jubilaciones y otras prestaciones, el SMVM carece de indexación automática por inflación.",
+      "fuente": "InfoGremiales · Sonido Gremial — 02/09/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/smvm-decreto-milei.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/inedito-milei-fijo-por-decreto-un-aumento-del-salario-minimo-por-debajo-de-lo-que-ofrecian-los-empresarios/"
+    },
+    {
+      "id": "cd-2026-09-02-4",
+      "fecha": "2026-08-29",
+      "tags": [
+        "Belgrano-Cargas",
+        "La-Fraternidad",
+        "Maturano",
+        "privatización",
+        "despidos",
+        "ferrocarril"
+      ],
+      "emoji": "🚂",
+      "titulo": "Privatización del Belgrano Cargas: \"Un 60% del personal puede quedar sin trabajo\", denuncia Maturano",
+      "bajada": "Los pliegos de privatización excluyen al 50% de los conductores y dejan en la incertidumbre al personal de talleres. De 4.000 empleados, más de 2.000 podrían perder su puesto. Maturano denuncia subvaluación del material rodante, eliminación de trenes sociales y cláusulas que permiten litigar en Uruguay o EE.UU.",
+      "desarrollo": "Omar Maturano, secretario general de La Fraternidad, denunció que los pliegos de privatización del Ferrocarril Belgrano Cargas están diseñados para dejar sin trabajo al 60% del personal: de 4.000 empleados, más de 2.000 podrían quedar en la calle. Los pliegos excluyen al 50% de los conductores en cada una de las tres líneas de carga y no queda claro qué personal de talleres sería transferido al concesionario privado. En la votación del Directorio, los gremios perdieron 8 contra 2; las observaciones presentadas no pudieron incluirse en el Acta y serán enviadas por carta documento. Maturano denunció que la intención es que un conductor trabaje 16 horas, algo que el gremio no permitirá, y que se pierden derechos como el traslado en remis computado como hora de trabajo. La inversión original prometida era de USD 3.000 millones pero bajó a USD 800 millones — cuando las obras necesarias requieren entre USD 5.000 y 10.000 millones. Por USD 800 millones y 50 años de concesión, el privado se queda con todo excepto el suelo. El material rodante está subvaluado y se registran tres descarrilamientos por día. Los pliegos provocarán el cierre de ramales: solo circularán trenes por ramales comerciales, desapareciendo los \"trenes sociales\" que transportan mercadería de economías regionales. A diferencia de la privatización de los 90, ahora los gremios no participan del debate, pierden el 4% del capital accionario y la participación en el Directorio, y se permite litigar disputas en Uruguay o Estados Unidos, lo que Maturano califica como entrega de soberanía jurídica. El 11 de noviembre se abren los sobres con las propuestas.",
+      "fuente": "InfoGremiales — 29/08/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/08/belgrano-cargas-privatizacion.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/omar-maturano-sobre-la-privatizacion-del-belgrano-cargas-un-60-del-personal-puede-quedar-sin-trabajo/"
+    },
+    {
+      "id": "cd-2026-09-02-5",
+      "fecha": "2026-08-28",
+      "tags": [
+        "empleo-juvenil",
+        "ODSA-UCA",
+        "precariedad",
+        "desocupación-jóvenes",
+        "informalidad",
+        "NiNi"
+      ],
+      "emoji": "青年",
+      "titulo": "Solo el 14,2% de los jóvenes de 18 a 25 años tiene un empleo formal: el mapa de la precariedad laboral juvenil",
+      "bajada": "Un informe del ODSA-UCA revela que apenas 14,2% de los jóvenes accede al empleo formal. El 22,5% sobrevive en empleo irregular, 10,7% lleva más de 6 meses sin trabajo y 20,7% no estudia ni trabaja. En estratos muy bajos, el NiNi alcanza 34,2% y el empleo irregular 30,6%.",
+      "desarrollo": "Un informe del Observatorio de la Deuda Social Argentina (ODSA) de la Universidad Católica Argentina reveló un cuadro desolador sobre el empleo juvenil: solo el 14,2% de los jóvenes de entre 18 y 25 años tiene un empleo formal. El 30,2% accede a empleo regular pero de ese total un 16% lo hace en condiciones precarias; el 22,5% sobrevive en empleo irregular (changas, eventual, intermitente); el 10,7% lleva más de 6 meses sin trabajo (desempleo de larga duración); y el 36,6% está en inactividad. Las brechas por nivel socioeconómico son dramáticas: en el estrato muy bajo, el desempleo de larga duración alcanza 14,9% (contra 5,2% en el medio alto), el empleo irregular o desempleo reciente 30,6% (contra 11,6%), y la condición de \"NiNi\" — ni estudia ni trabaja— 34,2% (contra 8,3% en el medio alto). El 26,8% de los jóvenes de estrato muy bajo trabaja en empleo irregular sin estudiar, contra apenas 4,9% en el medio alto. Solo el 15,6% de los jóvenes de estrato muy bajo estudia exclusivamente, frente al 41,2% del medio alto. El ODSA destaca que la calidad del empleo del jefe o jefa del hogar impacta las trayectorias juveniles: cuando el hogar tiene empleo pleno, aumentan las posibilidades de sostener estudios; cuando predominan precariedad, subempleo o desempleo, crece la desvinculación educativa y laboral. \"La desvinculación educativa y laboral es más de cuatro veces mayor en el estrato muy bajo que en el medio alto\", señala el observatorio.",
+      "fuente": "InfoGremiales · ODSA-UCA — 28/08/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/08/empleo-juvenil-14-por-ciento.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/crisis-laboral-solo-el-142-de-los-jovenes-de-entre-18-y-25-anos-tiene-un-empleo-formal/"
+    },
+    {
+      "id": "cd-2026-09-02-6",
+      "fecha": "2026-09-02",
+      "tags": [
+        "INTA",
+        "Villarruel",
+        "despidos-estatales",
+        "ciencia",
+        "ajuste",
+        "San-Juan"
+      ],
+      "emoji": "🔬",
+      "titulo": "El Gobierno echó al 20% de técnicos del INTA: casi mil agentes renunciaron bajo plan de retiros \"voluntarios\"",
+      "bajada": "El plan de retiros voluntarios impulsado por Milei logró casi 1.000 renuncias en INTA. En San Juan, se pasó de 120 a 108 agentes. El INTI perdió 854 trabajadores. La ejecución presupuestaria de la Secretaría de Industria cayó 77,3%. Villarruel visita una sede del INTA en San Juan en gesto de discrepancia con los recortes.",
+      "desarrollo": "El Instituto Nacional de Tecnología Agropecuaria (INTA) sufre un ajuste sin precedentes: el plan de retiros voluntarios impulsado por el gobierno de Milei logró casi mil renuncias en todo el país, una cifra que equivale a cerca del 20% de la planta en algunas sedes. En la delegación San Juan, por ejemplo, se pasó de más de 120 agentes a unos 108. Los retiros llamados \"voluntarios\" se producen en un contexto de desfinanciamiento y presión: el INTI — organismo hermano de tecnología industrial— perdió 854 trabajadores, y la ejecución presupuestaria de la Secretaría de Industria y Desarrollo Productivo cayó un 77,3%. La vicepresidenta Villarruel visitó una sede del INTA en San Juan el 2 de septiembre, en un gesto que se interpreta como señal de discrepancia con la política de recortes de Milei. La visita coincide con la publicación de los datos del Día de la Industria que revelan la magnitud de la destrucción productiva. El desmantelamiento de los organismos de ciencia y tecnología se inscribe en la misma lógica que la derogación de la Ley de Compre Nacional y la eliminación del PRODEPRO: desregular para favorecer la importación y desmantelar la capacidad productiva y tecnológica nacional.",
+      "fuente": "InfoGremiales — 02/09/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/inta-despidos-20-por-ciento.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/villarruel-visitara-una-de-las-sedes-del-inta-en-la-que-la-gestion-libertaria-echo-al-20-de-sus-tecnicos-investigadores-y-especialistas/"
+    },
+    {
+      "id": "cd-2026-09-02-7",
+      "fecha": "2026-09-01",
+      "tags": [
+        "UATRE",
+        "trabajo-rural",
+        "economías-regionales",
+        "Voytenco",
+        "Pettovello",
+        "120-mil-trabajos"
+      ],
+      "emoji": "🌾",
+      "titulo": "UATRE: 120.000 trabajos rurales en peligro por la falta de respuesta del Gobierno",
+      "bajada": "Venció el 1/9 el régimen de compatibilidad entre trabajo rural temporario y planes sociales (Decreto 514/2021). El Gobierno no respondió ni prorrogó. UATRE advierte que la discontinuidad desalienta la formalización y afecta directamente a las economías regionales y a 120.000 familias rurales.",
+      "desarrollo": "La Unión Argentina de Trabajadores Rurales y Estibadores (UATRE) denunció que 120.000 puestos de trabajo rural están en peligro por la negligencia del Gobierno nacional. El 1 de septiembre venció el régimen de compatibilidad entre trabajo rural temporario y planes o beneficios sociales, establecido por el Decreto 514/2021, y el Ejecutivo no dispuso su prórroga ni respondió al pedido urgente que el secretario general José Voytenco envió el 18 de agosto a la ministra de Capital Humano, Sandra Pettovello. El régimen permite que el trabajador rural acceda a empleo registrado durante las campañas agrícolas sin perder la red de contención social de su familia — una herramienta clave para la formalización en un sector donde la informalidad supera el 60%. Voytenco declaró: \"La falta de respuesta y la no prórroga del régimen no es solo un problema administrativo: es una amenaza concreta a 120.000 familias rurales.\" El gremio señaló que la discontinuidad \"desalienta la formalización, dificulta la cobertura de trabajo local y afecta directamente a las economías regionales\", y denunció \"la negligencia del Estado al no considerar el impacto de esta decisión sobre toda la cadena productiva\". Las políticas sociales, argumenta UATRE, no deben ser barrera para el trabajo registrado sino herramienta de transición hacia el empleo formal.",
+      "fuente": "Sonido Gremial — 01/09/2026",
+      "foto": "https://sonidogremial.com.ar/wp-content/uploads/2026/09/uatre-120-mil-trabajos-rurales.jpg",
+      "fuente_url": "https://sonidogremial.com.ar/uatre-advierte-que-120-000-trabajos-rurales-estan-en-peligro-por-la-falta-de-respuesta-del-gobierno-nacional-a-las-demandas-del-gremio/"
+    },
+    {
+      "id": "cd-2026-09-02-8",
+      "fecha": "2026-09-02",
+      "tags": [
+        "universidades",
+        "FEDUN",
+        "CONADU",
+        "paro-nacional",
+        "salarios-docentes",
+        "Ley-de-Financiamiento"
+      ],
+      "emoji": "🎓",
+      "titulo": "Paro total en las universidades: el Gobierno ofreció 3% y los gremios lo rechazaron con acatamiento cercano al 100%",
+      "bajada": "FEDUN y CONADU convocaron paro nacional de 24 horas con acatamiento cercano al 100%. El Gobierno ofreció un incremento del 3% para septiembre que no incluye recomposición salarial. Los gremios rechazan la oferta y exigen cumplimiento de la Ley de Financiamiento Universitario y de la medida cautelar que ordena recomponer salarios.",
+      "desarrollo": "Los gremios universitarios cumplieron un paro total de 24 horas en todas las universidades del país con un acatamiento que Daniel Ricci (UDA) calificó como \"cercano al 100%\". La medida responde a la oferta del Gobierno de un incremento del 3% para septiembre, que contempla únicamente la inflación de junio, julio y agosto sin incluir recomposición salarial alguna que permita recuperar la pérdida acumulada. La propuesta fue rechazada rotundamente por todos los gremios del sector. La Federación de Educadores Universitarios (FEDUN) había convocado el paro el 1 de septiembre y anunció que avanza hacia una marcha nacional. Los reclamos son tres: salarios dignos, cumplimiento de la Ley de Financiamiento Universitario y cumplimiento de la medida cautelar que ordena recomponer los salarios de los trabajadores universitarios. El Gobierno \"volvió a desconocer la Ley de Financiamiento Universitario y la medida cautelar\" en la última reunión paritaria. La consigna central: \"Sin salarios dignos no hay universidad pública de calidad.\" En Rosario, la UNR suspendió las clases. Ricci declaró: \"La situación salarial no da para más.\" La crisis universitaria se inscribe en el mismo patrón que el SMVM por debajo de la indigencia: deterioro deliberado de las condiciones laborales mediante la negativa a negociar y la fijación unilateral de montos que no cubren las necesidades básicas.",
+      "fuente": "Sonido Gremial · InfoGremiales — 01-02/09/2026",
+      "foto": "https://sonidogremial.com.ar/wp-content/uploads/2026/09/paro-universidades-septiembre.jpg",
+      "fuente_url": "https://sonidogremial.com.ar/paro-total-en-las-universidades-los-gremios-reclaman-salarios-dignos-y-el-cumplimiento-de-la-ley-de-financiamiento-universitario/"
+    },
+    {
+      "id": "cd-2026-09-02-9",
+      "fecha": "2026-09-01",
+      "tags": [
+        "ATE",
+        "ANAC",
+        "aeropuertos",
+        "paro-48hs",
+        "estatales",
+        "Aguiar",
+        "Rodríguez"
+      ],
+      "emoji": "✈️",
+      "titulo": "Paro de 48 horas en aeropuertos: ATE-ANAC reclama contra el desfinanciamiento y la \"guerra\" entre gremios estatales",
+      "bajada": "ATE-ANAC lanzó 48 horas de protestas los días 3 y 4 de septiembre en todos los aeropuertos del país por desfinanciamiento e incumplimientos salariales. En paralelo, Rodolfo Aguiar (ATE) desafió a Andrés Rodríguez (UPCN) a fijar paro conjunto en la administración pública para \"romper el techo salarial\".",
+      "desarrollo": "La Asociación de Trabajadores del Estado (ATE) lanzó dos jornadas de lucha los días 3 y 4 de septiembre en todos los aeropuertos del país a través de su delegación en la ANAC (Administración Nacional de Aviación Civil), reclamando contra el desfinanciamiento del organismo y los incumplimientos salariales. La medida podría generar demoras y cancelaciones de vuelos, algo que ATE anticipó: \"Si se producen demoras o cancelaciones, no será por culpa de los trabajadores.\" El paro aeroportuario se suma a una escalada del conflicto estatal: Rodolfo Aguiar, secretario general de ATE, desafió públicamente a Andrés Rodríguez (UPCN) a fijar una fecha de paro conjunto en la administración pública para \"romper el techo salarial\" impuesto por el Gobierno. La puja entre las dos centrales estatales — una combativa (ATE) y una negociadora (UPCN)— refleja la tensión dentro del campo gremial sobre cómo enfrentar el ajuste: desde abajo se reclama paro general, desde las conducciones se prioriza la negociación. Mientras tanto, el Sindicato de Pilotos (APLA) logró que se intime a las aerolíneas a cumplir con los tiempos de descanso bajo pena de acciones penales, un conflicto de seguridad laboral que se suma al paro estatal.",
+      "fuente": "InfoGremiales — 01-02/09/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/ate-anac-aeropuertos-paro.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/ate-lanza-48-horas-de-protestas-en-aeropuertos-el-3-y-4-de-septiembre-por-incumplimientos-salariales-si-se-producen-demoras-o-cancelaciones-no-sera-por-culpa-de-los-trabajadores/"
+    },
+    {
+      "id": "cd-2026-09-02-10",
+      "fecha": "2026-09-01",
+      "tags": [
+        "UTA",
+        "transporte-Moreno",
+        "La-Perlita",
+        "continuidad-laboral",
+        "licitación",
+        "800-trabajadores"
+      ],
+      "emoji": "🚌",
+      "titulo": "Moreno: más de 800 trabajadores del transporte sin garantía de continuidad laboral ante relicitación",
+      "bajada": "La UTA advirtió que el pliego de licitación del transporte en Moreno no garantiza la continuidad laboral de los 800+ trabajadores de La Perlita. El sindicato denuncia que el empleo queda \"sujeto al resultado de una licitación\" y alerta sobre un escenario de creciente conflictividad.",
+      "desarrollo": "La Unión Tranviarios Automotor (UTA), conducida por Roberto Fernández, advirtió que más de 800 trabajadores del transporte del partido de Moreno — empleados del operador La Perlita— siguen sin garantía de continuidad laboral ante la relicitación del servicio. El Municipio aprobó un pliego que divide el partido en tres zonas de operación, cada una a cargo de una empresa diferente. La UTA cuestiona que el pliego no incluye una cláusula explícita que garantice la continuidad laboral, la antigüedad y los derechos adquiridos. Aunque el proyecto señala que los empleados \"conservarán su empleo\" y que las nuevas prestadoras deberán absorber la planta de personal, el sindicato denuncia que en la práctica no existe garantía real y que la fuente laboral queda \"sujeta al resultado de una licitación o a la decisión de futuros adjudicatarios.\" La UTA exigió una respuesta inmediata y alertó que de persistir la situación, \"el Municipio estará generando un escenario de creciente conflictividad que pone innecesariamente en riesgo la paz social.\" Ya se produjeron protestas de choferes de La Perlita. El pliego fue aprobado por el Concejo Deliberante e impulsado por la intendenta Mariel Fernández. Existe un antecedente favorable en Florencio Varela, donde la UTA y la intendencia firmaron en el Ministerio de Trabajo bonaerense el traspaso y continuidad laboral de 299 choferes tras un cambio de concesión.",
+      "fuente": "InfoGremiales — 01/09/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/uta-moreno-800-trabajadores.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/la-uta-advirtio-que-mas-de-800-trabajadores-del-transporte-de-moreno-siguen-sin-garantia-de-continuidad-laboral-y-abre-la-puerta-a-un-conflicto/"
+    }
+  ]
+}
