@@ -30,7 +30,7 @@ from knowledge_base import get_system_prompt, get_system_prompt_rag, get_legal_p
 from llm_providers.deepseek import call_deepseek, call_deepseek_stream
 from llm_providers.claude import call_claude, call_claude_stream
 from clipping_cache import get_clipping, refresh
-from rag_retriever import retrieve_for_query
+from rag_retriever import retrieve_for_query, clipping_search
 from library_service.adapter_hornero import legal_sources_text, resolve_tenant  # puente Biblioteca (feature-flag)
 from kb_data import ALL_CHUNKS, KB_CHUNKS, KB_CATEGORIES, KB_CATEGORY_META, KB_TIPOS, refresh as kb_refresh
 from push_manager import subscribe as push_subscribe, unsubscribe as push_unsubscribe, notify_all, get_vapid_public_key, get_subscription_count
@@ -247,7 +247,7 @@ async def _call_llm(system_prompt: str, user_message: str, history: list,
 class GreetingRequest(BaseModel):
     section: str = "consulta"  # consulta|contenido|debate|historia
     grade: str = "A"
-    sector: str = "aceitero"
+    sector: str = "hornero"
     tenant: str = ""  # explicit tenant override; if empty, derived from sector
     requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
@@ -274,7 +274,7 @@ class ChatRequest(BaseModel):
     formato: str = "consulta"  # podcast|reel|columna|entrevista|consulta|contenido|debate|historia
     history: list = []  # [{role, text, sections}]
     grade: str = "A"
-    sector: str = "aceitero"
+    sector: str = "hornero"
     tenant: str = ""  # gremio (multi-tenant). Vacío → se deriva de `sector`. Ver adapter_hornero.
     requested_persona: str = ""  # companero|abogado|periodista|historiador — override
     session_id: str = ""  # Frontend session ID for correlation
@@ -618,6 +618,10 @@ async def chat_endpoint(req: ChatRequest, request: Request = None, user: dict = 
                                           conversation_history=req.history, tenant=tenant)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
+    # Clipping-aware retrieval: filter clipping by query relevance
+    clipping_items = get_clipping()
+    relevant_clipping = clipping_search(req.message, clipping_items, max_results=5) if clipping_items else []
+
     # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
     extra_sources = legal_sources_text(req.message, formato=req.formato,
                                        requested_persona=req.requested_persona,
@@ -629,7 +633,7 @@ async def chat_endpoint(req: ChatRequest, request: Request = None, user: dict = 
     system_prompt = get_system_prompt_rag(
         formato=req.formato,
         chunk_ids=chunk_ids,
-        clipping_items=get_clipping(),
+        clipping_items=clipping_items,
         query=req.message,
         requested_persona=req.requested_persona,
         grade=req.grade,
@@ -637,6 +641,7 @@ async def chat_endpoint(req: ChatRequest, request: Request = None, user: dict = 
         recipient_chain=req.recipient_chain,
         extra_sources_text=extra_sources,
         tenant=tenant,
+        relevant_clipping=relevant_clipping,
     )
     # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable, ver knowledge_base)
     if extra_sources:
@@ -769,6 +774,10 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
                                           conversation_history=req.history, tenant=tenant)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
+    # Clipping-aware retrieval: filter clipping by query relevance
+    clipping_items = get_clipping()
+    relevant_clipping = clipping_search(req.message, clipping_items, max_results=5) if clipping_items else []
+
     # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
     extra_sources = legal_sources_text(req.message, formato=req.formato,
                                        requested_persona=req.requested_persona,
@@ -779,7 +788,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
     system_prompt = get_system_prompt_rag(
         formato=req.formato,
         chunk_ids=chunk_ids,
-        clipping_items=get_clipping(),
+        clipping_items=clipping_items,
         query=req.message,
         requested_persona=req.requested_persona,
         grade=req.grade,
@@ -787,6 +796,7 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
         recipient_chain=req.recipient_chain,
         extra_sources_text=extra_sources,
         tenant=tenant,
+        relevant_clipping=relevant_clipping,
     )
     # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
     if extra_sources:
@@ -1004,7 +1014,7 @@ async def audio_chat_endpoint(
     audio: UploadFile = File(...),
     formato: str = Form("consulta"),
     grade: str = Form("A"),
-    sector: str = Form("aceitero"),
+    sector: str = Form("hornero"),
     tenant: str = Form(""),
     requested_persona: str = Form(""),
     session_id: str = Form(""),
@@ -1039,6 +1049,10 @@ async def audio_chat_endpoint(
     relevant_chunks = retrieve_for_query(transcript, formato, grade, tenant=audio_tenant)
     chunk_ids = [c["id"] for c in relevant_chunks]
 
+    # Clipping-aware retrieval
+    audio_clipping = get_clipping()
+    audio_relevant_clipping = clipping_search(transcript, audio_clipping, max_results=5) if audio_clipping else []
+
     # Biblioteca Hornero: ley/convenio real para el Abogado (vacío si el flag está off)
     extra_sources = legal_sources_text(transcript, formato=formato,
                                        requested_persona=requested_persona,
@@ -1049,15 +1063,15 @@ async def audio_chat_endpoint(
     system_prompt = get_system_prompt_rag(
         formato=formato,
         chunk_ids=chunk_ids,
-        clipping_items=get_clipping(),
+        clipping_items=audio_clipping,
         query=transcript,
         requested_persona=requested_persona,
         grade=grade,
         recipient_chain="",
         extra_sources_text=extra_sources,
         tenant=audio_tenant,
-    )
-    # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
+        relevant_clipping=audio_relevant_clipping,
+    )    # Abogado con ley/convenio de la Biblioteca → prompt ENFOCADO (grounding fiable)
     if extra_sources:
         system_prompt = get_legal_prompt_focused(extra_sources, grade=grade,
                                                  tenant=audio_tenant)
