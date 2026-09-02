@@ -815,7 +815,7 @@ class HorneroConsulta extends HoComponent {
         }
       }
     } catch (e) {
-      // Stream interrupted — if we have partial text, save it as a message
+      // Stream interrupted or LLM error — if we have partial text, save it; otherwise show error
       this._stopProgressiveReveal();
       if (streamingText) {
         const partialMsg = {
@@ -830,12 +830,27 @@ class HorneroConsulta extends HoComponent {
         } else {
           this.messages = [...this.messages, partialMsg];
         }
-        this._saveChatHistory(); // Persist partial response to IndexedDB
+        this._saveChatHistory();
       } else {
+        // No text at all — likely LLM error (bad API key, model unavailable, etc.)
+        const errMsg = e?.message || 'Stream ended without response';
+        const errorDetail = errMsg.includes('LLM') || errMsg.includes('HTTP') || errMsg.includes('error')
+          ? `\n\n🔧 LLM Error: ${errMsg}\n\nEsto puede ser un problema de configuración del servidor (API key, modelo). Avisá al administrador.`
+          : `\n\n🔧 Error: ${errMsg}`;
+        const errorMsg = {
+          role: 'hornero',
+          sections: [{ title: '⚠️ Error del servidor IA', body: 'El servidor no pudo generar una respuesta.' + errorDetail }],
+          tags: ['consulta', 'error'],
+          persona: 'abogado',
+          time: this._timeNow(),
+        };
+        this.messages = [...this.messages, errorMsg];
         if (chatEl) chatEl.hideTyping();
       }
       this._typing = false;
-      if (!chatEl) this.render();
+      this.iaStep++;
+      this._greetingRequested = false;
+      this.render();
       throw e;
     }
   }
