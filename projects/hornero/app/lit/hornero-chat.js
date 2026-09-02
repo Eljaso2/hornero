@@ -2284,6 +2284,9 @@ class HorneroChat extends HoComponent {
   }
 
   _renderMessage(m, msgIndex) {
+    // Normalize potentially corrupted data from IndexedDB
+    if (m.sections && !Array.isArray(m.sections)) m.sections = [];
+    if (m.tags && !Array.isArray(m.tags)) m.tags = [];
     const role = m.role || 'hornero';
 
     // === USER message: bubble + delete ===

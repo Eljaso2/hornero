@@ -26,8 +26,9 @@ async def call_claude(
             if msg.get("text"):
                 content = msg["text"]
             elif msg.get("sections"):
+                sections = msg["sections"] if isinstance(msg["sections"], list) else []
                 content = "\n".join(
-                    s.get("body", "") or s.get("quote", "") for s in msg["sections"]
+                    s.get("body", "") or s.get("quote", "") for s in sections
                 )
             else:
                 content = ""
