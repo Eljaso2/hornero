@@ -920,7 +920,7 @@ class HorneroGremial extends HoComponent {
         this._savedDrawerState = null;
       }
       chatEl.addEventListener('chat-send', (e) => {
-        this._handleUserMessage(e.detail.text);
+        this._handleUserMessage(e.detail.text, e.detail.urls, e.detail.pdfData, e.detail.pdfName);
       });
       chatEl.addEventListener('chat-session-select', (e) => {
         this._loadSession(e.detail.sessionId);
@@ -1364,7 +1364,7 @@ class HorneroGremial extends HoComponent {
     return clean.length > 10 ? clean + '…' : 'Reporte';
   }
 
-  _handleUserMessage(text) {
+  _handleUserMessage(text, urls, pdfData, pdfName) {
     // If AI is still typing/revealing, finalize immediately — don't lose the response
     this._finalizeCurrentReveal();
     // Hide banner when user starts chatting
@@ -1531,15 +1531,17 @@ class HorneroGremial extends HoComponent {
     const title = isFirstUserMsg ? this._generateTitle(text, 'reporte') : undefined;
     const userMsg = { role: 'user', text: text, time: this._timeNow() };
     if (title) userMsg.title = title;
+    if (urls && urls.length > 0) userMsg.urls = urls;
+    if (pdfName) userMsg.pdf = pdfName;
     this.messages = [...this.messages, userMsg];
     this._typing = true;
     this._saveChatHistory();
     this.render();
 
     // Try streaming first, fallback to non-streaming
-    this._callBackendStream(text).catch((err) => {
+    this._callBackendStream(text, urls, pdfData, pdfName).catch((err) => {
       console.warn('Gremial: stream failed, trying non-streaming:', err);
-      this._callBackend(text).catch((err2) => {
+      this._callBackend(text, urls, pdfData, pdfName).catch((err2) => {
         console.warn('Gremial: non-streaming failed, retrying after cold-start buffer:', err2);
         setTimeout(() => {
           this._callBackendStream(text).catch((err3) => {
@@ -1625,7 +1627,7 @@ class HorneroGremial extends HoComponent {
     this._stopProgressiveReveal();
   }
 
-  async _callBackendStream(text) {
+  async _callBackendStream(text, urls, pdfData, pdfName) {
     // Refresh incoming reports cache (reports may have changed since last message)
     await this._loadIncomingReports();
 
@@ -1660,6 +1662,9 @@ class HorneroGremial extends HoComponent {
           session_id: this._sessionId,
           incoming_reports: this._formatIncomingReportsForBackend(),
           recipient_chain: this._getRecipientChain(),
+          urls: urls || [],
+          pdf_data: pdfData || '',
+          pdf_name: pdfName || '',
         }),
         signal: this._streamAbortController.signal,
       });
@@ -1832,7 +1837,7 @@ class HorneroGremial extends HoComponent {
     }
   }
 
-  async _callBackend(text) {
+  async _callBackend(text, urls, pdfData, pdfName) {
     const history = this.messages.slice(-10).map(m => ({
       role: m.role,
       text: m.text || '',
@@ -1851,6 +1856,9 @@ class HorneroGremial extends HoComponent {
         requested_persona: 'companero',
         incoming_reports: this._formatIncomingReportsForBackend(),
         recipient_chain: this._getRecipientChain(),
+        urls: urls || [],
+        pdf_data: pdfData || '',
+        pdf_name: pdfName || '',
       }),
     });
 
