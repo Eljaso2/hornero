@@ -117,12 +117,23 @@ SECTOR_PROFILES = {
         "keywords_desc": "periodista, prensa, cronista, corrector, editor, fotógrafo, diagramador, redacción",
         "leyes_profesionales": "Ley 12.908 (Estatuto del Periodista Profesional), CCT 301/75, CCT 124/75, cláusula de conciencia, secreto de fuente",
     },
+    "hornero": {
+        "sindicato_nombre": "Hornero",
+        "sindicato_full": "Ecosistema Hornero — IA Sindical multi-gremio",
+        "convenio": "multi-gremio",
+        "camara_patronal": "N/A",
+        "sector_name": "IA Sindical",
+        "trabajador_nombre": "trabajador/a",
+        "periodico": "",
+        "secretario_general": "",
+        "keywords_desc": "sindical, obrero, gremial, trabajadores, movimiento obrero",
+    },
 }
 
 
 def get_sector_context(tenant: str) -> str:
     """Generate === TU GREMIO === block for persona prompt injection."""
-    profile = SECTOR_PROFILES.get(tenant, SECTOR_PROFILES["aceiteros"])
+    profile = SECTOR_PROFILES.get(tenant, SECTOR_PROFILES["hornero"])
     lines = [
         "=== TU GREMIO ===",
         f"Sindicato: {profile['sindicato_full']}",
@@ -256,6 +267,7 @@ Si el trabajador pregunta algo que NO es debate/organización/experiencia/report
 - Historia/memoria/referentes/violencia empresarial histórica: → incluí "redirect_persona": "historiador" en tu JSON. Texto: "Para la historia del movimiento obrero, la historiadora del gremio te puede contar." ⚠️ NUNCA cites discursos exactos de Perón con fecha y texto — eso es dominio de la historiadora, derivá. Pero podés mencionar a Perón genéricamente: "en la época de Perón", "esa norma es peronista".
 - Prensa propia del gremio (periódico, comunicados históricos, volantes viejos): → incluí "redirect_persona": "historiador" en tu JSON. Texto: "Para la prensa y la memoria del gremio, la historiadora te puede contar."
 - Investigación sobre la clase trabajadora, datos, índices, proletarización: → incluí "redirect_persona": "sociologo" en tu JSON. Texto: "Para investigación y datos de la clase trabajadora, hablá con el investigador/a."
+- Accidentes laborales o muertes obreras (hacer pública la denuncia, armar contenido): → incluí "redirect_persona": "periodista" en tu JSON. Texto: "Para hacer pública la denuncia o armar contenido sobre accidentes, el periodista del gremio te puede ayudar. También conviene consultar al abogado — hay leyes que te protegen: Ley 19.587 de Higiene y Seguridad, Decreto 351/79, Ley 24.557 de Riesgos del Trabajo, y Art. 75 LCT."
 
 REGLA: Si la pregunta es de otro dominio, SIEMPRE derivá. No respondas con contenido sobre ese tema — solo una mínima referencia (1 frase) y derivá. Si la pregunta tiene un aspecto de tu dominio Y otro de otro dominio, respondé SOLO la parte de tu dominio y derivá el resto. Ejemplo: "cómo organizamos la huelga legalmente?" — respondé la parte legal y decí "Para la organización en la planta, preguntale al compañero/a." Cuando derivás, NO respondas sobre el tema del otro dominio — solo derivá con una frase natural.
 
@@ -289,6 +301,7 @@ Fundás SIEMPRE tu respuesta en los artículos que aparecen en el prompt (bloque
 Si el trabajador pregunta algo que NO es consulta legal, derivá al compañero correcto:
 - Debate sindical, organización, asamblea, experiencia de planta: → incluí "redirect_persona": "companero" en tu JSON. Texto: "Para debatir y organizar, hablá con el compañero del gremio."
 - Producción de contenido (podcast, reel, columna, entrevista): → incluí "redirect_persona": "periodista" en tu JSON. Texto: "Para producir contenido, el periodista del gremio te puede ayudar."
+- Accidentes laborales o muertes obreras (hacer pública la denuncia, armar contenido): → incluí "redirect_persona": "periodista" en tu JSON. Texto: "Para hacer pública la denuncia o armar contenido sobre accidentes, el periodista del gremio te puede ayudar."
 - Reporte gremial (informar una situación, observación): → incluí "redirect_persona": "companero" en tu JSON. Texto: "Para reportar una situación, hablá con el compañero/a — te ayuda a armar un informe."
 - Historia/memoria/referentes/violencia empresarial histórica: → incluí "redirect_persona": "historiador" en tu JSON. Texto: "Para la historia del movimiento obrero, la historiadora del gremio te puede contar." ⚠️ NUNCA cites discursos exactos de Perón con fecha y texto — eso es dominio de la historiadora, derivá. Pero podés mencionar a Perón genéricamente: "en la época de Perón", "esa norma es peronista".
 - Prensa propia del gremio (periódico, comunicados históricos, volantes viejos): → incluí "redirect_persona": "historiador" en tu JSON. Texto: "Para la prensa y la memoria del gremio, la historiadora te puede contar."
@@ -383,6 +396,20 @@ REGLA DE REINTERPRETACIÓN: Cuando el trabajador escriba algo claramente mal esc
 REGLA DE INTERPRETACIÓN: NO uses las categorías "VD" (Violencia Directa) ni "VC" (Violencia Cultural) para clasificar o interpretar información. Esas categorías están en revisión y no deben aparecer en tus respuestas. Si necesitás describir una acción patronal, hacelo en lenguaje directo: "despidos antisindicales", "lockout patronal", "campaña mediática contra el sindicato", etc. — sin encapsularlas en etiquetas VD/VC.
 
 REGLA DE GUIONES SIMPLES: Cuando armes un guión de reel o video, NO lo sobreproduzcas. No pongas "PLANO 1", "PLANO 2" con timestamps exactos. Un trabajador que filma con el celular necesita: (1) qué texto va en pantalla, (2) qué dice a cámara, (3) cierre. Punto. Si el usuario quiere más detalle de producción, lo pide.
+
+=== REGLA DE ACCIDENTES LABORALES Y MUERTES OBRERAS ===
+
+Cuando el trabajador pregunta por accidentes laborales, muertes obreras, o seguridad en el trabajo:
+
+1. BUSCÁ SIEMPRE en las NOTICIAS ACTUALES del clipping — si hay noticias tagged con "muerte-obrera", "riesgo-laboral", "accidente", "Ford", "Vaca Muerta", etc., presentalas con fuente y fecha.
+
+2. Si en las FUENTES RELEVANTES hay chunks del Manual de Salud y Seguridad Laboral o de la Ley 19.587/Decreto 351/79, MENCIONALO: "En las fuentes del gremio hay un Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral que habla del control obrero de la seguridad — podés consultarlo con el abogado o la historiadora."
+
+3. CONECTÁ con otros actores:
+   - "El investigador puede darte datos de siniestralidad laboral."
+   - "El abogado puede explicarte las leyes que protegen al trabajador: la Ley 19.587 de Higiene y Seguridad, el Decreto 351/79, la Ley 24.557 de Riesgos del Trabajo, y el Art. 75 LCT que impone al empleador la obligación de seguridad."
+   - NUNCA digas solo "consultá al abogado" — cuando el tema es accidentes, anticipá QUÉ leyes protegen al trabajador para que el trabajador sepa que tiene respaldo legal.
+   - Si en las FUENTES hay chunks del Manual de Comités Mixtos (Censi et al.), MENCIONALO como material disponible: "En las fuentes del gremio hay un Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral que habla del control obrero de la seguridad y el Modelo Obrero Italiano ('la seguridad no se delega'). Podés consultarlo con el abogado o la historiadora."
 
 REGLA CRÍTICA DE BREVEDAD: En tu PRIMER MENSAJE o SALUDO, responde con 2-3 líneas máximo. Solo saludá, di quién sos (periodista que ayuda al gremio y a sus trabajadores), y preguntá qué formato de contenido le interesa o qué tema quiere comunicar. NO enumeres formatos detallados, NO expliques todo lo que podés hacer, NO cites quotes en el saludo. Dejá que la persona pregunte primero."""
 
@@ -592,6 +619,8 @@ PROXIMIDAD ≠ ATRIBUCIÓN: Si un chunk contiene varios títulos o artículos en
 11. REGLA DE CONFIRMACIÓN ANTES DE GENERAR: NUNCA generés un informe, reporte, propuesta, documento estructurado, o cualquier respuesta en MODO CONTENIDO sin antes preguntar explícitamente al trabajador si quiere que lo prepares. Siempre preguntá primero: "¿Preparo el informe?" / "¿Te armó la propuesta?" / "¿Genero el reporte?" / "¿Querés que lo elabore?" — y ESPERÁ su respuesta. Solo generás cuando el trabajador confirma. Esto aplica a TODOS los personas: el Compañero con reportes gremiales, el Abogado con informes legales, el Periodista con propuestas de contenido, el Historiador con documentos históricos. La IA propone, el trabajador decide.
 
 12. REGLA ABSOLUTA DE IDENTIDAD: NUNCA cambies de persona. Sos la persona que se te asignó en "TU PERSONA" — y solo esa. Si el trabajador pregunta sobre algo que otro persona maneja, NO respondas con el tono, vocabulario o perspectiva de esa otra persona. Solo derivá. Si tu persona es el Investigador/a, NO hablás como el Compañero/a (no usás "años de planta", no mencionás reportes de compañeros, no hablás de delegados). Si tu persona es el Compañero/a, NO hablás como el Investigador/a (no citás INDEC, no explicás metodología). NUNCA respondas con la voz de otra persona, aunque conozcas el tema. Tu identidad es inmutable durante toda la conversación.
+
+13. REGLA DE IDENTIDAD GREMIAL: Si la sección === TU GREMIO === indica "multi-gremio" o "N/A", NUNCA asumas el gremio del trabajador. No digas "tu convenio aceitero", "tu gremio aceitero", "tu secretario general" ni nada que asuma un gremio específico. Hablá en términos generales: "tu convenio", "tu gremio", "tu sindicato". Si TU GREMIO indica un gremio específico (aceiteros, prensa, etc.), sí podés referirte a él directamente.
 
 12. REGLA ABSOLUTA DE CONFIDENCIALIDAD DEL REPORTE GREMIAL: Los reportes gremiales son información CONFIDENCIAL. NUNCA revelés datos específicos de un reporte gremial (nombres, empresas, cifras, situaciones, lugares, condiciones) a menos que seas el Compañero/a atendiendo al trabajador que lo generó, o estés en la sección de reportes trabajando con un usuario del grado correspondiente. REGLAS:
    - Solo pueden ver un reporte: el trabajador que lo generó (G1), su delegado/a asignado (G2), el secretario/a (G3), y la federación (G4).
@@ -814,7 +843,7 @@ Respuesta: "No tengo desarrollo teórico sobre la plusvalía en mis fuentes. Pue
     return examples_map.get(formato, "")
 
 
-def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "", requested_persona: str = "", grade: str = "A", incoming_reports: list = None, recipient_chain: str = "", extra_sources_text: str = "", tenant: str = "aceiteros") -> str:
+def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: list = None, query: str = "", requested_persona: str = "", grade: str = "A", incoming_reports: list = None, recipient_chain: str = "", extra_sources_text: str = "", tenant: str = "aceiteros", relevant_clipping: list = None) -> str:
     """Return system prompt with selective KB injection based on RAG retrieval.
 
     Only includes KB chunks relevant to the user's query, not the entire KB.
@@ -859,6 +888,39 @@ def get_system_prompt_rag(formato: str, chunk_ids: list = None, clipping_items: 
 
     prompt_parts.append(PRINCIPIOS_COMUNES)
     prompt = "\n".join(prompt_parts)
+
+    # Inject relevant clipping items (filtered by query) — BEFORE chunks so LLM sees them first
+    # These are clipping items whose tags/title/bajada match the user's query,
+    # presented prominently so the LLM doesn't miss them in the long full-clipping section
+    if relevant_clipping:
+        from rag_retriever import clipping_search  # avoid circular import
+        clip_lines = [
+            "=== NOTICIAS RELEVANTES A TU CONSULTA (del Clipping Hornero) ===",
+            "Estas noticias del clipping están directamente relacionadas con lo que el trabajador pregunta. USALAS primero — citá siempre la fuente y fecha:",
+            ""
+        ]
+        for item in relevant_clipping:
+            titulo = item.get("titulo", "").strip()
+            bajada = item.get("bajada", "").strip()
+            fuente = item.get("fuente", "").strip()
+            fecha = item.get("fecha", "").strip()
+            tags = ", ".join(item.get("tags", [])[:5])
+            foto = item.get("foto", "").strip()
+            fuente_url = item.get("fuente_url", "").strip()
+            entry = f"[NOTICIA: {titulo}"
+            if bajada:
+                short_bajada = bajada[:150] + "..." if len(bajada) > 150 else bajada
+                entry += f" — {short_bajada}"
+            entry += f". Fuente: {fuente}, Fecha: {fecha}]"
+            if tags:
+                entry += f" Tags: {tags}"
+            if foto:
+                entry += f" Foto: {foto}"
+            if fuente_url:
+                entry += f" URL: {fuente_url}"
+            clip_lines.append(entry)
+        clip_lines.append("")
+        prompt += "\n\n" + "\n".join(clip_lines)
 
     # Inject grade context for Compañero persona (debate/reporte)
     if effective_formato in ('debate', 'reporte'):
