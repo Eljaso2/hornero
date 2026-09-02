@@ -93,6 +93,18 @@ app = FastAPI(
     version="0.2.0",
 )
 
+# Global exception handler — ensures CORS headers on 500 errors
+# Without this, unhandled exceptions return 500 without CORS headers,
+# and the browser blocks the response → "CORS header missing" → NetworkError
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    logger.error(f"Unhandled exception: {type(exc).__name__}: {str(exc)}", exc_info=True)
+    from fastapi.responses import JSONResponse
+    return JSONResponse(
+        status_code=500,
+        content={"detail": f"Server error: {type(exc).__name__}: {str(exc)[:200]}"},
+    )
+
 @app.on_event("startup")
 async def startup_event():
     """Initialize clipping cache + KB chunks + auth on startup."""
@@ -420,6 +432,18 @@ async def chat_endpoint(req: ChatRequest, request: Request = None, user: dict = 
     """
     start_time = time.time()
 
+    # SANITIZE history (same as stream endpoint)
+    for i, msg in enumerate(req.history):
+        if not isinstance(msg, dict):
+            req.history[i] = {"role": "user", "text": ""}
+            continue
+        sections = msg.get("sections")
+        if sections is not None and not isinstance(sections, list):
+            msg["sections"] = []
+        tags = msg.get("tags")
+        if tags is not None and not isinstance(tags, list):
+            msg["tags"] = []
+
     # Override grade/sector/tenant from JWT (prevent spoofing)
     req.grade = user.get("grade", req.grade)
     req.sector = user.get("sector", req.sector)
@@ -528,9 +552,30 @@ async def chat_stream_endpoint(req: ChatRequest, request: Request = None, user: 
 
     Falls back to non-streaming if the LLM provider doesn't support streaming.
     """
-    # DIAGNOSTIC: log incoming request details
+    # DIAGNOSTIC: log incoming request details + validate history data
     origin = request.headers.get("origin", "no-origin") if request else "no-request"
-    logger.info(f"SSE /api/chat/stream: user={user.get('username','?')} grade={user.get('grade','?')} formato={req.formato} origin={origin}")
+    logger.info(f"SSE /api/chat/stream: user={user.get('username','?')} grade={user.get('grade','?')} formato={req.formato} origin={origin} history_len={len(req.history)}")
+
+    # SANITIZE history: fix corrupt data (sections/tags as string/null → empty list)
+    for i, msg in enumerate(req.history):
+        if not isinstance(msg, dict):
+            logger.warning(f"SSE: history[{i}] is not dict (type={type(msg).__name__}), replacing with empty")
+            req.history[i] = {"role": "user", "text": ""}
+            continue
+        sections = msg.get("sections")
+        if sections is not None and not isinstance(sections, list):
+            logger.warning(f"SSE: history[{i}].sections is {type(sections).__name__}='{str(sections)[:50]}', replacing with []")
+            msg["sections"] = []
+        tags = msg.get("tags")
+        if tags is not None and not isinstance(tags, list):
+            logger.warning(f"SSE: history[{i}].tags is {type(tags).__name__}='{str(tags)[:50]}', replacing with []")
+            msg["tags"] = []
+        # Also fix nested sections entries
+        if isinstance(sections, list):
+            for j, sec in enumerate(sections):
+                if not isinstance(sec, dict):
+                    logger.warning(f"SSE: history[{i}].sections[{j}] is {type(sec).__name__}, removing")
+                    msg["sections"][j] = {"title": "", "body": str(sec)[:200]}
     # Override grade/sector/tenant from JWT (prevent spoofing)
     req.grade = user.get("grade", req.grade)
     req.sector = user.get("sector", req.sector)
