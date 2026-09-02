@@ -28,7 +28,7 @@ class HorneroApp extends HoComponent {
     this.screen = 'home';
     this.userGrade = 'A';
     this.userTerritory = '';
-    this.userSector = 'aceitero';
+    this.userSector = 'hornero';
     this.userName = '';
     this.loggedIn = false;
     this._activeSessions = {}; // Screen → { sessionId, persona } — preserves active chat per screen during session
@@ -344,7 +344,7 @@ class HorneroApp extends HoComponent {
             if (userData) {
               session.grade = userData.grade || session.grade;
               session.territory = userData.territory || session.territory;
-              session.sector = userData.sector || session.sector || 'aceitero';
+              session.sector = userData.sector || session.sector || 'hornero';
               session.nombre = userData.nombre || session.nombre || session.username;
               try {
                 localStorage.setItem('hornero-session', JSON.stringify(session));
@@ -356,7 +356,7 @@ class HorneroApp extends HoComponent {
             this.set('loggedIn', true);
             this.set('userGrade', session.grade);
             this.set('userTerritory', session.territory);
-            this.set('userSector', session.sector || 'aceitero');
+            this.set('userSector', session.sector || 'hornero');
             this.set('userName', session.nombre || session.username);
           } else if (res.status === 401 || res.status === 403) {
             // Backend says not authenticated — try refresh token before giving up
@@ -375,7 +375,7 @@ class HorneroApp extends HoComponent {
                   if (userData) {
                     session.grade = userData.grade || session.grade;
                     session.territory = userData.territory || session.territory;
-                    session.sector = userData.sector || session.sector || 'aceitero';
+                    session.sector = userData.sector || session.sector || 'hornero';
                     session.nombre = userData.nombre || session.nombre || session.username;
                     try {
                       localStorage.setItem('hornero-session', JSON.stringify(session));
@@ -387,7 +387,7 @@ class HorneroApp extends HoComponent {
                   this.set('loggedIn', true);
                   this.set('userGrade', session.grade);
                   this.set('userTerritory', session.territory);
-                  this.set('userSector', session.sector || 'aceitero');
+                  this.set('userSector', session.sector || 'hornero');
                   this.set('userName', session.nombre || session.username);
                   // Session restored — continue to sync
                 } else {
@@ -400,7 +400,7 @@ class HorneroApp extends HoComponent {
                 this.set('loggedIn', true);
                 this.set('userGrade', session.grade);
                 this.set('userTerritory', session.territory);
-                this.set('userSector', session.sector || 'aceitero');
+                this.set('userSector', session.sector || 'hornero');
                 this.set('userName', session.nombre || session.username);
               }
             } else {
@@ -413,7 +413,7 @@ class HorneroApp extends HoComponent {
           this.set('loggedIn', true);
           this.set('userGrade', session.grade);
           this.set('userTerritory', session.territory);
-          this.set('userSector', session.sector || 'aceitero');
+          this.set('userSector', session.sector || 'hornero');
           this.set('userName', session.nombre || session.username);
         }
       } catch(e) {
@@ -422,7 +422,7 @@ class HorneroApp extends HoComponent {
         this.set('loggedIn', true);
         this.set('userGrade', session.grade);
         this.set('userTerritory', session.territory);
-        this.set('userSector', session.sector || 'aceitero');
+        this.set('userSector', session.sector || 'hornero');
         this.set('userName', session.nombre || session.username);
       }
 
@@ -445,7 +445,7 @@ class HorneroApp extends HoComponent {
     this.set('loggedIn', false);
     this.set('userGrade', 'A');
     this.set('userTerritory', '');
-    this.set('userSector', 'aceitero');
+    this.set('userSector', 'hornero');
     this.set('userName', '');
   }
 
@@ -1951,7 +1951,7 @@ class HorneroApp extends HoComponent {
       this.set('loggedIn', true);
       this.set('userGrade', session.grade);
       this.set('userTerritory', session.territory);
-      this.set('userSector', session.sector || 'aceitero');
+      this.set('userSector', session.sector || 'hornero');
       this.set('userName', session.nombre || session.username);
       // Always close login popup after successful login (even if _loginOpen was already false)
       this._closeLoginPopup();
@@ -3317,7 +3317,7 @@ class HorneroApp extends HoComponent {
     this.set('loggedIn', false);
     this.set('userGrade', 'A');
     this.set('userTerritory', '');
-    this.set('userSector', 'aceitero');
+    this.set('userSector', 'hornero');
     this.set('userName', '');
     this.set('screen', 'home');
   }
