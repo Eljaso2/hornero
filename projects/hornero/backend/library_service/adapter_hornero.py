@@ -19,7 +19,7 @@ import urllib.request
 
 LIBRARY_URL = os.getenv("LIBRARY_URL", "").strip()
 LIBRARY_INPROC = os.getenv("LIBRARY_INPROC", "").strip() not in ("", "0", "false", "no")
-HORNERO_TENANT = os.getenv("HORNERO_TENANT", "aceiteros").strip()  # fallback si no viene en la request
+HORNERO_TENANT = os.getenv("HORNERO_TENANT", "shared").strip()  # fallback si no viene en la request
 
 # El gremio (tenant) viaja en la request. Si no llega un tenant explícito, se deriva del
 # campo `sector` que Hornero ya envía (aceitero → aceiteros). Último recurso: HORNERO_TENANT.
@@ -29,7 +29,7 @@ SECTOR_TENANT = {
     "aceitero": "aceiteros", "aceiteros": "aceiteros",
     "comercio": "comercio", "mercantil": "comercio",
     "prensa": "prensa", "sipreba": "prensa", "periodista": "prensa",
-    "hornero": "shared",  # Hornero uses shared/general knowledge base
+    "hornero": "shared", "desarrollo": "shared", "equipo": "shared", "admin": "shared",
 }
 
 
