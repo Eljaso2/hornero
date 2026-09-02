@@ -459,13 +459,38 @@ def keyword_search(query: str, max_chunks: int = 5, tenant: str = "aceiteros",
         elif distinct_original >= 2:
             score += 6.0    # matches 2 distinct original query concepts
 
-        # Entity-specificity bonus: when the query names a specific entity (La Forestal, an OIT
-        # convention, a CCT number), chunks mentioning that entity should outrank generic chunks.
-        # E.g., "convenio colectivo La Forestal" → a chunk about La Forestal's pliego beats
-        # Bertolo's generic chapter about collective bargaining in Argentina.
-        entity_keywords = {"forestal", "tanino", "quebracho", "villa guillermina", "villa ana",
-                           "la gallareta", "tartagal", "lafuente", "jasinski",
-                           "oit", "bertolo", "inigo carrera", "krotoschin"}
+        # Entity-specificity bonus: when the query names a specific entity, chunks mentioning
+        # that entity should outrank generic chunks. This list is mirrored from the NER lists
+        # in pdf_to_chunks.py — keep them in sync. When the user asks about a specific person,
+        # organization, or place, those chunks get +8 so they beat generic high-IDF chunks.
+        entity_keywords = {
+            # La Forestal / Norte Santa Fe
+            "forestal", "tanino", "quebracho", "villa guillermina", "villa ana",
+            "la gallareta", "tartagal", "lafuente", "jasinski", "bentos",
+            "lamazón", "lamazon", "gauto", "cotta", "abecasis", "vargas",
+            "ruber", "romero", "almirón", "colomina", "selkis", "silvestre",
+            "aguilar",
+            # Centrales obreras / nucleamientos
+            "cgt", "fora", "faca", "coasi", "cggma", "cpcn", "upcn", "mpids",
+            "atlas", "ctal", "fsm", "orit", "ciosl", "foit", "fst", "fotia", "cgta",
+            "uol", "uom",
+            # Dirigentes obreros
+            "espejo", "viel", "íscaro", "iscaro", "ímizcoz", "imizcoz",
+            "marischi", "barainca", "peter", "othar", "grunfeld", "danussi",
+            "cimazo", "fidanza", "gregorio", "morier",
+            "gay", "reyes", "castro",
+            "toledano", "romualdi", "puiggrós", "puiggros",
+            # Peronismo
+            "perón", "peron", "evita",
+            # Historiadores / autores
+            "oit", "bertolo", "inigo carrera", "krotoschin",
+            "germani", "doyon", "torre", "del campo", "acha",
+            "camarero", "ceruso", "nieto", "schiavi", "contreras",
+            # Movimiento obrero post-peronismo
+            "tosco", "rucci", "ongaro", "yofra", "cremonte",
+            # Conceptos / lugares
+            "rosario", "reconquista", "chaco",
+        }
         query_entities = original_query_terms & entity_keywords
         if query_entities:
             chunk_entities = {t for t in entity_keywords if t in searchable}
@@ -532,9 +557,10 @@ def retrieve_for_query(query: str, formato: str, grade: str = "A",
             enhanced_query = context + " " + query
 
     # Step 2: Keyword search with improved scoring (tenant-filtered)
-    # Historia persona needs more context — search wider pool for research-heavy queries
-    # Pass current_query so keyword_search can weight current terms 2x vs context
-    search_limit = 12 if formato == 'historia' else 8
+    # Historia persona needs deep search — entities that appear rarely (Bentos, FST, etc.)
+    # need more chunks to surface. Wider pool = better recall at modest token cost.
+    # Other personas: 10 is enough (legal/CCT queries are more focused).
+    search_limit = 20 if formato == 'historia' else 10
     candidates = keyword_search(enhanced_query, max_chunks=search_limit, tenant=tenant,
                                  current_query=query)
 
