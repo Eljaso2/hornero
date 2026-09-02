@@ -2438,6 +2438,25 @@ class HorneroChat extends HoComponent {
     }).join('') + '</div>';
   }
 
+  // Extract URLs from text for AI scraping (http/https and bare www.)
+  _extractUrls(text) {
+    if (!text) return [];
+    const urlRegex = /(?<!["'])(https?:\/\/|www\.)[^\s<>]+/gi;
+    const raw = text.match(urlRegex) || [];
+    const urls = [];
+    for (let u of raw) {
+      // Trim trailing punctuation unlikely to be part of URL
+      u = u.replace(/[.,;:!?)]+$/, '');
+      // If closing ) trimmed but there's a matching ( inside the URL, keep the )
+      // Normalize: prepend https:// if bare www.
+      let full = u;
+      if (/^www\./i.test(full)) full = 'https://' + full;
+      try { new URL(full); } catch { continue; } // skip invalid
+      if (!urls.includes(full)) urls.push(full);
+    }
+    return urls;
+  }
+
   // Linkify user text: escape HTML then convert URLs to clickable links
   // Simpler than full markdown — just URL detection + basic escaping
   _linkifyText(text) {
@@ -2450,17 +2469,22 @@ class HorneroChat extends HoComponent {
       .replace(/"/g, '&quot;');
     // Replace newlines with <br>
     safe = safe.replace(/\n/g, '<br>');
-    // Detect URLs and make them clickable — skip if already inside an <a> tag
-    safe = safe.replace(/(?<!href=["'])((https?:\/\/)[^\s<)&quot;'"]+)/g, (match, url) => {
+    // Detect URLs (https:// or www.) and make them clickable — skip if already inside an <a> tag
+    safe = safe.replace(/(?<!href=["'])((https?:\/\/|www\.)[^\s<>&quot;'"]+)/gi, (match, url) => {
+      // Trim trailing punctuation unlikely to be part of URL
+      let cleanUrl = url.replace(/[.,;:!?)]+$/, '');
+      // Normalize bare www. → https://www. for href
+      let href = cleanUrl;
+      if (/^www\./i.test(href)) href = 'https://' + href;
       // Show shortened display text if URL is very long
-      let display = url;
+      let display = cleanUrl;
       try {
-        const u = new URL(url);
+        const u = new URL(href);
         const path = u.pathname === '/' ? '' : u.pathname;
         display = u.hostname + path;
         if (display.length > 50) display = display.substring(0, 47) + '…';
       } catch { /* keep full URL */ }
-      return `<a href="${url}" target="_blank" rel="noopener" class="msg-link">${display}</a>`;
+      return `<a href="${href}" target="_blank" rel="noopener" class="msg-link">${display}</a>`;
     });
     return safe;
   }
@@ -2560,8 +2584,15 @@ class HorneroChat extends HoComponent {
     text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img class="msg-md-img" src="$2" alt="$1" loading="lazy">');
     // Links: [text](url) → <a href="url" target="_blank">text</a>
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="msg-link">$1</a>');
-    // Plain URLs: https://... or http://... → clickable links (skip if already inside <a> tag)
-    text = text.replace(/(?<!href=["'])((https?:\/\/)[^\s<)\]"']+)(?![^<]*<\/a>)/g, '<a href="$1" target="_blank" rel="noopener" class="msg-link">$1</a>');
+    // Plain URLs: https://... or www.... → clickable links (skip if already inside <a> tag)
+    text = text.replace(/(?<!href=["'])((https?:\/\/|www\.)[^\s<)\]"']+)(?![^<]*<\/a>)/gi, (match, url) => {
+      // Trim trailing punctuation unlikely to be part of URL
+      let cleanUrl = url.replace(/[.,;:!?)]+$/, '');
+      // Normalize bare www. → https://www.
+      let href = cleanUrl;
+      if (/^www\./i.test(href)) href = 'https://' + href;
+      return `<a href="${href}" target="_blank" rel="noopener" class="msg-link">${cleanUrl}</a>`;
+    });
     // Rewrite /fuentes/... and /pdfs/... links to point to the backend server
     const h = window.location.hostname;
     let pdfBase = 'https://hornero-ia.onrender.com';
@@ -3151,9 +3182,16 @@ class HorneroChat extends HoComponent {
           detail.fileName = this._pendingAttachment.fileName;
           this._pendingAttachment = null;
         }
-        if (this._pendingUrls.length > 0) {
-          detail.urls = [...this._pendingUrls];
-          this._pendingUrls = [];
+        // Merge explicit pending URLs + auto-detected URLs from message text
+        const explicitUrls = [...this._pendingUrls];
+        this._pendingUrls = [];
+        const detectedUrls = this._extractUrls(text);
+        const allUrls = [...explicitUrls];
+        for (const u of detectedUrls) {
+          if (!allUrls.includes(u)) allUrls.push(u);
+        }
+        if (allUrls.length > 0) {
+          detail.urls = allUrls;
         }
         if (text || detail.image || detail.video || detail.urls || detail.pdfData) {
           this._userScrolledUp = false; // User sent a message — re-enable auto-scroll
