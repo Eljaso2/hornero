@@ -369,7 +369,7 @@ class HorneroChat extends HoComponent {
           finalHtml += `<div class="msg-text">${this._formatMarkdown(msg.text)}</div>`;
         } else if (msg.sections) {
           // Sections fallback
-          finalHtml += msg.sections.map((s, i, arr) => {
+          finalHtml += (msg.sections || []).map((s, i, arr) => {
             let c = '';
             if (s.title) c += `<div class="msg-section-title">${s.title}</div>`;
             if (s.body) c += `<div class="msg-section-body">${this._formatMarkdown(s.body)}</div>`;
@@ -2327,10 +2327,10 @@ class HorneroChat extends HoComponent {
       // Render as full reporte card with all sections visible in the chat
       const isModificado = tags.includes('correccion-modificado');
       const headerTitle = isModificado ? 'Reporte Gremial (corregido)' : 'Reporte Gremial';
-      const sectionCount = m.sections.length;
+      const sectionCount = (m.sections || []).length;
 
       // Render all sections inline — user reads the full report before approving
-      const sectionsHtml = m.sections.map((s, i) => {
+      const sectionsHtml = (m.sections || []).map((s, i) => {
         const sectionTitle = (s.title || '').toLowerCase();
         const isClasif = sectionTitle.includes('clasificación') || sectionTitle.includes('clasificacion') || sectionTitle.includes('etiqueta');
         const isTranscript = sectionTitle.includes('transcript') || sectionTitle.includes('extracto') || sectionTitle.includes('diálogo') || sectionTitle.includes('dialogo');
@@ -2436,7 +2436,7 @@ class HorneroChat extends HoComponent {
         contentHtml += `</div>`;
       }
     } else if (m.sections) {
-      contentHtml = m.sections.map((s, i, arr) => {
+      contentHtml = (m.sections || []).map((s, i, arr) => {
         let content = '';
         if (s.title) content += `<div class="msg-section-title">${s.title}</div>`;
         if (s.body) content += `<div class="msg-section-body">${this._formatMarkdown(s.body)}</div>`;
@@ -3480,7 +3480,7 @@ class HorneroChat extends HoComponent {
 
       // Sections (structured content)
       if (m.sections && m.sections.length > 0) {
-        const sectionLines = m.sections.map(s => {
+        const sectionLines = (m.sections || []).map(s => {
           let sec = '';
           if (s.title) sec += s.title + '\n';
           if (s.body) sec += s.body;
@@ -3547,7 +3547,7 @@ ${msgs.map(m => {
   if (m.text) contentHtml += `<div class="msg-content">${m.text.replace(/\n/g, '<br>')}</div>`;
 
   if (m.sections && m.sections.length > 0) {
-    contentHtml += m.sections.map(s => {
+    contentHtml += (m.sections || []).map(s => {
       let sec = '';
       if (s.title) sec += `<div class="msg-section-title">${s.title}</div>`;
       if (s.body) sec += `<div class="msg-section-body">${s.body.replace(/\n/g, '<br>')}</div>`;
@@ -3648,7 +3648,7 @@ ${msgs.map(m => {
       let content = '';
       if (m.text) content = m.text;
       if (m.sections && m.sections.length > 0) {
-        const sectionLines = m.sections.map(s => {
+        const sectionLines = (m.sections || []).map(s => {
           let sec = '';
           if (s.title) sec += s.title + '\n';
           if (s.body) sec += s.body;
