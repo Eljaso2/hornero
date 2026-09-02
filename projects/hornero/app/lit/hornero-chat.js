@@ -1754,6 +1754,16 @@ class HorneroChat extends HoComponent {
       .msg-url-icon { font-size: .8rem; }
       :host(.theme-light) .msg-url-card { background: rgba(78,153,120,.15); }
 
+      /* PDF card in user message bubble */
+      .msg-pdf-card { display: inline-flex; align-items: center; gap: 6px;
+        background: rgba(78,153,120,.12); border-radius: 10px;
+        padding: 4px 10px; margin-top: 4px;
+        color: var(--ho-green-dark, #3D6B56); font-size: .72rem;
+        font-family: 'Public Sans', sans-serif; font-weight: 600; }
+      .msg-pdf-icon { font-size: .9rem; }
+      .msg-pdf-name { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      :host(.theme-light) .msg-pdf-card { background: rgba(78,153,120,.15); }
+
       /* Link button in toolbar */
       .chat-link-btn { background: var(--ho-green-pale, #E0F0EB); }
       .chat-link-btn svg { stroke: var(--ho-green-dark, #3D6B56); fill: none; }
@@ -1832,6 +1842,10 @@ class HorneroChat extends HoComponent {
         overflow: hidden; flex: none; margin-right: 4px; }
       .chat-attach-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .chat-attach-preview video { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .pdf-preview-icon { display: flex; align-items: center; gap: 4px; padding: 4px 6px;
+        background: var(--ho-card, #2A3230); border-radius: 8px; font-size: .72rem; color: var(--ho-text, #E8E6E0);
+        font-family: 'Public Sans', sans-serif; white-space: nowrap; }
+      .pdf-preview-name { max-width: 60px; overflow: hidden; text-overflow: ellipsis; }
       .chat-attach-remove { position: absolute; top: -4px; right: -4px;
         background: var(--ho-dark, #1E2321); color: var(--ho-text-off, #F2F1EC);
         border: none; border-radius: 50%; width: 18px; height: 18px;
@@ -1956,6 +1970,8 @@ class HorneroChat extends HoComponent {
         <div class="chat-attach-preview">
           ${this._pendingAttachment.type === 'image' ?
             `<img src="${this._pendingAttachment.dataUrl}" alt="adjunto">` :
+            this._pendingAttachment.type === 'pdf' ?
+            `<div class="pdf-preview-icon"><span>📄</span><span class="pdf-preview-name">${this._pendingAttachment.fileName}</span></div>` :
             `<video src="${this._pendingAttachment.dataUrl}" muted></video>`}
         </div>
         <button class="chat-attach-remove" title="Quitar adjunto">✕</button>
@@ -2214,7 +2230,7 @@ class HorneroChat extends HoComponent {
       <div class="chat-input">
         ${attachPreview}
         <textarea class="chat-input-field" rows="1" placeholder="${this.inputPlaceholder}" autocomplete="nope" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore></textarea>
-        <input class="chat-file-input" type="file" accept="image/*,video/*">
+        <input class="chat-file-input" type="file" accept="image/*,video/*,application/pdf">
         <div class="chat-toolbar">
           <button class="chat-toolbar-btn chat-attach-btn" title="Adjuntar imagen o video">
             <svg viewBox="0 0 24 24">${attachSvg}</svg>
@@ -2611,9 +2627,19 @@ class HorneroChat extends HoComponent {
         m.video ?
         `<div class="msg-media"><video src="${m.video}" controls></video></div>` : '';
       const textHtml = m.text ? this._linkifyText(m.text) : '';
+      const urlsHtml = (m.urls && m.urls.length > 0) ?
+        `<div class="msg-urls">${m.urls.map(url => {
+          let display = url;
+          try { const u = new URL(url); display = u.hostname + u.pathname; if (display.length > 40) display = display.substring(0, 37) + '…'; } catch {}
+          return `<a href="${url}" target="_blank" rel="noopener" class="msg-url-card">
+            <span class="msg-url-icon">🔗</span>
+            <span class="msg-url-text">${display}</span>
+          </a>`;
+        }).join('')}</div>` : '';
+      const pdfHtml = m.pdf ? `<div class="msg-pdf-card"><span class="msg-pdf-icon">📄</span><span class="msg-pdf-name">${m.pdf}</span></div>` : '';
       const deleteSvg = '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/>';
       return `<div class="msg-row user">
-        <div class="msg-bubble">${mediaHtml}${textHtml}</div>
+        <div class="msg-bubble">${mediaHtml}${textHtml}${urlsHtml}${pdfHtml}</div>
         <div class="msg-meta-row">
           ${timeHtml}
           <button class="msg-delete-btn" data-action="delete" data-msg-index="${msgIndex}" title="Borrar mensaje">
@@ -3021,10 +3047,69 @@ class HorneroChat extends HoComponent {
       });
     }
 
+    // === Link button (toolbar) → toggle link input overlay ===
+    const linkBtn = this.shadowRoot.querySelector('#chatLinkBtn');
+    const linkOverlay = this.shadowRoot.querySelector('#linkOverlay');
+    if (linkBtn && linkOverlay) {
+      linkBtn.addEventListener('click', () => {
+        this._linkOverlayOpen = !this._linkOverlayOpen;
+        linkOverlay.classList.toggle('open', this._linkOverlayOpen);
+        if (this._linkOverlayOpen) {
+          const field = linkOverlay.querySelector('.link-overlay-field');
+          if (field) setTimeout(() => field.focus(), 100);
+        }
+      });
+    }
+    // Link overlay: add URL
+    if (linkOverlay) {
+      const addBtn = linkOverlay.querySelector('.link-overlay-add');
+      const cancelBtn = linkOverlay.querySelector('.link-overlay-cancel');
+      const field = linkOverlay.querySelector('.link-overlay-field');
+
+      const addUrl = () => {
+        const url = field.value.trim();
+        if (!url) return;
+        // Basic URL validation
+        let validUrl = url;
+        if (!/^https?:\/\//i.test(validUrl)) validUrl = 'https://' + validUrl;
+        try { new URL(validUrl); } catch { return; } // invalid URL, skip
+        if (!this._pendingUrls.includes(validUrl)) {
+          this._pendingUrls.push(validUrl);
+          this.render(); // re-render to show chips
+        }
+        field.value = '';
+        this._linkOverlayOpen = false;
+        linkOverlay.classList.remove('open');
+      };
+
+      if (addBtn) addBtn.addEventListener('click', addUrl);
+      if (field) {
+        field.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); addUrl(); }
+          if (e.key === 'Escape') { this._linkOverlayOpen = false; linkOverlay.classList.remove('open'); }
+        });
+      }
+      if (cancelBtn) cancelBtn.addEventListener('click', () => {
+        this._linkOverlayOpen = false;
+        linkOverlay.classList.remove('open');
+      });
+    }
+
+    // URL chips: remove button
+    this.shadowRoot.querySelectorAll('.url-chip-remove').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.currentTarget.dataset.urlRemove, 10);
+        if (!isNaN(idx) && idx >= 0 && idx < this._pendingUrls.length) {
+          this._pendingUrls.splice(idx, 1);
+          this.render();
+        }
+      });
+    });
+
     // === Toggle mic/send visibility based on input content ===
     if (inputField && micBtn && sendBtn) {
       const updateToolbar = () => {
-        const hasText = inputField.value.trim().length > 0 || this._pendingAttachment;
+        const hasText = inputField.value.trim().length > 0 || this._pendingAttachment || this._pendingUrls.length > 0;
         // When recording or processing audio, keep mic visible (not hidden by send)
         const micBusy = this._isRecording || this._audioProcessing;
         if (hasText && !micBusy) {
@@ -3060,10 +3145,15 @@ class HorneroChat extends HoComponent {
         if (this._pendingAttachment) {
           detail.image = this._pendingAttachment.type === 'image' ? this._pendingAttachment.dataUrl : null;
           detail.video = this._pendingAttachment.type === 'video' ? this._pendingAttachment.dataUrl : null;
+          detail.pdfData = this._pendingAttachment.type === 'pdf' ? this._pendingAttachment.dataUrl : null;
           detail.fileName = this._pendingAttachment.fileName;
           this._pendingAttachment = null;
         }
-        if (text || detail.image || detail.video) {
+        if (this._pendingUrls.length > 0) {
+          detail.urls = [...this._pendingUrls];
+          this._pendingUrls = [];
+        }
+        if (text || detail.image || detail.video || detail.urls || detail.pdfData) {
           this._userScrolledUp = false; // User sent a message — re-enable auto-scroll
           this.emit('chat-send', detail);
           inputField.value = '';
@@ -3108,17 +3198,36 @@ class HorneroChat extends HoComponent {
       fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
-          const type = file.type.startsWith('image') ? 'image' : 'video';
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            this._pendingAttachment = {
-              type: type,
-              dataUrl: ev.target.result,
-              fileName: file.name,
+          if (file.type === 'application/pdf') {
+            // PDF: check size (max 1MB), store as base64 for backend
+            if (file.size > 1048576) {
+              alert('El PDF es demasiado grande (máximo 1 MB). Probá con un documento más corto.');
+              fileInput.value = '';
+              return;
+            }
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              this._pendingAttachment = {
+                type: 'pdf',
+                dataUrl: ev.target.result,
+                fileName: file.name,
+              };
+              this.render();
             };
-            this.render();
-          };
-          reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+          } else {
+            const type = file.type.startsWith('image') ? 'image' : 'video';
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              this._pendingAttachment = {
+                type: type,
+                dataUrl: ev.target.result,
+                fileName: file.name,
+              };
+              this.render();
+            };
+            reader.readAsDataURL(file);
+          }
         }
       });
     }
