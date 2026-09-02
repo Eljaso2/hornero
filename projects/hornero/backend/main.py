@@ -489,25 +489,57 @@ async def _scrape_with_jina(url: str) -> dict | None:
         async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
             resp = await client.get(jina_url, headers={"Accept": "text/plain"})
             resp.raise_for_status()
-            text = resp.text
-            if not text or len(text) < 100:
+            raw = resp.text
+            if not raw or len(raw) < 100:
                 return None
+            # Extract title from Jina metadata
             title = ""
-            lines = text.split("\n")
-            for line in lines:
-                line = line.strip()
-                if line.startswith("Title:"):
-                    title = line.replace("Title:", "").strip()
-                elif line and not line.startswith("[") and not line.startswith("*") and not line.startswith("!") and not line.startswith("http"):
+            for line in raw.split("\n"):
+                s = line.strip()
+                if s.startswith("Title:"):
+                    title = s.replace("Title:", "").strip()
                     break
-            skip_prefixes = ("Title:", "URL Source:", "Published Time:", "Markdown Content:", "[Omitir", "[Skip")
-            clean_lines = []
-            for line in lines:
-                stripped = line.strip()
-                if any(stripped.startswith(p) for p in skip_prefixes):
+            # Strip markdown formatting
+            clean = re.sub(r"!\[.*?\]\(.*?\)", "", raw)  # images
+            clean = re.sub(r"\[(.*?)\]\(.*?\)", r"\1", clean)  # links -> text
+            clean = re.sub(r"^\s*[\*\-_=]{3,}\s*$", "", clean, flags=re.MULTILINE)  # hr
+            # Find the article start — first heading or first long paragraph
+            # This skips all the nav/header content that Jina includes
+            lines = clean.split("\n")
+            article_start = 0
+            for i, line in enumerate(lines):
+                s = line.strip()
+                # Headings (# ## ###) that aren't Jina metadata
+                if s.startswith("#") and len(s) > 5 and not s.startswith("#!"):
+                    article_start = i
+                    break
+                # First substantial paragraph (>80 chars, not a link or nav)
+                if len(s) > 80 and not s.startswith(("http", "[", "!", "*")):
+                    article_start = i
+                    break
+            # Find article end — "Temas en esta nota", "Related", footer markers
+            article_end = len(lines)
+            end_markers = ("Temas en esta nota", "Seguí leyendo", "Relacionadas", "Más información", "Abrir en nueva pestaña")
+            for i in range(article_start + 5, len(lines)):
+                s = lines[i].strip()
+                if any(m in s for m in end_markers):
+                    article_end = i
+                    break
+            # Build clean text from article body only
+            body_lines = []
+            for line in lines[article_start:article_end]:
+                s = line.strip()
+                if not s:
+                    body_lines.append("")
                     continue
-                clean_lines.append(line)
-            text = "\n".join(clean_lines).strip()
+                # Skip short nav debris and URLs
+                if len(s) < 10 and not s.startswith("#"):
+                    continue
+                if s.startswith(("http://", "https://")) and len(s) < 120:
+                    continue
+                body_lines.append(s)
+            text = "\n".join(body_lines).strip()
+            text = re.sub(r"\n{3,}", "\n\n", text)
             if len(text) > MAX_SCRAPE_CHARS:
                 text = text[:MAX_SCRAPE_CHARS] + "\n[...contenido truncado]"
             return {"title": title or url.split("/")[-1] or url, "text": text, "url": url}
