@@ -27,7 +27,11 @@
     "book_ref": "",
     "date": "2026-02-08",
     "url": "https://www.tiempoar.com.ar/ta_article/huelga-para-defender-nuestros-derechos/",
-    "author": "Daniel Yofra"
+    "author": "Daniel Yofra",
+    "sources": [
+      "Daniel Yofra, Tiempo Argentino",
+      "https://www.tiempoar.com.ar/ta_article/huelga-para-defender-nuestros-derechos/"
+    ]
   },
   {
     "id": "kb-yofra-col-1",
@@ -60,7 +64,11 @@
     "book_ref": "",
     "date": "2026-03-22",
     "url": "https://www.tiempoar.com.ar/ta_article/marzo-huelga-salario/",
-    "author": "Daniel Yofra"
+    "author": "Daniel Yofra",
+    "sources": [
+      "Daniel Yofra, Tiempo Argentino",
+      "https://www.tiempoar.com.ar/ta_article/marzo-huelga-salario/"
+    ]
   },
   {
     "id": "kb-yofra-col-2",
@@ -91,7 +99,11 @@
     "book_ref": "",
     "date": "2025-03",
     "url": "https://www.perfil.com/noticias/opinion/en-1976-y-en-2025-el-salario-digno-fortalece-la-democracia.phtml",
-    "author": "Daniel Yofra"
+    "author": "Daniel Yofra",
+    "sources": [
+      "Daniel Yofra, Perfil",
+      "https://www.perfil.com/noticias/opinion/en-1976-y-en-2025-el-salario-digno-fortalece-la-democracia.phtml"
+    ]
   },
   {
     "id": "kb-yofra-col-3",
@@ -122,7 +134,11 @@
     "book_ref": "",
     "date": "2024-10-29",
     "url": "https://www.perfil.com/noticias/opinion/aciteros-y-algodoneros-tienen-en-argentina-las-jornadas-laborales-mas-extensas-del-mundo.phtml",
-    "author": "Daniel Yofra"
+    "author": "Daniel Yofra",
+    "sources": [
+      "Daniel Yofra, Perfil",
+      "https://www.perfil.com/noticias/opinion/aciteros-y-algodoneros-tienen-en-argentina-las-jornadas-laborales-mas-extensas-del-mundo.phtml"
+    ]
   },
   {
     "id": "kb-yofra-col-4",
@@ -153,7 +169,11 @@
     "book_ref": "",
     "date": "2026-03-03",
     "url": "https://www.eldiarioar.com/politica/nadie-regalo-viene-destruir-reforma-laboral_129_13034126.html",
-    "author": "Daniel Yofra"
+    "author": "Daniel Yofra",
+    "sources": [
+      "Daniel Yofra, Eldiarioar",
+      "https://www.eldiarioar.com/politica/nadie-regalo-viene-destruir-reforma-laboral_129_13034126.html"
+    ]
   },
   {
     "id": "kb-yofra-col-5",
@@ -184,7 +204,11 @@
     "book_ref": "",
     "date": "2025-04-09",
     "url": "https://www.tiempoar.com.ar/ta_article/plan-lucha-gobierno/",
-    "author": "Daniel Yofra"
+    "author": "Daniel Yofra",
+    "sources": [
+      "Daniel Yofra, Tiempo Argentino",
+      "https://www.tiempoar.com.ar/ta_article/plan-lucha-gobierno/"
+    ]
   },
   {
     "id": "kb-yofra-col-6",
@@ -213,6 +237,10 @@
     "book_ref": "",
     "date": "2024-09-12",
     "url": "https://www.eldiarioar.com/opinion/herramienta-construir-proyectos_129_11668223.html",
-    "author": "Daniel Yofra"
+    "author": "Daniel Yofra",
+    "sources": [
+      "Daniel Yofra, Eldiarioar",
+      "https://www.eldiarioar.com/opinion/herramienta-construir-proyectos_129_11668223.html"
+    ]
   }
 ]
