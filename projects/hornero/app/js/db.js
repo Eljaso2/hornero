@@ -587,11 +587,14 @@ function obtenerChatSessions(username) {
   // 1. Return local data immediately (no network wait)
   var localPromise = dbGetAll('chatHistory').then(function(allMsgs) {
     var localSessions = _buildSessions(allMsgs);
-    // 2. PULL remote in background — only dispatch event if new data arrived
+    // 2. PULL remote in background — apply tombstones, then dispatch refresh event if data changed
     if (username) {
       var localCount = localSessions.length;
       var localIds = localSessions.map(function(s) { return s.sessionId; }).join(',');
       _fetchAndMergeRemoteSessions(username).then(function() {
+        // After merging remote data, also prune locally-deleted sessions (tombstones)
+        return _fetchAndApplyDeletedSessions(username);
+      }).then(function() {
         return dbGetAll('chatHistory').then(_buildSessions);
       }).then(function(remoteSessions) {
         // Only fire event if sessions actually changed (new sessions or different data)
@@ -910,6 +913,40 @@ function _deleteChatSessionFromBackend(username, sessionId) {
   });
 }
 
+// Fetch deleted sessions from backend and remove matching local messages (tombstone sync)
+function _fetchAndApplyDeletedSessions(username) {
+  if (!username) return Promise.resolve();
+  var baseUrl = _getChatSyncBaseUrl();
+  return fetch(baseUrl + '/api/chat/deleted-sessions?username=' + encodeURIComponent(username))
+    .then(function(r) { return r.ok ? r.json() : []; })
+    .then(function(deletedSessions) {
+      if (!deletedSessions || !Array.isArray(deletedSessions) || deletedSessions.length === 0) return 0;
+      var deletePromises = deletedSessions.map(function(ds) {
+        return _deleteLocalSessionMessages(ds.sessionId);
+      });
+      return Promise.all(deletePromises).then(function(results) {
+        var total = results.reduce(function(a, b) { return a + b; }, 0);
+        if (total > 0) console.log('Tombstone sync: removed', total, 'local messages from', deletedSessions.length, 'deleted sessions');
+        return total;
+      });
+    })
+    .catch(function(e) {
+      console.warn('Fetch deleted sessions failed:', e);
+      return 0;
+    });
+}
+
+// Delete all local messages for a given sessionId from IndexedDB
+function _deleteLocalSessionMessages(sessionId) {
+  if (!sessionId) return Promise.resolve(0);
+  return dbGetByIndex('chatHistory', 'sessionId', sessionId).then(function(messages) {
+    if (!messages || messages.length === 0) return 0;
+    return Promise.all(messages.map(function(m) { return dbDelete('chatHistory', m.id); })).then(function() {
+      return messages.length;
+    });
+  });
+}
+
 // Fetch mensajes de una sesión desde el backend (fallback si no hay local)
 function fetchChatSessionMessagesFromBackend(username, sessionId) {
   if (!username || !sessionId) return Promise.resolve([]);
@@ -1079,13 +1116,36 @@ function _pushAllLocalData(username) {
         body: JSON.stringify({ username: username, informes: informes })
       }).catch(function(e) { console.warn('Full sync push informes failed:', e); });
     }
-    // Push chat messages (existing endpoint)
+    // Push chat messages — filter out messages from deleted sessions (tombstones)
     if (messages.length > 0) {
-      fetch(baseUrl + '/api/chat/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username, messages: messages })
-      }).catch(function(e) { console.warn('Full sync push chat failed:', e); });
+      // Fetch tombstones from backend to avoid resurrecting deleted sessions
+      fetch(baseUrl + '/api/chat/deleted-sessions?username=' + encodeURIComponent(username))
+        .then(function(r) { return r.ok ? r.json() : []; })
+        .then(function(deletedSessions) {
+          var deletedIds = new Set((deletedSessions || []).map(function(ds) { return ds.sessionId; }));
+          var filtered = messages.filter(function(m) { return !deletedIds.has(m.sessionId); });
+          // Also remove filtered-out (deleted) messages from local IDB
+          var removed = messages.filter(function(m) { return deletedIds.has(m.sessionId); });
+          if (removed.length > 0) {
+            Promise.all(removed.map(function(m) { return dbDelete('chatHistory', m.id); })).catch(function() {});
+            console.log('PushAll: filtered', removed.length, 'messages from deleted sessions');
+          }
+          if (filtered.length > 0) {
+            fetch(baseUrl + '/api/chat/sync', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username: username, messages: filtered })
+            }).catch(function(e) { console.warn('Full sync push chat failed:', e); });
+          }
+        })
+        .catch(function() {
+          // If tombstones fetch fails, push all as fallback (backend guard will filter anyway)
+          fetch(baseUrl + '/api/chat/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: username, messages: messages })
+          }).catch(function(e) { console.warn('Full sync push chat failed:', e); });
+        });
     }
     // Push correcciones (batch all)
     return dbGetAll('correcciones').then(function(allCorrecciones) {

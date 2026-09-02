@@ -1406,8 +1406,20 @@ def _init_pg_tables():
 
         conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_informeId ON correcciones(informeId)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_corr_username ON correcciones(correctorUsername)")
+
+        # Deleted sessions tombstones — prevent resurrection of deleted chats
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS deleted_sessions (
+                username TEXT NOT NULL,
+                session_id TEXT NOT NULL,
+                deleted_at BIGINT NOT NULL,
+                PRIMARY KEY (username, session_id)
+            )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_del_sessions_username ON deleted_sessions(username)")
+
         conn.commit()
-        logger.info("Postgres sync tables initialized (chat_messages, informes, correcciones)")
+        logger.info("Postgres sync tables initialized (chat_messages, informes, correcciones, deleted_sessions)")
 
 
 class ChatSyncRequest(BaseModel):
@@ -1417,15 +1429,26 @@ class ChatSyncRequest(BaseModel):
 
 @app.post("/api/chat/sync")
 async def chat_sync(req: ChatSyncRequest, user: dict = Depends(require_auth)):
-    """Upsert batch of chat messages from a device. Fire-and-forget sync."""
+    """Upsert batch of chat messages from a device. Rejects messages for deleted sessions."""
     username = user["username"]  # From JWT, cannot be spoofed
     if not req.messages:
         return {"synced": 0}
     conn = _get_pg_conn()
     try:
+        # Fetch deleted session IDs to prevent resurrection of deleted chats
+        deleted_rows = conn.execute("""
+            SELECT session_id FROM deleted_sessions WHERE username = %s
+        """, (username,)).fetchall()
+        deleted_session_ids = set(r["session_id"] for r in deleted_rows)
+
         synced = 0
+        skipped = 0
         for msg in req.messages:
             if not isinstance(msg, dict) or not msg.get("id"):
+                continue
+            # Skip messages belonging to deleted sessions (tombstone guard)
+            if msg.get("sessionId", "") in deleted_session_ids:
+                skipped += 1
                 continue
             conn.execute("""
                 INSERT INTO chat_messages (id, session_id, username, section, role, persona,
@@ -1465,6 +1488,8 @@ async def chat_sync(req: ChatSyncRequest, user: dict = Depends(require_auth)):
                 msg.get("source_url", ""),
             ))
             synced += 1
+        if skipped > 0:
+            logger.info(f"Chat sync: user={username} skipped {skipped} messages from deleted sessions")
         logger.info(f"Chat sync: user={username} synced={synced}")
         return {"synced": synced}
     except Exception as e:
@@ -1556,7 +1581,7 @@ async def chat_messages(sessionId: str = "", user: dict = Depends(require_auth))
 
 @app.delete("/api/chat/session")
 async def chat_session_delete(sessionId: str = "", user: dict = Depends(require_auth)):
-    """Delete all messages for a chat session."""
+    """Delete all messages for a chat session and record tombstone to prevent resurrection."""
     username = user["username"]
     if not sessionId:
         return {"deleted": 0}
@@ -1564,8 +1589,28 @@ async def chat_session_delete(sessionId: str = "", user: dict = Depends(require_
         cursor = conn.execute("""
             DELETE FROM chat_messages WHERE username = %s AND session_id = %s
         """, (username, sessionId))
+        # Insert tombstone so other devices don't re-upload this session
+        conn.execute("""
+            INSERT INTO deleted_sessions (username, session_id, deleted_at)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (username, session_id) DO UPDATE SET
+                deleted_at = excluded.deleted_at
+        """, (username, sessionId, int(time.time() * 1000)))
         conn.commit()
         return {"deleted": cursor.rowcount}
+
+
+@app.get("/api/chat/deleted-sessions")
+async def chat_deleted_sessions(user: dict = Depends(require_auth)):
+    """Return list of session IDs deleted by this user (tombstones for sync)."""
+    username = user["username"]
+    with _get_pg_conn() as conn:
+        rows = conn.execute("""
+            SELECT session_id, deleted_at FROM deleted_sessions
+            WHERE username = %s
+            ORDER BY deleted_at DESC
+        """, (username,)).fetchall()
+        return [{"sessionId": r["session_id"], "deletedAt": r["deleted_at"]} for r in rows]
 
 
 @app.delete("/api/chat/clear-all")

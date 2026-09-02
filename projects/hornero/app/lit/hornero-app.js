@@ -48,10 +48,13 @@ class HorneroApp extends HoComponent {
     // Refresh Mis Conversaciones when background PULL finishes
     this._onSessionsUpdated = (e) => {
       if (e.detail && e.detail.sessions) {
+        // Smart diff: only update if session IDs actually changed (avoid flash)
+        const oldIds = (this.misConversacionesList || []).map(s => s.sessionId).join(',');
+        const newIds = e.detail.sessions.map(s => s.sessionId).join(',');
         this.misConversacionesList = e.detail.sessions;
-        // Only re-render if user is ON the Mis Conversaciones screen (avoid chat flash/scroll)
-        if (this.screen === 'misConversaciones') {
-          this.render();
+        // Only re-render if user is ON the Mis Conversaciones screen AND data changed
+        if (this.screen === 'misConversaciones' && oldIds !== newIds) {
+          this._patchMisConversacionesList();
         }
       }
     };
@@ -124,8 +127,10 @@ class HorneroApp extends HoComponent {
     this._recibidosLoaded = false;
     this._recibidosList = [];
     this._misConvLoaded = false;
-    this._misConvPollTimer = null; // 15s poll for live sync between devices
     this._misRepLoaded = false;
+    this._ptrStartY = 0;
+    this._ptrPulling = false;
+    this._ptrRefreshing = false;
 
     // Sections bar — ALL screens (scrollable horizontal tabs below header)
     // Actualidad = esfera interna, no tiene tab propio; clipping e infomate son sus outlets visibles
@@ -992,6 +997,26 @@ class HorneroApp extends HoComponent {
         background: var(--ho-text-off, #F2F1EC); transition: transform .3s; }
       .theme-toggle.active .theme-toggle-knob { transform: translateX(22px); }
 
+      /* ===== Pull-to-refresh indicator ===== */
+      .ptr-indicator {
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        height: 0; overflow: hidden; opacity: 0;
+        transition: height .2s ease, opacity .2s ease;
+        color: var(--ho-green, #4E9978); font-family: 'Public Sans', sans-serif;
+        font-size: .78rem; padding: 0 16px; flex: none;
+      }
+      .ptr-indicator.visible { opacity: 1; }
+      .ptr-spinner {
+        width: 16px; height: 16px;
+        border: 2px solid var(--ho-border, rgba(255,255,255,.1));
+        border-top-color: var(--ho-green, #4E9978);
+        border-radius: 50%;
+      }
+      .ptr-indicator.refreshing .ptr-spinner {
+        animation: ptrSpin .6s linear infinite;
+      }
+      @keyframes ptrSpin { to { transform: rotate(360deg); } }
+
       /* ===== Nav badge (new clipping indicator) ===== */
       .nav-btn { position: relative; }
       .nav-badge { position: absolute; top: 2px; right: calc(50% - 18px);
@@ -1168,6 +1193,7 @@ class HorneroApp extends HoComponent {
 
             <div class="body-scroll${isChatScreen ? ' body-scroll--chat' : ''}">
               ${(!showHeader && !showBottomNav) ? '<button class="floating-back-btn" id="floatingBackBtn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>' : ''}
+              <div class="ptr-indicator" id="ptrIndicator"><div class="ptr-spinner"></div><span class="ptr-text">Soltá para actualizar</span></div>
               <div class="screen-enter screen-enter--${this._navDirection}">${screenContent}</div>
             </div>
 
@@ -1520,17 +1546,13 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'recibidos' && !this._recibidosLoaded) {
       this._loadRecibidos().then(() => { this._recibidosLoaded = true; this.render(); });
     }
-    // Load misConversaciones data when screen is active + start 15s poll for cross-device sync
+    // Load misConversaciones data when screen is active (no poll — background PULL dispatches events)
     if (this.screen === 'misConversaciones') {
       if (!this._misConvLoaded) {
         this._loadMisConversaciones().then(() => { this._misConvLoaded = true; this.render(); });
       }
-      // Start 15s poll if not already running
-      if (!this._misConvPollTimer) {
-        this._misConvPollTimer = setInterval(() => {
-          this._loadMisConversaciones().then(() => { this.render(); });
-        }, 15000);
-      }
+      // Bind pull-to-refresh touch handlers
+      this._bindPullToRefresh();
     }
     // Load misReportes data when screen is active
     if (this.screen === 'misReportes' && !this._misRepLoaded) {
@@ -2073,7 +2095,8 @@ class HorneroApp extends HoComponent {
     if (this.screen === 'recibidos' && screen !== 'recibidos') this._recibidosLoaded = false;
     if (this.screen === 'misConversaciones' && screen !== 'misConversaciones') {
       this._misConvLoaded = false;
-      if (this._misConvPollTimer) { clearInterval(this._misConvPollTimer); this._misConvPollTimer = null; }
+      this._ptrPulling = false;
+      this._ptrRefreshing = false;
     }
     if (this.screen === 'misReportes' && screen !== 'misReportes') this._misRepLoaded = false;
     // If navigating to same screen, force re-render to reset component state (e.g., expanded banner)
@@ -2347,6 +2370,39 @@ class HorneroApp extends HoComponent {
     const backSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const backBtn = '<button class="list-screen-back" id="listBackBtn">' + backSvg + '</button>';
     const headerRight = this._buildListPlusMenu('misConversaciones');
+    if (list.length === 0) {
+      return '<div class="list-screen">' +
+        '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Conversaciones</div>' + headerRight + '</div>' +
+        '<div class="list-empty">No hay chats guardados</div>' +
+      '</div>';
+    }
+    const items = this._buildMisConvItems(list);
+    return '<div class="list-screen">' +
+      '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Conversaciones</div>' + headerRight + '</div>' +
+      '<div class="list-screen-desc">Historial de chats de toda la pagina. Toca una conversacion para continuar.</div>' +
+      '<div class="list-scroll">' + items + '</div>' +
+    '</div>';
+  }
+
+  // Patch only the list-scroll DOM without full re-render (avoids flash)
+  _patchMisConversacionesList() {
+    const list = this.misConversacionesList || [];
+    const scrollEl = this.shadowRoot.querySelector('.list-screen .list-scroll');
+    if (!scrollEl) {
+      // No list-scroll in DOM yet — fall back to full render
+      this.render();
+      return;
+    }
+    if (list.length === 0) {
+      scrollEl.innerHTML = '<div class="list-empty">No hay chats guardados</div>';
+      return;
+    }
+    scrollEl.innerHTML = this._buildMisConvItems(list);
+    this._bindMisConvHandlers();
+  }
+
+  // Build the HTML string for history items (extracted from _renderMisConversaciones)
+  _buildMisConvItems(list) {
     const sectionConfig = {
       consulta:  { emoji: '♣', label: 'Consulta',  color: '#2B5278', persona: 'abogado', img: 'assets/personajes/a03.png' },
       contenido: { emoji: '♪', label: 'Contenido', color: '#5A4A3A', persona: 'periodista', img: 'assets/personajes/a04.png' },
@@ -2355,23 +2411,15 @@ class HorneroApp extends HoComponent {
       historia:  { emoji: '♤', label: 'Historia',   color: '#4A3A5A', persona: 'historiador', img: 'assets/personajes/a01.png' },
     };
     const defaultSection = { emoji: '♠', label: 'Hornero', color: '#7A3B1E', persona: 'abogado', img: 'assets/personajes/a03.png' };
-    if (list.length === 0) {
-      return '<div class="list-screen">' +
-        '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Conversaciones</div>' + headerRight + '</div>' +
-        '<div class="list-empty">No hay chats guardados</div>' +
-      '</div>';
-    }
-    const items = list.map(s => {
+    return list.map(s => {
       const sec = sectionConfig[s.section] || defaultSection;
       const sectionClass = s.section ? 'section-' + s.section : 'section-default';
       const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
       const timeStr = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
       const navScreen = s.section === 'reporte' ? 'gremial' : s.section === 'contenido' ? 'contenido' : s.section === 'historia' ? 'formacion' : 'consulta';
       const personaKey = s.persona || sec.persona;
-      // Map persona key → display name (mirrors _getPersonaConfig in hornero-chat.js)
       const personaNameMap = { abogado: 'Abogado/a', companero: 'Compañero/a', periodista: 'Periodista', historiador: 'Historiador/a', sociologo: 'Investigador/a', hornero: 'Hornero', archivo: 'Archivo' };
       const personaName = personaNameMap[personaKey] || sec.label;
-      // Map persona key → icon image (mirrors _getPersonaConfig in hornero-chat.js)
       const personaIconMap = { abogado: 'assets/personajes/iconos/a03.png', companero: 'assets/personajes/iconos/a02.png', periodista: 'assets/personajes/iconos/a04.png', historiador: 'assets/personajes/iconos/a01.png', sociologo: 'assets/personajes/iconos/a05.png', hornero: 'assets/hornero-logo-nobg.png', archivo: 'assets/personajes/iconos/a01.png' };
       const navPersona = personaKey === 'companero' ? 'companero' : personaKey === 'historiador' ? 'historiador' : personaKey === 'periodista' ? 'periodista' : 'abogado';
       const imgSrc = (s.persona && personaIconMap[s.persona]) || sec.img;
@@ -2405,14 +2453,128 @@ class HorneroApp extends HoComponent {
         '</div>' +
       '</div>';
     }).join('');
-    return '<div class="list-screen">' +
-      '<div class="list-screen-header">' + backBtn + '<div class="list-screen-title">Mis Conversaciones</div>' + headerRight + '</div>' +
-      '<div class="list-screen-desc">Historial de chats de toda la pagina. Toca una conversacion para continuar.</div>' +
-      '<div class="list-scroll">' + items + '</div>' +
-    '</div>';
   }
 
-    async _loadMisConversaciones() {
+  // Bind click handlers for Mis Conversaciones items (extracted from _afterRender)
+  _bindMisConvHandlers() {
+    // Navigate on item click
+    this.shadowRoot.querySelectorAll('[data-navigate-screen]').forEach(item => {
+      item.addEventListener('click', (e) => {
+        if (e.target.closest('.history-action-btn')) return;
+        const screen = item.dataset.navigateScreen;
+        const persona = item.dataset.navigatePersona;
+        const sessionId = item.dataset.navigateSession;
+        if (screen) {
+          this._initialPersona = persona || 'abogado';
+          this._initialSessionId = sessionId || '';
+          if (this.screen === screen && sessionId) {
+            const screenMap = { gremial: 'hornero-gremial', historiador: 'hornero-historiador', formacion: 'hornero-formacion', consulta: 'hornero-consulta', contenido: 'hornero-contenido' };
+            const comp = this.shadowRoot.querySelector(screenMap[screen]);
+            if (comp && typeof comp._loadSession === 'function') {
+              comp._loadSession(sessionId);
+            }
+            return;
+          }
+          this._navigateTo(screen);
+        }
+      });
+    });
+    // Action buttons
+    this.shadowRoot.querySelectorAll('.history-action-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = btn.dataset.action;
+        const sessionId = btn.dataset.sessionId;
+        if (!action || !sessionId) return;
+        if (action === 'delete') {
+          if (typeof borrarChatSession === 'function') {
+            borrarChatSession(sessionId).then(() => {
+              this._loadMisConversaciones().then(() => { this._patchMisConversacionesList(); });
+            });
+          }
+        } else if (action === 'download') {
+          if (typeof obtenerChatSessionMessages === 'function') {
+            obtenerChatSessionMessages(sessionId).then(messages => {
+              if (!messages || messages.length === 0) return;
+              const text = messages.map(m => (m.role === 'user' ? '👤' : '🪶') + ' ' + (m.text || '')).join('\n\n');
+              const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url; a.download = 'chat-' + sessionId + '.txt';
+              document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            }).catch(err => console.warn('App: download chat failed', err));
+          }
+        } else if (action === 'reenviar') {
+          const item = btn.closest('.history-item');
+          if (item) {
+            const screen = item.dataset.navigateScreen;
+            const persona = item.dataset.navigatePersona;
+            if (screen) {
+              this._initialPersona = persona || 'abogado';
+              this._initialSessionId = sessionId;
+              this._navigateTo(screen);
+            }
+          }
+        }
+      });
+    });
+  }
+
+  // Pull-to-refresh: bind touch handlers on .body-scroll when on misConversaciones
+  _bindPullToRefresh() {
+    const bodyScroll = this.shadowRoot.querySelector('.body-scroll');
+    if (!bodyScroll || bodyScroll._ptrBound) return;
+    bodyScroll._ptrBound = true;
+
+    bodyScroll.addEventListener('touchstart', (e) => {
+      if (this.screen !== 'misConversaciones' || this._ptrRefreshing) return;
+      this._ptrStartY = e.touches[0].clientY;
+      this._ptrPulling = false;
+    }, { passive: true });
+
+    bodyScroll.addEventListener('touchmove', (e) => {
+      if (this.screen !== 'misConversaciones' || this._ptrRefreshing) return;
+      const diff = e.touches[0].clientY - this._ptrStartY;
+      if (bodyScroll.scrollTop <= 0 && diff > 10) {
+        this._ptrPulling = true;
+        const indicator = this.shadowRoot.querySelector('#ptrIndicator');
+        if (indicator) {
+          const pullDist = Math.min(diff * 0.4, 60);
+          indicator.style.height = pullDist + 'px';
+          indicator.classList.toggle('visible', pullDist > 20);
+          indicator.querySelector('.ptr-text').textContent = pullDist > 40 ? 'Soltá para actualizar' : 'Deslizá hacia abajo';
+        }
+      }
+    }, { passive: true });
+
+    bodyScroll.addEventListener('touchend', () => {
+      if (!this._ptrPulling || this.screen !== 'misConversaciones') return;
+      const indicator = this.shadowRoot.querySelector('#ptrIndicator');
+      if (indicator && indicator.classList.contains('visible')) {
+        // Trigger refresh
+        this._ptrRefreshing = true;
+        indicator.classList.add('refreshing');
+        indicator.style.height = '40px';
+        indicator.querySelector('.ptr-text').textContent = 'Actualizando...';
+        this._loadMisConversaciones().then(() => {
+          this._patchMisConversacionesList();
+          setTimeout(() => {
+            indicator.classList.remove('visible', 'refreshing');
+            indicator.style.height = '0';
+            indicator.querySelector('.ptr-text').textContent = 'Soltá para actualizar';
+            this._ptrRefreshing = false;
+          }, 500);
+        });
+      } else if (indicator) {
+        indicator.style.height = '0';
+        indicator.classList.remove('visible');
+      }
+      this._ptrPulling = false;
+    });
+  }
+
+  async _loadMisConversaciones() {
     const session = JSON.parse(localStorage.getItem('hornero-session') || '{}');
     const username = session.username || '';
     try {
