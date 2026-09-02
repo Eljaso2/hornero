@@ -1032,6 +1032,49 @@ async def health():
     }
 
 
+@app.get("/api/test/llm")
+async def test_llm():
+    """Diagnostic: call the LLM directly and return result or error. No auth required."""
+    import time as _time
+    t0 = _time.time()
+    try:
+        if LLM_PROVIDER == "deepseek":
+            raw_response = await call_deepseek(
+                api_key=DEEPSEEK_API_KEY,
+                system_prompt="Respondé con un solo palabra: HOLA",
+                user_message="Decí hola",
+                history=[],
+                model=DEEPSEEK_MODEL,
+                base_url=DEEPSEEK_BASE_URL,
+            )
+        elif LLM_PROVIDER == "claude":
+            raw_response = await call_claude(
+                api_key=ANTHROPIC_API_KEY,
+                system_prompt="Respondé con una sola palabra: HOLA",
+                user_message="Decí hola",
+                history=[],
+                model=ANTHROPIC_MODEL,
+                base_url=ANTHROPIC_BASE_URL,
+            )
+        else:
+            return {"error": f"Unknown LLM_PROVIDER: {LLM_PROVIDER}"}
+        elapsed = round(_time.time() - t0, 2)
+        return {"ok": True, "provider": LLM_PROVIDER,
+                "model": ANTHROPIC_MODEL if LLM_PROVIDER == "claude" else DEEPSEEK_MODEL,
+                "base_url": ANTHROPIC_BASE_URL if LLM_PROVIDER == "claude" else DEEPSEEK_BASE_URL,
+                "api_key_set": bool(ANTHROPIC_API_KEY if LLM_PROVIDER == "claude" else DEEPSEEK_API_KEY),
+                "api_key_prefix": (ANTHROPIC_API_KEY[:12] + "...") if (LLM_PROVIDER == "claude" and ANTHROPIC_API_KEY) else (DEEPSEEK_API_KEY[:8] + "..." if DEEPSEEK_API_KEY else "NONE"),
+                "response_length": len(raw_response), "response_preview": raw_response[:200],
+                "elapsed_s": elapsed}
+    except Exception as e:
+        elapsed = round(_time.time() - t0, 2)
+        return {"ok": False, "provider": LLM_PROVIDER,
+                "model": ANTHROPIC_MODEL if LLM_PROVIDER == "claude" else DEEPSEEK_MODEL,
+                "base_url": ANTHROPIC_BASE_URL if LLM_PROVIDER == "claude" else DEEPSEEK_BASE_URL,
+                "api_key_set": bool(ANTHROPIC_API_KEY if LLM_PROVIDER == "claude" else DEEPSEEK_API_KEY),
+                "api_key_prefix": (ANTHROPIC_API_KEY[:12] + "...") if (LLM_PROVIDER == "claude" and ANTHROPIC_API_KEY) else (DEEPSEEK_API_KEY[:8] + "..." if DEEPSEEK_API_KEY else "NONE"),
+                "error_type": type(e).__name__, "error": str(e),
+                "elapsed_s": elapsed}
 @app.get("/api/test/stream")
 async def test_stream():
     """Diagnostic SSE stream — no auth required. Tests SSE through Cloudflare/Render proxy."""
