@@ -430,7 +430,7 @@ async def greeting_endpoint(req: GreetingRequest, user: dict = Depends(require_a
 class ScrapeRequest(BaseModel):
     url: str
 
-MAX_SCrape_CHARS = 5000
+MAX_SCRAPE_CHARS = 5000
 
 async def _scrape_url_content(url: str) -> dict:
     """Fetch a URL and extract readable text content. Returns {title, text, url}."""
@@ -443,8 +443,7 @@ async def _scrape_url_content(url: str) -> dict:
             resp.raise_for_status()
             content_type = resp.headers.get("content-type", "")
             if "text/html" not in content_type and "application/xhtml" not in content_type:
-                # For non-HTML (plain text, PDF redirect, etc.), just return raw text
-                text = resp.text[:MAX_SCrape_CHARS]
+                text = resp.text[:MAX_SCRAPE_CHARS]
                 return {"title": url.split("/")[-1] or url, "text": text, "url": url}
             html = resp.text
     except Exception as e:
@@ -454,28 +453,63 @@ async def _scrape_url_content(url: str) -> dict:
     try:
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(html, "lxml")
-        # Remove script, style, nav, footer, header — keep article content
         for tag in soup(["script", "style", "nav", "footer", "header", "aside", "form", "iframe"]):
             tag.decompose()
         title = soup.title.get_text(strip=True) if soup.title else ""
-        # Try to find article or main content
         article = soup.find("article") or soup.find("main") or soup.find("div", class_=re.compile(r"article|content|post|entry|noticia", re.I))
         body = article if article else soup.body if soup.body else soup
         text = body.get_text(separator="\n", strip=True) if body else ""
-        # Limit length
-        if len(text) > MAX_SCrape_CHARS:
-            text = text[:MAX_SCrape_CHARS] + "\n[...contenido truncado]"
+        # If extracted text is very short, site likely uses JS rendering — try Jina Reader
+        if len(text) < 200:
+            jina_result = await _scrape_with_jina(url)
+            if jina_result:
+                return jina_result
+        if len(text) > MAX_SCRAPE_CHARS:
+            text = text[:MAX_SCRAPE_CHARS] + "\n[...contenido truncado]"
         return {"title": title or url.split("/")[-1] or url, "text": text, "url": url}
     except ImportError:
-        # beautifulsoup4 not installed — return raw text stripped of tags
         text = re.sub(r"<[^>]+>", "", html)
         text = re.sub(r"\s+", " ", text).strip()
-        if len(text) > MAX_SCrape_CHARS:
-            text = text[:MAX_SCrape_CHARS] + " [...contenido truncado]"
+        if len(text) > MAX_SCRAPE_CHARS:
+            text = text[:MAX_SCRAPE_CHARS] + " [...contenido truncado]"
         return {"title": url.split("/")[-1] or url, "text": text, "url": url}
     except Exception as e:
         logger.warning(f"Parse failed for {url}: {e}")
         return {"title": url, "text": f"[Error al procesar el link: {e}]", "url": url}
+
+
+async def _scrape_with_jina(url: str) -> dict | None:
+    """Fallback: use Jina Reader API to render JS-heavy pages and extract content."""
+    try:
+        jina_url = f"https://r.jina.ai/{url}"
+        async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
+            resp = await client.get(jina_url, headers={"Accept": "text/plain"})
+            resp.raise_for_status()
+            text = resp.text
+            if not text or len(text) < 100:
+                return None
+            title = ""
+            lines = text.split("\n")
+            for line in lines:
+                line = line.strip()
+                if line.startswith("Title:"):
+                    title = line.replace("Title:", "").strip()
+                elif line and not line.startswith("[") and not line.startswith("*") and not line.startswith("!") and not line.startswith("http"):
+                    break
+            skip_prefixes = ("Title:", "URL Source:", "Published Time:", "Markdown Content:", "[Omitir", "[Skip")
+            clean_lines = []
+            for line in lines:
+                stripped = line.strip()
+                if any(stripped.startswith(p) for p in skip_prefixes):
+                    continue
+                clean_lines.append(line)
+            text = "\n".join(clean_lines).strip()
+            if len(text) > MAX_SCRAPE_CHARS:
+                text = text[:MAX_SCRAPE_CHARS] + "\n[...contenido truncado]"
+            return {"title": title or url.split("/")[-1] or url, "text": text, "url": url}
+    except Exception as e:
+        logger.warning(f"Jina fallback failed for {url}: {e}")
+        return None
 
 
 async def _extract_pdf_text(pdf_b64: str, pdf_name: str = "") -> dict:
