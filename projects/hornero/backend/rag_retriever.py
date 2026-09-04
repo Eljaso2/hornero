@@ -104,6 +104,9 @@ STEM_MAP = {
     "diarios": "diario",
     # Verbos de opinión → canonical "opinion" para que "opina Yofra" también boostee
     "opina": "opinion", "opinan": "opinion",
+    # Escala ↔ escalafón: cuando preguntan por "escala salarial" también buscan "escalafón"
+    "escala": "escalafon", "escalas": "escalafon", "escalafón": "escalafon",
+    "escalafor": "escalafon",  # typo común
 }
 
 
@@ -122,6 +125,11 @@ SYNONYM_GROUPS = [
     {"accidente", "muerte-obrera", "riesgo-laboral", "siniestro",
      "seguridad-laboral", "higiene-seguridad", "salud-laboral",
      "control-obrero", "comites-mixtos"},
+    # escala ↔ escalafón ↔ coeficiente: cuando preguntan por "escala salarial"
+    # también quieren ver el escalafón con sus coeficientes
+    {"escalafon", "coeficiente"},
+    # televisión ↔ televisada: query "televisión" → match chunks tagged "prensa televisada"
+    {"television", "televisada"},
 ]
 
 
@@ -258,13 +266,19 @@ TENANT_KEYWORDS = {
     ],
     "prensa": [
         "SIPREBA", "UPC", "Union de Prensa", "FEP", "Federacion de Periodistas",
-        "ADEPA", "IANA", "CCT 301", "CCT 124", "estatuto del periodista",
+        "FATPREN", "ADEPA", "IANA", "CCT 301", "CCT 124", "estatuto del periodista",
         "ley 12.908", "periodista", "cronista", "corrector", "diagramador",
         "editor", "fotografo", "reportero grafico", "prensa escrita",
         "prensa televisada", "jornada 6 horas", "36 horas", "salario profesional",
         "estabilidad del periodista", "indemnizacion agravada", "clausula de conciencia",
         "noticiero", "movilero", "productor periodistico", "redaccion",
         "agustin lecchi",
+        # Escalafón / escala salarial TV
+        "escalafon", "escalafón tv", "coeficiente", "aspirante", "ayudante",
+        "camarografo", "auriconista", "compaginador", "comentarista",
+        "jefe de redaccion", "jefe de noticias", "jefe de camaras",
+        "secretario de redaccion", "corresponsal", "cronista acreditado",
+        "laboratorista", "archivista", "motociclista",
     ],
 }
 
