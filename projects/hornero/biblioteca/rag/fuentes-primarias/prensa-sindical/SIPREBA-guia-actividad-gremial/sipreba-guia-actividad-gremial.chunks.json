@@ -1,0 +1,98 @@
+[
+  {
+    "id": "prensa-guia-actividad-gremial-sec1",
+    "articulo": "sección 1",
+    "tipo": "documento",
+    "category": "fuentes",
+    "tenant": "prensa",
+    "norma": "Guía SIPREBA 2024",
+    "capa": "fuentes",
+    "tags": [
+      "SIPREBA",
+      "guía del delegado",
+      "asamblea",
+      "medida de fuerza",
+      "paro",
+      "notificación empresa",
+      "Secretaría de Trabajo",
+      "Ministerio de Trabajo",
+      "comisión interna",
+      "formularios",
+      "nota a empresa",
+      "asamblea permanente",
+      "derecho de huelga",
+      "convocatoria asamblea"
+    ],
+    "title": "Guía SIPREBA — Convocatoria a Asambleas y notificación de medidas de fuerza",
+    "text": "Convocatoria a Asambleas, notificación de medidas de fuerza ante incumplimiento o por reivindicaciones propias, elecciones de comisión interna, etc.\n\nEn la actividad gremial cotidiana tenemos tres tipos de situaciones de conflicto:\n1. Conflictos en el ámbito de la empresa, por cuestiones puntuales, incumplimientos, puestos de trabajo, reivindicaciones particulares, etc.\n2. Conflictos colectivos generales de toda una rama o de toda la actividad.\n3. Situaciones más generales del movimiento obrero, sociales o políticas que ameriten un paro u otro tipo de medida de fuerza.\n\nEn cualquier caso, si se define una medida de acción directa, el sindicato debe notificar a la Secretaría de Trabajo y dar copia a la empresa.\n\nUna medida de acción directa notificada por el sindicato en los términos requeridos por la ley, le da a los trabajadores y a las trabajadoras la protección necesaria para poder ejercer el derecho de huelga, evitando que la empresa pueda sancionar a quienes participen. Es por eso que es fundamental la comunicación entre las comisiones internas y el sindicato (a través de la secretaría general, adjunta, gremial o pro gremial).\n\nNo se debe, por lo tanto, iniciar una medida de fuerza sin informar al sindicato con el tiempo necesario para que, a su vez, el sindicato notifique al Secretaría de Trabajo. Un plazo razonable para comunicar la medida de fuerza al Secretaría de Trabajo son 24 horas de anticipación. Esto permite resguardarnos y tener la mayor cobertura legal posible. En situaciones de fuerza mayor, como despidos, se puede adoptar la medida de manera inmediata, pero también debe ser comunicada formalmente en ese mismo momento.\n\nPautas sugeridas:\nI. Para convocar Asamblea en el lugar de trabajo: que la Comisión Interna notifique con un plazo no menor a 24hs de anterioridad a la empresa, mediante una comunicación formal, por un mecanismo acordado previamente con la empresa. Puede ser mail o nota firmada por uno o más integrantes de la Comisión Interna.\nII. Luego de la Asamblea, se debe comunicar la resolución de Asamblea a la empresa. En caso de que la resolución implique medida de fuerza hay que comunicar al sindicato para que éste notifique a la Secretaría de Trabajo.\nIII. La Asamblea o Comisión Interna puede decretar el estado de alerta, movilización y/o asamblea permanente, lo cual permite realizar asambleas sin previo aviso. Pero ese estado debe comunicarse a la empresa y al sindicato para que éste notifique a la Secretaría de Trabajo.\nIV. La Asamblea o Comisión Interna puede convocar a una medida de fuerza. En ese caso, el sindicato debe notificar la medida a la Secretaría de Trabajo, preferentemente con no menos de 24hs de anticipación. Es recomendable que la Comisión Interna notifique de esto a la empresa, dando copia de la presentación realizada ante el Ministerio de Trabajo.\n\nTodas estas pautas están dadas para los momentos donde no existe una urgencia o un conflicto abierto. En situaciones de mayor conflictividad, como por ejemplo, por despidos o una modificación en las condiciones laborales prexistentes o incumplimiento repentino grave de parte de la empresa, se puede convocar a una medida de fuerza de manera inmediata (mediante resolución de asamblea), y que el sindicato notifique a Trabajo, para que la Comisión Interna pueda enviar a la empresa una copia de esa notificación formal que le da respaldo.\n\nFormularios:\n- ANEXO 1: Convocatoria a Asamblea — Notificación formal a la empresa con plazo de 24hs.\n- ANEXO 2: Resolución de Asamblea — Comunicación de la resolución tomada en asamblea.\n- ANEXO 3: Asamblea Permanente — Similar a convocatoria, sumando declaración de asamblea permanente.\n- ANEXO 4: Notificación de Medida de Acción Directa — Notificación de paro con copia de notificación al ministerio de trabajo.",
+    "sources": [
+      "Guía SIPREBA 2024",
+      "Guía del Delegado SIPREBA 2024"
+    ],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024, págs. 52-53",
+    "quotes": []
+  },
+  {
+    "id": "prensa-guia-actividad-gremial-sec2",
+    "articulo": "sección 2",
+    "tipo": "documento",
+    "category": "fuentes",
+    "tenant": "prensa",
+    "norma": "Guía SIPREBA 2024",
+    "capa": "fuentes",
+    "tags": [
+      "SIPREBA",
+      "guía del delegado",
+      "elección delegados",
+      "comisión interna",
+      "fueros gremiales",
+      "tutela sindical",
+      "lista cerrada",
+      "lista abierta",
+      "junta electoral",
+      "Carta Documento",
+      "Ministerio de Trabajo",
+      "mandato delegado"
+    ],
+    "title": "Guía SIPREBA — Elecciones de Comisión Interna y fueros gremiales",
+    "text": "Elecciones de Comisión Interna.\n\nLa elección de delegados y delegadas en el lugar de trabajo la tiene que convocar el sindicato, a través de su Secretaría General, Adjunta, de Organización o Gremial.\n\nEl mandato de la Comisión Interna, delegado o delegada, es de dos años. El plazo de dos años se encuentra establecido por Ley y no puede excederse. Los delegados/as pueden ser reelegidos.\n\nLa cantidad de delegados/as está determinada por la Ley de Asociaciones Sindicales. Se puede tener 1 delegado/a a partir de 10 trabajadores/as de prensa en un mismo establecimiento (según nuestra visión, quienes están trabajando de manera no registrada —fraude laboral por monotributo u otra forma— también tienen que ser contemplados en la cuenta y pueden ser candidatos). La cantidad de delegados/das posibles es 2 cuando se trata de un lugar que tiene desde cincuenta y uno (51) a cien (100) trabajadores/as. Mientras que de ciento uno (101) trabajadores/as en adelante, se puede tener un (1) representante más cada cien (100) trabajadores/as. Además, en caso de que hubieran varios turnos de trabajo, la ley permite que haya un delegado/a por franja horaria. Desalentamos votar delegados/as suplentes ya que la tutela gremial en estos casos suele ser más discutida.\n\nLa elección de delegados y delegadas es de manera secreta y puede tener dos modalidades:\n1. Mediante lista cerrada. Si van a elegirse tres delegados/das, se presentan las candidaturas de tres trabajadores/as en una misma lista y compiten contra otra lista donde también se presentan tres diferentes. En este caso, la lista que obtiene un voto más ingresa entera como Comisión Interna y la que pierde queda descartada.\n2. Por lista abierta. Se presentan de manera individual quienes quieran postularse. Si hay tres lugares y siete candidatos/as, los tres más votados serán los integrantes de la Comisión Interna.\n\nRequisito para ser delegado/a: tener más de un año de antigüedad como afiliado/a al sindicato y como mínimo un año de antigüedad en la empresa (según la ley de asociaciones sindicales).\n\nFueros gremiales: Los delegados y las delegadas cuentan con tutela sindical (\"fueros gremiales\") por todo el mandato (dos años), y un año más después de terminar ese plazo. A su vez, quienes se postulan como representantes gremiales, tienen tutela sindical desde que se notifica la candidatura al cargo a la parte empleadora y por un plazo de seis meses. Si es electo, mantiene la protección (mandato + un año posterior); y si no lo es, pierde los fueros una vez cumplidos los 6 meses desde su postulación (si la autoridad electoral no oficializa la lista o la persona candidata recibe menos del 5% de los votos válidos emitidos, pierde automáticamente la protección).\n\nPlazos y pasos para la elección:\n1. Notificación inicial: 10 hábiles como mínimo previo a la elección. El sindicato debe notificar a la empresa mediante Carta Documento, indicando día de elección y día de asamblea de junta electoral. La asamblea de junta electoral elige integrantes de la Junta Electoral (número impar: 3 o 5). Idealmente la Junta Electoral la garantizan compañeros del lugar de trabajo.\n2. Notificación Junta Electoral: El sindicato notifica a la empresa los miembros de la Junta Electoral. Se solicita padrón y lugar para la elección.\n3. Notificación candidatos: La junta electoral notifica al sindicato las candidaturas y el sindicato a la empresa. La notificación debe ser automática a la postulación, para que el candidato cuente con fueros legales. Plazos para presentar lista: nunca menos de 48hs de la elección.\n4. Notificación de resultados: El sindicato notifica los resultados a la empresa mediante Carta Documento.\n\nLegalmente es imprescindible que el sindicato notifique mediante Carta Documento, también al Ministerio de Trabajo, solicitando veedores en caso de considerarlo.",
+    "sources": [
+      "Guía SIPREBA 2024",
+      "Guía del Delegado SIPREBA 2024"
+    ],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024, págs. 54-56",
+    "quotes": []
+  },
+  {
+    "id": "prensa-guia-actividad-gremial-sec3",
+    "articulo": "sección 3",
+    "tipo": "documento",
+    "category": "fuentes",
+    "tenant": "prensa",
+    "norma": "Guía SIPREBA 2024",
+    "capa": "fuentes",
+    "tags": [
+      "SIPREBA",
+      "guía del delegado",
+      "licencia gremial",
+      "franco gremial",
+      "comisión interna",
+      "notificación empresa",
+      "actividad gremial"
+    ],
+    "title": "Guía SIPREBA — Solicitud de Licencia Gremial",
+    "text": "Solicitud de Licencia Gremial.\n\nLo envía mediante nota el sindicato a la empresa. Hay que acordar previamente el mecanismo entre el sindicato/comisión interna y la empresa. De manera obligatoria, esto sólo se puede pedir para actividades gremiales en las que el sindicato (ya sea en asamblea general, plenario o comisión directiva) defina una actividad, movilización o acción gremial que requiera la participación de delegados y delegadas. La notificación a la empresa idealmente tiene que ser con 72hs de antelación.\n\n— Sindicato de Prensa de Buenos Aires (SiPreBA), Solís 1158, Ciudad Autónoma de Buenos Aires. Octubre de 2024",
+    "sources": [
+      "Guía SIPREBA 2024",
+      "Guía del Delegado SIPREBA 2024"
+    ],
+    "grade_access": "open",
+    "vigencia": "vigente",
+    "book_ref": "SiPreBA, Guía del Delegado y la Delegada, 2024, pág. 56",
+    "quotes": []
+  }
+]

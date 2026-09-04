@@ -4,14 +4,7 @@
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "control-obrero",
-      "modelo-obrero-italiano",
-      "non-delega",
       "obrero",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "PARTE\nI: ntroducción general. Marco teórico y político  .................................... 13: Salud y la lucha de los trabajadores  ....................................................................... 18: «Non delega» El Modelo Obrero Italiano  ........................................................ 21 (p.4-5) — Censi",
@@ -25,30 +18,22 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "PARTE\nI: ntroducción general. Marco teórico y político  .................................... 13: Salud y la lucha de los trabajadores  ....................................................................... 18: «Non delega» El Modelo Obrero Italiano  ........................................................ 21",
-    "pages": "4-5",
-    "tenant": "shared"
+    "pages": "4-5"
   },
   {
     "id": "kb-manual-ssl-1",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "control-obrero",
-      "desmotador",
-      "fábrica",
-      "juicio",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "obrero",
-      "salario",
-      "salud-laboral",
-      "seguridad-laboral",
       "sindicato",
+      "obrero",
+      "fábrica",
       "trabajo",
-      "verdad"
+      "salario",
+      "condiciones",
+      "verdad",
+      "juicio",
+      "desmotador"
     ],
     "title": "Prólogo (p.6-9) — Censi",
     "text": "9\nPrólogo\nLA SEGURIDAD NO SE DELEGA,\nTIENE QUE SER UNA CONSTRUCCIÓN NUESTRA\n \nn estos tiempos donde buscamos sistematizar las respon-\nsabilidades y, sobre todo, las causalidades de los hechos \nque generan perjuicio a las trabajadoras y trabajadores, es \nnecesario pensar desde el colectivo la forma de discutir y \ndesarmar la estructura creada para disuadir, separar y desconocer \nlas actividades de resistencia de las y los trabajadores.\nDebemos construir y consolidar un método de salud obrera \nque nos permita transcurrir nuestra vida sin dejar el cuerpo en el \ntrabajo. Pensarnos como verdaderos realizadores de la producción \na cambio de salarios dignos y condiciones de salud y seguridad \nóptimas para disfrutar de una vida social y familiar sin problemas.\nDesde la Federación y a través de sus sindicatos venimos tra-\ntando de alinear un trabajo basado en experiencias y análisis entre \nobreros y profesionales; de trasmisión oral, que nos permita poder \nver la necesidad de cada compañera y compañero dentro de la \nfábrica, acompañarla/o y elaborar métodos acordes a la defensa \nde su integridad física y mental.\nEste manual es un importante paso adelante para consolidar \nlos trabajos llevados a cabo en los Comités, iniciando una nueva \ne importante etapa de la historia aceitera y desmotadora en la \nque dejamos registro escrito de nuestro trabajo en búsqueda de \nun modelo obrero de salud, defendiendo de esta manera una \nde las banderas más importantes que tenemos como trabajadores \ny trabajadoras. \nE",
@@ -61,30 +46,22 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "Prólogo",
-    "pages": "6-9",
-    "tenant": "shared"
+    "pages": "6-9"
   },
   {
     "id": "kb-manual-ssl-2",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
+      "sindicato",
       "Santa Fe",
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "control-obrero",
-      "convenio",
-      "fábrica",
-      "modelo-obrero-italiano",
-      "non-delega",
       "obrero",
       "paritaria",
+      "convenio",
+      "fábrica",
+      "trabajo",
       "salario",
-      "salud-laboral",
-      "seguridad-laboral",
-      "sindicato",
-      "trabajo"
+      "condiciones"
     ],
     "title": "Prólogo (p.10-10) — Censi",
     "text": "10\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nDesde la aprobación de la Ley de Comités Mixtos 12913/2008 \nen la provincia de Santa Fe, en la Federación y los sindicatos, se ha \ntrabajado enérgicamente para coordinar y ponerlos en pie como \nuna nueva herramienta de defensa de la salud y la integridad de \nlas y los trabajadores de nuestro sector. \nPrimero a nivel regional y luego nacional, agregándolo a las \ndemandas paritarias en el 2014 y conquistando su incorporación \nal Convenio Colectivo de Trabajo en el acuerdo paritario del 22 de \nabril de 2016. Y a través de capacitaciones, intercambios y asistencia \ngremial en todo lo que sea necesario para constituirlos y ponerlos \nen marcha.\nEn estos espacios hemos encontrado un lugar de revaloriza-\nción de nuestra lucha por el salario, sumándole a la pregunta de \n«cuánto debe ganar» una trabajadora o un trabajador, a «cómo debe \nganarlo», y modificar así las malas condiciones de trabajo que se \nvenían presentando dentro de las fábricas. \nA través de los Comités vamos visibilizando y reconociendo las \nformas de producción agresivas tanto física como psíquicamente \npara la trabajadora y el trabajador, que se despliegan en pos de la \nmaximización permanente de la productividad en los ámbitos labo-\nrales. Reflexionamos críticamente, para modificarlas, ya que las sabe-\nmos perjudiciales para la salud de las compañeras y compañeros.\nConvencidos de que la invisibilidad y la inacción provocan \naccidentes fatales, es que vamos construyendo un modelo de segu-\nridad desde la necesidad del colectivo obrero, afirmando en cada \npaso que la seguridad no se delega.\nMARCO POZZI",
@@ -97,23 +74,15 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "Prólogo",
-    "pages": "10-10",
-    "tenant": "shared"
+    "pages": "10-10"
   },
   {
     "id": "kb-manual-ssl-3",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "control-obrero",
       "convenio",
-      "modelo-obrero-italiano",
-      "non-delega",
       "patronal",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "Prólogo (p.11-9) — Censi",
@@ -127,26 +96,18 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "Prólogo",
-    "pages": "11-9",
-    "tenant": "shared"
+    "pages": "11-9"
   },
   {
     "id": "kb-manual-ssl-4",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "control-obrero",
-      "derecho",
-      "fábrica",
-      "modelo-obrero-italiano",
-      "non-delega",
       "obrero",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "fábrica",
+      "derecho",
+      "trabajo",
+      "condiciones"
     ],
     "title": "Parte\nI: NTRODUCCIÓN GENERAL.: MARCO TEÓRICO Y POLÍTICO (p.10-12) — Censi",
     "text": "Primera Parte\nINTRODUCCIÓN GENERAL.\nMARCO TEÓRICO Y POLÍTICO\n\n15\n \n \n \nl 1 de mayo de 1890 las trabajadoras y trabajadores argenti-\nnos se sumaron a la primera jornada internacional de lucha \nde la clase obrera. En dicho acto nos cuenta el historiador \nLeónidas Noni Cerruti, se leyó el mismo petitorio que se \nentregó al Congreso Nacional: Limitación de la jornada de trabajo \na un máximo de 8 horas para los adultos, prohibición del trabajo \nde los niños menores de catorce años y reducción de la jornada a \nseis horas para los jóvenes de ambos sexos de 14 a 18 años, abo-\nlición del trabajo de noche, prohibición del trabajo de la mujer \nen todos los ramos de industria que afecten con particularidad al \norganismo femenino, abolición del trabajo de noche de la mujer \ny de los obreros menores de 18 años, descanso no interrumpido \nde treinta y seis horas, por lo menos cada semana, para todos los \ntrabajadores, prohibición de cierto género de industrias y de cier-\ntos sistemas de fabricaciones perjudiciales a la salud de los traba-\njadores, supresión del trabajo a destajo y por subasta, inspección \nminuciosa de talleres y fábricas por delegados remunerados por \nel Estado: elegidos, al menos la mitad, por los mismos trabajado-\nres, obligación de todos los trabajadores de declarar y admitir a \nlas obreras como a compañeras, con los mismos derechos, entera \nlibertad de coalición y conciliación.\nHan pasado 130 años y la lucha de las trabajadoras y trabaja-\ndores por condiciones de trabajo dignas sigue tan vigente como \nentonces.\nE",
@@ -159,23 +120,15 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "Parte\nI: NTRODUCCIÓN GENERAL.: MARCO TEÓRICO Y POLÍTICO",
-    "pages": "10-12",
-    "tenant": "shared"
+    "pages": "10-12"
   },
   {
     "id": "kb-manual-ssl-5",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "control-obrero",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "condiciones"
     ],
     "title": "Parte\nI: NTRODUCCIÓN GENERAL.: MARCO TEÓRICO Y POLÍTICO (p.13-13) — Censi",
     "text": "16\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nA la hora de analizar las Condiciones y medio ambientes de \ntrabajo (CyMAT) en la actualidad existen dos grandes enfoques \n(Neffa Julio Cesar, 1985): \nEl tradicional o dominante es el que aún sostienen en general \nlos servicios médicos de los empleadores y muchos funcionarios \nde los Ministerios de Trabajo. \nAlgunos lineamientos de este enfoque son: \n• El trabajador es reducido a la condición de simple fuerza de \ntrabajo, se prioriza el impacto de la carga física en detri-\nmento de la carga psíquica y mental. \n• Entiende al problema de manera restringida (sólo como \nuna cuestión de higiene, seguridad, medicina del trabajo). \n• Estudia los distintos factores desde una perspectiva \nindividual.\n• Trabaja con la categoría de riesgo profesional, desde una \nnoción de «trabajador promedio» («el trabajador entre-\nnado que trabaja en un puesto estable con un rendimiento \nestándar»), es decir que considera homogénea a la fuerza \nde trabajo. \n• Se da por sentado que los riesgos profesionales son inhe-\nrentes e inseparables del trabajo y no pueden eliminarse. \n• Esto se cristaliza en la teoría del «factor humano»: la causa \nprincipal de los mencionados riesgos serían el descuido, \nla distracción, la irresponsabilidad, el acto inseguro y el \nno cumplimiento de las normas de prevención por parte \nde los mismos trabajadores. \n• Se llega a culpabilizar al trabajador por el hecho de ser \nvíctima de los accidentes de trabajo. \n• Como este enfoque no busca eliminar los riesgos en su \nmisma fuente, la salud de los trabajadores se convierte en \nuna mercancía más que se compra o se vende en el mercado, \nsiendo su precio el indicado por las «primas por riesgo», \n«por trabajo insalubre» o «plus por tareas riesgosas».  \nLa otra concepción se conoce como renovadora y es la que \nadopta la perspectiva de los trabajadores y trabajadoras. Sus prin-\ncipales lineamientos son:",
@@ -188,23 +141,15 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "Parte\nI: NTRODUCCIÓN GENERAL.: MARCO TEÓRICO Y POLÍTICO",
-    "pages": "13-13",
-    "tenant": "shared"
+    "pages": "13-13"
   },
   {
     "id": "kb-manual-ssl-6",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "control-obrero",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "condiciones"
     ],
     "title": "INTRODUCCIÓN (p.13-14) — Censi",
     "text": "17\nINTRODUCCIÓN GENERAL. MARCO TEÓRICO Y POLÍTICO\n• Las Condiciones y Medio ambientes de trabajo (CyMAT) \nno son estáticas ni determinadas de una vez y para siem-\npre, sino que sus factores se transforman en función de las \nrelaciones de fuerzas que se establecen entre trabajadores \ny empleadores. \n• El objeto de análisis es «el hombre / la mujer en situación \nde trabajo», esto constituye la situación sobre la cual van \na repercutir en su conjunto, y no fragmentariamente, los \ndiversos factores de riesgo. \n• Las CyMAT constituyen elementos endógenos al trabajo. \nSu conocimiento requiere la intervención de la subjetividad, \nes decir, la vivencia y percepción que tiene el trabajador/a. \n• Nadie está en mejor situación que el colectivo de traba-\njadores del establecimiento para conocer de qué manera \nlas condiciones y medio ambiente de trabajo afectan su \nvida y su salud.  \n• El Investigador Argentino Julio Cesar Neffa, del CIEL \nCONICET, las define de la siguiente manera: «…las CyMAT \nestán constituidas por un conjunto de variables que, a nivel \nde la sociedad en su conjunto, del establecimiento o de la \nunidad de trabajo, de manera directa o indirecta, van a \ninfluir sobre la vida y la salud física y mental de los trabaja-\ndores insertados en su colectivo de trabajo, influencia que \nva a depender en cada caso de las respectivas capacidades \nde adaptación y de resistencia a los factores de riesgo».\n• Las variables que componen las CyMAT desde esta pers-\npectiva «…son en primer lugar el proceso de trabajo pre-\ndominante, el que a su vez determinará en mayor o menor \ngrado la naturaleza, el contenido, la organización y la divi-\nsión del trabajo correspondiente, la higiene, seguridad y \nsalud ocupacionales, la ergonomía, la duración y configu-\nración del tiempo de trabajo, la carga física y psíquica del \ntrabajo, el sistema de remuneraciones, el modo de gestión \nde la fuerza del trabajo, las condiciones generales de vida y \nposibilidades de participar en el mejoramiento de dichas \ncondiciones».",
@@ -217,24 +162,16 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "13-14",
-    "tenant": "shared"
+    "pages": "13-14"
   },
   {
     "id": "kb-manual-ssl-7",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "control-obrero",
       "empresa",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "condiciones"
     ],
     "title": "INTRODUCCIÓN (p.15-15) — Censi",
     "text": "18\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nComo se puede apreciar,\nnuestra concepción de Condiciones\ny Medio Ambiente de Trabajo (CyMAT)\nes diametralmente opuesta a la que \nhegemoniza en la mayoría de los servicios \nmédicos o de higiene y seguridad de\nlas empresas y las Aseguradoras\nde Riesgos del Trabajo (ARTs).\nSalud y la lucha de los trabajadores\nEl concepto de salud y la salud como valor\nEn la actualidad, existen dos grandes grupos de conceptos sobre \nla salud:\na) En el primer grupo de conceptos, la salud es entendida \ncomo una cosa: un proceso o un estado. Así la Organiza-\nción Mundial de la Salud la define como: Un completo \nestado de equilibrio bio-psico-social. Por su parte, el \nMovimiento de la Salud Colectiva Latinoamericana cri-\nticó la idea de «estado» y señaló que de lo que se trata es de \nun proceso: un devenir de estados que expresan las contra-\ndicciones en una sociedad. En ambos conceptos, la salud es \nentendida como un objeto.\nb) El segundo grupo entiende a la salud como una capacidad. \nFloreal Ferrara popularizó esta idea, de un viejo investi-\ngador francés: «La salud es la capacidad de lucha contra \ntodo lo que limite la vida».\nAnte todo, la salud es un valor que se va desarrollando a lo largo \nde la historia. Sea «un estado de equilibrio» o un «proceso» al que \nse llega por medio de la «capacidad de lucha por la vida», la salud se \nhace real como valor en el modo en que la riqueza producida por el \nconjunto de la sociedad es distribuida entre sus miembros. En otras \npalabras, la capacidad de lucha por la vida es la capacidad de lucha \npor el control del trabajo, como única fuente de la riqueza.",
@@ -247,22 +184,14 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "15-15",
-    "tenant": "shared"
+    "pages": "15-15"
   },
   {
     "id": "kb-manual-ssl-8",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
       "capital",
-      "comites-mixtos",
-      "control-obrero",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "INTRODUCCIÓN (p.15-16) — Censi",
@@ -276,24 +205,16 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "15-16",
-    "tenant": "shared"
+    "pages": "15-16"
   },
   {
     "id": "kb-manual-ssl-9",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
       "capital",
-      "comites-mixtos",
-      "comunidad",
-      "control-obrero",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "comunidad"
     ],
     "title": "INTRODUCCIÓN (p.17-17) — Censi",
     "text": "20\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nAcumulación de riqueza = productividad del trabajo social - necesidades de\nlos trabajadores.\nComo vemos en la ecuación, sólo hay dos modos de aumentar \nla acumulación de riqueza: \n1) Intensificando la productividad del trabajo (intensifica \nel trabajo o aumenta su duración). Esto fue de la mano \nde la creación del «trabajo doméstico no remunerado» \nasignado socialmente a las mujeres, en el ámbito privado.\n2) Precarizando las necesidades vitales de los trabajadores.\nEn el capitalismo, el trabajo de cuidado de la salud tendrá \nun sentido diferente, en la medida en que ya no se tratará \nde asistir a un miembro de la comunidad sino a una parte \nde la fuerza de trabajo, es decir: a una cosa, una mercan-\ncía. El trabajo en salud definirá:\na) Quienes pueden trabajar y quienes serán objeto de la \nseguridad social (jubilaciones, pensiones, subsidios, etc.)\nb) Si el daño a la salud es responsabilidad o no del trabajo, \nes decir: de quien emplea su fuerza de trabajo (enferme-\ndad profesional).\nPero, por otro lado, las fuerzas productivas de trabajo organi-\nzadas como clase han logrado imponer muchas de sus demandas. \nLa historia es larga e incluye la jornada de 8 horas, la liberación del \ntrabajo a niños, niñas y embarazadas y la creación de la seguridad \nsocial, entre muchas otras. La fuerza política de la clase obrera ha \nlogrado diversificar y expandir las necesidades de los trabajadores \ny la riqueza destinada a su satisfacción. En este manual intentamos \naportar una herramienta del trabajo científico para enriquecer un \nnuevo logro de la clase: los comités mixtos de salud y seguridad.\nLa salud como expresión de valor, se aprecia concretamente \nen los logros de esta lucha. Los limitantes de la vida son las pro-\npias fuerzas del capital que, acumulando riqueza (para su propia \nreproducción) a costa del trabajo humano, degrada el libre y pleno \ndesarrollo de todas las personas.",
@@ -306,24 +227,16 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "17-17",
-    "tenant": "shared"
+    "pages": "17-17"
   },
   {
     "id": "kb-manual-ssl-10",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "Reconquista",
-      "accidente",
-      "comites-mixtos",
-      "control-obrero",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "obrero",
-      "salud-laboral",
-      "seguridad-laboral",
       "sindicato",
+      "Reconquista",
+      "obrero",
       "trabajo"
     ],
     "title": "INTRODUCCIÓN (p.17-18) — Censi",
@@ -337,23 +250,15 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "17-18",
-    "tenant": "shared"
+    "pages": "17-18"
   },
   {
     "id": "kb-manual-ssl-11",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "control-obrero",
-      "fábrica",
-      "modelo-obrero-italiano",
-      "non-delega",
       "obrero",
-      "salud-laboral",
-      "seguridad-laboral",
+      "fábrica",
       "trabajo"
     ],
     "title": "INTRODUCCIÓN (p.19-19) — Censi",
@@ -367,21 +272,13 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "19-19",
-    "tenant": "shared"
+    "pages": "19-19"
   },
   {
     "id": "kb-manual-ssl-12",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "control-obrero",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "INTRODUCCIÓN (p.19-20) — Censi",
@@ -395,23 +292,15 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "19-20",
-    "tenant": "shared"
+    "pages": "19-20"
   },
   {
     "id": "kb-manual-ssl-13",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "control-obrero",
-      "empresa",
       "fábrica",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
+      "empresa",
       "trabajo"
     ],
     "title": "INTRODUCCIÓN (p.21-21) — Censi",
@@ -425,25 +314,17 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "21-21",
-    "tenant": "shared"
+    "pages": "21-21"
   },
   {
     "id": "kb-manual-ssl-14",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "control-obrero",
-      "empresa",
-      "fábrica",
-      "modelo-obrero-italiano",
-      "non-delega",
       "obrero",
+      "fábrica",
+      "empresa",
       "patronal",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "INTRODUCCIÓN (p.21-30) — Censi",
@@ -457,26 +338,18 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "21-30",
-    "tenant": "shared"
+    "pages": "21-30"
   },
   {
     "id": "kb-manual-ssl-15",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "control-obrero",
       "convenio",
-      "derecho",
       "empresa",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "condiciones"
     ],
     "title": "INTRODUCCIÓN (p.31-30) — Censi",
     "text": "26\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\npodrá cumplirse. Sin embargo, ante el evento o accidente son los \nprimeros en argumentar desde «el factor humanov y plantear así la \nresponsabilidad del trabajador «que no cumplió el procedimiento».\nEs muy importante tener en cuenta este elemento (la diferen-\ncia entre trabajo prescripto y trabajo real) ya que a nosotros nos \ninteresa efectivamente prevenirnos de accidentarnos, enfermarnos \no sufrir en el trabajo. Y esto solo podemos lograrlo organizándo-\nnos para discutir con los compañeros sistemáticamente en torno \na la actividad real que realizamos más allá de lo que la empresa \nnos prescribe.\n\nSegunda parte\nLA PRAXIS SINDICAL\nEN LA LUCHA POR LA SALUD\n\n29\n \nQué es, para qué sirve y cómo se constituye\nun comité mixto de salud y seguridad laboral\n¿Qué es un comité mixto?\nntes de adentrarnos a conocer su significado, es necesario \nremarcar que la OIT ya en el año 1976, mediante el Pro-\ngrama Internacional para Mejorar las Condiciones y Medio \nAmbiente de Trabajo, determinó la importancia de incluir \nlos métodos de participación de los trabajadores en las decisiones \nrelativas a la higiene y seguridad y el medio ambiente de trabajo, \nparticularmente dentro de los comités de higiene y seguridad. \nEn conjunto, destacó que el mejoramiento de la calidad de la \nvida de trabajo está vinculado a dos problemas más vastos: Por \nun lado, el de la democracia industrial que tiende a conceder a \nlos trabajadores una mayor influencia respecto de las decisiones \nque interesan a su vida de trabajo y por el otro, el de la calidad de \nvida en general que ha venido a ser una reivindicación fundamen-\ntal de la generación actual. Postuló para ello, el libre ejercicio del \nderecho a la organización sindical, participación de empleadores \ny trabajadores e inspección del trabajo En esa línea, el Convenio \n155 de la OIT, ratificado por Argentina y la Recomendación 164, \nconsagran derechos de los trabajadores en materia de informarse, \nformarse y examinar los lugares de trabajo para mejorar sus con-\ndiciones laborales, así como de protección ante represalias.\nA continuación, avanzaremos en el concepto. \nA",
@@ -489,25 +362,17 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "31-30",
-    "tenant": "shared"
+    "pages": "31-30"
   },
   {
     "id": "kb-manual-ssl-16",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "control-obrero",
-      "derecho",
-      "modelo-obrero-italiano",
-      "non-delega",
-      "salud-laboral",
-      "seguridad-laboral",
       "sindicato",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "condiciones"
     ],
     "title": "INTRODUCCIÓN (p.31-31) — Censi",
     "text": "30\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nDentro de la negociación colectiva se encuentran los comités \nmixtos de salud y seguridad en el trabajo o también denominadas \ncomisiones de condiciones y medio ambiente de trabajo (entre \notros nombres), que son órganos paritarios de información, deci-\nsión, participación, control, consulta, formación y acción en esta \nmateria.\nVeamos de cerca su significado:\n• La negociación colectiva es el derecho constitucional que \ntienen las y los trabajadores y sus sindicatos a negociar las \ncondiciones de trabajo y salariales con sus empleadores, \npara que se tornen obligatorias en sus relaciones laborales. \nPermite, fundamentalmente, que los trabajadores puedan \nincorporar mejores derechos y condiciones de trabajo que \nlos que ya se encuentran establecidos en la legislación. \nEl comité mixto es un caso típico de la negociación colec-\ntiva, porque en dicho ámbito los/as trabajadores pueden \ndiscutir y acordar sus condiciones de labor.\n• Es un órgano paritario porque se compone de «partes» \niguales, por la parte empleadora y por la parte trabajadora. \nLa «paridad» consiste en garantizar igual cantidad de \nmiembros e iguales derechos para ambas partes, pudiendo \ncontar con los asesores técnicos (por ejemplo médicos, \npsicólogos, abogados, ingenieros, etc) que estimen apro-\npiados cada una de ellas. \n• Sus funciones fundamentales son de vigilancia y control, \ninspección y observación (con libre acceso de sus miem-\nbros a los lugares de trabajo), creación de normativa, inter-\nvención y decisión en el proceso de trabajo, información \ny poder de veto (paro o retención) de tareas que resulten \npeligrosas para los trabajadores. Estas funciones se encuen-\ntran descriptas también por la recomendación Nº 162 de \nla OIT.\nAhora describamos esas funciones:",
@@ -520,26 +385,21 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "31-31",
-    "tenant": "shared"
+    "pages": "31-31"
   },
   {
     "id": "kb-manual-ssl-17",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "Ministerio-de-Trabajo",
       "Santa Fe",
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
       "convenio",
-      "derecho",
       "empresa",
       "patronal",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "condiciones",
+      "Ministerio-de-Trabajo"
     ],
     "title": "INTRODUCCIÓN (p.32-32) — Censi",
     "text": "31\nLA PRAXIS SINDICAL EN LA LUCHA POR LA SALUD\nInformación: La parte sindical tiene derecho y debe solicitar \na la patronal toda la información y documentación que consi-\ndere necesaria para cumplir con su objetivo en el seno del comité. \nEsto es, toda la información relacionada a las condiciones, medio \nambiente y salud de los trabajadores y trabajadoras. \nEsta información resulta imprescindible para:\na) poder negociar en igualdad de condiciones con la patronal.\nb) elaborar un diagnóstico que permita diseñar líneas de \nacción para defender la salud laboral.\nc) conocer los datos que la empresa ha denunciado ante las \naseguradoras o el Estado y contrastarlos con la realidad \nque los trabajadores experimentan diariamente.\nEste derecho deriva del concepto mismo de «paritario» y se \nencuentra regulado en Ley 23546 (art. 4), Recomendación OIT \nNº. 163, Convenio 155 OIT (art. 19 y Recomendación OIT 164), \nResolución SRT 37/10, leyes de comités mixtos provinciales (Santa \nFe: 12913 y decreto 396/09 y Bs As: Ley 14408 y decreto 801/14), \nentre otras.\nVigilancia y control: las partes tienen el derecho de contro-\nlar que las tareas laborales se desarrollen en un ambiente de tra-\nbajo acorde a la normativa vigente y de vigilar que las tareas y el \nambiente en el cual se desarrollan no sean peligrosos para la salud.\nInspección y observación: Derecho de acceder y recorrer todos \nlos lugares de trabajo en cualquier horario y de realizar las obser-\nvaciones e inspecciones que estimen convenientes. Asimismo, la \nparte sindical tiene el derecho de acompañar las inspecciones que \nel Ministerio de Trabajo realice en los lugares de trabajo (leyes \n18693, 18695, 25212 y Convenio OIT Nro. 81, además de la nor-\nmativa vigente en cada una de las provincias como la ley 10468 de \nSanta Fe), lo cual deberá ser exigido tanto a la empresa como al \npropio Ministerio de Trabajo, no pudiéndose negar.\nCreación normativa: Se pueden acordar nuevas normas o \nderechos que hagan a la salud y seguridad laboral y que no estén \ncontemplados en la legislación vigente, o mejorar los ya existentes.",
@@ -552,23 +412,18 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "32-32",
-    "tenant": "shared"
+    "pages": "32-32"
   },
   {
     "id": "kb-manual-ssl-18",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "derecho",
-      "desmotador",
-      "salud-laboral",
-      "seguridad-laboral",
       "sindicato",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "condiciones",
+      "desmotador"
     ],
     "title": "INTRODUCCIÓN (p.33-33) — Censi",
     "text": "32\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nPor ejemplo, se pueden establecer medidas de prevención para \nlos riesgos psicosociales, las cuales se transformarán en normas \nobligatorias para el lugar de trabajo.\nIntervención y decisión en el proceso de trabajo: El comité \nmixto tiene incidencia en el proceso de trabajo mismo. Tiene facul-\ntades para intervenir produciendo mejoras, aminorando los tiem-\npos o ritmos de producción, cambiando determinados aspectos \ndel mismo, si se verifica que se daña o puede dañar la salud de los \ntrabajadores y trabajadoras.\nPor otro lado, toda modificación del proceso de trabajo \ndebiera ser aprobada por el Comité mixto (o al menos sometida \na su consideración, para luego adoptar las medidas que se crean \nnecesarias); una derivación de ello es el derecho consagrado en \nel art. 25 de la ley santafesina 12913 y su decreto reglamentario \n396/09, que determinan la obligación del empleador de notificar \npor escrito al Comité, con una antelación de 60 días previos, de \ncualquier cambio en el proceso productivo, instalaciones, orga-\nnización del trabajo, uso de materias primas, en la fabricación \no elaboración de nuevos productos y de todo otro cambio que \npudiera impactar en la salud o condiciones de trabajo; debiendo \nacompañar documentación fundada.\n \n¿Cómo se forma un comité mixto?\n1) El primer paso es elegir a nuestros representantes para \nque integren el Comité Mixto: las provincias de Santa \nFe (ley 12913 y su decreto reglamentario 396/09) y de \nBs As (ley 14408 y su decreto reglamentario 801/14) son \nlas primeras provincias que cuentan con Ley de comités \nmixtos, las cuales establecen que los miembros paritarios \nde la parte sindical deben coincidir con los delegados del \npersonal (como piso). Más allá de estas leyes provinciales, \nalgunos sindicatos y federaciones han logrado incluir en \nsus acuerdos paritarios la creación de los comités mix-\ntos, tal es el caso de la Federación del Complejo Indus-\ntrial Oleaginoso, Desmotadores de Algodón y Afines de",
@@ -581,27 +436,22 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "33-33",
-    "tenant": "shared"
+    "pages": "33-33"
   },
   {
     "id": "kb-manual-ssl-19",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "Ministerio-de-Trabajo",
-      "Santa Fe",
-      "accidente",
-      "aceitero",
-      "comites-mixtos",
-      "derecho",
-      "empresa",
-      "fábrica",
-      "patronal",
-      "salud-laboral",
-      "seguridad-laboral",
       "sindicato",
-      "trabajo"
+      "Santa Fe",
+      "fábrica",
+      "empresa",
+      "patronal",
+      "derecho",
+      "trabajo",
+      "aceitero",
+      "Ministerio-de-Trabajo"
     ],
     "title": "INTRODUCCIÓN (p.34-34) — Censi",
     "text": "33\nLA PRAXIS SINDICAL EN LA LUCHA POR LA SALUD\nla República Argentina que ha convenido con las cámaras \npatronales la constitución de los comités mixtos en todos \nlos establecimientos aceiteros del país, con una integra-\nción amplia del mismo por cada parte.\n2) Una vez resuelta la realización de la elección de los pari-\ntarios para el comité mixto (coincidan o no con los dele-\ngados de personal, dependiendo de cómo están regulados \nlos comités en cada lugar de trabajo), el sindicato deberá \ncomunicar fehacientemente por Carta Documento los \ncandidatos a la empresa y luego los que hayan resultado \nelectos, a efectos de garantizar la tutela sindical de los can-\ndidatos y de los electos, tal como se hace con la elección \nde delegados de personal.\n3) Para conformar el comité mixto adentro de la fábrica \nmuchas veces es necesario notificar formalmente al \nempleador (mediante Carta Documento, por ejemplo) \nnuestra voluntad de constituirlo, nominando a nuestros \nmiembros paritarios e intimar a la empresa a que nomine \nlos propios.\n4) A partir de allí el Sindicato podrá insistir en la conforma-\nción del comité mediante intimaciones al empleador y \npara el caso de no obtener respuestas, mediante presen-\ntaciones ante el Ministerio de Trabajo de la Nación o \nde la Provincia (para el caso de Santa Fe y Buenos Aires, \npor ejemplo) quienes deberán dar respuesta en tanto son \nAutoridad de Aplicación.\n5) Una vez conformado, ambas partes deben realizar un \nreglamento de funcionamiento interno y comenzar con \nlas reuniones mediante un labrado de actas suscriptas por \nlos presentes para tratar los temas relacionados a la salud \ny seguridad de los trabajadores.\n6)  En cada una de las reuniones se deben labrar actas donde \nse escribe todo lo tratado y se firman en el acto. Cada una \nde las partes tiene derecho a obtener una copia certificada \nde la misma y ello es muy necesario.",
@@ -614,26 +464,21 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "34-34",
-    "tenant": "shared"
+    "pages": "34-34"
   },
   {
     "id": "kb-manual-ssl-20",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "Ministerio-de-Trabajo",
+      "sindicato",
       "Santa Fe",
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
       "convenio",
       "empresa",
+      "trabajo",
+      "condiciones",
       "juicio",
-      "salud-laboral",
-      "seguridad-laboral",
-      "sindicato",
-      "trabajo"
+      "Ministerio-de-Trabajo"
     ],
     "title": "INTRODUCCIÓN (p.35-35) — Censi",
     "text": "34\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\n¿Qué acciones gremiales se pueden adoptar\nen caso de incumplimientos a la normativa?\nSin perjuicio de las funciones que consideramos tienen los \ncomités, será común que las empresas o empleadores no quieran \nintervenir en los procesos de trabajo con la participación del sin-\ndicato y/o no cumplan con la normativa vigente en materia de \nseguridad y salud laboral pese a la existencia del comité.\nEsta situación evidencia que la existencia legal de la figura de \nlos comités mixtos en sí misma no constituye necesariamente \nun avance en las condiciones de salud, para ello se requiere que el \naccionar del sindicato (fundamentalmente a través de sus delega-\ndos y delegadas) llene de contenido a dicho órgano paritario.\nLa parte sindical cuenta con herramientas legales que le per-\nmiten realizar acciones preventivas tendientes a intervenir en los \nprocesos de trabajo y/o prevenir riesgos laborales, las cuales varia-\nrán en cada lugar de acuerdo a la correlación de fuerzas existente:\nLa denuncia: El trabajador individual o el sindicato pueden \nefectuar una denuncia pública o ante el Ministerio de Trabajo para \nponer en evidencia los incumplimientos en materia de seguridad y \nsalud existentes en los lugares de trabajo, ya sea contra el emplea-\ndor o también contra el propio Estado que no cumple con su obli-\ngación de control. También la denuncia puede ser anónima.\nEste tipo de herramientas sirve para producir debate colectivo, \npropagandizar, pre constituir prueba o antecedentes para un pos-\nterior conflicto individual o colectivo y para solicitar una inspec-\nción del Ministerio de Trabajo. Las inspecciones de la Autoridad \nAdministrativa (Ministerio de Trabajo) deben ir siempre acom-\npañadas por los y las delegadas de base y se encuentran reguladas \nen las leyes 18693, 18695, 25212 y Convenio OIT Nro. 81, además \nde la normativa vigente en cada una de las provincias (como por \nejemplo la ley 10468 de Santa Fe).\nA través de una inspección se logra la intimación al emplea-\ndor para que mejore las condiciones de trabajo en forma acorde a \nla legislación vigente y diversos tipos de sanciones como multas, \nsuspensión de tareas y clausuras.",
@@ -646,21 +491,16 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "35-35",
-    "tenant": "shared"
+    "pages": "35-35"
   },
   {
     "id": "kb-manual-ssl-21",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
       "derecho",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "condiciones"
     ],
     "title": "INTRODUCCIÓN (p.36-36) — Censi",
     "text": "35\nLA PRAXIS SINDICAL EN LA LUCHA POR LA SALUD\nLa retención de tareas: Este derecho actualmente se encuen-\ntra previsto en el art. 75 de la Ley de Contrato de Trabajo (LCT) y \nestablece que el empleador debe proteger la integridad psicofísica \ny la dignidad de los trabajadores y trabajadoras y cumplir la nor-\nmativa vigente en materia de higiene y seguridad; esta obligación \nse denomina «deber de seguridad». El trabajador tiene derecho a \nrehusar su prestación de trabajo, sin pérdida de remuneración, si \nel mismo le fuera exigido en violación a dicho deber de seguridad, \nsiempre que exista: peligro de daño inminente o incumplimiento \nde la obligación de seguridad (debiendo intimar al empleador para \nque cumpla previamente) o si el lugar fuera insalubre declarado \npor autoridad competente y el empleador no realizara los tra-\nbajos o entregara los elementos que sean necesarios. Es la típica \n«retención de tareas» que los trabajadores hacen ante el riesgo que \nsu salud se dañe como consecuencia de las tareas, condiciones o \nambiente de trabajo.\nLa retención de tareas o «rehusarse a la prestación de trabajo», \ntambién se encuentra prevista en el art. 1031 del Código Civil y \nComercial de la Nación el que contempla la posibilidad de que \nel o los trabajadores puedan suspender su prestación de trabajo \nhasta que el empleador cumpla u ofrezca cumplir su prestación \nde seguridad. Este artículo agrega expresamente la «posibilidad» \nde deducir la retención de tareas judicialmente o bien ejercerla de \n«hecho» en el lugar de trabajo, lo que dependerá en cierta medida \nde la correlación de fuerzas existente en cada establecimiento.\nEste derecho se complementa con el art. 54 del Código Civil y \nComercial que establece la no exigibilidad de la prestación laboral \n(de las tareas) cuando ésta o el objeto del contrato de trabajo con-\nlleve peligrosidad a la vida o integridad del trabajador.\nEs decir, todas las normativas se articulan entre sí para legitimar la retención \nde tareas o de la fuerza del trabajo ante un riesgo a la salud y seguridad de las \npersonas. El trabajador puede abstenerse de cumplir su trabajo hasta tanto la otra \nparte (empleador) cumpla con su deber de seguridad y como contrapartida, el \nempleador no puede exigirle la prestación de trabajo.",
@@ -673,25 +513,20 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "INTRODUCCIÓN",
-    "pages": "36-36",
-    "tenant": "shared"
+    "pages": "36-36"
   },
   {
     "id": "kb-manual-ssl-22",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "Ministerio-de-Trabajo",
-      "Santa Fe",
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "derecho",
       "huelga",
-      "salud-laboral",
-      "seguridad-laboral",
       "sindicato",
-      "trabajo"
+      "Santa Fe",
+      "derecho",
+      "trabajo",
+      "condiciones",
+      "Ministerio-de-Trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.31-62) — Censi",
     "text": "36\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nEste derecho a su vez, se encuentra regulado en algunos orde-\nnamientos normativos laborales provinciales como la ley 12913 y \nsu decreto reglamentario 396/09 de la provincia de Santa Fe como \nuna atribución del Comité Mixto de Salud y Seguridad, el Conve-\nnio Nro. 155 de la OIT (arts. 13 y 19 inc.f).\nLa herramienta legal/gremial de la «retención de tareas» ha \nsido utilizada para llevar adelante conflictos en los establecimien-\ntos, no solo desde la retención de tareas del trabajador individual, \nsino desde la retención de tareas colectiva o plurindividual.\nVale la pena comentar un conflicto suscitado en la Comisión \nNacional de Regulación del Transporte cuya titularidad detentó \nla Asociación Trabajadores del Estado (ATE) en el año 2006, \ncuando un grupo de inspectores que laboraban en vía pública \ndecidieron parar sus tareas en reclamo de mejores condiciones \nde trabajo (desde elementos de protección personal a reivindi-\ncaciones en materia de contratación y remuneración). Comenzó \nel conflicto e inmediatamente el Ministerio de Trabajo Empleo \ny Seguridad Social de la Nación dictó la conciliación obligatoria; \nel sindicato decidió denunciar el conflicto en el marco del art. \n1201 del Código Civil (retención de tareas por incumplimiento \ncontractual que en esa fecha estaba regulada en el artículo 1201), \nlo que jurídicamente invalidaba la aplicación de una conciliación \nobligatoria (atento la inexistencia de una «huelga» en el sentido \njurídico de su término y por la imposibilidad de cumplir con el \nobjeto del contrato pues corría peligro la vida y salud de los tra-\nbajadores) y por ende se desacató dicha conciliación, labrando \nun acta ante el Ministerio de Trabajo mediante la exposición de \nun perito de parte ingeniero que detalló las nocivas condiciones \nen las que laboraban los trabajadores.\nLa retención de tareas constituye una herramienta legal funda-\nmental para enmarcar los conflictos en esta materia, tanto desde \nel punto de vista técnico como desde el punto de vista estratégico.\nRecomendación para poner en práctica la retención de tareas: \nCuando consideremos que corre riesgo inminente la salud o vida, \nlos trabajadores y trabajadoras deberán en primer lugar parar la tarea \nriesgosa y notificar fehacientemente tal circunstancia al empleador, \nde ser posible por intermedio del sindicato. La notificación puede",
@@ -704,23 +539,18 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "31-62",
-    "tenant": "shared"
+    "pages": "31-62"
   },
   {
     "id": "kb-manual-ssl-23",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "Ministerio-de-Trabajo",
-      "accidente",
-      "comites-mixtos",
-      "derecho",
-      "empresa",
-      "salud-laboral",
-      "seguridad-laboral",
       "sindicato",
-      "trabajo"
+      "empresa",
+      "derecho",
+      "trabajo",
+      "Ministerio-de-Trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.63-63) — Censi",
     "text": "37\nLA PRAXIS SINDICAL EN LA LUCHA POR LA SALUD\nser hecha por la comisión directiva del sindicato, delegados, miem-\nbros del comité mixto o trabajadores individuales. \nCuando consideremos que en el futuro puede llegar a producirse \nun daño a la salud o seguridad lo que deberemos hacer es intimar al \nempleador a solucionar el problema bajo apercibimiento de hacer \nretención de tareas. En ambos casos también se aconseja, de ser posi-\nble, comunicar la decisión al Ministerio de Trabajo.\nLa tutela preventiva: El art. 1032 del Código Civil y Comercial \ndetermina que el trabajador puede suspender sus tareas laborales si \nsus derechos sufriesen una grave amenaza de daño porque se puede \nprever que el empleador quizás no pueda cumplir con su deber de \nseguridad o no tenga solvencia económica; la suspensión queda sin \nefecto cuando el empleador cumple o da seguridades suficientes de \nque el cumplimiento será efectivizado. Esta normativa presupone \ndirectamente una futura amenaza de daño porque el empleador ha \ndisminuido su capacidad para cumplir; es decir, no requiere que el \nincumplimiento de la otra parte sea efectivo, solo requiere la posi-\nbilidad cierta de sufrir un daño como requisito para suspender su \nprestación. Podríamos ejemplificar el caso de un empleador que ha \ndejado de abonar a su ART o bien el caso de empresas carentes de \nservicios de higiene y seguridad necesarios para diseñar una política \nde seguridad en los establecimientos (de donde se infiere su inapti-\ntud para cumplir con sus obligaciones de seguridad).\nEn este orden también el art. 1710 del Código Civil y Comercial \nprefigura otra herramienta legal a utilizar por el colectivo de trabaja-\ndores o el trabajador individual: presupone la legitimación del traba-\njador o su organización sindical para reclamar la prevención de un \ndaño, su continuación o su agravamiento mediante la vía judicial.\nLa declaración de insalubridad: la insalubridad según nuestra \nlegislación comprende aquellas tareas o ambientes penosos, riesgo-\nsos o determinantes de vejez o agotamiento prematuro y se encuen-\ntra regulada en el art. 200 de la Ley de Contrato de Trabajo (LCT) y \nreglamentada por las resoluciones 434/02 y 212/03 del MTEySS. Para \nque un lugar de trabajo sea considerado «insalubre» debe ser decla-\nrado por el Ministerio de Trabajo de cada provincia o la Superinten-\ndencia de Riesgos del Trabajo (según el origen nacional o provincial",
@@ -733,27 +563,22 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "63-63",
-    "tenant": "shared"
+    "pages": "63-63"
   },
   {
     "id": "kb-manual-ssl-24",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "Ministerio-de-Trabajo",
-      "accidente",
-      "comites-mixtos",
-      "derecho",
       "huelga",
-      "juicio",
       "obrero",
       "paritaria",
       "patronal",
+      "derecho",
+      "trabajo",
       "salario",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "juicio",
+      "Ministerio-de-Trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.64-62) — Censi",
     "text": "38\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\ndel establecimiento) mediante acto administrativo e implica la re- \nducción de la jornada a 6 hs. de labor por el mismo salario de una \njornada legal y la anticipación jubilatoria, así como la prohibición del \ntrabajo de mujeres; no pudiendo efectuarse horas extras.\nHa ocurrido que algunas actividades si bien no han sido decla-\nradas insalubres por el Ministerio de Trabajo, se encuentran con-\ntempladas en regímenes legales que prevén la jubilación anticipada \nde sus trabajadores.\nCon esto se quiere demostrar que es posible también lograr la \njubilación anticipada mediante la vía legislativa sin necesidad de \nrecorrer el camino administrativo de la insalubridad. De todos \nmodos, para ambos supuestos, el camino será largo y escabroso en \ntanto dependemos de una decisión del Estado (como resolución \ndel Ministerio de Trabajo o como ley o decreto).\nLa huelga: Esta herramienta se encuentra consagrada en la \nConstitución Nacional y también puede servir para enmarcar los \nconflictos en esta materia, sin perjuicio de ello, lo más recomen-\ndable es recurrir a la retención de tareas a efectos de asegurarnos el \ncobro de los salarios caídos (cuya obligatoriedad de pago es indis-\ncutible ante una retención de tareas por razones de seguridad).\n¿Cuáles son los alcances legales de la autoridad obrera en los comités?\nLos miembros obreros del comité son representantes del sin-\ndicato y de los trabajadores ante la patronal en materia de salud y \nseguridad laboral. \nTienen los mismos derechos que los delegados de personal, como \npor ejemplo la tutela sindical y su objetivo principal es la defensa de \nla salud de los compañeros en los lugares de trabajo mediante el uso \nde todas las herramientas legales y gremiales existentes.\nResulta necesario que la práctica de los miembros sindicales \ndel comité resguarde el principio de autonomía y libertad sindical, \nes decir, que su accionar en la defensa de la salud no permita inje-\nrencias o limitaciones impuestas por la parte empleadora, inde-\npendientemente de conformar una instancia paritaria para tratar \nlas problemáticas.\n\nTercera parte\nCONCEPTOS CLAVES EN SALUD Y SEGURIDAD \nPARA LA PRÁCTICA OBRERA EN COMITÉS MIXTOS",
@@ -766,19 +591,14 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "64-62",
-    "tenant": "shared"
+    "pages": "64-62"
   },
   {
     "id": "kb-manual-ssl-25",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
       "empresa",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.63-63) — Censi",
@@ -792,19 +612,14 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "63-63",
-    "tenant": "shared"
+    "pages": "63-63"
   },
   {
     "id": "kb-manual-ssl-26",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
       "derecho",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.64-64) — Censi",
@@ -818,20 +633,15 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "64-64",
-    "tenant": "shared"
+    "pages": "64-64"
   },
   {
     "id": "kb-manual-ssl-27",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "derecho",
       "patronal",
-      "salud-laboral",
-      "seguridad-laboral",
+      "derecho",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.65-65) — Censi",
@@ -845,19 +655,14 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "65-65",
-    "tenant": "shared"
+    "pages": "65-65"
   },
   {
     "id": "kb-manual-ssl-28",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
       "empresa",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.66-66) — Censi",
@@ -871,20 +676,15 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "66-66",
-    "tenant": "shared"
+    "pages": "66-66"
   },
   {
     "id": "kb-manual-ssl-29",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "justicia",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "justicia"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.67-67) — Censi",
     "text": "45\nCONCEPTOS CLAVES EN SALUD Y SEGURIDAD PARA LA PRÁCTICA OBRERA EN COMITÉS MIXTOS\npara bajar los costos del seguro. Los y las trabajadoras recorren \ndiferentes caminos legales, que de acuerdo a la estrategia legal \nescogida consistirá en recurrir a las comisiones médicas y/o a la \njusticia (según se encuentre vigente también la ley 27348).\nSiempre hay que recordar que el reconocimiento de las enfermedades profesio-\nnales no son un producto de la ciencia, sino el resultado de una lucha política.\nLos accidentes de trabajo\nPuntos centrales:\n• Resulta del tipo de organización del trabajo.\n• Evento súbito que implica un daño a la salud. \n• Es independiente de los riesgos laborales declarados.\n• Debe ser denunciado siempre, sin importar su gravedad.\n¿Qué son los accidentes de trabajo?\nUn accidente de trabajo es todo evento súbito que afecte a la \nsalud de un trabajador o trabajadora durante el trabajo o el tra-\nyecto entre su domicilio y el lugar donde realiza sus tareas. \nNo importa la gravedad del daño producido por el accidente. \nUn golpe en el dedo o una caída de altura constituyen accidentes \nde igual modo, es decir: todos deben ser denunciados.\nAl igual que con las enfermedades profesionales, el empleador \no su personal jerárquico está obligado a denunciar todos los acci-\ndentes, sin importar su gravedad. \nTodos los accidentes deben ser investigados por la ART, sin \nimportar los riesgos que el empleador hubiera denunciado. No \nimporta qué tipo de tarea realice la persona, un accidente no \npodría ser rechazado por ese motivo. Asimismo, las ART deben \ncubrir la totalidad de los daños a la salud ocasionados por el \naccidente.",
@@ -897,18 +697,13 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "67-67",
-    "tenant": "shared"
+    "pages": "67-67"
   },
   {
     "id": "kb-manual-ssl-30",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.68-68) — Censi",
@@ -922,18 +717,13 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "68-68",
-    "tenant": "shared"
+    "pages": "68-68"
   },
   {
     "id": "kb-manual-ssl-31",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.69-69) — Censi",
@@ -947,21 +737,16 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "69-69",
-    "tenant": "shared"
+    "pages": "69-69"
   },
   {
     "id": "kb-manual-ssl-32",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
       "patronal",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "condiciones"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.70-70) — Censi",
     "text": "48\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nEn el comité mixto, la discusión de un accidente debe poner \nsobre la mesa la inteligencia obrera. La trabajadora o el trabaja-\ndor no se accidenta por «descuidado», sino por aplicar su ingenio \nante cada problema cotidiano, aquellos que jamás podrán prever \nlos procedimientos de trabajo que elaboran los empleadores o sus \nrepresentantes. \n¿Cómo prevenir los accidentes de trabajo?\nMuchas de las acciones descriptas o planteadas como posibili-\ndades en las páginas anteriores refieren a ello: no hay posibilidad \nde prevenir accidentes sin delegadas y delegados organizados en \ncomités, sin comisiones internas clasistas.\nSolo es posible prevenir accidentes si nos organizamos desde \nlas bases. La experiencia histórica nos indica que la herramienta \nmás poderosa para la prevención ante el sufrir, enfermar o acci-\ndentarse tiene que ver con la capacidad de los colectivos de trabajo \nde organizarse; las estadísticas son muy claras en relación a los \naccidentes y enfermedades en contextos de desmovilización, o de \norganizaciones sindicales burocráticas más atentas a los negocia-\ndos con la patronal que a las condiciones de trabajo de sus repre-\nsentados. Allí donde la conciencia de clase y la solidaridad crece \nlos accidentes y el sufrimiento decrecen. \nUn dispositivo al que consideramos central es el grupo focal \no grupo homogéneo, que es una herramienta en la tarea de cons-\ntrucción de mejores condiciones de trabajo y prevención.",
@@ -974,22 +759,17 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "70-70",
-    "tenant": "shared"
+    "pages": "70-70"
   },
   {
     "id": "kb-manual-ssl-33",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "derecho",
       "obrero",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "condiciones"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.71-71) — Censi",
     "text": "49\nCONCEPTOS CLAVES EN SALUD Y SEGURIDAD PARA LA PRÁCTICA OBRERA EN COMITÉS MIXTOS\nEs un espacio grupal, integrado por todos los trabajadores que \ncomparten una tarea o sector, sin presencia de los empleadores, \ndonde nos disponemos a hablar sobre el trabajo real que realizamos.\nEs un espacio de deliberación colectivo fundado en la con-\nfianza, en donde el peso de las palabras se multiplica, donde la \npalabra de cada uno va resonando en todos permitiendo desnatu-\nralizar lo que hacemos cotidianamente y generando condiciones \npara comenzar a debatir esas cosas que todos veíamos cada día, \npero sin advertirlo.\nEn una situación real de trabajo es imposible prever todo, \nsiempre ocurren incidentes y dificultades imprevistas.\nLa ansiedad es la respuesta psicológica al riesgo que no está \ncontrolado por la prevención. Todo aquel que ha trabajado en una \nplanta industrial es consciente de dichos riesgos.\nFrente a la ansiedad los obreros elaboran estrategias defen-\nsivas colectivas, que si son eficaces eliminan prácticamente la \nansiedad de su discurso, pero también pueden, paradójicamente, \ndevenir una trampa que puede contribuir a hacer aceptable lo que \nno debería serlo.\nEl grupo focal nos permite analizar los mecanismos defensivos \nque el grupo sostiene acríticamente y así elaborar formas colecti-\nvas de cuidados.\nSeguridad\nPuntos centrales:\n• Implica la percepción del peligro. El peligro puede ser \ndetectado a partir del conocimiento y experiencia de los \ntrabajadores (aunque no haya habido aún accidentes o \nenfermedades) o a partir de un riesgo elevado de acciden-\ntes y enfermedades.\n• Ante la identificación de una situación peligrosa, la legis-\nlación garantiza a los trabajadores el derecho a denun-\nciarlas y protegerse de ellas, tal como se desarrolló en el \nsegundo capítulo.",
@@ -1002,18 +782,13 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "71-71",
-    "tenant": "shared"
+    "pages": "71-71"
   },
   {
     "id": "kb-manual-ssl-34",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.72-72) — Censi",
@@ -1027,19 +802,14 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "72-72",
-    "tenant": "shared"
+    "pages": "72-72"
   },
   {
     "id": "kb-manual-ssl-35",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
       "fábrica",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.73-73) — Censi",
@@ -1053,21 +823,16 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "73-73",
-    "tenant": "shared"
+    "pages": "73-73"
   },
   {
     "id": "kb-manual-ssl-36",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "cuerpo-de-delegados",
       "paritaria",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "cuerpo-de-delegados"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.74-74) — Censi",
     "text": "52\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nEl método que proponemos para los delegados y delegadas \nobreras se basa en la premisa: «Si hay un trabajador o trabajadora \nenfermo, el riesgo existe».\nEn otras palabras, si los cálculos de las ART no pueden expli-\ncar los daños que sufren los compañeros durante el trabajo, esto \nsignifica que hay que buscar otros métodos. La experiencia de los \ntrabajadores siempre debe ser tenida en cuenta para esto. El dele-\ngado debe valorar y defender este conocimiento que sólo brinda \nla experiencia de trabajo. Esto, junto con una razón de riesgo \naumentada para el puesto problema, puede brindar información \ncientífica de peso a la hora de la discusión paritaria.\nLas fuentes de información para el trabajo en seguridad\nPara impulsar políticas de seguridad es necesario poder esti-\nmar el peligro. Y para poder estimar el peligro, es necesario contar \ncon información.\nLa información a la que puede acceder un delegado en salud \nson de dos tipos:\n1) De propia producción o fuentes primarias: Observación \ny registro del puesto de trabajo, entrevistas individuales o \ncolectivas, encuestas.\n2) De fuentes secundarias: Ausentismo, relevamiento de \nriesgo, incidentes y accidentes, enfermedades profesio-\nnales, evaluaciones de las ARTs.\nFuente primaria\nEn el primer caso, el propio cuerpo de delegados impulsará \nuna investigación que tendrá por objetivo brindar información \nsobre un puesto de trabajo problema. Casi siempre el problema \nse hace presente mucho antes de contar con la información orga-\nnizada, cuando los compañeros hablan de lo que les ocurre en el \npuesto o de los síntomas que tienen. Esto da muchas veces una \nsensación de claridad sobre el tema que suele producir argumen-\ntos débiles. Sistematizar la información permite construir argu-\nmentos sólidos, que incluyen la experiencia individual del trabajo \ny los hechos que ocurren en el colectivo de trabajadores.",
@@ -1080,19 +845,14 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "74-74",
-    "tenant": "shared"
+    "pages": "74-74"
   },
   {
     "id": "kb-manual-ssl-37",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
       "obrero",
-      "salud-laboral",
-      "seguridad-laboral",
       "trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.75-75) — Censi",
@@ -1106,24 +866,19 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "75-75",
-    "tenant": "shared"
+    "pages": "75-75"
   },
   {
     "id": "kb-manual-ssl-38",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "Ministerio-de-Trabajo",
-      "accidente",
-      "comites-mixtos",
-      "derecho",
+      "sindicato",
       "empresa",
       "patronal",
-      "salud-laboral",
-      "seguridad-laboral",
-      "sindicato",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "Ministerio-de-Trabajo"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.76-62) — Censi",
     "text": "54\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nsoliciten al empleador el Relevamiento General de Riesgos (RGR), \nque él mismo elabora para presentar ante la ART. Puede ocurrir \nque la empresa no quiera entregarlo, para ello debe acudirse al \nMinisterio de Trabajo, pues es una información que la empleadora \ndebe brindar en el marco del comité mixto o bien es un derecho a \nla información que tiene el sindicato en ejercicio de sus funciones.\nEl ausentismo es la información que las empresas suelen guar-\ndar más celosamente. Es muy frecuente encontrar dificultades \npara obtener este dato. Esto es porque el ausentismo revela cuál \nes el origen de los días perdidos por enfermedad. Los empresa-\nrios suelen echar en cara a los trabajadores altas tasas de ausen-\ntismo, cuando en varios de los estudios que hemos realizado los \naccidentes y las enfermedades profesionales se llevan alrededor \ndel 20% de los días pedidos por enfermedad. Es decir: 1 de 5 días \nperdidos es por responsabilidad patronal.\nEl ausentismo por enfermedad también permite calcular el riesgo para muchas \nenfermedades y accidentes. Nos permite así descubrir problemas en sectores o \npuestos poco demandantes o presionados por la patronal, como suele ser el caso \nde los trabajadores tercerizados. \nLos procedimientos de trabajo son importantes, como vimos, \nen relación con los accidentes. Un accidente de trabajo a menudo \nse origina en la distancia que existe entre el procedimiento y la \nrealidad del trabajo. El accidente se desencadena cuando concu-\nrren presiones por productividad e ideología defensiva. Contar \ncon los procedimientos es indispensa ble para conocer sus fallas \ny limitaciones. Esto pone en evidencia los aportes que día a día \nrealizan los trabajadores para que «la cosa marche», valoriza ese \nsaber y permite ordenar la discusión sobre el accidente por fuera \nde la cuestión del «trabajador descuidado».\nTodo lo que sobre la realidad del trabajo haga evidente un delegado del comité \nes una ganancia para la clase.\n\nCuarta parte\nCUANDO FRACASA LA PREVENCIÓN  \n Y SE PRODUCE UN DAÑO EN LA SALUD O LA VIDA \nDE LA PERSONA QUE TRABAJA,\n¿QUÉ HACEMOS?",
@@ -1136,23 +891,18 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "76-62",
-    "tenant": "shared"
+    "pages": "76-62"
   },
   {
     "id": "kb-manual-ssl-39",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
       "convenio",
-      "derecho",
       "empresa",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "condiciones"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.63-63) — Censi",
     "text": "57\n¿Cuál es la legislación aplicable?\nn primer lugar, debemos tener en cuenta que, en nuestro \nsistema de fuentes normativas, la Constitución Nacional y \nlos instrumentos internacionales de derechos humanos se \nencuentran en el lugar más importante.\nEl art. 14 bis de la Constitución Nacional (CN) establece que \nel trabajo en sus diversas formas gozará de la protección de las \nleyes, las que asegurarán al trabajador: «condiciones dignas y \nequitativas de labor».\nPor otra parte, el Pacto Internacional de Derechos Económi-\ncos Sociales y Culturales –con rango constitucional– el Convenio \n155 de la OIT, relativo a la seguridad y salud de los trabajadores y \nel Protocolo de 2002 relativo al convenio sobre seguridad y salud \nde los trabajadores, como la Declaración Socio Laboral del Mer-\ncosur, protegen la integridad psicofísica de la persona que trabaja \ny garantizan el derecho a gozar de condiciones dignas y equitativas \nde labor. \nAdemás, tenemos leyes nacionales que regulan distintos \naspectos de los riesgos en el trabajo, que en general tienen una \nmirada empresarial, con el eje puesto en la necesidad de reducir \n«los costos» del empleador y no en proteger la salud de las y los \ntrabajadores. \nE",
@@ -1165,23 +915,18 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "63-63",
-    "tenant": "shared"
+    "pages": "63-63"
   },
   {
     "id": "kb-manual-ssl-40",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
-      "derecho",
       "empresa",
-      "juicio",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "condiciones",
+      "juicio"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.64-64) — Censi",
     "text": "58\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nEn muchos aspectos, no cumplen con el mandato consti-\ntucional:\n• LRT 24.557. \n• Decreto 717/1996 (modificado por el Decreto 1475/2015).\n• Decreto 1278/2000.\n• Decreto 1.694/2009. \n• Ley 26.773. \n• Ley 27.348 y Res. SRT 298/2017, para las provincias que \nadhieran.\n¿Quién responde frente a un accidente de trabajo\no enfermedad profesional?\nEn principio, si hacemos un análisis profundo sobre el sentido \nde las normas protectoras del derecho social, sin dudas debería \nresponder en forma primaria el empleador. \n¿Por qué? Porque en el contrato de trabajo, el patrón es el que \nobtiene un BENEFICIO de la fuerza de trabajo ajena. Ese beneficio, \nle genera la obligación de responder frente a los riesgos que la \npropia actividad genera, no siendo admisible que el/la trabajador/a \n–que es la parte más débil del contrato– sufra un menoscabo o \ndaño en su cuerpo, por tener que trabajar a favor de otro. Pero en \nel SISTEMA de Riesgos del Trabajo que se implantó en el año 1995 \n–guiado por una concepción neoliberal de la salud y un objetivo \nfinanciero– se hizo todo lo contrario. \nLa original ley 24.557 estableció que el empleador, pagando \nuna alícuota a la ART (Aseguradora del Riesgos del Trabajo), se \ndeslindaba de toda responsabilidad sobre la integridad psicofísica \nde los/as trabajadores/as y pasaba a ser la ART la responsable (salvo \nsupuestos excepcionales). \nSin dudas que ello generó un efecto muy negativo sobre las condiciones de trabajo \n–ya que al no existir ni siquiera el riesgo de ser demandado en un juicio– los \nempresarios descuidaron aún más su obligación de seguridad.",
@@ -1194,23 +939,18 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "64-64",
-    "tenant": "shared"
+    "pages": "64-64"
   },
   {
     "id": "kb-manual-ssl-41",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
       "empresa",
-      "juicio",
       "patronal",
+      "trabajo",
       "reparación",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "juicio"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.65-65) — Censi",
     "text": "59\nCUANDO FRACASA LA PREVENCIÓN Y SE PRODUCE UN DAÑO EN LA SALUD O LA VIDA DE LA PERSONA QUE TRABAJA\nLuego de muchas sentencias judiciales que dijeron que la impo-\nsibilidad de reclamar al empleador viola la Constitución Nacional, \nen el año 2012 se realizó una modificación, parcial e insuficiente \nmediante la ley 26.773 esta norma le exige al trabajador que «opte \nen forma excluyente» entre cobrar las «prestaciones dinerarias» que \nofrece la aseguradora o, iniciar un juicio incierto contra el patrón, \nreclamando «la reparación de todos los daños».\nDe todas formas, tenemos que tener presente que la actual redac-\nción del art. 75 de la Ley de Contrato de Trabajo garantiza plena-\nmente el deber de seguridad y reconoce la responsabilidad patronal \nfrente a los daños que sufre el dependiente en su salud o vida.\n¿Cuáles son «los objetivos maniﬁ estos» del Sistema de Riesgos\nde Trabajo según la LRT 24.557 y sus reformas?\n• Reducción de la siniestralidad laboral, \n• Reparación de los daños derivados de accidentes de tra-\nbajo y de enfermedades profesionales, \n• Rehabilitación, recalificación y recolocación del trabaja-\ndor damnificado.\n•  Promover la negociación colectiva para la mejora de la \nprevención y reparación.\n¿Y sus objetivos reales pero ocultos? \n• Reducción y externalización de costos empresariales. \n• Generación de un mercado financiero muy rentable para \nlas Aseguradoras.\n• Transferencia de ingresos del sector trabajador al financiero.\n• Licencia para dañar, sin responsabilidad.\n¿Cuáles son las funciones de las Aseguradoras de Riesgos del Trabajo \nen el sistema vigente?\nLas Aseguradoras de Riesgos del Trabajo son entidades pri-\nvadas, con fin de lucro y obtención de renta en el mercado finan-\nciero, que gestionan los daños laborales en la salud y la vida de las \npersonas que trabajan. Sus funciones legales son:",
@@ -1223,20 +963,15 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "65-65",
-    "tenant": "shared"
+    "pages": "65-65"
   },
   {
     "id": "kb-manual-ssl-42",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "reparación",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "reparación"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.66-66) — Censi",
     "text": "60\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\n• Evaluación de riesgos existentes y evolución, visitas perió-\ndicas, definición de medidas correctivas, capacitación en \nprevención, etc.\n• Control del cumplimiento de las medidas de seguridad e \nhigiene de sus propios clientes (los empleadores). \n• Denuncia ante la S.R.T.\n• Asistencia médica y farmacéutica, prótesis y ortopedia. \n• Rehabilitación y recalificación del damnificado.\n• Servicio funerario.\n• Reparación de los daños causados. \n• Gestión de las prestaciones. \nLos trabajadores/as, los delegados/as y los Comité Mixtos de Salud y Seguridad \nen el Trabajo, también deben exigir a las ARTs que cumplan con sus obligaciones \nlegales.\n¿Cómo se deﬁ ne el accidente de trabajo en la Ley de Riesgos del Trabajo?\nSegún el art. 6 de la Ley de Riesgos del Trabajo (LRT), se deno-\nmina accidente de trabajo al «acontecimiento súbito y violento»-\nsucedido:\n• por el hecho o en ocasión del trabajo.\n• «In itinere» (en el trayecto).\nSe trata de una definición acotada ya que no incluye múltiples \nsucesos que constituyen siniestros laborales pero que NO tienen \ncarácter súbito y violento (un ejemplo sería el trabajador que \nqueda encerrado en una cámara de frío y sufre congelamiento).\n¿Y cómo define enfermedad profesional la norma vigente?\nSegún el art. 6 LRT: se trata de aquellas afecciones incluidas \nen un listado que elabora el pen. se le llama «sistema de listado \ncerrado» y de «triple columna». esta definición viola normas \nsupralegales y constitucionales.",
@@ -1249,21 +984,16 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "66-66",
-    "tenant": "shared"
+    "pages": "66-66"
   },
   {
     "id": "kb-manual-ssl-43",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
       "convenio",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "trabajo",
+      "condiciones"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.67-67) — Censi",
     "text": "61\nCUANDO FRACASA LA PREVENCIÓN Y SE PRODUCE UN DAÑO EN LA SALUD O LA VIDA DE LA PERSONA QUE TRABAJA\nDe todos los sistemas existentes a nivel internacional, es el más \nrestrictivo, porque excluye aquellas dolencias causadas por el tra-\nbajo que no fueron incluidas expresamente, «no siendo reparables \ndentro del sistema». \nMas allá de cuáles son las enfermedades que eventualmente \nse encuentren incluidas en el listado, en la práctica son ínfimos o \nnulos los casos que han sido reconocidas por los órganos admi-\nnistrativos (por la Aseguradora o por la Comisión Médica de la \nSuperintendencia de Riesgos del Trabajo). Lo limitado del sis-\ntema de «triple columna» es que exige que para una determinada \nafección, deba encontrarse necesariamente el «agente» mencio-\nnado, como asimismo, el «factor de exposición». Si no se dan las \ntres condiciones simultáneamente (y no fue denunciado a la ART \nen su momento por el empleador), se considera que la enferme-\ndad no se halla listada.\nMediante el dec. 1278/00 se modificó el art. 6, ap. 2 LRT y se \nagregó que serán igualmente consideradas enfermedades profe-\nsionales aquellas otras que, en cada caso concreto, la Comisión \nMédica Central determine como provocadas por causa directa e \ninmediata de la ejecución del trabajo, excluyendo la influencia de \nlos factores atribuibles al trabajador o ajenos al trabajo.\nPese a esta norma, en la práctica no hubo cambios signiﬁ cativos, dado que los \nórganos administrativos son renuentes a reconocer el carácter laboral de cualquier \ndolencia que no sea causada de manera inmediata, directa y única por el trabajo. \nAdemás, el dec. 49/2014, se reconocieron tres afecciones más \n–hernias inguinales, lumbares y várices–, sin embargo, se mantie-\nnen los estrictos parámetros en materia de «causalidad», lo que \ngeneró que ínfima haya sido la ampliación de la cobertura.\nEl sistema vigente colisiona con los estándares expresados por \nla Organización Internacional del Trabajo en la lista de enferme-\ndades profesionales revisada en 2010, incorporadas como Anexo \nde la Recomendación 194, 2002; con el Convenio 155 de la OIT \ny con el Protocolo del año 2002 «Relativo a la seguridad y salud \nde los trabajadores», aprobados con carácter de norma supralegal",
@@ -1276,22 +1006,17 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "67-67",
-    "tenant": "shared"
+    "pages": "67-67"
   },
   {
     "id": "kb-manual-ssl-44",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
-      "derecho",
       "empresa",
-      "reparación",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "derecho",
+      "trabajo",
+      "reparación"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.68-68) — Censi",
     "text": "62\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\npor el Congreso de la Nación mediante la ley 26.693. Producto de \nla aplicación de ese Baremo y «listado cerrado», del total de 100% \nde siniestros reconocidos en Argentina, solo el 3% corresponde \na enfermedades profesionales, cuando la Organización Inter-\nnacional del Trabajo reconoce que, de un total de siniestros, el \n33,54% son enfermedades profesionales.\nEse «subregistro» es una de las principales causas que ocasio-\nnan la necesidad de iniciar una acción judicial para que la persona \nque sufre una afección laboral pueda acceder a una reparación. En \nproporción a la cantidad de dolencias que quedan sin cubrir, \nson pocos los reclamos judiciales que se inician.\nLa denuncia del accidente o enfermedad: su importancia\nSiempre es fundamental realizar la denuncia ante la ART. ya \nque a partir de allí podremos reclamar todos los derechos que nos \ncorresponden frente a un daño en la salud o la vida.\n¿Quiénes pueden hacerla?\nSegún el decreto 717/96 (conforme decreto 1475/15): \n• El empleador (está obligado a realizarla), \n• el propio trabajador, \n• sus derechohabientes, \n• o cualquier persona que haya tenido conocimiento del \naccidente de trabajo o enfermedad profesional. \nSi la ART no la rechaza dentro de los 10 días (notiﬁ cando al trabajador y al \nempleador), se entiende que lo aceptó. La ART puede pedir 10 días de prórroga \nmás, en ciertos casos.\nSi la empresa o el compañero/a accidentado/a no realiza la \ndenuncia, se sugiere realizarla a los miembros del Comité Mixto, \nya que es muy importante llevarla a cabo, por todo lo que se viene \nexplicando.",
@@ -1304,22 +1029,17 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "68-68",
-    "tenant": "shared"
+    "pages": "68-68"
   },
   {
     "id": "kb-manual-ssl-45",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
-      "comites-mixtos",
       "derecho",
-      "juicio",
+      "trabajo",
       "justicia",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "juicio"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.69-69) — Censi",
     "text": "63\nCUANDO FRACASA LA PREVENCIÓN Y SE PRODUCE UN DAÑO EN LA SALUD O LA VIDA DE LA PERSONA QUE TRABAJA\n¿Cuál es el plazo para denunciar?\nEs el plazo de la llamada «PRESCRIPCIÓN» (Art. 44. – Pres-\ncripción. 1. Las acciones derivadas de esta ley prescriben a los dos \naños a contar de la fecha en que la prestación debió ser abonada o \nprestada y, en todo caso, a los dos años desde el cese de la relación \nlaboral) Sin perjuicio de ello, SE RECOMIENDA HACER LA DENUN-\nCIA LO ANTES POSIBLE.\n¿Quién paga la remuneración?\nSegún el art. 13 de la LRT, la prestación dineraria (por inca-\npacidad laboral temporaria) correspondiente a los primeros diez \ndías estará a cargo del empleador. El importe y la forma de pago \ndebe ser igual a la remuneración correspondiente. Las prestaciones \ndinerarias siguientes estarán a cargo de la ART la que, en todo caso, \nasumirá las prestaciones en especie.\nSi existe RECHAZO, ALTA PREMATURA, ALTA con derivación \na OBRA Social o ALTA sin incapacidad, el/la trabajador/a puede:\n• Plantear en su caso «reingreso» ante la ART o divergencia \nante las Comisiones Médicas Jurisdiccionales de la Super-\nintendencia de Riesgos del Trabajo.\n• Se sugiere consultar a un abogado/a y a profesionales de \nla salud de confianza, a fin de evaluar la posibilidad de \ninterponer acción judicial ante la justicia laboral (previo \nplanteo de inconstitucionalidad).\n¿Que son y para qué sirven las Comisiones Médicas Jurisdiccionales?\nLa reforma llevada a cabo a nivel nacional por la ley 27.348 \nratificó la intervención obligatoria, previa y excluyente de las \ncomisiones médicas jurisdiccionales. \nSe trata de órganos administrativos, de naturaleza federal, \ncuyas decisiones son tomadas por médicos y no por quienes tie-\nnen un conocimiento del derecho laboral, como es la justicia \nespecializada.",
@@ -1332,23 +1052,18 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "69-69",
-    "tenant": "shared"
+    "pages": "69-69"
   },
   {
     "id": "kb-manual-ssl-46",
     "tipo": "articulo",
     "category": "fuentes",
     "tags": [
-      "accidente",
       "capital",
-      "comites-mixtos",
       "derecho",
-      "justicia",
+      "trabajo",
       "salario",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "justicia"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.70-70) — Censi",
     "text": "64\nMANUAL PRÁCTICO DE COMITES MIXTOS EN SALUD Y SEGURIDAD LABORAL\nNo se aplican los principios que rigen el proceso laboral (prin-\ncipio protectorio, in dubio pro operario, irrenunciabilidad, prin-\ncipio de indemnidad, primacía de la realidad, etc.), que tienden \na compensar la desigualdad real que existe entre trabajador/a y \nempleador en la relación capital-trabajo.\nPara que sea aplicable en las provincias, ellas deben adherir \nmediante una ley provincial. Aunque se dicte esa ley, la misma \nsería inconstitucional porque viola las autonomías provinciales y \nderechos fundamentales: acceso a la justicia, debido proceso y juez \nnatural; no obstante, se encontraría en vigencia.\n¿Cuáles son las prestaciones dinerarias que debe percibir\nel trabajador/a que sufre una incapacidad laboral?\nAdemás de la suma correspondiente al período de incapacidad \nlaboral temporaria y reemplaza al salario, el/a trabajador/a que \nsufra una incapacidad laboral permanente percibirá una indem-\nnización de pago único, cuya cuantía será igual a cincuenta y tres \n(53) veces el valor mensual del ingreso base, multiplicado por el \nporcentaje de incapacidad (si es total se multiplica por uno) y por \nun coeficiente que resultará de dividir el número sesenta y cinco \n(65) por la edad del damnificado a la fecha de la primera manifes-\ntación invalidante.\nDebemos tener en cuenta que la ley 27.348 determinó que el \nvalor del ingreso base mensual debe actualizarse conforme lo esta-\nblece su art. 11 (que reforma el art. 12 de la ley 24.557). Como se \ntrata de una modificación «de fondo» aunque las provincias «no \nadhieran» se aplica igual.\n• Esta suma en ningún caso será inferior a la cantidad que \nresulte de multiplicar pesos ciento ochenta mil ($ 180.000) \npor el porcentaje de incapacidad, actualizado según índice \nRipte (la Superintendencia de Riesgos de Trabajo publica \nperiódicamente los pisos indemnizatorios).\n• Asimismo, según el actual art. 11 de la ley 24.557, en los \ncasos en que se determine: una incapacidad entre 50% y \n66%; incapacidad total, gran invalidez o muerte del dam-\nnificado, los/as trabajadores/as o derechohabientes/as",
@@ -1361,8 +1076,7 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "70-70",
-    "tenant": "shared"
+    "pages": "70-70"
   },
   {
     "id": "kb-manual-ssl-47",
@@ -1370,15 +1084,11 @@
     "category": "fuentes",
     "tags": [
       "Yofra",
-      "accidente",
-      "comites-mixtos",
-      "condiciones",
       "derecho",
-      "desmotador",
+      "trabajo",
+      "condiciones",
       "justicia",
-      "salud-laboral",
-      "seguridad-laboral",
-      "trabajo"
+      "desmotador"
     ],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.71-62) — Censi",
     "text": "65\nCUANDO FRACASA LA PREVENCIÓN Y SE PRODUCE UN DAÑO EN LA SALUD O LA VIDA DE LA PERSONA QUE TRABAJA\npercibirán una suma única adicional, cuyos valores tam-\nbién se actualizan y se publican por la superintendencia.\nDel mismo modo, según el art. 3 de la ley 26.773 cuando el \ndaño se produzca en el lugar de trabajo o lo sufra el dependiente \nmientras se encuentre a disposición del empleador, el damnificado \n(trabajador víctima o sus derechohabientes) percibirá junto a las \nindemnizaciones dinerarias previstas, otra indemnización adicio-\nnal de pago único, equivalente al veinte por ciento (20%) de las \nsumas que le corresponden.\n \nLa corte suprema de justicia de la nación, al día de la fecha, tiene \nuna jurisprudencia restrictiva, respecto a los accidentes en el trayecto \n(o «in itinere»), considerando que no gozan de dicho adicional.\n\n67\nBibliografía\nNEFFA, JULIO CESAR (1985) «Condiciones y Medio Ambiente de \nTrabajo en al Argentina. Aspectos teóricos y métodos lógicos», \nedit HVMANITAS, CEIL, Buenos Aires.\nDEJOURS, CHRISTOPHE (2001) «Trabajo y desgaste mental», edit \nLumen HVMANITAS, Buenos Aires - Mexico.\nLAURELL, ASA CRISTINA (1984) «Ciencia y experiencia obrera: la \nlucha por la salud en Italia», Cuadernos políticos, edit. Era, \nMéxico.\n\nEste manual se ha realizado con el apoyo y sostenimiento de la \ngestión de la Federación de Trabajadores del Complejo Industrial \nOleaginoso Desmotadores de Algodón y Afines de la República \nArgentina:\nSECRETARIO GENERAL:  Daniel Alberto Yofra\nPROSECRETARIO GENERAL:  Carlos Ezequiel Roldán\nSECRETARIO GREMIAL:  Adrián Dávalos\nPROSECRETARIO GREMIAL:  Miguel Ferreyra\nTESORERO:  Eduardo Labra\nPROTESORERO:  Juan José Domínguez\nSECRETARIO ADMINISTRATIVO:  Luis Paz\nSECRETARIO DE ACTAS:  Dionisio Catalino Alfonso\nSECRETARIO DE PRENSA, PROPAGANDA\nY CAPACITACIÓN SINDICAL: Cristian Darío Montaño\nSECRETARIO DE SALUD LABORAL:  Marco Andrés Pozzi\nSECRETARIO DE ACCIÓN SOCIAL: Juan Antonio Parodi\nVocales\nVOCAL TITULAR 1º  Héctor Ricardo Ramírez\nVOCAL TITULAR 2º  Pedro Enrique Rosales\nVOCAL TITULAR 3º  Gonzalo Yamil Bacci\nVOCAL TITULAR 4º  Daniel Alejandro Agüero\nVOCAL TITULAR 5º  Lelio César Forquera\nVOCAL TITULAR 6º  Diego Antonio Domínguez\nVOCAL TITULAR 7º  Leandro Norberto Monzón\nVOCAL TITULAR 8º  María Laura Mehring\nVOCAL TITULAR 9º  Julio César Monzón\nVOCAL TITULAR 10º  Aldo Noriega",
@@ -1391,19 +1101,13 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "71-62",
-    "tenant": "shared"
+    "pages": "71-62"
   },
   {
     "id": "kb-manual-ssl-48",
     "tipo": "articulo",
     "category": "fuentes",
-    "tags": [
-      "accidente",
-      "comites-mixtos",
-      "salud-laboral",
-      "seguridad-laboral"
-    ],
+    "tags": [],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.63-63) — Censi",
     "text": "VOCAL SUPLENTE 1º  Marcelo Anselmo Acosta\nVOCAL SUPLENTE 2º  Walter Darío Gil\nVOCAL SUPLENTE 3º  Darío Alberto Nonis\nVOCAL SUPLENTE 4º  Luis Carlos Ruiz\nVOCAL SUPLENTE 5º  Julio César Dutra\nComisión Revisora de Cuentas\n1º REVISOR DE CUENTAS TITULAR  Diego Mariano Paciarotti\n2º REVISOR DE CUENTAS TITULAR  Alejandro Ezequiel Murar\n3º REVISOR DE CUENTAS TITULAR  Matías David Schenkel\nREVISOR DE CUENTAS SUPLENTE  Teresa Liliana Altamirano",
     "excerpt": "VOCAL SUPLENTE 1º  Marcelo Anselmo Acosta\nVOCAL SUPLENTE 2º  Walter Darío Gil\nVOCAL SUPLENTE 3º  Darío Alberto Nonis\nVOCAL SUPLENTE 4º  Luis Carlos Ruiz\nVOCAL SUPLENTE 5º  Julio César Dutra\nComisión R",
@@ -1415,19 +1119,13 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "63-63",
-    "tenant": "shared"
+    "pages": "63-63"
   },
   {
     "id": "kb-manual-ssl-49",
     "tipo": "articulo",
     "category": "fuentes",
-    "tags": [
-      "accidente",
-      "comites-mixtos",
-      "salud-laboral",
-      "seguridad-laboral"
-    ],
+    "tags": [],
     "title": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda- (p.64-64) — Censi",
     "text": "ctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore m",
     "excerpt": "ctetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore ma\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat\nugait nulla facilisi.\nctet",
@@ -1439,7 +1137,6 @@
     "vigencia": "vigente",
     "book_ref": "Censi, Mussi, Fridman, Lozano — Manual Práctico de Comités Mixtos en Salud y Seguridad Laboral, Federación Aceitera 2020",
     "chapter": "parte i: ngeniero que detalló las nocivas condiciones: en las que laboraban los trabajadores.: La retención de tareas constituye una herramienta legal funda-",
-    "pages": "64-64",
-    "tenant": "shared"
+    "pages": "64-64"
   }
 ]
