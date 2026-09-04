@@ -130,6 +130,9 @@ SYNONYM_GROUPS = [
     {"escalafon", "coeficiente"},
     # televisión ↔ televisada: query "televisión" → match chunks tagged "prensa televisada"
     {"television", "televisada"},
+    # moto ↔ automóvil: cuando preguntan por plus de motociclista,
+    # también necesitan el Art. 36 de afectación de automóvil (base del cálculo 55%)
+    {"motocicleta", "automovil", "moto"},
 ]
 
 
@@ -279,6 +282,9 @@ TENANT_KEYWORDS = {
         "jefe de redaccion", "jefe de noticias", "jefe de camaras",
         "secretario de redaccion", "corresponsal", "cronista acreditado",
         "laboratorista", "archivista", "motociclista",
+        # Plus por vehículos (moto ↔ automóvil: Art.7q refiere a Art.36)
+        "automovil", "afectacion", "plus vehiculo", "uso de automovil",
+        "plus por uso",
     ],
 }
 
