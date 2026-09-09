@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "2026-09-09-v1",
+    "version": "2026-09-09-v2",
     "tipo": "clipping-diario",
     "fecha": "2026-09-09",
     "frecuencia": "semanal",
@@ -18,20 +18,20 @@
       "id": "cd-2026-09-09-1",
       "fecha": "2026-09-09",
       "tags": [
-        "UOM-La-Matanza",
-        "MDM",
-        "corrupción-sindical",
-        "intervención",
-        "obra-social",
-        "Ciudad-Evita"
+        "Molinos-Río-de-la-Plata",
+        "Federación-Aceitera",
+        "juicio-dictadura",
+        "Memoria-Verdad-Justicia",
+        "desaparecidos",
+        "complicidad-empresarial"
       ],
-      "emoji": "🕵️",
-      "titulo": "MDM, la firma creada ad hoc por la UOM La Matanza, recibió casi $1.000 millones en 3 meses y está en la mira de la intervención",
-      "bajada": "La prestadora de salud MDM, propiedad de ex delegados convertidos en empresarios, cobró más de $900 millones del sindicato en 90 días sin experiencia previa. La intervención sigue el vínculo con el Grupo Audax y la droguería Generia, y también investiga el predio de Ciudad Evita donde se cobrarían montos por sobre los precios de mercado.",
-      "desarrollo": "La irrupción de Metalúrgicos de Matanza (MDM) como servicio de salud generó un estruendo en el sector. La firma, propiedad de Alberto Ramón Otero e Iván Gonzalo Guzmán, pasó de delegados a empresarios prósperos con un capital de apenas un millón de pesos y se convirtió en destinataria constante de fondos para costear prestaciones médicas. La prestadora se vendió como la recuperación del servicio, pero no tenía experiencia en el tema y la primera factura —la N° 001— se la emitió al propio sindicato. Se armó ad hoc apenas unos meses antes de comenzar a brindar servicio y fue presentada ante la Superintendencia de Servicios de Salud para su alta. Según información que maneja la intervención, sólo en 90 días MDM habría recibido de parte del gremio la suma de más de $900 millones de pesos para cubrir prestaciones. La intervención también sigue el vínculo con el Grupo Audax y la droguería Generia, donde habría familiares cruzados trabajando en las distintas empresas que podrían explicar la relación que hizo a MDM proveedora sin experiencia. Adicionalmente, se investiga el predio de Ciudad Evita que pertenece a Bienes del Estado, cedido en comodato al gremio, donde funciona un \"Complejo Polideportivo\". En el predio se cobrarían montos por sobre los precios de mercado para realizar actividades, incluyendo campeonatos de fútbol, se levantarían apuestas y se venderían bebidas alcohólicas.",
+      "emoji": "⚖️",
+      "titulo": "Juicio a represor de Molinos: el Tribunal virtualizó la primera audiencia y los aceiteros no descartan movilizar",
+      "bajada": "El Tribunal Oral Federal N°2 de La Plata notificó que la primera audiencia contra Emilio Parodi sería virtual, sorprendiendo a familiares y querellas. La Federación Aceitera suspendió la convocatoria a concentrar pero anticipó que está dispuesta a movilizar cuando los familiares convoquen, por Memoria, Verdad y Justicia.",
+      "desarrollo": "Pocas horas antes del inicio del juicio por los trabajadores desaparecidos de Molinos Río de la Plata, el Tribunal Oral en lo Criminal Federal N° 2 de La Plata notificó que la primera audiencia sería virtual, sorprendiendo a familiares y querellas, ya que se había previsto que fuera presencial, tal como anticiparon los jueces en la audiencia preparatoria. El juicio oral y público se realiza contra Emilio Parodi, exjefe de Personal de la planta de Molinos Río de la Plata en Avellaneda durante la última dictadura cívico-militar. Está acusado por su participación en los secuestros y desapariciones de los trabajadores aceiteros Francisco Fernández, Santos Ojeda y Roberto José Rivolta, ocurridos el 7 de julio de 1976. Ante la virtualización, la Federación Aceitera y Desmotadora de Algodón (FTCIODyARA) y el Sindicato de Obreros y Empleados de la Industria Aceitera (SOEIA Capital y Gran Buenos Aires) suspendieron la convocatoria a concentrar frente al tribunal el jueves 10/9. Reclamaron \"que la segunda audiencia, cuando empiecen a declarar las y los familiares, sea presencial\" y anticiparon que están dispuestos a movilizar \"en el momento en que las y los familiares nos convoquen, por Memoria, Verdad y Justicia.\" La causa es emblemática: vincula la violencia estatal con la complicidad empresarial durante el terrorismo de Estado.",
       "fuente": "InfoGremiales — 09/09/2026",
-      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/6da0b4d5e8633064d102452adc5e7a23.jpg",
-      "fuente_url": "https://www.infogremiales.com.ar/mdm-la-firma-creada-ad-hoc-por-la-uom-la-matanza-que-recibio-casi-1-000-millones-en-3-meses-y-que-la-intervencion-tiene-en-la-mira/"
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/molinos-2.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/a-horas-de-comenzar-el-tribunal-oral-federal-n-2-virtualizo-la-primera-audiencia-de-la-causa-molinos-y-aceiteros-no-descarta-movilizar-por-memoria-verdad-y-justicia/"
     },
     {
       "id": "cd-2026-09-09-2",
@@ -54,25 +54,44 @@
     },
     {
       "id": "cd-2026-09-09-3",
-      "fecha": "2026-09-09",
+      "fecha": "2026-09-08",
       "tags": [
-        "Molinos-Río-de-la-Plata",
-        "Federación-Aceitera",
-        "juicio-dictadura",
-        "Memoria-Verdad-Justicia",
-        "desaparecidos",
-        "La-Plata"
+        "UIA",
+        "empresas-industriales",
+        "atrasos-pagos",
+        "demanda-interna",
+        "importaciones",
+        "capacidad-instalada"
       ],
-      "emoji": "⚖️",
-      "titulo": "Juicio a represor de Molinos: el Tribunal virtualizó la primera audiencia y los aceiteros no descartan movilizar",
-      "bajada": "El Tribunal Oral Federal N°2 de La Plata notificó que la primera audiencia contra Emilio Parodi sería virtual, sorprendiendo a familiares y querellas. La Federación Aceitera suspendió la convocatoria a concentrar pero anticipó que está dispuesta a movilizar cuando los familiares convoquen, por Memoria, Verdad y Justicia.",
-      "desarrollo": "Pocas horas antes del inicio del juicio por los trabajadores desaparecidos de Molinos Río de la Plata, el Tribunal Oral en lo Criminal Federal N° 2 de La Plata notificó que la primera audiencia sería virtual, sorprendiendo a familiares y querellas, ya que se había previsto que fuera presencial, tal como anticiparon los jueces en la audiencia preparatoria. El juicio oral y público se realiza contra Emilio Parodi, exjefe de Personal de la planta de Molinos Río de la Plata en Avellaneda durante la última dictadura cívico-militar. Está acusado por su participación en los secuestros y desapariciones de los trabajadores aceiteros Francisco Fernández, Santos Ojeda y Roberto José Rivolta, ocurridos el 7 de julio de 1976. Ante la virtualización, la Federación Aceitera y Desmotadora de Algodón (FTCIODyARA) y el Sindicato de Obreros y Empleados de la Industria Aceitera (SOEIA Capital y Gran Buenos Aires) suspendieron la convocatoria a concentrar frente al tribunal el jueves 10/9. Reclamaron \"que la segunda audiencia, cuando empiecen a declarar las y los familiares, sea presencial\" y anticiparon que están dispuestos a movilizar \"en el momento en que las y los familiares nos convoquen, por Memoria, Verdad y Justicia.\" La causa es emblemática: vincula la violencia estatal con la complicidad empresarial durante el terrorismo de Estado.",
-      "fuente": "InfoGremiales — 09/09/2026",
-      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/molinos-2.jpg",
-      "fuente_url": "https://www.infogremiales.com.ar/a-horas-de-comenzar-el-tribunal-oral-federal-n-2-virtualizo-la-primera-audiencia-de-la-causa-molinos-y-aceiteros-no-descarta-movilizar-por-memoria-verdad-y-justicia/"
+      "emoji": "📉",
+      "titulo": "Se disparó el porcentaje de empresas industriales con atrasos en todos sus pagos y ya duplica al promedio histórico",
+      "bajada": "Según la UIA, el 9,2% de las firmas registra atrasos en todos los pagos en simultáneo —el más alto desde que hay registros—, duplicando el promedio histórico del 4%. El 47,6% tiene dificultades para afrontar al menos un pago. La debilidad de la demanda interna y la competencia desleal de importaciones son los factores principales.",
+      "desarrollo": "Un informe de Indicadores Industriales y Expectativas de la UIA reveló que en julio, el 47,6% de las empresas industriales reportó dificultades para afrontar al menos un tipo de pago (salarios, proveedores, compromisos financieros, servicios públicos o impuestos). Además, el 9,2% de las firmas registró atrasos en todos los pagos en simultáneo, cifra que constituye \"el más alto desde que hay registros\" y supera ampliamente el promedio histórico del 4%. La UIA indicó que las mayores complicaciones se observaron en pagos de impuestos y proveedores, lo que sugiere que las restricciones de liquidez se trasladan al financiamiento impositivo y comercial. Como consecuencia, el 56,2% de las empresas afectadas recurrió a financiamiento de corto plazo o aumentó su endeudamiento, mientras el 53,2% enfrentó mayores intereses y costos financieros, comprimiendo los márgenes de rentabilidad. El problema central de la industria es la debilidad de la demanda interna: casi la mitad de los encuestados la señaló como preocupación principal. El 49,7% sufrió retroceso en su facturación, la segunda cifra más alta en nueve relevamientos. La situación fue peor entre las pymes. El segundo factor de preocupación es el aumento de costos, con particular peso de los costos energéticos por la guerra en Medio Oriente. En tercer lugar aparece la competencia de productos importados: seis de cada diez empresas señalaron que la competencia desleal tiene impacto alto o muy alto, especialmente mediante precios \"artificialmente bajos\". Los rubros más afectados son textil e indumentaria, metales comunes, y papel, cartón y madera, junto con la industria autopartista y de caucho y plástico. Casi dos tercios de las empresas operaron por debajo de la capacidad óptima en julio, y ocho de cada diez no esperan alcanzar ese nivel en el próximo año.",
+      "fuente": "InfoGremiales · Ámbito Financiero — 08/09/2026",
+      "foto": "https://media.ambito.com/p/0aa29860629778d6f9f0fee7db7757a6/adjuntos/239/imagenes/043/627/0043627784/730x0/smart/image.png",
+      "fuente_url": "https://www.infogremiales.com.ar/se-disparo-el-porcentaje-de-empresas-industriales-con-atrasos-en-todos-sus-pagos-y-ya-duplica-al-promedio-historico/"
     },
     {
       "id": "cd-2026-09-09-4",
+      "fecha": "2026-09-03",
+      "tags": [
+        "reforma-laboral",
+        "inconstitucionalidad",
+        "trabajo-no-registrado",
+        "Necochea",
+        "Ley-27.802",
+        "despido"
+      ],
+      "emoji": "⚖️",
+      "titulo": "Trabajó seis años informal, pidió que lo regularicen y lo echaron: fallo declaró inconstitucional un artículo de la reforma laboral",
+      "bajada": "Un trabajador de Necochea estuvo casi seis años en negro en un supermercado. Al reclamar la registración, lo despidieron. El Tribunal del Trabajo declaró inconstitucional el artículo 55 de la Ley 27.802 porque su mecanismo de actualización perjudicaba a los trabajadores que recurrieron a la Justicia. El monto actualizado supera los $112 millones.",
+      "desarrollo": "Un trabajador desempeñó tareas de atención al público, reposición y descarga de mercadería en un supermercado de Necochea desde junio de 2015 hasta abril de 2021, sin ser registrado formalmente durante casi seis años. Tras reclamar la regularización de su situación y el pago de salarios adeudados, y ante la falta de respuesta, se consideró despedido el 8 de abril de 2021. El Tribunal del Trabajo N°1 de Necochea acreditó la relación laboral de \"cinco años y diez meses\" mediante testimonios y la ausencia de registros aportados por la demandada. Fijó la mejor remuneración mensual en $53.777,39 según categoría y escalas salariales. La sentencia reconoció diferencias salariales, haberes adeudados, aguinaldos, vacaciones, indemnización por despido, preaviso y sanciones por falta de registración. El monto histórico era de $3.321.382,48, pero con la actualización ascendió a $112.336.500 al 26 de agosto de 2026. El fallo declaró inconstitucional el artículo 55 de la Ley 27.802 (reforma laboral de Milei), ya que el mecanismo de actualización para juicios ya iniciados \"podía perjudicar a los trabajadores que habían recurrido a la Justicia.\" Los magistrados consideraron que afectaba derechos de igualdad, propiedad y acceso a la Justicia. En su lugar, aplicaron el artículo 54, que establece actualización mediante IPC más un 3% anual. La empresa debe pagar dentro de diez días de notificada, bajo apercibimiento de que la actualización continúe hasta la cancelación total. El fallo sienta un precedente importante contra la reforma laboral en la justicia del trabajo.",
+      "fuente": "InfoGremiales — 03/09/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2023/05/1681507207230414540-scaled.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/trabajo-seis-anos-informal-en-un-supermercado-pidio-que-lo-regularicen-y-lo-echaron-el-fallo-declaro-inconstitucional-un-articulo-de-la-reforma-laboral/"
+    },
+    {
+      "id": "cd-2026-09-09-5",
       "fecha": "2026-09-09",
       "tags": [
         "ATE",
@@ -91,7 +110,7 @@
       "fuente_url": "https://www.infogremiales.com.ar/un-fallo-historico-que-devuelve-la-soberania-sobre-la-identidad-ate-celebra-la-declaracion-de-inconstitucionalidad-del-control-biometrico-en-rio-negro/"
     },
     {
-      "id": "cd-2026-09-09-5",
+      "id": "cd-2026-09-09-6",
       "fecha": "2026-09-08",
       "tags": [
         "CONICET",
@@ -108,25 +127,6 @@
       "fuente": "InfoGremiales — 08/09/2026",
       "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2025/12/conicet1-1.jpg",
       "fuente_url": "https://www.infogremiales.com.ar/mientras-el-presidente-del-conicet-niega-el-cientificidio-mas-de-mil-investigadores-se-movilizan-porque-el-gobierno-freno-su-ingreso-al-organismo-hace-tres-anos/"
-    },
-    {
-      "id": "cd-2026-09-09-6",
-      "fecha": "2026-09-08",
-      "tags": [
-        "FATPren",
-        "IA",
-        "periodismo",
-        "Estatuto-del-Periodista",
-        "precarización",
-        "regulación"
-      ],
-      "emoji": "📰",
-      "titulo": "FATPren rechazó el reemplazo de periodistas por IA y reclamó regulación y ética sobre el origen de la información",
-      "bajada": "La Federación Argentina de Trabajadores de Prensa presentó un proyecto para actualizar el Estatuto del Periodista Profesional incorporando la regulación de la IA. Rechazó que la tecnología sirva para eliminar puestos y planteó que la transformación debe traducirse en más trabajo y mejores ingresos.",
-      "desarrollo": "La Federación Argentina de Trabajadores de Prensa (FATPren) cuestionó el uso creciente de inteligencia artificial para producir contenidos periodísticos y advirtió que estas herramientas no pueden servir para eliminar puestos de trabajo. El gremio presentó un proyecto para actualizar el Estatuto del Periodista Profesional e incorporar la regulación de la IA en la actividad. Frente a la difusión de contenidos producidos íntegramente por sistemas de IA, FATPren marcó posición defendiendo el rol de los trabajadores de prensa. Desde la organización remarcaron la importancia de que toda información de interés público sea \"producida, verificada, editada y presentada por profesionales de la comunicación\" y rechazaron prácticas que buscan eliminar el trabajo periodístico bajo el argumento de nuevas herramientas tecnológicas. Para FATPREN, el periodismo no se limita a generar textos: es un oficio vinculado con la construcción de ciudadanía, basado en el juicio ético, la experiencia de campo, el contacto con fuentes y la responsabilidad social. \"Nunca se podrá reemplazar por alquimias automatizadas.\" El gremio sostuvo que detrás de esa lógica existe una vieja discusión: priorizar el ahorro de costos por encima de la calidad, y que la IA no debería profundizar ese camino. FATPREN anunció la presentación de un proyecto de actualización del Estatuto que incluye el reconocimiento de la autoría y la retribución económica por contenidos apropiados por empresas y plataformas tecnológicas. El desafío que plantea la IA no pasa por negar el avance tecnológico, sino por definir quiénes se benefician, bajo qué condiciones y qué lugar ocupan los trabajadores de prensa en ese nuevo escenario.",
-      "fuente": "Sonido Gremial — 08/09/2026",
-      "foto": "https://sonidogremial.com.ar/wp-content/uploads/2026/09/GAUDENSI_FATPREN_MARCHA_CGT-1170x780.jpeg",
-      "fuente_url": "https://sonidogremial.com.ar/fatpren-rechazo-el-reemplazo-de-periodistas-por-ia-y-reclamo-su-regulacion-y-la-etica-sobre-el-origen-de-la-informacion/"
     },
     {
       "id": "cd-2026-09-09-7",
@@ -151,6 +151,25 @@
       "id": "cd-2026-09-09-8",
       "fecha": "2026-09-08",
       "tags": [
+        "FATPren",
+        "IA",
+        "periodismo",
+        "Estatuto-del-Periodista",
+        "precarización",
+        "regulación"
+      ],
+      "emoji": "📰",
+      "titulo": "FATPren rechazó el reemplazo de periodistas por IA y reclamó regulación y ética sobre el origen de la información",
+      "bajada": "La Federación Argentina de Trabajadores de Prensa presentó un proyecto para actualizar el Estatuto del Periodista Profesional incorporando la regulación de la IA. Rechazó que la tecnología sirva para eliminar puestos y planteó que la transformación debe traducirse en más trabajo y mejores ingresos.",
+      "desarrollo": "La Federación Argentina de Trabajadores de Prensa (FATPren) cuestionó el uso creciente de inteligencia artificial para producir contenidos periodísticos y advirtió que estas herramientas no pueden servir para eliminar puestos de trabajo. El gremio presentó un proyecto para actualizar el Estatuto del Periodista Profesional e incorporar la regulación de la IA en la actividad. Frente a la difusión de contenidos producidos íntegramente por sistemas de IA, FATPren marcó posición defendiendo el rol de los trabajadores de prensa. Desde la organización remarcaron la importancia de que toda información de interés público sea \"producida, verificada, editada y presentada por profesionales de la comunicación\" y rechazaron prácticas que buscan eliminar el trabajo periodístico bajo el argumento de nuevas herramientas tecnológicas. Para FATPREN, el periodismo no se limita a generar textos: es un oficio vinculado con la construcción de ciudadanía, basado en el juicio ético, la experiencia de campo, el contacto con fuentes y la responsabilidad social. \"Nunca se podrá reemplazar por alquimias automatizadas.\" El gremio sostuvo que detrás de esa lógica existe una vieja discusión: priorizar el ahorro de costos por encima de la calidad, y que la IA no debería profundizar ese camino. FATPREN anunció la presentación de un proyecto de actualización del Estatuto que incluye el reconocimiento de la autoría y la retribución económica por contenidos apropiados por empresas y plataformas tecnológicas. El desafío que plantea la IA no pasa por negar el avance tecnológico, sino por definir quiénes se benefician, bajo qué condiciones y qué lugar ocupan los trabajadores de prensa en ese nuevo escenario.",
+      "fuente": "Sonido Gremial — 08/09/2026",
+      "foto": "https://sonidogremial.com.ar/wp-content/uploads/2026/09/GAUDENSI_FATPREN_MARCHA_CGT-1170x780.jpeg",
+      "fuente_url": "https://sonidogremial.com.ar/fatpren-rechazo-el-reemplazo-de-periodistas-por-ia-y-reclamo-su-regulacion-y-la-etica-sobre-el-origen-de-la-informacion/"
+    },
+    {
+      "id": "cd-2026-09-09-9",
+      "fecha": "2026-09-08",
+      "tags": [
         "subte",
         "Metrodelegados",
         "Emova",
@@ -167,45 +186,7 @@
       "fuente_url": "https://sonidogremial.com.ar/vuelve-el-lio-al-subte-metrodelegados-activa-medidas-de-fuerza-contra-emova-por-descuentos-salariales/"
     },
     {
-      "id": "cd-2026-09-09-9",
-      "fecha": "2026-09-03",
-      "tags": [
-        "reforma-laboral",
-        "inconstitucionalidad",
-        "trabajo-no-registrado",
-        "Necochea",
-        "Ley-27.802",
-        "despido"
-      ],
-      "emoji": "⚖️",
-      "titulo": "Trabajó seis años informal, pidió que lo regularicen y lo echaron: fallo declaró inconstitucional un artículo de la reforma laboral",
-      "bajada": "Un trabajador de Necochea estuvo casi seis años en negro en un supermercado. Al reclamar la registración, lo despidieron. El Tribunal del Trabajo declaró inconstitucional el artículo 55 de la Ley 27.802 porque su mecanismo de actualización perjudicaba a los trabajadores que recurrieron a la Justicia. El monto actualizado supera los $112 millones.",
-      "desarrollo": "Un trabajador desempeñó tareas de atención al público, reposición y descarga de mercadería en un supermercado de Necochea desde junio de 2015 hasta abril de 2021, sin ser registrado formalmente durante casi seis años. Tras reclamar la regularización de su situación y el pago de salarios adeudados, y ante la falta de respuesta, se consideró despedido el 8 de abril de 2021. El Tribunal del Trabajo N°1 de Necochea acreditó la relación laboral de \"cinco años y diez meses\" mediante testimonios y la ausencia de registros aportados por la demandada. Fijó la mejor remuneración mensual en $53.777,39 según categoría y escalas salariales. La sentencia reconoció diferencias salariales, haberes adeudados, aguinaldos, vacaciones, indemnización por despido, preaviso y sanciones por falta de registración. El monto histórico era de $3.321.382,48, pero con la actualización ascendió a $112.336.500 al 26 de agosto de 2026. El fallo declaró inconstitucional el artículo 55 de la Ley 27.802 (reforma laboral de Milei), ya que el mecanismo de actualización para juicios ya iniciados \"podía perjudicar a los trabajadores que habían recurrido a la Justicia.\" Los magistrados consideraron que afectaba derechos de igualdad, propiedad y acceso a la Justicia. En su lugar, aplicaron el artículo 54, que establece actualización mediante IPC más un 3% anual. La empresa debe pagar dentro de diez días de notificada, bajo apercibimiento de que la actualización continúe hasta la cancelación total. El fallo sienta un precedente importante contra la reforma laboral en la justicia del trabajo.",
-      "fuente": "InfoGremiales — 03/09/2026",
-      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2023/05/1681507207230414540-scaled.jpg",
-      "fuente_url": "https://www.infogremiales.com.ar/trabajo-seis-anos-informal-en-un-supermercado-pidio-que-lo-regularicen-y-lo-echaron-el-fallo-declaro-inconstitucional-un-articulo-de-la-reforma-laboral/"
-    },
-    {
       "id": "cd-2026-09-09-10",
-      "fecha": "2026-09-08",
-      "tags": [
-        "UIA",
-        "empresas-industriales",
-        "atrasos-pagos",
-        "demanda-interna",
-        "importaciones",
-        "capacidad-instalada"
-      ],
-      "emoji": "📉",
-      "titulo": "Se disparó el porcentaje de empresas industriales con atrasos en todos sus pagos y ya duplica al promedio histórico",
-      "bajada": "Según la UIA, el 9,2% de las firmas registra atrasos en todos los pagos en simultáneo —el más alto desde que hay registros—, duplicando el promedio histórico del 4%. El 47,6% tiene dificultades para afrontar al menos un pago. La debilidad de la demanda interna y la competencia desleal de importaciones son los factores principales.",
-      "desarrollo": "Un informe de Indicadores Industriales y Expectativas de la UIA reveló que en julio, el 47,6% de las empresas industriales reportó dificultades para afrontar al menos un tipo de pago (salarios, proveedores, compromisos financieros, servicios públicos o impuestos). Además, el 9,2% de las firmas registró atrasos en todos los pagos en simultáneo, cifra que constituye \"el más alto desde que hay registros\" y supera ampliamente el promedio histórico del 4%. La UIA indicó que las mayores complicaciones se observaron en pagos de impuestos y proveedores, lo que sugiere que las restricciones de liquidez se trasladan al financiamiento impositivo y comercial. Como consecuencia, el 56,2% de las empresas afectadas recurrió a financiamiento de corto plazo o aumentó su endeudamiento, mientras el 53,2% enfrentó mayores intereses y costos financieros, comprimiendo los márgenes de rentabilidad. El problema central de la industria es la debilidad de la demanda interna: casi la mitad de los encuestados la señaló como preocupación principal. El 49,7% sufrió retroceso en su facturación, la segunda cifra más alta en nueve relevamientos. La situación fue peor entre las pymes. El segundo factor de preocupación es el aumento de costos, con particular peso de los costos energéticos por la guerra en Medio Oriente. En tercer lugar aparece la competencia de productos importados: seis de cada diez empresas señalaron que la competencia desleal tiene impacto alto o muy alto, especialmente mediante precios \"artificialmente bajos\". Los rubros más afectados son textil e indumentaria, metales comunes, y papel, cartón y madera, junto con la industria autopartista y de caucho y plástico. Casi dos tercios de las empresas operaron por debajo de la capacidad óptima en julio, y ocho de cada diez no esperan alcanzar ese nivel en el próximo año.",
-      "fuente": "InfoGremiales · Ámbito Financiero — 08/09/2026",
-      "foto": "https://media.ambito.com/p/0aa29860629778d6f9f0fee7db7757a6/adjuntos/239/imagenes/043/627/0043627784/730x0/smart/image.png",
-      "fuente_url": "https://www.infogremiales.com.ar/se-disparo-el-porcentaje-de-empresas-industriales-con-atrasos-en-todos-sus-pagos-y-ya-duplica-al-promedio-historico/"
-    },
-    {
-      "id": "cd-2026-09-09-11",
       "fecha": "2026-09-08",
       "tags": [
         "CGT",
@@ -222,6 +203,25 @@
       "fuente": "InfoGremiales · Sonido Gremial — 08/09/2026",
       "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/08/Papa-Leon-XIV.jpeg",
       "fuente_url": "https://www.infogremiales.com.ar/dirigentes-sindicales-argentinos-y-del-empresariado-se-reuniran-con-el-papa-leon-xiv-en-el-iv-encuentro-fratelli-tutti-en-roma/"
+    },
+    {
+      "id": "cd-2026-09-09-11",
+      "fecha": "2026-09-09",
+      "tags": [
+        "UOM-La-Matanza",
+        "MDM",
+        "intervención-sindical",
+        "investigación",
+        "obra-social",
+        "Ciudad-Evita"
+      ],
+      "emoji": "🔍",
+      "titulo": "Según la intervención de la UOM La Matanza, una firma ad hoc habría recibido casi $1.000 millones en 3 meses",
+      "bajada": "La intervención del gremio señala que MDM, una prestadora de salud sin experiencia previa, habría cobrado más de $900 millones en 90 días. También investiga el vínculo con el Grupo Audax y un predio de Ciudad Evita. Las afirmaciones corresponden a la fuente de la intervención y no han sido judicialmente comprobadas.",
+      "desarrollo": "Según información que maneja la intervención de la UOM La Matanza, la prestadora de salud MDM —propiedad de Alberto Ramón Otero e Iván Gonzalo Guzmán— habría recibido de parte del gremio más de $900 millones de pesos en 90 días para cubrir prestaciones. La firma se armó ad hoc apenas unos meses antes de comenzar a brindar servicio y fue presentada ante la Superintendencia de Servicios de Salud para su alta. La primera factura —la N° 001— se la habría emitido al propio sindicato. La intervención también sigue el vínculo con el Grupo Audax y la droguería Generia, donde habría familiares cruzados trabajando en las distintas empresas. Adicionalmente, se investiga el predio de Ciudad Evita que pertenece a Bienes del Estado, cedido en comodato al gremio, donde funciona un \"Complejo Polideportivo\" donde, según la intervención, se cobrarían montos por sobre los precios de mercado. Las afirmaciones sobre montos y vínculos corresponden a la fuente de la intervención y no han sido judicialmente comprobadas hasta el momento.",
+      "fuente": "InfoGremiales — 09/09/2026",
+      "foto": "https://www.infogremiales.com.ar/wp-content/uploads/2026/09/6da0b4d5e8633064d102452adc5e7a23.jpg",
+      "fuente_url": "https://www.infogremiales.com.ar/mdm-la-firma-creada-ad-hoc-por-la-uom-la-matanza-que-recibio-casi-1-000-millones-en-3-meses-y-que-la-intervencion-tiene-en-la-mira/"
     }
   ]
 }
