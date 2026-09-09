@@ -77,24 +77,49 @@
     @media (prefers-color-scheme: light) { .nav { background: rgba(245,240,232,0.92); } }
     :root[data-theme="light"] .nav { background: rgba(245,240,232,0.92); }
 
-    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0.6rem var(--pad-x); display: flex; align-items: center; justify-content: space-between; }
-    .nav-brand { font-family: var(--serif); font-size: 0.95rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0.6rem var(--pad-x); display: flex; align-items: center; gap: 1rem; }
+    .nav-brand { font-family: var(--serif); font-size: 0.95rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; margin-right: auto; }
     .nav-brand span { color: var(--accent); font-size: 1.1rem; }
-    .nav-links { display: flex; gap: 0.2rem; }
-    .nav-links a { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); text-decoration: none; padding: 0.4rem 0.65rem; border-radius: 4px; transition: color 0.2s, background 0.2s; }
+    .nav-links { display: flex; gap: 0.2rem; margin-left: auto; }
+    .nav-links a { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); text-decoration: none; padding: 0.4rem 0.65rem; border-radius: 4px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
     .nav-links a:hover, .nav-links a.active { color: var(--accent); background: var(--accent-glow); }
-    .theme-toggle { background: none; border: 1px solid var(--rule); border-radius: 6px; color: var(--text-dim); cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.85rem; line-height: 1; font-family: var(--sans); }
+    .theme-toggle { background: none; border: 1px solid var(--rule); border-radius: 6px; color: var(--text-dim); cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.85rem; line-height: 1; font-family: var(--sans); flex-shrink: 0; }
     .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
 
-    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 6rem var(--pad-x) 4rem; position: relative; }
-    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% 30%, var(--accent-glow), transparent); pointer-events: none; }
+    /* Grain overlay */
+    .grain-overlay { position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.35; mix-blend-mode: overlay; }
+    .grain-overlay svg { width: 100%; height: 100%; }
+
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 6rem var(--pad-x) 2rem; position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: url('tapA.png') center center / cover no-repeat;
+      background-attachment: fixed;
+    }
+    @media (max-width: 768px) { .hero-bg { background-attachment: scroll; } }
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(22,18,15,0.45) 0%, rgba(22,18,15,0.7) 50%, rgba(22,18,15,0.92) 100%);
+    }
+    @media (prefers-color-scheme: light) {
+      .hero-bg::after { background: linear-gradient(180deg, rgba(245,240,232,0.4) 0%, rgba(245,240,232,0.65) 50%, rgba(245,240,232,0.9) 100%); }
+    }
+    :root[data-theme="light"] .hero-bg::after { background: linear-gradient(180deg, rgba(245,240,232,0.4) 0%, rgba(245,240,232,0.65) 50%, rgba(245,240,232,0.9) 100%); }
+    :root[data-theme="dark"] .hero-bg::after { background: linear-gradient(180deg, rgba(22,18,15,0.45) 0%, rgba(22,18,15,0.7) 50%, rgba(22,18,15,0.92) 100%); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero::before { display: none; }
     .hero-eyebrow { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 1.5rem; }
     .hero-eyebrow span { color: var(--text-dim); }
     .hero-title { font-family: var(--serif); font-size: clamp(2.8rem, 7vw, 5.5rem); line-height: 1.05; color: var(--text); max-width: 800px; text-wrap: balance; }
-    .hero-sub { font-family: var(--body); font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-dim); max-width: 600px; margin-top: 1.5rem; line-height: 1.6; }
-    .hero-meta { margin-top: 3rem; display: flex; gap: 2rem; flex-wrap: wrap; font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
+    .hero-sub { font-family: var(--body); font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-dim); max-width: 720px; margin-top: 1.5rem; line-height: 1.7; }
+    .hero-meta { margin-top: 2rem; display: flex; gap: 2rem; flex-wrap: wrap; font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
     .hero-meta div { display: flex; flex-direction: column; gap: 0.15rem; }
     .hero-meta strong { color: var(--text-dim); font-size: 0.82rem; }
+    .hero-coord { position: relative; z-index: 1; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--rule-light); font-family: var(--sans); font-size: 0.78rem; color: var(--muted); display: flex; gap: 2rem; flex-wrap: wrap; }
+    .hero-coord strong { color: var(--text-dim); font-size: 0.82rem; }
     .hero-epigraph { margin-top: 2.5rem; max-width: 520px; border-left: 3px solid var(--accent); padding-left: 1.2rem; font-style: italic; color: var(--text-dim); font-size: 0.98rem; line-height: 1.7; }
     .hero-epigraph cite { display: block; margin-top: 0.5rem; font-style: normal; font-family: var(--sans); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
 
@@ -228,6 +253,11 @@
 
 <body>
 
+<!-- GRAIN OVERLAY -->
+<div class="grain-overlay" aria-hidden="true">
+  <svg><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+</div>
+
 <div class="progress" id="progress"></div>
 
 <!-- NAV -->
@@ -235,7 +265,7 @@
   <div class="nav-inner">
     <a href="#hero" class="nav-brand"><span>NsF</span> Seminario Norte de Santa Fe</a>
     <div class="nav-links">
-      <a href="#sA">A - Peronismo y reaccion</a>
+      <a href="#sA">A - Inicio del Fin</a>
       <a href="#sB">B - Politica forestal</a>
       <a href="#sC">C - Politica imperial</a>
       <a href="#sD">D - Crisis y reconversion</a>
@@ -247,7 +277,7 @@
 
 <!-- FLOATING TOC -->
 <div class="toc-float" id="tocFloat">
-  <a href="#sA"><span class="dot"></span><span class="tl">A - Peronismo</span></a>
+  <a href="#sA"><span class="dot"></span><span class="tl">A - Inicio del Fin</span></a>
   <a href="#sB"><span class="dot"></span><span class="tl">B - Forestal</span></a>
   <a href="#sC"><span class="dot"></span><span class="tl">C - Imperial</span></a>
   <a href="#sD"><span class="dot"></span><span class="tl">D - Reconv.</span></a>
@@ -256,28 +286,29 @@
 
 <!-- ============ HERO ============ -->
 <header class="hero" id="hero">
-  <div class="hero-eyebrow">
-    Seminario Permanente de Historia del Norte de Santa Fe &nbsp;&#183;&nbsp; <span>Encuentro 6</span> &nbsp;&#183;&nbsp; Unidad V
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      Seminario Permanente de Historia del Norte de Santa Fe &nbsp;&#183;&nbsp; <span>Encuentro 6</span>
+    </div>
+    <h1 class="hero-title">El Fin de una Era</h1>
+    <p class="hero-sub">
+      Tanto se hab&iacute;a dicho que el talado irracional del bosque iba a precipitar la ruina de la industria del tanino. Y ello ocurri&oacute;. Pero que la crisis terminara con una desestructuraci&oacute;n productiva no era obvio. Eso se ten&iacute;a que discutir. Y eso hicieron los trabajadores y otros actores econ&oacute;micos y productivos de la regi&oacute;n. El conflicto se present&oacute; ante las puertas de los ministerios de la naci&oacute;n... mucho antes que Tucum&aacute;n sufriera la desolaci&oacute;n de la crisis del az&uacute;car. &iquest;Qu&eacute; impacto tuvo la emergencia del peronismo en el fin de esta industria?, &iquest;qu&eacute; queda cuando la empresa se va?, &iquest;qu&eacute; se pod&iacute;a hacer cuando el capital decidi&oacute; abandonar el territorio desde Londres?
+    </p>
+    <blockquote class="hero-epigraph">
+      La Forestal se ha divorciado del quebracho y se ha ido con la mimosa, pero con el agravante que continua hacienole maliciosamente la corte al quebracho. Para desarrollar este juego tiene que apelar a toda clase de recursos a fin de que mientras quiere entraablemente a otra, no desprenderse de su primer amor.
+      <cite>Ricardo Marzorati, La industria del extracto de quebracho en la Argentina, 1960</cite>
+    </blockquote>
   </div>
-  <h1 class="hero-title">El Fin de una Era</h1>
-  <p class="hero-sub">
-    Politica forestal, estrategia imperialista, peronismo y disputas por la reconversion productiva en el territorio que La Forestal abandono.
-  </p>
-  <div class="hero-meta">
-    <div><strong>Periodo</strong>1955 &#8211; 1970</div>
-    <div><strong>Ejes</strong> A) Politica forestal &#183; B) Capital imperialista &#183; C) Reconversion &#183; D) Exodos &#183; E) Apertura</div>
-    <div><strong>Coordinacion</strong>Jasinski &#183; L. Sanchez &#183; Di Croce &#183; G. Sanchez &#183; Rios Solis</div>
+  <div class="hero-coord">
+    <div><strong>Coordinaci&oacute;n</strong>&nbsp; Jasinski &middot; L. S&aacute;nchez &middot; Di Croce &middot; G. S&aacute;nchez &middot; R&iacute;os Sol&iacute;s</div>
   </div>
-  <blockquote class="hero-epigraph">
-    La Forestal se ha divorciado del quebracho y se ha ido con la mimosa, pero con el agravante que continua hacienole maliciosamente la corte al quebracho. Para desarrollar este juego tiene que apelar a toda clase de recursos a fin de que mientras quiere entraablemente a otra, no desprenderse de su primer amor.
-    <cite>Ricardo Marzorati, La industria del extracto de quebracho en la Argentina, 1960</cite>
-  </blockquote>
 </header>
 
 <!-- ============ A — PERONISMO Y REACCIÓN ============ -->
 <section class="section fade-in" id="sA">
   <div class="section-label">Eje A</div>
-  <h2 class="section-num">A. Peronismo y reaccion</h2>
+  <h2 class="section-num">A. Inicio del Fin</h2>
 
   <!-- TAB BAR -->
   <div class="tab-bar" id="sATabs" style="margin-bottom:1.5rem;">
@@ -417,6 +448,17 @@
           Zarrilli plantea una tesis clave: la transicion de la "explotacion" al "aprovechamiento" del bosque &mdash;que la legislacion refleja formalmente&mdash; no cambio la logica extractiva. La Administracion Provincial de Bosques (ley 4514, adhiriendo a la ley nacional 13.273) cambio el concepto en el papel pero no en la practica. Perfumo denuncio en 1963 "la gran leccion que brinda el agotamiento de los quebrachales", pero la leccion no se tradujo en politicas efectivas de reforestacion ni en restricciones reales a la extraccion.
         </p>
 
+        <h3>El deg&uuml;ello: la pr&aacute;ctica que mat&oacute; el bosque desde adentro</h3>
+        <p>
+          La explotaci&oacute;n racional del quebracho exig&iacute;a elaborar solo &aacute;rboles muertos o que hubieran cumplido su ciclo vegetativo &mdash;aproximadamente 50 a 80 a&ntilde;os de vida&mdash;, o los que especificaba la ley: a un metro de altura, m&aacute;s de 30 cent&iacute;metros de di&aacute;metro. Pero la pr&aacute;ctica real fue otra. Juan Jos&eacute; Rivas, juez de paz y jefe del registro civil de Vera, denunci&oacute; en 1952 una t&eacute;cnica que los obrajeros llamaban &laquo;el degollado&raquo;: un corte circular con el hacha en la base del tronco, separando la corteza en dos secciones y privando al &aacute;rbol herido mortalmente de la savia que sus ra&iacute;ces elaboraban y extra&iacute;an del suelo.
+        </p>
+        <p>
+          &laquo;No pocos hacheros se niegan a ejecutarlo por tener conciencia de que es un acto contra natura, criminal; otros lo realizan venciendo cierta repugnancia&raquo;, escribi&oacute; Rivas. La muerte del degollado tardaba mucho tiempo, a veces a&ntilde;os. Durante ese per&iacute;odo se deten&iacute;a el crecimiento y desarrollo de los &aacute;rboles sacrificados, y la econom&iacute;a en general perd&iacute;a. Pero al industrial taninero le conven&iacute;a: economizaba mano de obra, porque con el tiempo la corteza se desprend&iacute;a sola y no era menester &laquo;pelarlo&raquo;. Y el principio legal de defensa del bosque quedaba anulado.
+        </p>
+        <p>
+          Rivas ven&iacute;a denunciando la depredaci&oacute;n desde 1948. Ya entonces calculaba que en plena producci&oacute;n cada f&aacute;brica consum&iacute;a hasta 300 toneladas diarias de rollizos; Villa Guillermina, 400. Una legua de monte pose&iacute;a unas 40 mil toneladas de quebracho: se tala una legua cada cuatro meses. Las cuatro f&aacute;bricas consum&iacute;an 12 leguas por a&ntilde;o. En 45 a&ntilde;os se hab&iacute;an consumido unas 540 leguas. &laquo;La explotaci&oacute;n discrecional y despiadada, la falta de un r&eacute;gimen legal con normas adecuadas que tutele y acreciente la riqueza forestal &mdash;escribi&oacute; en 1949&mdash;, ha llevado las cosas hasta donde se encuentran.&raquo; Las leyes de defensa forestal, las viejas y las nuevas, no gravitaron sobre el desmedido af&aacute;n de lucro obrajero. (<em>El Litoral</em>, 28/4/1948; 27/9/1949; 31/1/1952)
+        </p>
+
         <blockquote class="pull">
           <p>El "bosque perdido" no fue consecuencia de la ignorancia sino del calculo: la empresa sabia que la mimosa africana, cultivada en plantaciones, era el reemplazo planificado. No necesitaba conservar lo que iba a abandonar.</p>
           <cite>Tesis a partir de Ross (2017) y Zarrilli (2018)</cite>
@@ -524,6 +566,26 @@
             <div class="pol-entry-body"><strong>Decreto 23.451 &#8212; Cupos por fabrica</strong><p>Resultado del estudio de la comision de 1944. Fija cupos de produccion por fabrica inspeccionada. La cuota es indivisible por fabrica. Exportaciones: 175 mil toneladas, consumo interno: 25 mil.</p><div class="pol-source">Marzorati</div></div>
           </div>
 
+          <div class="pol-entry" data-type="nota" data-search="nota rivas depredacion bosque explotacion irracional no deja beneficios 1948">
+            <div class="pol-entry-header"><span class="tag type-nota">Nota</span><span class="pol-year">1948</span></div>
+            <div class="pol-entry-body"><strong>Rivas: la industria que no deja beneficios perdurables</strong><p>Denuncia que la industria del tanino no deja en la regi&oacute;n obras de progreso sostenible, como lo demuestran Calchaqu&iacute;, Fives Lille y Santa Felicia. Vaticina que al ritmo de producci&oacute;n, en cuarenta a&ntilde;os no se producir&aacute; m&aacute;s tanino en Santa Fe.</p><div class="pol-source">El Litoral, 28/4/1948</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="nota" data-search="nota rivas explotacion discrecional despiadada 300 toneladas dia 12 leguas ano 1949">
+            <div class="pol-entry-header"><span class="tag type-nota">Nota</span><span class="pol-year">1949</span></div>
+            <div class="pol-entry-body"><strong>Rivas: la explotaci&oacute;n discrecional y despiadada</strong><p>En plena producci&oacute;n, cada f&aacute;brica consume hasta 300 toneladas diarias de rollizos (Guillermina: 400). Una legua de monte posee unas 40 mil toneladas: se tala una legua cada cuatro meses. Las cuatro f&aacute;bricas consum&iacute;an 12 leguas por a&ntilde;o. En 45 a&ntilde;os se consumieron unas 540 leguas. &laquo;La explotaci&oacute;n discrecional y despiadada, la falta de un r&eacute;gimen legal con normas adecuadas que tutele y acreciente la riqueza forestal, ha llevado las cosas hasta donde se encuentran.&raquo;</p><div class="pol-source">El Litoral, 27/9/1949</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="protesta" data-search="protesta rivas deguello degollacion arboles jovenes 30 cm hacheros conciencia 1952">
+            <div class="pol-entry-header"><span class="tag type-protesta">Protesta</span><span class="pol-year">Ene 1952</span></div>
+            <div class="pol-entry-body"><strong>Rivas denuncia el &laquo;deg&uuml;ello&raquo; de &aacute;rboles j&oacute;venes</strong><p>El &laquo;degollado&raquo; consiste en practicar con el hacha un corte circular en la base del tronco, separando la corteza y privando al &aacute;rbol de la savia que sus ra&iacute;ces elaboran. &laquo;No pocos hacheros se niegan a ejecutarlo por tener conciencia de que es un acto contra natura, criminal; otros lo realizan venciendo cierta repugnancia.&raquo; La muerte del degollado tarda a&ntilde;os: durante ese tiempo se detiene el crecimiento, la econom&iacute;a pierde, y el principio legal de defensa del bosque queda anulado. La empresa economiza mano de obra porque con el tiempo la corteza se desprende sola y no es menester &laquo;pelarlo&raquo;.</p><div class="pol-source">El Litoral, 31/1/1952</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="nota" data-search="nota rivas cortina humo criadero gusanos seda tierra vias telefonos 1963">
+            <div class="pol-entry-header"><span class="tag type-nota">Nota</span><span class="pol-year">1963</span></div>
+            <div class="pol-entry-body"><strong>Rivas: &laquo;cortina de humo&raquo; y la depredaci&oacute;n final</strong><p>Critica las propuestas de reconversi&oacute;n (taller de vagones, criadero de gusanos de seda, f&aacute;brica de briquetas) como cortinas de humo. &laquo;Las empresas penetraron en ella como el personaje de Zorrilla en Flandes: a saco, a llevarse todo lo bueno de la selva milenaria.&raquo; Denuncia que la empresa se lleva v&iacute;as, tel&eacute;fonos, servicios asistenciales, agua y luz. &laquo;La industria forestal que pas&oacute; por los bosques norte&ntilde;os no ser&aacute; otra cosa que un triste recuerdo.&raquo;</p><div class="pol-source">El Litoral, 24/3/1963</div></div>
+          </div>
+
           <div class="pol-entry" data-type="resolucion" data-search="resolucion iapi precio tanino 1948 160 260 dolares desastre">
             <div class="pol-entry-header"><span class="tag type-resolucion">Resolucion</span><span class="pol-year">1948</span></div>
             <div class="pol-entry-body"><strong>IAPI sube precio del tanino</strong><p>De 160 a 260 dolares FOB. Consecuencia: paralizacion casi completa de ventas, desvio de compradores hacia mimosa y castano. 21 meses de "danos irreparables". El quebracho pasa del 61,7% al 42,2% del mercado mundial.</p><div class="pol-source">Marzorati, p. 52</div></div>
@@ -619,6 +681,7 @@
         <p style="margin-top:0.3rem;"><strong>Ley 4514</strong> (provincial): Adhesion, APB</p>
         <p style="margin-top:0.3rem;"><strong>Valentini (1960)</strong>: Reforestacion con quebracho</p>
         <p style="margin-top:0.3rem;"><strong>Perfumo (1963)</strong>: Denuncia del agotamiento</p>
+        <p style="margin-top:0.3rem;"><strong>Rivas</strong> (1948, 1949, 1952, 1963): Denuncia del deg&uuml;ello y la depredaci&oacute;n</p>
       </div>
       <div class="sidebar-card">
         <div class="sidebar-card-label">Pregunta</div>
@@ -948,6 +1011,7 @@
         <button class="tab-btn active" data-tab="d-marco">Marco</button>
         <button class="tab-btn" data-tab="d-crono">Cronologia</button>
         <button class="tab-btn" data-tab="d-politica">Politica social</button>
+        <button class="tab-btn" data-tab="d-acevedo">Informe Comisi&oacute;n 1964</button>
       </div>
 
       <!-- TAB 1: Marco -->
@@ -955,6 +1019,9 @@
         <h3>La consolidacion de nuevos actores</h3>
         <p>
           En el marco de la consolidacion y aparicion de nuevos actores &mdash;las comunas locales, los sindicatos fortalecidos (FATITA), un Estado planificador y dirigista&mdash;, la pregunta central de este eje es: &#191;cuales fueron las alternativas y discusiones en torno a la reconversion productiva de un territorio como el norte santafesino? La salida de La Forestal no solo destruyo la economia regional: abrio un espacio politico para que otros actores propusieran modelos alternativos de desarrollo.
+        </p>
+        <p>
+          La dimensi&oacute;n de la cat&aacute;strofe no puede comprenderse sin un dato que Marzorati subray&oacute; en 1964, cuando era presidente del Instituto Argentino del Quebracho: un capital for&aacute;neo &mdash;La Forestal&mdash; hab&iacute;a cerrado <strong>13 de las 21 f&aacute;bricas</strong> que funcionaban en el pa&iacute;ss (Chaco, Santa Fe, Formosa y Jujuy), desocupando <strong>50.000 trabajadores</strong>. De los <strong>65.000 obreros de la industria</strong>, <strong>solo trabajaban 15.000</strong>. Dos de cada tres obreros tanineros hab&iacute;an quedado sin trabajo por decisi&oacute;n de una &uacute;nica empresa con sede en Londres.
         </p>
         <p>
           Pero la reconfiguracion era traumatica. El gobernador Caesar habia diagnosticado en 1949 el modelo de La Forestal como "explotacion cientifica": la empresa suministraba la casa, la comida y el medico con el objetivo de aniquilar cualquier esiritu de iniciativa en el personal. Decadas de paternalismo habian atrofiado la capacidad de autogobierno. Cuando la empresa se fue, los pueblos debieron construir su propio futuro sin recursos, sin infraestructura y sin experiencia de autonomia.
@@ -1168,6 +1235,11 @@
             <div class="pol-entry-body"><strong>La Gallareta: taller de vagones y cooperativa</strong><p>La Forestal propone: 1) Convertir planta para reparacion de vagones (150 obreros); 2) Cooperativa agricola-ganadera: 617 hectareas a bajo precio.</p><div class="pol-source">El Litoral, 23/10 y 1/11/1962</div></div>
           </div>
 
+          <div class="pol-entry" data-type="plan" data-search="plan decreto 1676 1963 camara argentino paraguaya productores extracto quebracho venta exterior tanino transferencia quebrachales fusionados">
+            <div class="pol-entry-header"><span class="tag type-plan">Decreto</span><span class="pol-year">Jul 1963</span></div>
+            <div class="pol-entry-body"><strong>Decreto 1.676/63: la C&aacute;mara Argentino-Paraguaya controla la venta exterior</strong><p>El decreto determina que la C&aacute;mara Argentino-Paraguaya de Productores de Extracto de Quebracho controla la venta exterior del tanino. Autoriza a La Forestal a transferir a Quebrachales Fusionados todo su porcentaje de participaci&oacute;n en la exportaci&oacute;n.</p><div class="pol-source">Acevedo, Investigaci&oacute;n a La Forestal, 1983</div></div>
+          </div>
+
           <div class="pol-entry" data-type="diagnostico" data-search="diagnostico cierre la gallareta 1963 illia ultima fabrica">
             <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1963</span></div>
             <div class="pol-entry-body"><strong>Cierre definitivo de La Gallareta</strong><p>Ultima fabrica del norte santafesino. Dos dias antes de que asumiera Illia. "No por previsto deja de tener significado y trascendencia."</p><div class="pol-source">El Litoral, octubre 1963</div></div>
@@ -1178,9 +1250,39 @@
             <div class="pol-entry-body"><strong>Rivas: "cortina de humo"</strong><p>Critica propuestas anteriores (taller de vagones, criadero de gusanos de seda) como cortina de humo. "La industria forestal que paso por los bosques nortehenos no sera otra cosa que un triste recuerdo."</p><div class="pol-source">El Litoral, 24/3/1963</div></div>
           </div>
 
+          <div class="pol-entry" data-type="diagnostico" data-search="diagnostico marzorati presidente instituto argentino quebracho 1964 13 fabricas 21 50000 obreros 65000 15000">
+            <div class="pol-entry-header"><span class="tag type-diagnostico">Diagnostico</span><span class="pol-year">1964</span></div>
+            <div class="pol-entry-body"><strong>Marzorati: 13 de 21 f&aacute;bricas cerradas por un capital for&aacute;neo</strong><p>El presidente del Instituto Argentino del Quebracho plantea que La Forestal &mdash;un capital for&aacute;neo&mdash; cerr&oacute; 13 de las 21 f&aacute;bricas del pa&iacute;s (Chaco, Santa Fe, Formosa, Jujuy), desocupando 50.000 trabajadores. <strong>De los 65.000 obreros de la industria, solo trabajaban 15.000.</strong> Dos de cada tres obreros tanineros quedaron sin trabajo por decisi&oacute;n de una &uacute;nica empresa con sede en Londres.</p><div class="pol-source">Marzorati, 1964</div></div>
+          </div>
+
           <div class="pol-entry" data-type="reconversion" data-search="reconversion taller vagones la gallareta 1964 70 millones 150 obreros belgrano">
             <div class="pol-entry-header"><span class="tag type-reconversion">Reconversion</span><span class="pol-year">1964</span></div>
             <div class="pol-entry-body"><strong>Apertura del taller de vagones de La Gallareta</strong><p>Inversion de 70 millones de pesos. Contrato con Ferrocarril General Belgrano (250 millones). 150 obreros. 30 vagones mensuales. "El objetivo primordial no es economico sino social."</p><div class="pol-source">El Litoral, 12/3/1964</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="negociacion" data-search="negociacion comision investigadora acevedo 1963 debate parlamentario capital colonialista tierra arrasada">
+            <div class="pol-entry-header"><span class="tag type-negociacion">Negociacion</span><span class="pol-year">Oct 1963</span></div>
+            <div class="pol-entry-body"><strong>Debate parlamentario: Comisi&oacute;n Investigadora</strong><p>Acevedo (PDP) califica a La Forestal como &laquo;capital colonialista&raquo;, denuncia &laquo;criminales designios de tierra arrasada&raquo; y un &laquo;plan de &eacute;xodo y fuga&raquo;. Frigeri (DC): &laquo;republiqueta&raquo;, lista negra, funcionarios corrompidos. Carnicer (UCRP): ex m&eacute;dico del ramal, dejado cesante por protestar. Getar (UDELPA): el tanino &laquo;emigr&oacute; para engrosar las arcas de la colonia inglesa&raquo;. Los cinco bloques apoyan el proyecto.</p><div class="pol-source">Acevedo, Investigaci&oacute;n a La Forestal, 1983</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="politica" data-search="politica expulsion 1000 hacheros devastacion vias agua potable febrero 1964 acevedo">
+            <div class="pol-entry-header"><span class="tag type-politica">Politica</span><span class="pol-year">Feb 1964</span></div>
+            <div class="pol-entry-body"><strong>Expulsi&oacute;n de 1.000 hacheros y devastaci&oacute;n</strong><p>La Forestal despide contratistas y hacheros pr&aacute;cticamente sin indemnizaci&oacute;n. Desarma v&iacute;as de Colmena, destruye tanques de agua potable, levanta casillas y cierra proveedur&iacute;as. &laquo;Por todos los desv&iacute;os genera la misma situaci&oacute;n de aislamiento total, no quedando m&aacute;s alternativa que emigrar.&raquo;</p><div class="pol-source">Acevedo, Investigaci&oacute;n a La Forestal, 1983</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="negociacion" data-search="negociacion convenio poder ejecutivo la forestal agosto 1964 74000 ha 1100 tierras colonizacion">
+            <div class="pol-entry-header"><span class="tag type-negociacion">Negociacion</span><span class="pol-year">Ago 1964</span></div>
+            <div class="pol-entry-body"><strong>Convenio Poder Ejecutivo &ndash; La Forestal</strong><p>Venta de 74.000 ha a $1.100/ha y 35.000 ha de estancias a $1.500/ha (50% en bonos). La Forestal coloniza 10.000 ha; no innova sobre 109.200 ha por 2 a&ntilde;os. Punto 10&ordm;: deja sin efecto restricciones de reforestaci&oacute;n y l&iacute;mite de cortes. Gobierno retira proyecto de expropiaci&oacute;n.</p><div class="pol-source">Acevedo, Investigaci&oacute;n a La Forestal, 1983</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="plan" data-search="plan ley 6212 colonizacion cuna boscosa instituto agrario acevedo 1966 ongania">
+            <div class="pol-entry-header"><span class="tag type-plan">Plan</span><span class="pol-year">1966</span></div>
+            <div class="pol-entry-body"><strong>Ley 6212: colonizaci&oacute;n de la cu&ntilde;a boscosa</strong><p>Acevedo defiende la creaci&oacute;n del Instituto Agrario de Santa Fe. La dictadura de Ongan&iacute;a lo suprime y lo reemplaza por un organismo engorroso con &laquo;fuerzas vivas&raquo;, sin presupuesto ni reglamentaci&oacute;n.</p><div class="pol-source">Acevedo, Investigaci&oacute;n a La Forestal, 1983</div></div>
+          </div>
+
+          <div class="pol-entry" data-type="negociacion" data-search="negociacion las gamas 55000 hectareas 8000 precio acevedo 1969 poppa">
+            <div class="pol-entry-header"><span class="tag type-negociacion">Negociacion</span><span class="pol-year">1969</span></div>
+            <div class="pol-entry-body"><strong>Las Gamas: 55.000 ha a $8.000/ha</strong><p>Ministro Poppa anuncia tratativas. Presidente de la Sociedad Rural de Vera confirma el precio. Acevedo objeta: en 1949 esas tierras no se vend&iacute;an a m&aacute;s de $25/ha; favorable hasta $4.200. &laquo;No convertir al Estado en latifundista comprando tierras de La Forestal a precio inflado.&raquo;</p><div class="pol-source">Acevedo, Investigaci&oacute;n a La Forestal, 1983</div></div>
           </div>
 
           <div class="pol-entry" data-type="expropiacion" data-search="expropiacion estado provincial la gallareta saica 1973 sylvestre begnis">
@@ -1232,6 +1334,69 @@
           </li>
         </ul>
       </div>
+
+      <!-- TAB 4: Informe Comisión 1964 (Acevedo) -->
+      <div class="tab-panel" id="d-acevedo">
+        <h3>La Comisi&oacute;n Investigadora Interc&aacute;mara (1963&ndash;1964)</h3>
+        <p style="color:var(--text-dim); font-size:0.9rem; margin-bottom:1rem;">
+          Fuente: Acevedo, Anacarsis. <em>Investigaci&oacute;n a La Forestal</em>. 1983. Debates de la C&aacute;mara Legislativa de la Provincia de Santa Fe, octubre de 1963; informe del 15/10/1964; textos complementarios de 1966 y notas de 1967&ndash;1969.
+        </p>
+
+        <h4>El debate parlamentario del 25 de octubre de 1963</h4>
+        <p>
+          El proyecto cre&oacute; una comisi&oacute;n especial interc&aacute;mara para investigar las causas de la paralizaci&oacute;n total y definitiva de la f&aacute;brica de La Gallareta, verificar si hubo buen cierre en la relaci&oacute;n laboral con hacheros, contratistas y obreros, y proyectar un plan de desarrollo y reactivaci&oacute;n econ&oacute;mica agr&iacute;cola, ganadera y forestal en los departamentos de Vera y Obligado. El debate gir&oacute; en torno a lo que los diputados llamaron &laquo;la cat&aacute;strofe&raquo; del cierre.
+        </p>
+        <p>
+          <strong>Acevedo</strong> (Partido Dem&oacute;crata Progresista) calific&oacute; al capital de La Forestal como &laquo;un capital colonialista&raquo;, habl&oacute; de &laquo;criminales designios de tierra arrasada&raquo; y describi&oacute; la ejecuci&oacute;n final de un &laquo;plan de &eacute;xodo y fuga&raquo;. Denunci&oacute; que en febrero de 1964 La Forestal despidi&oacute; contratistas y hacheros pr&aacute;cticamente sin pagar indemnizaci&oacute;n ni reconocer antig&uuml;edad, mientras iniciaba la devastaci&oacute;n: desarm&oacute; v&iacute;as, destruy&oacute; el sistema de agua potable, levant&oacute; casillas y cerr&oacute; proveedur&iacute;as. &laquo;Por todos los desv&iacute;os genera la misma situaci&oacute;n de aislamiento total, no quedando m&aacute;s alternativa que emigrar.&raquo;
+        </p>
+        <p>
+          <strong>Frigeri</strong> (Democracia Cristiana) describi&oacute; a La Forestal como una &laquo;republiqueta&raquo; donde se violaban los derechos obreros; habl&oacute; de la lista negra y de funcionarios p&uacute;blicos corrompidos con sobresueldos. <strong>Carnicer</strong> (UCR del Pueblo), que hab&iacute;a sido m&eacute;dico en el ramal de Gallareta a Colmena &mdash;atendiendo entre 100 y 200 personas por obraje&mdash;, fue dejado cesante cuando protest&oacute; frente a un gerente ingl&eacute;s. <strong>Getar</strong> (UDELPA) se&ntilde;al&oacute; que el valioso tanino argentino &laquo;emigr&oacute; del pa&iacute;s para engrosar las arcas de la colonia inglesa&raquo;; habl&oacute; de la f&aacute;brica de briquetas como &laquo;otra cortina de humo&raquo; y rindi&oacute; homenaje a Rogelio Lamaz&oacute;n, &laquo;valiente hombre acribillado por la espalda, a mansalva&raquo;. <strong>Borrella</strong> defini&oacute; a La Forestal como un caso t&iacute;pico de capital colonialista que se resiste a transformarse en empresa industrial moderna &laquo;por el sentido econ&oacute;mico que alimenta sus intereses&raquo;.
+        </p>
+        <p>
+          Los cinco bloques pol&iacute;ticos apoyaron el proyecto. Se aprob&oacute; sobre tablas.
+        </p>
+
+        <h4>La ley de 1954 y su incumplimiento</h4>
+        <p>
+          Acevedo explic&oacute; que el 10 de septiembre de 1954 se hab&iacute;a sancionado una ley que prohib&iacute;a a La Forestal el retiro o traslado de instalaciones sin autorizaci&oacute;n del PE. Pero por una &laquo;voluntad extra&ntilde;a&raquo; no tuvo estado p&uacute;blico: no se public&oacute; en el Bolet&iacute;n Oficial y nunca se puso en ejecuci&oacute;n.
+        </p>
+
+        <h4>El informe del 15 de octubre de 1964</h4>
+        <p>
+          La comisi&oacute;n &mdash;integrada por Acevedo (PDP), Grillery (DC), Pezz (UCRP), Getar (UDELPA) y Turbay (MIR)&mdash; se estableci&oacute; en Jobson y visit&oacute; Gallareta, Tartagal, Villa Ana y Villa Guillermina. Sus conclusiones principales:
+        </p>
+        <ul style="margin-top:0.5rem; margin-bottom:1rem;">
+          <li><strong>El cierre fue injustificado.</strong> La excusa era el agotamiento de reservas forestales, pero en 1963 quedaba materia para varios a&ntilde;os seg&uacute;n excontratistas y los agr&oacute;nomos Dayer y Mart&iacute;. La empresa gan&oacute; 50 millones de d&oacute;lares entre 1947 y 1957, y 750 millones de m$n en los seis a&ntilde;os siguientes.</li>
+          <li><strong>Las indemnizaciones fueron insuficientes.</strong> La Forestal pag&oacute; solo el 75% de la indemnizaci&oacute;n doble. Los hacheros solo pod&iacute;an computar antig&uuml;edad con el &uacute;ltimo contratista. El ahorro total por 700 despedidos de f&aacute;brica y 1.000 hacheros ascendi&oacute; a 365 millones de pesos.</li>
+          <li><strong>El sistema de contratistas fue una trampa.</strong> La C&aacute;mara de Trabajo de Santa Fe ratific&oacute; que el contratista era un simple &laquo;delegado&raquo; de La Forestal, que los contratos eran ciento por ciento favorables a la empresa y que ella regulaba tareas, modo, forma y cantidad de personal.</li>
+          <li><strong>El desperdicio de materia prima fue del 80%.</strong> En sus 203.000 hect&aacute;reas, La Forestal solo explotaba el fuste de los &aacute;rboles, no el ramaje.</li>
+          <li><strong>La vagoner&iacute;a era un paliativo.</strong> Funcionaba con 150 personas en septiembre de 1964, pero buena parte del personal desocupado ya hab&iacute;a emigrado. El contrato era por tres a&ntilde;os con EFEA; capital de 30 a 35 millones. &laquo;La vagoner&iacute;a no es m&aacute;s que un peque&ntilde;o paliativo.&raquo;</li>
+          <li><strong>El convenio con la Intervenci&oacute;n Federal fue da&ntilde;ino.</strong> El punto 7&ordm; &mdash;que autorizaba a La Forestal a levantar sus instalaciones&mdash; fue &laquo;el m&aacute;s da&ntilde;ino&raquo; seg&uacute;n Acevedo. La comuna exim&iacute;a a la empresa de grav&aacute;menes; a cambio recib&iacute;a infraestructura de mucho menor valor.</li>
+        </ul>
+
+        <h4>El convenio del 27 de agosto de 1964</h4>
+        <p>
+          La comisi&oacute;n logr&oacute; un acuerdo de venta entre el Poder Ejecutivo y La Forestal. La provincia comprar&iacute;a 74.000 ha a $1.100/ha y 35.000 ha de estancias a $1.500/ha (50% en bonos). La Forestal se compromet&iacute;a a colonizar 10.000 ha cerca de La Gallareta y a no innovar sobre 109.200 ha por dos a&ntilde;os. El tope de compromiso era 50 millones de m$n. El punto 10&ordm; dejaba sin efecto las disposiciones restrictivas en materia de reforestaci&oacute;n y l&iacute;mite de cortes. El gobierno se compromet&iacute;a a retirar el proyecto de expropiaci&oacute;n.
+        </p>
+
+        <h4>La ida y vuelta con La Forestal</h4>
+        <p>
+          El 8 de abril de 1964, la comisi&oacute;n propuso a Seward un nuevo ciclo de producci&oacute;n: limpieza de 20 a 30.000 ha aptas para agricultura, con altos niveles t&eacute;cnicos y bajos costos, a cargo exclusivo de La Forestal. Seward respondi&oacute; el 16 de abril que lo tendr&iacute;a en cuenta. El 30 de abril se opuso al proyecto de expropiaci&oacute;n, calific&aacute;ndolo de anticonstitucional. En julio, en un encuentro con Kirton, Houssay, Garay, Mart&iacute;nez Etcherol y Lafond, La Forestal ofreci&oacute; colonizar 10.000 ha y vender 110.000 al gobierno &mdash;pero ped&iacute;a $1.500/$2.000 por ha cuando el gobierno ofrec&iacute;a $1.000/$1.500. Se suspendieron las tratativas. Cuatro d&iacute;as antes de terminar su mandato, con Seward presente, se logr&oacute; el acuerdo.
+        </p>
+
+        <h4>Ley 6212 (1966) y la dictadura de Ongan&iacute;a</h4>
+        <p>
+          El 10 de marzo de 1966, Acevedo defendi&oacute; en la C&aacute;mara la Ley 6212 de colonizaci&oacute;n de la cu&ntilde;a boscosa y creaci&oacute;n del Instituto Agrario. Pero la dictadura de Ongan&iacute;a suprimi&oacute; el Instituto Agrario (art. 1&ordm; de la ley) y lo reemplaz&oacute; por un organismo engorroso con participaci&oacute;n de &laquo;fuerzas vivas&raquo;, sin presupuesto ni reglamentaci&oacute;n. Acevedo &mdash;ya sin banca&mdash; escribi&oacute; en 1967: &laquo;Al pueblo del departamento Vera&raquo;.
+        </p>
+        <p>
+          En 1969, una nota del ministro Poppa revel&oacute; que las 55.000 ha de Las Gamas se negociaban a $8.000/ha. Acevedo objet&oacute;: en 1949 esas tierras no se vend&iacute;an a m&aacute;s de $25/ha; &eacute;l consideraba favorable pagar hasta $4.200. No convertir al Estado en latifundista comprando tierras de La Forestal a precio inflado era su posici&oacute;n.
+        </p>
+
+        <blockquote class="pull">
+          <p>Siempre cuando se trata de La Forestal, hay una voluntad extra&ntilde;a que trabaja sigilosamente, y entre las sombras, no tuvo estado p&uacute;blico, ni se public&oacute; en el bolet&iacute;n oficial, logrando evadirla con autorizaciones comunales.</p>
+          <cite>Anacarsis Acevedo, Investigaci&oacute;n a La Forestal, 1983</cite>
+        </blockquote>
+      </div>
     </div>
 
     <div class="sidebar">
@@ -1241,6 +1406,14 @@
         <div class="stat-label">De la capacidad cerrada era de La Forestal (124 mil de 142 mil ton.)</div>
         <p style="margin-top:0.5rem;">Tartagal: -82% &mdash; V. Guillermina: -59% (censo)</p>
         <p style="margin-top:0.2rem; font-size:0.78em; color:var(--muted);">Trumper 1977; Zarrilli; Tercer tomo</p>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-card-label">Marzorati, 1964</div>
+        <div class="stat" style="color:var(--accent);">50.000</div>
+        <div class="stat-label">Obreros desocupados por un capital for&aacute;neo</div>
+        <p style="margin-top:0.3rem; font-size:0.85rem;">De 65.000 obreros de la industria, <strong style="color:var(--accent);">solo trabajaban 15.000</strong></p>
+        <p style="margin-top:0.2rem; font-size:0.78em; color:var(--muted);">13 de 21 f&aacute;bricas cerradas por La Forestal</p>
       </div>
       </div>
 
@@ -1264,6 +1437,7 @@
         <p><strong>Trumper, M.</strong> (1977). <em>Efectos economicos y poblacionales de la explotacion del quebracho colorado</em>. CEUR-ITDT.</p>
         <p style="margin-top:0.3rem;">Sanchez, L. &amp; Sanchez, G. (2019). Cierre de fabricas y exodo. En Brac, <em>Pueblos forestales</em>. CFI.</p>
         <p style="margin-top:0.3rem;">Gori, G. (1991). <em>La Forestal, la tragedia del quebracho colorado</em>.</p>
+        <p style="margin-top:0.3rem;"><strong>Acevedo, A.</strong> (1983). <em>Investigaci&oacute;n a La Forestal</em>. Debate parlamentario 1963, informe 1964, Ley 6212, notas 1967&ndash;1969.</p>
       </div>
     </div>
   </div>
@@ -1329,6 +1503,11 @@
         El hospital funcionaba con pocas camas y un solo médico, pobre en instrumentales y sin sala de maternidad. Los enfermos de gravedad tenían que ser llevados a la cabecera departamental o a Villa Ocampo. En ocasiones, los enfermos fueron trasladados en tractores. A pocos pasos de la ruta 168 aparecían estos poblados aislados: sin energía, sin dispensarios, sin comunicaciones. Lo mismo que la ruta 11. «Los llamaríamos un drama de soledad y miseria en la segunda provincia argentina» (<em>El Litoral</em>, 28 de febrero de 1969).
       </p>
 
+      <blockquote class="pull">
+        <p>Ahora es la ventanilla del ómnibus la que descubre a simple vista las cicatrices del paisaje. La vagonería parada en Gallareta, la planta de riego abandonada en Las Mercedes, la papelera inmóvil en Villa Ocampo, el ingenio clausurado en Tacuarendí, las fundiciones cerradas en Tartagal. Cada sustituto de La Forestal se debate en el fracaso, cada espejismo aventado deposita la juventud de un pueblo en las villas de emergencia de Buenos Aires.</p>
+        <cite>Rodolfo Walsh, mayo de 1969</cite>
+      </blockquote>
+
       <h3>Villa Ana: la comuna que cobró impuestos al desmantelamiento</h3>
       <p>
         Sánchez y Sánchez (2019) documentan un episodio revelador de la resistencia comunal: la Comisión de Fomento de Villa Ana se vio obligada a emitir la resolución N° 27, que establecía fuertes impuestos a aquellos que destruyeran o levantaran sus residencias, incluyendo a La Forestal. La comuna buscaba frenar el desarme de la estructura del pueblo de la fábrica y sus ramificaciones. La empresa, que durante décadas había sido dueña de todo —las casas, las calles, los servicios—, ahora debía negociar con los primeros gobiernos autónomos que el territorio había conocido.
@@ -1342,7 +1521,7 @@
         En abril de 1969, la amenaza de cierre de los talleres de vagones de La Gallareta y Villa Guillermina detonó la primera pueblada del norte santafesino. El 5 de abril, la prensa informó que los talleres no se cerrarían: la decisión estaba en manos de Onganía y se conocería el lunes 7. «Los talleres de reparación de vagones de La Gallareta y Villa Guillermina no serán desmantelados y continuarán sus actividades hasta tanto se resuelva la necesaria transformación industrial de los mismos», dijo una fuente de Presidencia. La fecha límite puesta por los Ferrocarriles Belgrano era el 30 de abril.
       </p>
       <p>
-        El sábado 19 de abril, los trabajadores ocuparon el establecimiento. El presidente de la Comisión Pro Mantenimiento de la Fuente de Trabajo de Villa Guillermina, Edgardo Mujica, confirmó a la prensa que la ocupación fue provocada por la gestión de la comisión de la EFA en dicha población, tendiente al retiro de materiales por parte del ferrocarril. Al frente de la EFA estaba el teniente coronel retirado Antonio Barroso, que hizo comparecer en la comisaría a todos los dirigentes sindicales, levantándose un acta en que dejó constancia de que la gestión fue impedida por los trabajadores. Se instalaron ollas populares, con carteles que pedían que se preservara la fuente de trabajo y que no hubiera incidentes (<em>El Litoral</em>, 20 de abril de 1969).
+        El sábado 19 de abril se reunieron el titular de la cartera laboral provincial, Pedro Juan Giardini, y el secretario local de la UOM, Alfredo Pennisi. Las versiones indicaban el retiro de materiales del ferrocarril. Gente de la UOM de Santa Fe viajó a los pueblos para dialogar y ver qué medidas tomar. Los trabajadores ocuparon el establecimiento. El presidente de la Comisión Pro Mantenimiento de la Fuente de Trabajo de Villa Guillermina, Edgardo Mujica, confirmó a la prensa que la ocupación fue provocada por la gestión de la comisión de la EFA en dicha población, tendiente al retiro de materiales por parte del ferrocarril. Al frente de la EFA estaba el teniente coronel retirado Antonio Barroso, que hizo comparecer en la comisaría a todos los dirigentes sindicales, levantándose un acta en que dejó constancia de que la gestión fue impedida por los trabajadores. Se instalaron ollas populares, con carteles que pedían que se preservara la fuente de trabajo y que no hubiera incidentes (<em>El Litoral</em>, 20 de abril de 1969).
       </p>
       <p>
         Al día siguiente, los obreros decidieron por la noche desalojar por propia voluntad los talleres. La planta y otros accesos quedaron a cargo de efectivos de la policía y de la guardia rural. Se produjo en la población un impasse. Se aguardaban las gestiones del gobernador, contraalmirante Eladio M. Vázquez (<em>El Litoral</em>, 21 de abril). Quedaban 8 días para el cierre definitivo: los Ferrocarriles no renovarían el convenio de coste y costa. La empresa hacía inventarios y retiraba parte de los materiales.
@@ -1354,10 +1533,28 @@
         El Movimiento Familiar Cristiano repudió el posible cierre: «No creemos —expresa— atendiendo a los valores en juego, que sea válido lo que pueda ser aconsejable desde el punto de vista técnico y financiero. No creemos que pueda ser válido cerrar una fábrica antieconómica si tras ella cerramos la posibilidad y el derecho de trabajo y de subsistencia a cientos de familias. (…) No podrá haber paz social mientras haya familias desesperadas por subsistir, y su clamor y reacción no podrán seguramente ser ahogados por ningún tipo de represión» (<em>El Litoral</em>, 22 de abril de 1969). La Iglesia, que había sido pieza del paternalismo forestal, se posicionó ahora del lado de los pobladores.
       </p>
       <p>
-        Páginas adentro, el diario informaba que las autoridades del Ferrocarril Belgrano anunciaron el cierre del ramal Intiyaco–Villa Guillermina. Esa línea de 90 km servía a las fábricas y ya no la necesitarían. El cierre del ramal se haría el 16 de mayo por deficitario (<em>El Litoral</em>, 23 de abril). Pero el 25 de abril, el interventor Vázquez anunció la solución: los talleres continuarían con sus actividades «por todo el tiempo que sea necesario para dar un corte definitivo a la cuestión». FFCC Argentinos se pondría en contacto con los empresarios para proponer nuevos contratos. Además, una firma de Granadero Baigorria propuso instalar unas 80 máquinas para confección de ropa de trabajo con venta en el mercado local (<em>El Litoral</em>, 25 de abril de 1969).
+        Páginas adentro, el diario informaba que las autoridades del Ferrocarril Belgrano anunciaron el cierre del ramal Intiyaco–Villa Guillermina. Esa línea de 90 km servía a las fábricas y ya no la necesitarían. El cierre del ramal se haría el 16 de mayo por deficitario (<em>El Litoral</em>, 23 de abril). Pero el 25 de abril, el interventor Vázquez anunció la solución: los talleres continuarían con sus actividades «por todo el tiempo que sea necesario para dar un corte definitivo a la cuestión». FFCC Argentinos se pondría en contacto con los empresarios para proponer nuevos contratos del tipo «ajuste alzado» o adjudicaciones por licitación. En los febriles días de gestiones, todo comenzó con una nota del interventor al presidente de FFCC Argentinos; el asunto se zanjó en una reunión con el ministro de Bienestar Social, los titulares de Secretaría de Industria y Comercio Interior, Asistencia y Promoción de la Comunidad, Transportes, funcionarios de FFCCA y directivos del Banco Industrial. Además, una firma de Granadero Baigorria propuso instalar unas 80 máquinas para confección de ropa de trabajo con venta en el mercado local (<em>El Litoral</em>, 25 de abril de 1969).
+      </p>
+
+      <h3>La toma de La Gallareta SAICA (1972)</h3>
+      <p>
+        Tres a&ntilde;os despu&eacute;s del Ocampazo, la historia se repiti&oacute;. La Gallareta SAICA &mdash;f&aacute;brica de acoplados para camiones, &uacute;nica fuente de trabajo en el pueblo&mdash; estaba paralizada por un conflicto laboral. Desde el 21 de abril de 1972, los obreros ocuparon la f&aacute;brica. Los dirigentes sindicales de la UOM-La Gallareta &mdash;Federico Bar&uacute; (secretario general), &Aacute;ngel Marsuzi (secretario adjunto), Armando Monz&oacute;n (actas), Ram&oacute;n Monz&oacute;n Real (tesorero)&mdash;, junto a Agust&iacute;n Roteia, Atilio Valdez y Guillermo Constantino del Centro de Empleados de Comercio, encabezaron la protesta. Exig&iacute;an el pago de la segunda quincena de marzo y la primera de abril.
+      </p>
+      <p>
+        Eran 124 empleados &mdash;110 obreros y 14 empleados&mdash; y la deuda no pasaba de 14 millones de pesos viejos. Hab&iacute;a ollas populares en la entrada de la f&aacute;brica: los ni&ntilde;os ten&iacute;an prioridad en el reparto, y tambi&eacute;n los que ocupaban el establecimiento y sus familias. Los v&iacute;veres los mandaba la UOM, con apoyo de los comerciantes locales, la CGT de Reconquista, las Unidades B&aacute;sicas de Margarita y Vera y toda la gente del lugar. Hab&iacute;a guardias para cuidar los equipos y evitar incendios. Todo era pac&iacute;fico, pero &laquo;cada vez cuesta m&aacute;s mantener la calma entre los que ven a sus familiares privados de los elementos indispensables para sobrevivir&raquo;.
+      </p>
+      <p>
+        La empresa ofreci&oacute; pagar 5 millones inmediatamente y el resto &mdash;unos 8 millones&mdash; el viernes pr&oacute;ximo. Los obreros rechazaron: no pod&iacute;an esperar la gesti&oacute;n bancaria de la empresa. La empresa insisti&oacute;: 5 millones hoy, 8 el viernes, m&aacute;s reconocimiento de salarios ca&iacute;dos y compromiso de pagos en t&eacute;rmino ante autoridades laborales. Fue rechazado tambi&eacute;n. Finalmente, el viernes 21 a las 18:50, el vicepresidente de la empresa, Gerardo Marzetti, anunci&oacute; que pagar&iacute;an la totalidad el lunes. Los obreros aceptaron, pero mantendr&iacute;an la ocupaci&oacute;n hasta entonces. El titular del DPT, Benito Antonio Cantelli, por instrucciones del gobernador, realiz&oacute; las gestiones en Santa Fe; en La Gallareta trabaj&oacute; el jefe de inspectores en Vera, Ismael Olivo (<em>El Litoral</em>, 22 de abril de 1972).
+      </p>
+      <p>
+        Al a&ntilde;o siguiente, el Estado santafesino se hizo cargo de la planta. El decreto 1885/73 dispuso la adquisici&oacute;n de La Gallareta SAICA. Lo firm&oacute; el gobernador Carlos Sylvestre Begnis, con el vicegobernador Eduardo F. Cuello, ministros, secretarios y el senador provincial por Vera, Balestieri. Una delegaci&oacute;n de la UOM local encabezada por Federico Bar&uacute; y Alfonso Barrera acompa&ntilde;&oacute; el acto. Los considerandos indicaban la &laquo;dif&iacute;cil situaci&oacute;n planteada social y econ&oacute;mica para una extensa poblaci&oacute;n&raquo; y dispusieron que &laquo;es funci&oacute;n del Estado participar activamente en la formulaci&oacute;n de nuevas bases&raquo; para la rehabilitaci&oacute;n y consolidaci&oacute;n de la planta (<em>El Litoral</em>, 22 de noviembre de 1973).
       </p>
 
       <h3>El cambio de eje: de la industria a la tierra</h3>
+      <blockquote class="pull">
+        <p>La estructura feudal creada por el imperio del tanino, actualizada por sus herederos, se reproduce hasta en los intentos oficiales de "reforma agraria". Ciento diez mil hectáreas compradas a La Forestal por el gobierno de Santa Fe se han repartido entre ciento seis adjudicatarios. La idea —por fin— era asentar al hachero nómada en un pedazo de tierra propia. Una investigación realizada por este enviado demostró que sólo dieciséis, entre los beneficiarios, eran exclusivamente hacheros. El 75 por ciento de las mejores tierras se entregó a "gente de afuera", principalmente, grandes compañías; otro diez por ciento, a pobladores con recursos, hacendados, almaceneros, contratistas.</p>
+        <cite>Rodolfo Walsh, mayo de 1969</cite>
+      </blockquote>
       <p>
         La reconstruccion del escenario que hemos hecho &mdash;la politica forestal como factor de la decision empresarial, la estrategia imperialista que permitio la salida sin consecuencias, las disputas por la reconversion productiva&mdash; nos abre las puertas a otra discusion. El territorio que La Forestal abandona ya no es el territorio industrial de los obrajes y las fabricas de tanino. Es un territorio despoblado, con bosques diezmados y pueblos fantasmales, donde la actividad economica que emerge esta mucho mas relacionada con la tierra y la produccion agropecuaria que con la industria.
       </p>
@@ -1562,7 +1759,7 @@
 
   <div class="split">
     <div class="split-main">
-      <h3>Eje A &#8212; Peronismo y reaccion</h3>
+      <h3>Eje A &#8212; Inicio del Fin</h3>
       <ul class="biblio">
         <li>Jasinski, I. (en prensa). <em>La Forestal y el peronismo</em>, Tercer tomo, Cap. 17: "Los sindicatos peronistas"; Cap. 16: "Fin del tanino o del quebracho".</li>
         <li>Vargas, J. B. (1977). <em>Sudor y sangre de quebracho</em>.</li>
