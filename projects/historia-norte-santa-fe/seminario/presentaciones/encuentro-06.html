@@ -77,8 +77,8 @@
     @media (prefers-color-scheme: light) { .nav { background: rgba(245,240,232,0.92); } }
     :root[data-theme="light"] .nav { background: rgba(245,240,232,0.92); }
 
-    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0.6rem var(--pad-x); display: flex; align-items: center; gap: 1rem; }
-    .nav-brand { font-family: var(--serif); font-size: 0.95rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; margin-right: auto; }
+    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0.6rem var(--pad-x); display: flex; align-items: center; }
+    .nav-brand { font-family: var(--serif); font-size: 0.95rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .nav-brand span { color: var(--accent); font-size: 1.1rem; }
     .nav-links { display: flex; gap: 0.2rem; margin-left: auto; }
     .nav-links a { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); text-decoration: none; padding: 0.4rem 0.65rem; border-radius: 4px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
@@ -120,13 +120,13 @@
     .hero-eyebrow { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 1.5rem; }
     .hero-eyebrow span { color: var(--text-dim); }
     .hero-title { font-family: var(--serif); font-size: clamp(2.8rem, 7vw, 5.5rem); line-height: 1.05; color: var(--text); max-width: 800px; text-wrap: balance; }
-    .hero-sub { font-family: var(--body); font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-dim); max-width: 720px; margin-top: 1.5rem; line-height: 1.7; }
+    .hero-sub { font-family: var(--body); font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-dim); max-width: 720px; margin-top: 1.5rem; line-height: 1.45; }
     .hero-meta { margin-top: 2rem; display: flex; gap: 2rem; flex-wrap: wrap; font-family: var(--sans); font-size: 0.78rem; color: var(--muted); }
     .hero-meta div { display: flex; flex-direction: column; gap: 0.15rem; }
     .hero-meta strong { color: var(--text-dim); font-size: 0.82rem; }
     .hero-coord { position: relative; z-index: 1; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--rule-light); font-family: var(--sans); font-size: 0.78rem; color: var(--muted); display: flex; gap: 2rem; flex-wrap: wrap; }
     .hero-coord strong { color: var(--text-dim); font-size: 0.82rem; }
-    .hero-epigraph { margin-top: 2.5rem; max-width: 520px; border-left: 3px solid var(--accent); padding-left: 1.2rem; font-style: italic; color: var(--text-dim); font-size: 0.98rem; line-height: 1.7; }
+    .hero-epigraph { margin-top: 2.5rem; max-width: none; width: 100%; border-left: 3px solid var(--accent); padding-left: 1.2rem; font-style: italic; color: var(--text-dim); font-size: 0.98rem; line-height: 1.7; }
     .hero-epigraph cite { display: block; margin-top: 0.5rem; font-style: normal; font-family: var(--sans); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
 
     .section { padding: 5rem var(--pad-x); max-width: var(--max-w); margin: 0 auto; }
