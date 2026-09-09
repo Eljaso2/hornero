@@ -77,12 +77,13 @@
     @media (prefers-color-scheme: light) { .nav { background: rgba(245,240,232,0.92); } }
     :root[data-theme="light"] .nav { background: rgba(245,240,232,0.92); }
 
-    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0.6rem var(--pad-x); display: flex; align-items: center; }
+    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0.6rem var(--pad-x); display: flex; justify-content: space-between; align-items: center; }
     .nav-brand { font-family: var(--serif); font-size: 0.95rem; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .nav-brand span { color: var(--accent); font-size: 1.1rem; }
-    .nav-links { display: flex; gap: 0.2rem; margin-left: auto; }
-    .nav-links a { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); text-decoration: none; padding: 0.4rem 0.65rem; border-radius: 4px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
-    .nav-links a:hover, .nav-links a.active { color: var(--accent); background: var(--accent-glow); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links a { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; color: var(--text-dim); text-decoration: none; padding: 0.4rem 0; transition: color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
     .theme-toggle { background: none; border: 1px solid var(--rule); border-radius: 6px; color: var(--text-dim); cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.85rem; line-height: 1; font-family: var(--sans); flex-shrink: 0; }
     .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
 
@@ -270,14 +271,16 @@
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#hero" class="nav-brand"><span>NsF</span> Seminario Norte de Santa Fe</a>
-    <div class="nav-links">
-      <a href="#sA">A - Inicio del Fin</a>
-      <a href="#sB">B - Politica forestal</a>
-      <a href="#sC">C - Politica imperial</a>
-      <a href="#sD">D - Crisis y reconversion</a>
-      <a href="#sE">E - Exodos sociales</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#sA">A - Inicio del Fin</a>
+        <a href="#sB">B - Politica forestal</a>
+        <a href="#sC">C - Politica imperial</a>
+        <a href="#sD">D - Crisis y reconversion</a>
+        <a href="#sE">E - Exodos sociales</a>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Cambiar tema">&#9728;</button>
     </div>
-    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Cambiar tema">&#9728;</button>
   </div>
 </nav>
 
