@@ -86,8 +86,8 @@
     .theme-toggle { background: none; border: 1px solid var(--rule); border-radius: 6px; color: var(--text-dim); cursor: pointer; padding: 0.3rem 0.5rem; font-size: 0.85rem; line-height: 1; font-family: var(--sans); flex-shrink: 0; }
     .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
 
-    /* Grain overlay */
-    .grain-overlay { position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.35; mix-blend-mode: overlay; }
+    /* Grain overlay — same technique as colapsoazucarero.org.ar */
+    .grain-overlay { position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay; }
     .grain-overlay svg { width: 100%; height: 100%; }
 
     .hero {
@@ -98,17 +98,23 @@
       position: absolute; inset: 0; z-index: 0;
       background: url('tapA.png') center center / cover no-repeat;
       background-attachment: fixed;
+      filter: contrast(1.04);
+      animation: ken 26s ease-out forwards;
+    }
+    @keyframes ken {
+      from { transform: scale(1.08); }
+      to   { transform: scale(1); }
     }
     @media (max-width: 768px) { .hero-bg { background-attachment: scroll; } }
     .hero-bg::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(22,18,15,0.45) 0%, rgba(22,18,15,0.7) 50%, rgba(22,18,15,0.92) 100%);
+      background: linear-gradient(180deg, rgba(22,18,15,0.55) 0%, rgba(22,18,15,0.1) 30%, rgba(22,18,15,0.5) 60%, rgba(22,18,15,0.96) 100%);
     }
     @media (prefers-color-scheme: light) {
-      .hero-bg::after { background: linear-gradient(180deg, rgba(245,240,232,0.4) 0%, rgba(245,240,232,0.65) 50%, rgba(245,240,232,0.9) 100%); }
+      .hero-bg::after { background: linear-gradient(180deg, rgba(245,240,232,0.5) 0%, rgba(245,240,232,0.1) 30%, rgba(245,240,232,0.5) 60%, rgba(245,240,232,0.96) 100%); }
     }
-    :root[data-theme="light"] .hero-bg::after { background: linear-gradient(180deg, rgba(245,240,232,0.4) 0%, rgba(245,240,232,0.65) 50%, rgba(245,240,232,0.9) 100%); }
-    :root[data-theme="dark"] .hero-bg::after { background: linear-gradient(180deg, rgba(22,18,15,0.45) 0%, rgba(22,18,15,0.7) 50%, rgba(22,18,15,0.92) 100%); }
+    :root[data-theme="light"] .hero-bg::after { background: linear-gradient(180deg, rgba(245,240,232,0.5) 0%, rgba(245,240,232,0.1) 30%, rgba(245,240,232,0.5) 60%, rgba(245,240,232,0.96) 100%); }
+    :root[data-theme="dark"] .hero-bg::after { background: linear-gradient(180deg, rgba(22,18,15,0.55) 0%, rgba(22,18,15,0.1) 30%, rgba(22,18,15,0.5) 60%, rgba(22,18,15,0.96) 100%); }
     .hero-content { position: relative; z-index: 1; }
     .hero::before { display: none; }
     .hero-eyebrow { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 1.5rem; }
@@ -255,7 +261,7 @@
 
 <!-- GRAIN OVERLAY -->
 <div class="grain-overlay" aria-hidden="true">
-  <svg><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+  <svg><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain)"/></svg>
 </div>
 
 <div class="progress" id="progress"></div>
